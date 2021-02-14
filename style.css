@@ -203,6 +203,7 @@ img {
   p,
   i,
   a,
+  time,
   .first-letter,
   .authorName a {
   color: rgba(0, 0, 0, 0.84);
@@ -229,8 +230,7 @@ img {
   margin: 2em 0 0.4em 0; 
   }
 
-  p, i, a {
-  margin-top: 21px;
+  p, i, a, time {
   font-family: "Lora";
   font-size: 21px;
   font-size: 1.3rem;
@@ -268,7 +268,7 @@ img {
   }
 
   .first-letter,
-  article p:first-of-type:first-letter {
+  article > p:first-of-type:first-letter {
   overflow-wrap: break-word;
   font-family: "Playfair Display", serif;
   font-size: 60px;
@@ -288,7 +288,8 @@ img {
 
   /* Footnote Counting / Styling */
   footer {
-    margin-top: 50px;
+    margin-top: 3em;
+    padding: 0 1em;
     border-top: 1px solid silver;
     /*font-size: 0.8em;*/
   }
@@ -371,7 +372,7 @@ img {
     padding: 0;
     width: 100%;
     table-layout: fixed;
-    counter-reset: css-counter 0; /* initializes counter to 0; use -1 for zero-based numbering */
+    counter-reset: row -1; /* initializes counter to 0; use -1 for zero-based numbering */
   }
 
   table caption {
@@ -383,11 +384,11 @@ img {
     background-color: #f8f8f8;
     border: 1px solid #ddd;
     padding: .35em;
-    counter-increment: css-counter 1; /* Increase the counter by 1. */
+    counter-increment: row; /* Increase the counter by 1. */
   }
 
-  td[data-label="Position"]{
-    content: counter(css-counter); /* Apply counter before children's content. */
+  [data-label="Position"]::after{
+    content: counter(row)'.'; /* 1 */
   }
 
   table th,
@@ -468,7 +469,7 @@ img {
   @media (max-width: 900px){ 
     article {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+      grid-template-columns: 1em 1fr 1fr 1fr 1fr 1fr 1em;
       margin: 10rem auto 5rem;
       background: rgba(255, 255, 255, 1);
     }
@@ -503,7 +504,7 @@ img {
       font-weight: 400;
       font-style: normal;
       font-size: 21px;
-      font-size: 1.3rem;
+      font-size: 1.1rem;
       line-height: 1.58;
       letter-spacing: -.003em;
       color: rgba(0,0,0,.84);
