@@ -10,6 +10,127 @@
   <meta name="author" content="Justin Chill">
 
   <style type="text/css">
+  	.examples{
+  		/* We first create a flex layout context */
+  		display: flex;
+
+  		/* Then we define the flow direction 
+  		   and if we allow the items to wrap 
+  		 * Remember this is the same as:
+  		 * flex-direction: row;
+  		 * flex-wrap: wrap;
+  		 */
+  		flex-flow: row wrap;
+
+  		/* Then we define how is distributed the remaining space */
+  		justify-content: space-around;
+  	}
+  	.examples div{
+  		width: 420px;  /* Or whatever */
+  		display: grid;
+  		justify-content: center;
+  	}
+
+  	.examples p{
+  		padding: .5rem 0;
+  	}
+  	.examples span{
+  		font-size: calc(14px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+  	}
+  	.box {
+  	  -moz-border-radius: 10px;
+  	  -webkit-border-radius: 10px;
+  	  border-radius: 10px;
+  	  display: inline-block;
+  	  width: 50px;
+  	  height: 50px;
+  	  background: hsl(123, 35%, 51%);
+  	  /*left: 50%;*/
+  	  /*margin-top: 20px;*/
+  	  position: relative;
+  	  margin: 0 auto;
+/*  	  -moz-transform: translate3d(-50%, 0, 0);
+  	  -ms-transform: translate3d(-50%, 0, 0);
+  	  -webkit-transform: translate3d(-50%, 0, 0);
+  	  transform: translate3d(-50%, 0, 0);*/
+  	  font-size: 30px;
+  	}
+  	.box:hover > span {
+  	  /*color: white;*/
+  	}
+  	.box:hover + .text {
+  	  /*color: white;*/
+  	}
+  	.box > span {
+  	  display: inline-block;
+  	  position: relative;
+  	}
+
+  	.text {
+  	  text-align: center;
+  	  font-size: 1.4rem;
+  	  margin-top: 10px;
+  	}
+
+  	#percentage {
+  	  width: 50%;
+  	  position: relative;
+  	}
+
+  	#vw {
+  	  width: 5vw;
+  	  height: 5vw;
+  	}
+
+  	#vh {
+  	  width: 15vh;
+  	  height: 15vh;
+  	}
+
+  	#inch {
+  	  width: 1in;
+  	  height: 1in;
+  	}
+
+  	#cm {
+  	  width: 3cm;
+  	  height: 3cm;
+  	}
+
+  	#mm {
+  	  width: 30mm;
+  	  height: 30mm;
+  	}
+
+  	#em {
+  	  width: 3em;
+  	  height: 3em;
+  	}
+
+  	#rem {
+  	  width: 6rem;
+  	  height: 6rem;
+  	}
+
+  	#ex {
+  	  width: 5ex;
+  	  height: 5ex;
+  	}
+
+  	#pt {
+  	  width: 50pt;
+  	  height: 50pt;
+  	}
+
+  	#pc {
+  	  width: 5pc;
+  	  height: 5pc;
+  	}
+
+  	#px {
+  	  width: 65px;
+  	  height: 65px;
+  	}
 
   </style>
 
@@ -21,19 +142,94 @@
   <article>
 	<header>
 		<h1>Typography</h1>		
-		<h2 class="subtitle">A visualization of typographic terms</h2>
+		<h2 class="subtitle">A visualization of typographic terms and concepts on the web</h2>
 		<time date="2001-6-26">February 2021</time>
 	</header>
 
-		<figure>
+<!-- 		<figure>
 			<img src="https://www.shillingtoneducation.com/content-blog/uploads/2019/09/Typography_Anatomy.jpg">
-		</figure>
-		<figcaption>Different typographical terms</figcaption>
+		</figure> -->
+		<!-- <figcaption>Different typographical terms</figcaption> -->
+  		
+  		<h2>Web Units Guide</h2>
+  		<p>be sure to resize the browser and see how certain elements change shapes!</p>
 
-		<p>
-		   Blah blah blah some content here about typography and why you should know these terms.
-		</p>
-  
+  		<figure class="examples">
+  		  <div class="">
+  		    <div class="box" id='percentage'>
+  		      <span>%</span>
+  		    </div>
+  		    <p>% units take a percentage value of their parent element.</p>
+  		  </div>
+  		  <div class="">
+  		    <div class="box" id='inch'>
+  		      <span>Inch</span>
+  		    </div>
+  		    <p>Inches are fixed units. 1 inch = 2.54 c</p>
+  		  </div>
+  		  <div class="">
+  		    <div class="box" id='cm'>
+  		      <span>cm</span>
+  		    </div>
+  		    <p>cm are also fixed units. 1 cm = 10 mm</p>
+  		  </div>
+  		  <div class="">
+  		    <div class="box" id='mm'>
+  		      <span>mm</span>
+  		    </div>
+  		    <p>You guessed it, millimeters are fixed as well.</p>
+  		  </div>
+  		  <div class="">
+  		    <div class="box" id='em'>
+  		      <span>em</span>
+  		    </div>
+  		    <p>em units are really interesting. They are related to the font size of the parent element. My Box div has a font size property of 30px, so 1em = 30px.</p>
+  		  </div>
+  		  <div class="">
+  		    <div class="box" id='rem'>
+  		      <span>rem</span>
+  		    </div>
+  		    <p>rem units are similar to em units, except they are relative to the document root font size.</p>
+  		  </div>
+  		</div>
+  		  <div class="">
+  		    <div class="box" id='ex'>
+  		      <span>ex</span>
+  		    </div>
+  		    <p>1 ex is the x-height of a font (x-height is usually about half the font-size)</p>
+  		  </div>
+  		  <div class="">
+  		    <div class="box" id='pt'>
+  		      <span>pt</span>
+  		    </div>
+  		    <p>1pt(point) = 1/72 inch</p>
+  		  </div>
+  		  <div class="">
+  		    <div class="box" id='pc'>
+  		      <span>pc</span>
+  		    </div>
+  		    <p>1pc/pica = 12pt</p>
+  		  </div>
+  		  <div class="">
+  		    <div class="box" id='px'>
+  		      <span>px</span>
+  		    </div>
+  		    <p>We all know pixels right?</p>
+  		  </div>
+  		  <div class="">
+  		    <div class="box" id='vw'>
+  		      <span>vw</span>
+  		    </div>
+  		    <p>1vw = 1% width of the viewport. This will actually scale when we resize the window. Cool, huh?</p>
+  		  </div>
+  		  <div class="">
+  		    <div class="box" id='vh'>
+  		      <span>vh</span>
+  		    </div>
+  		    <p>1vh = The same as vw, but it takes 1% of the height of the viewport.</p>
+  		  </div>
+  	</figure>
+
 	</article>
 </main>
 		<footer>
