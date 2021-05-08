@@ -63,6 +63,140 @@
 			font-size: calc(256px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
 			display: block;
 		}
+
+		:root { 
+		  --hue: 200;
+
+		  --surface: hsl(var(--hue) 20% 10%);
+		  --surface2: hsl(var(--hue) 20% 95%);
+
+		  --text: hsl(var(--hue) 20% 90%);
+		  --text2: hsl(var(--hue) 30% 30%);
+		  --text3: hsl(var(--hue) 20% 20%);
+		} 
+
+		section.datacard {
+		  display: inline-grid;
+		  grid-gap: 4ch;
+		  gap: 4ch;
+		  color: hsl(200, 20%, 20%);
+		  color: var(--text3);
+		  background: hsl(200, 20%, 95%);
+		  background: var(--surface2);
+		  border-radius: 1ex;
+		  padding: 1rem;
+		  margin: 2rem 0;
+		  box-sizing: border-box
+
+		  color: var(--text);
+		  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+		}
+		.datacard h2{
+			margin: .5rem 0;
+		}
+
+		@media (min-width: 400px) {
+
+		section {
+		    padding: 2rem
+		}
+		  }
+
+		section h2 {
+		    /*font-size: 1.25rem;*/
+		  }
+
+		section h3 {
+		    /*font-size: 1rem;*/
+		  }
+
+		section.stats p {
+		    max-width: 40ch;
+		    color: hsl(200, 30%, 30%);
+		    color: var(--text2);
+		    line-height: 1.5;
+		  }
+
+		.stats {
+		  --columns: 1;
+		  --column-gap: 4ch;
+
+		  display: grid;
+		  grid-gap: 2ch var(--column-gap);
+		  gap: 2ch var(--column-gap);
+		  grid-template-columns: repeat(var(--columns), 1fr)
+		}
+
+		@media (min-width: 320px) {
+
+		.stats {
+		    --columns: 2
+		}
+		  }
+
+		@media (min-width: 720px) {
+
+		.stats {
+		    --columns: 4
+		}
+		  }
+
+		@media (min-width: 1024px) {
+
+		.stats {
+		    --column-gap: 8ch
+		}
+		  }
+
+		.stat-group {
+		  display: grid;
+		  grid-gap: 2ch;
+		  gap: 2ch
+		}
+
+		.stat-group > header {
+		    display: grid;
+		    grid-gap: 1ch;
+		    gap: 1ch;
+		  }
+
+		.stats-item {
+		  display: grid;
+		  grid-gap: .5ex;
+		  gap: .5ex
+		}
+
+		.stats-item > .label {
+		    color: hsl(200, 30%, 30%);
+		    color: var(--text2);
+		    text-transform: uppercase;
+		    font-size: .8rem;
+		    font-weight: 600;
+		    line-height: 1.1;
+		  }
+
+		.stats-item > .stat {
+		    font-size: 2rem;
+		    font-weight: 700;
+		    line-height: .9;
+		    font-feature-settings: "tnum";
+		    font-variant-numeric: tabular-nums
+		  }
+
+		@media (min-width: 400px) {
+
+		.stats-item > .stat {
+		      font-size: 3.25rem
+		  }
+		    }
+
+		@media (min-width: 1024px) {
+
+		.stats-item > .stat {
+		      font-size: 4rem
+		  }
+		    }
+
 		@media (max-width: 900px){
 			.kobe-intro figcaption {
 				font-size: calc(24px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
@@ -70,9 +204,6 @@
 			.kobe-intro strong {
 				font-size: calc(200px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
 			}
-		}
-		article{
-			padding-top: 4rem;
 		}
 	</style>
 
@@ -83,8 +214,8 @@
 	<main role="main">
 		<section class="kobe-intro">
 			<figure>
-				<img src='https://i.ibb.co/Ct6rW92/pngfuel-com.png' alt='Kobe'>
-				<img src="https://i.ibb.co/Ct6rW92/pngfuel-com.png" alt="Kobe" class="top">
+				<img src='imgs/kobe-outline.png' alt='Kobe'>
+				<img src="imgs/kobe-outline.png" alt="Kobe" class="top">
 				<figcaption>
 					<strong>Kobe</strong>
 					Bryant
@@ -92,7 +223,66 @@
 			</figure>
 		</section>
 		<article>
+			 <header>
+			  <h1>Kobe Bryant</h1>
+			  <h2 class="subtitle">A basketball legend</h2>
+
+			</header>
+
 			<p>Originally based on artwork by <a href="https://dribbble.com/shots/9778999-Kobe-Bryant-Tribute-Forever-a-legend"> Gonzalo Bujes</a>. In the above section I use a <code>figure</code> and <code>figcaption</code> to create the effect. Flexbox takes care of centering everything 🤘</p>
+
+			<section class="datacard">
+			  <h2>Career stats</h2>
+
+			  <div class="stat-group">
+			    <dl class="stats">
+			      <div class="stats-item">
+			        <dt class="label">NBA&nbsp;MVP</dt>
+			        <dd class="stat">1</dd>
+			      </div>
+			      <div class="stats-item">
+			        <dt class="label">PPG</dt>
+			        <dd class="stat">25</dd>
+			      </div>
+			      <div class="stats-item">
+			        <dt class="label">Number</dt>
+			        <dd class="stat">24</dd>
+			      </div>
+			      <div class="stats-item">
+			        <dt class="label">Height</dt>
+			        <dd class="stat">6'&nbsp;6"</dd>
+			      </div>
+			    </dl>
+			  </div>
+
+			  <div class="stat-group">
+			    <header>
+			      <h3>Personal highs</h3>
+			      <p></p>
+			    </header>
+
+			    <dl class="stats">
+			      <div class="stats-item">
+			        <dt class="label">Points</dt>
+			        <dd class="stat">81</dd>
+			      </div>
+			      <div class="stats-item">
+			        <dt class="label">Rebounds</dt>
+			        <dd class="stat">16</dd>
+			      </div>
+			      <div class="stats-item">
+			        <dt class="label">Field Goals</dt>
+			        <dd class="stat">28</dd>
+			      </div>
+			      <div class="stats-item">
+			        <dt class="label">3 Pointers</dt>
+			        <dd class="stat">12</dd>
+			      </div>
+			    </dl>
+			  </div>
+
+			</section>
+
 			<p>Aliquid ad obcaecati laudantium consectetur architecto officiis ab voluptates consequuntur temporibus aspernatur placeat deserunt, quod nulla esse soluta similique? Eaque autem itaque, animi non ut tempore provident suscipit eligendi dolor?</p>
 			<p>Eveniet velit illum dicta deserunt temporibus ducimus vel totam vitae nisi tenetur. Vero odio dolore eum, voluptatum sed reiciendis, assumenda placeat quod totam atque reprehenderit porro non est vel rem.</p>
 			<p>Reiciendis, aut pariatur enim ea molestias fugiat suscipit cumque asperiores cum animi sunt, ullam mollitia nobis numquam. Cumque veniam facere ipsa, deleniti fugiat iusto, doloribus ut obcaecati doloremque nihil quo.</p>
