@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Optical illusion</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="style.css" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Optical illusions with CSS">
+	<meta name="author" content="Justin Chill">
+
+	<style type="text/css">
+
+		/* Penrose Triangle */
+		.penrose-triangle {
+		  display: block;
+		  width: 20rem;
+		  height: 20rem;
+		  margin: 0 auto;
+		  margin-bottom: 3rem;
+		  position: relative;
+		  transform-origin: 13.3rem 11.5rem;
+		  -webkit-animation: rotate 30s linear infinite;
+		          animation: rotate 30s linear infinite;
+		  filter: drop-shadow(0 0 4rem rgba(0, 0, 0, 0.2));
+		}
+		.penrose-triangle .side {
+		  display: block;
+		  width: 20rem;
+		  height: 20rem;
+		  position: absolute;
+		  -webkit-clip-path: polygon(57% 0, 75% 0, 26% 85%, 89.5% 85%, 98.4% 100%, 0 100%);
+		          clip-path: polygon(57% 0, 75% 0, 26% 85%, 89.5% 85%, 98.4% 100%, 0 100%);
+		  transition: background-color 1s ease;
+		}
+		.penrose-triangle .side:nth-of-type(1) {
+		  top: 0;
+		  left: 0;
+		  transform: rotate(0deg);
+		  background-color: #c71585;
+		}
+		.penrose-triangle .side:nth-of-type(2) {
+		  top: 18.3%;
+		  left: 43.3%;
+		  transform: rotate(120deg);
+		  background-color: #8a0b84;
+		}
+		.penrose-triangle .side:nth-of-type(3) {
+		  top: 46.5%;
+		  left: 5.9%;
+		  transform: rotate(240deg);
+		  background-color: #4b0082;
+		}
+		.penrose-triangle .side:nth-of-type(1):hover, .penrose-triangle .side:nth-of-type(2):hover, .penrose-triangle .side:nth-of-type(3):hover {
+		  background-image: url(http://aepicos.com/codepen/images/space-bg.gif);
+		  background-size: cover;
+		}
+		@-webkit-keyframes rotate {
+		  from {
+		    transform: translate3d(-6.6vw, -3vw, 0) rotate3d(0, 0, 1, 0deg);
+		  }
+		  to {
+		    transform: translate3d(-6.6vw, -3vw, 0) rotate3d(0, 0, 1, 360deg);
+		  }
+		}
+		@keyframes rotate {
+		  from {
+		    transform: translate3d(-6.6vw, -3vw, 0) rotate3d(0, 0, 1, 0deg);
+		  }
+		  to {
+		    transform: translate3d(-6.6vw, -3vw, 0) rotate3d(0, 0, 1, 360deg);
+		  }
+		}
+
+		/* Hole */
+		.hole svg {
+			background:#ddd;
+			transform:rotateX(68deg) rotateZ(-32deg);
+		}
+		div.hole {
+			margin:0 auto;
+			width:300px;
+			perspective:700px;
+			perspective-origin:0 10%;
+		}
+	</style>
+
+</head>
+<body>
+	<header>
+		<h1><a href="index.html" rel="home">Justin's blog</a></h1>
+	</header><main role="main">
+		<article>
+			<header>
+				<h1>Optical Illusions</h1>		
+				<h2 class="subtitle">Fun with CSS graphics</h2>
+				<time date="1993-02-26"></time>
+			</header>
+
+			<h2>Penrose Triangle</h2>
+			<div class="penrose-triangle">
+			  <div class="side"></div>
+			  <div class="side"></div>
+			  <div class="side"></div>
+			</div>
+
+
+			<p>
+				A clever way to create the illusion of depth, this works by stacking circles on top of each other and spinning them at different speeds. Each circle spins at a different rate using a <code>keyframe</code> animation. Below is a single circle, following the same basic animation loop. Notice the patterns of overlap within the spinning rings- this is done using <code>rgba</code> colors with transparency.</p>
+
+
+				<div class="hole">
+					<svg width="300" height="300">
+						<defs>
+							<linearGradient id="grad5" x1="0%" y1="0%" x2="100%" y2="0%">
+								<stop offset="0%" style="stop-color:rgb(70,70,70);stop-opacity:1" />
+								<stop offset="100%" style="stop-color:rgb(230,230,230);stop-opacity:1" />
+							</linearGradient>
+						</defs>
+						<g>
+							<path d="M0,30 270,30 270,300 300,300 300,0 0,0Z M0,90 210,90 210,300 240,300 240,60 0,60Z M0,150 150,150 150,300 180,300 180,120 0,120Z M0,210 90,210 90,300 120,300 120,180 0,180Z M0,240 60,240 60,300 0,300Z" style="fill:black"/>
+							<line x1="0" y1="100%" x2="100%" y2="0" style="stroke-width:3px; stroke:black;" />
+						</g>
+						<g>
+							<path d="M270,30 270,300 240,300 240,60Z M210,90 210,300 180,300 180,120Z M150,150 150,300 120,300 120,180Z M90,210 90,300 60,300 60,240Z" style="fill:url(#grad5);"/>
+						</g>
+					</svg>
+				</div>
+
+			</article>
+		</main>
+		
+		<footer>
+		</footer>
+	</body>
+	</html>
