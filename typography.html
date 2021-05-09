@@ -13,6 +13,64 @@
     img{
       margin: 2rem 0;
     }
+
+    /* 3 COLUMN STRUCTURE */
+    .wrapper {
+      padding: 5px;
+      /*max-width: 960px;*/
+      margin: 20px auto;
+      grid-column: 2/7;
+    }
+
+    .wrapper header {
+      padding: 0 15px;
+    }
+
+    .columns {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: center;
+      margin: 5px 0;
+    }
+
+    .column {
+      flex: 1;
+/*      border: 1px solid gray;*/
+      margin: 2px;
+      padding: 10px;
+    }
+    .column:first-child {
+      margin-left: 0;
+    }
+    .column:last-child {
+      margin-right: 0;
+    }
+
+    .wrapper footer {
+      padding: 0 15px;
+    }
+
+    @media screen and (max-width: 980px) {
+      .columns .column {
+        margin-bottom: 5px;
+        flex-basis: 40%;
+      }
+      .columns .column:nth-last-child(2) {
+        margin-right: 0;
+      }
+      .columns .column:last-child {
+        flex-basis: 100%;
+        margin: 0;
+      }
+    }
+    @media screen and (max-width: 680px) {
+      .columns .column {
+        flex-basis: 100%;
+        margin: 0 0 5px 0;
+      }
+    }
+
+
   	.examples{
   		/* We first create a flex layout context */
   		display: flex;
@@ -228,11 +286,11 @@
   margin: 2rem 0 4rem;
 }
 
-.examples-row{
+./*examples-row{
   margin: 20px auto;
   display: flex;
   justify-content: space-between;
-}
+}*/
 .examples-row .web-unit{
   padding: 1rem;
 }
@@ -272,96 +330,182 @@
       <h2>Type Units</h2>
       <p>The measurements you use every day— such as inches and feet or centimeters— are fixed, or absolute, measurements. That is, an inch is always an inch and a meter is always a meter. Type has its own equivalents, which are the pica and its subdivision, the point. The height of type is measured in points, and the width of a letter or a line of type is measured in picas. Point size is the height of the body of a letter in a typeface; originating in metal type, it was a slug of lead the typeface was set upon. The width of a typeface is measured in characters per pica.</p>
 
-      <figure class="examples-row">
-        <div class="web-unit">
-          <span>
-            <div class="box" id='inch'>
-              <span>1 Inch</span>
-            </div>
-            <p>Inches are fixed units. 1 inch = 2.54 c</p>
-          </div>
+      <div class="wrapper">
+
+        <header>
+          <h2>Absolute measurements</h2>
+        </header>
+          
+      <section class="columns">
+        
+        <div class="column">
           <div class="web-unit">
-            <div class="box" id='cm'>
-              <span>3 cm</span>
+            <span>
+              <div class="box" id='inch'>
+                <span>1 Inch</span>
+              </div>
             </div>
-            <p>Centimeters (cm) are also fixed units. 1 cm = 10 mm</p>
+          <h2>Inches</h2>
+          <p>Inches are fixed units.<br>1 inch = 2.54&nbsp;c</p>
+        </div>
+        
+        <div class="column">
+            <div class="web-unit">
+              <div class="box" id='cm'>
+                <span>3 cm</span>
+              </div>
+            </div>
+          <h2>Centimeters</h2>
+          <p>Centimeters (cm) are also fixed units. 1 cm = 10 mm.</p>
+        </div>
+        
+        <div class="column">
+            <div class="web-unit">
+              <div class="box" id='mm'>
+                <span>30 mm</span>
+              </div>
+            </span>
           </div>
-          <div class="web-unit">
-            <div class="box" id='mm'>
-              <span>30 mm</span>
-            </div>
-          </span>
+          <h2>Millimeters</h2>
           <p>Yep, millimeters are fixed units as well.</p>
         </div>
-      </figure>
+        
+      </section>  
 
-      <figure class="examples-row">
-        <div class="web-unit">
-          <div class="box" id='pc'>
-            <span>8 pc</span>
-          </div>
-          <p>1pc/pica = 12pt</p>
-        </div>
-        <div class="web-unit">
-          <div class="box" id='pt'>
-            <span>100 pt</span>
-          </div>
-          <p>1 point = 1/72 inch</p>
-        </div>
-      </figure>
+      </div>
 
       <p>The fundamental relative unit in typography is the em. An em is the same size as the type currently being set, so if you’re setting 11-point type, an em equals 11 points. Despite the sound of its name, an em is not the width of an M; in fact, an M is rarely a full em wide.</p>
-      <figure class="examples-row">
-        <div class="web-unit">
-          <div class="box" id='em'>
-            <span>3 em</span>
+
+      <div class="wrapper">
+
+        <header>
+          <h2>Relative measurements</h2>
+        </header>
+          
+      <section class="columns">
+        
+        <div class="column">
+          <div class="web-unit">
+             <div class="box" id='px'>
+               <span>100 px</span>
+             </div>
+           </div>
+          <h2>Pixels</h2>
+          <p>We all know pixels- right?</p>
+        </div>
+        
+        <div class="column">
+          <div class="web-unit">
+            <div class="box" id='pc'>
+              <span>8 pc</span>
+            </div>
           </div>
+          <h2></h2>
+          <p>1pc/pica = 12pt</p>
+        </div>
+        
+        <div class="column">
+          <div class="web-unit">
+            <div class="box" id='pt'>
+              <span>100 pt</span>
+            </div>
+          </div>
+          <h2>Point</h2>
+          <p>1 point = 1/72 inch</p>
+        </div>
+        
+      </section>  
+
+      </div>
+
+      <div class="wrapper">
+          
+      <section class="columns">
+        
+        <div class="column">
+          <div class="web-unit">
+            <div class="box" id='em'>
+              <span>3 em</span>
+            </div>
+          </div>
+          <h2>em</h2>
           <p>✨ em units are related to the font size of their parent element.</p>
         </div>
-        <div class="web-unit">
-          <div class="box" id='rem'>
-            <span>6 rem</span>
+        
+        <div class="column">
+          <div class="web-unit">
+            <div class="box" id='pc'>
+              <span>8 pc</span>
+            </div>
           </div>
+          <h2>picas</h2>
+          <p>1pc/pica = 12pt</p>
+        </div>
+        
+        <div class="column">
+          <div class="web-unit">
+            <div class="box" id='rem'>
+              <span>6 rem</span>
+            </div>
+          </div>
+          <h2>rem</h2>
           <p>rem units are similar to em units, except they are relative to the document's root font size.</p>
         </div>
-      </figure>
+        
+      </section>  
+
+      </div>
+
+
       <p>The <code>ex</code> unit is useful when you want to size something in relation to the height of your text's lowercase letters.</p>
       <img src="imgs/x-height.svg">
-      <figure class="examples-row">
-      <div class="web-unit">
-        <div class="box" id='percentage'>
-          <span>50%</span>
-        </div>
-        <p>% units take a <i>percentage</i> value of their parent element.</p>
-      </div>
+
+
       <div class="web-unit">
         <div class="box" id='ex'>
           <span>5 ex</span>
         </div>
         <p>1 ex is the x-height of a font <br>(x-height is usually about half of the font&#8209;size)</p>
       </div>
-  </figure>
 
-<figure class="examples-row">
-      <div class="web-unit">
-        <div class="box" id='px'>
-          <span>100 px</span>
-        </div>
-        <p>We all know pixels- right?</p>
-      </div>
+  <div class="wrapper">
+      
+  <section class="columns">
+    
+    <div class="column">
       <div class="web-unit">
         <div class="box" id='vw'>
           <span>5 vw</span>
         </div>
-        <p>1vw = 1% width of the viewport. This will actually scale when we resize the window. Cool, huh?</p>
       </div>
+      <h2>vw</h2>
+      <p>1vw = 1% width of the <a href="#footnotes" aria-describedby="footnote-label" id="footnotes-ref">viewport</a>. This will actually scale when we resize the window. Cool, huh?</p>
+    </div>
+    
+    <div class="column">
       <div class="web-unit">
         <div class="box" id='vh'>
           <span>15 vh</span>
         </div>
-        <p>1vh = The same as vw, but it takes 1% of the height of the viewport.</p>
       </div>
-    </figure>
+      <h2>vh</h2>
+      <p>1vh = The same as vw, but it takes 1% of the height of the viewport.</p>
+    </div>
+    
+    <div class="column">
+      <div class="web-unit">
+        <div class="box" id='percentage'>
+          <span>50%</span>
+        </div>
+      </div>
+      <h2>%</h2>
+      <p>% units take a <i>percentage</i> value of their parent element.</p>
+    </div>
+    
+  </section>  
+
+  </div>
+
 
     <h2>Font families</h2>
     <p>This website uses three fonts: <span class="highlighted">Playfair Display SC</span> for titles, <span class="highlighted">Lora</span> for body text, and <span class="highlighted">Montserrat</span> for interface labels. Below is a closeup look at <i>Playfair Display SC</i>.</p>
@@ -375,8 +519,8 @@
 </main>
 <footer>
   <h2 id="footnote-label">Footnotes</h2>
-  <ol class="visually-hidden">
-    <li id="footnotes">Footnotes are notes placed at the bottom of a page. They cite references or comment on a designated part of the text above it. <a href="#footnotes-ref" aria-label="Back to content">↩</a></li>
+  <ol>
+    <li id="footnotes">The viewport is the user's visible area of a web page. The viewport varies with the device, and will be smaller on a mobile phone than on a computer screen.<a href="#footnotes-ref" aria-label="Back to content">↩</a></li>
   </ol>
   <h1 class="visually-hidden">Justin Chill © 2020</h1>
 </footer>
