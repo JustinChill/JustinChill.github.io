@@ -11,13 +11,19 @@
 
 	<style type="text/css">
 
+		header{
+			grid-column: 2 / 7;
+		}
+		.subtitle{
+			text-align: center;
+		}
+
 		/* Penrose Triangle */
 		.penrose-triangle {
 		  display: block;
 		  width: 20rem;
 		  height: 20rem;
-		  margin: 0 auto;
-		  margin-bottom: 3rem;
+		  margin: 3rem auto;
 		  position: relative;
 		  transform-origin: 13.3rem 11.5rem;
 		  -webkit-animation: rotate 30s linear infinite;
@@ -31,28 +37,32 @@
 		  position: absolute;
 		  -webkit-clip-path: polygon(57% 0, 75% 0, 26% 85%, 89.5% 85%, 98.4% 100%, 0 100%);
 		          clip-path: polygon(57% 0, 75% 0, 26% 85%, 89.5% 85%, 98.4% 100%, 0 100%);
-		  transition: background-color 1s ease;
+		  transition: background-color .65s ease;
 		}
 		.penrose-triangle .side:nth-of-type(1) {
 		  top: 0;
 		  left: 0;
 		  transform: rotate(0deg);
 		  background-color: #c71585;
+		  background-color: hsl(40, 15%, 80%);
 		}
 		.penrose-triangle .side:nth-of-type(2) {
 		  top: 18.3%;
 		  left: 43.3%;
 		  transform: rotate(120deg);
 		  background-color: #8a0b84;
+		  background-color: hsl(37, 11%, 28%);
 		}
 		.penrose-triangle .side:nth-of-type(3) {
 		  top: 46.5%;
 		  left: 5.9%;
 		  transform: rotate(240deg);
 		  background-color: #4b0082;
+		  background-color: hsl(42, 15%, 13%);
 		}
-		.penrose-triangle .side:nth-of-type(1):hover, .penrose-triangle .side:nth-of-type(2):hover, .penrose-triangle .side:nth-of-type(3):hover {
-		  background-image: url(http://aepicos.com/codepen/images/space-bg.gif);
+		.penrose-triangle.side:hover,.penrose-triangle .side:nth-of-type(1):hover, .penrose-triangle .side:nth-of-type(2):hover, .penrose-triangle .side:nth-of-type(3):hover {
+		  /*background-color: #4b0082;
+		  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='775' height='93' viewBox='0 0 1000 120'%3E%3Cg fill='none' stroke='%238a0b84' stroke-width='14.6' %3E%3Cpath d='M-500 75c0 0 125-30 250-30S0 75 0 75s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 45c0 0 125-30 250-30S0 45 0 45s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 105c0 0 125-30 250-30S0 105 0 105s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 15c0 0 125-30 250-30S0 15 0 15s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500-15c0 0 125-30 250-30S0-15 0-15s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 135c0 0 125-30 250-30S0 135 0 135s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3C/g%3E%3C/svg%3E");*/
 		  background-size: cover;
 		}
 		@-webkit-keyframes rotate {
@@ -71,6 +81,34 @@
 		    transform: translate3d(-6.6vw, -3vw, 0) rotate3d(0, 0, 1, 360deg);
 		  }
 		}
+
+		/* Parallel Lines */
+		.cafe-wall{
+			grid-column: 1 / -1;
+			width: 100%;
+			margin: 2rem 0;
+		}
+		.row {
+		  width: 100%;
+		  height: 50px;
+		  background-image: linear-gradient(
+		    to right,
+		    #fff 0%,
+		    #fff 50%,
+		    #000 51%,
+		    #000 100%
+		  );
+		  background-size: 90px 100%;		  
+		  background-repeat: repeat-x;
+		  border-bottom: 1px solid #666;
+		}
+		.row:nth-child(2n) {
+		  background-position: 20px 0;
+		}
+
+
+		/* Animation */
+
 
 		/* Hole */
 		.hole svg {
@@ -92,8 +130,8 @@
 	</header><main role="main">
 		<article>
 			<header>
-				<h1>Optical Illusions</h1>		
-				<h2 class="subtitle">Fun with CSS graphics</h2>
+				<h1>Optical Illusions & Impossible Objects</h1>		
+				<h2 class="subtitle">Having fun with CSS graphics</h2>
 				<time date="1993-02-26"></time>
 			</header>
 
@@ -104,10 +142,23 @@
 			  <div class="side"></div>
 			</div>
 
-
 			<p>
-				A clever way to create the illusion of depth, this works by stacking circles on top of each other and spinning them at different speeds. Each circle spins at a different rate using a <code>keyframe</code> animation. Below is a single circle, following the same basic animation loop. Notice the patterns of overlap within the spinning rings- this is done using <code>rgba</code> colors with transparency.</p>
+				The Penrose triangle is a triangular impossible object. It was first created by the Swedish artist Oscar Reutersvärd in 1934. The psychiatrist Lionel Penrose and his mathematician son Roger Penrose independently devised and popularized it in the 1950s, describing it as "impossibility in its purest form". It is featured prominently in the works of artist M. C. Escher, whose earlier depictions of impossible objects partly inspired it.</p>
 
+			<h2>Café wall ☕️</h2>
+			<div class="cafe-wall">
+			<div class="row"></div>
+			<div class="row"></div>
+			<div class="row"></div>
+			<div class="row"></div>
+			<div class="row"></div>
+			<div class="row"></div>
+			<div class="row"></div>
+			<div class="row"></div>
+			<div class="row"></div>
+			<div class="row"></div>
+			</div>
+			<p>This illusion is a pattern where different coloured squares in straight lines appear to form horizontal curved lines. It is called a café wall illusion because this type of artwork is often seen on café walls.</p>
 
 				<div class="hole">
 					<svg width="300" height="300">
@@ -132,5 +183,13 @@
 		
 		<footer>
 		</footer>
+
+		<script type="text/javascript">
+			$(window).mousemove(function(e) {
+			  var posX = e.clientX / $(window).width() * 100;
+			  
+			  $('.row:nth-child(2n)').css('background-position', posX)
+			});
+		</script>
 	</body>
 	</html>
