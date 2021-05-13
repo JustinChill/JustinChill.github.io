@@ -19,17 +19,19 @@
 		}
 
 		/* Penrose Triangle */
+		.penrose-triangle-cutaway,
 		.penrose-triangle {
 		  display: block;
 		  width: 20rem;
 		  height: 20rem;
-		  margin: 3rem auto;
+		  margin: 4rem auto;
 		  position: relative;
 		  transform-origin: 13.3rem 11.5rem;
 		  -webkit-animation: rotate 30s linear infinite;
 		          animation: rotate 30s linear infinite;
 		  filter: drop-shadow(0 0 4rem rgba(0, 0, 0, 0.2));
 		}
+		.penrose-triangle-cutaway .side,
 		.penrose-triangle .side {
 		  display: block;
 		  width: 20rem;
@@ -39,27 +41,48 @@
 		          clip-path: polygon(57% 0, 75% 0, 26% 85%, 89.5% 85%, 98.4% 100%, 0 100%);
 		  transition: background-color .65s ease;
 		}
+		
+		.penrose-triangle .side:nth-of-type(1),
 		.penrose-triangle .side:nth-of-type(1) {
 		  top: 0;
 		  left: 0;
 		  transform: rotate(0deg);
-		  background-color: #c71585;
 		  background-color: hsl(40, 15%, 80%);
 		}
+		.penrose-triangle-cutaway .side:nth-of-type(1),
+		.penrose-triangle-cutaway .side:nth-of-type(1) {
+		  top: 0;
+		  left: 0;
+		  transform: rotate(0deg);
+		  background-color: hsl(40, 15%, 80%);
+		}
+
 		.penrose-triangle .side:nth-of-type(2) {
 		  top: 18.3%;
 		  left: 43.3%;
 		  transform: rotate(120deg);
-		  background-color: #8a0b84;
 		  background-color: hsl(37, 11%, 28%);
 		}
+		.penrose-triangle-cutaway .side:nth-of-type(2) {
+		  top: 18.3%;
+		  left: 43.3%;
+		  transform: rotate(120deg);
+		  background-color: hsl(37, 11%, 28%);
+		}
+
 		.penrose-triangle .side:nth-of-type(3) {
 		  top: 46.5%;
 		  left: 5.9%;
 		  transform: rotate(240deg);
-		  background-color: #4b0082;
 		  background-color: hsl(42, 15%, 13%);
 		}
+		.penrose-triangle-cutaway .side:nth-of-type(3) {
+		  top: 46.5%;
+		  left: 5.9%;
+		  transform: rotate(240deg);
+		  background-color: hsl(42, 15%, 13%);
+		}
+
 		.penrose-triangle.side:hover,.penrose-triangle .side:nth-of-type(1):hover, .penrose-triangle .side:nth-of-type(2):hover, .penrose-triangle .side:nth-of-type(3):hover {
 		  /*background-color: #4b0082;
 		  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='775' height='93' viewBox='0 0 1000 120'%3E%3Cg fill='none' stroke='%238a0b84' stroke-width='14.6' %3E%3Cpath d='M-500 75c0 0 125-30 250-30S0 75 0 75s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 45c0 0 125-30 250-30S0 45 0 45s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 105c0 0 125-30 250-30S0 105 0 105s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 15c0 0 125-30 250-30S0 15 0 15s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500-15c0 0 125-30 250-30S0-15 0-15s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 135c0 0 125-30 250-30S0 135 0 135s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3C/g%3E%3C/svg%3E");*/
@@ -95,8 +118,8 @@
 		    to right,
 		    #fff 0%,
 		    #fff 50%,
-		    #000 51%,
-		    #000 100%
+		    hsl(42, 15%, 13%) 51%,
+		    hsl(42, 15%, 13%) 100%
 		  );
 		  background-size: 90px 100%;		  
 		  background-repeat: repeat-x;
@@ -107,7 +130,61 @@
 		}
 
 
-		/* Animation */
+		/* Negative space */
+		.square1{
+		  width: 50px;
+		  height: 50px;
+		  background: #444;
+		  position: absolute;
+		  animation: spin1 4s infinite linear;
+		}
+
+		.square2{
+		  width: 50px;
+		  height: 50px;
+		  background: #ccc;
+		  /*position: absolute;*/
+		  animation: spin1 4s infinite linear;
+		}
+
+		.negative-space-container,
+		.container-2{
+		  overflow: hidden;
+		  /*position: absolute;*/
+		  width: 1000px;
+		  height: 500px;
+		}
+
+		.negative-space-container{
+		  background: #ccc;
+		}
+
+		.container-2{
+		  background: #444;
+		  display: none;
+		}
+
+		@keyframes spin1{
+		  0%{
+		    transform: rotate(0deg);
+		  }
+		  
+		  25%{
+		    transform: rotate(90deg);
+		  }
+		  
+		  50%{
+		    transform: rotate(180deg);
+		  }
+		  
+		  75%{
+		    transform: rotate(270deg);
+		  }
+		  
+		  100%{
+		    transform: rotate(360deg);
+		  }
+		}
 
 
 		/* Hole */
@@ -116,8 +193,8 @@
 			transform:rotateX(68deg) rotateZ(-32deg);
 		}
 		div.hole {
-			margin:0 auto;
-			width:300px;
+			margin: 0 auto;
+			width: 300px;
 			perspective:700px;
 			perspective-origin:0 10%;
 		}
@@ -131,19 +208,25 @@
 		<article>
 			<header>
 				<h1>Optical Illusions & Impossible Objects</h1>		
-				<h2 class="subtitle">Having fun with CSS graphics</h2>
+				<h2 class="subtitle">100% CSS, no images</h2>
 				<time date="1993-02-26"></time>
 			</header>
 
-			<h2>Penrose Triangle</h2>
 			<div class="penrose-triangle">
 			  <div class="side"></div>
 			  <div class="side"></div>
 			  <div class="side"></div>
 			</div>
-
+			<p>Recreating classic optical illusions using only CSS code. </p>
+			<h2>Penrose Triangle</h2>
 			<p>
-				The Penrose triangle is a triangular impossible object. It was first created by the Swedish artist Oscar Reutersvärd in 1934. The psychiatrist Lionel Penrose and his mathematician son Roger Penrose independently devised and popularized it in the 1950s, describing it as "impossibility in its purest form". It is featured prominently in the works of artist M. C. Escher, whose earlier depictions of impossible objects partly inspired it.</p>
+				The Penrose triangle is a triangular impossible object. It was first created by the Swedish artist Oscar Reutersvärd in 1934. The psychiatrist Lionel Penrose and his mathematician son Roger Penrose independently devised and popularized it in the 1950s, describing it as "<i>impossibility in its purest form</i>". It is featured prominently in the works of artist M. C. Escher, whose earlier depictions of impossible objects partly inspired it.</p>
+				<p>There are two steps to recreating the Penrose triangle using CSS. First draw 3 squares, stacked on top of each other. Rotate the second square 120 degrees and the third square 240 degrees. Cut-off the space where the squares <i>don't</i> overlap.</p>
+				<div class="penrose-triangle-cutaway">
+				  <div class="side"></div>
+				  <div class="side"></div>
+				  <div class="side"></div>
+				</div>
 
 			<h2>Café wall ☕️</h2>
 			<div class="cafe-wall">
@@ -157,8 +240,20 @@
 			<div class="row"></div>
 			<div class="row"></div>
 			<div class="row"></div>
+			<div class="row"></div>
+			<div class="row"></div>
+			<div class="row"></div>
+			<div class="row"></div>
+			<div class="row"></div>
 			</div>
 			<p>This illusion is a pattern where different coloured squares in straight lines appear to form horizontal curved lines. It is called a café wall illusion because this type of artwork is often seen on café walls.</p>
+
+			<div class="negative-space-container">
+
+			</div>
+			<div class="container-2">
+
+			</div>
 
 				<div class="hole">
 					<svg width="300" height="300">
@@ -185,11 +280,45 @@
 		</footer>
 
 		<script type="text/javascript">
-			$(window).mousemove(function(e) {
-			  var posX = e.clientX / $(window).width() * 100;
+			// $(window).mousemove(function(e) {
+			//   var posX = e.clientX / $(window).width() * 100;
 			  
-			  $('.row:nth-child(2n)').css('background-position', posX)
-			});
+			//   $('.row:nth-child(2n)').css('background-position', posX)
+			// });
+
+			//  Negative space animation
+			for(var i = 0; i < 10; i++){
+			  for(var j = 0; j < 10; j++){
+			    
+			    var offset = j % 2 ? 50 : 0;
+			    
+			    var x = (i*100)+offset;
+			    var y = (j*50);
+			    
+			    $('.container').append('<div style="left: '+x+'px; top: '+y+'px" class="square1"></div>');
+			  }
+			}
+
+			for(var i = 0; i < 10; i++){
+			  for(var j = 0; j < 10; j++){
+			    
+			    var offset = j % 2 ? 0 : 50;
+			    
+			    var x = (i*100)+offset;
+			    var y = (j*50);
+			    
+			    $('.container-2').append('<div style="left: '+x+'px; top: '+y+'px" class="square2"></div>');
+			  }
+			}
+
+			function loop(){
+			  
+			  $('.container, .container-2').toggle();
+			  
+			  setTimeout(loop, 1000);
+			}
+
+			loop();
 		</script>
 	</body>
 	</html>
