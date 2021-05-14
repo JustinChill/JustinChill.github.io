@@ -255,6 +255,32 @@
       top: 50px;
       left: 45px;
     }
+
+    /* Random quote */
+#container {display:flex;}
+#images option(default) {text-color:#888;}
+.frame {
+  max-width:100%;
+  margin-right:10px;
+  background-color:black;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.image {
+  max-width:100%;
+}
+.fetchImage {
+  max-height:250px;
+}
+.report {
+  width:400px;
+}
+.imageViewer{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  grid-row-gap:40px;
+}
  </style>
 
 </head>
@@ -287,9 +313,87 @@
         <img src="imgs/simpsons-logo.svg" class="mid-size">
       </div>
 
+      <select id="images" placeholder="Select Image">
+        <option>Select Your Image</option>
+      </select>
+      <div id="container">
+        <div id="report"><h1>Fetch</h1>
+        <div id="file-test">
+            <input type="file" id="fileUpload" onchange="handleFiles(this.files)" multiple accept="image/*">Note: This does not upload files.</input>
+        </div>
+      </div>
+      </div>
+      <div class="imageViewer"></div>
+
 </article>
 </main>
 <footer>
 </footer>
+<script type="text/javascript">
+  function log(exp){  
+    //document.querySelector('#report').innerHTML += `<div>> ${exp}</div>`;
+   console.log(exp);
+  };
+
+  var feedUrl = "https://thesimpsonsquoteapi.glitch.me/quotes?count=14";
+  function getViewer(feedUrl){
+  fetch(feedUrl,{method:"get"}).then((response)=>response.json()).then((data)=>{
+  var images = document.querySelector('#images');
+  var report =  document.querySelector('#report');
+  (Array.from(Object.keys(data)).forEach((key)=>images.innerHTML += `<option value='${key}'>${data[key].label}</option`));
+  images.addEventListener('change',(evt)=>{
+    var selectElt = evt.target;
+    update(selectElt.value)
+  });
+
+  function update(key){
+    var url = data[key].src;
+    var label = data[key].label;
+    var description = data[key].description;
+    fetch(url).then((response)=>{
+      log(url);
+      log(response);
+   //   image.setAttribute('src',response.url);
+      return response.blob()
+      //new Notification("Mermaid Fetched",{icon:response.url})
+  }).then((myBlob)=>{
+      var objectURL = URL.createObjectURL(myBlob);
+      //var oldSrc = image.src;
+      var reportContent = `<h3>${label}</h3>
+  <img src="${objectURL}" class="fetchImage"/>
+  <div>${description}</div>
+  <div><b>Format:</b> ${myBlob.type}</div>
+  <div><b>Size:</b> ${Math.floor(myBlob.size/1000)}kB</div>
+  `
+      report.innerHTML = reportContent;
+      console.log(url);
+      if (Notification.permission=="granted"){
+        
+            var notif = new Notification(label,{icon:objectURL});
+            notif.onclick=(evt)=>window.open(`${url}`,'_blank')
+            notif.style.cursor="pointer";
+           
+      } 
+      else if (Notification.permission=="denied"){}
+      else {
+        Notification.requestPermission(
+          (permission)=>{
+            var notif = new Notification(label,{icon:objectURL});
+            notif.onclick=(evt)=>window.open(`${url}`,'_blank')
+          }
+        )
+      }
+    })};
+  })
+  }
+  getViewer(feedUrl);
+  var fileUpload = document.querySelector('#fileUpload');
+  var imageViewer = document.querySelector('.imageViewer');
+  var handleFiles = (files)=>{
+    Array.from(files).forEach((file)=>{
+      var src = URL.createObjectURL(file);
+      imageViewer.innerHTML += `<div class="frame"><img src="${src}" class="image"/></div>`
+    })}
+</script>
 </body>
 </html>
