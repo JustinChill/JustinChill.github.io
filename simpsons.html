@@ -257,8 +257,9 @@
     }
 
     /* Random quote */
-#container {display:flex;}
-#images option(default) {text-color:#888;}
+#container {display:flex;justify-content: center;}
+#quotes option(default) {text-color:#888;}
+#container p {font-size: calc(32px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));}
 .frame {
   max-width:100%;
   margin-right:10px;
@@ -271,7 +272,7 @@
   max-width:100%;
 }
 .fetchImage {
-  max-height:250px;
+  max-width: 300px;
 }
 .report {
   width:400px;
@@ -313,17 +314,14 @@
         <img src="imgs/simpsons-logo.svg" class="mid-size">
       </div>
 
-      <select id="images" placeholder="Select Image">
-        <option>Select Your Image</option>
+      <select id="quotes" placeholder="Select A Character">
+        <option>Select A Character</option>
       </select>
       <div id="container">
-        <div id="report"><h1>Fetch</h1>
-        <div id="file-test">
-            <input type="file" id="fileUpload" onchange="handleFiles(this.files)" multiple accept="image/*">Note: This does not upload files.</input>
-        </div>
-      </div>
+        <div id="report"></div>
       </div>
       <div class="imageViewer"></div>
+      <p class="visually-hidden">Quotes powered by <a href="https://github.com/JLuboff/TheSimpsonsQuoteAPI">The Simpsons Quote API</a>. A great project!</p>
 
 </article>
 </main>
@@ -335,21 +333,21 @@
    console.log(exp);
   };
 
-  var feedUrl = "https://thesimpsonsquoteapi.glitch.me/quotes?count=14";
+  var feedUrl = "https://thesimpsonsquoteapi.glitch.me/quotes?count=40";
   function getViewer(feedUrl){
   fetch(feedUrl,{method:"get"}).then((response)=>response.json()).then((data)=>{
-  var images = document.querySelector('#images');
+  var quotes = document.querySelector('#quotes');
   var report =  document.querySelector('#report');
-  (Array.from(Object.keys(data)).forEach((key)=>images.innerHTML += `<option value='${key}'>${data[key].label}</option`));
-  images.addEventListener('change',(evt)=>{
+  (Array.from(Object.keys(data)).forEach((key)=>quotes.innerHTML += `<option value='${key}'>${data[key].character}</option`));
+  quotes.addEventListener('change',(evt)=>{
     var selectElt = evt.target;
     update(selectElt.value)
   });
 
   function update(key){
-    var url = data[key].src;
-    var label = data[key].label;
-    var description = data[key].description;
+    var url = data[key].image;
+    var label = data[key].character;
+    var description = data[key].quote;
     fetch(url).then((response)=>{
       log(url);
       log(response);
@@ -361,9 +359,8 @@
       //var oldSrc = image.src;
       var reportContent = `<h3>${label}</h3>
   <img src="${objectURL}" class="fetchImage"/>
-  <div>${description}</div>
-  <div><b>Format:</b> ${myBlob.type}</div>
-  <div><b>Size:</b> ${Math.floor(myBlob.size/1000)}kB</div>
+  <p>"${description}"</p>
+  <span><b>- </b> ${data[key].character} </span>
   `
       report.innerHTML = reportContent;
       console.log(url);
@@ -387,13 +384,6 @@
   })
   }
   getViewer(feedUrl);
-  var fileUpload = document.querySelector('#fileUpload');
-  var imageViewer = document.querySelector('.imageViewer');
-  var handleFiles = (files)=>{
-    Array.from(files).forEach((file)=>{
-      var src = URL.createObjectURL(file);
-      imageViewer.innerHTML += `<div class="frame"><img src="${src}" class="image"/></div>`
-    })}
 </script>
 </body>
 </html>
