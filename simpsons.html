@@ -257,12 +257,12 @@
     }
 
     /* Random quote */
-    #container {
+    .container {
       grid-column: 1 / -1;
     }
-    #quotes option(default) {text-color:#888;}
-    #container p {font-size: calc(32px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));}
-    #container span {font-size: calc(24px + (22 - 16) * ((100vw - 320px) / (1300 - 320))); text-align: right; float: right;}
+    .quotes option(default) {text-color:#888;}
+    .container p {font-size: calc(32px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));}
+    .container span {font-size: calc(24px + (22 - 16) * ((100vw - 320px) / (1300 - 320))); text-align: right; float: right;}
     .frame {
       max-width:100%;
       margin-right:10px;
@@ -292,6 +292,185 @@
     @media only screen and (max-width: 900px) {
       #lineup img{
         max-width: 100px;
+      }
+    }
+
+    /* Quote layout */
+    .punch-out {
+      display: none;
+      box-sizing: border-box;
+      width: 90%;
+      margin: 1em auto;
+      padding: 1em 2em;
+      color: #000;
+      background-color: rgba(204, 204, 204, .3);
+      border: .07em solid rgba(0, 0, 0, .3);
+      border-radius: .5em;
+    }
+
+    /* The layout */
+
+    .bio {
+      box-sizing: border-box;
+      width: 100%;
+      position: relative;
+      margin: 7em 0 0 0;
+      padding: .25em 1.5em 1em 1.5em;
+      line-height: 1.7;
+      border-radius: 0 0 1em 1em;
+    }
+
+    .bio::before,
+    .bio::after {
+      content: "";
+      display: block;
+      box-sizing: border-box;
+      height: 2.1em;
+      position: absolute;
+      top: -2.1em;
+    }
+
+    .bio::before {
+      left: 0;
+      width: calc(50% - 3.25em);
+      /*width: calc(50% - 3.24em); Use this with solid colors if IE11 is giving you trouble*/
+      border-radius: 1em 0 0 0;
+    }
+
+    .bio::after {
+      right: 0;
+      width: calc(50% - 3.24em);
+      /*width: calc(50% - 3.24em); Use this with solid colors if IE11 is giving you trouble*/
+      border-radius: 0 1em 0 0;
+    }
+
+    .pic {
+      position: absolute;
+      width: 5.5em;
+      height: 5.5em;
+      top: -6em;
+      left: calc(50% - 2.75em);
+      border-radius: 5.5em;
+      background-color: rgba(255, 255, 255, .3);
+      background-position: 50% 50%;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    .circle {
+      position: absolute;
+      box-sizing: border-box;
+      display: block;
+      width: 6.5em;
+      height: 2.1em;
+      top: -2.1em;
+      left: calc(50% - 3.25em);
+      overflow: hidden;
+    }
+
+    .circle::after {
+      position: absolute;
+      content: "";
+      width: 6.5em;
+      height: 6.5em;
+      border-radius: 6.5em;
+      background: transparent;
+      top: -7em;
+      left: -2.5em;
+      border: 2.5em solid rgba(0, 0, 0, 0.8);
+    }
+
+
+    /* Set the background and text color of the box here */
+
+    .bio,
+    .bio::before,
+    .bio::after {
+      background: rgba(0, 0, 102, 0.6);
+      color: #ccc;
+    }
+
+    .circle::after {
+      border-color: rgba(0, 0, 102, 0.6);
+    }
+
+
+    /* Set the size of the overall box by changing the font size. */
+
+    .bio {
+      font-size: 200%;
+    }
+
+
+    /* Set the image */
+
+    .pic {
+      background-image: url(https://www.fillmurray.com/300/300);
+    }
+
+    @media print {
+      body {
+        color: #000;
+        background-image: none;
+        background-color: transparent;
+      }
+      main {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        color: #000;
+        background-color: transparent;
+        border: none;
+      }
+      .bio {
+        background-color: transparent;
+        color: #000;
+        margin: 1em 0;
+        padding: .25em 1.5em 1em 6em;
+        min-height: 5.5em;
+      }
+      .pic {
+        box-sizing: border-box;
+        left: 0;
+        top: 0;
+        overflow: hidden;
+        width: 5.5em;
+        height: 5.5em;
+      }
+      .bio::before,
+      .bio::after,
+      .circle {
+        display: none;
+      }
+      /* Redo the images. */
+      .pic {
+        content: url(https://www.fillmurray.com/300/300);
+      }
+    }
+
+
+    /* For Windows High Contrast Mode */
+
+    @media screen and (-ms-high-contrast: active) {
+      .bio,
+      .bio::before,
+      .bio::after,
+      .pic {
+        border: 1px solid #fff;
+      }
+      .bio {
+        border-top: none;
+      }
+      .bio::before {
+        border-right: none;
+        border-bottom: none;
+      }
+      .bio::after {
+        border-left: none;
+        border-bottom: none;
+      }
+      .circle::after {
+        border: none;
       }
     }
   </style>
@@ -326,10 +505,18 @@
         <img src="imgs/simpsons-logo.svg" class="mid-size">
       </div>
 
-      <div id="container">
+      <div class="container">
         <div></div>
         <figure id="lineup"></figure>
       </div>
+      <div class="punch-out">
+        <p class="bio">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vitae tempor dolor, et pulvinar nulla. Nunc nibh eros, feugiat et vehicula a, tincidunt nec augue. <a href="http://adrianroselli.com/2016/06/punch-out-avatar.html" target="_top">Read the blog post</a>.
+          <span class="pic"></span>
+          <span class="circle"></span>
+        </p>
+      </div>
+
       <p><div id="report"></div></p>
       <select id="quotes" placeholder="Select A Character">
         <option>Select A Character</option>
