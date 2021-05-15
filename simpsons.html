@@ -257,32 +257,44 @@
     }
 
     /* Random quote */
-#container {display:flex;justify-content: center;}
-#quotes option(default) {text-color:#888;}
-#container p {font-size: calc(32px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));}
-.frame {
-  max-width:100%;
-  margin-right:10px;
-  background-color:black;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-}
-.image {
-  max-width:100%;
-}
-.fetchImage {
-  max-width: 300px;
-}
-.report {
-  width:400px;
-}
-.imageViewer{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  grid-row-gap:40px;
-}
- </style>
+    #container {
+      grid-column: 1 / -1;
+    }
+    #quotes option(default) {text-color:#888;}
+    #container p {font-size: calc(32px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));}
+    #container span {font-size: calc(24px + (22 - 16) * ((100vw - 320px) / (1300 - 320))); text-align: right; float: right;}
+    .frame {
+      max-width:100%;
+      margin-right:10px;
+      background-color:black;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+    }
+    .image {
+      max-width:100%;
+    }
+    .fetchImage {
+      max-width: 300px;
+    }
+    .report {
+      width:400px;
+    }
+    .imageViewer{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      grid-row-gap:40px;
+    }
+    #lineup img{
+      max-width: 140px;
+      min-height: 200px;
+    }
+    @media only screen and (max-width: 900px) {
+      #lineup img{
+        max-width: 100px;
+      }
+    }
+  </style>
 
 </head>
 <body>
@@ -292,16 +304,16 @@
     <article>
 
       <figure>
-      <div id="painting">
-        <div class="nail"></div>
-        <div class="plaque">Scene From Moby Dick</div>
-        <div class="background"></div>
-        <div class="boat">
-          <div class="sail-left"></div>
-          <div class="sail-right"></div>
+        <div id="painting">
+          <div class="nail"></div>
+          <div class="plaque">Scene From Moby Dick</div>
+          <div class="background"></div>
+          <div class="boat">
+            <div class="sail-left"></div>
+            <div class="sail-right"></div>
+          </div>
+          <div class="clouds"></div>
         </div>
-        <div class="clouds"></div>
-      </div>
       </figure>
 
       <header>
@@ -314,73 +326,80 @@
         <img src="imgs/simpsons-logo.svg" class="mid-size">
       </div>
 
+      <div id="container">
+        <div></div>
+        <figure id="lineup"></figure>
+      </div>
+      <p><div id="report"></div></p>
       <select id="quotes" placeholder="Select A Character">
         <option>Select A Character</option>
       </select>
-      <div id="container">
-        <div id="report"></div>
-      </div>
       <div class="imageViewer"></div>
       <p class="visually-hidden">Quotes powered by <a href="https://github.com/JLuboff/TheSimpsonsQuoteAPI">The Simpsons Quote API</a>. A great project!</p>
 
-</article>
-</main>
-<footer>
-</footer>
-<script type="text/javascript">
-  function log(exp){  
+    </article>
+  </main>
+  <footer>
+  </footer>
+  <script type="text/javascript">
+    function log(exp){  
     //document.querySelector('#report').innerHTML += `<div>> ${exp}</div>`;
-   console.log(exp);
+    console.log(exp);
   };
 
   var feedUrl = "https://thesimpsonsquoteapi.glitch.me/quotes?count=40";
   function getViewer(feedUrl){
-  fetch(feedUrl,{method:"get"}).then((response)=>response.json()).then((data)=>{
-  var quotes = document.querySelector('#quotes');
-  var report =  document.querySelector('#report');
-  (Array.from(Object.keys(data)).forEach((key)=>quotes.innerHTML += `<option value='${key}'>${data[key].character}</option`));
-  quotes.addEventListener('change',(evt)=>{
-    var selectElt = evt.target;
-    update(selectElt.value)
-  });
+    fetch(feedUrl,{method:"get"}).then((response)=>response.json()).then((data)=>{
+      var quotes = document.querySelector('#quotes');
+      var lineup =  document.querySelector('#lineup');
+      (Array.from(Object.keys(data)).forEach((key)=>quotes.innerHTML += `<option value='${key}'>${data[key].character}</option>`));
+      (Array.from(Object.keys(data)).forEach((key)=>lineup.innerHTML += 
+        `<img src="${data[key].image}" class="fetchImage alt="${data[key].image}" />`));
+      quotes.addEventListener('change',(evt)=>{
+        var selectElt = evt.target;
+        update(selectElt.value)
+      });
 
-  function update(key){
-    var url = data[key].image;
-    var label = data[key].character;
-    var description = data[key].quote;
-    fetch(url).then((response)=>{
-      log(url);
-      log(response);
+      function update(key){
+        var url = data[key].image;
+        var label = data[key].character;
+        var description = data[key].quote;
+        fetch(url).then((response)=>{
+          log(url);
+          log(response);
    //   image.setAttribute('src',response.url);
-      return response.blob()
+   return response.blob()
       //new Notification("Mermaid Fetched",{icon:response.url})
-  }).then((myBlob)=>{
+    }).then((myBlob)=>{
       var objectURL = URL.createObjectURL(myBlob);
       //var oldSrc = image.src;
-      var reportContent = `<h3>${label}</h3>
-  <img src="${objectURL}" class="fetchImage"/>
-  <p>"${description}"</p>
-  <span><b>- </b> ${data[key].character} </span>
-  `
-      report.innerHTML = reportContent;
+      var report =  document.querySelector('#report');
+      
+      var reportContent = `
+      <h3>${label}</h3>
+      <img src="${objectURL}" class="fetchImage"/>
+      <p>"${description}"</p>
+      <span><b>- </b> ${data[key].character} </span>
+      `
+      report.innerHTML += reportContent;
       console.log(url);
       if (Notification.permission=="granted"){
-        
-            var notif = new Notification(label,{icon:objectURL});
-            notif.onclick=(evt)=>window.open(`${url}`,'_blank')
-            notif.style.cursor="pointer";
-           
+
+        var notif = new Notification(label,{icon:objectURL});
+        notif.onclick=(evt)=>window.open(`${url}`,'_blank')
+        notif.style.cursor="pointer";
+
       } 
       else if (Notification.permission=="denied"){}
-      else {
-        Notification.requestPermission(
-          (permission)=>{
-            var notif = new Notification(label,{icon:objectURL});
-            notif.onclick=(evt)=>window.open(`${url}`,'_blank')
-          }
-        )
-      }
-    })};
+        else {
+          Notification.requestPermission(
+            (permission)=>{
+              var notif = new Notification(label,{icon:objectURL});
+              notif.onclick=(evt)=>window.open(`${url}`,'_blank')
+            }
+            )
+        }
+      })};
   })
   }
   getViewer(feedUrl);
