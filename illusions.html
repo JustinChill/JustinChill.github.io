@@ -14,6 +14,9 @@
 		header{
 			grid-column: 2 / 7;
 		}
+		article{
+			margin-top: 0;
+		}
 		.subtitle{
 			text-align: center;
 		}
@@ -26,10 +29,12 @@
 			display: block;
 			width: 20rem;
 			height: 20rem;
+			grid-column: 2/7;
 			margin: 4rem auto;
+			/*padding: 2rem;*/
 			position: relative;
-			transform-origin: 13.3rem 11.5rem;
-			-webkit-animation: rotate 30s linear infinite;
+/*			transform-origin: 13.3rem 11.5rem;
+			-webkit-animation: rotate 30s linear infinite;*/
 			/*animation: rotate 30s linear infinite;*/
 			filter: drop-shadow(0 0 4rem rgba(0, 0, 0, 0.2));
 		}
@@ -90,28 +95,6 @@
 			opacity: 5%;
 			/*background-color: white;*/
 			border: 1px solid black;
-		}
-
-		.penrose-triangle.side:hover,.penrose-triangle .side:nth-of-type(1):hover, .penrose-triangle .side:nth-of-type(2):hover, .penrose-triangle .side:nth-of-type(3):hover {
-		  /*background-color: #4b0082;
-		  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='775' height='93' viewBox='0 0 1000 120'%3E%3Cg fill='none' stroke='%238a0b84' stroke-width='14.6' %3E%3Cpath d='M-500 75c0 0 125-30 250-30S0 75 0 75s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 45c0 0 125-30 250-30S0 45 0 45s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 105c0 0 125-30 250-30S0 105 0 105s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 15c0 0 125-30 250-30S0 15 0 15s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500-15c0 0 125-30 250-30S0-15 0-15s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 135c0 0 125-30 250-30S0 135 0 135s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3C/g%3E%3C/svg%3E");*/
-		  background-size: cover;
-		}
-		@-webkit-keyframes rotate {
-			from {
-				transform: translate3d(-6.6vw, -3vw, 0) rotate3d(0, 0, 1, 0deg);
-			}
-			to {
-				transform: translate3d(-6.6vw, -3vw, 0) rotate3d(0, 0, 1, 360deg);
-			}
-		}
-		@keyframes rotate {
-			from {
-				transform: translate3d(-6.6vw, -3vw, 0) rotate3d(0, 0, 1, 0deg);
-			}
-			to {
-				transform: translate3d(-6.6vw, -3vw, 0) rotate3d(0, 0, 1, 360deg);
-			}
 		}
 
 		/* Parallel Lines */
@@ -207,6 +190,10 @@
 			perspective:700px;
 			perspective-origin:0 10%;
 		}
+		canvas {
+		  display: block;
+		  cursor: pointer;
+		}
 	</style>
 
 </head>
@@ -215,6 +202,9 @@
 		<h1><a href="index.html" rel="home">Justin's blog</a></h1>
 	</header><main role="main">
 		<article>
+			<figure>
+				<canvas class="canvas" id="canvas1"></canvas>
+			</figure>
 			<header>
 				<h1>Optical Illusions & Impossible Objects</h1>		
 				<h2 class="subtitle">100% CSS, no images</h2>
@@ -260,6 +250,12 @@
 				</div>
 				<p>This illusion is a pattern where different coloured squares in straight lines appear to form horizontal curved lines. It is called a café wall illusion because this type of artwork is often seen on café walls.</p>
 
+				<!-- Canvas experiments from Johan K. -->
+				<!-- https://codepen.io/DonKarlssonSan/pen/VwpwQwQ -->
+				<figure>
+					<canvas class="canvas" id="canvas2"></canvas>
+				</figure>
+
 				<figure>
 				<div class="hole">
 					<svg width="300" height="300">
@@ -282,6 +278,7 @@
 
 				<p>The CSS rotate3d() function is used to rotate elements in a three-dimensional space. To create the illusion of a hole, above, 2 <code>path</code> elements create squares. Those squares are rotated around an axis. Specifically they are rotated around the X axis: <mark>rotateX(68deg)</mark>, and the Z axis: <mark>rotateZ(-32deg)</mark>. Because each shape </p>
 
+
 			</article>
 		</main>
 		
@@ -289,45 +286,99 @@
 		</footer>
 
 		<script type="text/javascript">
-			// $(window).mousemove(function(e) {
-			//   var posX = e.clientX / $(window).width() * 100;
+	
+			/*
+			  Johan Karlsson, 2021
+			  https://twitter.com/DonKarlssonSan
+			  MIT License, see Details View
+			*/
+			let canvas;
+			let ctx;
+			let w, h;
+			let min;
+			let nrOfCircles;
+			let angle;
+			let nrOfLines;
+			let speed;
 
-			//   $('.row:nth-child(2n)').css('background-position', posX)
-			// });
-
-			//  Negative space animation
-			for(var i = 0; i < 10; i++){
-				for(var j = 0; j < 10; j++){
-
-					var offset = j % 2 ? 50 : 0;
-
-					var x = (i*100)+offset;
-					var y = (j*50);
-
-					$('.container').append('<div style="left: '+x+'px; top: '+y+'px" class="square1"></div>');
-				}
+			var x = document.querySelectorAll(".canvas");
+			var i;
+			for (i = 0; i < x.length; i++) {
+			  x[i].style.backgroundColor = "red";
+			  // resize();
+			  // reset(); 
 			}
 
-			for(var i = 0; i < 10; i++){
-				for(var j = 0; j < 10; j++){
+			function setup() {
+			  canvas = document.querySelector("#canvas1");
+			  var x = document.querySelectorAll(".canvas");
+			  // canvas == document.querySelector("#canvas2");
 
-					var offset = j % 2 ? 0 : 50;
-
-					var x = (i*100)+offset;
-					var y = (j*50);
-
-					$('.negative-space-container-2').append('<div style="left: '+x+'px; top: '+y+'px" class="square2"></div>');
-				}
+			  ctx = canvas.getContext("2d");
+			  resize();
+			  reset();
+			  window.addEventListener("resize", () => {
+			    resize();
+			  });
+			  canvas.addEventListener("click", reset);
 			}
 
-			function loop(){
-
-				$('.container, .container-2').toggle();
-
-				setTimeout(loop, 1000);
+			function resize() {
+			  w = canvas.width = window.innerWidth;
+			  h = canvas.height = window.innerHeight;
+			  min = Math.min(w, h);
 			}
 
-			loop();
+			function reset() {
+			  nrOfCircles = Math.round(Math.random() * 8 + 2);
+			  ctx.lineWidth = min / (Math.random() * 60 + 40);
+			  angle = Math.PI / Math.random() * 10;
+			  nrOfLines = Math.round(Math.random() * 30 + 20);
+			  speed = Math.random() * 0.03;
+			}
+
+			function draw(now) {
+			  requestAnimationFrame(draw);
+			  let offset = now * speed;
+			  ctx.save();
+			  ctx.fillStyle = "white";
+			  ctx.fillRect(0, 0, w, h);
+			  ctx.translate(w / 2, h / 2);
+			  for (let i = 0; i < nrOfCircles; i++) {
+			    ctx.rotate(angle);
+			    ctx.save();
+
+			    let r1 = min * 0.45 * i / nrOfCircles;
+			    let r2 = min * 0.45 * (i + 1) / nrOfCircles;
+			    clip(r1, r2);
+
+			    drawLines(nrOfLines, min, offset);
+
+			    ctx.restore();
+			  }
+			  ctx.restore();
+			}
+
+			function clip(r1, r2) {
+			  let region = new Path2D();
+			  region.arc(0, 0, r1, 0, Math.PI * 2);
+			  region.arc(0, 0, r2, 0, Math.PI * 2);
+			  ctx.clip(region, "evenodd");
+			}
+
+			function drawLines(nrOfLines, min, offset) {
+			  let step = min / nrOfLines;
+			  for (let j = 0; j < nrOfLines; j++) {
+			    ctx.beginPath();
+			    ctx.moveTo(-min / 2, -min / 2 + j * step + offset % step);
+			    ctx.lineTo(min / 2, -min / 2 + j * step + offset % step);
+			    ctx.stroke();
+			  }
+			}
+
+			setup();
+			draw(performance.now());
+			// canvas = document.querySelector("#canvas2");
 		</script>
 	</body>
 	</html>
