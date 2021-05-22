@@ -202,9 +202,10 @@
 		<h1><a href="index.html" rel="home">Justin's blog</a></h1>
 	</header><main role="main">
 		<article>
-			<figure>
-				<canvas class="canvas" id="canvas1"></canvas>
-			</figure>
+		<figure>
+			<canvas class="canvas" id="canvas-spin"></canvas>
+		</figure>			
+
 			<header>
 				<h1>Optical Illusions & Impossible Objects</h1>		
 				<h2 class="subtitle">100% CSS, no images</h2>
@@ -212,7 +213,7 @@
 			</header>
 			<p>“We do not know space. We do not see it, we do not hear it, we do not feel it. We are standing in the middle of it, we ourselves are part of it, but we know nothing about it.” 
 			― M.C. Escher</p>
-			<p>Recreating classic optical illusions using only CSS code.</p>
+			<p>All of the optical illusions on this page are made using CSS and javascript code. Recreating these classical illustrations is a fun way to learn about different CSS properties and experiment. I'll do my best to walk through each illustration so you can see how simple it is.</p>
 
 			<div class="penrose-triangle">
 				<div class="side"></div>
@@ -222,7 +223,7 @@
 			
 			<h2>Penrose Triangle</h2>
 			<p>
-				The Penrose triangle is a triangular impossible object. It was first created by the Swedish artist Oscar Reutersvärd in 1934. The psychiatrist Lionel Penrose and his mathematician son Roger Penrose independently devised and popularized it in the 1950s, describing it as "<i>impossibility in its purest form</i>". It is featured prominently in the works of artist M. C. Escher, whose earlier depictions of impossible objects partly inspired it.</p>
+				The Penrose triangle is a triangular impossible object. It was first created by the Swedish artist Oscar Reutersvärd in 1934. The triangle is featured prominently in the works of artist M. C. Escher, whose earlier depictions of impossible objects partly inspired it.</p>
 				<p>There are two steps to recreating the Penrose triangle using CSS. First draw 3 squares, stacked on top of each other. Rotate the second square 120 degrees and the third square 240 degrees. Cut-off the space where the squares <i>don't</i> overlap.</p>
 				<div class="penrose-triangle-cutaway">
 					<div class="side"></div>
@@ -250,11 +251,6 @@
 				</div>
 				<p>This illusion is a pattern where different coloured squares in straight lines appear to form horizontal curved lines. It is called a café wall illusion because this type of artwork is often seen on café walls.</p>
 
-				<!-- Canvas experiments from Johan K. -->
-				<!-- https://codepen.io/DonKarlssonSan/pen/VwpwQwQ -->
-				<figure>
-					<canvas class="canvas" id="canvas2"></canvas>
-				</figure>
 
 				<figure>
 				<div class="hole">
@@ -278,6 +274,9 @@
 
 				<p>The CSS rotate3d() function is used to rotate elements in a three-dimensional space. To create the illusion of a hole, above, 2 <code>path</code> elements create squares. Those squares are rotated around an axis. Specifically they are rotated around the X axis: <mark>rotateX(68deg)</mark>, and the Z axis: <mark>rotateZ(-32deg)</mark>. Because each shape </p>
 
+				<figure>
+					<canvas class="canvas" id="canvas"></canvas>
+				</figure>
 
 			</article>
 		</main>
@@ -286,11 +285,11 @@
 		</footer>
 
 		<script type="text/javascript">
-	
 			/*
-			  Johan Karlsson, 2021
+			  Canvas fun from Johan Karlsson, 2021
 			  https://twitter.com/DonKarlssonSan
-			  MIT License, see Details View
+			  MIT License, see Details View.
+			  https://codepen.io/DonKarlssonSan/pen/VwpwQwQ
 			*/
 			let canvas;
 			let ctx;
@@ -301,19 +300,8 @@
 			let nrOfLines;
 			let speed;
 
-			var x = document.querySelectorAll(".canvas");
-			var i;
-			for (i = 0; i < x.length; i++) {
-			  x[i].style.backgroundColor = "red";
-			  // resize();
-			  // reset(); 
-			}
-
 			function setup() {
-			  canvas = document.querySelector("#canvas1");
-			  var x = document.querySelectorAll(".canvas");
-			  // canvas == document.querySelector("#canvas2");
-
+			  canvas = document.querySelector("#canvas");
 			  ctx = canvas.getContext("2d");
 			  resize();
 			  reset();
@@ -329,7 +317,7 @@
 			  min = Math.min(w, h);
 			}
 
-			function reset() {
+			function reset(){
 			  nrOfCircles = Math.round(Math.random() * 8 + 2);
 			  ctx.lineWidth = min / (Math.random() * 60 + 40);
 			  angle = Math.PI / Math.random() * 10;
@@ -344,16 +332,16 @@
 			  ctx.fillStyle = "white";
 			  ctx.fillRect(0, 0, w, h);
 			  ctx.translate(w / 2, h / 2);
-			  for (let i = 0; i < nrOfCircles; i++) {
+			  for(let i = 0; i < nrOfCircles; i++) {
 			    ctx.rotate(angle);
 			    ctx.save();
-
+			    
 			    let r1 = min * 0.45 * i / nrOfCircles;
-			    let r2 = min * 0.45 * (i + 1) / nrOfCircles;
+			    let r2 = min * 0.45 * (i+1) / nrOfCircles;
 			    clip(r1, r2);
-
+			    
 			    drawLines(nrOfLines, min, offset);
-
+			    
 			    ctx.restore();
 			  }
 			  ctx.restore();
@@ -368,17 +356,52 @@
 
 			function drawLines(nrOfLines, min, offset) {
 			  let step = min / nrOfLines;
-			  for (let j = 0; j < nrOfLines; j++) {
+			  for(let j = 0; j < nrOfLines; j++) {
 			    ctx.beginPath();
-			    ctx.moveTo(-min / 2, -min / 2 + j * step + offset % step);
-			    ctx.lineTo(min / 2, -min / 2 + j * step + offset % step);
+			    ctx.moveTo(-min / 2, - min / 2 + j * step + offset % step);
+			    ctx.lineTo(min / 2, - min / 2 + j * step + offset % step) ;
 			    ctx.stroke();
 			  }
 			}
 
 			setup();
 			draw(performance.now());
-			// canvas = document.querySelector("#canvas2");
+
+			(function () {
+			  var canvas = document.getElementById("canvas-spin");
+			  var w = canvas.width = window.innerWidth;
+			  var h = canvas.height = window.innerHeight;
+			  var centerX = w/2;
+			  var centerY = h/2;
+
+			  var ctx = canvas.getContext("2d");
+			  
+			  ctx.lineWidth = 15;
+			  var max = Math.max(w, h) * 1.2;
+			  var start = 0;
+			  var startIncrement = -0.2;
+			  function draw() {
+			    requestAnimationFrame(draw);
+			    ctx.clearRect(0, 0, w, h);
+			    ctx.beginPath();
+			    var t = start;
+			    for(var i = 0; i < max; ++i) {
+			      x = Math.cos(t) * i/2 + centerX;
+			      y = Math.sin(t) * i/2 + centerY;
+			      ctx.lineTo(x, y);
+			      t += 0.1;
+			    }
+			    ctx.stroke();
+			    start += startIncrement;
+			  }
+			  requestAnimationFrame(draw);
+			  
+			  function toggleDirection(){
+			    startIncrement *= -1;
+			  }
+			  
+			  canvas.addEventListener("click", toggleDirection, false);
+			})();
 		</script>
 	</body>
 	</html>
