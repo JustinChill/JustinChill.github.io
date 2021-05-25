@@ -10,6 +10,12 @@
 	<meta name="author" content="Justin Chill">
 
 	<style type="text/css">
+    svg{
+      margin: 0 auto;
+    }
+    svg text{
+      font-size: 14px;
+    }
 
   </style>
 
@@ -25,43 +31,47 @@
     <h2 class="subtitle"></h2>
     <time date="1995-11-01"></time>
   </header> 
+  <p>Frank Anscombe was an English statistician who stressed the importance of computers being able to perform calculations <i>and</i> graphs. To illustrate his point he devised four data sets that appear nearly identical in tabular form, but have very different distributions and appear very different when graphed.
+  </p>
+  <p>Here is the data is tabular form:</p>
+  <img src="https://media.geeksforgeeks.org/wp-content/uploads/20200329231436/data-sets.jpg">
+  <p>And here is the same data graphed:</p>
   <figure id="anscombe">
-    
+
   </figure>
+  <p>The quartet is often used to illustrate the importance of looking at a set of data graphically before starting to analyze according to a particular type of relationship, and the inadequacy of basic statistic properties for describing realistic datasets.</p>
+  
 </article>
 </main>
 <footer>
 </footer>
+
 <script src="https://cdn.jsdelivr.net/npm/d3@6"></script>
 <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.1"></script>
+
 <script type="text/javascript">  
-  anscombe = [{"series":1,"x":10,"y":8.04},{"series":1,"x":8,"y":6.95},{"series":1,"x":13,"y":7.58},{"series":1,"x":9,"y":8.81},{"series":1,"x":11,"y":8.33},{"series":1,"x":14,"y":9.96},{"series":1,"x":6,"y":7.24},{"series":1,"x":4,"y":4.26},{"series":1,"x":12,"y":10.84},{"series":1,"x":7,"y":4.81},{"series":1,"x":5,"y":5.68},{"series":2,"x":10,"y":9.14},{"series":2,"x":8,"y":8.14},{"series":2,"x":13,"y":8.74},{"series":2,"x":9,"y":8.77},{"series":2,"x":11,"y":9.26},{"series":2,"x":14,"y":8.1},{"series":2,"x":6,"y":6.13},{"series":2,"x":4,"y":3.1},{"series":2,"x":12,"y":9.13},{"series":2,"x":7,"y":7.26},{"series":2,"x":5,"y":4.74},{"series":3,"x":10,"y":7.46},{"series":3,"x":8,"y":6.77},{"series":3,"x":13,"y":12.74},{"series":3,"x":9,"y":7.11},{"series":3,"x":11,"y":7.81},{"series":3,"x":14,"y":8.84},{"series":3,"x":6,"y":6.08},{"series":3,"x":4,"y":5.39},{"series":3,"x":12,"y":8.15},{"series":3,"x":7,"y":6.42},{"series":3,"x":5,"y":5.73},{"series":4,"x":8,"y":6.58},{"series":4,"x":8,"y":5.76},{"series":4,"x":8,"y":7.71},{"series":4,"x":8,"y":8.84},{"series":4,"x":8,"y":8.47},{"series":4,"x":8,"y":7.04},{"series":4,"x":8,"y":5.25},{"series":4,"x":19,"y":12.5},{"series":4,"x":8,"y":5.56},{"series":4,"x":8,"y":7.91},{"series":4,"x":8,"y":6.89}];
 
-  console.log(anscombe);
-  Plot.plot({
-    grid: true,
-    inset: 10,
-    width: 928,
-    height: 240,
-    facet: {
-      data: anscombe,
-      x: "series"
-    },
-    marks: [
-      Plot.frame(),
-      Plot.dot(anscombe, {x: "x", y: "y"})
-    ],
-    style: {
-      background: "black",
-      color: "white"
-    },
-    caption: `Figure 1. This chart has a <i>fancy</i> caption.`
-  })
+  var anscombe = [{"series":1,"x":10,"y":8.04},{"series":1,"x":8,"y":6.95},{"series":1,"x":13,"y":7.58},{"series":1,"x":9,"y":8.81},{"series":1,"x":11,"y":8.33},{"series":1,"x":14,"y":9.96},{"series":1,"x":6,"y":7.24},{"series":1,"x":4,"y":4.26},{"series":1,"x":12,"y":10.84},{"series":1,"x":7,"y":4.81},{"series":1,"x":5,"y":5.68},{"series":2,"x":10,"y":9.14},{"series":2,"x":8,"y":8.14},{"series":2,"x":13,"y":8.74},{"series":2,"x":9,"y":8.77},{"series":2,"x":11,"y":9.26},{"series":2,"x":14,"y":8.1},{"series":2,"x":6,"y":6.13},{"series":2,"x":4,"y":3.1},{"series":2,"x":12,"y":9.13},{"series":2,"x":7,"y":7.26},{"series":2,"x":5,"y":4.74},{"series":3,"x":10,"y":7.46},{"series":3,"x":8,"y":6.77},{"series":3,"x":13,"y":12.74},{"series":3,"x":9,"y":7.11},{"series":3,"x":11,"y":7.81},{"series":3,"x":14,"y":8.84},{"series":3,"x":6,"y":6.08},{"series":3,"x":4,"y":5.39},{"series":3,"x":12,"y":8.15},{"series":3,"x":7,"y":6.42},{"series":3,"x":5,"y":5.73},{"series":4,"x":8,"y":6.58},{"series":4,"x":8,"y":5.76},{"series":4,"x":8,"y":7.71},{"series":4,"x":8,"y":8.84},{"series":4,"x":8,"y":8.47},{"series":4,"x":8,"y":7.04},{"series":4,"x":8,"y":5.25},{"series":4,"x":19,"y":12.5},{"series":4,"x":8,"y":5.56},{"series":4,"x":8,"y":7.91},{"series":4,"x":8,"y":6.89}];
 
-  // get the figure
-  const viz = document.querySelector('#anscombe');
-  // Add the viz
-  viz.appendChild(Plot.plot(options));
+// Thicken the plot
+var options = {
+  grid: true,
+  // Inset the chart by 10px so outliers don't appear on the edges
+  inset: 10,
+  width: 928,
+  height: 240,
+  facet: {
+    data: anscombe,
+    x: "series"
+  },
+  marks: [
+  Plot.frame(),
+  Plot.dot(anscombe, {x: "x", y: "y", fill: "hsl(122, 73%, 35%)"})
+  ]
+};
+// // Draw the plot
+document.getElementById("anscombe").appendChild(Plot.plot(options));
+
 </script>
 </body>
 </html>
