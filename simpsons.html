@@ -480,10 +480,15 @@
         <time date="2001-6-26"></time>
       </header>
 
+      <!-- Simpson's logo -->
       <div class="simpsons-logo">
         <img src="imgs/simpsons-logo.svg" class="mid-size">
       </div>
 
+      <!-- Plot -->
+      <figure id="matrix"></figure>
+
+      <!-- Random Simpson's quote -->
       <div class="container">
         <div></div>
         <figure id="lineup"></figure>
@@ -512,6 +517,7 @@
 
       <p class="visually-hidden">Quotes powered by <a href="https://github.com/JLuboff/TheSimpsonsQuoteAPI">The Simpsons Quote API</a>. A great project!</p>
 
+      <!-- SVG of the blackboard -->
       <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" x="0px" y="0px" width="1227px" height="842px" viewBox="-30.829 -43.947 1227 842" enable-background="new -30.829 -43.947 1227 842" xml:space="preserve" class="chalkboard">
         <defs>
         </defs>
@@ -3434,6 +3440,7 @@
           <text x="80" y="640">A fire drill does not require a fire.</text>
         </g>
       </svg>
+
       <p>This is a guide to drawing the Simpsons, from the authors of <a href="https://www.slideshare.net/DGIREDeportes/matt-groening-cartooning-with-the-simpsons?related=1">Cartooning with the Simpsons</a>.</p>
       <figure class="mid-size">
         <img src="http://i.imgur.com/d7FqN8Z.jpg" alt="Simpsons no-nos" >
@@ -3443,6 +3450,8 @@
   </main>
   <footer>
   </footer>
+  <script src="https://cdn.jsdelivr.net/npm/d3@6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.1"></script>
   <script type="text/javascript">
     window.onload = () => {
       randomQuote()
@@ -3459,6 +3468,7 @@
         showLineup(data)
       })
     }
+
 
     showRandomQuote = (randomQuote) => {
       document.getElementById('character').innerText = `${randomQuote[0].character}`
@@ -3482,6 +3492,41 @@
     }
     showLineup = (data) => {
     }
+
+    // Episode matrix
+    // Thicken the plot
+    var simpsons = d3.json("data/simpsons.json");
+    var options = {      
+        height: 640,
+        padding: 0.05,
+        grid: true,
+        x: {
+          axis: "top",
+          label: "Season"
+        },
+        y: {
+          label: "Episode"
+        },
+        color: {
+          scheme: "PiYG"
+        },
+        marks: [
+          Plot.cell(simpsons, {
+            x: "season",
+            y: "number_in_season",
+            fill: "imdb_rating",
+            // rx: 20 // uncomment for circles
+          }),
+          Plot.text(simpsons, {
+            x: "season",
+            y: "number_in_season",
+            text: d => d.imdb_rating?.toFixed(1),
+            title: "title"
+          })
+        ]
+    };
+    // // Draw the plot
+    document.getElementById("matrix").appendChild(Plot.plot(options));
   </script>
 </body>
 </html>
