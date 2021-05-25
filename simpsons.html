@@ -3460,6 +3460,7 @@
   <script type="text/javascript">
     window.onload = () => {
       randomQuote()
+      simpsons()
     }
     
     // Fetch quotes from the Simpsons API 
@@ -3499,8 +3500,20 @@
     }
 
     // Episode matrix
+    // Fetch episode data
+    const simpsons = () => {
+      fetch('https://raw.githubusercontent.com/JustinChill/JustinChill.github.io/main/data/simpsons.json')
+      .then((res) => {
+        return res.json()
+      }).then((data) => {
+        console.log(data)
+        showRandomQuote(data)
+        showLineup(data)
+      })
+    }
+
     // Thicken the plot
-    var simpsons = d3.csv("https://raw.githubusercontent.com/JustinChill/JustinChill.github.io/main/data/simpsons.csv");
+    // var simpsons = d3.csv("https://raw.githubusercontent.com/JustinChill/JustinChill.github.io/main/data/simpsons.csv");
     console.log(simpsons);
 
     var options = {      
