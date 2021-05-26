@@ -261,8 +261,12 @@
     }
 
     /* Episode matrix */
-    #matrix{
-      margin: 0 auto;
+    #matrix, #best-eps{
+      margin: 0 auto;      
+    }
+
+    #best-eps{
+      display: none;
     }
 
     /* Random quote */
@@ -490,8 +494,14 @@
         <img src="imgs/simpsons-logo.svg" class="mid-size">
       </div>
 
-      <!-- Plot -->
-      <figure id="matrix"></figure>
+      <p>I love the Simpsons. Blah blah blah.</p>
+
+      <figure id="best-eps"></figure> 
+
+      <p>Every episode of the Simpsons, arranged by number in season and shaded according to IMDB score.</p>
+      
+      <!-- Cell plot with IMDB score -->
+      <figure id="matrix"></figure> 
 
       <!-- Random Simpson's quote -->
       <div class="container">
@@ -3460,7 +3470,6 @@
   <script type="text/javascript">
     window.onload = () => {
       randomQuote()
-      simpsons()
     }
     
     // Fetch quotes from the Simpsons API 
@@ -3499,30 +3508,54 @@
     showLineup = (data) => {
     }
 
-    // Episode matrix
-    // Fetch episode data
-    const simpsons = () => {
-      fetch('https://raw.githubusercontent.com/JustinChill/JustinChill.github.io/main/data/simpsons.json')
-      .then((res) => {
-        return res.json()
-      }).then((data) => {
-        console.log(data)
-        showRandomQuote(data)
-        showLineup(data)
-      })
-    }
 
     // Thicken the plot
-    // var simpsons = d3.csv("https://raw.githubusercontent.com/JustinChill/JustinChill.github.io/main/data/simpsons.csv");
-    console.log(simpsons);
 
-    var options = {      
-        height: 640,
+    var bucket = {}
+
+    // Use Promises to async request data
+    var promises = [d3.json("data/simpsons.json")];
+
+    // You can request mutliple srcs in a promise
+    myDataPromises = Promise.all(promises);
+
+    // After data is successfully fetched, generate viz
+    myDataPromises.then(function(data) {
+      
+      // Define the data
+      var simpsons = data[0];
+
+      console.log(simpsons);
+
+      // Not sure why this line chart is wonky. 
+      var ep_options = {
         padding: 0.05,
+        style: "background: none",
         grid: true,
+        caption: "Episode rating over time",
+        x: {
+          label: "Season →",
+          labelAnchor: "right"
+        },
+        y: {
+          label: "↑ Rating"
+        },
+        marks: [
+          Plot.line(simpsons, {x: "season", y: "imdb_rating"})
+        ]
+      }
+
+      // Episode matrix options
+      var options = {      
+        height: 720,
+        width: 720,
+        padding: 0.05,
+        style: "background: none",
+        grid: true,
+        caption: "Figure 1. Simpsons episode by season and IMDB rating.",
         x: {
           axis: "top",
-          label: "Season"
+          label: "Season",
         },
         y: {
           label: "Episode"
@@ -3531,22 +3564,31 @@
           scheme: "PiYG"
         },
         marks: [
-          Plot.cell(simpsons, {
-            x: "season",
-            y: "number_in_season",
-            fill: "imdb_rating",
-            // rx: 20 // uncomment for circles
-          }),
-          Plot.text(simpsons, {
-            x: "season",
-            y: "number_in_season",
-            text: d => d.imdb_rating?.toFixed(1),
-            title: "title"
-          })
+        Plot.cell(simpsons, {
+          x: "season",
+          y: "number_in_season",
+          fill: "imdb_rating",
+              // rx: 20 // uncomment for circles
+            }),
+        Plot.text(simpsons, {
+          x: "season",
+          y: "number_in_season",
+          text: d => d.imdb_rating?.toFixed(1),
+          title: "title",
+        })
         ]
-    };
-    // // Draw the plot
-    document.getElementById("matrix").appendChild(Plot.plot(options));
+      };
+            // generateViz()
+            // Draw the bar plot
+            document.getElementById("best-eps").appendChild(Plot.plot(ep_options));
+            // // Draw the matrix plot
+            document.getElementById("matrix").appendChild(Plot.plot(options));
+          })
+
+    myDataPromises.catch(function() {
+      console.log('🚨 Something has gone wrong fetching data.')
+    })
+
   </script>
 </body>
 </html>
