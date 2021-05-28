@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Charts</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="style.css" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Charts and data">
+	<meta name="author" content="Justin Chill">
+
+	<style type="text/css">
+    svg{
+      margin: 0 auto;
+    }
+.plot{
+  width: 1200px;
+  max-width: 1200px;
+}
+
+  </style>
+
+</head>
+<body>
+ <header>
+  <h1><a href="index.html" rel="home">Justin's blog</a></h1>
+</header>
+<main role="main">
+  <article>
+   <header>
+    <h1>Charts and data</h1>
+    <h2 class="subtitle"></h2>
+    <time date="2021-06-01"></time>
+  </header> 
+
+  <h2>Status of World Nuclear Forces 2021</h2>
+  <!-- Recreation of this graphic: https://i.redd.it/nxu49isl4ql21.jpg -->
+  <figure id="nukes"></figure>
+  <p>I like to use this bar chart because it appears that an individual named Jeff is in possession of ~10 nuclear bonmbs. Thankfully there is no Jeff- Jeff stands for ‘Joint Evaluated Fission and Fusion File’ (<a href="https://en.wikipedia.org/wiki/Nuclear_data">JEFF</a>). It is a collaboration to get accurate data on fusion and fission. Data is accurate as of June 2021 and is <a href="https://fas.org/issues/nuclear-weapons/status-world-nuclear-forces/">provided by</a> the Federation of American Scientists.</p>
+
+</article>
+</main>
+<footer>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@6"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.1"></script>
+
+<script type="text/javascript">  
+
+  var nukes = [{"country":"Russia","nukes":6257},
+  {"country":"USA","nukes":5550},
+  {"country":"France","nukes":290},
+  {"country":"China","nukes":350},
+  {"country":"United Kingdom","nukes":195},
+  {"country":"India","nukes":160},
+  {"country":"Pakistan","nukes":165},
+  {"country":"Isreal","nukes":90},
+  {"country":"North Korea","nukes":40},
+  {"country":"Jeff","nukes":10}];
+
+// Thicken the plot
+var options = {
+  // Inset the chart by 10px so outliers don't appear on the edges
+  inset: 10,
+  style: {},
+  x: {
+      domain: d3.sort(nukes, d => -d.nukes).map(d => d.country),
+      label: "Country",
+    },
+    y: {
+      grid: true
+    },
+  marks: [
+  Plot.barY(nukes, { x: "country", y: "nukes", fill: "hsl(0, 0%, 32%)",})]
+};
+// // Draw the plot
+document.getElementById("nukes").appendChild(Plot.plot(options));
+
+</script>
+</body>
+</html>

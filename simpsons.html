@@ -16,6 +16,10 @@
       text-align: center;
       padding: 50px 0;
     }
+    .plot{
+      width: 1200px;
+      max-width: 1200px;
+    }
     .mid-size{
       grid-column: 2/7;
     }
@@ -262,11 +266,11 @@
 
     /* Episode matrix */
     #matrix, #best-eps{
-      margin: 0 auto;      
+      margin: 0 auto;
     }
 
     #best-eps{
-      display: none;
+      /*display: none;*/
     }
 
     /* Random quote */
@@ -288,7 +292,7 @@
       position: relative;
       display: flex;
       flex-direction: row;
-      min-height: 220px;
+      min-height: 244px;
       /*      max-height: 220px;*/
       border-radius: 16px;
       background-color: hsl(22, 82%, 39%);
@@ -381,7 +385,7 @@
     }
     div.quote-right div.quote-circle {
       position: absolute;
-      right: 230px;
+      right: 244px;
       top: 80px;
       z-index: 10;
       height: 50px;
@@ -494,16 +498,18 @@
         <img src="imgs/simpsons-logo.svg" class="mid-size">
       </div>
 
-      <p>I love the Simpsons. Blah blah blah.</p>
+      <p>The Simpsons. An ode.</p>
 
+      <h2>Episdes by IMDB rating</h2>
       <figure id="best-eps"></figure> 
 
-      <p>Every episode of the Simpsons, arranged by number in season and shaded according to IMDB score.</p>
+      <p>Every episode of the Simpsons, arranged by number in season and shaded according to IMDB score. Data provided from the wonderful <mark>Observable Plot <a href="https://github.com/observablehq/plot/blob/main/src/marks/cell.js">documentation</a></mark>.</p>
       
       <!-- Cell plot with IMDB score -->
       <figure id="matrix"></figure> 
 
       <!-- Random Simpson's quote -->
+      <h2>Random quote</h2>
       <div class="container">
         <div></div>
         <figure id="lineup"></figure>
@@ -532,7 +538,10 @@
 
       <p class="visually-hidden">Quotes powered by <a href="https://github.com/JLuboff/TheSimpsonsQuoteAPI">The Simpsons Quote API</a>. A great project!</p>
 
+      <p>Quotes provided from the wonderful <a href="https://github.com/JLuboff/TheSimpsonsQuoteAPI">Simpsons Quote API</a>. It's available at <code>https://thesimpsonsquoteapi.glitch.me/quotes</code> and it returns a random Simpsons quote, character, link to their picture, and the direction the character is facing. I've used that last tidbit to make sure the character is always facing their quote.</p>
+
       <!-- SVG of the blackboard -->
+      <h2></h2>
       <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" x="0px" y="0px" width="1227px" height="842px" viewBox="-30.829 -43.947 1227 842" enable-background="new -30.829 -43.947 1227 842" xml:space="preserve" class="chalkboard">
         <defs>
         </defs>
@@ -3521,7 +3530,7 @@
 
     // After data is successfully fetched, generate viz
     myDataPromises.then(function(data) {
-      
+
       // Define the data
       var simpsons = data[0];
 
@@ -3533,15 +3542,18 @@
         style: "background: none",
         grid: true,
         caption: "Episode rating over time",
-        x: {
-          label: "Season →",
-          labelAnchor: "right"
-        },
         y: {
-          label: "↑ Rating"
-        },
+            label: "Episode rating over time",
+            // tickFormat: (d) => d3.format(",.2r")(d / 1000000)
+          },
+        facet: {
+             data: simpsons,
+             sort: "number_in_series",
+             x: "season",
+           },
+
         marks: [
-          Plot.line(simpsons, {x: "season", y: "imdb_rating"})
+        Plot.lineY(simpsons, {x: "number_in_season", y: "imdb_rating", curve: "catmull-rom", stroke: "season" }),
         ]
       }
 
