@@ -500,13 +500,14 @@
 
       <p>The Simpsons. An ode.</p>
 
-      <h2>Episdes by IMDB rating</h2>
-      <figure id="best-eps"></figure> 
-
       <p>Every episode of the Simpsons, arranged by number in season and shaded according to IMDB score. Data provided from the wonderful <mark>Observable Plot <a href="https://github.com/observablehq/plot/blob/main/src/marks/cell.js">documentation</a></mark>.</p>
       
       <!-- Cell plot with IMDB score -->
       <figure id="matrix"></figure> 
+
+      <!-- Top ten list -->
+      <!-- <h2>Top Ten Episodes</h2> -->
+      <!-- <figure id="top10"></figure>  -->
 
       <!-- Random Simpson's quote -->
       <h2>Random quote</h2>
@@ -539,6 +540,10 @@
       <p class="visually-hidden">Quotes powered by <a href="https://github.com/JLuboff/TheSimpsonsQuoteAPI">The Simpsons Quote API</a>. A great project!</p>
 
       <p>Quotes provided from the wonderful <a href="https://github.com/JLuboff/TheSimpsonsQuoteAPI">Simpsons Quote API</a>. It's available at <code>https://thesimpsonsquoteapi.glitch.me/quotes</code> and it returns a random Simpsons quote, character, link to their picture, and the direction the character is facing. I've used that last tidbit to make sure the character is always facing their quote.</p>
+
+      <!-- Work in progress -->
+      <h2>Episdes by IMDB rating</h2>
+      <figure id="best-eps"></figure> 
 
       <!-- SVG of the blackboard -->
       <h2></h2>
@@ -3477,19 +3482,25 @@
   <script src="https://cdn.jsdelivr.net/npm/d3@6"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.1"></script>
   <script type="text/javascript">
+    // Wait for the page to load
     window.onload = () => {
       randomQuote()
     }
     
     // Fetch quotes from the Simpsons API 
     const randomQuote = () => {
+
+      // Change the number of quotes at the end of the URL:
       fetch('https://thesimpsonsquoteapi.glitch.me/quotes?count=40')
       .then((res) => {
         return res.json()
       }).then((data) => {
+        // After data fetched
         console.log(data)
+
         showRandomQuote(data)
         showLineup(data)
+        var randomQuote = [data];
       })
     }
 
@@ -3517,7 +3528,6 @@
     showLineup = (data) => {
     }
 
-
     // Thicken the plot
 
     var bucket = {}
@@ -3536,22 +3546,20 @@
 
       console.log(simpsons);
 
-      // Not sure why this line chart is wonky. 
+      // Simpsons line chart IMDB rating
       var ep_options = {
         padding: 0.05,
         style: "background: none",
         grid: true,
-        caption: "Episode rating over time",
+        caption: "Episode rating (from IMDB) over time for The Simpsons.",
         y: {
-          label: "Episode rating over time",
             // tickFormat: (d) => d3.format(",.2r")(d / 1000000)
           },
           facet: {
-           data: simpsons,
-           sort: "number_in_series",
-           x: "season",
+            data: simpsons,
+            sort: "original_air_date",
+            x: "season",
          },
-
          marks: [
          Plot.lineY(simpsons, {x: "number_in_season", y: "imdb_rating", curve: "catmull-rom", stroke: "season" }),
          ]
@@ -3566,8 +3574,12 @@
         grid: true,
         caption: "Figure 1. Simpsons episode by season and IMDB rating.",
         x: {
-          axis: "top",
-          label: "Season",
+          axis: "bottom",
+          // label: "Season",
+          // label: "Season",
+          label: null,
+          tickSize: 0,
+          tickRotate: -35
         },
         y: {
           label: "Episode"
@@ -3579,63 +3591,134 @@
         Plot.cell(simpsons, {
           x: "season",
           y: "number_in_season",
-          fill: "imdb_rating",
+          title: (d) =>
+                `${d.imdb_votes} \nEpisode title: ${d.title} \nS${d.season} E${d.number_in_season}` // \n makes a new line
+                ,
+                fill: "imdb_rating",
               // rx: 20 // uncomment for circles
             }),
         Plot.text(simpsons, {
           x: "season",
           y: "number_in_season",
-          text: d => d.imdb_rating?.toFixed(1),
-          title: "title",
+          text: d => d.imdb_rating?.toFixed(1),          
         })
         ]
       };
 
-      // create a tooltip
-      var Tooltip = d3.select("#matrix")
-      .append("div")
-      .style("opacity", 0)
-      .attr("class", "tooltip")
-      .style("background-color", "white")
-      .style("border", "solid")
-      .style("border-width", "2px")
-      .style("border-radius", "5px")
-      .style("padding", "5px")
+      // create tooltips
+      // Implementation of Observable Plot tooltips https://observablehq.com/@mkfreeman/plot-tooltip#addTooltips
+      addTooltips = (chart, hover_styles = { fill: "blue", opacity: 0.5 }) => {
+        // Add the hover g
+        const tip = d3
+        .select(chart)
+        .selectAll(".hover-tip")
+        .data([""])
+        .join("g")
+        .attr("class", "hover")
+        .style("pointer-events", "none")
+        .style("text-anchor", "middle");
 
-        // Three function that change the tooltip when user hover / move / leave a cell
-        var mouseover = function(d) {
-          Tooltip
-          .style("opacity", 1)
-          d3.select(this)
-          .style("stroke", "black")
-          .style("opacity", 1)
-        }
-        var mousemove = function(d) {
-          Tooltip
-          .html("The exact value of<br>this cell is: " + d.value)
-          .style("left", (d3.mouse(this)[0]+70) + "px")
-          .style("top", (d3.mouse(this)[1]) + "px")
-        }
-        var mouseleave = function(d) {
-          Tooltip
-          .style("opacity", 0)
-          d3.select(this)
-          .style("stroke", "none")
-          .style("opacity", 0.8)
-        }
+        // Add a unique id to the chart for styling
+        // const id = id_generator();
+
+        // Add the event listeners
+        d3.select(chart)
+        .selectAll("title")
+        .each(function () {
+            // Get the text out of the title, set it as an attribute on the parent, and remove it
+            const title = d3.select(this); // title element that we want to remove
+            const parent = d3.select(this.parentNode); // visual mark on the screen
+            const t = title.text();
+            if (t) {
+              parent.attr("__title", t).classed("has-title", true);
+              title.remove();
+            }
+            // Mouse events
+            parent
+            .on("mousemove", function (event) {
+              const text = d3.select(this).attr("__title");
+              const pointer = d3.pointer(event, chart);
+              if (text) tip.call(hover, pointer, text.split("\n"));
+              else tip.selectAll("*").remove();
+            })
+            .on("mouseout", (event) => {
+              tip.selectAll("*").remove();
+            });
+          });
+
+        // Add styles
+        const style_string = Object.keys(hover_styles)
+        .map((d) => {
+          return `${d}:${hover_styles[d]};`;
+        })
+        .join("");
+
+        // Define the styles
+        // const style = '';
+        // chart.appendChild(style);
+        return chart;
+      }
+
+      // Hover
+      // Function to position the tooltip
+      hover = (tip, pos, text) => {
+        const side_padding = 10;
+        const vertical_padding = 5;
+        const vertical_offset = 15;
+
+        // Empty it out
+        tip.selectAll("*").remove();
+
+        // Append the text
+        tip
+        .style("text-anchor", "middle")
+        .style("pointer-events", "none")
+        .attr("transform", `translate(${pos[0]}, ${pos[1] + 7})`)
+        .selectAll("text")
+        .data(text)
+        .join("text")
+        .style("dominant-baseline", "ideographic")
+        .text((d) => d)
+        .attr("y", (d, i) => (i - (text.length - 1)) * 15 - vertical_offset)
+        .style("font-weight", (d, i) => (i === 0 ? "bold" : "normal"));
+
+        const bbox = tip.node().getBBox();
+
+        // Add a rectangle (as background)
+        tip
+        .append("rect")
+        .attr("y", bbox.y - vertical_padding)
+        .attr("x", bbox.x - side_padding)
+        .attr("width", bbox.width + side_padding * 2)
+        .attr("height", bbox.height + vertical_padding * 2)
+        .style("fill", "white")
+        .style("stroke", "#d3d3d3")
+        .lower();
+      }
 
             // generateViz()
             // Draw the bar plot
             document.getElementById("best-eps").appendChild(Plot.plot(ep_options));
             // // Draw the matrix plot
-            document.getElementById("matrix").appendChild(Plot.plot(options));
-            
+            document.getElementById("matrix").appendChild(
+              addTooltips(
+              Plot.plot(options))
+              );
           })
 
-    myDataPromises.catch(function() {
-      console.log('🚨 Something has gone wrong fetching data.')
-    })
+// Top Ten Episodes
+var top10 = {
+  // Inset the chart by 10px so outliers don't appear on the edges
+  // inset: 10,
+};
 
-  </script>
+// // Draw the plot (data local on page)
+// document.getElementById("top10").appendChild(Plot.plot(top10));
+
+myDataPromises.catch(function() {
+  console.log('🚨 Something has gone wrong fetching data.')
+})
+
+</script>
 </body>
 </html>

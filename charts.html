@@ -17,11 +17,11 @@
       transition: .2s;
 
       /* No hover */
-      fill: hsl(0, 0%, 32%);
+      /*fill: hsl(0, 0%, 32%);*/
     }
     svg rect:hover{
       /* Hover */
-      fill: hsl(0, 0%, 69%);
+      /*fill: hsl(0, 0%, 69%);*/
     }
     .plot{
       width: 900px;
@@ -46,10 +46,13 @@
   <h2>Status of World Nuclear Forces 2021</h2>
   <!-- Recreation of this graphic: https://i.redd.it/nxu49isl4ql21.jpg -->
   <figure id="nukes"></figure>
-  <p>I like to use this bar chart because it appears that an individual named Jeff is in possession of ~10 nuclear bonmbs. Thankfully there is no Jeff- Jeff stands for ‘Joint Evaluated Fission and Fusion File’ (<a href="https://en.wikipedia.org/wiki/Nuclear_data">JEFF</a>). It is a collaboration to get accurate data on fusion and fission. Data is accurate as of June 2021 and is <a href="https://fas.org/issues/nuclear-weapons/status-world-nuclear-forces/">provided by</a> the Federation of American Scientists.</p>
+  <p>I like to use this bar chart because it appears that an individual named Jeff is in possession of ~10 nuclear bombs. Thankfully there is no Jeff- Jeff stands for ‘Joint Evaluated Fission and Fusion File’ (<a href="https://en.wikipedia.org/wiki/Nuclear_data">JEFF</a>). It is a collaboration to get accurate data on fusion and fission. Data is accurate as of June 2021 and is <a href="https://fas.org/issues/nuclear-weapons/status-world-nuclear-forces/">provided by</a> the Federation of American Scientists.</p>
 
   <h2>Physical Harm and Dependence by Drug</h2>
   <figure id="drug_bar"></figure>
+  <p>Professor David Nutt has published some of the best statistics on drug use and abuse.</p>
+
+  <figure id="drug_scatter"></figure>
 
 </article>
 </main>
@@ -68,7 +71,7 @@
   {"country":"United Kingdom","nukes":195},
   {"country":"India","nukes":160},
   {"country":"Pakistan","nukes":165},
-  {"country":"Isreal","nukes":90},
+  {"country":"Israel","nukes":90},
   {"country":"North Korea","nukes":40},
   {"country":"Jeff","nukes":10}];
 
@@ -83,23 +86,51 @@
 
   // After data is successfully fetched, generate viz
   myDataPromises.then(function(data) {
+    // Define the data
+    var drugs = data[0];
+    console.log(drugs);
+    // return drugs;
+    // Drug chart
+    var drug_bar = {
+      // Inset the chart by 10px so outliers don't appear on the edges
+      // inset: 10,
+      style: {paddingTop: 30,paddingBottom: 30, overflow: "visible"},
+      x: {
+        // domain: d3.sort(drugs, d => -d.Pleasure).map(d => d.Pleasure),
+        label: "Drugs",
+        label: null,
+        tickSize: 0,
+        tickRotate: -35,
+      },
+      color: {
+        domain: ["small", "big"],
+        range: ["hsl(168, 78%, 41%)", "hsl(0, 0%, 88%)"]
+      },
+      y: {
+        grid: true
+      },
+      marks: [
+      Plot.barY(drugs, { x: "Drug", y: "Pleasure", title: "Drug", fill: d => d.Pleasure > 2.4 ? "small" : "big"}),
+      Plot.text(drugs, {x: "Drug", y: "Pleasure", text: d => (d.Pleasure).toFixed(1), dy: -5}),]
+    };
 
-  // Define the data
-  var drugs = data[0];
-  // Drugs bar chart
-  var drug_bar = {
-    x: {
-      domain: d3.sort(drugs, d => -d.Pleasure).map(d => d.drugs),
-      label: "Drug",
-    },
-    y: {
+    // Drug scatter plot 
+    var drug_scatter = {
+      // Inset the chart by 10px so outliers don't appear on the edges
+      // inset: 10,
+      style: {paddingTop: 30,paddingBottom: 30, overflow: "visible"},
       grid: true,
-    },
-    marks: [
-      Plot.barY(drugs, {x: "Drug", y: "Pleasure"})
-    ]
-  };
-})
+      color: "tableau10",
+      marks: [
+        Plot.dot(drugs, {x: "Mean Social harm", y: "Mean Physical harm", title: "Drug", fill: "Drug"}),
+        Plot.text(drugs, {x: "Mean Social harm", y: "Mean Physical harm", text: d => d.Drug === "Solvents" ? "" : d.Drug, dy: -8})
+      ]
+    };
+
+    // // Draw the plot (data fetched)
+    document.getElementById("drug_bar").appendChild(Plot.plot (drug_bar));
+    document.getElementById("drug_scatter").appendChild(Plot.plot (drug_scatter));
+});
 
 // Nuke chart
 var nuke_options = {
@@ -116,15 +147,18 @@ var nuke_options = {
   y: {
     grid: true
   },
+  color: {
+      domain: ["small", "big"],
+      range: ["hsl(356, 75%, 53%)", "hsl(0, 0%, 88%)"]
+    },
   marks: [
-  Plot.barY(nukes, { x: "country", y: "nukes"})]
+  Plot.barY(nukes, { x: "country", y: "nukes", title: "country", fill: d => d.nukes > 400 ? "small" : "big"}),
+  Plot.text(nukes, {x: "country", y: "nukes", text: d => d.nukes ===10 ? "10" : "", dy: -5}),]
 };
 
-
-
-// // Draw the plot
+// // Draw the plot (data local on page)
 document.getElementById("nukes").appendChild(Plot.plot(nuke_options));
-document.getElementById("drug_bar").appendChild(Plot.plot(drug_bar));
+
 
 </script>
 </body>
