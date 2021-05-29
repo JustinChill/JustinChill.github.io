@@ -13,10 +13,20 @@
     svg{
       margin: 0 auto;
     }
-.plot{
-  width: 1200px;
-  max-width: 1200px;
-}
+    svg rect{
+      transition: .2s;
+
+      /* No hover */
+      fill: hsl(0, 0%, 32%);
+    }
+    svg rect:hover{
+      /* Hover */
+      fill: hsl(0, 0%, 69%);
+    }
+    .plot{
+      width: 900px;
+      max-width: 900px;
+    }
 
   </style>
 
@@ -37,6 +47,9 @@
   <!-- Recreation of this graphic: https://i.redd.it/nxu49isl4ql21.jpg -->
   <figure id="nukes"></figure>
   <p>I like to use this bar chart because it appears that an individual named Jeff is in possession of ~10 nuclear bonmbs. Thankfully there is no Jeff- Jeff stands for ‘Joint Evaluated Fission and Fusion File’ (<a href="https://en.wikipedia.org/wiki/Nuclear_data">JEFF</a>). It is a collaboration to get accurate data on fusion and fission. Data is accurate as of June 2021 and is <a href="https://fas.org/issues/nuclear-weapons/status-world-nuclear-forces/">provided by</a> the Federation of American Scientists.</p>
+
+  <h2>Physical Harm and Dependence by Drug</h2>
+  <figure id="drug_bar"></figure>
 
 </article>
 </main>
@@ -59,23 +72,59 @@
   {"country":"North Korea","nukes":40},
   {"country":"Jeff","nukes":10}];
 
-// Thicken the plot
-var options = {
-  // Inset the chart by 10px so outliers don't appear on the edges
-  inset: 10,
-  style: {},
-  x: {
-      domain: d3.sort(nukes, d => -d.nukes).map(d => d.country),
-      label: "Country",
+  // Thicken the plot
+  var bucket = {}
+
+  // Use Promises to async request data
+  var promises = [d3.json("data/drugs.json")];
+
+  // You can request mutliple srcs in a promise
+  myDataPromises = Promise.all(promises);
+
+  // After data is successfully fetched, generate viz
+  myDataPromises.then(function(data) {
+
+  // Define the data
+  var drugs = data[0];
+  // Drugs bar chart
+  var drug_bar = {
+    x: {
+      domain: d3.sort(drugs, d => -d.Pleasure).map(d => d.drugs),
+      label: "Drug",
     },
     y: {
-      grid: true
+      grid: true,
     },
+    marks: [
+      Plot.barY(drugs, {x: "Drug", y: "Pleasure"})
+    ]
+  };
+})
+
+// Nuke chart
+var nuke_options = {
+  // Inset the chart by 10px so outliers don't appear on the edges
+  inset: 10,
+  style: {paddingTop: 30,paddingBottom: 30, overflow: "visible"},
+  x: {
+    domain: d3.sort(nukes, d => -d.nukes).map(d => d.country),
+    label: "Country",
+    label: null,
+    tickSize: 0,
+    tickRotate: -35
+  },
+  y: {
+    grid: true
+  },
   marks: [
-  Plot.barY(nukes, { x: "country", y: "nukes", fill: "hsl(0, 0%, 32%)",})]
+  Plot.barY(nukes, { x: "country", y: "nukes"})]
 };
+
+
+
 // // Draw the plot
-document.getElementById("nukes").appendChild(Plot.plot(options));
+document.getElementById("nukes").appendChild(Plot.plot(nuke_options));
+document.getElementById("drug_bar").appendChild(Plot.plot(drug_bar));
 
 </script>
 </body>
