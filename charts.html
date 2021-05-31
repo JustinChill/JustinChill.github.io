@@ -10,6 +10,9 @@
 	<meta name="author" content="Justin Chill">
 
 	<style type="text/css">
+    p i{
+      font-size: calc(16px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+    }
     svg{
       margin: 0 auto;
     }
@@ -24,39 +27,104 @@
       /*fill: hsl(0, 0%, 69%);*/
     }
     .plot{
-      width: 900px;
-      max-width: 900px;
+      width: 800px;
     }
+    #drug_scatter .plot,
+    #civilizations .plot{
+      width: 1200px;
+    }
+/*    #drug_harms,
+    #chronic_harms,
+    #intravenous_harm{
+      width: 800px;
+      }*/
+      .flex-container{
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-around;
+        grid-column: 1/-1;
+        width: 100%;
+      }
 
-  </style>
+    </style>
 
-</head>
-<body>
- <header>
-  <h1><a href="index.html" rel="home">Justin's blog</a></h1>
-</header>
-<main role="main">
-  <article>
+  </head>
+  <body>
    <header>
-    <h1>Charts and data</h1>
-    <h2 class="subtitle"></h2>
-    <time date="2021-06-01"></time>
-  </header> 
+    <h1><a href="index.html" rel="home">Justin's blog</a></h1>
+  </header>
+  <main role="main">
+    <article>
+     <header>
+      <h1>Charts and data</h1>
+      <h2 class="subtitle"></h2>
+      <time date="2021-06-01"></time>
+    </header> 
 
-  <h2>Status of World Nuclear Forces 2021</h2>
-  <!-- Recreation of this graphic: https://i.redd.it/nxu49isl4ql21.jpg -->
-  <figure id="nukes"></figure>
-  <p>I like to use this bar chart because it appears that an individual named Jeff is in possession of ~10 nuclear bombs. Thankfully there is no Jeff- Jeff stands for ‘Joint Evaluated Fission and Fusion File’ (<a href="https://en.wikipedia.org/wiki/Nuclear_data">JEFF</a>). It is a collaboration to get accurate data on fusion and fission. Data is accurate as of June 2021 and is <a href="https://fas.org/issues/nuclear-weapons/status-world-nuclear-forces/">provided by</a> the Federation of American Scientists.</p>
+    <h2>Data types</h2>
+    <p>It's important to remember that the word "<code>data</code>" can mean a whole world of different things. Defining the shape of your data is the first step to understanding it. This is an overview of the different types of data we'll be working with.</p>
+    <h2>Numeric</h2>
+    <img src="https://www.data-to-viz.com/img/table/OneNum.png" style="width: 100px; margin: 0 auto;">
+    <p>An Excel spreadsheet featuring one column of numbers. Data at it's most pure 👌</p>
+    <p>Common examples of numerical data include sales (<code><b>$</b></code>), units (<code><b>Kg</b></code>), ages, temperature (<code><b>C°</b></code>), and many more. Below is a chart of the world's nuclear bombs:</p>
+    <h2>Status of World Nuclear Forces 2021</h2>
+    <!-- Recreation of this graphic: https://i.redd.it/nxu49isl4ql21.jpg -->
+    <figure id="nukes"></figure>
+    <p>I like to use this histogram bar chart because it appears that an individual named Jeff is in possession of ~10 nuclear bombs. Thankfully there is no Jeff- Jeff stands for ‘Joint Evaluated Fission and Fusion File’ (<a href="https://en.wikipedia.org/wiki/Nuclear_data">JEFF</a>). It is a collaboration to get accurate data on fusion and fission. Data is accurate as of June 2021 and is <a href="https://fas.org/issues/nuclear-weapons/status-world-nuclear-forces/">provided by</a> the Federation of American Scientists.</p>
 
-  <h2>Physical Harm and Dependence by Drug</h2>
-  <figure id="drug_bar"></figure>
-  <p>Professor David Nutt has published some of the best statistics on drug use and abuse.</p>
+    <h2>Categoric</h2>
+    <p>Categorical data is a set of several numeric variables each giving features. Said in English, it's <b>a table</b>:</p>
+    <img src="https://www.data-to-viz.com/img/table/SevNumOneCatNoOrder.png" style="width: 400px; margin: 0 auto; padding: 1rem;">
+    <p>Categorical data is composed of data along two axis. The following example plots the <b>relative harms of drugs</b>: ranking each drug by <i>mean social harm</i> (the average damage to society as a whole from a person using this drug) and <i>mean physical harm</i> (damage to the individual from using this drug).</p>
+    <figure id="popcorn"></figure>
+    <p>Steph Curry Ranks the Popcorn at All 29 N.B.A. Arenas</p>
 
-  <figure id="drug_scatter"></figure>
+    <h2>The relative harm of drugs</h2>
+    <figure id="drug_scatter"></figure>
+    <div class="flex-container">
+      <h2>Physical harm</h2>
+      <figure id="drug_harms"></figure>
+      <figure id="chronic_harms"></figure>
+      <figure id="intravenous_harm"></figure>
+    </div>
+    <div class="flex-container">
+      <h2>Dependence</h2>
+      <figure id="pleasure"></figure>
+      <figure id="psychological"></figure>
+      <figure id="physical"></figure>
+    </div>
+    <p>This is a dataset of the relative harms of different illegal drugs. It is provided, and was created by, Professor David Nutt. Professor Nutt has <a href="https://www.amazon.com/Drugs-without-hot-air-illegal/dp/0857844946">authored</a> some of the most honest research into drug use and abuse I've come across. Fun fact: he was fired from his post with the UK's Advisory Council on the Misuse of Drugs (ACMD) because of a controversial article in <a href="https://www.ias.org.uk/uploads/pdf/News%20stories/dnutt-lancet-011110.pdf">the Lancet</a> comparing MDMA harm to horseback riding.</p>
 
-</article>
+    <h2>Numeric & categoric</h2>
+    <p>Here we plot each drug and by it's <b>pleasure</b> score<a href="#footnotes" aria-describedby="footnote-label" id="footnotes-ref"></a>.</p>
+    <h2>Physical Harm and Dependence by Drug</h2>
+    <figure id="drug_bar"></figure>
+    <h2>Geo / Maps</h2>
+    <img class="mid-size" src="imgs/ZIP3_zones.svg">
+    <figcaption>ZIP codes explained <a href="inf-hoe-graphic.html">here</a></figcaption>
+    <p>Data with one or more geographic dimension.</p>
+
+    <!-- <h2>Network</h2> -->
+
+    <h2>Time series</h2>
+    <figure id="civilizations"></figure>
+
+
+  </article>
 </main>
 <footer>
+  <h2 id="footnote-label">Footnotes</h2>
+  <ol>
+    <li id="footnotes">
+      <div>A rational scale to assess the harm of drugs. Data source is the March 24, 2007 article: Nutt, David, Leslie A King, William Saulsbury, Colin Blakemore. "Development of a rational scale to assess the harm of drugs of potential misuse" The Lancet 2007; 369:1047-1053. (<a class="external mw-magiclink-pmid" rel="nofollow" href="//www.ncbi.nlm.nih.gov/pubmed/17382831?dopt=Abstract">PMID 17382831</a>. The data in the paper were obtained solely from questionnaire results obtained from two groups of people: the first comprised of people from the UK national group of consultant psychiatrists who were on the Royal College of Psychiatrists’ register as specialists in addiction, while the second comprised of people with experience in one of the many areas of addiction, ranging from chemistry, pharmacology, and forensic science, through psychiatry and other medical specialties, including epidemiology, as well as the legal and police services; the experts are not named and were chosen by the authors. The data were first reported in appendix 14 of "Drug classification: making a hash of it?"<a rel="nofollow" href="http://news.bbc.co.uk/1/shared/bsp/hi/pdfs/31_07_06_drugsreport.pdf"></a>.</div>
+
+      <a href="#footnotes-ref" aria-label="Back to content">↩</a></li>
+
+<!--     <li id="css">Cascading Style Sheets <a href="#css-ref" aria-label="Back to content">↩</a></li>
+
+  <li id="css-counters">CSS counters are, in essence, variables maintained by CSS whose values may be incremented by CSS rules to track how many times they're used. <a href="#css-counters-ref" aria-label="Back to content">↩</a></li> -->
+</ol>
+<h1 class="visually-hidden">Justin Chill © 2020</h1>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/d3@6"></script>
@@ -64,6 +132,7 @@
 
 <script type="text/javascript">  
 
+  // Define small datasets locally to save an xHTTP request
   var nukes = [{"country":"Russia","nukes":6257},
   {"country":"USA","nukes":5550},
   {"country":"France","nukes":290},
@@ -74,6 +143,78 @@
   {"country":"Israel","nukes":90},
   {"country":"North Korea","nukes":40},
   {"country":"Jeff","nukes":10}];
+
+  var civilizations = [{"civilization":"Aegean civilization","start":-2000,"end":-1200,"startLabel":null,"endLabel":null,"region":"Europe (and colonial offshoots)","timeline":"ANCIENT WORLD"},{"civilization":"Age of pre-colonial civilization (Christian, Islamic, and traditional kingdoms)","start":650,"end":1880,"startLabel":null,"endLabel":null,"region":"Sub-Saharan Africa","timeline":"MEDIEVAL WORLD"},{"civilization":"Age of Turkic empires","start":500,"end":1200,"startLabel":null,"endLabel":null,"region":"Middle East","timeline":"MEDIEVAL WORLD"},{"civilization":"Age of united Caliphate","start":650,"end":900,"startLabel":null,"endLabel":null,"region":"Middle East","timeline":"MEDIEVAL WORLD"},{"civilization":"Ancient Andean region","start":-1000,"end":500,"startLabel":null,"endLabel":null,"region":"pre-colonial Americas","timeline":"ANCIENT WORLD"},{"civilization":"Ancient China","start":-2000,"end":500,"startLabel":null,"endLabel":null,"region":"East Asia","timeline":"ANCIENT WORLD"},{"civilization":"Ancient Steppe empires","start":-1000,"end":500,"startLabel":null,"endLabel":null,"region":"the Steppe","timeline":"ANCIENT WORLD"},{"civilization":"British India","start":1800,"end":1945,"startLabel":null,"endLabel":"WWII","region":"South Asia","timeline":"MODERN WORLD"},{"civilization":"Classic age of Mesoamerica","start":100,"end":900,"startLabel":null,"endLabel":null,"region":"pre-colonial Americas","timeline":"ANCIENT WORLD"},{"civilization":"Colonial Africa","start":1880,"end":1980,"startLabel":null,"endLabel":null,"region":"Sub-Saharan Africa","timeline":"MODERN WORLD"},{"civilization":"Colonial United States","start":1500,"end":1776,"startLabel":null,"endLabel":null,"region":"Europe (and colonial offshoots)","timeline":"MODERN WORLD"},{"civilization":"Early Islamic period","start":1200,"end":1500,"startLabel":null,"endLabel":null,"region":"South Asia","timeline":"MEDIEVAL WORLD"},{"civilization":"Early modern China","start":1500,"end":1918,"startLabel":null,"endLabel":"WWI","region":"East Asia","timeline":"MODERN WORLD"},{"civilization":"Early modern Europe","start":1500,"end":1800,"startLabel":null,"endLabel":null,"region":"Europe (and colonial offshoots)","timeline":"MODERN WORLD"},{"civilization":"Early Nubian civilization","start":-2000,"end":-1000,"startLabel":null,"endLabel":null,"region":"Sub-Saharan Africa","timeline":"ANCIENT WORLD"},{"civilization":"Egyptian civilization","start":-3000,"end":-550,"startLabel":null,"endLabel":null,"region":"Middle East","timeline":"ANCIENT WORLD"},{"civilization":"First Persian Empire","start":-550,"end":-330,"startLabel":null,"endLabel":null,"region":"Middle East","timeline":"ANCIENT WORLD"},{"civilization":"Formative age of Mesoamerica","start":-1500,"end":100,"startLabel":null,"endLabel":null,"region":"pre-colonial Americas","timeline":"ANCIENT WORLD"},{"civilization":"Formative Japan (age of Yamato rule)","start":500,"end":800,"startLabel":null,"endLabel":null,"region":"East Asia","timeline":"MEDIEVAL WORLD"},{"civilization":"Formative US","start":1776,"end":1865,"startLabel":null,"endLabel":null,"region":"Europe (and colonial offshoots)","timeline":"MODERN WORLD"},{"civilization":"Fractured Islamic world","start":900,"end":2018,"startLabel":null,"endLabel":"present","region":"Middle East","timeline":"MODERN WORLD"},{"civilization":"Great power US","start":1865,"end":1945,"startLabel":null,"endLabel":"WWII","region":"Europe (and colonial offshoots)","timeline":"MODERN WORLD"},{"civilization":"Greek age","start":-1200,"end":0,"startLabel":null,"endLabel":null,"region":"Europe (and colonial offshoots)","timeline":"ANCIENT WORLD"},{"civilization":"Heian age","start":800,"end":1200,"startLabel":null,"endLabel":null,"region":"East Asia","timeline":"MEDIEVAL WORLD"},{"civilization":"Imperial Japan","start":1870,"end":1945,"startLabel":null,"endLabel":"WWII","region":"East Asia","timeline":"MODERN WORLD"},{"civilization":"Indian kingdom age","start":-500,"end":1200,"startLabel":null,"endLabel":null,"region":"South Asia","timeline":"ANCIENT WORLD"},{"civilization":"Indus civilization","start":-2500,"end":-1500,"startLabel":null,"endLabel":null,"region":"South Asia","timeline":"ANCIENT WORLD"},{"civilization":"Inter-Persian period","start":-330,"end":200,"startLabel":null,"endLabel":null,"region":"Middle East","timeline":"ANCIENT WORLD"},{"civilization":"Kush","start":-1000,"end":300,"startLabel":null,"endLabel":null,"region":"Sub-Saharan Africa","timeline":"ANCIENT WORLD"},{"civilization":"Medieval Andean region","start":500,"end":1530,"startLabel":null,"endLabel":null,"region":"pre-colonial Americas","timeline":"MEDIEVAL WORLD"},{"civilization":"Medieval China","start":500,"end":1500,"startLabel":null,"endLabel":null,"region":"East Asia","timeline":"MEDIEVAL WORLD"},{"civilization":"Medieval Europe","start":500,"end":1500,"startLabel":null,"endLabel":null,"region":"Europe (and colonial offshoots)","timeline":"MEDIEVAL WORLD"},{"civilization":"Mesopotamian civilization","start":-3500,"end":-550,"startLabel":null,"endLabel":null,"region":"Middle East","timeline":"ANCIENT WORLD"},{"civilization":"Modern Africa","start":1980,"end":2018,"startLabel":"WWII","endLabel":"present","region":"Sub-Saharan Africa","timeline":"MODERN WORLD"},{"civilization":"Modern Europe","start":1800,"end":2018,"startLabel":null,"endLabel":"present","region":"Europe (and colonial offshoots)","timeline":"MODERN WORLD"},{"civilization":"Modern India","start":1945,"end":2018,"startLabel":null,"endLabel":"present","region":"South Asia","timeline":"MODERN WORLD"},{"civilization":"Modern Japan","start":1945,"end":2018,"startLabel":null,"endLabel":"present","region":"East Asia","timeline":"MODERN WORLD"},{"civilization":"Mongol Empire","start":1200,"end":1300,"startLabel":null,"endLabel":null,"region":"the Steppe","timeline":"MEDIEVAL WORLD"},{"civilization":"Mughal Empire","start":1500,"end":1800,"startLabel":null,"endLabel":null,"region":"South Asia","timeline":"MODERN WORLD"},{"civilization":"Peak of Aksum","start":300,"end":650,"startLabel":null,"endLabel":null,"region":"Sub-Saharan Africa","timeline":"MEDIEVAL WORLD"},{"civilization":"People's Republic of China","start":1945,"end":2018,"startLabel":"WWII","endLabel":"present","region":"East Asia","timeline":"MODERN WORLD"},{"civilization":"Postclassic age of Mesoamerica","start":900,"end":1520,"startLabel":null,"endLabel":null,"region":"pre-colonial Americas","timeline":"MEDIEVAL WORLD"},{"civilization":"Ptolemaic Egypt","start":-330,"end":0,"startLabel":null,"endLabel":null,"region":"Middle East","timeline":"ANCIENT WORLD"},{"civilization":"Republic of China","start":1918,"end":1945,"startLabel":null,"endLabel":null,"region":"East Asia","timeline":"MODERN WORLD"},{"civilization":"Roman > Byzantine Egypt","start":0,"end":650,"startLabel":null,"endLabel":null,"region":"Middle East","timeline":"ANCIENT WORLD"},{"civilization":"Roman Empire","start":0,"end":500,"startLabel":null,"endLabel":null,"region":"Europe (and colonial offshoots)","timeline":"ANCIENT WORLD"},{"civilization":"Roman Republic","start":-500,"end":0,"startLabel":null,"endLabel":null,"region":"Europe (and colonial offshoots)","timeline":"ANCIENT WORLD"},{"civilization":"Second Persian Empire","start":-200,"end":650,"startLabel":null,"endLabel":null,"region":"Middle East","timeline":"ANCIENT WORLD"},{"civilization":"Shogunate","start":1200,"end":1870,"startLabel":null,"endLabel":null,"region":"East Asia","timeline":"MEDIEVAL WORLD"},{"civilization":"Superpower US","start":1945,"end":2021,"startLabel":null,"endLabel":"present","region":"Europe (and colonial offshoots)","timeline":"MODERN WORLD"},{"civilization":"Vedic age","start":-1500,"end":-500,"startLabel":null,"endLabel":null,"region":"South Asia","timeline":"ANCIENT WORLD"}];
+
+  var popcorn = [{"Team":"Dallas Mavericks","Arena":"American Airlines Center","Freshness":5,"Saltiness":5,"Crunchiness":4,"Butter":5,"Presentation":5,"Total_Score":24},{"Team":"Brooklyn Nets","Arena":"Barclays Center","Freshness":4,"Saltiness":5,"Crunchiness":5,"Butter":4,"Presentation":5,"Total_Score":23},{"Team":"Miami Heat","Arena":"American Airlines Arena","Freshness":5,"Saltiness":4,"Crunchiness":4,"Butter":4,"Presentation":5,"Total_Score":22},{"Team":"Portland Trailblazers","Arena":"Moda Center","Freshness":4,"Saltiness":4,"Crunchiness":5,"Butter":4,"Presentation":3,"Total_Score":20},{"Team":"Sacramento Kings","Arena":"Golden 1 Center","Freshness":2,"Saltiness":4,"Crunchiness":4,"Butter":4,"Presentation":5,"Total_Score":19},{"Team":"Toronto Raptors","Arena":"Scotiabank Arena","Freshness":3,"Saltiness":4,"Crunchiness":3,"Butter":4,"Presentation":4,"Total_Score":18},{"Team":"Houston Rockets","Arena":"Toyota Center","Freshness":3,"Saltiness":4,"Crunchiness":3,"Butter":4,"Presentation":4,"Total_Score":18},{"Team":"Oklahoma City Thunder","Arena":"Chesapeake Energy Arena","Freshness":4,"Saltiness":3,"Crunchiness":4,"Butter":4,"Presentation":3,"Total_Score":18},{"Team":"Golden State Warriors","Arena":"Oracle Arena","Freshness":2,"Saltiness":4,"Crunchiness":5,"Butter":3,"Presentation":4,"Total_Score":18},{"Team":"New York City Knicks","Arena":"Madison Square Garden","Freshness":3,"Saltiness":2,"Crunchiness":4,"Butter":4,"Presentation":4,"Total_Score":17},{"Team":"Indiana Pacers","Arena":"Bankers Life Fieldhouse","Freshness":3,"Saltiness":3,"Crunchiness":5,"Butter":4,"Presentation":2,"Total_Score":17},{"Team":"New Orleans Pelicans","Arena":"Smoothie King Center","Freshness":3,"Saltiness":3,"Crunchiness":3,"Butter":3,"Presentation":5,"Total_Score":17},{"Team":"Minnesota Timberwolves","Arena":"Target Center","Freshness":2,"Saltiness":5,"Crunchiness":4,"Butter":3,"Presentation":3,"Total_Score":17},{"Team":"Washington Wizards","Arena":"Capital One Arena","Freshness":4,"Saltiness":3,"Crunchiness":3,"Butter":4,"Presentation":3,"Total_Score":17},{"Team":"Chicago Bulls","Arena":"United Center","Freshness":3,"Saltiness":4,"Crunchiness":3,"Butter":3,"Presentation":3,"Total_Score":16},{"Team":"Utah Jazz","Arena":"Vivint Smart Home Arena","Freshness":2,"Saltiness":5,"Crunchiness":4,"Butter":3,"Presentation":2,"Total_Score":16},{"Team":"Atlanta Hawks","Arena":"State Farm Arena","Freshness":3,"Saltiness":5,"Crunchiness":4,"Butter":3,"Presentation":1,"Total_Score":16},{"Team":"San Antonio Spurs","Arena":"AT&T Center","Freshness":3,"Saltiness":3,"Crunchiness":3,"Butter":3,"Presentation":3,"Total_Score":15},{"Team":"Philadelphia Sixers","Arena":"Wells Fargo Center","Freshness":4,"Saltiness":2,"Crunchiness":4,"Butter":2,"Presentation":2,"Total_Score":14},{"Team":"Phoenix Suns","Arena":"Talking Stick Resort Arena","Freshness":3,"Saltiness":3,"Crunchiness":3,"Butter":3,"Presentation":2,"Total_Score":14},{"Team":"Milwaukee Bucks","Arena":"Fiserv Forum","Freshness":2,"Saltiness":2,"Crunchiness":3,"Butter":4,"Presentation":2,"Total_Score":13},{"Team":"Boston Celtics","Arena":"TD Garden","Freshness":3,"Saltiness":3,"Crunchiness":2,"Butter":3,"Presentation":2,"Total_Score":13},{"Team":"Memphis Grizzlies","Arena":"FedExForum","Freshness":1,"Saltiness":4,"Crunchiness":4,"Butter":3,"Presentation":1,"Total_Score":13},{"Team":"Orlando Magic","Arena":"Amway Center","Freshness":3,"Saltiness":5,"Crunchiness":3,"Butter":1,"Presentation":1,"Total_Score":13},{"Team":"Denver Nuggets","Arena":"Pepsi Center","Freshness":3,"Saltiness":2,"Crunchiness":3,"Butter":2,"Presentation":3,"Total_Score":13},{"Team":"Cleveland Cavaliers","Arena":"Rocket Mortgage Fieldhouse","Freshness":2,"Saltiness":4,"Crunchiness":2,"Butter":2,"Presentation":2,"Total_Score":12},{"Team":"Detroit Pistons","Arena":"Little Caesars Arena","Freshness":1,"Saltiness":4,"Crunchiness":2,"Butter":3,"Presentation":2,"Total_Score":12},{"Team":"Charlotte Hornets","Arena":"Spectrum Center","Freshness":1,"Saltiness":2,"Crunchiness":2,"Butter":2,"Presentation":4,"Total_Score":11},{"Team":"Los Angeles Clippers/Lakers","Arena":"Staples Center","Freshness":2,"Saltiness":1,"Crunchiness":3,"Butter":1,"Presentation":3,"Total_Score":10}];
+
+  // Draw tooltips
+  // To generate a unique ID for each chart so styles only apply to that chart
+  id_generator = () => {
+    var S4 = function () {
+      return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+    };
+    return "a" + S4() + S4();
+  }
+  addTooltips = (chart, hover_styles = { fill: "blue", opacity: 0.5 }) => {
+    // Add the hover g
+    const tip = d3
+    .select(chart)
+    .selectAll(".hover-tip")
+    .data([""])
+    .join("g")
+    .attr("class", "hover")
+    .style("pointer-events", "none")
+    .style("text-anchor", "middle");
+
+    // Add a unique id to the chart for styling
+    const id = id_generator();
+    // Add the event listeners
+    d3.select(chart)
+    .attr("id", id)
+    .selectAll("title")
+    .each(function () {
+        // Get the text out of the title, set it as an attribute on the parent, and remove it
+        const title = d3.select(this); // title element that we want to remove
+        const parent = d3.select(this.parentNode); // visual mark on the screen
+        const t = title.text();
+        if (t) {
+          parent.attr("__title", t).classed("has-title", true);
+          title.remove();
+        }
+        // Mouse events
+        parent
+        .on("mousemove", function (event) {
+          const text = d3.select(this).attr("__title");
+          const pointer = d3.pointer(event, chart);
+          if (text) tip.call(hover, pointer, text.split("\n"));
+          else tip.selectAll("*").remove();
+        })
+        .on("mouseout", (event) => {
+          tip.selectAll("*").remove();
+        });
+      });
+
+    // Add styles
+    const style_string = Object.keys(hover_styles)
+    .map((d) => {
+     return `${d}:${hover_styles[d]};`;
+   })
+    .join("");
+
+     // Define the styles
+     // const style = `<style>
+     //     #${id} .has-title {
+     //      cursor: pointer; 
+     //      pointer-events: all;
+     //     }
+     //     #${id} .has-title:hover {
+     //       ${style_string}
+     //   }
+     //   </style>`;
+     // chart.appendChild();
+     return chart;
+   } 
 
   // Thicken the plot
   var bucket = {}
@@ -92,8 +233,6 @@
     // return drugs;
     // Drug chart
     var drug_bar = {
-      // Inset the chart by 10px so outliers don't appear on the edges
-      // inset: 10,
       style: {paddingTop: 30,paddingBottom: 30, overflow: "visible"},
       x: {
         // domain: d3.sort(drugs, d => -d.Pleasure).map(d => d.Pleasure),
@@ -110,27 +249,181 @@
         grid: true
       },
       marks: [
+      // Draw a bar for drug in drugs
       Plot.barY(drugs, { x: "Drug", y: "Pleasure", title: "Drug", fill: d => d.Pleasure > 2.4 ? "small" : "big"}),
+      // Add a text label above the bar
       Plot.text(drugs, {x: "Drug", y: "Pleasure", text: d => (d.Pleasure).toFixed(1), dy: -5}),]
     };
 
     // Drug scatter plot 
     var drug_scatter = {
-      // Inset the chart by 10px so outliers don't appear on the edges
-      // inset: 10,
-      style: {paddingTop: 30,paddingBottom: 30, overflow: "visible"},
+      // Inset the chart so outliers don't appear on the edges
+      inset: 10,
+      style: {padding: 30, overflow: "visible"},
       grid: true,
-      color: "tableau10",
+      y: {
+        // Nice is a convenience function that automatically rounds to the nearest whole number
+        nice: true,
+      },
       marks: [
-        Plot.dot(drugs, {x: "Mean Social harm", y: "Mean Physical harm", title: "Drug", fill: "Drug"}),
-        Plot.text(drugs, {x: "Mean Social harm", y: "Mean Physical harm", text: d => d.Drug === "Solvents" ? "" : d.Drug, dy: -8})
+      // Draw a dot for each drug in drugs
+      Plot.dot(drugs, {x: "Mean Social harm", y: "Mean_Physical_harm",r: "Pleasure", title:  "Drug", fill: "Drug"}),
+      // Add a text label above the dot
+      Plot.text(drugs, {x: "Mean Social harm", y: "Mean_Physical_harm", text: d => d.Drug === "Solvents" ? "" : d.Drug, dy: -8, dx: -1}),
+      Plot.ruleY([0]),
       ]
     };
 
-    // // Draw the plot (data fetched)
+    // Physical harms of drugs
+
+    // Acute harm
+    var drug_harms = {
+      style: {paddingLeft: 120, overflow: "visible"},
+      caption: "Acute harm of drugs",
+      y: {
+        label: null,
+        tickSize: 0,
+
+        // Sort max to min 
+        domain: d3.sort(drugs, d => -d.Acute_harm).map(d => d.Drug).slice(0, 8),
+      },
+      x:{
+        label: "Acute Harm →",
+        grid: false,
+      },
+      marks: [
+      Plot.barX(drugs, {x: "Acute_harm", y: "Drug", fill: "hsl(211, 13%, 65%)"}),
+      Plot.ruleX([0]),
+      Plot.text(drugs, {x: "Acute_harm", y: "Drug", text: "Acute_harm", dx: 15}),
+      ]
+
+    };
+
+    // Chronic harm
+    var chronic_harms = {
+      style: {paddingLeft: 80, paddingRight: 30, overflow: "visible"},
+      caption: "Chronic harm of drugs",
+      y: {
+        label: null,
+        tickSize: 0,
+
+        // Sort max to min 
+        domain: d3.sort(drugs, d => -d.Chronic_harm).map(d => d.Drug).slice(0, 8),
+      },
+      x:{
+        label: "Chronic Harm →",
+        tickSize: 0,
+        grid: false,
+      },
+      marks: [
+      Plot.barX(drugs, {x: "Chronic_harm", y: "Drug", fill: "hsl(211, 13%, 65%)"}),
+      Plot.ruleX([0]),
+      Plot.text(drugs, {x: "Chronic_harm", y: "Drug", text: "Chronic_harm", dx: 15}),
+      ]
+    };
+    // Intravenous harm
+    var intravenous_harm = {
+      style: {paddingLeft: 80, paddingRight: 30, overflow: "visible"},
+      caption: "Intravenous harm of drugs",
+      y: {
+        label: null,
+        tickSize: 0,
+
+        // Sort max to min 
+        domain: d3.sort(drugs, d => -d.Intravenous_harm).map(d => d.Drug).slice(0, 8),
+      },
+      x:{
+        label: "Intravenous Harm →",
+        tickSize: 0,
+        grid: false,
+      },
+      marks: [
+      Plot.barX(drugs, {x: "Intravenous_harm", y: "Drug", fill: "hsl(211, 13%, 65%)"}),
+      Plot.ruleX([0]),
+      Plot.text(drugs, {x: "Intravenous_harm", y: "Drug", text: "Intravenous_harm", dx: 15}),
+      ]
+    };
+
+    // Dependence
+    //Pleasure
+    var pleasure = {
+      style: {paddingLeft: 80, paddingRight: 30, overflow: "visible"},
+      caption: "Pleasure",
+      y: {
+        label: null,
+        tickSize: 0,
+
+        // Sort max to min 
+        domain: d3.sort(drugs, d => -d.Pleasure).map(d => d.Drug).slice(0, 8),
+      },
+      x:{
+        label: "Pleasure →",
+        tickSize: 0,
+        grid: false,
+      },
+      marks: [
+      Plot.barX(drugs, {x: "Pleasure", y: "Drug", fill: "hsl(211, 13%, 65%)"}),
+      Plot.ruleX([0]),
+      Plot.text(drugs, {x: "Pleasure", y: "Drug", text: "Intravenous_harm", dx: 15}),
+      ]
+    };
+    // Psychological
+    var psychological = {
+      style: {paddingLeft: 80, paddingRight: 30, overflow: "visible"},
+      caption: "Psychological",
+      y: {
+        label: null,
+        tickSize: 0,
+
+    // Sort max to min 
+    domain: d3.sort(drugs, d => -d.Psychological).map(d => d.Drug).slice(0, 8),
+  },
+  x:{
+    label: "Psychological →",
+    tickSize: 0,
+    grid: false,
+  },
+  marks: [
+  Plot.barX(drugs, {x: "Psychological", y: "Drug", fill: "hsl(211, 13%, 65%)"}),
+  Plot.ruleX([0]),
+  Plot.text(drugs, {x: "Psychological", y: "Drug", text: "Psychological", dx: 15}),
+  ]
+};
+    // Physical
+    var physical = {
+      style: {paddingLeft: 80, paddingRight: 30, overflow: "visible"},
+      caption: "Physical",
+      y: {
+        label: null,
+        tickSize: 0,
+
+    // Sort max to min 
+    domain: d3.sort(drugs, d => -d.Physical).map(d => d.Drug).slice(0, 8),
+  },
+  x:{
+    label: "Physical →",
+    tickSize: 0,
+    grid: false,
+  },
+  marks: [
+  Plot.barX(drugs, {x: "Physical", y: "Drug", fill: "hsl(211, 13%, 65%)"}),
+  Plot.ruleX([0]),
+  Plot.text(drugs, {x: "Physical", y: "Drug", text: "Physical", dx: 15}),
+  ]
+};
+
+    // Social harm
+
+    // // Draw the plots (data fetched)
     document.getElementById("drug_bar").appendChild(Plot.plot (drug_bar));
     document.getElementById("drug_scatter").appendChild(Plot.plot (drug_scatter));
-});
+    document.getElementById("drug_harms").appendChild(Plot.plot (drug_harms));
+    document.getElementById("chronic_harms").appendChild(Plot.plot (chronic_harms));
+    document.getElementById("intravenous_harm").appendChild(Plot.plot (intravenous_harm));
+    document.getElementById("pleasure").appendChild(Plot.plot (pleasure));
+    document.getElementById("psychological").appendChild(Plot.plot (psychological));
+    document.getElementById("physical").appendChild(Plot.plot (physical));
+  });
 
 // Nuke chart
 var nuke_options = {
@@ -148,17 +441,69 @@ var nuke_options = {
     grid: true
   },
   color: {
-      domain: ["small", "big"],
-      range: ["hsl(356, 75%, 53%)", "hsl(0, 0%, 88%)"]
-    },
+    domain: ["small", "big"],
+    range: ["hsl(356, 75%, 53%)", "hsl(0, 0%, 88%)"]
+  },
   marks: [
   Plot.barY(nukes, { x: "country", y: "nukes", title: "country", fill: d => d.nukes > 400 ? "small" : "big"}),
-  Plot.text(nukes, {x: "country", y: "nukes", text: d => d.nukes ===10 ? "10" : "", dy: -5}),]
+  Plot.text(nukes, {x: "country", y: "nukes", text: d => d.nukes === 10 ? "10" : "", dy: -5}),]
 };
+
+// Civilization chart
+
+// formatYear uses a ternary operator to dynamically format the year in the data. Such a cool d3 thing! 😎
+formatYear = year => year < 0 ? `${-year} BC` : `${year} AD`
+
+var civ_options = {
+  height: civilizations.length * 16,
+  marginLeft: 120,
+  x: {
+    axis: "top",
+    grid: true,
+    tickFormat: formatYear
+  },
+  y: {
+    axis: null,
+    domain: d3.sort(civilizations, d => d.start).map(d => d.civilization)
+  },
+  marks: [
+  Plot.barX(civilizations, {
+    x1: "start",
+    x2: "end",
+    fill: "region",
+    title: (d) =>
+        `${d.civilization} \nStart: ${d.start}\nEnd: ${d.end}\nRegion: ${d.region}`, // \n makes a new line
+        y: "civilization"
+      }),
+  Plot.text(civilizations, {
+    x: "start",
+    y: "civilization",
+    text: "civilization",
+    textAnchor: "end",
+    dx: -6
+  })
+  ]
+};
+
+// Popcorn chart
+// {"Team":"Dallas Mavericks","Arena":"American Airlines Center","Freshness":5,"Saltiness":5,"Crunchiness":4,"Butter":5,"Presentation":5,"Total_Score":24}
+var popcorn_options = {
+  marginTop: 0,
+  marginLeft: 150,
+  color: { scheme: 'ylorrd' },
+  x: { domain: d3.sort(popcorn, d => d.Total_Score).map(d => d.Team) },
+  y: {
+    axis: null,
+    domain: "Freshness",
+  },
+  caption:
+    'Data from Steph Curry & NYT'
+  };
 
 // // Draw the plot (data local on page)
 document.getElementById("nukes").appendChild(Plot.plot(nuke_options));
-
+document.getElementById("civilizations").appendChild(Plot.plot(civ_options));
+document.getElementById("popcorn").appendChild(Plot.plot(popcorn_options));
 
 </script>
 </body>
