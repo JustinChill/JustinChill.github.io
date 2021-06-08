@@ -76,38 +76,38 @@
 			padding-left: 10px;
 		}
 
-		    body{
-		      counter-reset: section;                       /* Set a counter named 'section', and its initial value is 0. */
-		    }
+		body{
+			counter-reset: section;                       /* Set a counter named 'section', and its initial value is 0. */
+		}
 
-		    .columns{
-		      align-items: flex-start;
-		      justify-content: flex-start;
-		    }
+		.columns{
+			align-items: flex-start;
+			justify-content: flex-start;
+		}
 
-		    u{
-		      text-decoration-color: hsl(212, 92%, 43%);
-		    }
-		    .column p{
-		      padding: 1rem;
-		/*      margin: 2rem 0;*/
-		    }
-		    .column p::before{
-		      counter-increment: section;  /* Increment the value of section counter by 1 */
-		      content: counter(section);  /* Display the count of 'Section ' */
-		      background: hsl(212, 92%, 43%);
-		      list-style: none;
-		      width: 2rem;
-		      height: 2rem;
-		      border-radius: 50%;
-		      display: inline-block;
-		      line-height: 2rem;
-		      color: white;
-		      font-weight: bold;
-		      font-family: "Lato", sans-serif;
-		      text-align: center;
-		      margin-right: 0.7rem;
-		    }		
+		u{
+			text-decoration-color: hsl(212, 92%, 43%);
+		}
+		.column p{
+			padding: 1rem;
+			/*      margin: 2rem 0;*/
+		}
+		.column p::before{
+			counter-increment: section;  /* Increment the value of section counter by 1 */
+			content: counter(section);  /* Display the count of 'Section ' */
+			background: hsl(212, 92%, 43%);
+			list-style: none;
+			width: 2rem;
+			height: 2rem;
+			border-radius: 50%;
+			display: inline-block;
+			line-height: 2rem;
+			color: white;
+			font-weight: bold;
+			font-family: "Lato", sans-serif;
+			text-align: center;
+			margin-right: 0.7rem;
+		}		
 	</style>
 
 </head>
@@ -182,31 +182,27 @@
 					</li>
 				</ul>
 			</section>
-			<p>To keep track of all the things I should avoid, I use a to-don't list. Remember the 
-				<mark type="text" id="someInput" name="someInput">x</mark> simple to-don'ts above and you should be pretty much set for life. This whole thing is pretty straightforward to build using <b>HTML</b>, <b>CSS</b>, and <b>Javascript</b>. The HTML contains the structure for the items and the progress bar. Javascript is used for reactivity and does three functions:
+			<p>Remember the <mark type="text" id="someInput" name="someInput">x</mark> simple to-don'ts above and you should be pretty much set for life. Building a list of items such as this is pretty straightforward to build using <b>HTML</b>, <b>CSS</b>, and <b>Javascript</b>. The HTML contains the structure for the items and the progress bar. Javascript is used for reactivity and does three functions. <br>To build the list above follow these three steps:
 				<div class="column">
-					<p>Count the number of inputs. Total = <mark type="text" id="mark2" name="someInput">x</mark></p>
-<p>Draw two overlapping rectangles</p>
-<p>Calculate width as: <b>percentage = (checked / total) * 100</b></p>
+					<p>Find and count the number of inputs. Total = <mark type="text" id="mark2" name="someInput">x</mark></p>
+					<p>Draw two overlapping rectangles. This will become the progress bar. The width of the bar is calculated as: <b>percentage = (checked / total) * 100</b></p>
+					<p>create a function to update the width of the progress bar each time the inputs are toggled.</p>
 				</div>
+				<p>Inspiration for this project from <a href="https://codepen.io/Moiety">Zoë Bijl</a>!</p>
+			</article>
+		</main>
+		<script type="text/javascript">
+			var progress = document.querySelectorAll("[role=progressbar]")[0];
+			var progressIndicator = progress.getElementsByTagName("div")[0];
+			var progressText = document.getElementById("percentage");
+			var inputs = document.getElementsByTagName("input");
+			var total = inputs.length;
+			document.getElementById("someInput").innerHTML = total;
+			document.getElementById("mark2").innerHTML = total;
+			var checked;
+			var percentage;
 
-
-			<p>The primary goal of this project was to understand the javascript behind the progress bar at the top of the list. It's done in three steps. First find and count all inputs in your list. </p>
-			<p>Next, draw two overlapping <code>div</code> elements for the progress bar. The width of the bar is calculated as: <b>percentage = (checked / total) * 100</b>. Lastly, create a function to update the width of the progress bar each time the inputs are toggled. Inspiration for this project from <a href="https://codepen.io/Moiety">Zoë Bijl</a>!</p>
-		</article>
-	</main>
-	<script type="text/javascript">
-		var progress = document.querySelectorAll("[role=progressbar]")[0];
-		var progressIndicator = progress.getElementsByTagName("div")[0];
-		var progressText = document.getElementById("percentage");
-		var inputs = document.getElementsByTagName("input");
-		var total = inputs.length;
-		document.getElementById("someInput").innerHTML = total;
-		document.getElementById("mark2").innerHTML = total;
-		var checked;
-		var percentage;
-
-		for (var i = 0; i < total; i++) {
+			for (var i = 0; i < total; i++) {
 			  // Also handles fires via keyboard
 			  inputs[i].addEventListener("click", updateProgress);
 			}
