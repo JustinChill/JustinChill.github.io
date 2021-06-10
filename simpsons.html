@@ -264,6 +264,30 @@
       left: 45px;
     }
 
+    /*Plot*/
+    p.title{
+      font-family: 'Ubuntu', sans-serif;
+      text-align: left;
+      font-size: calc(16px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+      /*padding: 10px 0;*/
+      padding-bottom: : 0;
+      margin-top: 2rem; 
+      pointer-events: none;
+    }
+    .plot text {
+      color: #656568;
+      font-family: 'Ubuntu', sans-serif;
+      font-size: calc(4px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+      padding: 2rem;
+    }
+    .plot + figcaption {
+      color: #656568;
+      text-align: left;
+      font-style: normal;      
+      font-family: 'Ubuntu', sans-serif;
+      font-size: calc(10px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+    }
+
     /* Episode matrix */
     #matrix, #best-eps{
       margin: 0 auto;
@@ -497,10 +521,13 @@
       <div class="simpsons-logo">
         <img src="imgs/simpsons-logo.svg" class="mid-size">
       </div>
-            
+            <article>
       <p>Conveniently hosted for us on Github is a nice dataset of The Simpsons and IMDB rating. It spans over 20 years and covers 600+ episodes. Below is every episode of The Simpsons, shaded based on IMDB score. </p> 
+      <p class="title">Ratings for The Simpsons have declined over time</p>
+      <figure id="example_area"></figure>
 
       <!-- Cell plot with IMDB score -->
+      <p class="title">The Simpsons episodes and IMDB rating</p>
       <figure id="matrix"></figure> 
       <p>Data provided from the wonderful <mark>Observable Plot <a href="https://github.com/observablehq/plot/blob/main/src/marks/cell.js">documentation</a></mark>.</p>
 
@@ -3721,6 +3748,30 @@
             ]
           };
 
+      // Example area chart - Simpsons rating over time
+      var example_area = {      
+        y: {
+          grid: true,
+          // Todo: find min, max instead of hardcoding domain
+          domain: [0,10],
+          tickSize: 0,
+          nice: true,
+          label: "IMDB Ratings for The Simpsons, 1989 - 2019 ",
+        },
+        x: {
+          label: "Episode number →",
+          // Emphasize that axis
+          tickSize: 8,
+          nice: true,
+        },
+        caption: 'Data: The Simpsons on IMDB · Chart: Justin Chill', // Todo: Add cite https://raw.githubusercontent.com/areevesman/the-simpsons/master/data/simpsons_episodes.csv
+        style: "background: none",
+        marks: [
+        Plot.areaY(simpsons, {x: "number_in_series", sort: "number_in_series",y: "imdb_rating", fill: "RGBA(252, 229, 136, .5)"}),
+        Plot.lineY(simpsons, {x: "number_in_series", sort: "number_in_series",y: "imdb_rating", stroke: "hsl(42, 87%, 55%)"}),
+        ]
+      };
+
       // Episode matrix options
       var options = {      
         height: 720,
@@ -3728,7 +3779,7 @@
         padding: 0.05,
         style: "background: none",
         grid: true,
-        caption: "Figure 1. Simpsons episode by season and IMDB rating.",
+        caption: "Data: The Simpsons on IMDB · Chart: Justin Chill",
         x: {
           axis: "top",
           label: "Season",
@@ -3763,6 +3814,7 @@
       // document.getElementById("best-eps").appendChild(Plot.plot(ep_options));
       // Draw each season 
       // document.getElementById("seasons").appendChild(Plot.plot(season_options));
+      document.getElementById("example_area").appendChild(Plot.plot(example_area));
       // // Draw the matrix plot
       document.getElementById("matrix").appendChild(Plot.plot(options));
       // // Draw top ten episodes
