@@ -9,10 +9,8 @@
   <meta name="description" content="An ode to Windows XP">
   <meta name="author" content="Justin Chill">
 
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/98.css"
-  >
+  <link rel="stylesheet" href="https://unpkg.com/98.css">
+
   <style type="text/css">
     @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,700');
     body,
@@ -21,6 +19,11 @@
     }
     article header{
       margin: 6rem 0 4rem;
+    }
+
+    .plot{
+      width: 700px;
+      margin: 0 auto;
     }
     figure.xp-loading{
       grid-column: 4;
@@ -36,12 +39,12 @@
     }
     .window{
       /* position the window in center */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        background: #000;
-        min-height: 60vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background: #000;
+      min-height: 60vh;
 
     }
     .container{
@@ -517,6 +520,7 @@
       <time date="2021-2-12">May 2021</time>
     </header>
     <p>Microsoft invested $1B in marketing<a href="#1b" aria-describedby="footnote-label" id="1b-ref"></a> when it prepared to ship Windows XP. When the operating system was released in 2001, it was many people's first experience with a home computer. Windows XP introduced a suite of features that made using a computer accessible: a standard user interface, easy software updates over the internet,  and faster app switching.</p>
+    <figure id="os_marketshare"></figure>
     <p>Around the world, 140 million computers still run Microsoft XP, including millions of ATMs. According to GlobalStat's <a href="https://gs.statcounter.com/windows-version-market-share/desktop/worldwide/#monthly-201802-202104">Stat Counter</a> as of May 2021 0.7% of Windows PCs worldwide run Windows XP (4% in Africa). Microsoft officially stopped offering support for the operating system in 2014.</p>
 
     <figure class="xp-loading">
@@ -540,19 +544,49 @@
   <ol>
     <li id="1b">"Windows XP marketing tab to hit $1 billion" - <a href="https://www.cnet.com/news/windows-xp-marketing-tab-to-hit-1-billion/">CNET Networks</a>, January 2, 2002.<a href="#1b-ref" aria-label="Back to content">↩</a></li>
     <li id="footnotes">Despite the large amount of funds held by ATMs, researchers have found that the protections used by the machines to prevent theft and tampering were basically for show and anyone motivated to do so could gain access to a machine in under an hour. <a href="https://www.techradar.com/news/atm-security-still-running-windows-xp">Source</a>.<a href="#footnotes-ref" aria-label="Back to content">↩</a></li>
-        
+
   </ol>
   <h1 class="visually-hidden">Justin Chill © 2020</h1>
 </footer>
  <!--    <script type="text/javascript" src="https://www.statcounter.com/js/fusioncharts.js"></script><script type="text/javascript" src="https://gs.statcounter.com/chart.php?desktop-windows_version-ww-monthly-201802-202104&chartWidth=600"></script>
  -->
+ <script src="https://cdn.jsdelivr.net/npm/d3@6"></script>
+ <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.1"></script>
  <script type="text/javascript">
+      // Define small datasets locally to save an xHTTP request
+      var os_marketshare = [
+  {
+    "OS": "Windows",
+    "Market Share Perc. (Dec 2020)": 76.56
+  },
+  {
+    "OS": "OS X",
+    "Market Share Perc. (Dec 2020)": 17.1
+  },
+  {
+    "OS": "Unknown",
+    "Market Share Perc. (Dec 2020)": 2.68
+  },
+  {
+    "OS": "Linux",
+    "Market Share Perc. (Dec 2020)": 1.93
+  },
+  {
+    "OS": "Chrome OS",
+    "Market Share Perc. (Dec 2020)": 1.72
+  },
+  {
+    "OS": "Other",
+    "Market Share Perc. (Dec 2020)": 0.01
+  }
+];
+
       // Dismiss start menu when desktop clicked
-      $('.screen').click(function(e){
-        if($(e.target).hasClass('screen')) {
-          $('#start-menu-active').prop('checked', false);
-        }
-      });
+      // $('.screen').click(function(e){
+      //   if($(e.target).hasClass('screen')) {
+      //     $('#start-menu-active').prop('checked', false);
+      //   }
+      // });
 
       // Keep clock updated
       function updateClock() {
@@ -571,15 +605,31 @@
       updateClock();
 
       // Maintain aspect ratio while resizing viewport
-      $(window).resize(function(){
-        $('.screen').css('width', '120vh');
-        // $('.screen').css('height', '90vh');
+      // $(window).resize(function(){
+      //   $('.screen').css('width', '120vh');
+      //   // $('.screen').css('height', '90vh');
         
-        if($('.screen').width() >= $('.start-menu-container').width()) {
-          $('.screen').css('width', $('.start-menu-container').width() + 'px');
-          $('.screen').css('height', ($('.start-menu-container').width() / 4 * 3) + 'px');
-        }
-      });
-    </script>
-  </body>
-  </html>
+      //   if($('.screen').width() >= $('.start-menu-container').width()) {
+      //     $('.screen').css('width', $('.start-menu-container').width() + 'px');
+      //     $('.screen').css('height', ($('.start-menu-container').width() / 4 * 3) + 'px');
+      //   }
+      // });
+
+          // Thicken the plot
+
+            var os_marketshare = {
+              x:{
+                label: "Operating System",
+              },
+              y:{
+                label: "↑ Market Share %",
+              },
+              marks: [
+              Plot.barY(os_marketshare, {x: "OS", y: "Market Share Perc. (Dec 2020)", fill: "OS"})
+              ]
+            }
+
+            document.getElementById("os_marketshare").appendChild(Plot.plot(os_marketshare));
+        </script>
+      </body>
+      </html>
