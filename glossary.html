@@ -23,10 +23,13 @@
     svg{
       margin: 0 auto;
     }
+    p{
+      margin: 1rem 0;
+    }
 
-    li > p + p{
-      margin-top: 2rem;
-/*      border: 1px solid red;*/
+    li > p:not(:first-of-type){
+      margin-top: 4rem;
+      /*border: 1px solid red;*/
     }
 
     article > p:first-of-type {
@@ -47,7 +50,7 @@
       margin-top: 2rem;
     }
 
-    p.title{
+    p.chart-title{
       font-family: 'Ubuntu', sans-serif;
       text-align: left;
       font-size: calc(16px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
@@ -56,10 +59,10 @@
       margin-top: 2rem; 
       pointer-events: none;
     }
+
     table{
       margin: 2rem 0;
       counter-reset: row -1; /* initializes counter to 0; use -1 for zero-based numbering */
-
     }
 
     [data-label="Position"]::after{
@@ -1259,7 +1262,7 @@
 </li>
 
 <li>
-  <h2>Data Exploration</h2>
+  <h2>Data Exploration 🔎</h2>
   <p>The part of the data science process where you ask a million basic questions that helps to understand the context of a data set. What you learn during the exploration phase will guide more in-depth analysis later. Further, it helps you recognize when a result might be surprising and warrant further investigation. Processing 900 different basic questions helps to find the one or two key stories in the data.</p>
 </li>
 
@@ -1603,6 +1606,13 @@
       </li>
 
       <li>
+        <h2>Target vs Actual chart</h2>
+        <img src="imgs/targets-vs-actuals.png">
+        <figure id="example_target"></figure>
+        <p>This chart compares actual data to targets by filling up hollow bars. For instance, it could compare monthly sales to business targets, or, in this case, actual interest rates to annual Congressional Budget Office estimates.</p>        
+      </li>
+
+      <li>
         <h2>Time series</h2>
         <figure id="example_timeseries"></figure>
         <p>Time series is a set of data that’s ordered by when each data point occurred. Think of stock market prices over the course of a month, or the temperature throughout a day.</p>
@@ -1719,7 +1729,7 @@
   {"country":"North Korea","nukes":40},
   {"country":"Jeff","nukes":10}];
 
-  var ex_lvls = [{ "Phrase":"Hey baby", "level":10},
+  var ex_lvls = [{ "Phrase":"Hey baby,", "level":10},
   { "Phrase":"do you want", "level":20},
   { "Phrase":"to have", "level":40},
   { "Phrase":"sex...", "level":75},
@@ -1731,6 +1741,8 @@
 
   // Civilizations
   var civilizations = [{"civilization":"Aegean civilization","start":-2000,"end":-1200,"startLabel":null,"endLabel":null,"region":"Europe (and colonial offshoots)","timeline":"ANCIENT WORLD"},{"civilization":"Age of pre-colonial civilization (Christian, Islamic, and traditional kingdoms)","start":650,"end":1880,"startLabel":null,"endLabel":null,"region":"Sub-Saharan Africa","timeline":"MEDIEVAL WORLD"},{"civilization":"Age of Turkic empires","start":500,"end":1200,"startLabel":null,"endLabel":null,"region":"Middle East","timeline":"MEDIEVAL WORLD"},{"civilization":"Age of united Caliphate","start":650,"end":900,"startLabel":null,"endLabel":null,"region":"Middle East","timeline":"MEDIEVAL WORLD"},{"civilization":"Ancient Andean region","start":-1000,"end":500,"startLabel":null,"endLabel":null,"region":"pre-colonial Americas","timeline":"ANCIENT WORLD"},{"civilization":"Ancient China","start":-2000,"end":500,"startLabel":null,"endLabel":null,"region":"East Asia","timeline":"ANCIENT WORLD"},{"civilization":"Ancient Steppe empires","start":-1000,"end":500,"startLabel":null,"endLabel":null,"region":"the Steppe","timeline":"ANCIENT WORLD"},{"civilization":"British India","start":1800,"end":1945,"startLabel":null,"endLabel":"WWII","region":"South Asia","timeline":"MODERN WORLD"},{"civilization":"Classic age of Mesoamerica","start":100,"end":900,"startLabel":null,"endLabel":null,"region":"pre-colonial Americas","timeline":"ANCIENT WORLD"},{"civilization":"Colonial Africa","start":1880,"end":1980,"startLabel":null,"endLabel":null,"region":"Sub-Saharan Africa","timeline":"MODERN WORLD"},{"civilization":"Colonial United States","start":1500,"end":1776,"startLabel":null,"endLabel":null,"region":"Europe (and colonial offshoots)","timeline":"MODERN WORLD"},{"civilization":"Early Islamic period","start":1200,"end":1500,"startLabel":null,"endLabel":null,"region":"South Asia","timeline":"MEDIEVAL WORLD"},{"civilization":"Early modern China","start":1500,"end":1918,"startLabel":null,"endLabel":"WWI","region":"East Asia","timeline":"MODERN WORLD"},{"civilization":"Early modern Europe","start":1500,"end":1800,"startLabel":null,"endLabel":null,"region":"Europe (and colonial offshoots)","timeline":"MODERN WORLD"},{"civilization":"Early Nubian civilization","start":-2000,"end":-1000,"startLabel":null,"endLabel":null,"region":"Sub-Saharan Africa","timeline":"ANCIENT WORLD"},{"civilization":"Egyptian civilization","start":-3000,"end":-550,"startLabel":null,"endLabel":null,"region":"Middle East","timeline":"ANCIENT WORLD"},{"civilization":"First Persian Empire","start":-550,"end":-330,"startLabel":null,"endLabel":null,"region":"Middle East","timeline":"ANCIENT WORLD"},{"civilization":"Formative age of Mesoamerica","start":-1500,"end":100,"startLabel":null,"endLabel":null,"region":"pre-colonial Americas","timeline":"ANCIENT WORLD"},{"civilization":"Formative Japan (age of Yamato rule)","start":500,"end":800,"startLabel":null,"endLabel":null,"region":"East Asia","timeline":"MEDIEVAL WORLD"},{"civilization":"Formative US","start":1776,"end":1865,"startLabel":null,"endLabel":null,"region":"Europe (and colonial offshoots)","timeline":"MODERN WORLD"},{"civilization":"Fractured Islamic world","start":900,"end":2018,"startLabel":null,"endLabel":"present","region":"Middle East","timeline":"MODERN WORLD"},{"civilization":"Great power US","start":1865,"end":1945,"startLabel":null,"endLabel":"WWII","region":"Europe (and colonial offshoots)","timeline":"MODERN WORLD"},{"civilization":"Greek age","start":-1200,"end":0,"startLabel":null,"endLabel":null,"region":"Europe (and colonial offshoots)","timeline":"ANCIENT WORLD"},{"civilization":"Heian age","start":800,"end":1200,"startLabel":null,"endLabel":null,"region":"East Asia","timeline":"MEDIEVAL WORLD"},{"civilization":"Imperial Japan","start":1870,"end":1945,"startLabel":null,"endLabel":"WWII","region":"East Asia","timeline":"MODERN WORLD"},{"civilization":"Indian kingdom age","start":-500,"end":1200,"startLabel":null,"endLabel":null,"region":"South Asia","timeline":"ANCIENT WORLD"},{"civilization":"Indus civilization","start":-2500,"end":-1500,"startLabel":null,"endLabel":null,"region":"South Asia","timeline":"ANCIENT WORLD"},{"civilization":"Inter-Persian period","start":-330,"end":200,"startLabel":null,"endLabel":null,"region":"Middle East","timeline":"ANCIENT WORLD"},{"civilization":"Kush","start":-1000,"end":300,"startLabel":null,"endLabel":null,"region":"Sub-Saharan Africa","timeline":"ANCIENT WORLD"},{"civilization":"Medieval Andean region","start":500,"end":1530,"startLabel":null,"endLabel":null,"region":"pre-colonial Americas","timeline":"MEDIEVAL WORLD"},{"civilization":"Medieval China","start":500,"end":1500,"startLabel":null,"endLabel":null,"region":"East Asia","timeline":"MEDIEVAL WORLD"},{"civilization":"Medieval Europe","start":500,"end":1500,"startLabel":null,"endLabel":null,"region":"Europe (and colonial offshoots)","timeline":"MEDIEVAL WORLD"},{"civilization":"Mesopotamian civilization","start":-3500,"end":-550,"startLabel":null,"endLabel":null,"region":"Middle East","timeline":"ANCIENT WORLD"},{"civilization":"Modern Africa","start":1980,"end":2018,"startLabel":"WWII","endLabel":"present","region":"Sub-Saharan Africa","timeline":"MODERN WORLD"},{"civilization":"Modern Europe","start":1800,"end":2018,"startLabel":null,"endLabel":"present","region":"Europe (and colonial offshoots)","timeline":"MODERN WORLD"},{"civilization":"Modern India","start":1945,"end":2018,"startLabel":null,"endLabel":"present","region":"South Asia","timeline":"MODERN WORLD"},{"civilization":"Modern Japan","start":1945,"end":2018,"startLabel":null,"endLabel":"present","region":"East Asia","timeline":"MODERN WORLD"},{"civilization":"Mongol Empire","start":1200,"end":1300,"startLabel":null,"endLabel":null,"region":"the Steppe","timeline":"MEDIEVAL WORLD"},{"civilization":"Mughal Empire","start":1500,"end":1800,"startLabel":null,"endLabel":null,"region":"South Asia","timeline":"MODERN WORLD"},{"civilization":"Peak of Aksum","start":300,"end":650,"startLabel":null,"endLabel":null,"region":"Sub-Saharan Africa","timeline":"MEDIEVAL WORLD"},{"civilization":"People's Republic of China","start":1945,"end":2018,"startLabel":"WWII","endLabel":"present","region":"East Asia","timeline":"MODERN WORLD"},{"civilization":"Postclassic age of Mesoamerica","start":900,"end":1520,"startLabel":null,"endLabel":null,"region":"pre-colonial Americas","timeline":"MEDIEVAL WORLD"},{"civilization":"Ptolemaic Egypt","start":-330,"end":0,"startLabel":null,"endLabel":null,"region":"Middle East","timeline":"ANCIENT WORLD"},{"civilization":"Republic of China","start":1918,"end":1945,"startLabel":null,"endLabel":null,"region":"East Asia","timeline":"MODERN WORLD"},{"civilization":"Roman > Byzantine Egypt","start":0,"end":650,"startLabel":null,"endLabel":null,"region":"Middle East","timeline":"ANCIENT WORLD"},{"civilization":"Roman Empire","start":0,"end":500,"startLabel":null,"endLabel":null,"region":"Europe (and colonial offshoots)","timeline":"ANCIENT WORLD"},{"civilization":"Roman Republic","start":-500,"end":0,"startLabel":null,"endLabel":null,"region":"Europe (and colonial offshoots)","timeline":"ANCIENT WORLD"},{"civilization":"Second Persian Empire","start":-200,"end":650,"startLabel":null,"endLabel":null,"region":"Middle East","timeline":"ANCIENT WORLD"},{"civilization":"Shogunate","start":1200,"end":1870,"startLabel":null,"endLabel":null,"region":"East Asia","timeline":"MEDIEVAL WORLD"},{"civilization":"Superpower US","start":1945,"end":2021,"startLabel":null,"endLabel":"present","region":"Europe (and colonial offshoots)","timeline":"MODERN WORLD"},{"civilization":"Vedic age","start":-1500,"end":-500,"startLabel":null,"endLabel":null,"region":"South Asia","timeline":"ANCIENT WORLD"}];
+
+  var targets = [{"date":"2012-01-01T00:00:00.000Z","target":1.809,"actual":1.809},{"date":"2013-01-01T00:00:00.000Z","target":1.75,"actual":2.07542747},{"date":"2014-01-01T00:00:00.000Z","target":2.425,"actual":2.76},{"date":"2015-01-01T00:00:00.000Z","target":3.038,"actual":2.25},{"date":"2016-01-01T00:00:00.000Z","target":3.8,"actual":1.871},{"date":"2017-01-01T00:00:00.000Z","target":4.45,"actual":2.431},{"date":"2018-01-01T00:00:00.000Z","target":4.85,"actual":3.018},{"date":"2019-01-01T00:00:00.000Z","target":5,"actual":2.306},{"date":"2020-01-01T00:00:00.000Z","target":5,"actual":0.876},{"date":"2021-01-01T00:00:00.000Z","target":5,"actual":null},{"date":"2022-01-01T00:00:00.000Z","target":5,"actual":null}];
 
   var popcorn = [{"Team":"Dallas Mavericks","Arena":"American Airlines Center","Freshness":5,"Saltiness":5,"Crunchiness":4,"Butter":5,"Presentation":5,"Total_Score":24},{"Team":"Brooklyn Nets","Arena":"Barclays Center","Freshness":4,"Saltiness":5,"Crunchiness":5,"Butter":4,"Presentation":5,"Total_Score":23},{"Team":"Miami Heat","Arena":"American Airlines Arena","Freshness":5,"Saltiness":4,"Crunchiness":4,"Butter":4,"Presentation":5,"Total_Score":22},{"Team":"Portland Trailblazers","Arena":"Moda Center","Freshness":4,"Saltiness":4,"Crunchiness":5,"Butter":4,"Presentation":3,"Total_Score":20},{"Team":"Sacramento Kings","Arena":"Golden 1 Center","Freshness":2,"Saltiness":4,"Crunchiness":4,"Butter":4,"Presentation":5,"Total_Score":19},{"Team":"Toronto Raptors","Arena":"Scotiabank Arena","Freshness":3,"Saltiness":4,"Crunchiness":3,"Butter":4,"Presentation":4,"Total_Score":18},{"Team":"Houston Rockets","Arena":"Toyota Center","Freshness":3,"Saltiness":4,"Crunchiness":3,"Butter":4,"Presentation":4,"Total_Score":18},{"Team":"Oklahoma City Thunder","Arena":"Chesapeake Energy Arena","Freshness":4,"Saltiness":3,"Crunchiness":4,"Butter":4,"Presentation":3,"Total_Score":18},{"Team":"Golden State Warriors","Arena":"Oracle Arena","Freshness":2,"Saltiness":4,"Crunchiness":5,"Butter":3,"Presentation":4,"Total_Score":18},{"Team":"New York City Knicks","Arena":"Madison Square Garden","Freshness":3,"Saltiness":2,"Crunchiness":4,"Butter":4,"Presentation":4,"Total_Score":17},{"Team":"Indiana Pacers","Arena":"Bankers Life Fieldhouse","Freshness":3,"Saltiness":3,"Crunchiness":5,"Butter":4,"Presentation":2,"Total_Score":17},{"Team":"New Orleans Pelicans","Arena":"Smoothie King Center","Freshness":3,"Saltiness":3,"Crunchiness":3,"Butter":3,"Presentation":5,"Total_Score":17},{"Team":"Minnesota Timberwolves","Arena":"Target Center","Freshness":2,"Saltiness":5,"Crunchiness":4,"Butter":3,"Presentation":3,"Total_Score":17},{"Team":"Washington Wizards","Arena":"Capital One Arena","Freshness":4,"Saltiness":3,"Crunchiness":3,"Butter":4,"Presentation":3,"Total_Score":17},{"Team":"Chicago Bulls","Arena":"United Center","Freshness":3,"Saltiness":4,"Crunchiness":3,"Butter":3,"Presentation":3,"Total_Score":16},{"Team":"Utah Jazz","Arena":"Vivint Smart Home Arena","Freshness":2,"Saltiness":5,"Crunchiness":4,"Butter":3,"Presentation":2,"Total_Score":16},{"Team":"Atlanta Hawks","Arena":"State Farm Arena","Freshness":3,"Saltiness":5,"Crunchiness":4,"Butter":3,"Presentation":1,"Total_Score":16},{"Team":"San Antonio Spurs","Arena":"AT&T Center","Freshness":3,"Saltiness":3,"Crunchiness":3,"Butter":3,"Presentation":3,"Total_Score":15},{"Team":"Philadelphia Sixers","Arena":"Wells Fargo Center","Freshness":4,"Saltiness":2,"Crunchiness":4,"Butter":2,"Presentation":2,"Total_Score":14},{"Team":"Phoenix Suns","Arena":"Talking Stick Resort Arena","Freshness":3,"Saltiness":3,"Crunchiness":3,"Butter":3,"Presentation":2,"Total_Score":14},{"Team":"Milwaukee Bucks","Arena":"Fiserv Forum","Freshness":2,"Saltiness":2,"Crunchiness":3,"Butter":4,"Presentation":2,"Total_Score":13},{"Team":"Boston Celtics","Arena":"TD Garden","Freshness":3,"Saltiness":3,"Crunchiness":2,"Butter":3,"Presentation":2,"Total_Score":13},{"Team":"Memphis Grizzlies","Arena":"FedExForum","Freshness":1,"Saltiness":4,"Crunchiness":4,"Butter":3,"Presentation":1,"Total_Score":13},{"Team":"Orlando Magic","Arena":"Amway Center","Freshness":3,"Saltiness":5,"Crunchiness":3,"Butter":1,"Presentation":1,"Total_Score":13},{"Team":"Denver Nuggets","Arena":"Pepsi Center","Freshness":3,"Saltiness":2,"Crunchiness":3,"Butter":2,"Presentation":3,"Total_Score":13},{"Team":"Cleveland Cavaliers","Arena":"Rocket Mortgage Fieldhouse","Freshness":2,"Saltiness":4,"Crunchiness":2,"Butter":2,"Presentation":2,"Total_Score":12},{"Team":"Detroit Pistons","Arena":"Little Caesars Arena","Freshness":1,"Saltiness":4,"Crunchiness":2,"Butter":3,"Presentation":2,"Total_Score":12},{"Team":"Charlotte Hornets","Arena":"Spectrum Center","Freshness":1,"Saltiness":2,"Crunchiness":2,"Butter":2,"Presentation":4,"Total_Score":11},{"Team":"Los Angeles Clippers/Lakers","Arena":"Staples Center","Freshness":2,"Saltiness":1,"Crunchiness":3,"Butter":1,"Presentation":3,"Total_Score":10}];
 
@@ -1753,6 +1765,7 @@
     var qatar = data[3];
 
     bls.map(function(d) { return +d; });
+    aapl.map(function(d) { return +d; });
     // simpsons.map(function(d) { return +d; });
     // bls = new Date(d => d.date);
     // console.log(bls => d.date);
@@ -1990,14 +2003,19 @@
       ]
     };
 
+    // Todo: This is *super* hacky. ISO dates not being parsed correctly.
     var example_mvavg = {      
       y: {
         label: "",
-        grid: true
+        grid: true,
+        nice: true,
       },
       caption: 'Data: Apple DOW performance · Chart: Justin Chill',
       x: {
         label: null,
+        tickSize: 0,
+        ticks: aapl.map((d) => d.Date).filter((d, i) => i % 311 === 0),
+        tickFormat: "y",
       },
       marks: [
         // Plot.ruleY([32]),
@@ -2066,27 +2084,12 @@
       height: 500,
     };
 
-    // Example scatterplot chart - Simpsons rating over time
-    var example_scatterplot = {
-      // Inset the chart so outliers don't appear on the edges
-      inset: 10,
-      grid: true,
-      color: { scheme: 'ylgn' },
-      y: {
-        // Nice is a convenience function that automatically rounds to the nearest whole number
-        nice: true,
-        label: "↑ IMDB score",
-        domain: [0, 10],
-        tickSize: 0,
-      },
-      x: { 
-        nice: true,
-      },
-      caption: 'Data: IMDB, The Simpsons · Chart: Justin Chill',
+    
+    // Example Target vs Actuals chart - https://observablehq.com/@observablehq/targets-vs-actuals
+    var example_target = {
+
       marks: [
-      Plot.dot(simpsons, {x: "number_in_series", y: "imdb_rating",r: "us_viewers_in_millions", title:  "Title", fill: "imdb_rating"}),
-      Plot.ruleY([0]),
-      // Plot.frame()
+
       ]
     }; 
 
@@ -2126,6 +2129,7 @@
     document.getElementById("example_mvavg").appendChild(Plot.plot(example_mvavg));
     document.getElementById("example_stackarea").appendChild(Plot.plot(example_stackarea));
     document.getElementById("example_pyramid").appendChild(Plot.plot(example_pyramid));
+    document.getElementById("example_target").appendChild(Plot.plot(example_target));
 
     document.getElementById("example_scatterplot").appendChild(Plot.plot(example_scatterplot));
     document.getElementById("example_timeseries").appendChild(Plot.plot(example_timeseries));
