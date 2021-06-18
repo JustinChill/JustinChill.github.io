@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Feeling Wheel</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="style.css" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="The Feeling Wheel">
+	<meta name="author" content="Justin Chill">
+
+	<style type="text/css">
+
+	</style>
+
+</head>
+<body>
+	<header>
+		<h1><a href="index.html" rel="home">Justin's blog</a></h1>
+	</header>
+	<main role="main">
+		<article>
+			<header>
+				<h1>The Feeling Wheel</h1>
+				<h2 class="subtitle"></h2>
+				<time date="2021-6-26">June 2021</time>
+			</header>
+			<svg></svg>
+			<p>Adapted from <a href="https://observablehq.com/@tiffylou/feeling-wheel">Tiffany France</a>.</p>
+		</article>
+	</main>
+	<footer>
+	</footer>
+	<!-- CDN -->
+	<script src="https://cdn.jsdelivr.net/npm/d3@6"></script>
+
+	<!-- Custom Code -->
+	<script>
+		var data = [{"children":[{"name":"Mad","children":[{"name":"Hurt","children":[{"name":"Jealous"}]},{"name":"Hostile","children":[{"name":"Selfish"}]},{"name":"Angry","children":[{"name":"Frustrated"}]},{"name":"Rage","children":[{"name":"Furious"}]},{"name":"Hateful","children":[{"name":"Irritated"}]},{"name":"Critical","children":[{"name":"Skeptical"}]}]},{"name":"Scared","children":[{"name":"Rejected","children":[{"name":"Bewildered"}]},{"name":"Confused","children":[{"name":"Discouraged"}]},{"name":"Helpless","children":[{"name":"Insignificant"}]},{"name":"Submissive","children":[{"name":"Weak"}]},{"name":"Insecure","children":[{"name":"Foolish"}]},{"name":"Anxious","children":[{"name":"Embarassed"}]}]},{"name":"Joyful","children":[{"name":"Excited","children":[{"name":"Daring"}]},{"name":"Sexy","children":[{"name":"Facinating"}]},{"name":"Energetic","children":[{"name":"Stimulating"}]},{"name":"Playful","children":[{"name":"Amused"}]},{"name":"Creative","children":[{"name":"Extravagant"}]},{"name":"Aware","children":[{"name":"Delightful"}]}]},{"name":"Powerful","children":[{"name":"Proud","children":[{"name":"Cheerful"}]},{"name":"Respected","children":[{"name":"Satisfied"}]},{"name":"Appreciated","children":[{"name":"Valuable"}]},{"name":"Hopeful","children":[{"name":"Worthwhile"}]},{"name":"Important","children":[{"name":"Intelligent"}]},{"name":"Faithful","children":[{"name":"Confident"}]}]},{"name":"Peaceful","children":[{"name":"Nuturing","children":[{"name":"Thankful"}]},{"name":"Trusting","children":[{"name":"Sentimental"}]},{"name":"Loving","children":[{"name":"Serene"}]},{"name":"Intimate","children":[{"name":"Responsive"}]},{"name":"Thoughtful","children":[{"name":"Relaxed"}]},{"name":"Content","children":[{"name":"Pensive"}]}]},{"name":"Sad","children":[{"name":"Sleepy","children":[{"name":"Apathetic"}]},{"name":"Bored","children":[{"name":"Inferior"}]},{"name":"Lonely","children":[{"name":"Inadequate"}]},{"name":"Depressed","children":[{"name":"Miserable"}]},{"name":"Ashamed","children":[{"name":"Stupid"}]},{"name":"Guilty","children":[{"name":"Bashful"}]}]}]}];
+
+		data = treeify(`
+Mad
+	Hurt
+		Jealous
+	Hostile
+		Selfish
+	Angry
+		Frustrated
+	Rage
+		Furious
+	Hateful
+		Irritated
+	Critical
+		Skeptical
+Scared
+	Rejected
+		Bewildered
+	Confused
+		Discouraged
+	Helpless
+		Insignificant
+	Submissive
+		Weak
+	Insecure
+		Foolish
+	Anxious
+		Embarassed
+Joyful
+	Excited
+		Daring
+	Sexy
+		Facinating
+	Energetic
+		Stimulating
+	Playful
+		Amused
+	Creative
+		Extravagant
+	Aware
+		Delightful
+Powerful
+	Proud
+		Cheerful
+	Respected
+		Satisfied
+	Appreciated
+		Valuable
+	Hopeful
+		Worthwhile
+	Important
+		Intelligent
+	Faithful
+		Confident
+Peaceful
+	Nuturing
+		Thankful
+	Trusting
+		Sentimental
+	Loving
+		Serene
+	Intimate
+		Responsive
+	Thoughtful
+		Relaxed
+	Content
+		Pensive
+Sad
+	Sleepy
+		Apathetic
+	Bored
+		Inferior
+	Lonely
+		Inadequate
+	Depressed
+		Miserable
+	Ashamed
+		Stupid
+	Guilty
+		Bashful
+`);
+		var width = 932;
+		var radius = 466;
+
+		function treeify(source) {
+		  const parents = [];
+		  const nodes = source.trim().split(/\n/g);
+		  parents.push({children: []});
+		  for (let i = 0, n = nodes.length; i < n; ++i) {
+		    const depth = nodes[i].match(/^\t*/)[0].length;
+		    const parent = parents[depth];
+		    if (!parent.children) parent.children = [];
+		    parent.children.push(parents[depth + 1] = {name: nodes[i].slice(depth)});
+		  }
+		  return parents[0];
+		}
+		partition = data => d3.partition()
+		    .size([2 * Math.PI, radius])
+		  (d3.hierarchy(data).count());
+
+		var color = d3.scaleOrdinal()
+		// .range(d3.quantize(d3.interpolateRainbow, data.children.length + 1))
+		.range(['red','orange','yellow','green','blue','purple'])
+
+		var arc = d3.arc()
+		    .startAngle(d => d.x0)
+		    .endAngle(d => d.x1)
+		    .padAngle(d => Math.min((d.x1 - d.x0) / 2, 0.005))
+		    .padRadius(radius / 2)
+		    .innerRadius(d => d.y0)
+		    .outerRadius(d => d.y1 - 1);
+
+		var chart = {
+		  const root = partition(data);
+
+		  const svg = d3.select(DOM.svg(width, width))
+		      .style("width", "100%")
+		      .style("height", "auto")
+		      .style("font", "10px sans-serif");
+		  
+		  const g = svg.append("g")
+		      .attr("transform", `translate(${width / 2},${width / 2})`);
+		  
+		  g.append("g")
+		      .attr("fill-opacity", 0.6)
+		    .selectAll("path")
+		    .data(root.descendants().slice(1))
+		    .enter().append("path")
+		      .attr("fill", d => { while (d.depth > 1) d = d.parent; return color(d.data.name); })
+		      .attr("d", arc);
+
+		  g.append("g")
+		      .attr("pointer-events", "none")
+		      .attr("text-anchor", "middle")
+		    .selectAll("text")
+		    .data(root.descendants().slice(1))
+		    .enter().append("text")
+		      .attr("transform", function(d) {
+		        const x = (d.x0 + d.x1) / 2 * 180 / Math.PI;
+		        const y = (d.y0 + d.y1) / 2;
+		        return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
+		      })
+		      .attr("dy", "0.35em")
+		      .text(d => d.data.name);
+
+		  return svg.node();
+		}
+	</script>
+</body>
+</html>

@@ -12,10 +12,10 @@
 	<style type="text/css">
     /* Using the same keyframes and applying different timing functions */
     @keyframes move{
-      0%  { left:0px;    }
-      10% { left:0px;    }
-      90% { left: 300px; }
-      100%{ left: 300px; }
+      0%  { left:0px;   }
+      10% { left:0px;   }
+      90% { left: 100%; }
+      100%{ left: 100%; }
     }
 
     /* https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timing-function */
@@ -48,14 +48,27 @@
     https://cubic-bezier.com/#.14,1.3,1,-0.62
     */
 
-    #container > div{
+    /* Fancy background image border : https://css-tricks.com/more-control-over-css-borders-with-background-image/ */
+    .ease {
+      background-image: repeating-linear-gradient(-56deg, hsl(0, 0%, 88%), hsl(0, 0%, 88%) 8.8px, transparent 10px, transparent 21.439999999999998px, hsl(0, 0%, 88%) 23px), repeating-linear-gradient(34deg, hsl(0, 0%, 88%), hsl(0, 0%, 88%) 8.8px, transparent 10px, transparent 21.439999999999998px, hsl(0, 0%, 88%) 23px), repeating-linear-gradient(124deg, hsl(0, 0%, 88%), hsl(0, 0%, 88%) 8.8px, transparent 10px, transparent 21.439999999999998px, hsl(0, 0%, 88%) 23px), repeating-linear-gradient(214deg, hsl(0, 0%, 88%), hsl(0, 0%, 88%) 8.8px, transparent 10px, transparent 21.439999999999998px, hsl(0, 0%, 88%) 23px);
+      background-size: 2px 100%, 100% 2px, 2px 100% , 100% 2px;
+      background-position: 0 0, 0 0, 100% 0, 0 100%;
+      background-repeat: no-repeat;
+
+      padding-right: 50px;
+      margin: 2rem 0;
+    }
+
+    .ease > div{
       display:block;
-      width:50px;height:50px;
+      width:50px;
+      height:50px;
       border-radius:25px;
       background: #333;
       margin:10px 0;
       position:relative;
       top:0px;left:0px;
+      margin: 2rem 0;
     }
   </style>
 
@@ -67,10 +80,14 @@
 <main role="main">
   <article>
   <h1>How to take it ease</h1>
-  <h2>An introduction to easing options</h2>
-  <div id="container">
-    <p>Linear:</p>
+  <div class="ease">
+    <p>An example of <b>linear</b> easing:</p>
     <div id="linear"></div>
+  </div>
+  <h2>An introduction to easing options</h2>
+  <p>Easing is an animation technique for showing a change in time or motion. It is most commonly used for slow-in, slow-out effects. By easing time, animated transitions are smoother and exhibit more plausible motion. For a complete breakdown of each animation property, see the <a href="https://github.com/d3/d3-ease">D3 ease</a> documentation.</p>
+  <p>Each dot is easing for <mark>3 seconds</mark> and moves an equal distance.</p>
+  <div class="ease">
     <p>Ease-in:</p>
     <div id="easein"></div>
     <p>Ease-out:</p>
@@ -82,13 +99,13 @@
     <p>Bezier:</p>
     <div id="bezier"></div>
   </div>
-<p>Easing is a method of distorting time to control apparent motion in animation. It is most commonly used for slow-in, slow-out. By easing time, animated transitions are smoother and exhibit more plausible motion. For a breakdown of each animation property, see the <a href="https://github.com/d3/d3-ease">D3 ease</a> documentation.</p>
+
 </article>
 </main>
 <footer>
   <h2 id="footnote-label">Footnotes</h2>
-  <ol class="visually-hidden">
-    <li id="footnotes">Ludwig Mies van der Rohe (born as Maria Ludwig Michael Mies; March 27, 1886, Aachen – August 19, 1969, Chicago) was a German-American architect. Along with <b>Le Corbusier</b>, <b>Alvar Aalto</b> and <b>Frank Lloyd Wright</b>, he is widely regarded as one of the first masters of modern architecture. More information about Mies <a href="https://en.wikipedia.org/wiki/Ludwig_Mies_van_der_Rohe">here</a>.<a href="#footnotes-ref" aria-label="Back to content">↩</a></li>
+  <ol>
+    <li id="footnotes"><a href="https://css-tricks.com/more-control-over-css-borders-with-background-image/">CSS-Tricks</a> has a nice snippet of code for the dashed border effect. They always have top notch content.<a href="#footnotes-ref" aria-label="Back to content">↩</a></li>
   </ol>
   <h1 class="visually-hidden">Justin Chill © 2020</h1>
 </footer>
