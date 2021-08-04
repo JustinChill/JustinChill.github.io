@@ -11,14 +11,15 @@
 
   <style type="text/css">
     /* Navbar styles */
-    @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap");
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&family=Work+Sans:wght@400;600;800&display=swap');
+
     .navbar-container {
       /*width: 1170px;*/
       position: relative;
       margin-left: auto;
       margin-right: auto;
       padding-left: 15px;
-      padding-right: 15px;
+      padding-right: 15px;      
     }
 
     .navbar a,
@@ -221,6 +222,90 @@
         font-size: 1.05rem;
       }
     }
+
+    /* Style the rainbow text element. From Sarah F. https://codepen.io/fossheim/pen/PooBwRa */
+    .rainbow-text {
+      /* Create a conic gradient. */
+      /* Double percentages to avoid blur (#000 10%, #fff 10%, #fff 20%, ...). */
+      background: #E66A6A;
+      background-color: #E66A6A;
+      background: conic-gradient(
+        #E66A6A 16.666%, 
+        #647ACB 16.666%, 
+        #647ACB 33.333%, 
+        #E9B949 33.333%, 
+        #E9B949 50%, 
+        #7B93DB 50%, 
+        #7B93DB 66.666%, 
+        #98AEEB 66.666%, 
+        #98AEEB 83.333%, 
+        #35469C 83.333%);
+      
+      /* Set thee background size and repeat properties. */
+      background-size: 57%;
+      background-repeat: repeat;
+      
+      /* Use the text as a mask for the background. */
+      /* This will show the gradient as a text color rather than element bg. */
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent; 
+      
+      /* Animate the text when loading the element. */
+      /* This animates it on page load and when hovering out. */
+      animation: rainbow-text-animation-rev 0.5s ease forwards;
+
+      cursor: pointer;
+    }
+
+    .rainbow-text {
+      margin: 0;
+      font-family: "Work Sans", sans-serif;
+      font-weight: 800;
+      font-size: 2.25em;
+      line-height: 1em;
+      margin-left: auto;
+      text-align: left;
+    }
+
+    /* Add animation on hover. */
+    .rainbow-text:hover {
+      animation: rainbow-text-animation 0.5s ease forwards;
+    }
+
+    /* Move the background and make it larger. */
+    /* Animation shown when hovering over the text. */
+    @keyframes rainbow-text-animation {
+      0% {
+        background-size: 57%;
+        background-position: 0 0;
+      }
+      20% {
+        background-size: 57%;
+        background-position: 0 1em;
+      }
+      100% {
+        background-size: 300%;
+        background-position: -9em 1em;
+      }
+    }
+
+    /* Move the background and make it smaller. */
+    /* Animation shown when entering the page and after the hover animation. */
+    @keyframes rainbow-text-animation-rev {
+      0% {
+        background-size: 300%;
+        background-position: -9em 1em;
+      }
+      20% {
+        background-size: 57%;
+        background-position: 0 1em;
+      }
+      100% {
+        background-size: 57%;
+        background-position: 0 0;
+      }
+    }
+
     /* 👋 wave */
     .wave {
       animation-name: wave-animation;  /* Refers to the name of your @keyframes element below */
@@ -357,12 +442,12 @@
           <span></span>
         </button>
         <a href="index.html">
-          <h4>Justin<span>Chill</span></h4>
+          <h1 class="rainbow-text">Justin <br>Chill</h1>
         </a>
       </div>
 
       <div class="navbar-menu" id="open-navbar1">
-        <ul class="navbar-nav visually-hidden">
+        <ul class="navbar-nav">
           <li class="navbar-dropdown">
             <a href="#" class="dropdown-toggler" data-dropdown="my-dropdown-id">
               Categories <i class="fa fa-angle-down"></i>
@@ -452,7 +537,10 @@
     <li id="footnotes">Inspiration for using Aliens as boilderplate HTML elements from <a href="https://tailwind-typography-playground.vercel.app">this</a> lovely Tailwinds example <a href="#footnotes-ref" aria-label="Back to content">↩</a></li>
 
   </ol>
-  <h1 class="visually-hidden">Justin Chill © 2020</h1>
+  <div>
+    <p>Justin Chill © 2020. Thanks for reading!</p>
+    <p><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="gh">Source code and feedback</a></p>    
+  </div>
 </footer>
 </body>
 <script type="text/javascript">
