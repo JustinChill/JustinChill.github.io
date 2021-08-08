@@ -3,103 +3,93 @@
 <head>
 	<title>Take it ease</title>
 	<meta charset="UTF-8">
+  <script src="script.js"></script>
 	<link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
 
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="How to take it ease">
-	<meta name="author" content="Justin Chill">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="How to take it ease">
+  <meta name="author" content="Justin Chill">
 
-	<style type="text/css">
-    /*Text-shadow pattern*/
-    *,
-    *:before,
-    *:after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      position: relative;
-    }
-
-    section:after {
-      /*background-color: #fff;*/
-    }
-    .banner {
-      text-align: center;
-      min-height: 100vh;
-      background-color: hsla(230, 40%, 50%, 1);
-    }
-    .banner:before {
-      content: "";
-      display: inline-block;
-      vertical-align: middle;
-      font-size: 0;
-      height: 100%;
-    }
-
-    h1.intro {
-      display: inline-block;
-      color: white;
-      font-family: "Righteous", serif;
-      font-size: 6em;
-      padding: 1rem 0;
-      text-shadow: 0.03em 0.03em 0 hsla(230, 40%, 50%, 1);
-    }
-    h1.intro:after {
-      content: attr(data-shadow);
-      position: absolute;
-      top: 0.15em;
-      right: -0.05em;
-      z-index: 1;
-      text-shadow: none;
-      background-image: linear-gradient(
-        45deg,
-        transparent 40%,
-        hsla(48, 20%, 90%, 1) 40%,
-        hsla(48, 20%, 90%, 1) 60%,
-        transparent 0
-      );
-      background-size: 0.02em 0.02em;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-
-      animation: shad-anim 35s linear infinite;
-    }
-
-    @keyframes shad-anim {
-      0% {
-        background-position: 0 0;
-      }
-      0% {
-        background-position: 100% -100%;
-      }
-    }
-
-    /*Centered banner*/
-    .banner h1,
-    .banner h3,
-    .banner h6 {
-      margin: 0;
-      text-shadow: 0.03em 0.03em 0 hsla(230, 40%, 50%, 1);
-      text-align: center;
-    }
-    .banner {
-      color: white;
-      background-color: background-color: hsla(230, 40%, 50%, 1);
-      height: 50vh;
+  <style type="text/css">
+    body header {
       display: flex;
       justify-content: center;
-      align-items: center;
+    }
+    header h1{
+      margin: 0;
+    }
+    .stripes {
+      height: 700px;
+      background: linear-gradient(150deg, #53f 15%, #05d5ff 70%, #a6ffcb 94%);
+      /*background: linear-gradient(150deg, hsl(232, 51%, 36%) 15%, hsl(224, 67%, 76%) 70%, hsl(178, 78%, 57%) 94%);*/
+      transform: skewY(-12deg);
+      transform-origin: 0;
     }
 
-    @media screen and (min-width:768px) {
-      h1.intro {
-        font-size: 12em;
-      }
+    .stripes span {
+      position: absolute;
+      height: 190px;
+    }
+    .stripes span:nth-child(1) {
+      background: #53f;
+      width: 33.33%;
+      left: -16.66%;
+      top: 0;
+    }
+    .stripes span:nth-child(2) {
+      background: #4553ff;
+      width: 33.33%;
+      left: 16.66%;
+      top: 0;
+      bottom: auto;
+      right: auto;
+    }
+    .stripes span:nth-child(3) {
+      background: #4f40ff;
+      width: 33.33%;
+      left: 49.99%;
+      bottom: auto;
+      right: auto;
     }
 
+    .introduction {
+      position: absolute;
+      top: 200px;
+      left: 80px;
+      /*position: absolute;*/
+      transform: translateY(-10%);
+      /*box-shadow: 0 1px 4px 0 rgba(0,0,0,.1);*/
+    }
 
+    .introduction h2, 
+    .introduction h4 {
+      color: #fff;
+      /*font-family: "Open Sans", sans-serif;*/
+    }
 
+    .introduction h2 {
+      font-size: 10rem;
+      margin-bottom: 0;
+      /*width: 200px;*/
+      line-height: 1;
+      letter-spacing: -4px;
+      font-weight: 800;
+    }
+
+    .introduction h4 {
+      font-weight: 300;
+      font-size: 3em;
+      margin-top: 0;
+      line-height: 2;
+    }
+
+    article{
+      margin-top: 1rem;
+    }
+    article h1{
+      transform: translateY(-50%);
+    }
 
     /* Using the same keyframes and applying different timing functions */
     @keyframes move{
@@ -168,47 +158,159 @@
 
 </head>
 <body>
- <header>
-  <h1><a href="index.html" rel="home">Justin's blog</a></h1>
-</header>
-<main role="main">
-  <div class="banner">
-    <div class="banner-text">
-      <h1 class="intro" data-shadow='ease!'>Take it ease!</h1>
+  <header class="Nav">
+    <div class="Container">
+      <ul class="Nav-base allowExpand">
+        <li class="developersRoot hasDropdown" data-dropdown="developers">
+          <a class="rootLink"><h2>Blog</h2></a>
+        </li>
+        <li class="companyRoot hasDropdown" data-dropdown="company">
+          <a class="rootLink"><h2>About</h2></a>
+        </li>
+      </ul>
     </div>
-  </div>
 
-  <!-- <section></section> -->
-  <article>
-  <h1>Interpolating motion using the easing function</h1>
-  <div class="ease">
-    <p>An example of <b>linear</b> easing:</p>
-    <div id="linear"></div>
-  </div>
-  <h2>An introduction to easing functions</h2>
-  <p>Easing is an animation technique for showing a change in time or motion. It is most commonly used for slow-in, slow-out effects. By easing time, animated transitions are smoother and exhibit more plausible motion. For a complete breakdown of each animation property, see the <a href="https://github.com/d3/d3-ease">D3 ease</a> documentation.</p>
-  <p>Each dot is easing for <mark>3 seconds</mark> and moves an equal distance.</p>
-  <div class="ease">
-    <p>Ease-in:</p>
-    <div id="easein"></div>
-    <p>Ease-out:</p>
-    <div id="easeout"></div>
-    <p>Ease both:</p>
-    <div id="easeboth"></div>
-    <p>Steps:</p>
-    <div id="steps"></div>
-    <p>Bezier:</p>
-    <div id="bezier"></div>
-  </div>
+    <div class="Dropdown-base">
+      <div class="Dropdown-bg">
+        <div class="Dropdown-bg--alt"></div>
+      </div>
 
-</article>
-</main>
-<footer>
-  <h2 id="footnote-label">Footnotes</h2>
-  <ol>
-    <li id="footnotes"><a href="https://css-tricks.com/more-control-over-css-borders-with-background-image/">CSS-Tricks</a> has a nice snippet of code for the dashed border effect. They always have top notch content.<a href="#footnotes-ref" aria-label="Back to content">↩</a></li>
-  </ol>
-  <h1 class="visually-hidden">Justin Chill © 2020</h1>
-</footer>
+      <div class="Dropdown-arrow"></div>
+
+      <div class="Dropdown-container">
+        <div class="Dropdown-section" data-dropdown="developers">
+          <div class="Dropdown-content">
+            <div class="Nav-linkGroup documentationGroup">
+              <a class="Nav-link withIcon item-documentation" href="/">
+                <h2 class="linkTitle linkIcon">
+                Justin Chill</h2>
+                <span class="linkSub">My blog, thoughts, and musings
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" width="20px" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                  </svg></span>
+                </a>
+                <div class="documentationArticles">
+                  <ul>
+                    <li>
+                      <h4>Just in posts</h4></li>
+                      <li><a href="/Anscombe.html">Anscombe's quartet</a></li>
+                      <li><a href="/illusions.html">Impossible objects</a></li>
+                      <li><a href="/rings.html">Spinning rings</a></li>
+                    </ul>
+                    <ul>
+                      <li>
+                        <h4>Just for fun</h4></li>
+                        <li><a href="/bingo.html">Conference call bingo</a></li>
+                        <li><a href="/inf-hoe-graphic.html">Inf-hoe-graphic</a></li>
+                        <li><a href="/xkcd.html">Security tips</a></li>
+                        <li><a href="/to-don't.html">To-don't list</a></li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <ul class="Nav-linkGroup linkList developersGroup">
+                    <li>
+                      <a class="Nav-link item-apiStatus" href="/glossary.html">
+                        <h3 class="linkTitle linkIcon"><svg width="17" height="17"><path d="M1 9h2.95l3-6.5 3 12 3-5.45L16 9" fill="none" stroke="#6772e5" class="hover-strokeDark" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Data visualization glossary</h3>
+                      </a>
+                    </li>
+                    <li>
+                      <a class="Nav-link item-apiReference" href="/UI-details.html">
+                        <h3 class="linkTitle linkIcon"><svg xmlns="http://www.w3.org/2000/svg" width="17" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                        </svg>User Interface details</h3>
+                      </a>
+                    </li>
+                    <li>
+                      <a class="Nav-link item-openSource" href="/css-selectors.html">
+                        <h3 class="linkTitle linkIcon"><svg width="17" height="17"><path fill="#6772E5" class="hover-fillDark" d="M8.5 17a8.5 8.5 0 1 1 0-17 8.5 8.5 0 0 1 0 17zM6.987 6.078a.684.684 0 0 0-.968-.968L3.116 8.012a.684.684 0 0 0 0 .967l2.9 2.9a.684.684 0 0 0 .97-.967l-2.42-2.418 2.42-2.42zm6.996 1.95L11.08 5.123a.684.684 0 0 0-.966.968l2.418 2.42-2.418 2.417a.684.684 0 0 0 .967.967l2.904-2.902a.684.684 0 0 0 0-.966z"></path></svg>Cascading Style Sheets (CSS)</h3>
+                      </a>
+                    </li>
+                  </ul>
+
+                </div>
+              </div>
+
+              <div class="Dropdown-section" data-dropdown="company">
+                <div class="Dropdown-content">
+                  <ul class="Nav-linkGroup linkList companyGroup">
+                    <li>
+                      <a class="Nav-link item-about" href="javascript:void(0);">
+                        <h3 class="linkTitle linkIcon"><span class="wave">👋</span> Hello there</h3>
+                        <span class="linkSub">You look great today</span>
+                      </a>
+                    </li>
+              <li>
+                <a class="Nav-link item-customers" href="http://linkedin.com/in/justinrichardhill/">
+                  <h3 class="linkTitle linkIcon"><svg width="17" height="17"><path fill="#87BBFD" class="hover-fillLight" d="M2 16a1 1 0 0 1-1-1V9a4 4 0 0 1 8 0v7H2zm3-9a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"></path><path fill="#6772E5" class="hover-fillDark" d="M15 16H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h.55a2.5 2.5 0 0 1 4.9 0H15a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1z"></path><path fill="#87BBFD" class="hover-fillLight" d="M11 12h2v4h-2v-4z"></path></svg>LinkedIn</h3>
+                </a>
+              </li>
+              <li>
+                <a class="Nav-link item-jobs" href="data/Justin Hill Resume  2021.pdf" download>
+                  <h3 class="linkTitle linkIcon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" width="17" height="17"><path fill="#6772E5" class="hover-fillDark" d="M1.5 4h14c.828 0 1.5.67 1.5 1.5v8a1.5 1.5 0 0 1-1.5 1.5h-14A1.5 1.5 0 0 1 0 13.5v-8C0 4.67.67 4 1.5 4z"></path><path fill="#87BBFD" class="hover-fillLight" d="M13 15V4h2v11h-2zM2 4h2v11H2V4z"></path><path fill="#6772E5" class="hover-fillDark" d="M11.5 3.5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1V4H4v-.5A2.5 2.5 0 0 1 6.5 1h4A2.5 2.5 0 0 1 13 3.5V4h-1.5v-.5z"></path>
+                    </svg>
+                  Resume</h3>
+                </a>
+              </li>
+            </ul>
+
+            <div class="Nav-linkGroup blogGroup">
+              <a class="Nav-link withIcon item-blog" href="/index.html">
+                <h3 class="linkTitle linkIcon">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                  </svg>
+                Recent posts</h3>
+              </a>
+              <ul class="Nav-blogPosts">
+                <li><a class="fresh" href="/rhcp.html"><span>RHCP tribute</span></a></li>
+                <li><a href="/to-don't.html"><span>To-Don't List</span></a></li>
+                <li><a href="/word-avalanches.html"><span>Word avalanches</span></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main role="main">
+    <header class="stripes"><span></span><span></span><span></span><span></span><span></span></header>
+    <div class="introduction">
+      <h2>Take it ease</h2>
+      <h4>Animated transitions on the web</h4>
+    </div>
+    <article>
+      <h1>Interpolating motion using the easing function</h1>
+      <div class="ease">
+        <p>An example of <b>linear</b> easing:</p>
+        <div id="linear"></div>
+      </div>
+      <h2>An introduction to easing functions</h2>
+      <p>Easing is an animation technique for showing a change in time or motion. It is most commonly used for slow-in, slow-out effects. By easing time, animated transitions are smoother and exhibit more plausible motion. For a complete breakdown of each animation property, see the <a href="https://github.com/d3/d3-ease">D3 ease</a> documentation.</p>
+      <p>Each dot is easing for <mark>3 seconds</mark> and moves an equal distance.</p>
+      <div class="ease">
+        <p>Ease-in:</p>
+        <div id="easein"></div>
+        <p>Ease-out:</p>
+        <div id="easeout"></div>
+        <p>Ease both:</p>
+        <div id="easeboth"></div>
+        <p>Steps:</p>
+        <div id="steps"></div>
+        <p>Bezier:</p>
+        <div id="bezier"></div>
+      </div>
+
+    </article>
+  </main>
+  <footer>
+    <h2 id="footnote-label">Footnotes</h2>
+    <ol>
+      <li id="footnotes"><a href="https://css-tricks.com/more-control-over-css-borders-with-background-image/">CSS-Tricks</a> has a nice snippet of code for the dashed border effect. They always have top notch content.<a href="#footnotes-ref" aria-label="Back to content">↩</a></li>
+    </ol>
+    <h1 class="visually-hidden">Justin Chill © 2020</h1>
+  </footer>
 </body>
 </html>

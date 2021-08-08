@@ -4,398 +4,18 @@
   <title>Aliens</title>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="style.css" />
+  <script src="script.js"></script>
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="How I've built the site.">
   <meta name="author" content="Justin Chill">
 
   <style type="text/css">
-    /* Navbar styles */
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&family=Work+Sans:wght@400;600;800&display=swap');
-
-    .Container {
-      width: 100%;
-      max-width: 1040px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    .Nav {
-      position: absolute;
-      z-index: 500;
-      top: 10px;
-      right: 0;
-      left: 0;
-      height: 50px;
-      padding: 0;
-      font-family: Camphor, Roboto, Open Sans, Segoe UI, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      perspective: 2000px;
-    }
-
-    .Nav ul {
-      margin: 0;
-      padding: 0;
-    }
-
-    .Nav li {
-      list-style: none;
-      padding: 0;
-    }
-
-    .Nav a {
-      transition: color 0.1s;
-      text-decoration: none;
-      color: #6772e5;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .Nav a:hover {
-      color: #32325d;
-    }
-
-    .Nav-base {
-      position: relative;
-      margin: 0 -5px;
-      justify-content: center;
-    }
-
-    .Nav-base a {
-      color: #fff;
-    }
-
-    .Nav-base a:active,
-    .Nav-base a:hover {
-      color: rgba(255, 255, 255, 0.5);
-    }
-
-    .Nav > .Container {
-      padding: 0;
-    }
-
-    .Nav-base {
-      display: flex;
-      justify-content: flex-end;
-    }
-
-    .Nav-base li{
-      padding-left: 0;
-    }
-    .Nav-base li:before{
-      content: none;
-    }
-
-    .Nav .rootLink {
-      display: inline-block;
-      height: 50px;
-      padding: 0 15px;
-      -webkit-user-select: none;
-         -moz-user-select: none;
-          -ms-user-select: none;
-              user-select: none;
-      white-space: nowrap;
-    }
-
-    .Nav .allowExpand .rootLink {
-      padding: 0 25px;
-    }
-
-    .Nav .hasDropdown .rootLink {
-      cursor: default;
-    }
-
-    .Nav .rootLink h2 {
-      margin: 0;
-      font-weight: 400;
-      line-height: 50px;
-    }
-
-    .Nav .primary .rootLink h2 {
-      font-weight: 500;
-    }
-
-    .Nav .Dropdown-base {
-      position: absolute;
-      z-index: 1000;
-      top: 60px;
-      right: 0;
-      left: 0;
-      display: block;
-      transition-duration: 0.25s;
-      transition-property: transform, opacity;
-      transform: rotateX(-15deg);
-      transform-origin: 50% -50px;
-      pointer-events: none;
-      opacity: 0;
-      will-change: transform, opacity;
-    }
-
-    .Nav.dropdownActive .Dropdown-base {
-      transform: none;
-      pointer-events: auto;
-      opacity: 1;
-    }
-
-    .Nav .Dropdown-bg {
-      overflow: hidden;
-      width: 520px;
-      height: 400px;
-      transform: translateX(0);
-      transform-origin: 0 0;
-      border-radius: 4px;
-      background: #fff;
-      box-shadow: 0 50px 100px rgba(50, 50, 93, 0.1), 0 15px 35px rgba(50, 50, 93, 0.15), 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .Nav .Dropdown-bg--alt,
-    .Nav .Dropdown-bg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      transition-duration: 0.25s;
-      transition-property: transform;
-      will-change: transform;
-    }
-
-    .Nav .Dropdown-bg--alt {
-      right: 0;
-      height: 1000px;
-      background: #f6f9fc;
-    }
-
-    .Nav .Dropdown-arrow {
-      top: -6px;
-      width: 12px;
-      height: 12px;
-      margin: 0 0 0 -10px;
-      transition-property: transform;
-      transform: rotate(45deg);
-      border-radius: 4px 0 0 0;
-      background: #fff;
-      box-shadow: -2px -2px 5px rgba(82, 95, 127, 0.08);
-      will-change: transform;
-    }
-
-    .Nav .Dropdown-arrow,
-    .Nav .Dropdown-container {
-      position: absolute;
-      left: 0;
-      transition-duration: 0.25s;
-    }
-
-    .Nav .Dropdown-container {
-      top: 0;
-      overflow: hidden;
-      transition-property: transform, width, height;
-      transform: translateX(0);
-      will-change: transform, width, height;
-    }
-
-    .Nav .Dropdown-section {
-      transition-duration: 0.25s;
-      transition-property: transform, opacity;
-      pointer-events: none;
-      opacity: 0;
-      background: red;
-      will-change: transform, opacity;
-    }
-
-    .Nav .Dropdown-section.active {
-      transform: translateX(0);
-      pointer-events: auto;
-      opacity: 1;
-    }
-
-    .Nav .Dropdown-section.left {
-      transform: translateX(-150px);
-    }
-
-    .Nav .Dropdown-section.right {
-      transform: translateX(150px);
-    }
-
-    .Nav.noDropdownTransition .Dropdown-bg--alt,
-    .Nav.noDropdownTransition .Dropdown-arrow,
-    .Nav.noDropdownTransition .Dropdown-bg,
-    .Nav.noDropdownTransition .Dropdown-container,
-    .Nav.noDropdownTransition .Dropdown-section {
-      transition: none;
-    }
-
-    .Nav .Dropdown-content {
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-
-    .Nav .Nav-linkGroup {
-      padding: 20px 35px;
-    }
-    .Nav .Nav-linkGroup li:before {
-      content: none;
-    }
-
-    .Nav .Nav-link {
-      display: block;
-      padding: 9px 0;
-    }
-
-    .Nav .linkTitle {
-      text-transform: uppercase;
-      color: #6772e5;
-      font-size: calc(12px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
-    }
-
-    .Nav .linkSub {
-      display: block;
-      margin-top: 5px;
-      color: #6b7c93;
-      font-size: calc(12px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
-      /*line-height: 22px;*/
-    }
-
-    .Nav .linkSub,
-    .Nav .linkTitle {
-      transition: color 0.1s;
-    }
-
-    .Nav .Nav-link:hover .linkTitle,
-    .Nav .linkTitle:hover {
-      color: #32325d;
-    }
-
-    .Nav .Nav-link:hover .linkSub {
-      color: #424770;
-    }
-
-    .Nav .hover-fillDark,
-    .Nav .hover-fillLight {
-      transition: fill 0.1s;
-    }
-
-    .Nav .hover-strokeDark,
-    .Nav .hover-strokeLight {
-      transition: stroke 0.1s;
-    }
-
-    .Nav .Nav-link:hover .hover-fillLight {
-      fill: #8898aa;
-    }
-
-    .Nav .Nav-link:hover .hover-fillDark {
-      fill: #32325d;
-    }
-
-    .Nav .Nav-link:hover .hover-strokeLight {
-      stroke: #8898aa;
-    }
-
-    .Nav .Nav-link:hover .hover-strokeDark {
-      stroke: #32325d;
-    }
-
-    .Nav .linkIcon {
-      white-space: nowrap;
-    }
-
-    .Nav .linkIcon svg {
-      margin: 0 12px -3px -1px;
-      width: 20px;
-      height: 20px;
-    }
-
-    .Nav .withIcon {
-      /*padding-left: 12px;*/
-    }
-
-    .Nav .documentationGroup .linkSub {
-      max-width: 250px;
-    }
-
-    .Nav .documentationArticles {
-      display: flex;
-      margin: 15px 0px 10px;
-      white-space: nowrap;
-      font-size: calc(14px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
-      /*font-size: 15px;*/
-      /*line-height: 26px;*/
-    }
-
-    .Nav .documentationArticles li:before{
-      content: none;
-    }
-
-    .Nav .documentationArticles > ul {
-      margin-right: 40px;
-    }
-
-    .Nav .documentationArticles > ul:last-child {
-      margin-right: 0;
-    }
-
-    .Nav .documentationArticles h4 {
-      margin: 0 0 3px;
-      /*letter-spacing: 0.025em;*/
-      text-transform: uppercase;
-      color: #8898aa;
-      font-size: calc(12px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
-      /*font-weight: 500;*/
-      /*line-height: 22px;*/
-    }
-
-    .Nav-blogPosts {
-      margin: 5px 5px 12px 28px;
-    }
-
-    .Nav-blogPosts a {
-      position: relative;
-      display: block;
-      margin-top: 4px;
-      white-space: nowrap;
-      font-size: calc(10px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
-    }
-
-    .Nav-blogPosts a:after {
-      margin-left: 10px;
-      content:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='none' width='16' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 5l7 7-7 7' /></svg>");
-      vertical-align: -2px;
-    }
-
-    .Nav-blogPosts a.fresh {
-      font-weight: 500;
-    }
-
-    .Nav-blogPosts a.fresh:before {
-      position: absolute;
-      top: 1px;
-      left: -19px;
-      width: 8px;
-      height: 8px;
-      content:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' width='14px' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z' /></svg>");   
-      content: none;   
-/*      border-radius: 50%;
-      background: currentColor;*/
-    }
-
-    .Nav-blogPosts span {
-      display: inline-block;
-      overflow: hidden;
-      max-width: 300px;
-      vertical-align: top;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      line-height: 22px;
-    }
-
-
-
-
     pre:before{
       content: 'Aliens (1986) Screenplay'
     }
-  	/* Text styles */
-  	del, s {
+    /* Text styles */
+    del, s {
      text-decoration: line-through;
    }
 
@@ -490,7 +110,7 @@
    article h1{
     text-align: left;
     margin-top: 1em;
-   }
+  }
   .caps{
     text-transform: uppercase;
   }
@@ -499,17 +119,17 @@
    position: relative;
    padding-left: 1em;
    list-style: none;
-  }
-  ul > li:before{
-    content: "";
-    position: absolute;
-    background-color: #cbd5e0;
-    border-radius: 50%;
-    width: .375em;
-    height: .375em;
-    top: .6875em;
-    left: .25em;
-  }
+ }
+ ul > li:before{
+  content: "";
+  position: absolute;
+  background-color: #cbd5e0;
+  border-radius: 50%;
+  width: .375em;
+  height: .375em;
+  top: .6875em;
+  left: .25em;
+}
 
 </style>
 </head>
@@ -538,69 +158,69 @@
           <div class="Dropdown-content">
             <div class="Nav-linkGroup documentationGroup">
               <a class="Nav-link withIcon item-documentation" href="/">
-                <h3 class="linkTitle linkIcon">
-                  Justin Chill</h3>
-                <span class="linkSub">Thoughts from a balcony.
+                <h2 class="linkTitle linkIcon">
+                Justin Chill</h2>
+                <span class="linkSub">My blog, thoughts, and musings
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" width="20px" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                </svg></span>
-              </a>
-              <div class="documentationArticles">
-                <ul>
-                  <li>
-                    <h4>Just interests</h4></li>
-                  <li><a href="/Anscombe.html">Anscombe's quartet</a></li>
-                  <li><a href="/illusions.html">Impossible objects</a></li>
-                  <li><a href="/rings.html">Spinning rings</a></li>
-                </ul>
-                <ul>
-                  <li>
-                    <h4>Just for fun</h4></li>
-                  <li><a href="/bingo.html">Conference call bingo</a></li>
-                  <li><a href="/inf-hoe-graphic.html">Inf-hoe-graphic</a></li>
-                  <li><a href="/xkcd.html">Security tips</a></li>
-                  <li><a href="/to-don't.html">To-don't list</a></li>
-                </ul>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                  </svg></span>
+                </a>
+                <div class="documentationArticles">
+                  <ul>
+                    <li>
+                      <h4>Just in posts</h4></li>
+                      <li><a href="/Anscombe.html">Anscombe's quartet</a></li>
+                      <li><a href="/illusions.html">Impossible objects</a></li>
+                      <li><a href="/rings.html">Spinning rings</a></li>
+                    </ul>
+                    <ul>
+                      <li>
+                        <h4>Just for fun</h4></li>
+                        <li><a href="/bingo.html">Conference call bingo</a></li>
+                        <li><a href="/inf-hoe-graphic.html">Inf-hoe-graphic</a></li>
+                        <li><a href="/xkcd.html">Security tips</a></li>
+                        <li><a href="/to-don't.html">To-don't list</a></li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <ul class="Nav-linkGroup linkList developersGroup">
+                    <li>
+                      <a class="Nav-link item-apiStatus" href="/glossary.html">
+                        <h3 class="linkTitle linkIcon"><svg width="17" height="17"><path d="M1 9h2.95l3-6.5 3 12 3-5.45L16 9" fill="none" stroke="#6772e5" class="hover-strokeDark" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Data visualization glossary</h3>
+                      </a>
+                    </li>
+                    <li>
+                      <a class="Nav-link item-apiReference" href="/UI-details.html">
+                        <h3 class="linkTitle linkIcon"><svg xmlns="http://www.w3.org/2000/svg" width="17" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                        </svg>User Interface details</h3>
+                      </a>
+                    </li>
+                    <li>
+                      <a class="Nav-link item-openSource" href="/css-selectors.html">
+                        <h3 class="linkTitle linkIcon"><svg width="17" height="17"><path fill="#6772E5" class="hover-fillDark" d="M8.5 17a8.5 8.5 0 1 1 0-17 8.5 8.5 0 0 1 0 17zM6.987 6.078a.684.684 0 0 0-.968-.968L3.116 8.012a.684.684 0 0 0 0 .967l2.9 2.9a.684.684 0 0 0 .97-.967l-2.42-2.418 2.42-2.42zm6.996 1.95L11.08 5.123a.684.684 0 0 0-.966.968l2.418 2.42-2.418 2.417a.684.684 0 0 0 .967.967l2.904-2.902a.684.684 0 0 0 0-.966z"></path></svg>Cascading Style Sheets (CSS)</h3>
+                      </a>
+                    </li>
+                  </ul>
+
+                </div>
               </div>
-            </div>
 
-            <ul class="Nav-linkGroup linkList developersGroup">
+              <div class="Dropdown-section" data-dropdown="company">
+                <div class="Dropdown-content">
+                  <ul class="Nav-linkGroup linkList companyGroup">
+                    <li>
+                      <a class="Nav-link item-about" href="javascript:void(0);">
+                        <h3 class="linkTitle linkIcon"><span class="wave">👋</span> Hello there</h3>
+                        <span class="linkSub">You look great today</span>
+                      </a>
+                    </li>
               <li>
-                <a class="Nav-link item-apiStatus" href="/glossary.html">
-                  <h3 class="linkTitle linkIcon"><svg width="17" height="17"><path d="M1 9h2.95l3-6.5 3 12 3-5.45L16 9" fill="none" stroke="#6772e5" class="hover-strokeDark" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>Data visualization glossary</h3>
+                <a class="Nav-link item-customers" href="http://linkedin.com/in/justinrichardhill/">
+                  <h3 class="linkTitle linkIcon"><svg width="17" height="17"><path fill="#87BBFD" class="hover-fillLight" d="M2 16a1 1 0 0 1-1-1V9a4 4 0 0 1 8 0v7H2zm3-9a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"></path><path fill="#6772E5" class="hover-fillDark" d="M15 16H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h.55a2.5 2.5 0 0 1 4.9 0H15a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1z"></path><path fill="#87BBFD" class="hover-fillLight" d="M11 12h2v4h-2v-4z"></path></svg>LinkedIn</h3>
                 </a>
               </li>
-              <li>
-                <a class="Nav-link item-apiReference" href="/UI-details.html">
-                  <h3 class="linkTitle linkIcon"><svg xmlns="http://www.w3.org/2000/svg" width="17" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-</svg>User Interface details</h3>
-                </a>
-              </li>
-              <li>
-                <a class="Nav-link item-openSource" href="/cascading.html">
-                  <h3 class="linkTitle linkIcon"><svg width="17" height="17"><path fill="#6772E5" class="hover-fillDark" d="M8.5 17a8.5 8.5 0 1 1 0-17 8.5 8.5 0 0 1 0 17zM6.987 6.078a.684.684 0 0 0-.968-.968L3.116 8.012a.684.684 0 0 0 0 .967l2.9 2.9a.684.684 0 0 0 .97-.967l-2.42-2.418 2.42-2.42zm6.996 1.95L11.08 5.123a.684.684 0 0 0-.966.968l2.418 2.42-2.418 2.417a.684.684 0 0 0 .967.967l2.904-2.902a.684.684 0 0 0 0-.966z"></path></svg>Cascading Style Sheets (CSS)</h3>
-                </a>
-              </li>
-            </ul>
-
-          </div>
-        </div>
-
-        <div class="Dropdown-section" data-dropdown="company">
-          <div class="Dropdown-content">
-            <ul class="Nav-linkGroup linkList companyGroup">
-              <li>
-                <a class="Nav-link item-about" href="javascript:void(0);">
-                  <h3 class="linkTitle linkIcon"><span class="wave">👋</span> Hello there</h3>
-                  <span class="linkSub">You look great today</span>
-                </a>
-              </li>
-<!--               <li>
-                <a class="Nav-link item-customers" href="javascript:void(0);">
-                  <h3 class="linkTitle linkIcon"><svg width="17" height="17"><path fill="#87BBFD" class="hover-fillLight" d="M2 16a1 1 0 0 1-1-1V9a4 4 0 0 1 8 0v7H2zm3-9a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"></path><path fill="#6772E5" class="hover-fillDark" d="M15 16H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h.55a2.5 2.5 0 0 1 4.9 0H15a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1z"></path><path fill="#87BBFD" class="hover-fillLight" d="M11 12h2v4h-2v-4z"></path></svg>Customers</h3>
-                </a>
-              </li> -->
               <li>
                 <a class="Nav-link item-jobs" href="data/Justin Hill Resume  2021.pdf" download>
                   <h3 class="linkTitle linkIcon">
@@ -629,7 +249,6 @@
         </div>
       </div>
     </div>
-
   </header>
 
 
@@ -648,7 +267,7 @@
 
     <p>When the colonial marines are called upon to search the deserted space colony, they later find out that they are up against more than what they bargained for. <strong>Using specially modified machine guns and enough firepower, it's either fight or die as the space marines battle against the aliens</strong>. As the Marines do their best to defend themselves, Ripley must attempt to protect a young girl who is the sole survivor of the decimated space colony.</p>
 
-    <p>Find out more on <a href="https://www.imdb.com/title/tt0090605/">IMDB.com</a></p>
+    <p>Find out more on <a href="https://www.imdb.com/title/tt0090605/">IMDB.com</a><a href="#footnotes" aria-describedby="footnote-label" id="footnotes-ref"></a></p>
 
     <blockquote>
       <p><strong>Burke</strong>: Hold on, hold on just a second. This installation has a substantial dollar value attached to it.</p>
@@ -696,171 +315,4 @@
   </div>
 </footer>
 </body>
-<script type="text/javascript">
-  // The icons aren't mine... naturally
-
-  // Don't need to load jquery, just you some simple vanilla JS functions
-  // Helpers stores useful functions
-  var Helpers = {
-    queryArray: function(e, t) {
-      return t || (t = document.body), Array.prototype.slice.call(t.querySelectorAll(e));
-    },
-    ready: function(e) {
-      document.readyState == 'complete' ? e() : document.addEventListener('DOMContentLoaded', e);
-    }
-  };
-
-  function NavDropdown(element) {
-    var self = this;
-
-    this.container = document.querySelector(element);
-    this.root = this.container.querySelector('.Nav-base');
-    this.isCompact = !1;
-
-    this.root.classList.add('allowExpand');
-    this.container.classList.add('noDropdownTransition');
-
-    this.dropdownBackground = this.container.querySelector('.Dropdown-bg');
-    this.dropdownBackgroundAlt = this.container.querySelector('.Dropdown-bg--alt');
-    this.dropdownContainer = this.container.querySelector('.Dropdown-container');
-    this.dropdownArrow = this.container.querySelector('.Dropdown-arrow');
-
-    this.dropdownSections = Helpers.queryArray('.Dropdown-section', this.container)
-      .map(function(element) {
-        return {
-          el: element,
-          name: element.getAttribute('data-dropdown'),
-          content: element.querySelector('.Dropdown-content')
-        };
-      });
-
-    this.dropdownContainer.addEventListener('mouseenter', function(e) {
-      self.stopCloseTimeout();
-    });
-
-    this.dropdownContainer.addEventListener('mouseleave', function(e) {
-      self.startCloseTimeout();
-    });
-
-    this.dropdownRoots = Helpers.queryArray('.hasDropdown', this.root);
-
-    // Add event listeners
-    this.dropdownRoots.forEach(function(e, n) {
-      e.addEventListener('mouseenter', function(n) {
-        self.stopCloseTimeout();
-        self.openDropdown(e);
-      });
-
-      e.addEventListener('mouseleave', function(e) {
-        self.startCloseTimeout();
-      });
-    });
-  }
-
-  // Prototype an open function
-  NavDropdown.prototype.openDropdown = function(e) {
-    var self = this;
-
-    // if something is active return
-    if (this.activeDropdown === e) return;
-
-    this.container.classList.add('dropdownActive');
-    this.activeDropdown = e;
-
-    this.dropdownRoots.forEach(function(e, t) {
-      e.classList.remove('active');
-    });
-
-    e.classList.add('active');
-
-    // ---------------------------------------------------------------------------
-
-    var data = e.getAttribute('data-dropdown'),
-      direction = 'left',
-      offsetWidth, offsetHeight, content;
-
-    this.dropdownSections.forEach(function(e) {
-      e.el.classList.remove('active');
-      e.el.classList.remove('left');
-      e.el.classList.remove('right');
-
-      e.name == data ? (
-        e.el.classList.add('active'),
-        direction = 'right',
-        offsetWidth = e.content.offsetWidth,
-        offsetHeight = e.content.offsetHeight,
-        content = e.content
-      ) : e.el.classList.add(direction);
-    });
-
-    var width = offsetWidth / 520,
-      height = offsetHeight / 400,
-      offset = e.querySelector('.rootLink').getBoundingClientRect(),
-      position = offset.left + offset.width / 2 - offsetWidth / 2,
-      adjustedHeight = content.children[0].offsetHeight / height,
-      placement = Math.round(offset.left + offset.width / 2);
-
-    position = Math.round(Math.max(position, 10));
-
-    clearTimeout(this.disableTransitionTimeout);
-
-    this.enableTransitionTimeout = setTimeout(function() {
-      self.container.classList.remove('noDropdownTransition');
-    }, 50);
-
-    this.dropdownBackground.style.transform = 'translateX(' + position + 'px) scaleX(' + width + ') scaleY(' + height + ')';
-
-    this.dropdownContainer.style.transform = 'translateX(' + position + 'px)';
-    this.dropdownContainer.style.width = offsetWidth + 'px';
-    this.dropdownContainer.style.height = offsetHeight + 'px';
-
-    this.dropdownArrow.style.transform = 'translateX(' + placement + 'px) rotate(45deg)';
-
-    this.dropdownBackgroundAlt.style.transform = 'translateY(' + adjustedHeight + 'px)';
-  };
-
-  NavDropdown.prototype.closeDropdown = function() {
-    var self = this;
-
-    if (!this.activeDropdown) return;
-
-    this.dropdownSections.forEach(function(e) {
-      e.el.classList.remove('active');
-      e.el.classList.remove('left');
-      e.el.classList.remove('right');
-    });
-
-    this.dropdownRoots.forEach(function(e, t) {
-      e.classList.remove('active');
-    });
-
-    clearTimeout(this.enableTransitionTimeout);
-
-    this.disableTransitionTimeout = setTimeout(function() {
-      self.container.classList.add('noDropdownTransition');
-    }, 50);
-
-    this.container.classList.remove('dropdownActive');
-    this.activeDropdown = undefined;
-  };
-
-  NavDropdown.prototype.startCloseTimeout = function() {
-    var self = this;
-
-    this.closeDropdownTimeout = setTimeout(function() {
-      self.closeDropdown();
-    }, 50);
-  };
-
-  NavDropdown.prototype.stopCloseTimeout = function() {
-    var self = this;
-
-    clearTimeout(self.closeDropdownTimeout);
-  };
-
-  // Initialize on document ready
-  Helpers.ready(function() {
-    new NavDropdown('.Nav');
-  });
-</script>
 </html>
