@@ -64,6 +64,9 @@
   --block-bottom: 1.5rem;
 }
 
+.caps{
+  text-transform: uppercase;
+}
 
 
 /* Box sizing rules. Reset from: 'https://codepen.io/andybelldesign/pen/Ygmwym.css' */
@@ -794,6 +797,85 @@ footer ol {
     width: auto;
     z-index: 100000; /* Above WP toolbar */
   } 
+
+  /* More screen-reader styles */
+  mark::before, mark::after, del::before, del::after, ins::before, ins::after, s::before, s::after {
+    clip-path: inset(100%);
+    clip: rect(1px, 1px, 1px, 1px);
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+  }
+
+  mark::before {
+    content: " [highlight start] ";
+  }
+
+  mark::after {
+    content: " [highlight end] ";
+  }
+
+  del::before {
+    content: " [deletion start] ";
+  }
+
+  del::after {
+    content: " [deletion end] ";
+  }
+
+  ins::before {
+    content: " [insertion start] ";
+  }
+
+  ins::after {
+    content: " [insertion end] ";
+  }
+
+  s::before {
+    content: " [start of stricken text] ";
+  }
+
+  s::after {
+    content: " [end stricken text] ";
+  }
+
+  /* Screen-reader styles in another language */
+  *[lang=es] mark::before {
+    content: " [resaltar inicio] ";
+  }
+
+  *[lang=es] mark::after {
+    content: " [resaltar final] ";
+  }
+
+  /* Windows High Contrast Mode styles */
+  @media screen and (-ms-high-contrast: active) {
+    mark {
+      color: HighlightText;
+      background-color: Highlight;
+    }
+
+    ins {
+      border-bottom-color: Highlight;
+    }
+
+    s {
+      text-decoration-color: Highlight;
+    }
+  }
+
+  /* Print styles (don't forget about print styles!) */
+  @media print {
+    mark {
+      border: 1pt dotted #000;
+    }
+
+    ins {
+      border-bottom-width: 3pt;
+    }
+  }
 
   /* Basic table styles */
   table{
