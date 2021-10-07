@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Plane crash deaths</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Number of people killed in air accidents since 1969.">
+  <meta name="author" content="Justin Chill">
+
+  <style type="text/css">
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+      <a href="projects.html" class="nav__item">Lab</a>
+      <a href="fun.html" class="nav__item">Fun</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+  
+  <main role="main">
+    <article>
+     <header>
+      <h1>Plane Crash Deaths</h1>
+      <h2 class="subtitle caps">Air travel is getting safer</h2>
+      <time date="2021-10-07">Justin Hil</time>
+      <figure id="plane_line"></figure>
+      <figcaption>Data: GapMinder</figcaption>
+    </header>
+
+    <h2>Synopsis</h2>
+    <p>The greatest movie of all time. 57 years after Ellen Ripley had a close encounter with the reptilian alien creature from the first movie, she is called back, this time, to help a group of highly trained colonial marines fight off against the sinister extraterrestrials. But this time, the aliens have taken over a space colony on the moon LV-426.</p>
+
+    <p>When the colonial marines are called upon to search the deserted space colony, they later find out that they are up against more than what they bargained for. <strong>Using specially modified machine guns and enough firepower, it's either fight or die as the space marines battle against the aliens</strong>. As the Marines do their best to defend themselves, Ripley must attempt to protect a young girl who is the sole survivor of the decimated space colony.</p>
+
+    <p>Find out more on <a href="https://www.imdb.com/title/tt0090605/">IMDB.com</a><a href="#footnotes" aria-describedby="footnote-label" id="footnotes-ref"></a></p>
+
+    <blockquote>
+      <p><strong>Burke</strong>: Hold on, hold on just a second. This installation has a substantial dollar value attached to it.</p>
+      <p><strong>Ripley</strong>: They can *bill* me.</p>
+    </blockquote>
+
+    <h2>Script</h2>
+    <pre>Silent and endless. The stars shine like the love of God...cold and remote. Against them drifts a tiny chip of technology. CLOSER SHOT It is the NARCISSUS, lifeboat of the ill-fated star-freighter Nostromo. Without interior or running lights it seems devoid of life. The PING of a RANGING RADAR grows louder, closer. A shadow engulfs the Narcissus. Searchlights flash on, playing over the tiny ship, as a MASSIVE DARK HULL descends toward it.</pre>
+
+    <h2>Awards</h2>
+    <ul>
+      <li><strong>Academy Awards</strong>
+        <ul>
+          <li>Sound Effects Editing</li>
+          <li>Visual Effects</li>
+        </ul>
+      </li>
+      <li><strong>BAFTA</strong><ul><li>Visual Effects</li>
+      </ul>
+    </li>
+    <li><strong>Saturns</strong>
+      <ul><li>Best Science Fiction Film</li><li>Best Actress (Sigourney Weaver)</li><li>Best Supporting Actor (Bill Paxton)</li><li>Best Supporting Actress (Jeanette Goldstein)</li>
+        <li>Best Performance by a Younger Actor (Carrie Henn)</li>
+        <li>Best Direction (James Cameron)</li>
+        <li>Best Writing (James Cameron)</li>
+        <li>Best Special Effects</li> 
+      </ul>
+    </li>
+  </ul>
+
+  <h2>Cast</h2>
+  <table><thead><tr><th>Name</th><th>Role</th></tr></thead><tbody><tr><td>Sigourney Weaver</td><td>Ripley</td></tr><tr><td>Carrie Henn</td><td>Newt</td></tr><tr><td>Michael Biehn</td><td>Corporal Hicks</td></tr><tr><td>Paul Reiser</td><td>Burke</td></tr><tr><td>Lance Henriksen</td><td>Bishop</td></tr><tr><td>Bill Paxton</td><td>Private Hudson</td></tr></tbody></table>
+
+</article>
+</main>
+<footer>
+  <h2 id="footnote-label">Footnotes</h2>
+  <ol>
+    <li id="footnotes">Inspiration for using Aliens as boilderplate HTML elements from <a href="https://tailwind-typography-playground.vercel.app">this</a> lovely Tailwinds example <a href="#footnotes-ref" aria-label="Back to content">↩</a></li>
+
+  </ol>
+  <div>
+    <p>Justin Chill © 2021. Thanks for reading!</p>
+    <p><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="gh">Source code and feedback</a></p>    
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.2"></script>
+
+<script type="text/javascript">
+  // Use Promises to async request data
+  var promises = [d3.csv("data/plane_crash_deaths_annual_number.csv",d3.autoType)];
+
+  // You can request multiple srcs in a promise
+  myDataPromises = Promise.all(promises);
+
+  // After data is successfully fetched, generate viz
+  myDataPromises.then(function(data) {
+    // Define the data
+    var plane = data[0];
+
+    var plane_line = {
+      width: 720,
+      y: {
+        grid: true,
+      },
+      x:{
+      },
+      marks: [
+      Plot.lineY(plane, Plot.binX({y: "sum"},{x: "country", strokeWidth: 1, stroke: "steelblue"})),
+      ]
+    };
+    document.getElementById("plane_line").appendChild(Plot.plot(plane_line));
+  });
+
+  </script>
+</body>
+</html>
