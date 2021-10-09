@@ -14,20 +14,20 @@
   article > img {
    width: auto;
    margin: 0 auto; 
-  }
-  figure .plot{
-    margin: 0 auto;
-    overflow: visible;
-  }
-  .plot text {
-    color: #656568;
-    font-family: 'Ubuntu', sans-serif;
-    font-size: calc(4px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
-    padding: 2rem;
-  }
-  figcaption{
-    margin-bottom: 0;
-  }
+ }
+ figure .plot{
+  margin: 0 auto;
+  overflow: visible;
+}
+.plot text {
+  color: #656568;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: calc(4px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+  padding: 2rem;
+}
+figcaption{
+  margin-bottom: 0;
+}
 </style>
 </head>
 <body>
@@ -153,12 +153,12 @@
     <p>Symbols are used and various dimensions represent different variables in a dataset.</p>
     <h2>Grid map</h2>
     <h3>Percent change in population from 2010 to 2019</h3>
-<!--     <figure id="gridmap"></figure> -->
+    <!--     <figure id="gridmap"></figure> -->
     <img src="imgs/gridmap.png">
     <figcaption></figcaption> <!-- Recreation: https://observablehq.com/@zanarmstrong/us-grid-map-and-observable-plot -->
     <p>Instead of using geographic boundaries, same-size cells are used to represent areas to provide equal visual attention to all.</p>
     <h2>Heatmap</h2>
-<!--     <figure id="popcorn"></figure> -->
+    <!--     <figure id="popcorn"></figure> -->
     <img src="https://flowingdata.com/wp-content/uploads/2019/04/Stephen-Curry-popcorn-scores.png">
     <p>Heatmaps visualize data through variations in colouring. When used in a tabular format, heatmaps are useful for cross-examining multivariate data, through placing variables in the rows and columns and colouring the cells within the table. Heatmaps are good for showing variance across multiple variables, revealing any patterns, displaying whether any variables are similar to each other, and for detecting if any correlations exist in-between them.</p>
     <h2>Histogram</h2>
@@ -188,7 +188,8 @@
     <p>This type of visualisation shows how things are interconnected through the use of nodes / vertices and link lines. Typically, nodes are drawn as dots or circles, but icons can also be used. Links are usually displayed as lines connecting nodes. However, in more elaborate network diagrams, not all of the nodes and links are created equally: additional variables can be shown by making the node size or link stroke weight proportional to an assigned value.
     </p>    
     <h2>Organogram</h2>
-    <p>An organogram is an organizational chart that shows the structure of an organization.</p>
+    <img src="https://datavizcatalogue.com/methods/images/top_images/tree_diagram.png">
+    <p>An organogram is an organizational chart that shows the structure of an organization and the relationships and relative ranks of its parts and positions/jobs. A variation is a tree diagram, which shows the different elements of a field of knowledge or a group of languages.</p>
     <h2>Packed bubble chart</h2>
     <img src="https://flowingdata.com/wp-content/uploads/2020/12/Defining-essential-worker-1536x1476.png">
     <figcaption>Data: <a href="https://www.nytimes.com/2020/12/05/health/covid-vaccine-first.html">New York Times</a></figcaption>
@@ -324,14 +325,6 @@
   {"country":"North Korea","nukes":40},
   {"country":"Jeff","nukes":10}];
 
-  var nodes = [
-    { id: "SRI", x: 0, y: 10 },
-    { id: "UCSB", x: 1, y: 1 },
-    { id: "UCLA", x: 8, y: 0 },
-    { id: "UTAH", x: 36, y: 17 }
-  ];
-  var links = [ ["SRI", "UTAH"], ["SRI", "UCSB"], ["SRI", "UCLA"], ["UCLA", "UCSB"] ];
-
   var ex_lvls = [{ "Phrase":"Hey baby,", "level":10},
   { "Phrase":"do you want", "level":20},
   { "Phrase":"to have", "level":40},
@@ -353,8 +346,6 @@
   [2.9, '05/20/2020'],
   [2.9, new Date()]
   ].map(([val, d, label]) => ({ value: val, date: new Date(d), label }));
-
-  var meanAges = [["American Pit Bull Mix / Pit Bull Mix",4.345002933698416],["Maltese",6.100008834702714],["Labrador Retriever Crossbreed",4.993477229601518],["Yorkshire Terrier",5.450699043414274],["German Shepherd Dog",5.212724049635611],["American Pit Bull Terrier/pit Bull",4.734839333172264],["Beagle",6.099058249040809],["Havanese",5.0182282793867135],["Labrador Retriever",5.712809549260644],["Golden Retriever",5.615774099318404],["Chihuahua",6.342713632558439],["Shih Tzu",5.972567553683346],["Cocker Spaniel",7.045759186503352],["French Bulldog",2.0858440937350555],["Jack Russell Terrier",7.006597549481621],["Shiba Inu",4.090821720326765],["German Shepherd Crossbreed",5.80397319291527],["Pomeranian",5.3445913653018975],["Chihuahua Crossbreed",3.796019900497513],["Shih Tzu Crossbreed",3.09604972929617]];
 
   var top20 = [{"country":"China","value":10174.681},{"country":"United States of America","value":5284.697},{"country":"India","value":2616.449},{"country":"Russian Federation","value":1678.367},{"country":"Japan","value":1106.664},{"country":"Iran","value":779.527},{"country":"Germany","value":701.955},{"country":"Indonesia","value":617.513},{"country":"South Korea","value":611.263},{"country":"Saudi Arabia","value":582.15},{"country":"Canada","value":576.65},{"country":"South Africa","value":478.608},{"country":"Brazil","value":465.716},{"country":"Mexico","value":438.498},{"country":"Australia","value":411.016},{"country":"Turkey","value":405.126},{"country":"United Kingdom","value":369.878},{"country":"Italy","value":337.086},{"country":"France","value":323.747},{"country":"Poland","value":322.627}];
 
@@ -412,6 +403,9 @@
     width: 720,
     marginLeft: 170,
     marginRight: 40,
+    color: {
+      range: ["#969696", "#4e79a7"]
+    },
     x: {
       axis: "top",
       ticks: 0,
@@ -427,7 +421,8 @@
     Plot.barX(top20, {
       x: "value",
       y: "country",
-      fill: "#969696"
+      inset:2,
+      fill: d => d.value < 2000 ? "" : "country",
     }),
     Plot.text(top20, {
       x: "value", 
@@ -447,54 +442,114 @@
   };
 
   var slope = {
-    width: 400,
-    height: 300,
+    grid: true,
+    inset: 10,
     marginLeft: 100,
     marginRight: 50,
+    width: 720,
+    height: 700,
     x: {
       axis: "top",
-      domain: [2019, 2020],
+      domain: [2010, 2019],
+      tickFormat: "Y",
       ticks: 1
     },
     y: {
-      label: "% change in year",
-      percent: true,
-      domain: [-1, 3],
-      axis: null
-    },
-    marks: [
-      Plot.link(data5corr, {
-        x1: 2019,
-        y1: "population_change_2019",
-        x2: 2020,
-        y2: "population_change_2020",
-        stroke: "country"
-      }),
-      // Plot.ruleY([0]),
-      Plot.text(data5corr, {
-        x: 2019,
-        y: "population_change_2019",
-        text: (d) =>
-          `${d.country}: ${d3.format(".1%")(d["population_change_2019"])}`,
-        textAnchor: "end",
-        dx: -5,
-        fill: "country",
-        fontSize: 14
-      }),
-      Plot.text(data5corr, {
-        x: 2020,
-        y: "population_change_2020",
-        text: (d) => d3.format(".1%")(d["population_change_2020"]),
-        textAnchor: "start",
-        dx: 5,
-        fill: "country",
-        fontSize: 14
-      })
-    ]
-  };
+    // label: "% change in year",
+    axis: null
+  },
+  color: {
+    type: "ordinal",
+    reverse: true,
+    scheme: "BuRd"
+  },
+  marks: [
+  Plot.link(population.filter(d => (d["2019"] > 9512223)), {
+    x1: 2010,
+    y1: "2010",
+    x2: 2019,
+    y2: "2019",
+      // stroke: "#000",
+      stroke: d => d["State"]
+    }),
+  Plot.text(population.filter(d => (d["2019"] > 9512223)),  {
+    x: 2010,
+    y: "2010",
+    text: (d) =>
+    `${d.State} ${d3.format("Y")(d["2010"])}`,
+    textAnchor: "end",
+    dx: -5,
+    fill: d => d["State"],
+    fontSize: 14
+  }),
+  Plot.text(population.filter(d => (d["2019"] > 9512223)), {
+    x: 2019,
+    y: "2019",
+    text: (d) =>
+    `${d.State} ${d3.format("Y")(d["2019"])}`,
+    textAnchor: "start",
+    dx: 5,
+    fill: d => d["State"],
+    fontSize: 14
+  }),
+  ]
+};
+  // var slope = {
+  //   width: 400,
+  //   height: 300,
+  //   marginLeft: 100,
+  //   marginRight: 50,
+  //   x: {
+  //     axis: "top",
+  //     domain: [2019, 2020],
+  //     tickFormat: "",
+  //     ticks: 1
+  //   },
+  //   y: {
+  //     label: "% change in year",
+  //     percent: true,
+  //     domain: [-1, 3],
+  //     axis: null
+  //   },
+  //   marks: [
+  //     Plot.link(data5corr, {
+  //       x1: 2019,
+  //       y1: "population_change_2019",
+  //       x2: 2020,
+  //       y2: "population_change_2020",
+  //       stroke: "country"
+  //     }),
+  //     // Plot.ruleY([0]),
+  //     Plot.text(data5corr, {
+  //       x: 2019,
+  //       y: "population_change_2019",
+  //       text: (d) =>
+  //         `${d.country}: ${d3.format(".1%")(d["population_change_2019"])}`,
+  //       textAnchor: "end",
+  //       dx: -5,
+  //       fill: "country",
+  //       fontSize: 14
+  //     }),
+  //     Plot.text(data5corr, {
+  //       x: 2020,
+  //       y: "population_change_2020",
+  //       text: (d) =>
+  //         `${d.country}: ${d3.format(".1%")(d["population_change_2020"])}`,
+  //       // text: (d) => d3.format(".1%")(d["population_change_2020"]),
+  //       textAnchor: "start",
+  //       dx: 5,
+  //       fill: "country",
+  //       fontSize: 14
+  //     })
+  //   ]
+  // };
 
   var wework = {
     width: 720,
+    y: {
+      grid: true,
+      tickFormat: "$f",
+    },
     marks: [
     Plot.lineY(wework, {x: "date", y: "value", curve: "step-after", strokeWidth: 1, stroke: "steelblue"}),
     Plot.text(wework, {x: "date", y: "value", text: "label", dx: -5, dy: -5}),
@@ -636,7 +691,7 @@
         tickSize: 3,
         tickPadding: 6,
         label: null
-        }, 
+      },
       y: {
         tickFormat: "%",
         ticks: 5,
@@ -644,42 +699,42 @@
         tickPadding: 3,
         grid: true,
         label: null
-        },
+      },
       marks: [
-        Plot.areaY(electric, Plot.stackY({
-          x: "year", 
-          y: "percentage", 
-          fill: "source", 
-          order: ['Coal', 'Gas', 'Oil', 'Nuclear', 'Hydroelectric', 'Wind', 'Solar', 'Other renewables'],
-          offset: "expand"})),
-        Plot.text(electric, Plot.selectLast(Plot.stackY({
-          x: "year",
-          y: "percentage",
-          z: "source",
-          order: ['Coal', 'Gas', 'Oil', 'Nuclear', 'Hydroelectric', 'Wind', 'Solar', 'Other renewables'], 
-          offset: "expand",
-          fill: "source",
-          text: "source",
-          textAnchor: "start", dx: 2, dy: 3
-          }))),
-        Plot.ruleY([0])
-        ],
-      color: { 
-        scheme: "tableau10"
-        }
+      Plot.areaY(electric, Plot.stackY({
+        x: "year", 
+        y: "percentage", 
+        fill: "source", 
+        order: ['Coal', 'Gas', 'Oil', 'Nuclear', 'Hydroelectric', 'Wind', 'Solar', 'Other renewables'],
+        offset: "expand"})),
+      Plot.text(electric, Plot.selectLast(Plot.stackY({
+        x: "year",
+        y: "percentage",
+        z: "source",
+        order: ['Coal', 'Gas', 'Oil', 'Nuclear', 'Hydroelectric', 'Wind', 'Solar', 'Other renewables'], 
+        offset: "expand",
+        fill: "source",
+        text: "source",
+        textAnchor: "start", dx: 2, dy: 3
+      }))),
+      Plot.ruleY([0])
+      ],
+      color: {
+        scheme: "BuRd"
+      },
     };
 
     var apple_area = {
       width: 720,
       y: {
         grid: true,
-        tickFormat: formatCurrency
+        tickFormat: "$f",
       },
       marks: [
       Plot.areaY(aapl, {x: "Date", y: "Close", fill: "rgba(204,204,204,.8)"}),
-      Plot.lineY(aapl, {x: "Date", y: "Close", title: "Close"}),
-      Plot.dot(aapl, Plot.selectLast({x: "Date", y: "Close", fill: "white", stroke: "black"})),
-      Plot.text(aapl, Plot.selectLast({x: "Date", y: "Close", text: d => formatCurrency(d.Close), dy: -10})),
+      Plot.lineY(aapl, {x: "Date", y: "Close", title: "Close", stroke: "rgba(0, 0, 0, .75)"}),
+      Plot.dot(aapl, Plot.selectLast({x: "Date", y: "Close", fill: "white", stroke: "rgba(0, 0, 0, .75)"})),
+      Plot.text(aapl, Plot.selectLast({x: "Date", y: "Close", text: d => formatCurrency(d.Close), dy: -10, dx: -15})),
       ]
     };
 
@@ -740,13 +795,16 @@
           x2: d => d3.utcYear.offset(d.year), // start of next year
           fill: "anomaly",
           title: (d) =>
-            `${d.year} \nAnomaly: ${d.anomaly}`,
+          `${d.year} \nAnomaly: ${d.anomaly}`,
         })
       ],
     };
 
     var stocks_baseline = {
       width: 720,
+      color: {
+        scheme: "BuRd"
+      },
       y: {
         type: "log",
         grid: true,
@@ -802,8 +860,8 @@
     };
 
     var gapminder = { 
-    width: 720,     
-    inset: 2,
+      width: 720,     
+      inset: 2,
       y: {
         // grid: true,
         label: "↑ Life Expectency",        
@@ -835,36 +893,38 @@
         ticks: 6
       },
       marks: [
-        Plot.line(driving, {x: "miles", y: "gas", curve: "catmull-rom", strokeWidth: 2}),
-        Plot.dot(driving, {x: "miles", y: "gas", fill: "white", stroke: "black"}),
-        Plot.text(driving, {filter: d => d.year % 5 === 0, x: "miles", y: "gas", text: "year", dy: -10, dx:-2})
+      Plot.line(driving, {x: "miles", y: "gas", curve: "catmull-rom", strokeWidth: 2}),
+      Plot.dot(driving, {x: "miles", y: "gas", fill: "white", stroke: "black"}),
+      Plot.text(driving, {filter: d => d.year % 5 === 0, x: "miles", y: "gas", text: "year", dy: -10, dx:-2})
       ]
     };
 
     var bls_line = {
+      width: 720,
       marks: [
-        Plot.areaY(bls, {x: "date", y2: "unemployed", z: "industry", fillOpacity: 0.1}),
-        Plot.lineY(bls, {x: "date", y: "unemployed", z: "industry", strokeWidth: 1}),
-        Plot.text(bls, Plot.selectLast({x: "date", y: "unemployed", z: "industry", text: "industry", textAnchor: "start", dx: 3}))
-        ]
+      Plot.areaY(bls, {x: "date", y2: "unemployed", z: "industry", fillOpacity: 0.1}),
+      Plot.lineY(bls, {x: "date", y: "unemployed", z: "industry", strokeWidth: 1}),
+      Plot.text(bls, Plot.selectLast({x: "date", y: "unemployed", z: "industry", text: "industry", textAnchor: "start", dx: 3}))
+      ]
     };
 
     var bls_stacked = {
+      width: 720,
       y: {
         grid: true,
         label: "↑ Unemployed (thousands)"
       },
       marks: [
-        Plot.areaY(bls, Plot.stackY({x: "date", y: "unemployed", fill: "industry", title: "industry"})),
-        Plot.text(bls, Plot.selectLast(Plot.stackY({filter: d => d.industry !== "Mining and Extraction",x: "date", y: "unemployed", z: "industry", text: "industry", textAnchor: "start", dx: 3,fill: "industry",}))),
-        Plot.ruleY([0])
+      Plot.areaY(bls, Plot.stackY({x: "date", y: "unemployed", fill: "industry", title: "industry"})),
+      Plot.text(bls, Plot.selectLast(Plot.stackY({filter: d => d.industry !== "Mining and Extraction",x: "date", y: "unemployed", z: "industry", text: "industry", textAnchor: "start", dx: 3,fill: "industry",}))),
+      Plot.ruleY([0])
       ]
     };
 
     var bls_bar = {
       x: {lablel: null},
       marks: [
-        Plot.barY(bls, {x: "date", y: "unemployed", fill: "industry"}),
+      Plot.barY(bls, {x: "date", y: "unemployed", fill: "industry"}),
       ]
     };
 
@@ -889,6 +949,10 @@
 
     var example_histogram = {
       width: 720,
+      color: {
+        type: "diverging",
+        scheme: "BuRd"
+      },
       x: {
         round: true,
         label: "Trade volume (log₁₀) →"
@@ -897,7 +961,7 @@
         grid: true
       },
       marks: [
-      Plot.rectY(aapl, Plot.binX({y: "count"}, {x: d => Math.log10(d.Volume), normalize: true, fill: "hsl(0, 0%, 88%)"})),
+      Plot.rectY(aapl, Plot.binX({y: "count", fill:"median"}, {x: d => Math.log10(d.Volume), normalize: true, fill: "Volume"})),
       Plot.ruleY([0])
       ]
     };
@@ -911,38 +975,38 @@
         range: ["currentColor", "peru", "brown"]
       },
       marks: [
-        Plot.text([[1, 3]], {
-          text: ["Northbound"], 
-          textAnchor: "start"
-        }),
-        Plot.text([[-1, 3]], {
-          text: ["Southbound"], 
-          textAnchor: "end"
-        }),
-        Plot.text(new Set(caltrain.map(d => d.hours)), {
-          x: 0,
-          y: d => d,
-          text: d => `${(d - 1) % 12 + 1}${(d % 24) >= 12 ? "p": "a"}`
-        }),
-        Plot.text(caltrain, Plot.stackX2({
-          filter: d => d.orientation === "N",
-          x: 1,
-          y: "hours",
-          text: d => d.minutes.padStart(2, "0"),
-          title: d => `${d.time} ${d.line}`,
-          fill: "type",
-          textAnchor: "start"
-        })),
-        Plot.text(caltrain, Plot.stackX2({
-          filter: d => d.orientation === "S",
-          x: -1,
-          y: "hours",
-          text: d => d.minutes.padStart(2, "0"),
-          title: d => `${d.time} ${d.line}`,
-          fill: "type",
-          textAnchor: "end"
-        })),
-        Plot.ruleX([-0.5, 0.5])
+      Plot.text([[1, 3]], {
+        text: ["Northbound"], 
+        textAnchor: "start"
+      }),
+      Plot.text([[-1, 3]], {
+        text: ["Southbound"], 
+        textAnchor: "end"
+      }),
+      Plot.text(new Set(caltrain.map(d => d.hours)), {
+        x: 0,
+        y: d => d,
+        text: d => `${(d - 1) % 12 + 1}${(d % 24) >= 12 ? "p": "a"}`
+      }),
+      Plot.text(caltrain, Plot.stackX2({
+        filter: d => d.orientation === "N",
+        x: 1,
+        y: "hours",
+        text: d => d.minutes.padStart(2, "0"),
+        title: d => `${d.time} ${d.line}`,
+        fill: "type",
+        textAnchor: "start"
+      })),
+      Plot.text(caltrain, Plot.stackX2({
+        filter: d => d.orientation === "S",
+        x: -1,
+        y: "hours",
+        text: d => d.minutes.padStart(2, "0"),
+        title: d => `${d.time} ${d.line}`,
+        fill: "type",
+        textAnchor: "end"
+      })),
+      Plot.ruleX([-0.5, 0.5])
       ]
     };
 
@@ -988,15 +1052,15 @@
       marginTop: 10,
       inset: 4,
       facet: {
-          data : mpg,
-          x: "class",
-          label: null,
-          },
-        marks: [
-          Plot.dot(mpg, {x: "cty", y: "hwy", stroke: "#bdbdbd", strokeWidth: 1, title: d => `${d.manufacturer} ${d.model} \nHighway: ${d.hwy} mpg\nCity: ${d.cty} mpg`,}),
-          Plot.dot(mpg, {filter: (d) => d.manufacturer === "audi", x: "cty", y: "hwy", fill: "steelblue"}),
-          [Plot.frame()]
-        ]
+        data : mpg,
+        x: "class",
+        label: null,
+      },
+      marks: [
+      Plot.dot(mpg, {x: "cty", y: "hwy", stroke: "#bdbdbd", strokeWidth: 1, title: d => `${d.manufacturer} ${d.model} \nHighway: ${d.hwy} mpg\nCity: ${d.cty} mpg`,}),
+      Plot.dot(mpg, {filter: (d) => d.manufacturer === "audi", x: "cty", y: "hwy", fill: "steelblue"}),
+      [Plot.frame()]
+      ]
     };
 
     // From Fil: https://observablehq.com/@fil/waffle-chart
