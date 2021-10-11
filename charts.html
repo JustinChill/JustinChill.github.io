@@ -25,8 +25,9 @@
   font-size: calc(4px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
   padding: 2rem;
 }
-figcaption{
+figcaption, figcaption > a {
   margin-bottom: 0;
+  font-size: calc(8px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
 }
 </style>
 </head>
@@ -46,12 +47,20 @@ figcaption{
 
   <main role="main">
     <article>
-     <header>
-      <h1>Common charts and graphs</h1>
-      <h2 class="subtitle"></h2>
-      <time date="2021-10-04">Justin Hill</time>
-    </header>
-    <p>Data visualization is the graphical representation of data. It presents data in the form of a chart or graph to make it easier to identify patterns and understand difficult concepts. Technology allows users to interact with the data by changing the parameters to see more detail and create new insights.</p>
+     <div class="article-hero">
+      <h2 class="article-category">Post</h2>
+      <h1 class="article-title">Common charts and graphs</h1>
+      <h2 class="article-subtitle"></h2>
+    </div> 
+
+    <p>Data visualization is the graphical representation of data. It presents data in the form of a chart or graph to make it easier to identify patterns and understand difficult concepts. Charts are an essential part of working with data, as they are a way to condense large amounts of data into a comprehensible format. Visualizations of data can bring out insights to someone looking at the data for the first time, as well as convey findings to others who won’t see, or take the time to parse, the raw data.</p>
+    <p>Deciding on which chart is best for your data will depend on multiple factors, such as:</p>
+    <ul>
+      <li><p>What are the types of metrics, features, or other variables that you plan on plotting? </p></li>
+      <li><p>Who is the audience that you plan on presenting to – is it just an initial exploration for yourself, or are you presenting to a broader audience?</p></li>
+      <li><p>What is the kind of conclusion that you want the reader to draw?</p></li>
+    </ul>
+    <p>In this article, we’ll look at frequently used charts and graphs to help you make the best choice.</p>
     <h2>Alluvial diagram</h2>
     <img src="https://datavizproject.com/wp-content/uploads/2015/11/Skærmbillede-2016-01-21-kl.-16.37.57.png">
     <p>The alluvial diagram is useful for showing changes over time across categories. The geometry is similar to a stacked area chart but with spacing and order changes. Alluvial diagrams are named after <a href="https://en.wikipedia.org/wiki/Alluvial_fan">alluvial fans</a> that are naturally formed by the soil deposited from streaming water.</p>
@@ -127,9 +136,9 @@ figcaption{
     <p>A density plot visualises the distribution of data over a continuous interval or time period. This chart is a variation of a histogram that uses kernel smoothing to plot values, allowing for smoother distributions by smoothing out the noise. The peaks of a density plot help display where values are concentrated over the interval.</p>
     <h2>Difference chart</h2>
     <p>A difference chart highlights the difference between two values, typically entries vs exits. The amount is encoded as height, and the sign (surplus vs. deficit) as a solid color.</p>
-    <h2>Donut chart</h2>
+    <h2>Donut chart 🍩</h2>
     <img src="https://datavizproject.com/wp-content/uploads/2015/10/Skærmbillede-2016-01-28-kl.-13.01.30.png">
-    <p>A donut chart is essentially a Pie Chart with an area of the centre cut out. It looks like a donut. That’s why it’s called a donut chart.</p>
+    <p>A donut chart is a pie chart with an area of the center cut out. It looks like a donut. That’s why it’s called a donut chart.</p>
     <p>Pie Charts are sometimes criticised for focusing readers on the proportional areas of the slices to one another and to the chart as a whole. This makes it tricky to see the differences between slices, especially when you try to compare multiple Pie Charts together. A Donut Chart somewhat remedies this problem by de-emphasizing the use of the area. Instead, readers focus more on reading the length of the arcs, rather than comparing the proportions between slices.</p>
     <h2>Dot density map</h2>
     <img src="https://flowingdata.com/wp-content/themes/fd-modern-5-9/images/chart-types/dot-density-map.png">
@@ -377,6 +386,10 @@ figcaption{
       axis: null,
       domain: d3.sort(civilizations, d => d.start).map(d => d.civilization)
     },
+    color: {
+      reverse: true,
+      scheme: "BuRd"
+    },
     marks: [
     Plot.barX(civilizations, {
       x1: "start",
@@ -441,108 +454,109 @@ figcaption{
   var gridmap = {
   };
 
+//   var slope = {
+//     grid: true,
+//     inset: 10,
+//     marginLeft: 100,
+//     marginRight: 50,
+//     width: 520,
+//     height: 700,
+//     x: {
+//       axis: "top",
+//       domain: [2010, 2019],
+//       tickFormat: "Y",
+//       ticks: 1
+//     },
+//     y: {
+//     // label: "% change in year",
+//     axis: null
+//   },
+//   color: {
+//     type: "ordinal",
+//     reverse: true,
+//     scheme: "BuRd"
+//   },
+//   marks: [
+//   Plot.ruleX([2019]),
+//   Plot.link(population.filter(d => (d["2019"] > 9512223)), {
+//     x1: 2010,
+//     y1: "2010",
+//     x2: 2019,
+//     y2: "2019",
+//       // stroke: "#000",
+//       stroke: d => d["State"]
+//     }),
+//   Plot.text(population.filter(d => (d["2019"] > 9512223)),  {
+//     x: 2010,
+//     y: "2010",
+//     text: (d) =>
+//     `${d.State} ${d3.format("Y")(d["2010"])}`,
+//     textAnchor: "end",
+//     dx: -5,
+//     fill: d => d["State"],
+//     fontSize: 14
+//   }),
+//   Plot.text(population.filter(d => (d["2019"] > 9512223)), {
+//     x: 2019,
+//     y: "2019",
+//     text: (d) =>
+//     `${d.State} ${d3.format("Y")(d["2019"])}`,
+//     textAnchor: "start",
+//     dx: 5,
+//     fill: d => d["State"],
+//     fontSize: 14
+//   }),
+//   ]
+// };
   var slope = {
-    grid: true,
-    inset: 10,
+    width: 400,
+    height: 300,
     marginLeft: 100,
     marginRight: 50,
-    width: 720,
-    height: 700,
     x: {
       axis: "top",
-      domain: [2010, 2019],
-      tickFormat: "Y",
+      domain: [2019, 2020],
+      tickFormat: "",
       ticks: 1
     },
     y: {
-    // label: "% change in year",
-    axis: null
-  },
-  color: {
-    type: "ordinal",
-    reverse: true,
-    scheme: "BuRd"
-  },
-  marks: [
-  Plot.link(population.filter(d => (d["2019"] > 9512223)), {
-    x1: 2010,
-    y1: "2010",
-    x2: 2019,
-    y2: "2019",
-      // stroke: "#000",
-      stroke: d => d["State"]
-    }),
-  Plot.text(population.filter(d => (d["2019"] > 9512223)),  {
-    x: 2010,
-    y: "2010",
-    text: (d) =>
-    `${d.State} ${d3.format("Y")(d["2010"])}`,
-    textAnchor: "end",
-    dx: -5,
-    fill: d => d["State"],
-    fontSize: 14
-  }),
-  Plot.text(population.filter(d => (d["2019"] > 9512223)), {
-    x: 2019,
-    y: "2019",
-    text: (d) =>
-    `${d.State} ${d3.format("Y")(d["2019"])}`,
-    textAnchor: "start",
-    dx: 5,
-    fill: d => d["State"],
-    fontSize: 14
-  }),
-  ]
-};
-  // var slope = {
-  //   width: 400,
-  //   height: 300,
-  //   marginLeft: 100,
-  //   marginRight: 50,
-  //   x: {
-  //     axis: "top",
-  //     domain: [2019, 2020],
-  //     tickFormat: "",
-  //     ticks: 1
-  //   },
-  //   y: {
-  //     label: "% change in year",
-  //     percent: true,
-  //     domain: [-1, 3],
-  //     axis: null
-  //   },
-  //   marks: [
-  //     Plot.link(data5corr, {
-  //       x1: 2019,
-  //       y1: "population_change_2019",
-  //       x2: 2020,
-  //       y2: "population_change_2020",
-  //       stroke: "country"
-  //     }),
-  //     // Plot.ruleY([0]),
-  //     Plot.text(data5corr, {
-  //       x: 2019,
-  //       y: "population_change_2019",
-  //       text: (d) =>
-  //         `${d.country}: ${d3.format(".1%")(d["population_change_2019"])}`,
-  //       textAnchor: "end",
-  //       dx: -5,
-  //       fill: "country",
-  //       fontSize: 14
-  //     }),
-  //     Plot.text(data5corr, {
-  //       x: 2020,
-  //       y: "population_change_2020",
-  //       text: (d) =>
-  //         `${d.country}: ${d3.format(".1%")(d["population_change_2020"])}`,
-  //       // text: (d) => d3.format(".1%")(d["population_change_2020"]),
-  //       textAnchor: "start",
-  //       dx: 5,
-  //       fill: "country",
-  //       fontSize: 14
-  //     })
-  //   ]
-  // };
+      label: "% change in year",
+      percent: true,
+      domain: [-1, 3],
+      axis: null
+    },
+    marks: [
+      Plot.link(data5corr, {
+        x1: 2019,
+        y1: "population_change_2019",
+        x2: 2020,
+        y2: "population_change_2020",
+        stroke: "country"
+      }),
+      // Plot.ruleY([0]),
+      Plot.text(data5corr, {
+        x: 2019,
+        y: "population_change_2019",
+        text: (d) =>
+          `${d.country}: ${d3.format(".1%")(d["population_change_2019"])}`,
+        textAnchor: "end",
+        dx: -5,
+        fill: "country",
+        fontSize: 14
+      }),
+      Plot.text(data5corr, {
+        x: 2020,
+        y: "population_change_2020",
+        text: (d) =>
+          `${d.country}: ${d3.format(".1%")(d["population_change_2020"])}`,
+        // text: (d) => d3.format(".1%")(d["population_change_2020"]),
+        textAnchor: "start",
+        dx: 5,
+        fill: "country",
+        fontSize: 14
+      })
+    ]
+  };
 
   var wework = {
     width: 720,
@@ -922,9 +936,21 @@ figcaption{
     };
 
     var bls_bar = {
-      x: {lablel: null},
+      x: {
+        tickFormat: "%Y",
+        // tickRotate: -35,
+        tickSize: 0,
+        label: null
+      },
+      color: {
+        type: "ordinal",
+        scheme: "tableau10",
+        reverse: true,
+      },
+      width: 720,
       marks: [
-      Plot.barY(bls, {x: "date", y: "unemployed", fill: "industry"}),
+      // Plot.barY(bls, {x: "date", y: "unemployed", fill: "industry"}),
+      Plot.barY(bls, Plot.binX({y: "sum"}, {x: "date", y: "unemployed", fill: "industry"}))
       ]
     };
 
@@ -1012,22 +1038,29 @@ figcaption{
 
     var qatar_pyramid = {
       width: 720,
+      height: 500,
+      color: {
+        domain: ["male","female"],
+        range: ["steelblue", "#EE7989"]
+      },
       x: {
         tickFormat: d => d3.format("~s")(Math.abs(d)),
-        label: "←male         female→        (thousands)",
+        label: "← male          female →        (thousands)",
         nice: true,
-        round: true
+        round: true,
+        axis: "bottom",
       },
       y: {
         domain: d3.groupSort(qatar, v => parseInt(v[0].age), d => d.age),
-        reverse: true
+        reverse: true,
+        label: "Age"
       },
       marginLeft: 60,
       marks: [
       Plot.barX(qatar, {
         x: d => d["population"] * (1 - 2 * (d["sex"] === "male")),
         y: "age",
-        fill: "sex"
+        fill: d => d.sex === "male" ? "male" : "female",
       }),
       Plot.barX(qatar, {
         x: d => d["population"] * (1 - 2 * (d["sex"] === "male")),
@@ -1042,7 +1075,6 @@ figcaption{
         stroke: "black"
       })
       ],
-      height: 500,
     };
 
     var mpg = {
