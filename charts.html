@@ -12,23 +12,42 @@
 
   <style type="text/css">
   article > img {
-   width: auto;
-   margin: 0 auto; 
- }
- figure .plot{
-  margin: 0 auto;
-  overflow: visible;
-}
-.plot text {
-  color: #656568;
-  font-family: 'Ubuntu', sans-serif;
-  font-size: calc(4px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
-  padding: 2rem;
-}
-figcaption, figcaption > a {
-  margin-bottom: 0;
-  font-size: calc(8px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
-}
+    width: auto;
+    margin: 0 auto; 
+  }
+  figure .plot{
+    margin: 0 auto;
+    overflow: visible;
+  }
+  .plot text {
+    color: #656568;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: calc(4px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+    padding: 2rem;
+  }
+  figcaption, figcaption > a {
+    margin-bottom: 0;
+    font-size: calc(8px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+  }
+  ul > li {
+    position: relative;
+    padding-left: 1em;
+    list-style: none;
+    text-align: left;
+  }
+  ol {
+    padding-left: 1em;
+  }
+  ul > li:before{
+    content: "";
+    position: absolute;
+    background-color: #cbd5e0;
+    border-radius: 50%;
+    width: .375em;
+    height: .375em;
+    top: .6875em;
+    left: .25em;
+  }
 </style>
 </head>
 <body>
@@ -130,16 +149,16 @@ figcaption, figcaption > a {
     <figcaption>Data: <a href="http://www.nytimes.com/imagepages/2010/05/02/business/02metrics.html">New York Times</a></figcaption>
     <p>A cross between a scatterplot and a time series. Show two variables over time.</p>
     <h2>Density plot</h2>
-    <h3>Unemployement by industry</h3>
+    <h3>Unemployment by industry</h3>
     <figure id="bls_line"></figure>
     <figcaption>Data: <a href="https://www.bls.gov/cew/downloadable-data-files.htm">U.S. Bureau of Labor Statistics</a></figcaption>
-    <p>A density plot visualises the distribution of data over a continuous interval or time period. This chart is a variation of a histogram that uses kernel smoothing to plot values, allowing for smoother distributions by smoothing out the noise. The peaks of a density plot help display where values are concentrated over the interval.</p>
+    <p>A density plot visualizes the distribution of data over a continuous interval or time period. This chart is a variation of a histogram that uses kernel smoothing to plot values, allowing for smoother distributions by smoothing out the noise. The peaks of a density plot help display where values are concentrated over the interval.</p>
     <h2>Difference chart</h2>
     <p>A difference chart highlights the difference between two values, typically entries vs exits. The amount is encoded as height, and the sign (surplus vs. deficit) as a solid color.</p>
     <h2>Donut chart 🍩</h2>
     <img src="https://datavizproject.com/wp-content/uploads/2015/10/Skærmbillede-2016-01-28-kl.-13.01.30.png">
     <p>A donut chart is a pie chart with an area of the center cut out. It looks like a donut. That’s why it’s called a donut chart.</p>
-    <p>Pie Charts are sometimes criticised for focusing readers on the proportional areas of the slices to one another and to the chart as a whole. This makes it tricky to see the differences between slices, especially when you try to compare multiple Pie Charts together. A Donut Chart somewhat remedies this problem by de-emphasizing the use of the area. Instead, readers focus more on reading the length of the arcs, rather than comparing the proportions between slices.</p>
+    <p>Pie Charts are sometimes criticized for focusing readers on the proportional areas of the slices to one another and to the chart as a whole. This makes it tricky to see the differences between slices, especially when you try to compare multiple Pie Charts together. A Donut Chart somewhat remedies this problem by de-emphasizing the use of the area. Instead, readers focus more on reading the length of the arcs, rather than comparing the proportions between slices.</p>
     <h2>Dot density map</h2>
     <img src="https://flowingdata.com/wp-content/themes/fd-modern-5-9/images/chart-types/dot-density-map.png">
     <p>Dots are placed randomly within regions to show the density of populations. The dots and spacing allow for multiple groups to be shown at once.</p>
@@ -152,7 +171,10 @@ figcaption, figcaption > a {
     <figcaption>Data: <a href="https://ourworldindata.org/grapher/hadcrut-surface-temperature-anomaly?tab=table">Our World in Data</a></figcaption>
     <p>A generalized form of the scatter plot, the dots can be placed in various coordinate systems on an x- and y-axis. A dot plot is similar to a histogram in that it displays the number of data points that fall into each category or value on the axis, thus showing the distribution of a set of data.</p>
     <h2>Frequency trails</h2>
-    <img src="https://flowingdata.com/wp-content/uploads/2019/12/Interactive-frequency-trails.png">
+    <h3>Google search trends, 2020</h3>
+    <figure id="google_ridgeline"></figure>
+    <figcaption>Data: <a href="https://trends.google.com/trends/?geo=US">Google</a></figcaption>
+    <!-- <img src="https://flowingdata.com/wp-content/uploads/2019/12/Interactive-frequency-trails.png"> -->
     <p>Area or line chart value axes overlap to fit more in a space and add another visual aspect to the magnitude of peaks. Also known as a ridgeline chart or a joyplot.</p>
     <h2>Gantt chart</h2>
     <img src="https://datavizcatalogue.com/methods/images/top_images/SVG/gantt_chart.svg">
@@ -194,7 +216,7 @@ figcaption, figcaption > a {
     <h2>Network graph</h2>
     <h3>The complete ARPANET, December 1969</h3>
     <img src="https://static.observableusercontent.com/files/fdd59026430de7526a5f0d20b4528d13d48b20319b478e0f4eb13269ca169052b71aaf5fe98db0e7fc6aff1ae26a863605daaa5dc2f5a3d6760e33bcce335d5a">
-    <p>This type of visualisation shows how things are interconnected through the use of nodes / vertices and link lines. Typically, nodes are drawn as dots or circles, but icons can also be used. Links are usually displayed as lines connecting nodes. However, in more elaborate network diagrams, not all of the nodes and links are created equally: additional variables can be shown by making the node size or link stroke weight proportional to an assigned value.
+    <p>This type of visualization shows how things are interconnected through the use of nodes / vertices and link lines. Typically, nodes are drawn as dots or circles, but icons can also be used. Links are usually displayed as lines connecting nodes. However, in more elaborate network diagrams, not all of the nodes and links are created equally: additional variables can be shown by making the node size or link stroke weight proportional to an assigned value.
     </p>    
     <h2>Organogram</h2>
     <img src="https://datavizcatalogue.com/methods/images/top_images/tree_diagram.png">
@@ -205,11 +227,11 @@ figcaption, figcaption > a {
     <p>Circle size represents data like with a bubble chart, but there is typically no x-y axis. Instead, bubble position often represents grouping or is used to maximize space.</p>
     <h2>Parallel coordinates</h2>
     <img src="https://datavizcatalogue.com/methods/images/top_images/SVG/parallel_coordinates.svg">
-    <p>In a parallel coordinates plot, each variable is given its own axis and all the axes are placed in parallel to each other. Each axis can have a different scale, as each variable works off a different unit of measurement, or all the axes can be normalised to keep all the scales uniform. Values are plotted as a series of lines that connected across all the axes. This means that each line is a collection of points placed on each axis, that have all been connected together.</p>
+    <p>In a parallel coordinates plot, each variable is given its own axis and all the axes are placed in parallel to each other. Each axis can have a different scale, as each variable works off a different unit of measurement, or all the axes can be normalized to keep all the scales uniform. Values are plotted as a series of lines that connected across all the axes. This means that each line is a collection of points placed on each axis, that have all been connected together.</p>
     <p>Parallel Coordinates Plots are ideal for comparing many variables together and seeing the relationships between them. For example, if you had to compare an array of products with the same attributes (comparing computer or cars specs across different models).</p>
     <h2>Parallel sets</h2>
     <img src="https://datavizcatalogue.com/methods/images/top_images/parallel_sets.png">
-    <p>Parallel Set charts are similar to Sankey Diagrams in the way they show flow and proportions. However, Parallel Sets don’t use arrows and they divide the flow-path at each displayed line-set. Each line-set corresponds to a dimension/dataset, which its values/categories are represented in each line divide in that line-set. The width of each line and the flow-path that stems from it is determined by the proportional fraction of the category total. Each flow-path can be coloured to show and compare the distribution between different categories.</p>
+    <p>Parallel Set charts are similar to Sankey Diagrams in the way they show flow and proportions. However, Parallel Sets don’t use arrows and they divide the flow-path at each displayed line-set. Each line-set corresponds to a dimension/dataset, which its values/categories are represented in each line divide in that line-set. The width of each line and the flow-path that stems from it is determined by the proportional fraction of the category total. Each flow-path can be colored to show and compare the distribution between different categories.</p>
     <h2>Pictogram</h2>
     <img src="https://datavizcatalogue.com/methods/images/top_images/pictograph.png">
     <p>Pictogram Charts use icons to give a more engaging overall view of small sets of discrete data. Typically, the icons represent the data’s subject or category, for example, data on population would use icons of people. Each icon can represent one unit or any number of units (e.g. each icon represents 10). Data sets are compared side-by-side in either columns or rows of icons, to compare each category to one another.</p>
@@ -223,7 +245,7 @@ figcaption, figcaption > a {
     <p>A Population Pyramid chart is a pair of back-to-back Histograms (for each sex) that displays the distribution of a population in all age groups and in both sexes. The X-axis is used to plot population numbers and the Y-axis lists all age groups.</p>
     <h2>Radar chart</h2>
     <img src="https://datavizcatalogue.com/methods/images/top_images/radar_chart.png">
-    <p>Radar charts, also known as as spider chart, web chart, polar chart, or star plots, are a way of comparing multiple quantitative variables. This makes them useful for seeing which variables have similar values or if there are any outliers amongst each variable. Radar Charts are also useful for seeing which variables are scoring high or low within a dataset, making them ideal for displaying performance.</p>
+    <p>Radar charts, also known as as spider chart, web chart, polar chart, or star plots, are a way of comparing multiple quantitative variables. This makes them useful for seeing which variables have similar values or if there are any outliers among each variable. Radar Charts are also useful for seeing which variables are scoring high or low within a dataset, making them ideal for displaying performance.</p>
     <h2>Sankey diagram</h2>
     <img src="https://flowingdata.com/wp-content/uploads/2018/03/Black-boys-dropping-income-levels-1090x582.png">
     <figcaption>Data: <a href="https://www.nytimes.com/interactive/2018/03/19/upshot/race-class-white-and-black-men.html">New York Times</a></figcaption>
@@ -256,6 +278,7 @@ figcaption, figcaption > a {
     <figcaption>Data: <a href="https://www.bls.gov/cew/downloadable-data-files.htm">U.S. Bureau of Labor Statistics</a></figcaption>
     <p>Stacked area graphs work in the same way as regular area graphs, except for the use of multiple data series that start each point from the point left by the previous data series. The entire graph represents the total of all the data plotted. Stacked Area Graphs also use the areas to convey whole numbers, so they do not work for negative values. Overall, they are useful for comparing multiple variables changing over an interval.</p>
     <h2>Stacked bar chart</h2>
+    <h3>Unemployment by industry</h3>
     <figure id="bls_bar"></figure>
     <figcaption>Data: <a href="https://www.bls.gov/cew/downloadable-data-files.htm">U.S. Bureau of Labor Statistics</a></figcaption>
     <p>Stacked Bar Graphs are used to show how a larger category is divided into smaller categories and what the relationship of each part has on the total amount.</p>
@@ -269,7 +292,10 @@ figcaption, figcaption > a {
     <figcaption>Data: <a href="https://craft.co/wework/funding-rounds">Craft.co</a></figcaption>
     <p>A step chart works like a line chart, but the values change immediately at the x-coordinate instead of being interpolated<a href="#interpolation" aria-describedby="footnote-label" id="interpolation-ref"></a> with a slope.</p>
     <h2>Streamgraph</h2>
-    <img src="https://datavizcatalogue.com/methods/images/top_images/SVG/stream_graph.svg">
+    <h3>Unemployment by industry</h3>
+    <figure id="streamgraph"></figure>
+    <figcaption>Data: <a href="https://www.bls.gov/cew/downloadable-data-files.htm">U.S. Bureau of Labor Statistics</a></figcaption>
+    <!-- <img src="https://datavizcatalogue.com/methods/images/top_images/SVG/stream_graph.svg"> -->
     <p>Stream Graphs display the changes in data over time of different categories through the use of flowing, organic shapes that somewhat resemble a river-like stream. This makes Stream Graphs aesthetically pleasing and more engaging to look at. In a Stream Graph, the size of each individual stream shape is proportional to the values in each category.</p>
     <h2>Strip plot</h2>
     <h3>English letter frequency</h3>
@@ -508,37 +534,37 @@ figcaption, figcaption > a {
 //   }),
 //   ]
 // };
-  var slope = {
-    width: 400,
-    height: 300,
-    marginLeft: 100,
-    marginRight: 50,
-    x: {
-      axis: "top",
-      domain: [2019, 2020],
-      tickFormat: "",
-      ticks: 1
-    },
-    y: {
-      label: "% change in year",
-      percent: true,
-      domain: [-1, 3],
-      axis: null
-    },
-    marks: [
-      Plot.link(data5corr, {
-        x1: 2019,
-        y1: "population_change_2019",
-        x2: 2020,
-        y2: "population_change_2020",
-        stroke: "country"
-      }),
+var slope = {
+  width: 400,
+  height: 300,
+  marginLeft: 100,
+  marginRight: 50,
+  x: {
+    axis: "top",
+    domain: [2019, 2020],
+    tickFormat: "",
+    ticks: 1
+  },
+  y: {
+    label: "% change in year",
+    percent: true,
+    domain: [-1, 3],
+    axis: null
+  },
+  marks: [
+  Plot.link(data5corr, {
+    x1: 2019,
+    y1: "population_change_2019",
+    x2: 2020,
+    y2: "population_change_2020",
+    stroke: "country"
+  }),
       // Plot.ruleY([0]),
       Plot.text(data5corr, {
         x: 2019,
         y: "population_change_2019",
         text: (d) =>
-          `${d.country}: ${d3.format(".1%")(d["population_change_2019"])}`,
+        `${d.country}: ${d3.format(".1%")(d["population_change_2019"])}`,
         textAnchor: "end",
         dx: -5,
         fill: "country",
@@ -548,53 +574,53 @@ figcaption, figcaption > a {
         x: 2020,
         y: "population_change_2020",
         text: (d) =>
-          `${d.country}: ${d3.format(".1%")(d["population_change_2020"])}`,
+        `${d.country}: ${d3.format(".1%")(d["population_change_2020"])}`,
         // text: (d) => d3.format(".1%")(d["population_change_2020"]),
         textAnchor: "start",
         dx: 5,
         fill: "country",
         fontSize: 14
       })
-    ]
-  };
+      ]
+    };
 
-  var wework = {
-    width: 720,
-    y: {
-      grid: true,
-      tickFormat: "$f",
-    },
-    marks: [
-    Plot.lineY(wework, {x: "date", y: "value", curve: "step-after", strokeWidth: 1, stroke: "steelblue"}),
-    Plot.text(wework, {x: "date", y: "value", text: "label", dx: -5, dy: -5}),
-    Plot.dot(wework, {x: "date", y: "value", fill: "white", stroke: "black"})
-    ]
-  };
+    var wework = {
+      width: 720,
+      y: {
+        grid: true,
+        tickFormat: "$f",
+      },
+      marks: [
+      Plot.lineY(wework, {x: "date", y: "value", curve: "step-after", strokeWidth: 1, stroke: "steelblue"}),
+      Plot.text(wework, {x: "date", y: "value", text: "label", dx: -5, dy: -5}),
+      Plot.dot(wework, {x: "date", y: "value", fill: "white", stroke: "black"})
+      ]
+    };
 
-  var example_dot = {
-    width: 720,
-    x: {
-      label: null,
-    },
-    marks: [
-    Plot.dot(alphabet, {x: "letter", r: "frequency", fill: "letter"})
-    ]
-  };
+    var example_dot = {
+      width: 720,
+      x: {
+        label: null,
+      },
+      marks: [
+      Plot.dot(alphabet, {x: "letter", r: "frequency", fill: "letter"})
+      ]
+    };
 
-  var example_line = {
-    width: 720,
-    y: {
-      grid: true,
-      domain: [0, 100],
-      label: "↑ Excitement level"
-    },
-    x:{
-      label: "",
-      domain: d3.sort(ex_lvls, d => -d.Phrase).map(d => d.Phrase),
-    },
-    color: "turbo",
-    marks: [
-    Plot.line(ex_lvls, {x: "Phrase", y: "level", stroke: "brown", strokeWidth: 2.5}),
+    var example_line = {
+      width: 720,
+      y: {
+        grid: true,
+        domain: [0, 100],
+        label: "↑ Excitement level"
+      },
+      x:{
+        label: "",
+        domain: d3.sort(ex_lvls, d => -d.Phrase).map(d => d.Phrase),
+      },
+      color: "turbo",
+      marks: [
+      Plot.line(ex_lvls, {x: "Phrase", y: "level", stroke: "brown", strokeWidth: 2.5}),
       // Plot.ruleY([0,100]),  
       ]
     };
@@ -672,7 +698,7 @@ figcaption, figcaption > a {
   const formatTime = d3.timeFormat("%Y");
 
   // Use Promises to async request data
-  var promises = [d3.json("data/drugs.json"), d3.csv("data/aapl.csv",d3.autoType),d3.csv("data/hadcrut.csv",d3.autoType), d3.csv("https://gist.githubusercontent.com/JesseCHowe/099f4b8e1a029c0b4af35b1edc1989f7/raw/8c18ed9a0940c734d423c3f2699ee063279533ec/morley.csv",d3.autoType), d3.csv("data/stocks.csv",d3.autoType),d3.csv("data/units.csv",d3.autoType),d3.json("data/qatar.json"),d3.csv("https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv",d3.autoType),d3.csv("data/driving.csv",d3.autoType),d3.csv("data/bls.csv",d3.autoType),d3.csv("data/caltrain.csv"),d3.csv("data/mpg.csv",d3.autoType), d3.csv("data/electricity.csv",d3.autoType),d3.json("data/dogdata.json")];
+  var promises = [d3.json("data/drugs.json"), d3.csv("data/aapl.csv",d3.autoType),d3.csv("data/hadcrut.csv",d3.autoType), d3.csv("https://gist.githubusercontent.com/JesseCHowe/099f4b8e1a029c0b4af35b1edc1989f7/raw/8c18ed9a0940c734d423c3f2699ee063279533ec/morley.csv",d3.autoType), d3.csv("data/stocks.csv",d3.autoType),d3.csv("data/units.csv",d3.autoType),d3.json("data/qatar.json"),d3.csv("https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv",d3.autoType),d3.csv("data/driving.csv",d3.autoType),d3.csv("data/bls.csv",d3.autoType),d3.csv("data/caltrain.csv"),d3.csv("data/mpg.csv",d3.autoType), d3.csv("data/electricity.csv",d3.autoType),d3.json("data/dogdata.json"), d3.csv("data/google-trends-2020.csv",d3.autoType)];
 
   // You can request multiple srcs in a promise
   myDataPromises = Promise.all(promises);
@@ -694,6 +720,7 @@ figcaption, figcaption > a {
     var mpg = data[11];
     var electric = data[12];
     var dogdata = data[13];
+    var google = data[14];
 
     var electricity = {
       height: 400,
@@ -702,7 +729,7 @@ figcaption, figcaption > a {
       marginRight: 100,
       x: {
         ticks: 8,
-        tickSize: 3,
+        tickSize: 2,
         tickPadding: 6,
         label: null
       },
@@ -710,7 +737,7 @@ figcaption, figcaption > a {
         tickFormat: "%",
         ticks: 5,
         tickSize: 0,
-        tickPadding: 3,
+        tickPadding: 4,
         grid: true,
         label: null
       },
@@ -729,7 +756,7 @@ figcaption, figcaption > a {
         offset: "expand",
         fill: "source",
         text: "source",
-        textAnchor: "start", dx: 2, dy: 3
+        textAnchor: "start", dx: 4, dy: 3
       }))),
       Plot.ruleY([0])
       ],
@@ -848,15 +875,52 @@ figcaption, figcaption > a {
       y: {
         grid: true,
         tickFormat: "+f",
-        label: "↑ Surface temperature anomaly (°F)"
+        label: "↑ Surface temperature anomaly (°F)",
+        tickSize: 0,
+      },
+      x:{
       },
       color: {
         type: "diverging",
         scheme: "BuRd"
       },
       marks: [
-      Plot.ruleY([0]),
-      Plot.dot(hadcrut, {x: "year", y: "anomaly", stroke: "anomaly"})
+      Plot.ruleY([0], {stroke:"rgba(0,0,0,.6)"}),
+      Plot.dot(hadcrut, {x: "year", y: "anomaly", stroke: "anomaly",fill: "anomaly", title: (d) =>
+          `${d3.timeFormat("%B %d, %Y")(d["year"])} \nAnomaly: ${d3.format("+.3f")(d["anomaly"])}`,})
+
+      ]
+    };
+
+    var google_ridgeline = {
+      width: 720,
+      marginRight: 0,
+      x: {
+        axis: "top",
+        label: null,
+      },
+      y: {
+        range: [12, -24],
+        axis: null
+      },
+      fy: {
+        round: true,
+        label: null
+      },
+      facet: {
+        data: google,
+        y: "search",
+        marginLeft: 160
+      },
+      color: {
+        // type: "diverging",
+        scheme: "tableau10",
+        reverse: true,
+      },
+      marks: [
+        Plot.areaY(google, {x: "week", y: "interest", fill: "search", fillOpacity: 0.42, sort: {fy: "y", reduce: "max-index"}}),
+        Plot.line(google, {x: "week", y: "interest", stroke: "white", strokeWidth: 1}),
+        Plot.ruleY([0]),
       ]
     };
 
@@ -915,6 +979,10 @@ figcaption, figcaption > a {
 
     var bls_line = {
       width: 720,
+      y: {
+        grid: false,
+        label: "↑ Unemployed (thousands)"
+      },
       marks: [
       Plot.areaY(bls, {x: "date", y2: "unemployed", z: "industry", fillOpacity: 0.1}),
       Plot.lineY(bls, {x: "date", y: "unemployed", z: "industry", strokeWidth: 1}),
@@ -941,6 +1009,10 @@ figcaption, figcaption > a {
         // tickRotate: -35,
         tickSize: 0,
         label: null
+      },
+      y: {
+        grid: true,
+        label: "↑ Unemployed (thousands)"
       },
       color: {
         type: "ordinal",
@@ -1033,6 +1105,27 @@ figcaption, figcaption > a {
         textAnchor: "end"
       })),
       Plot.ruleX([-0.5, 0.5])
+      ]
+    };
+
+    var streamgraph = {
+      marks: [
+        Plot.areaY(bls, Plot.stackY({
+          x: "date",
+          y: "unemployed",
+          fill: "industry",
+          title: "industry",
+          offset: "wiggle"
+        })),
+        Plot.text(bls, Plot.selectLast(Plot.stackY({
+          x: "date", 
+          y: "unemployed", 
+          z: "industry", 
+          text: "industry",
+          offset: "wiggle", 
+          textAnchor: "start",
+          dx: 5,
+          fill: "industry"}))),
       ]
     };
 
@@ -1134,11 +1227,13 @@ figcaption, figcaption > a {
     document.getElementById("bls_bar").appendChild(Plot.plot (bls_bar));
     document.getElementById("example_histogram").appendChild(Plot.plot (example_histogram));
     document.getElementById("stem_plot").appendChild(Plot.plot (stem_plot));
+    document.getElementById("streamgraph").appendChild(Plot.plot (streamgraph));
     document.getElementById("qatar_pyramid").appendChild(Plot.plot (qatar_pyramid));
     document.getElementById("gapminder").appendChild(Plot.plot (gapminder));
     document.getElementById("mpg").appendChild(Plot.plot (mpg));
     document.getElementById("drug_scatter").appendChild(Plot.plot (drug_scatter));
-    document.getElementById("waffle").appendChild(Plot.plot(waffle));
+    document.getElementById("waffle").appendChild(Plot.plot (waffle));
+    document.getElementById("google_ridgeline").appendChild (Plot.plot(google_ridgeline));
   });
 </script>
 </body>
