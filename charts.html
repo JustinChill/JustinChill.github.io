@@ -48,6 +48,12 @@
     top: .6875em;
     left: .25em;
   }
+  article > h2{
+    margin: 2.2rem 0 0.4em 0;
+  }   
+  h2 + h3{
+    margin: 1rem 0 2em 0;
+  }
 </style>
 </head>
 <body>
@@ -124,6 +130,11 @@
     <figure id="gapminder"></figure>
     <figcaption>Data: <a href="https://www.gapminder.org/data/">GapMinder Foundation</a></figcaption>
     <p>A bubble chart is a variation of a scatter chart in which the data points are replaced with bubbles, and an additional dimension of the data is represented in the size of the bubbles. Just like a scatter chart, a bubble chart does not use a category axis — both horizontal and vertical axes are value axes. In addition to the x values and y values that are plotted in a scatter chart, a bubble chart also z (size) values.</p>
+    <h2>Bullet chart</h2>
+    <h3>Proportion of COVID-19 cases vs. share of population, by race</h3>
+    <figure id="bullet"></figure>
+    <figcaption></figcaption>
+    <p>A Bullet Graph is a variation of a Bar Graph. The main data value is encoded by a length of the main bar in the middle of the chart, known as the <b>Feature Measure</b>. The line marker that runs perpendicular to the orientation of the graph is known as the <b>Comparative Measure</b> and is used as a target marker to compare against the Feature Measure value. So if the main bar has passed the position of Comparative Measure, you know you’ve hit your goal.</p>
     <h2>Bump chart</h2>
     <h3>Changes in state population, 1920 - 2020</h3>
     <img src="https://flowingdata.com/wp-content/uploads/2021/05/population-shift-1536x1084.png">
@@ -319,7 +330,7 @@
     <img src="https://datavizcatalogue.com/methods/images/top_images/timetable.png">
     <p>Timetables are used as a referencing and management tool for scheduled events, tasks and actions to take place. Timetables are commonly used to display the arrival and departure time of trains and other forms of transportation.</p>
     <h2>Ternary plot</h2>
-    <img src="https://flowingdata.com/wp-content/uploads/2021/03/1067px-SoilTexture_USDA-750x720.png">
+    <img src="imgs/ternary.svg">
     <p>A ternary plot, ternary graph, or triangle plot graphically depicts the ratios of the three variables as positions in an equilateral triangle.</p>
     <h2>Timeline</h2>
     <h3>World History Timeline</h3>
@@ -327,7 +338,7 @@
     <figcaption>Data: <a href="http://www.essential-humanities.net/history-overview/world-history-timeline/">Essential Humanities</a></figcaption>
     <p>A Timeline is a graphical way of displaying a list of events in chronological order.</p>
     <h2>Treemap</h2>
-    <img src="https://flowingdata.com/wp-content/uploads/2014/07/Interactive-treemap.png">
+    <img src="imgs/treemap.svg">
     <p>Ben Shneiderman originally developed Treemaps as a way of visualising a vast file directory on a computer, without taking up too much space on the screen. This makes Treemaps a more compact and space-efficient option for displaying hierarchies, that gives a quick overview of the structure. Treemaps are also great at comparing the proportions between categories via their area size.</p>
     <h2>Unit chart</h2>
     <img src="https://flowingdata.com/wp-content/uploads/2018/02/Icon-chart-1090x687.png">
@@ -372,11 +383,11 @@
   {"country":"North Korea","nukes":40},
   {"country":"Jeff","nukes":10}];
 
-  var ex_lvls = [{ "Phrase":"Hey baby,", "level":10},
-  { "Phrase":"do you want", "level":20},
+  var ex_lvls = [{ "Phrase":"Hey baby,", "level":15},
+  { "Phrase":"do you want", "level":25},
   { "Phrase":"to have", "level":40},
   { "Phrase":"sex...", "level":75},
-  { "Phrase":"...tuplets?", "level":15}];
+  { "Phrase":"...tuplets?", "level":5}];
 
   var wework = [
   // https://craft.co/wework/funding-rounds
@@ -627,12 +638,14 @@ var slope = {
         label: "↑ Excitement level"
       },
       x:{
-        label: "",
         domain: d3.sort(ex_lvls, d => -d.Phrase).map(d => d.Phrase),
+        axis: null,
       },
       color: "turbo",
       marks: [
       Plot.line(ex_lvls, {x: "Phrase", y: "level", stroke: "brown", strokeWidth: 2.5}),
+      Plot.dot(ex_lvls, {x: "Phrase", y: "level", fill: "brown"}),
+      Plot.text(ex_lvls, {x: "Phrase", y: "level", text: "Phrase", dy: 16, dx: 5}),
       // Plot.ruleY([0,100]),  
       ]
     };
@@ -710,7 +723,7 @@ var slope = {
   const formatTime = d3.timeFormat("%Y");
 
   // Use Promises to async request data
-  var promises = [d3.json("data/drugs.json"), d3.csv("data/aapl.csv",d3.autoType),d3.csv("data/hadcrut.csv",d3.autoType), d3.csv("https://gist.githubusercontent.com/JesseCHowe/099f4b8e1a029c0b4af35b1edc1989f7/raw/8c18ed9a0940c734d423c3f2699ee063279533ec/morley.csv",d3.autoType), d3.csv("data/stocks.csv",d3.autoType),d3.csv("data/units.csv",d3.autoType),d3.json("data/qatar.json"),d3.csv("https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv",d3.autoType),d3.csv("data/driving.csv",d3.autoType),d3.csv("data/bls.csv",d3.autoType),d3.csv("data/caltrain.csv"),d3.csv("data/mpg.csv",d3.autoType), d3.csv("data/electricity.csv",d3.autoType),d3.json("data/dogdata.json"), d3.csv("data/google-trends-2020.csv",d3.autoType),d3.csv("data/metros.csv", d3.autoType)];
+  var promises = [d3.json("data/drugs.json"), d3.csv("data/aapl.csv",d3.autoType),d3.csv("data/hadcrut.csv",d3.autoType), d3.csv("https://gist.githubusercontent.com/JesseCHowe/099f4b8e1a029c0b4af35b1edc1989f7/raw/8c18ed9a0940c734d423c3f2699ee063279533ec/morley.csv",d3.autoType), d3.csv("data/stocks.csv",d3.autoType),d3.csv("data/units.csv",d3.autoType),d3.json("data/qatar.json"),d3.csv("https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv",d3.autoType),d3.csv("data/driving.csv",d3.autoType),d3.csv("data/bls.csv",d3.autoType),d3.csv("data/caltrain.csv"),d3.csv("data/mpg.csv",d3.autoType), d3.csv("data/electricity.csv",d3.autoType),d3.json("data/dogdata.json"), d3.csv("data/google-trends-2020.csv",d3.autoType),d3.csv("data/metros.csv", d3.autoType),d3.csv("data/covid.csv", d3.autoType)];
 
   // You can request multiple srcs in a promise
   myDataPromises = Promise.all(promises);
@@ -734,6 +747,7 @@ var slope = {
     var dogdata = data[13];
     var google = data[14];
     var metros = data[15];
+    var covid = data[16];
 
     var electricity = {
       height: 400,
@@ -792,7 +806,7 @@ var slope = {
       ]
     };
 
-    const tinyapple = aapl.slice(-120);
+    const tinyapple = aapl.slice(-90);
 
     var candlestick = {
       inset: 6,
@@ -1001,6 +1015,44 @@ var slope = {
       ]
     };
 
+    var bullet = {
+      width: width,
+      height: 85,
+      x: {
+        axis: "bottom",
+        grid: true,
+        // ticks: d3.range(0, 51, 10),
+        tickFormat: (d) => (d === 50 ? `${d}%` : `${d}`),
+        tickSize: 0
+      },
+      y: { label: null, reverse: true, domain: ["all"], axis: null },
+      color: { scheme: "dark2" },
+      facet: {
+        data: covid,
+        x: "race",
+        label: null,
+      },
+      marks: [
+        Plot.barX(covid, {
+          x: "population_percent",
+          y: "age",
+          fill: "#ddd",
+          title: d => `${d.race} are ${d.population_percent}% of the population\nand make up ${d.cases_percent}% of COVID-19 cases`,
+          insetTop: 2,
+          insetBottom: 2
+        }),
+        Plot.barX(covid, {
+          x: "cases_percent",
+          y: "age",
+          fill: "race",
+          title: d => `${d.race} are ${d.population_percent}% of the population\nand make up ${d.cases_percent}% of COVID-19 cases`,
+          sort: { fx: "x", reverse: true },
+          insetTop: 6,
+          insetBottom: 6
+        })
+      ],
+    };
+
     var driving_line = {
       width: width,
       inset: 10,
@@ -1039,6 +1091,11 @@ var slope = {
         grid: true,
         label: "↑ Unemployed (thousands)"
       },
+      color: {
+        // type: "diverging",
+        scheme: "Set2",
+        reverse: true,
+      },
       marks: [
       Plot.areaY(bls, Plot.stackY({x: "date", y: "unemployed", fill: "industry", title: "industry"})),
       Plot.text(bls, Plot.selectLast(Plot.stackY({filter: d => d.industry !== "Mining and Extraction",x: "date", y: "unemployed", z: "industry", text: "industry", textAnchor: "start", dx: 3,fill: "industry",}))),
@@ -1058,12 +1115,12 @@ var slope = {
       },
       color: {
         type: "ordinal",
-        scheme: "tableau10",
+        scheme: "Set2",
         reverse: true,
       },
       width: width,
       marks: [
-      Plot.barY(bls, Plot.binX({y: "sum"}, {x: "date", y: "unemployed", fill: "industry"}))
+      Plot.barY(bls, Plot.binX({y: "sum"}, {x: "date", y: "unemployed", fill: "industry"})) // title doesn't work with binX? 🤔
       ]
     };
 
@@ -1114,7 +1171,7 @@ var slope = {
       width: width,
       color: {
         type: "diverging",
-        scheme: "BuRd"
+        scheme: "Sinebow"
       },
       x: {
         round: true,
@@ -1335,12 +1392,15 @@ var slope = {
     document.getElementById("streamgraph").appendChild(Plot.plot (streamgraph));
     document.getElementById("qatar_pyramid").appendChild(Plot.plot (qatar_pyramid));
     document.getElementById("gapminder").appendChild(Plot.plot (gapminder));
+    document.getElementById("bullet").appendChild(Plot.plot (bullet));
     document.getElementById("mpg").appendChild(Plot.plot (mpg));
     document.getElementById("inequality").appendChild(Plot.plot (inequality));
     document.getElementById("drug_scatter").appendChild(Plot.plot (drug_scatter));
     document.getElementById("waffle").appendChild(Plot.plot (waffle));
     document.getElementById("google_ridgeline").appendChild (Plot.plot(google_ridgeline));
   });
+
+// Experimenting with d3 color swatches & legend:
 </script>
 </body>
 </html>
