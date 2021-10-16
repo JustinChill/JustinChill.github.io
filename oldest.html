@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>World's Oldest Person Since 1955</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="World's Oldest Person Since 1955.">
+  <meta name="author" content="Justin Chill">
+
+  <style type="text/css">
+  article > figure{
+    grid-column: 4;
+    min-width: 0;
+  }
+  figcaption, figcaption > a {
+    margin-bottom: 0;
+    font-size: calc(8px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+  }
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+      <a href="projects.html" class="nav__item">Lab</a>
+      <a href="fun.html" class="nav__item">Fun</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+  
+  <main role="main">
+    <article>
+       <div class="article-hero">
+        <h2 class="article-category">Post</h2>
+        <h1 class="article-title">Supercentenarians</h1>
+        <h2 class="article-subtitle"></h2>
+      </div>
+
+    <h3>World's Oldest Person Titleholders Since 1955</h3>
+    <figure id="oldest_legend"></figure>
+    <figure id="oldest"></figure>
+    <figcaption>Data: <a href="https://grg.org/WSRL/TableE.aspx">Gerontology Research Group</a></figcaption>
+
+    <!-- <img src="https://preview.redd.it/0xxg0cbu62b21.png?width=960&crop=smart&auto=webp&s=d409f43028ea348bd987fed7b87625f64ea55241"> -->
+</article>
+</main>
+<footer>
+  <h2 id="footnote-label">Footnotes</h2>
+  <ol>
+    <li id="footnotes">Inspiration for using Aliens as boilderplate HTML elements from <a href="https://tailwind-typography-playground.vercel.app">this</a> lovely Tailwinds example <a href="#footnotes-ref" aria-label="Back to content">↩</a></li>
+
+  </ol>
+  <div>
+    <p>Justin Chill © 2021. Thanks for reading!</p>
+    <p><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="gh">Source code and feedback</a></p>    
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.2"></script>
+
+<script type="text/javascript">
+  var size = 12;
+
+  // Use Promises to async request data
+  var promises = [d3.csv("data/oldest.csv",d3.autoType)];
+  myDataPromises = Promise.all(promises);
+
+  // After data is successfully fetched, generate viz
+  myDataPromises.then(function(data) {
+    
+    // Define the data
+    var data = data[0];
+
+    var oldest = {
+      grid: true,
+      inset: 10,
+      width: 740,
+      style:{fontSize: size},
+      y: {
+        label: "↑ Age",
+        labelOffset: 30,
+        line: false,
+      },
+      style: {
+        background: "hsl(216, 33%, 97%)",
+        // color: "white"
+      },
+      color: {
+        domain: ["M","F"],
+        range: ["hsl(227, 50%, 59%)", "hsl(16, 94%, 61%)"]
+      },
+      marks: [
+        Plot.link(data, {
+          x1: "became",
+          y1: "age_became",
+          x2: "died",
+          y2: "age_died",
+          stroke: "gender",
+          strokeWidth: 1.25,
+        }),
+        Plot.dot(data, {
+          filter: d => d.name !== "Kane Tanaka",
+          x: "died",
+          y: "age_died",
+          fill: "gender",
+          r: 3,
+          title: d => `${d.name} (${d.birthplace})\nBorn: ${d3.timeFormat("%B %d, %Y")(d.born)}\nDied: ${d3.timeFormat("%B %d, %Y")(d.died)}`,
+        }),
+        Plot.text(data.filter(d => d.name === "Jeanne Calment"), {
+          x: "became",
+          y: "age_became",
+          text: (d) => "- when she became\nthe world's oldest\nwoman",
+          textAnchor: "start",
+          dx: 5,
+        }),
+        Plot.text(data.filter(d => d.name === "Jeanne Calment"), {
+          x: "died",
+          y: "age_died",
+          text: (d) => "- when she died",
+          textAnchor: "start",
+          dx: 5,
+        }),
+        Plot.text(data.filter(d => d.name === "Jeanne Calment"), {
+          x: "died",
+          y: "age_died",
+          text: "name",
+          textAnchor: "end",
+          dx: -20,
+        }),
+        Plot.text(data.filter(d => d.name === "Emma Tillman"), {
+          x: "died",
+          y: "age_died",
+          text: "name",
+          textAnchor: "start",
+          dy: 15,
+          dx: -15
+        }),
+        Plot.text(data.filter(d => d.name === "Kane Tanaka"), {
+          x: "died",
+          y: "age_died",
+          text: "name",
+          textAnchor: "end",
+          dy: 30,
+          dx: 10
+        }),
+        // Plot.text(data, {
+        //   x: "died",
+        //   y: "age_died",
+        //   text: d => d.highlight && d.nyt_display,
+        //   dy: -6
+        // })
+      ]
+    };
+    document.getElementById("oldest").appendChild(Plot.plot(oldest));
+  });
+  </script>
+  <script type="module">
+  // Import Observable runtime and the @d3/color-legend notebook
+  import {Runtime} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@4/dist/runtime.js";
+  import d3_colorLegend from "https://api.observablehq.com/@d3/color-legend.js?v=3";
+
+  // Example chart data copied from https://observablehq.com/@d3/stacked-area-chart
+  const color = d3.scaleOrdinal()
+      .domain(["Male","Female"])
+      .range(["hsl(227, 50%, 59%)", "hsl(16, 94%, 61%)"])
+  const margin = ({top: 0, right: 0, bottom: 0, left: 0})
+
+  // Container element into which the swatches will render
+  const container = document.querySelector("#oldest_legend")
+
+  renderSwatches(container)
+    
+  async function renderSwatches(el) {
+    // Get the value of the "swatches" notebook cell, which is the function we want, which returns a DOM element
+    const module = new Runtime().module(d3_colorLegend);
+    const swatches = await module.value("swatches");
+    
+    // Finally, call `swatches` with our options and append it to the container
+    const element = swatches({color, marginLeft: margin.left, columns: "60px"});
+    el.appendChild(element);
+  }
+  </script>
+</body>
+</html>
