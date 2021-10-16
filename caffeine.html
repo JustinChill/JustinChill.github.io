@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Caffeine Data Viz</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Visualizing the amount of caffeine in foods.">
+  <meta name="author" content="Justin Chill">
+
+  <style type="text/css">
+  article > figure{
+    grid-column: 4;
+    min-width: 0;
+  }
+  figcaption, figcaption > a {
+    margin-bottom: 0;
+    font-size: calc(8px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+    text-align: right;
+  }
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+      <a href="projects.html" class="nav__item">Lab</a>
+      <a href="fun.html" class="nav__item">Fun</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+  
+  <main role="main">
+    <article>
+       <div class="article-hero">
+        <h2 class="article-category">Post</h2>
+        <h1 class="article-title">Caffeine Data Viz</h1>
+        <h2 class="article-subtitle">Analyzing caffeine in foods</h2>
+      </div>
+
+      <figure id="caffeine_bar"></figure>
+      <figcaption>Data: <a href="">Reddit</a></figcaption>
+
+      <p>The Reddit community Dataisbeautiful used to host a "data visualization" battle, in which readers are challenged to work with a new dataset. July 2019's data battle challenges us to visualize the amount of caffeine in different foods. Data is provided by the National Center for Biotechnology Information <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4462044/table/T2/?report=objectonly">here</a>.</p>
+      <h3>Caffeine distribution by class</h3>
+      <figure id="caffeine_box"></figure>
+      <p>It's clear that energy drinks contain the most amount of caffeine, on average, than any other category.</p>
+      <h3>Caffeine by class</h3>
+      <figure id="caffeine_class"></figure>
+      <p>Summarizing the milligrams of caffeine in each category.</p>
+      <h3>Item by class</h3>
+      <figure id="caffeine_facet"></figure>
+      <p>This view of the data helps to better show the distribution within each category.</p>
+</article>
+</main>
+<footer>
+  <h2 id="footnote-label">Footnotes</h2>
+  <div>
+    <p>Justin Chill © 2021. Thanks for reading!</p>
+    <p><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="gh">Source code and feedback</a></p>    
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.2"></script>
+
+<script type="text/javascript">
+  // Use Promises to async request data
+  var promises = [d3.csv("data/caffeine.csv",d3.autoType)];
+  var width = 730;
+  var size = 12;
+  var scheme = "Paired";
+
+  var boxY = function boxY(data, {
+    x = null,
+    y = {transform: x => x},
+    fill = "#ccc",
+    stroke = "currentColor",
+  } = {}) {
+    const group = x == null ? Plot.groupZ : Plot.groupX;
+    return Plot.marks(
+      Plot.ruleX(data, group({y1: iqr1, y2: iqr2}, {x, y, stroke})),
+      Plot.barY(data, group({y1: quartile1, y2: quartile3}, {x, y, fill})),
+      Plot.tickY(data, group({y: "median"}, {x, y, stroke, strokeWidth: 2})),
+      Plot.dot(data, Plot.map({y: outliers}, {x, y, z: x, stroke}))
+      );
+  };
+  var outliers = function outliers(values) {
+    const r1 = iqr1(values);
+    const r2 = iqr2(values);
+    return values.map(v => v < r1 || v > r2 ? v : NaN);
+  };
+
+  var iqr1 = V => {
+    const hi = quartile1(V);
+    const lo = hi - 1.5 * (quartile3(V) - hi);
+    return d3.min(V, v => lo <= v && v <= hi ? v : NaN);
+  };
+
+  var iqr2 = V => {
+    const lo = quartile3(V);
+    const hi = lo + 1.5 * (lo - quartile1(V));
+    return d3.max(V, v => lo <= v && v <= hi ? v : NaN);
+  };
+  var quartile1 = V => d3.quantile(V, 0.25);
+  var quartile3 = V => d3.quantile(V, 0.75);
+
+  // You can request multiple srcs in a promise
+  myDataPromises = Promise.all(promises);
+
+  // After data is successfully fetched, generate viz
+  myDataPromises.then(function(data) {
+    // Define the data
+    var caffeine = data[0];
+
+    var caffeine_bar = {
+      width: width,
+      style:{fontSize: size},
+      marginLeft: 160,
+      marginRight: 60,
+      marginBottom: 40,
+      x: {
+        labelOffset: 40,
+        grid: true
+      },
+      color: {
+        type: "categorical",
+        scheme: scheme,
+      },
+      y: {
+        // grid: true,
+        label: null,
+        reverse: true,
+        domain: d3.sort(caffeine, d => -d["Caffeine (mg)"]).map(d => d.Item),
+      },
+      marks: [
+      Plot.barX(caffeine, { x: "Caffeine (mg)", y: "Item", fill:"Class", title: (d) =>
+          `${d.Item} \nCaffeine: ${d["Caffeine (mg)"]}\nClass: ${d.Class}`,}),
+      Plot.text(caffeine, {x: "Caffeine (mg)", y: "Item", text: (d) =>
+          `${d["Caffeine (mg)"]} mg`, textAnchor: "start", dx: 5})
+      // Plot.text(caffeine, {x: "Drug", y: "Pleasure", text: d => (d.Pleasure).toFixed(1), dy: -5}),
+      ]
+    };
+
+    var caffeine_box = {
+      width: width,
+      style:{fontSize: size},
+      marginTop: 30,
+      y: {
+        grid: true,
+        inset: 6,
+      },
+      x:{ label:"Class", labelOffset: 50,domain: d3.sort(caffeine, d => -d["Caffeine (mg)"]).map(d => d.Class),},
+      color: {
+        type: "categorical",
+        scheme: scheme,
+      },
+      marks: [
+      boxY(caffeine, {x: "Class", y: "Caffeine (mg)", fill: "Class"})
+      ]
+    };
+
+    var caffeine_class = {
+      width: width,
+      style:{fontSize: size},
+      marginTop: 30,
+      x: {
+        // tickFormat: "%Y",
+        // tickSize: 0,
+        label: null,
+        domain: d3.sort(caffeine, d => -d["Caffeine (mg)"]).map(d => d.Class),
+      },
+      y: {
+        grid: true,
+      },
+      color: {
+        type: "categorical",
+        scheme: scheme,
+      },
+      width: width,
+      marks: [
+      Plot.barY(caffeine, Plot.groupX({y: "sum"},{x: "Class", y: "Caffeine (mg)", fill: "Class", title: "Item"}))
+      ]
+    };
+
+    var caffeine_facet = {
+      width: width - 20,
+      style:{fontSize: size},
+      x: {label: null, ticks: 2, labelOffset: 50, axis: null},
+      // y: {label: "↑ Highway mpg", ticks: 6, labelOffset: 90},
+      // marginLeft: 20,
+      marginTop: 40,
+      // marginBottom: 50,
+      inset: 4,
+      color: {
+        type: "categorical",
+        scheme: scheme,
+      },
+      facet: {
+        data : caffeine,
+        x: "Class",
+        label: null,
+      },
+      marks: [
+      Plot.dot(caffeine, {x: "Class", y: "Caffeine (mg)", stroke: "Class", strokeWidth: 1, fill: "Class", title: (d) =>
+          `${d.Item} \nCaffeine: ${d["Caffeine (mg)"]}\nClass: ${d.Class}`}),
+      Plot.frame({stroke: "#ccc"}),
+      ]
+    };
+
+      document.getElementById("caffeine_bar").appendChild(Plot.plot(caffeine_bar));
+      document.getElementById("caffeine_box").appendChild(Plot.plot(caffeine_box));
+      document.getElementById("caffeine_class").appendChild(Plot.plot(caffeine_class));
+      document.getElementById("caffeine_facet").appendChild(Plot.plot(caffeine_facet));
+    });
+  </script>
+</body>
+</html>
