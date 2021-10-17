@@ -123,14 +123,14 @@ article > figcaption{
       <h2 class="article-subtitle"></h2>
     </div>     
 
-    <p>Data visualization is the graphical representation of data. It presents data in the form of a chart or graph to make it easier to identify patterns and understand difficult concepts. Charts are an essential part of working with data, as they are a way to condense large amounts of data into a comprehensible format. Visualizations of data can bring out insights to someone looking at the data for the first time, as well as convey findings to others who won’t see, or take the time to parse, the raw data.</p>
+    <p>Presenting data in the form of a chart or graph makes identifying patterns and understanding difficult concepts easier. Visualizations of data can bring out insights to someone looking at the data for the first time, as well as convey findings to others who won’t see, or take the time to parse, the raw data.</p>
     <p>Deciding on which chart is best for your data will depend on multiple factors, such as:</p>
     <ul>
       <li><p>What are the types of metrics, features, or other variables that you plan on plotting? </p></li>
       <li><p>Who is the audience that you plan on presenting to – is it just an initial exploration for yourself, or are you presenting to a broader audience?</p></li>
       <li><p>What is the kind of conclusion that you want the reader to draw?</p></li>
     </ul>
-    <p>In this article, we’ll look at frequently used charts and graphs to help you make the best choice.</p>
+    <p>In this article, we’ll look at frequently used charts and graphs to help you make the best choice for presenting your data.</p>
     <h2>Alluvial diagram</h2>
     <img src="https://datavizproject.com/wp-content/uploads/2015/11/Skærmbillede-2016-01-21-kl.-16.37.57.png">
     <p>The alluvial diagram is useful for showing changes over time across categories. The geometry is similar to a stacked area chart but with spacing and order changes. Alluvial diagrams are named after <a href="https://en.wikipedia.org/wiki/Alluvial_fan">alluvial fans</a> that are naturally formed by the soil deposited from streaming water.</p>
@@ -142,7 +142,7 @@ article > figcaption{
     <h3>World electricity production, by source</h3>
     <figure id="electricity"></figure>
     <figcaption class="alignLeft">Data: <a href="https://ourworldindata.org/electricity-mix">Our World in Data</a></figcaption>
-    <p>A stacked area chart plots data as areas and stacked so that the cumulative area represents 100%. Stacked Area charts can show a progression and composition over time, and the 100% stacked area chart is meant to show the percentage that each component contributes when the cumulative total is not important.</p>
+    <p>A stacked area chart stacks values so that the cumulative area represents 100%. These charts can help to show a progression and composition over time, and the 100% stacked area chart is meant to show the percentage that each component contributes when the cumulative total is not important.</p>
     <h2>Bar chart</h2>
     <h3>English letter frequency</h3>
     <figure id="example_bar"></figure>
@@ -161,11 +161,10 @@ article > figcaption{
     <h3>Stock Price Comparison</h3>
     <figure id="stocks_baseline"></figure>
     <figcaption>Market Data: <a href="https://www.wsj.com/market-data">Wall Street Journal</a></figcaption>
-    <p>A baseline chart uses a reference point, which becomes the baseline, to compare all the other categories to.</p>
+    <p>A baseline chart uses a reference point, which becomes the baseline, to compare all the other categories to. In business, the success of a project or product is often measured against a <strong>baseline</strong> number for costs, sales, or other variables. A project may exceed a baseline number or fail to meet it.</p>
     <h2>Beeswarm</h2>
     <img src="https://flowingdata.com/wp-content/uploads/2021/06/hospital-billing-1536x1127.png">
     <p>A beeswarm chart is a one-dimensional chart- a chart that shows all the information on a single-axis (usually the X axis). It is similar to a strip plot, except that would-be overlapping points are separated such that each is visible. </p>
-    <p>Experimental Plot Beeswarm on <a href="https://observablehq.com/@fil/experimental-plot-beeswarm">Observable</a></p>
     <h2>Box plot</h2>
     <h3>Michaelson-Morley Speed of Light Data</h3>
     <figure id="morley"></figure>
@@ -438,16 +437,16 @@ article > figcaption{
   var links = [ ["SRI", "UTAH"], ["SRI", "UCSB"], ["SRI", "UCLA"], ["UCLA", "UCSB"] ];
 
   // Define small datasets locally to save an xHTTP request
-  var nukes = [{"country":"Russia","nukes":6257},
-  {"country":"USA","nukes":5550},
-  {"country":"France","nukes":290},
-  {"country":"China","nukes":350},
-  {"country":"United Kingdom","nukes":195},
-  {"country":"India","nukes":160},
-  {"country":"Pakistan","nukes":165},
-  {"country":"Israel","nukes":90},
-  {"country":"North Korea","nukes":40},
-  {"country":"Jeff","nukes":10}];
+  // var nukes = [{"country":"Russia","nukes":6257},
+  // {"country":"USA","nukes":5550},
+  // {"country":"France","nukes":290},
+  // {"country":"China","nukes":350},
+  // {"country":"United Kingdom","nukes":195},
+  // {"country":"India","nukes":160},
+  // {"country":"Pakistan","nukes":165},
+  // {"country":"Israel","nukes":90},
+  // {"country":"North Korea","nukes":40},
+  // {"country":"Jeff","nukes":10}];
 
   var ex_lvls = [{ "Phrase":"Hey baby,", "level":15},
   { "Phrase":"do you want", "level":25},
@@ -959,7 +958,7 @@ var slope = {
         },
         color: {
           domain: ["frequent", "not"],
-          range: ["hsl(168, 78%, 41%)", "hsl(0, 0%, 88%)"],
+          range: ["hsl(168, 78%, 41%)", "rgba(204,204,204,.8)"],
         },
         marks: [
       // Transform data example, ternary operator example for style
@@ -1006,7 +1005,7 @@ var slope = {
           x2: d => d3.utcYear.offset(d.year), // start of next year
           fill: "anomaly",
           title: (d) =>
-          `${d.year} \nAnomaly: ${d.anomaly}`,
+          `${d3.timeFormat("%B %d, %Y")(d["year"])} \nAnomaly: ${d3.format("+.3f")(d["anomaly"])}`,
         }),
       ],
     };
