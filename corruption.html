@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>World's Oldest Person Since 1955</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="World's Oldest Person Since 1955.">
+  <meta name="author" content="Justin Chill">
+
+  <style type="text/css">
+  article > figure{
+    /*grid-column: 4;*/
+    min-width: 0;
+    margin: 0;
+  }
+  #oldest_legend{
+   margin-top: 20px;
+   background: hsl(216, 33%, 97%);
+   padding-left: 10px;
+   padding-bottom: 10px;
+  }
+  .plot text{
+    font-size: 12px;
+  }
+  figcaption, figcaption > a {
+    margin-bottom: 0;
+    font-size: calc(8px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+    text-align: right;
+  }
+  ul > li {
+    position: relative;
+    padding-left: 1em;
+    list-style: none;
+    text-align: left;
+  }
+  ul > li:before{
+    content: "";
+    position: absolute;
+    background-color: #cbd5e0;
+    border-radius: 50%;
+    width: .375em;
+    height: .375em;
+    top: .6875em;
+    left: .25em;
+  }
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+      <a href="projects.html" class="nav__item">Lab</a>
+      <a href="fun.html" class="nav__item">Fun</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+  
+  <main role="main">
+    <article>
+       <div class="article-hero">
+        <h2 class="article-category">Post</h2>
+        <h1 class="article-title">Corrosive Corruption</h1>
+        <h2 class="article-subtitle"></h2>
+      </div>
+
+    <h3>Corruption and human development</h3>
+    <figure id="corruption"></figure>
+    <figcaption>Data: <a href="https://www.economist.com/graphic-detail/2011/12/02/corrosive-corruption">The Economist</a></figcaption>
+
+    <h3>Original graphic</h3>
+    <img src="https://cdn.static-economist.com/sites/default/files/20111210_WOC210.gif">
+
+</article>
+</main>
+<footer>
+  <h2 id="footnote-label">Footnotes</h2>
+  <ol>
+
+  </ol>
+  <div>
+    <p>Justin Chill © 2021. Thanks for reading!</p>
+    <p><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="gh">Source code and feedback</a></p>    
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.2"></script>
+
+<script type="text/javascript">
+  var size = 12;
+
+  // Use Promises to async request data
+  var promises = [d3.csv("https://raw.githubusercontent.com/alokkshukla/RGraphics/master/dataSets/EconomistData.csv",d3.autoType)];
+  myDataPromises = Promise.all(promises);
+
+  // After data is successfully fetched, generate viz
+  myDataPromises.then(function(data) {
+    
+    // Define the data
+    var data = data[0];
+
+    var corruption = {
+      inset: 10,
+      width: 740,
+      marginBottom: 40,
+      marginLeft: 50,
+      style:{fontSize: size},
+      x: {
+        label: "Corruption Perceptions Index, 2011 (10 = least corrupt",
+        labelAnchor: "center",
+        labelOffset: 40,
+        domain: [1, 10],
+      },
+      y: {
+        label: "Human Development Index (1 = best)",
+        labelAnchor: "center",
+        labelOffset: 50,
+        tickSize: 0,
+        grid: true,
+        domain: [.2, 1],
+      },
+      style: {
+        background: "hsl(216, 33%, 97%)",
+        // color: "white"
+      },
+      color: {
+        scheme: "tableau10",
+        reverse: true,
+      },
+      marks: [
+        Plot.dot(data, {
+          x: "CPI",
+          y: "HDI",
+          fill: null,
+          stroke: "Region",
+          r: 5,
+          title: d => `${d.Country}\nCPI: ${d.CPI}\nHDI: ${d.HDI}`,
+        }),
+        Plot.text(data, {
+          // filter: d => d.CPI % .25 === 0,
+          // x: "CPI",
+          // y: "HDI",          
+          // text: "Country",
+          // dy: "HDI" >= 0.5 ? -10 : 10, Not sure why this isn't computing
+        }),
+      ]
+    };
+    document.getElementById("corruption").appendChild(Plot.plot(corruption));
+  });
+  </script>
+</body>
+</html>
