@@ -242,7 +242,10 @@ article > figcaption{
     <img src="https://datavizcatalogue.com/methods/images/top_images/SVG/gantt_chart.svg">
     <p>Commonly used as an organisational tool for project management, Gantt Charts display a list of activities (or tasks) with their duration over time, showing when each activity starts and ends. This makes Gantt Charts useful for planning and estimating how long an entire project might take. You can also see what activities are running in parallel to each other.</p>
     <h2>Glyph chart</h2>
-    <img src="https://visme.co/blog/wp-content/uploads/2017/05/How-to-Create-Pictographs-and-Icon-Arrays-in-Visme-4.jpg">
+    <h3>Animals</h3>
+    <figure id="animals"></figure>
+    <figcaption>Data: The zoo</figcaption>
+    <!-- <img src="https://visme.co/blog/wp-content/uploads/2017/05/How-to-Create-Pictographs-and-Icon-Arrays-in-Visme-4.jpg"> -->
     <p>Symbols are used and various dimensions represent different variables in a dataset.</p>
     <h2>Grid map</h2>
     <h3>Percent change in population from 2010 to 2019</h3>
@@ -470,6 +473,8 @@ article > figcaption{
   [2.9, new Date()]
   ].map(([val, d, label]) => ({ value: val, date: new Date(d), label }));
 
+  var animals = [{"country":"Great Britain","animal":"cattle"},{"country":"Great Britain","animal":"cattle"},{"country":"Great Britain","animal":"cattle"},{"country":"Great Britain","animal":"pigs"},{"country":"Great Britain","animal":"pigs"},{"country":"Great Britain","animal":"sheep"},{"country":"Great Britain","animal":"sheep"},{"country":"Great Britain","animal":"sheep"},{"country":"Great Britain","animal":"sheep"},{"country":"Great Britain","animal":"sheep"},{"country":"Great Britain","animal":"sheep"},{"country":"Great Britain","animal":"sheep"},{"country":"Great Britain","animal":"sheep"},{"country":"Great Britain","animal":"sheep"},{"country":"Great Britain","animal":"sheep"},{"country":"United States","animal":"cattle"},{"country":"United States","animal":"cattle"},{"country":"United States","animal":"cattle"},{"country":"United States","animal":"cattle"},{"country":"United States","animal":"cattle"},{"country":"United States","animal":"cattle"},{"country":"United States","animal":"cattle"},{"country":"United States","animal":"cattle"},{"country":"United States","animal":"cattle"},{"country":"United States","animal":"pigs"},{"country":"United States","animal":"pigs"},{"country":"United States","animal":"pigs"},{"country":"United States","animal":"pigs"},{"country":"United States","animal":"pigs"},{"country":"United States","animal":"pigs"},{"country":"United States","animal":"sheep"},{"country":"United States","animal":"sheep"},{"country":"United States","animal":"sheep"},{"country":"United States","animal":"sheep"},{"country":"United States","animal":"sheep"},{"country":"United States","animal":"sheep"},{"country":"United States","animal":"sheep"}];
+
   var top20 = [{"country":"China","value":10174.681},{"country":"United States of America","value":5284.697},{"country":"India","value":2616.449},{"country":"Russian Federation","value":1678.367},{"country":"Japan","value":1106.664},{"country":"Iran","value":779.527},{"country":"Germany","value":701.955},{"country":"Indonesia","value":617.513},{"country":"South Korea","value":611.263},{"country":"Saudi Arabia","value":582.15},{"country":"Canada","value":576.65},{"country":"South Africa","value":478.608},{"country":"Brazil","value":465.716},{"country":"Mexico","value":438.498},{"country":"Australia","value":411.016},{"country":"Turkey","value":405.126},{"country":"United Kingdom","value":369.878},{"country":"Italy","value":337.086},{"country":"France","value":323.747},{"country":"Poland","value":322.627}];
 
   var alphabet = [{"letter":"E","frequency":0.12702},{"letter":"T","frequency":0.09056},{"letter":"A","frequency":0.08167},{"letter":"O","frequency":0.07507},{"letter":"I","frequency":0.06966},{"letter":"N","frequency":0.06749},{"letter":"S","frequency":0.06327},{"letter":"H","frequency":0.06094},{"letter":"R","frequency":0.05987},{"letter":"D","frequency":0.04253},{"letter":"L","frequency":0.04025},{"letter":"C","frequency":0.02782},{"letter":"U","frequency":0.02758},{"letter":"M","frequency":0.02406},{"letter":"W","frequency":0.0236},{"letter":"F","frequency":0.02288},{"letter":"G","frequency":0.02015},{"letter":"Y","frequency":0.01974},{"letter":"P","frequency":0.01929},{"letter":"B","frequency":0.01492},{"letter":"V","frequency":0.00978},{"letter":"K","frequency":0.00772},{"letter":"J","frequency":0.00153},{"letter":"X","frequency":0.0015},{"letter":"Q","frequency":0.00095},{"letter":"Z","frequency":0.00074}];
@@ -561,6 +566,32 @@ article > figcaption{
       dx: 2, 
       dy: 3
     })
+    ]
+  };
+
+// From John Guerra: https://observablehq.com/@john-guerra/plot-isotype-dot-plot
+textScale = 
+  d3
+  .scaleOrdinal()
+  .domain(["cattle", "pigs", "sheep"])
+  .range(["🐄", "🐖", "🐑"]);
+
+  var animals = {
+    y: { axis: null},
+    height: 350,
+    width: width,
+    facet: { data: animals, y: "country", label: null},
+    marks: [
+      Plot.text(
+        animals,
+        Plot.stackX({
+          y: "animal",
+          text: d => textScale(d.animal),
+          fontSize: 45,
+          textAnchor: "start"
+        })
+      ),
+      // Plot.frame(),
     ]
   };
 
@@ -751,6 +782,7 @@ var slope = {
   // document.getElementById("gridmap").appendChild(Plot.plot(gridmap));
   document.getElementById("wework").appendChild(Plot.plot(wework));
   document.getElementById("slope").appendChild(Plot.plot(slope));
+  document.getElementById("animals").appendChild(Plot.plot(animals));
   // document.getElementById("popcorn").appendChild(Plot.plot(popcorn));
   document.getElementById("example_dot").appendChild(Plot.plot(example_dot));
   document.getElementById("network").appendChild(Plot.plot(network));

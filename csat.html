@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Customer Satisfaction (CSAT) Surveys</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Understanding CSAT surveys to effectively measure customer satisfaction.">
+  <meta name="author" content="Justin Chill">
+
+  <style type="text/css">
+  ul{
+    margin-top: 0;
+  }
+  .panel-container {
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    font-size: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    margin: 1rem auto;
+    max-width: 400px;
+    text-align: center;
+  }
+
+  .panel-container strong {
+    /*line*/-height: 20px;
+  }
+
+  .panel-container p {
+    margin-top: 1rem;
+    /*line-height: 20px;*/
+  }
+
+  .ratings-container {
+    display: flex;
+    margin: 20px 0;
+  }
+
+  .rating {
+    cursor: pointer;
+    flex: 1;
+    padding: 20px;
+    margin: 10px 5px;
+  }
+
+  .rating.active,
+  .rating:hover {
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .rating img,
+  #panel img {
+    width: 40px;
+  }
+
+  .rating small {
+    color: #555;
+    display: inline-block;
+    margin: 10px 0 0;
+    font-family: var(--font-ui);
+  }
+
+  .rating.active small,
+  .rating:hover small {
+    color: #111;
+  }
+
+  .btn {
+    background-color: #302d2b;
+    border: 0;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    padding: 12px 30px;
+  }
+
+/*  .fa-heart {
+    color: red;
+    font-size: 30px;
+    margin-bottom: 10px;
+  }
+*/
+  /*For the button*/
+  .pushable {
+    position: relative;
+    border: none;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    outline-offset: 4px;
+    transition: filter 250ms;
+  }
+  .shadow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    background: hsl(0deg 0% 0% / 0.25);
+    will-change: transform;
+    transform: translateY(2px);
+    transition:
+      transform
+      600ms
+      cubic-bezier(.3, .7, .4, 1);
+  }
+  .edge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    background: linear-gradient(
+      to left,
+      hsl(340deg 100% 16%) 0%,
+      hsl(340deg 100% 32%) 8%,
+      hsl(340deg 100% 32%) 92%,
+      hsl(340deg 100% 16%) 100%
+    );
+  }
+  .front {
+    display: block;
+    position: relative;
+    padding: 12px 42px;
+    border-radius: 12px;
+    font-size: 1.25rem;
+    color: white;
+    background: hsl(345deg 100% 47%);
+    will-change: transform;
+    transform: translateY(-4px);
+    transition:
+      transform
+      600ms
+      cubic-bezier(.3, .7, .4, 1);
+  }
+  .pushable:hover {
+    filter: brightness(110%);
+  }
+  .pushable:hover .front {
+    transform: translateY(-6px);
+    transition:
+      transform
+      250ms
+      cubic-bezier(.3, .7, .4, 1.5);
+  }
+  .pushable:active .front {
+    transform: translateY(-2px);
+    transition: transform 34ms;
+  }
+  .pushable:hover .shadow {
+    transform: translateY(4px);
+    transition:
+      transform
+      250ms
+      cubic-bezier(.3, .7, .4, 1.5);
+  }
+  .pushable:active .shadow {
+    transform: translateY(1px);
+    transition: transform 34ms;
+  }
+  .pushable:focus:not(:focus-visible) {
+    outline: none;
+  }
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+      <a href="projects.html" class="nav__item">Lab</a>
+      <a href="fun.html" class="nav__item">Fun</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+  
+  <main role="main">
+    <article>
+       <div class="article-hero">
+        <h2 class="article-category">Post</h2>
+        <h1 class="article-title">Customer Satisfaction Surveys</h1>
+        <h2 class="article-subtitle"></h2>
+      </div>
+
+      <h3>Why measure CSAT?</h3>
+      <p>Customer Satisfaction, or CSAT, is a customer experience metric that measures happiness with a product, service, or support interaction through a customer satisfaction survey. This blog post will cover implementing surveys, understanding the data generated, and how it can benefit your organization.</p>
+
+      <div id="panel" class="panel-container">
+        <p>How satisfied were you with our<br /> customer support performance?</p>
+        <div class="ratings-container">
+          <div class="rating">
+            <img src="imgs/Frown-Emoji-vectorized.svg" alt=""/>
+            <small>Unhappy</small>
+          </div>
+          <div class="rating">
+            <img src="https://image.flaticon.com/icons/svg/187/187136.svg" alt=""/>
+            <small>Neutral</small>
+          </div>
+          <div class="rating active">
+            <img src="imgs/smiley.svg" alt=""/>
+            <small>Satisfied</small>
+          </div>
+        </div>
+        <!-- <button class="btn" id="send">Submit review</button> -->
+        <button class="pushable" id="send">
+          <span class="shadow"></span>
+          <span class="edge"></span>
+          <span class="front">
+            Submit
+          </span>
+        </button>
+      </div>
+
+      <h3>Measuring CSAT</h3>
+      <p>The most common method of obtaining CSAT information is to survey your customers with some variation of, "“How would you rate your overall satisfaction with the [service/product] you received?” Recipients can assign a score, such as a scale of 1 - 5</p>
+        <ol>
+          <li>Very unsatisfied</li>
+          <li>Unsatisfied</li>
+          <li>Neutral</li>
+          <li>Satisfied</li>
+          <li>Very satisfied</li>
+        </ol>
+      <p>To calculate your score as a percentage, sum all positive responses (scores 4 or 5) divided by the total amount of responses. Then multiply by 100. For example, if you received 100 total responses and 94 of them were positive — your CSAT score would be 94% <b>(94 positive responses / 100 total responses = .94 x 100 = 94%)</b>.
+      </p>
+      <h3>CSAT timing</h3>
+      <p>You generally want to collect customer feedback immediately, so that the experience is fresh in the mind of the responder. CSAT is a “right here, right now” metric that relates to a specific experience rather than an ongoing customer relationship. This doesn't preclude you from using a CSAT survey to learn about the experience of a longer term sale, but it may require you to word your question differently.</p>
+      <p>To keep response rates high, make sure you’re not over-surveying the same customer, that surveys are triggered upon completion of the interaction, and that you’ll be able to respond to any feedback received to ensure the customers feel heard.</p>
+      <h3>What is "good"?</h3>
+      <p>You need to establish a benchmark score before you can derive real meaning from your CSAT data. To track your progress, you should measure CSAT on an ongoing basis by making CSAT a routine part of your customer experience program. The <a href="https://www.theacsi.org">American Customer Satisfaction Index</a> (ACSI) maintains scores for different industries, and may be a good place to start if you need to have a sense of how your organization compares to competition. One thing is certain, however – if your score is moving from lower to higher, you’re doing something right!</p>
+      <h3>Pros and Cons</h3>
+      <h4>Pros</h4>
+      <ul>
+        <li>Easy to implement and use</li>
+        <li>Intuitive score to understand</li>
+        <li>Generally high response rates since it's low friction</li>
+      </ul>
+      <h4>Cons</h4>
+      <ul>
+        <li>Polarized results- those who submit tend to skew highly positive or negative. This is called <a href="https://link.springer.com/article/10.1007%2FBF02723476">response bias</a>.</li>
+        <li>"Satisfed" is subjective, and may mean different things to different people</li>
+        <li>It's limited in the information it captures</li>
+      </ul>
+
+</article>
+</main>
+<footer>
+  <h2 id="footnote-label">Footnotes</h2>
+  <ol>
+
+  </ol>
+  <div>
+    <p>Justin Chill © 2021. Thanks for reading!</p>
+    <p><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="gh">Source code and feedback</a></p>    
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.2"></script>
+
+<script type="text/javascript">
+  const ratingsEl = document.querySelectorAll('.rating');
+  const sendBtn = document.querySelector('#send');
+  const panel = document.querySelector('#panel');
+
+  ratingsEl.forEach(el => {
+    el.addEventListener('click', () => {
+      ratingsEl.forEach(innerEl => {
+        innerEl.classList.remove('active');
+      });
+      
+      el.classList.add('active');
+    });
+  });
+
+  sendBtn.addEventListener('click', () => {
+    panel.innerHTML = `
+      <img src="imgs/heart.svg">
+      <p>Thank you!</p>
+      <p>We'll use your feedback to improve our customer support experience.</p> 
+    `;
+  });
+
+  // SOCIAL PANEL JS
+  const floating_btn = document.querySelector('.floating-btn');
+  const close_btn = document.querySelector('.close-btn');
+  const social_panel_container = document.querySelector('.social-panel-container');
+
+  floating_btn.addEventListener('click', () => {
+    social_panel_container.classList.toggle('visible')
+  });
+
+  close_btn.addEventListener('click', () => {
+    social_panel_container.classList.remove('visible')
+  });
+
+
+
+  // Plot things
+  var size = 12;
+
+  // Use Promises to async request data
+  var promises = [d3.csv("data/oldest.csv",d3.autoType)];
+  myDataPromises = Promise.all(promises);
+
+  // After data is successfully fetched, generate viz
+  myDataPromises.then(function(data) {
+    
+    // Define the data
+    var data = data[0];
+
+    var oldest = {
+      grid: true,
+      inset: 10,
+      width: 740,
+      style:{fontSize: size},
+      y: {
+        label: "↑ Age",
+        labelOffset: 30,
+        line: false,
+      },
+      style: {
+        background: "hsl(216, 33%, 97%)",
+        // color: "white"
+      },
+      color: {
+        domain: ["M","F"],
+        range: ["hsl(227, 50%, 59%)", "hsl(16, 94%, 61%)"]
+      },
+      marks: [
+        Plot.link(data, {
+          x1: "became",
+          y1: "age_became",
+          x2: "died",
+          y2: "age_died",
+          stroke: "gender",
+          strokeWidth: 1.25,
+        }),
+        Plot.dot(data, {
+          filter: d => d.name !== "Kane Tanaka",
+          x: "died",
+          y: "age_died",
+          fill: "gender",
+          r: 3,
+          title: d => `${d.name} (${d.birthplace})\nBorn: ${d3.timeFormat("%B %d, %Y")(d.born)}\nDied: ${d3.timeFormat("%B %d, %Y")(d.died)}\n`,
+          // Todo: Held the record: ${d3.format("#")(d.age_died - d.age_became)}
+          // Need to fix my math
+        }),
+        Plot.text(data.filter(d => d.name === "Jeanne Calment"), {
+          x: "became",
+          y: "age_became",
+          text: (d) => "when she became\nthe world's oldest\nwoman",
+          textAnchor: "start",
+          dx: 6,
+          dy: 6,
+        }),
+        Plot.text(data.filter(d => d.name === "Jeanne Calment"), {
+          x: "died",
+          y: "age_died",
+          text: (d) => "↖ when she died",
+          textAnchor: "start",
+          dx: 6,
+          dy: 10,
+        }),
+        Plot.text(data.filter(d => d.name === "Jeanne Calment"), {
+          x: "died",
+          y: "age_died",
+          text: "name",
+          textAnchor: "end",
+          dx: -20,
+          fontSize: size + 2,
+        }),
+        Plot.text(data.filter(d => d.name === "Emma Tillman"), {
+          x: "died",
+          y: "age_died",
+          text: "name",
+          textAnchor: "start",
+          dy: 15,
+          dx: -15
+        }),
+        Plot.text(data, Plot.selectMaxX({
+          x: "died",
+          y: "age_died",
+          text: "name",
+          textAnchor: "end",
+          dy: 30,
+          dx: 20
+        })),
+      ]
+    };
+    document.getElementById("oldest").appendChild(Plot.plot(oldest));
+  });
+  </script>
+<!--   <script type="module">
+  // Import Observable runtime and the @d3/color-legend notebook
+  import {Runtime} from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@4/dist/runtime.js";
+  import d3_colorLegend from "https://api.observablehq.com/@d3/color-legend.js";
+
+  const color = d3.scaleOrdinal()
+      .domain(["Male","Female"])
+      .range(["hsl(227, 50%, 59%)", "hsl(16, 94%, 61%)"])
+  const margin = ({top: 0, right: 0, bottom: 0, left: 0})
+
+  // Container element into which the swatches will render
+  const container = document.querySelector("#oldest_legend")
+
+  renderSwatches(container)
+    
+  async function renderSwatches(el) {
+    // Get the value of the "swatches" notebook cell, which is the function we want, which returns a DOM element
+    const module = new Runtime().module(d3_colorLegend);
+    const swatches = await module.value("swatches");
+    
+    // Finally, call `swatches` with our options and append it to the container
+    const element = swatches({color, marginLeft: margin.left, columns: "60px"});
+    el.appendChild(element);
+  }
+  </script> -->
+</body>
+</html>
