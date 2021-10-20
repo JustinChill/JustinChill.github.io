@@ -73,6 +73,8 @@
     <figure id="corruption"></figure>
     <figcaption>Data: <a href="https://www.economist.com/graphic-detail/2011/12/02/corrosive-corruption">The Economist</a></figcaption>
 
+    <p>Transparency International's annual Corruption Perceptions Index measures the perceived levels of public-sector graft (using one's political position for personal gain) by aggregating independent surveys from across the globe. Comparing the corruption index with the UN's Human Development Index (a measure combining health, wealth and education) demonstrates an interesting connection. As the corruption index rises beyond 4.0 a strong connection with the human development index can be seen. Notable outliers include small but well-run poorer countries such as Bhutan and Cape Verde, while Greece and Italy stand out among the richer countries.</p>
+
     <h3>Original graphic</h3>
     <img src="https://cdn.static-economist.com/sites/default/files/20111210_WOC210.gif">
 
@@ -93,6 +95,12 @@
 
 <script type="text/javascript">
   var size = 12;
+  var labels = ["Venezuela", "Iraq", "Myanmar", "Sudan",
+               "Afghanistan", "Congo", "Greece", "Argentina", 
+               "India", "Italy",
+               "Botswana", "Cape Verde", "Bhutan", "Rwanda", "France",
+               "United States",  "Britain", "Barbados", "Norway", 
+               "New Zealand", "Singapore","Russia","Brazil","Spain","Germany", "Japan","China","South Africa"];
 
   // Use Promises to async request data
   var promises = [d3.csv("https://raw.githubusercontent.com/alokkshukla/RGraphics/master/dataSets/EconomistData.csv",d3.autoType)];
@@ -138,16 +146,213 @@
           y: "HDI",
           fill: null,
           stroke: "Region",
+          fill: "white",
           r: 5,
           title: d => `${d.Country}\nCPI: ${d.CPI}\nHDI: ${d.HDI}`,
         }),
-        Plot.text(data, {
-          // filter: d => d.CPI % .25 === 0,
-          // x: "CPI",
-          // y: "HDI",          
-          // text: "Country",
-          // dy: "HDI" >= 0.5 ? -10 : 10, Not sure why this isn't computing
+        Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Venezuela"), {
+          x: "CPI",
+          y: "HDI",          
+          text: "Country",
+          dy: -4,
+          dx: -33,
         }),
+        Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Iraq"), {
+          x: "CPI",
+          y: "HDI",          
+          text: "Country",
+          dy: 2,
+          dx: -18,
+        }),
+        Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Myanmar"), {
+          x: "CPI",
+          y: "HDI",          
+          text: "Country",
+          dy: -10,
+          dx: -14,
+        }),
+        Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Sudan"), {
+          x: "CPI",
+          y: "HDI",          
+          text: "Country",
+          dy: -10,
+          dx: -14,
+        }),
+        Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Afghanistan"), {
+          x: "CPI",
+          y: "HDI",          
+          text: "Country",
+          dy: 18,
+          dx: -14,
+        }),
+        Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Congo"), {
+          x: "CPI",
+          y: "HDI",          
+          text: "Country",
+          dy: 15,
+          dx: -14,
+        }),
+        Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Greece"), {
+          x: "CPI",
+          y: "HDI",          
+          text: "Country",
+          dy: 2,
+          dx: -26,
+        }),
+        Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Argentina"), {
+          x: "CPI",
+          y: "HDI",          
+          text: "Country",
+          dy: -6,
+          dx: -30,
+        }),
+        Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "India"), {
+          x: "CPI",
+          y: "HDI",          
+          text: "Country",
+          dy: 6,
+          dx: 20,
+        }),
+        Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Italy"), {
+          x: "CPI",
+          y: "HDI",          
+          text: "Country",
+          dy: -11,
+          dx: -5,
+        }),
+        Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Botswana"), {
+          x: "CPI",
+          y: "HDI",          
+          text: "Country",
+          dy: 4,
+          dx: 35,
+        }),
+        Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Cape Verde"), {
+          x: "CPI",
+          y: "HDI",          
+          text: "Country",
+          dy: 4,
+          dx: 40,
+        }),
+        Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Bhutan"), {
+          x: "CPI",
+          y: "HDI",          
+          text: "Country",
+          dy: 5,
+          dx: 26,
+        }),
+        Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Rwanda"), {
+          x: "CPI",
+          y: "HDI",          
+          text: "Country",
+          dy: 5,
+          dx: 30,
+        }),
+        Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "France"), {
+          x: "CPI",
+          y: "HDI",          
+          text: "Country",
+          dy: 5,
+          dx: -26,
+        }),
+        Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "United States"), {
+          x: "CPI",
+          y: "HDI",          
+          text: "Country",
+          dy: -10,
+          dx: -35,
+        }),
+        Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Britain"), {
+          x: "CPI",
+          y: "HDI",          
+          text: "Country",
+          dy: 14,
+          dx: 0,
+        }),
+        Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Barbados"), {
+          x: "CPI",
+          y: "HDI",          
+          text: "Country",
+          dy: 8,
+          dx: 34,
+        }),
+        Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Norway"), {
+          x: "CPI",
+          y: "HDI",          
+          text: "Country",
+          dy: -10,
+          dx: 3,
+        }),
+        Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "New Zealand"), {
+          x: "CPI",
+          y: "HDI",          
+          text: "Country",
+          dy: -10,
+          dx: 33,
+        }),
+        Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Singapore"), {
+          x: "CPI",
+          y: "HDI",          
+          text: "Country",
+          dy: 18,
+          dx: 28,
+        }),
+        Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Russia"), {
+          x: "CPI",
+          y: "HDI",          
+          text: "Country",
+          dy: -9,
+          dx: -10,
+        }),
+        Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Brazil"), {
+          x: "CPI",
+          y: "HDI",          
+          text: "Country",
+          dy: -7,
+          dx: -2,
+        }),
+        Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Spain"), {
+          x: "CPI",
+          y: "HDI",          
+          text: "Country",
+          dy: -9,
+          dx: -3,
+        }),
+        Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Germany"), {
+          x: "CPI",
+          y: "HDI",          
+          text: d => `${d.Country}݈ `,
+          dy: -10,
+          dx: -25,
+        }),
+        Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Japan"), {
+          x: "CPI",
+          y: "HDI",          
+          text: d => `${d.Country}`,
+          dy: -8,
+          dx: 18,
+        }),
+        Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "China"), {
+          x: "CPI",
+          y: "HDI",          
+          text: d => `↖${d.Country}`,
+          dy: 17,
+          dx: 25,
+        }),
+        Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "South Africa"), {
+          x: "CPI",
+          y: "HDI",          
+          text: d => `${d.Country}`,
+          dy: 17,
+          dx: 20,
+        }),
+        Plot.line(
+          Math.LOG10E,
+          {
+            strokeWidth: 3,
+            stroke: "steelblue"
+          }
+        ),
       ]
     };
     document.getElementById("corruption").appendChild(Plot.plot(corruption));
