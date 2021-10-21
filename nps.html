@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Net Promoter Score (NPS)</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Understanding Net Promoter Scores to effectively measure customer loyalty.">
+  <meta name="author" content="Justin Chill">
+
+  <style type="text/css">
+  span.green{
+    color:  var(--green);
+  }
+  span.red{
+    color: var(--red);
+  }
+  .center{
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .visually-hidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+
+  .custom-slider-widget,
+  .textInput,
+  fieldset{
+    padding: 1rem;
+    background-color: #EEE;
+    border-radius: 5px;
+  }
+
+  fieldset{
+    border:  none;
+  }
+  label,
+  output {
+    display: block;
+    margin-bottom: 6px;
+    font-family: "Lora", sans-serif, serif;
+    font-size: calc(10px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+    letter-spacing: -0.03px;
+    line-height: 1.58;
+  }
+
+  .slider-wrapper {
+    margin: 0 auto 3rem;
+    max-width: 100%;
+    position: relative;
+    width: 500px;
+  }
+  .slider-wrapper .custom-track {
+    background-color: #f2f2f2;
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    height: 8px;
+    position: relative;
+    width: 100%;
+  }
+  .slider-wrapper .custom-fill {
+    background-color: #595061;
+    border-radius: 3px;
+    bottom: 0;
+    content: "";
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 50%;
+  }
+  .slider-wrapper .custom-thumb {
+    background-color: #595061;
+    border-radius: 50%;
+    box-shadow: inset 0 0 3px 0 #0c0b0d;
+    height: 24px;
+    left: 50%;
+    margin-left: -12px;
+    position: absolute;
+    top: -8px;
+    width: 24px;
+  }
+  .slider-wrapper .custom-thumb:before {
+    background-color: #f2f2f2;
+    border-radius: 50%;
+    box-shadow: 0 0 3px 0 #0c0b0d;
+    content: "";
+    height: 12px;
+    left: 6px;
+    position: absolute;
+    top: 6px;
+    width: 12px;
+  }
+  .slider-wrapper output {
+    position: absolute;
+  }
+  .slider-wrapper input:focus ~ .custom-track .custom-thumb {
+    box-shadow: 0 0 4px 2px #72C2C1;
+  }
+  .slider-wrapper input[type=range] {
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 2;
+  }
+  .slider-wrapper input[type=range]::-ms-track {
+    width: 100%;
+    height: 100%;
+    -webkit-appearance: none;
+    margin: 0px;
+    padding: 0px;
+    border: 0 none;
+    background: transparent;
+    color: transparent;
+    overflow: visible;
+  }
+  .slider-wrapper input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 100%;
+    -moz-appearance: none;
+    margin: 0px;
+    padding: 0px;
+    border: 0 none;
+    background: transparent;
+    color: transparent;
+    overflow: visible;
+  }
+  .slider-wrapper input[type=range] {
+    width: 100%;
+    height: 100%;
+    -webkit-appearance: none;
+    margin: 0px;
+    padding: 0px;
+    border: 0 none;
+    background: transparent;
+    color: transparent;
+    overflow: visible;
+  }
+  .slider-wrapper input[type=range]:focus::-webkit-slider-runnable-track {
+    background: transparent;
+    border: transparent;
+  }
+  .slider-wrapper input[type=range]:focus {
+    outline: none;
+  }
+  .slider-wrapper input[type=range]::-ms-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    border: 0 none;
+    background: transparent;
+    cursor: pointer;
+  }
+  .slider-wrapper input[type=range]::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    border: 0 none;
+    background: transparent;
+    cursor: pointer;
+  }
+  .slider-wrapper input[type=range]::-webkit-slider-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    border: 0 none;
+    background: transparent;
+    cursor: pointer;
+    -webkit-appearance: none;
+  }
+  .slider-wrapper input[type=range]::-ms-fill-lower {
+    background: transparent;
+    border: 0 none;
+  }
+  .slider-wrapper input[type=range]::-ms-fill-upper {
+    background: transparent;
+    border: 0 none;
+  }
+  .slider-wrapper input[type=range]::-ms-tooltip {
+    display: none;
+  }
+
+
+  form.textInput header {
+    margin: 0 0 20px 0; 
+  }
+  form.textInput header div {
+    font-size: 90%;
+    color: #999;
+  }
+  form.textInput header h2 {
+    margin: 0 0 5px 0;
+  }
+  form.textInput > div {
+    clear: both;
+    overflow: hidden;
+    padding: 1px;
+    margin: 0 0 10px 0;
+  }
+  form.textInput > div > fieldset > div > div {
+    margin: 0 0 5px 0;
+  }
+  form.textInput > div > label,
+  legend {
+    width: 25%;
+    float: left;
+    padding-right: 10px;
+  }
+  form.textInput > div > div,
+  form.textInput > div > fieldset > div {
+    width: 75%;
+    float: right;
+  }
+  form.textInput > div > fieldset label {
+    font-size: 90%;
+  }
+  input[type=text],
+  input[type=email],
+  input[type=url],
+  input[type=password],
+  textarea {
+    width: 100%;
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+  }
+  input[type=text]:focus,
+  input[type=email]:focus,
+  input[type=url]:focus,
+  input[type=password]:focus,
+  textarea:focus {
+    outline: 0;
+    border-color: #4697e4;
+  }
+
+  @media (max-width: 600px) {
+    form.textInput > div {
+      margin: 0 0 15px 0; 
+    }
+    form.textInput > div > label,
+    legend {
+      width: 100%;
+      float: none;
+      margin: 0 0 5px 0;
+    }
+    form.textInput > div > div,
+    form.textInput > div > fieldset > div {
+      width: 100%;
+      float: none;
+    }
+    input[type=text],
+    input[type=email],
+    input[type=url],
+    input[type=password],
+    textarea,
+    select {
+      width: 100%; 
+    }
+  }
+  @media (min-width: 1200px) {
+    form.textInput > div > label,
+    legend {
+      text-align: right;
+    }
+  }
+
+
+  @media screen and (max-width: 900px){
+
+  }
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+      <a href="projects.html" class="nav__item">Lab</a>
+      <a href="fun.html" class="nav__item">Fun</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+  
+  <main role="main">
+    <article>
+     <div class="article-hero">
+      <h2 class="article-category">Post</h2>
+      <h1 class="article-title">Net Promoter Score</h1>
+      <h2 class="article-subtitle"></h2>
+    </div>
+
+    <p>In 2003, loyalty economics expert Fred Reichheld introduced the Net Promoter Score (NPS) in a Harvard Business Review article titled, "<a href="https://hbr.org/2003/12/the-one-number-you-need-to-grow">The One Number You Need to Grow</a>". Reichheld posits that measuring how well an organization generates customer loyalty can be measured by asking customers, <i>"Would you recommend this company to a friend?"</i>. Customers are asked to rate their answers on a 0-10 scale, which is divided up into three categories: “Detractors,” “Passives,” and “Promoters.”</p>
+    <ul>
+      <li>0 – 6: <b>Detractors</b>. Unhappy customers who are unlikely to buy from you again, and may even discourage others from buying from you.</li>
+      <li>7 – 8: <b>Passives</b>. Respondents are satisfied with your service but not happy enough to be considered promoters.</li>
+      <li>9 – 10: <b>Promoters</b>. These are your loyal and enthusiastic customers.</li>
+    </ul>
+    <p>NPS is calculated by subtracting the percentage of Detractors from the percentage of Promoters. For example, if 10% of respondents are Detractors, 20% are Passives and 70% are Promoters, your NPS score would be 70-10 = <b>60%</b>.</p>
+    <p class="center"><b><span class="green">% Promoters</span> - <span class="red">% Detractors</span> = Net Promoter Score</b></p>
+    <h3>Pros and Cons of using NPS</h3>
+    <h4>Pros</h4>
+    <ul>
+      <li>The NPS system is correlated with increased business growth<a href="#biz" aria-describedby="footnote-label" id="biz-ref"></a></li>
+      <li>Allows for easy <a href="https://www.surveymonkey.com/mp/net-promoter-score-benchmarks-customer-loyalty/?ut_source=mp&ut_source2=nps-pros-cons-why-use-nps&ut_source3=inline">benchmarking</a> across industries</li>
+      <li>Uses a common language to classify customers</li>
+      <li>The NPS system is easy to use and it’s intuitive</li>
+    </ul>
+    <h4>Cons</h4>
+    <ul>
+      <li>Feedback captured is limited</li>
+      <li>Requires a customer management strategy to act on the results</li>
+    </ul>
+    <blockquote>“NPS is the first screen I look at on my computer when I arrive at the ofﬁce each morning. It provides a litmus test of how well we are living up to our core values.”<br><cite>-Walt Bettinger, Charles Schwab CEO</cite></blockquote>
+
+    <h3>Net Promoter Philosophy</h3>
+    <p>A Net Promoter System is a management philosophy, an idea of how to run a business. Companies using this framework commit to specific processes and systems that help teams focus on earning the loyalty of both customers and employees. The benefits can be enormous. Loyal, passionate customers stay longer, spend more, contribute suggestions and recommend your company to friends and colleagues. Loyal, passionate employees love working for your organization, suggest new ideas, and go the extra mile to delight customers. </p>
+    <h3>Step 1: Sort your customers</h3>
+    <img src="https://www.netpromoter.com/wp-content/uploads/2015/09/NPS-Definition-copy-04-copy.jpg">
+    <p>Classify your customers by their response to your NPS survey. Respondents with a score 0 - 6 are detractors, 7 - 8 are neutral, and 9 - 10 are promoters. This classification helps to standardize the language used within an organization.</p>
+    <h3>Step 2: Develop a feedback process</h3>
+    <p>Feedback loops enable companies to begin the process of discovering the root cause of the customer’s experience— the deeper reasons underlying a the customer’s score— and then take action to improve that experience. This is commonly referred to as closing the loop. “Closing the loop” means sharing feedback from a customer— ideally as immedietly as possible- with the people most responsible for creating that customer’s experience. Those people may be a customer success team, specific customer service representatives and supervisors, or the product designers, engineers, executives and others who help shape a customer’s experience with the company. </p>
+    <h3>Step 3: Leadership commitment</h3>
+    <p>The senior leadership team must embrace the goal of creating more promoters and fewer detractors as a mission-critical priority. They must make customer experience a priority in the company’s strategy, lead by example, and offer teaching and coaching.</p>
+    <h3>Step 4: Focus on employees</h3>
+    <p>Employees need to see and understand the connection between the work they do and its impact on customers. Ideally they should ﬁnd it so inspiring that they bring their own energy, enthusiasm, and creativity to the task of delivering a great customer experience.</p>
+
+    <h3>Creating an NPS survey</h3>
+    
+    <h4>Recommendation question</h4>
+    <form>
+      <div class="custom-slider-widget">
+        <label for="widget1">On a scale of 0 to 10, how likely are you to recommend Justin Chill to a friend or colleague?</label>
+        <div class="slider-wrapper">
+          <input type="range" min="0" max="10" value="8" id="widget1" step="1">
+          <div class="custom-track" aria-hidden="true">
+            <span class="custom-fill"></span>
+            <span class="custom-thumb"></span>
+          </div>
+          <output for="widget1" aria-hidden="true">8</output>
+        </div>
+      </div>
+    </form>
+    <p>This is the core question that will be the primary way you measure your score. </p>
+    <h4>Reason for your score</h4>
+    <form class="textInput">
+      <label for="widget2">What are the primary reasons for the score you gave us?</label>
+      <textarea id="widget2" name="widget2" spellcheck="true" rows="10" cols="50" ></textarea>
+    </form>
+    <p>In this free text question, you ask the customer what their primary reason for giving the numerical score in the previous question is. This will help you discover the drivers for promoters and detractors in your responses.</p>
+    <h4>Suggestions for improvement</h4>
+    <form class="textInput">
+      <label for="widget3">Is there anything specific we can do to improve your experience?</label>
+      <textarea id="widget3" name="widget3" spellcheck="true" rows="10" cols="50"></textarea>
+    </form>
+    <p>In this question, you ask for suggestions on what you can do to improve their experience. This can be helpful to inform your followups- closing the loop with the customer that you heard and recognized their feedback. Note that not all situations will need both the <i>“reason for your score”</i> and <i>“how could we improve”</i> questions as often they will have the same answer. For example, if the reason they gave a bad score was, “long waiting times for phone support”, the way to increase the experience will probably be to, “shorten support wait times”.</p>
+    <h4>Follow up permission</h4>
+    <fieldset>
+      <label>Would it be OK for us to follow up with you about your responses?</label>        
+      <input id="Field5_0" name="Field5" type="radio" value="Yes" tabindex="5" checked="checked">
+      <label class="choice" for="Field5_0">Yes</label>
+    </div>
+    <div>
+      <input id="Field5_1" name="Field5" type="radio" value="No" tabindex="6">
+      <label class="choice" for="Field5_1">No</label>
+    </div>
+  </div>
+  <div>
+    <label class="desc" id="title3" for="Field3">
+      What is the best email address to reach you?
+    </label>
+    <div>
+      <input id="Field3" name="Field3" type="email" spellcheck="false" value="" maxlength="255" tabindex="3"> 
+    </div>
+  </div>
+</fieldset>
+
+<p>It’s polite to ask the survey respondent if you may follow up with them if needed. Not everyone will want to talk to someone about their feedback. Depending on how your survey was distributed, you may or not have that customer’s email or phone number, so don’t forget to ask for it you need to. Don’t ask for this information if you can get their contact info from another system.</p>
+
+</article>
+</main>
+<footer>
+  <h2 id="footnote-label">Footnotes</h2>
+  <ol>
+    <li id="biz"><i>Introducing: The Net Promoter System</i><sup>®</sup>. <a href="https://www.bain.com/insights/introducing-the-net-promoter-system-loyalty-insights/">Bain & Company, 2011</a>.<a href="#biz-ref" aria-label="Back to content">↩</a></li>    
+  </ol>
+  <div>
+    <p>Justin Chill © 2021. Thanks for reading!</p>
+    <p><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="gh">Source code and feedback</a></p>    
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.2"></script>
+
+<script type="text/javascript">
+  // range slider output
+  const slider = document.querySelector(".slider-wrapper"),
+  sliderInput = slider.querySelector("input"),
+  sliderOutput = slider.querySelector("output"),
+  sliderThumb = slider.querySelector(".custom-thumb"),
+  sliderFill = slider.querySelector(".custom-fill");
+
+  function initSlider(min, max, startValue) {
+    sliderInput.setAttribute("min", min);
+    sliderInput.setAttribute("max", max);
+    sliderInput.value = startValue;
+
+    const onSliderChange = function (event) {
+      let value = event.target.value;
+      sliderOutput.innerHTML = value;
+      sliderThumb.style.left = (value / max) * 100 + "%";
+      sliderFill.style.width = (value / max) * 100 + "%";
+    };
+
+    sliderInput.addEventListener("input", onSliderChange);
+    sliderInput.addEventListener("change", onSliderChange);
+
+    // set slider to initial value
+    const initialInput = new Event("input", {
+      target: { value: startValue }
+    });
+    sliderInput.dispatchEvent(initialInput);
+  }
+
+  initSlider(0, 10, 8);
+
+
+  // Plot things
+  var width = 720;
+  var size = 12;
+
+  // Use Promises to async request data
+  var promises = [d3.csv("data/aapl.csv",d3.autoType)];
+  myDataPromises = Promise.all(promises);
+
+  // After data is successfully fetched, generate viz
+  myDataPromises.then(function(data) {
+
+    // Define the data
+    var aapl = data[0];
+    const tinyapple = aapl.slice(0, 320);
+    const marker = aapl.slice(80,81);
+    const marker2 = aapl.slice(200,201);
+
+    var csat = {
+      width: width,
+      style:{fontSize: size},
+      marginTop: 40,
+      x: {
+        margin: 0,
+      },
+      y: {
+        grid: true,
+        label: "CSAT Score",
+        domain: [0,100],
+      },
+      marks: [
+      Plot.areaY(tinyapple, {x: "Date", y: "Close", fill: "hsl(122, 42%, 75%)", fillOpacity:.8}),
+      Plot.lineY(tinyapple, {x: "Date", y: "Close", title: "Close", stroke: "hsl(125, 86%, 14%)", curve: "catmull-rom-open"}),
+      Plot.dot(tinyapple, Plot.selectLast({x: "Date", y: "Close", fill: "white", stroke: "rgba(0, 0, 0, .75)"})),
+      Plot.dot(tinyapple, Plot.selectFirst({x: "Date", y: "Close", fill: "white", stroke: "rgba(0, 0, 0, .75)"})),
+
+      Plot.text(marker, {x: "Date", y: "Close", text: d => `Bug reported`, dy: -10, dx: 60, rotate: 270}),
+      Plot.ruleX(marker, {x: "Date", strokeDasharray: [2, 2], strokeWidth: 0.5,stroke: "rgba(0, 0, 0, .75)"}),
+      Plot.text(marker2, {x: "Date", y: "Close", text: d => `New hire`, dy: -10, dx: 55, rotate: 270}),
+      Plot.ruleX(marker2, {x: "Date", strokeDasharray: [2, 2], strokeWidth: 0.5,stroke: "rgba(0, 0, 0, .75)"}),
+      Plot.text(tinyapple, Plot.selectLast({x: "Date", y: "Close", text: d => `CSAT: ${d3.format(".2f")(d.Close)}%`, dy: -10, dx: -25, fontWeight: 700, fontSize: 14})),
+      Plot.text(tinyapple, Plot.selectFirst({x: "Date", y: "Close", text: d => `CSAT: ${d3.format(".2f")(d.Close)}%`, dy: -10, dx: 52, fontWeight: 700, fontSize: 14})),
+      ]
+    };
+    
+    // document.getElementById("csat").appendChild(Plot.plot (csat));
+  });
+</script>
+</body>
+</html>
