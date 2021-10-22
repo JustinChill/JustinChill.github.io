@@ -56,7 +56,11 @@
     <figure id="alltime"></figure>
     <p>A noticeable uptick in puzzle activity during the pandemic.</p>
 
-    <h3>Constructors</h3>
+    <!-- <h3>Puzzles over time</h3> -->
+    <figure id="timestacked"></figure>
+    <!-- <p>Breaking out each puzzle by it's day of the week helps to make this chart a bit more understandable.</p> -->
+
+    <!-- <h3>Constructors</h3> -->
     <figure id="constructors"></figure>
 
   </article>
@@ -119,7 +123,7 @@
       marks: [
         Plot.ruleY(xword_data.filter(d => (d.Solved === "True")), Plot.groupY({x1: "min", x2: "max"}, {y: "Day of Week", x: "Time Taken", stroke: "hsl(210, 16%, 82%)"})),
         Plot.tickX(xword_data.filter(d => (d.Solved === "True")), Plot.groupY({x: "median"}, {y: "Day of Week", x: "Time Taken", stroke: "hsl(356, 75%, 53%)"})),
-        Plot.dot(xword_data.filter(d => (d.Solved === "True")), {y: "Day of Week", x: "Time Taken", fill: "Time Taken", stroke: "Time Taken", r: 6, title: d => `${d3.timeFormat("%B %d, %Y")(d["Puzzle Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time Taken"]/60)} min to solve`}),
+        Plot.dot(xword_data.filter(d => (d.Solved === "True")), {y: "Day of Week", x: "Time Taken", fill: "Time Taken", stroke: "Time Taken", r: 6, title: d => `${d3.timeFormat("%A %B %d, %Y")(d["Puzzle Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time Taken"]/60)} min to solve`}),
         Plot.text(xword_data.filter(d => (d.Solved === "True" & d["Day of Week"] === "Sa")), Plot.groupY({x: "median"}, {y: "Day of Week", x: "Time Taken", fill: "hsl(356, 75%, 53%)", fillOpacity: .8, text: d => `← Median time to solve`, dy: -15, dx: 70, fontWeight: 700, fontSize: 12})),
         Plot.frame({stroke: "hsl(210, 16%, 82%)"}),
       ]
@@ -170,7 +174,40 @@
       },
       marks: [
         Plot.line(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle Date", y:"Time Taken", curve: "catmull-rom", stroke:"hsl(211, 12%, 43%)"}),
-        Plot.dot(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle Date", y:"Time Taken",fill:"hsl(211, 12%, 43%)", strokeWidth:0, r:2,title: d => `${d3.timeFormat("%B %d, %Y")(d["Puzzle Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time Taken"]/60)} min to solve` }),
+        Plot.dot(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle Date", y:"Time Taken",fill:"hsl(211, 12%, 43%)", strokeWidth:0, r:2,title: d => `${d3.timeFormat("%A %B %d, %Y")(d["Puzzle Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time Taken"]/60)} min to solve` }),
+      ]
+    };
+
+    var timestacked = {
+      width: width,
+      style:{fontSize: size},
+      marginTop: 50,
+      color: {
+        scheme: "BuRd",
+        reverse: false,
+      },
+      y: {
+        labelAnchor: "Top",
+        label: `Average time (minutes)`,
+        transform: d => d / 60, // turn seconds into minutes
+        grid: true,
+        domain: [0, 90],
+      },
+      x: {
+        label: null,
+      },
+      marks: [
+        // Plot.areaY(xword_data.filter(d => (d.Solved === "True")),Plot.stackY({x:"Puzzle Date", y:"Time Taken", curve: "catmull-rom", fill:"Day of Week", title:"Day of Week", })),
+        // Plot.areaY(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle Date", y:"Time Taken", stroke:"Day of Week"}),
+          Plot.areaY(xword_data.filter(d => (d.Solved === "True")), Plot.stackY({
+            x: "Puzzle Date",
+            y: "Time Taken",
+            curve: "catmull-rom",
+            fill: "Day of Week",
+            order: "Puzzle Date"
+          })),
+          Plot.ruleY([0])
+        // Plot.dot(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle Date", y:"Time Taken",fill:"hsl(211, 12%, 43%)", strokeWidth:0, r:2,title: d => `${d3.timeFormat("%A %B %d, %Y")(d["Puzzle Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time Taken"]/60)} min to solve` }),
       ]
     };
 
@@ -197,6 +234,7 @@
     document.getElementById("xword").appendChild(Plot.plot(xword));
     document.getElementById("week").appendChild(Plot.plot(week));
     document.getElementById("alltime").appendChild(Plot.plot(alltime));
+    // document.getElementById("timestacked").appendChild(Plot.plot(timestacked));
     // document.getElementById("constructors").appendChild(Plot.plot(constructors));
   });
 </script>

@@ -327,6 +327,7 @@
     <h3>Net Promoter Philosophy</h3>
     <p>A Net Promoter System is a management philosophy, an idea of how to run a business. Companies using this framework commit to specific processes and systems that help teams focus on earning the loyalty of both customers and employees. The benefits can be enormous. Loyal, passionate customers stay longer, spend more, contribute suggestions and recommend your company to friends and colleagues. Loyal, passionate employees love working for your organization, suggest new ideas, and go the extra mile to delight customers. </p>
     <h3>Step 1: Sort your customers</h3>
+    <!-- <figure id="classes"></figure> -->
     <img src="https://www.netpromoter.com/wp-content/uploads/2015/09/NPS-Definition-copy-04-copy.jpg">
     <p>Classify your customers by their response to your NPS survey. Respondents with a score 0 - 6 are detractors, 7 - 8 are neutral, and 9 - 10 are promoters. This classification helps to standardize the language used within an organization.</p>
     <h3>Step 2: Develop a feedback process</h3>
@@ -439,49 +440,31 @@
   // Plot things
   var width = 720;
   var size = 12;
+  var nps_score = [{"class":"Detractor","score":1},{"class":"Detractor","score":2},{"class":"Detractor","score":3},{"class":"Detractor","score":4},{"class":"Detractor","score":5},{"class":"Detractor","score":6},{"class":"Neutral","score":7},{"class":"Neutral","score":8},{"class":"Promoter","score":9},{"class":"Promoter","score":10},];
 
-  // Use Promises to async request data
-  var promises = [d3.csv("data/aapl.csv",d3.autoType)];
-  myDataPromises = Promise.all(promises);
-
-  // After data is successfully fetched, generate viz
-  myDataPromises.then(function(data) {
-
-    // Define the data
-    var aapl = data[0];
-    const tinyapple = aapl.slice(0, 320);
-    const marker = aapl.slice(80,81);
-    const marker2 = aapl.slice(200,201);
-
-    var csat = {
-      width: width,
-      style:{fontSize: size},
-      marginTop: 40,
-      x: {
-        margin: 0,
-      },
-      y: {
-        grid: true,
-        label: "CSAT Score",
-        domain: [0,100],
-      },
-      marks: [
-      Plot.areaY(tinyapple, {x: "Date", y: "Close", fill: "hsl(122, 42%, 75%)", fillOpacity:.8}),
-      Plot.lineY(tinyapple, {x: "Date", y: "Close", title: "Close", stroke: "hsl(125, 86%, 14%)", curve: "catmull-rom-open"}),
-      Plot.dot(tinyapple, Plot.selectLast({x: "Date", y: "Close", fill: "white", stroke: "rgba(0, 0, 0, .75)"})),
-      Plot.dot(tinyapple, Plot.selectFirst({x: "Date", y: "Close", fill: "white", stroke: "rgba(0, 0, 0, .75)"})),
-
-      Plot.text(marker, {x: "Date", y: "Close", text: d => `Bug reported`, dy: -10, dx: 60, rotate: 270}),
-      Plot.ruleX(marker, {x: "Date", strokeDasharray: [2, 2], strokeWidth: 0.5,stroke: "rgba(0, 0, 0, .75)"}),
-      Plot.text(marker2, {x: "Date", y: "Close", text: d => `New hire`, dy: -10, dx: 55, rotate: 270}),
-      Plot.ruleX(marker2, {x: "Date", strokeDasharray: [2, 2], strokeWidth: 0.5,stroke: "rgba(0, 0, 0, .75)"}),
-      Plot.text(tinyapple, Plot.selectLast({x: "Date", y: "Close", text: d => `CSAT: ${d3.format(".2f")(d.Close)}%`, dy: -10, dx: -25, fontWeight: 700, fontSize: 14})),
-      Plot.text(tinyapple, Plot.selectFirst({x: "Date", y: "Close", text: d => `CSAT: ${d3.format(".2f")(d.Close)}%`, dy: -10, dx: 52, fontWeight: 700, fontSize: 14})),
-      ]
-    };
-    
-    // document.getElementById("csat").appendChild(Plot.plot (csat));
-  });
+  var classes = {
+    width: width,
+    style:{fontSize: size},
+    // marginTop: 40,
+    x: {
+      round: true
+    },
+    color: {
+      type: "diverging",
+      scheme: "BuRd"
+    },
+    marks: [
+    Plot.barX(nps_score, {
+        x1: d => d.score, // start of current year
+        x2: d => d.score, // start of next year
+        fill: "class",
+        title: (d) =>
+        `${d["class"]} \n`,
+      }),
+    ],
+  };
+  
+  // document.getElementById("classes").appendChild(Plot.plot (classes));
 </script>
 </body>
 </html>
