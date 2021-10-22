@@ -35,13 +35,14 @@
   .custom-slider-widget,
   .textInput,
   fieldset{
-    padding: 1rem;
+/*    padding: 1rem;
     background-color: #EEE;
-    border-radius: 5px;
+    border-radius: 5px;*/
   }
 
   fieldset{
     border:  none;
+    padding: 1rem 0;
   }
   label,
   output {
@@ -54,7 +55,7 @@
   }
 
   .slider-wrapper {
-    margin: 0 auto 3rem;
+    margin: 2rem auto;
     max-width: 100%;
     position: relative;
     width: 500px;
@@ -190,7 +191,7 @@
   }
 
 
-  form.textInput header {
+/*  form.textInput header {
     margin: 0 0 20px 0; 
   }
   form.textInput header div {
@@ -223,6 +224,7 @@
   form.textInput > div > fieldset label {
     font-size: 90%;
   }
+  */
   input[type=text],
   input[type=email],
   input[type=url],
@@ -243,21 +245,85 @@
     border-color: #4697e4;
   }
 
+  .example{
+    background: hsl(216, 33%, 97%);
+    padding: 2rem;
+  }
+
+  .example .modal{
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 3px 2px 0 rgba(0,0,0,.05);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .example .modal:before{
+    content: '';
+    width: 100%;
+    height: .5rem;
+    top: 0;
+    left: 0;
+    background: -moz-linear-gradient(left,  #04B3BA 0%, #0ABEA2 100%);
+    background: -webkit-linear-gradient(left,  #04B3BA 0%,#0ABEA2 100%);
+    background: linear-gradient(to right,  #04B3BA 0%,#0ABEA2 100%);
+    display: block;
+    position: absolute;
+  }
+
+  .example .title{
+    font-size: 1.5rem;
+    color: #222;
+    margin: 1rem 0;
+  }
+
+  .example .sub,
+  .example .more,
+  .example .more a{
+    font-size: 1rem;
+  }
+  .example .more{
+    margin: 1rem 0;
+  }
+
+  .example .actions button{
+    background: -moz-linear-gradient(left,  hsl(182, 96%, 37%) 0%, hsl(171, 90%, 39%) 100%);
+    background: -webkit-linear-gradient(left,  hsl(182, 96%, 37%) 0%,hsl(171, 90%, 39%) 100%);
+    background: linear-gradient(to right,  hsl(182, 96%, 37%) 0%,hsl(171, 90%, 39%) 100%);
+    color: #fff;
+    font-weight: 500;
+    padding: .5rem 2rem;
+    border-radius: 5px;
+    border: none;
+    text-transform: uppercase;
+    margin-top: 1rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,.2);
+    cursor: pointer;
+  }
+
+  .example .actions button:hover{
+    background: -moz-linear-gradient(left,  hsl(182, 96%, 33%) 0%, hsl(171, 90%, 35%) 100%);
+    background: -webkit-linear-gradient(left,  hsl(182, 96%, 33%) 0%,hsl(171, 90%, 35%) 100%);
+    background: linear-gradient(to right,  hsl(182, 96%, 33%) 0%,hsl(171, 90%, 35%) 100%);
+  }
+
+  .example input[type=email]{
+    height: 2.25rem;
+    padding: 0 .75rem;
+    border: 0;
+    font-size: .875rem;
+    width: 20rem;
+    border-radius: 5px 0 0 5px;
+    border: 1px solid hsl(209, 18%, 30%);
+  }
+
+  .example input[type=email]::placeholder{
+    color: #bbb;
+  }
+
+
   @media (max-width: 600px) {
-    form.textInput > div {
-      margin: 0 0 15px 0; 
-    }
-    form.textInput > div > label,
-    legend {
-      width: 100%;
-      float: none;
-      margin: 0 0 5px 0;
-    }
-    form.textInput > div > div,
-    form.textInput > div > fieldset > div {
-      width: 100%;
-      float: none;
-    }
     input[type=text],
     input[type=email],
     input[type=url],
@@ -267,13 +333,6 @@
       width: 100%; 
     }
   }
-  @media (min-width: 1200px) {
-    form.textInput > div > label,
-    legend {
-      text-align: right;
-    }
-  }
-
 
   @media screen and (max-width: 900px){
 
@@ -340,52 +399,92 @@
     <h3>Creating an NPS survey</h3>
     
     <h4>Recommendation question</h4>
-    <form>
-      <div class="custom-slider-widget">
-        <label for="widget1">On a scale of 0 to 10, how likely are you to recommend Justin Chill to a friend or colleague?</label>
-        <div class="slider-wrapper">
-          <input type="range" min="0" max="10" value="8" id="widget1" step="1">
-          <div class="custom-track" aria-hidden="true">
-            <span class="custom-fill"></span>
-            <span class="custom-thumb"></span>
+    <div class="example">
+      <div class="modal">
+        <h2 class="title">Rating</h2>
+        <p class="sub">On a scale of 0 to 10, how likely are you to recommend Justin Chill to a friend or colleague?</p>
+
+        <div class="custom-slider-widget">
+          <div class="slider-wrapper">
+            <input type="range" min="0" max="10" value="8" id="widget1" step="1">
+            <div class="custom-track" aria-hidden="true">
+              <span class="custom-fill"></span>
+              <span class="custom-thumb"></span>
+            </div>
+            <output for="widget1" aria-hidden="true">8</output>
           </div>
-          <output for="widget1" aria-hidden="true">8</output>
+        </div>
+
+        <div class="actions">
+          <button>Submit</button>
         </div>
       </div>
-    </form>
+    </div>
+
     <p>This is the core question that will be the primary way you measure your score. </p>
     <h4>Reason for your score</h4>
-    <form class="textInput">
+<!--     <form class="textInput">
       <label for="widget2">What are the primary reasons for the score you gave us?</label>
       <textarea id="widget2" name="widget2" spellcheck="true" rows="10" cols="50" ></textarea>
-    </form>
+    </form> -->
+    <div class="example">
+      <div class="modal">
+        <h2 class="title">Feedback</h2>
+        <p class="sub">What are the primary reasons for the score you gave us?</p>
+
+        <textarea id="widget2" name="widget2" spellcheck="true" rows="10" cols="50" ></textarea>
+
+        <div class="actions">
+          <button>Submit</button>
+        </div>
+      </div>
+    </div>
     <p>In this free text question, you ask the customer what their primary reason for giving the numerical score in the previous question is. This will help you discover the drivers for promoters and detractors in your responses.</p>
     <h4>Suggestions for improvement</h4>
-    <form class="textInput">
+<!--     <form class="textInput">
       <label for="widget3">Is there anything specific we can do to improve your experience?</label>
       <textarea id="widget3" name="widget3" spellcheck="true" rows="10" cols="50"></textarea>
-    </form>
+    </form> -->
+    <div class="example">
+      <div class="modal">
+        <h2 class="title">Feedback</h2>
+        <p class="sub">Is there anything specific we can do to improve your experience?</p>
+
+        <textarea id="widget2" name="widget2" spellcheck="true" rows="10" cols="50" ></textarea>
+
+        <div class="actions">
+          <button>Submit</button>
+        </div>
+      </div>
+    </div>
     <p>In this question, you ask for suggestions on what you can do to improve their experience. This can be helpful to inform your followups- closing the loop with the customer that you heard and recognized their feedback. Note that not all situations will need both the <i>“reason for your score”</i> and <i>“how could we improve”</i> questions as often they will have the same answer. For example, if the reason they gave a bad score was, “long waiting times for phone support”, the way to increase the experience will probably be to, “shorten support wait times”.</p>
     <h4>Follow up permission</h4>
-    <fieldset>
-      <label>Would it be OK for us to follow up with you about your responses?</label>        
-      <input id="Field5_0" name="Field5" type="radio" value="Yes" tabindex="5" checked="checked">
-      <label class="choice" for="Field5_0">Yes</label>
-    </div>
-    <div>
-      <input id="Field5_1" name="Field5" type="radio" value="No" tabindex="6">
-      <label class="choice" for="Field5_1">No</label>
+<div class="example">
+  <div class="modal">
+    <h2 class="title">Follow Up</h2>
+    <p class="sub">Would it be OK for us to follow up with you about your responses?</p>
+
+        <fieldset>
+          <input id="Field5_0" name="Field5" type="radio" value="Yes" tabindex="5" checked="checked">
+          <label class="choice" for="Field5_0">Yes</label>
+          <input id="Field5_1" name="Field5" type="radio" value="No" tabindex="6">
+          <label class="choice" for="Field5_1">No</label>
+      <div>
+        <label class="desc" id="title3" for="Field3">
+          What is the best email address to reach you?
+        </label>
+        <div>
+          <input id="Field3" name="Field3" type="email" spellcheck="false" value="" maxlength="255" tabindex="3" placeholder="Enter your email"> 
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="actions">
+      <button>Submit</button>
     </div>
   </div>
-  <div>
-    <label class="desc" id="title3" for="Field3">
-      What is the best email address to reach you?
-    </label>
-    <div>
-      <input id="Field3" name="Field3" type="email" spellcheck="false" value="" maxlength="255" tabindex="3"> 
-    </div>
-  </div>
-</fieldset>
+</div>
+
 
 <p>It’s polite to ask the survey respondent if you may follow up with them if needed. Not everyone will want to talk to someone about their feedback. Depending on how your survey was distributed, you may or not have that customer’s email or phone number, so don’t forget to ask for it you need to. Don’t ask for this information if you can get their contact info from another system.</p>
 
