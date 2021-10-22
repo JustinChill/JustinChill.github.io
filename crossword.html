@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>NYT Crossword Puzzle Stats</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Visualizing crossword puzzle performance.">
+  <meta name="author" content="Justin Chill">
+
+  <style type="text/css">
+  article > figure{
+    grid-column: 4;
+    min-width: 0;
+  }
+  figcaption, figcaption > a {
+    margin-bottom: 0;
+    font-size: calc(8px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+    text-align: right;
+  }
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+      <a href="fun.html" class="nav__item">Fun</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+  
+  <main role="main">
+    <article>
+     <div class="article-hero">
+      <h2 class="article-category">Post</h2>
+      <h1 class="article-title">Crossword Puzzle Stats</h1>
+      <h2 class="article-subtitle">Analyzing crossword puzzle performance</h2>
+    </div>
+
+    <figure id="xword"></figure>
+    <figcaption>Data: <a href="https://www.nytimes.com/crosswords">NYT Crossword</a> app</figcaption>
+
+    <p>The New York Times crossword puzzle app doesn't show much you information about your solve times. I learned it's possible to download your own stats (see <a href="https://github.com/mattdodge/nyt-crossword-stats">here</a>) and decided to do my own analysis. Our dataset includes 500 puzzles solved since 2019.</p>
+
+    <h3>Average time by day of week</h3>
+    <figure id="week"></figure>
+
+    <p>We can see a pretty clear jump from the time it takes to solve Monday, Tuesday, and Wednesday puzzles to solving Thursday and beyond.</p>
+
+    <h3>Puzzles over time</h3>
+    <figure id="alltime"></figure>
+    <p>A noticeable uptick in puzzle activity during the pandemic.</p>
+
+    <h3>Constructors</h3>
+    <figure id="constructors"></figure>
+
+  </article>
+</main>
+<footer>
+  <h2 id="footnote-label">Footnotes</h2>
+  <div>
+    <p>Justin Chill © 2021. Thanks for reading!</p>
+    <p><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="gh">Source code and feedback</a></p>    
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.2"></script>
+
+<script type="text/javascript">
+  // Use Promises to async request data
+  var promises = [d3.csv("data/xwstats.csv",d3.autoType)];
+  var width = 730;
+  var height = 450;
+  var size = 12;
+  var scheme = "set2";
+
+  // Stats section
+  const total = document.querySelectorAll('#total');
+
+  
+  // And the plot thickens...
+  myDataPromises = Promise.all(promises);
+
+  // After data is successfully fetched, generate viz
+  myDataPromises.then(function(data) {
+    // Define the data
+    var xword_data = data[0];
+
+    var xword = {
+      width: width,
+      height: height,
+      style:{fontSize: size},
+      grid: false,
+      inset: 10,
+      marginBottom: 50,
+      marginTop: 25,
+      y: {
+        domain: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"], // days in puzzle difficulty order
+        labelAnchor: "Top",
+        tickSize: 0,
+        tickFormat: d => `${d}.`, // add period after day
+      },
+      x: {
+        tickFormat: ",.2r",
+        transform: d => d / 60, // turn seconds into minutes
+        label: "Time taken (minutes) →",
+        labelAnchor: "center",
+        labelOffset: 50,
+      },
+      color: {
+        scheme: "RdYlGn",
+        reverse: true,
+      },
+      marks: [
+        Plot.ruleY(xword_data.filter(d => (d.Solved === "True")), Plot.groupY({x1: "min", x2: "max"}, {y: "Day of Week", x: "Time Taken", stroke: "hsl(210, 16%, 82%)"})),
+        Plot.tickX(xword_data.filter(d => (d.Solved === "True")), Plot.groupY({x: "median"}, {y: "Day of Week", x: "Time Taken", stroke: "hsl(356, 75%, 53%)"})),
+        Plot.dot(xword_data.filter(d => (d.Solved === "True")), {y: "Day of Week", x: "Time Taken", fill: "Time Taken", stroke: "Time Taken", r: 6, title: d => `${d3.timeFormat("%B %d, %Y")(d["Puzzle Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time Taken"]/60)} min to solve`}),
+        Plot.text(xword_data.filter(d => (d.Solved === "True" & d["Day of Week"] === "Sa")), Plot.groupY({x: "median"}, {y: "Day of Week", x: "Time Taken", fill: "hsl(356, 75%, 53%)", fillOpacity: .8, text: d => `← Median time to solve`, dy: -15, dx: 70, fontWeight: 700, fontSize: 12})),
+        Plot.frame({stroke: "hsl(210, 16%, 82%)"}),
+      ]
+    };
+
+    var week = {
+      width: width,
+      style:{fontSize: size},
+      marginLeft: 70,
+      marginTop: 50,
+      color: {
+        scheme: "GnBu",
+        reverse: false,
+      },
+      y: {
+        labelAnchor: "Top",
+        label: `Average time (minutes)`,
+        transform: d => d / 60, // turn seconds into minutes
+        grid: true,
+      },
+      x: {
+        domain: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
+        tickFormat: d => `${d}.`,
+        label: null,
+      },
+      marks: [
+        Plot.barY(xword_data, Plot.groupX({y: "mean"}, {y: "Time Taken", x: "Day of Week", fill: "Day of Week", fillOpacity: .8})),
+      ]
+    };
+
+    var alltime = {
+      width: width,
+      style:{fontSize: size},
+      marginTop: 50,
+      color: {
+        scheme: "GnBu",
+        reverse: false,
+      },
+      y: {
+        labelAnchor: "Top",
+        label: `Average time (minutes)`,
+        transform: d => d / 60, // turn seconds into minutes
+        grid: true,
+        domain: [0, 90],
+      },
+      x: {
+        label: null,
+      },
+      marks: [
+        Plot.line(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle Date", y:"Time Taken", curve: "catmull-rom"}),
+      ]
+    };
+
+    var constructors = {
+      width: width,
+      height: 3200,
+      style:{fontSize: size},
+      marginLeft: 350,      
+      marginTop: 40,
+      y: {
+        labelAnchor: "Top",
+        domain: d3.sort(xword_data, d => -d.Constructor).map(d => d.Constructor)
+      },
+      x: {
+        axis: "top",
+        label: "Count →",
+        labelOffset: 40,
+      },
+      marks: [
+        Plot.barX(xword_data, Plot.groupY({x: "count"}, {y: "Constructor"})),
+      ]
+    };
+
+    document.getElementById("xword").appendChild(Plot.plot(xword));
+    document.getElementById("week").appendChild(Plot.plot(week));
+    document.getElementById("alltime").appendChild(Plot.plot(alltime));
+    // document.getElementById("constructors").appendChild(Plot.plot(constructors));
+  });
+</script>
+</body>
+</html>
