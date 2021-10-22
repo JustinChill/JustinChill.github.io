@@ -11,8 +11,22 @@
 	<meta name="author" content="Justin Chill">
 
 	<style type="text/css">
+	#wheel{
+		font: .8rem sans-serif;
+	}
 
-	</style>
+	@media screen and (max-width: 600px){
+		#wheel{
+			font: .3rem sans-serif;
+		}
+	}
+
+	@media screen and (max-width: 900px){
+		#wheel{
+			font: .5rem sans-serif;
+		}
+	}
+</style>
 
 </head>
 <body>
@@ -30,117 +44,83 @@
 	
 	<main role="main">
 		<article>
-			<header>
-				<h1>The Feeling Wheel</h1>
-				<h2 class="subtitle"></h2>
-				<time date="2021-6-26">June 2021</time>
-			</header>
-			<svg></svg>
-			<p>Adapted from <a href="https://observablehq.com/@tiffylou/feeling-wheel">Tiffany France</a>.</p>
+			<div class="article-hero">
+				<h2 class="article-category">Post</h2>
+				<h1 class="article-title">The Feeling Wheel</h1>
+				<h2 class="article-subtitle"></h2>
+			</div>     
+
+			<figure id="wheel"></figure>
+			<p>Designed by Gloria Willcox, the feeling wheel is a visual aid that helps people recognize, talk about, and change their feelings. In her experience as a psychotherapist, Willcox found that people seemed to find themselves at a loss for words when describing how they feel, usually handicapped in their ability to verbalize their emotions by learned behaviors of what is and not acceptable, when it comes to sharing feelings.</p>
+			<h2>Anatomy</h2>
+			<p>The feeling wheel is composed of an inner circle with six segments corresponding to six primary feelings: mad, sad, scared, joyful, powerful, and peaceful. It has two outer concentric circles describing secondary feelings that relate to the primary ones, painted in lighter shades than their counterparts.</p>
+			<p>This graphic adapted from <a href="https://observablehq.com/@tiffylou/feeling-wheel">Tiffany France</a>.</p>
 		</article>
 	</main>
 	<footer>
+		<h2 id="footnote-label">Footnotes</h2>
+		<ol>
+			<li id="Willcox">Gloria Willcox (1982) <a href="https://www.tandfonline.com/doi/abs/10.1177/036215378201200411">The Feeling Wheel</a>, Transactional Analysis Journal, 12:4, 274-276, DOI: 10.1177/036215378201200411.<a href="#interpolation-ref" aria-label="Back to content">↩</a></li>
+		</ol>
+		<div>
+			<p>Justin Chill © 2021. Thanks for reading!</p>
+			<p><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="gh">Source code and feedback</a></p>    
+		</div>
 	</footer>
+
 	<!-- CDN -->
 	<script src="https://cdn.jsdelivr.net/npm/d3@6"></script>
 
 	<!-- Custom Code -->
 	<script>
-		// var data = [{"children":[{"name":"Mad","children":[{"name":"Hurt","children":[{"name":"Jealous"}]},{"name":"Hostile","children":[{"name":"Selfish"}]},{"name":"Angry","children":[{"name":"Frustrated"}]},{"name":"Rage","children":[{"name":"Furious"}]},{"name":"Hateful","children":[{"name":"Irritated"}]},{"name":"Critical","children":[{"name":"Skeptical"}]}]},{"name":"Scared","children":[{"name":"Rejected","children":[{"name":"Bewildered"}]},{"name":"Confused","children":[{"name":"Discouraged"}]},{"name":"Helpless","children":[{"name":"Insignificant"}]},{"name":"Submissive","children":[{"name":"Weak"}]},{"name":"Insecure","children":[{"name":"Foolish"}]},{"name":"Anxious","children":[{"name":"Embarassed"}]}]},{"name":"Joyful","children":[{"name":"Excited","children":[{"name":"Daring"}]},{"name":"Sexy","children":[{"name":"Facinating"}]},{"name":"Energetic","children":[{"name":"Stimulating"}]},{"name":"Playful","children":[{"name":"Amused"}]},{"name":"Creative","children":[{"name":"Extravagant"}]},{"name":"Aware","children":[{"name":"Delightful"}]}]},{"name":"Powerful","children":[{"name":"Proud","children":[{"name":"Cheerful"}]},{"name":"Respected","children":[{"name":"Satisfied"}]},{"name":"Appreciated","children":[{"name":"Valuable"}]},{"name":"Hopeful","children":[{"name":"Worthwhile"}]},{"name":"Important","children":[{"name":"Intelligent"}]},{"name":"Faithful","children":[{"name":"Confident"}]}]},{"name":"Peaceful","children":[{"name":"Nuturing","children":[{"name":"Thankful"}]},{"name":"Trusting","children":[{"name":"Sentimental"}]},{"name":"Loving","children":[{"name":"Serene"}]},{"name":"Intimate","children":[{"name":"Responsive"}]},{"name":"Thoughtful","children":[{"name":"Relaxed"}]},{"name":"Content","children":[{"name":"Pensive"}]}]},{"name":"Sad","children":[{"name":"Sleepy","children":[{"name":"Apathetic"}]},{"name":"Bored","children":[{"name":"Inferior"}]},{"name":"Lonely","children":[{"name":"Inadequate"}]},{"name":"Depressed","children":[{"name":"Miserable"}]},{"name":"Ashamed","children":[{"name":"Stupid"}]},{"name":"Guilty","children":[{"name":"Bashful"}]}]}]}];
-		data = treeify(`
-			Mad
-			Hurt
-			Jealous
-			Hostile
-			Selfish
-			Angry
-			Frustrated
-			Rage
-			Furious
-			Hateful
-			Irritated
-			Critical
-			Skeptical
-			Scared
-			Rejected
-			Bewildered
-			Confused
-			Discouraged
-			Helpless
-			Insignificant
-			Submissive
-			Weak
-			Insecure
-			Foolish
-			Anxious
-			Embarassed
-			Joyful
-			Excited
-			Daring
-			Sexy
-			Facinating
-			Energetic
-			Stimulating
-			Playful
-			Amused
-			Creative
-			Extravagant
-			Aware
-			Delightful
-			Powerful
-			Proud
-			Cheerful
-			Respected
-			Satisfied
-			Appreciated
-			Valuable
-			Hopeful
-			Worthwhile
-			Important
-			Intelligent
-			Faithful
-			Confident
-			Peaceful
-			Nuturing
-			Thankful
-			Trusting
-			Sentimental
-			Loving
-			Serene
-			Intimate
-			Responsive
-			Thoughtful
-			Relaxed
-			Content
-			Pensive
-			Sad
-			Sleepy
-			Apathetic
-			Bored
-			Inferior
-			Lonely
-			Inadequate
-			Depressed
-			Miserable
-			Ashamed
-			Stupid
-			Guilty
-			Bashful
-			`);
-		radius = 466;
-		width = 932;
+		var data = {"children":[{"name":"Mad","children":[{"name":"Hurt","children":[{"name":"Jealous"}]},{"name":"Hostile","children":[{"name":"Selfish"}]},{"name":"Angry","children":[{"name":"Frustrated"}]},{"name":"Rage","children":[{"name":"Furious"}]},{"name":"Hateful","children":[{"name":"Irritated"}]},{"name":"Critical","children":[{"name":"Skeptical"}]}]},{"name":"Scared","children":[{"name":"Rejected","children":[{"name":"Bewildered"}]},{"name":"Confused","children":[{"name":"Discouraged"}]},{"name":"Helpless","children":[{"name":"Insignificant"}]},{"name":"Submissive","children":[{"name":"Weak"}]},{"name":"Insecure","children":[{"name":"Foolish"}]},{"name":"Anxious","children":[{"name":"Embarassed"}]}]},{"name":"Joyful","children":[{"name":"Excited","children":[{"name":"Daring"}]},{"name":"Sexy","children":[{"name":"Facinating"}]},{"name":"Energetic","children":[{"name":"Stimulating"}]},{"name":"Playful","children":[{"name":"Amused"}]},{"name":"Creative","children":[{"name":"Extravagant"}]},{"name":"Aware","children":[{"name":"Delightful"}]}]},{"name":"Powerful","children":[{"name":"Proud","children":[{"name":"Cheerful"}]},{"name":"Respected","children":[{"name":"Satisfied"}]},{"name":"Appreciated","children":[{"name":"Valuable"}]},{"name":"Hopeful","children":[{"name":"Worthwhile"}]},{"name":"Important","children":[{"name":"Intelligent"}]},{"name":"Faithful","children":[{"name":"Confident"}]}]},{"name":"Peaceful","children":[{"name":"Nuturing","children":[{"name":"Thankful"}]},{"name":"Trusting","children":[{"name":"Sentimental"}]},{"name":"Loving","children":[{"name":"Serene"}]},{"name":"Intimate","children":[{"name":"Responsive"}]},{"name":"Thoughtful","children":[{"name":"Relaxed"}]},{"name":"Content","children":[{"name":"Pensive"}]}]},{"name":"Sad","children":[{"name":"Sleepy","children":[{"name":"Apathetic"}]},{"name":"Bored","children":[{"name":"Inferior"}]},{"name":"Lonely","children":[{"name":"Inadequate"}]},{"name":"Depressed","children":[{"name":"Miserable"}]},{"name":"Ashamed","children":[{"name":"Stupid"}]},{"name":"Guilty","children":[{"name":"Bashful"}]}]}]};
 
-		chart = {
+		function treeify(source) {
+			const parents = [];
+			const nodes = source.trim().split(/\n/g);
+			parents.push({children: []});
+			for (let i = 0, n = nodes.length; i < n; ++i) {
+				const depth = nodes[i].match(/^\t*/)[0].length;
+				const parent = parents[depth];
+				if (!parent.children) parent.children = [];
+				parent.children.push(parents[depth + 1] = {name: nodes[i].slice(depth)});
+			}
+			return parents[0];
+		};
+
+		var partition = data => d3.partition()
+		.size([2 * Math.PI, radius])
+		(d3.hierarchy(data).count());
+
+		var color = d3.scaleOrdinal()
+		// .range(d3.quantize(d3.interpolateRainbow, data.children.length + 1))
+		.range(['red','orange','yellow','green','blue','purple']);
+		
+		var element = d3.select('#wheel').node();
+		var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+		var radius = width / 2;
+
+		var arc = d3.arc()
+		.startAngle(d => d.x0)
+		.endAngle(d => d.x1)
+		.padAngle(d => Math.min((d.x1 - d.x0) / 2, 0.005))
+		.padRadius(radius / 2)
+		.innerRadius(d => d.y0)
+		.outerRadius(d => d.y1 - 1);
+
+		chart = new function() {
 			const root = partition(data);
 
-			const svg = d3.select(DOM.svg(width, width))
+			let svg = d3.select("#wheel").append("svg")
+			.attr("width", width)
+			.attr("height", width)
 			.style("width", "100%")
 			.style("height", "auto")
-			.style("font", "10px sans-serif");
-			
+			// .style("font", ".8rem sans-serif");
+
 			const g = svg.append("g")
-			.attr("transform", `translate(${width / 2},${width / 2})`);
-			
+			.attr("transform", `translate(${width / 2}, ${width / 2})`);
+
 			g.append("g")
 			.attr("fill-opacity", 0.6)
 			.selectAll("path")
@@ -164,36 +144,8 @@
 			.text(d => d.data.name);
 
 			return svg.node();
-		}
+		};
 
-		function treeify(source) {
-			const parents = [];
-			const nodes = source.trim().split(/\n/g);
-			parents.push({children: []});
-			for (let i = 0, n = nodes.length; i < n; ++i) {
-				const depth = nodes[i].match(/^\t*/)[0].length;
-				const parent = parents[depth];
-				if (!parent.children) parent.children = [];
-				parent.children.push(parents[depth + 1] = {name: nodes[i].slice(depth)});
-			}
-			return parents[0];
-		}
-
-		partition = data => d3.partition()
-		.size([2 * Math.PI, radius])
-		(d3.hierarchy(data).count());
-
-		color = d3.scaleOrdinal()
-		// .range(d3.quantize(d3.interpolateRainbow, data.children.length + 1))
-		.range(['red','orange','yellow','green','blue','purple']);
-
-		arc = d3.arc()
-		.startAngle(d => d.x0)
-		.endAngle(d => d.x1)
-		.padAngle(d => Math.min((d.x1 - d.x0) / 2, 0.005))
-		.padRadius(radius / 2)
-		.innerRadius(d => d.y0)
-		.outerRadius(d => d.y1 - 1)
 	</script>
 </body>
 </html>
