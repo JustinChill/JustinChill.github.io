@@ -58,7 +58,7 @@
 
     <!-- <h3>Puzzles over time</h3> -->
     <figure id="timestacked"></figure>
-    <!-- <p>Breaking out each puzzle by it's day of the week helps to make this chart a bit more understandable.</p> -->
+    <!-- <p>Breaking out each puzzle by it's day of the week helps to make this chart a bit more understandable... kinda.</p> -->
 
     <!-- <h3>Constructors</h3> -->
     <figure id="constructors"></figure>
@@ -104,6 +104,7 @@
       marginBottom: 50,
       marginTop: 25,
       y: {
+        // Bug: I think I need to sort days of week in an accessor function
         domain: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"], // days in puzzle difficulty order
         labelAnchor: "Top",
         tickSize: 0,
@@ -150,7 +151,7 @@
         tickSize: 0,
       },
       marks: [
-        Plot.barY(xword_data, Plot.groupX({y: "mean"}, {y: "Time Taken", x: "Day of Week", fill: "Day of Week", fillOpacity: .8})),
+        Plot.barY(xword_data.filter(d => (d.Solved === "True")), Plot.groupX({y: "mean"}, {y: "Time Taken", x: "Day of Week", fill: "Day of Week", fillOpacity: .8})),
       ]
     };
 
@@ -182,6 +183,7 @@
       width: width,
       style:{fontSize: size},
       marginTop: 50,
+      marginRight: 30,
       color: {
         scheme: "BuRd",
         reverse: false,
@@ -199,15 +201,19 @@
       marks: [
         // Plot.areaY(xword_data.filter(d => (d.Solved === "True")),Plot.stackY({x:"Puzzle Date", y:"Time Taken", curve: "catmull-rom", fill:"Day of Week", title:"Day of Week", })),
         // Plot.areaY(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle Date", y:"Time Taken", stroke:"Day of Week"}),
-          Plot.areaY(xword_data.filter(d => (d.Solved === "True")), Plot.stackY({
-            x: "Puzzle Date",
-            y: "Time Taken",
-            curve: "catmull-rom",
-            fill: "Day of Week",
-            order: "Puzzle Date"
-          })),
-          Plot.ruleY([0])
-        // Plot.dot(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle Date", y:"Time Taken",fill:"hsl(211, 12%, 43%)", strokeWidth:0, r:2,title: d => `${d3.timeFormat("%A %B %d, %Y")(d["Puzzle Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time Taken"]/60)} min to solve` }),
+          // Plot.areaY(xword_data.filter(d => (d.Solved === "True")), Plot.stackY({
+          //   x: "Puzzle Date",
+          //   y: "Time Taken",
+          //   curve: "catmull-rom",
+          //   fill: "Day of Week",
+          //   order: "Puzzle Date"
+          // })),
+          Plot.ruleY([0]),
+          Plot.areaY(xword_data.filter(d => (d.Solved === "True")), {x: "Puzzle Date", y2: "Time Taken", z: "Day of Week",z: "Day of Week", fillOpacity: 0.1}),
+          Plot.lineY(xword_data.filter(d => (d.Solved === "True")), {x: "Puzzle Date", y: "Time Taken", z: "Day of Week", strokeWidth: 1}),
+          Plot.text(xword_data.filter(d => (d.Solved === "True")), Plot.selectLast({x: "Puzzle Date", y: "Time Taken", z: "Day of Week", text: d => `${d["Day of Week"]}.`, textAnchor: "start", dx: 6})),
+
+        Plot.dot(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle Date", y:"Time Taken",fill:"hsl(211, 12%, 43%)", strokeWidth:0, r:2,title: d => `${d3.timeFormat("%A %B %d, %Y")(d["Puzzle Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time Taken"]/60)} min to solve` }),
       ]
     };
 
