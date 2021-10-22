@@ -45,7 +45,7 @@
     <figure id="xword"></figure>
     <figcaption>Data: <a href="https://www.nytimes.com/crosswords">NYT Crossword</a> app</figcaption>
 
-    <p>The New York Times crossword puzzle app doesn't show much you information about your solve times. I learned it's possible to download your own stats (see <a href="https://github.com/mattdodge/nyt-crossword-stats">here</a>) and decided to do my own analysis. Our dataset includes 500 puzzles solved since 2019.</p>
+    <p>The New York Times crossword puzzle app doesn't show much you information about your solve times. I learned it's possible to download your own stats (see <a href="https://github.com/mattdodge/nyt-crossword-stats">here</a>) and decided to do my own analysis. This dataset includes 500 puzzles solved since 2019.</p>
 
     <h3>Average time by day of week</h3>
     <figure id="week"></figure>
@@ -128,7 +128,6 @@
     var week = {
       width: width,
       style:{fontSize: size},
-      marginLeft: 70,
       marginTop: 50,
       color: {
         scheme: "GnBu",
@@ -144,6 +143,7 @@
         domain: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
         tickFormat: d => `${d}.`,
         label: null,
+        tickSize: 0,
       },
       marks: [
         Plot.barY(xword_data, Plot.groupX({y: "mean"}, {y: "Time Taken", x: "Day of Week", fill: "Day of Week", fillOpacity: .8})),
@@ -169,7 +169,8 @@
         label: null,
       },
       marks: [
-        Plot.line(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle Date", y:"Time Taken", curve: "catmull-rom"}),
+        Plot.line(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle Date", y:"Time Taken", curve: "catmull-rom", stroke:"hsl(211, 12%, 43%)"}),
+        Plot.dot(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle Date", y:"Time Taken",fill:"hsl(211, 12%, 43%)", strokeWidth:0, r:2,title: d => `${d3.timeFormat("%B %d, %Y")(d["Puzzle Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time Taken"]/60)} min to solve` }),
       ]
     };
 
