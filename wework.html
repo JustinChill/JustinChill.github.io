@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Caffeine Data Viz</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Visualizing the amount of caffeine in foods.">
+  <meta name="author" content="Justin Chill">
+
+  <style type="text/css">
+  article > figure{
+    grid-column: 4;
+    min-width: 0;
+  }
+  figcaption, figcaption > a {
+    margin-bottom: 0;
+    font-size: calc(8px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+    text-align: right;
+  }
+  cite a:not([class]){
+    text-decoration: none;
+    color:  hsl(234, 62%, 26%);
+  }
+  article > blockquote{
+    background:  hsl(221, 68%, 93%);
+    border-left: 8px solid hsl(227, 42%, 51%);
+  }
+  article > blockquote:before{
+    color:  hsl(227, 42%, 51%);
+  }
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+      <a href="fun.html" class="nav__item">Fun</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+  
+  <main role="main">
+    <article>
+       <div class="article-hero">
+        <h2 class="article-category">Post</h2>
+        <h1 class="article-title">WeWork Valuation</h1>
+        <h2 class="article-subtitle"></h2>
+      </div>
+
+      <h3>WeWork Valuation</h3>
+      <figure id="wework"></figure>
+      <figcaption>Data: <a href="https://craft.co/wework/funding-rounds">Craft.co</a></figcaption>
+
+      <blockquote>"Neumann created a company that destroyed value at a blistering pace and nonetheless extracted a billion dollars for himself. He lit $10 billion of SoftBank’s money on fire and then went back to them and demanded a 10% commission. What an absolute legend."<cite><a href="https://www.bloomberg.com/opinion/articles/2020-05-05/wework-will-see-softbank-in-court">- Matt Levine</a></cite></blockquote>
+</article>
+</main>
+<footer>
+  <h2 id="footnote-label">Footnotes</h2>
+  <div>
+    <p>Justin Chill © 2021. Thanks for reading!</p>
+    <p><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="gh">Source code and feedback</a></p>    
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.2"></script>
+
+<script type="text/javascript">
+  var width = 730;
+  var size = 12;
+  
+  var wework = [
+  // https://craft.co/wework/funding-rounds
+  [0.097, '01/04/2009', 'A'],
+  [0.440, '01/11/2010', 'B'],
+  [1.5, '01/07/2011', 'C'],
+  [4.8, '01/07/2011', 'D-1'],
+  [5, '01/05/2012', 'D-2'],
+  [10, '01/05/2015', 'E'],
+  [15, '01/06/2015', 'F'],
+  [21, '01/08/2017', 'G'],
+  [47, '01/08/2019', '‘The epic SoftBank round’'], // https://www.businesswire.com/news/home/20190108005751/en/WeWork-Closes-6-Billion-Investment-SoftBank
+  [7.3, '12/31/2019'],
+  [2.9, '05/20/2020'],
+  [2.9, new Date()]
+  ].map(([val, d, label]) => ({ value: val, date: new Date(d), label }));
+
+  var wework = {
+    width: width,
+    style:{fontSize: size},
+    marginTop: 30,
+    y: {
+      grid: true,
+      tickFormat: d=> `$${d}B`,
+      label: "Value ↑",
+      tickSize: 0,
+    },
+    marks: [
+    Plot.lineY(wework, {x: "date", y: "value", curve: "step-after", strokeWidth: 2, stroke: "steelblue"}),
+    Plot.ruleY([0]),
+    Plot.text(wework.filter(d => (d.label !== "E" && d.label !== "C")), {x: "date", y: "value", text: "label", dx: 0, dy: -8}),
+    Plot.text(wework.filter(d => (d.label === "E" || d.label === "C")), {x: "date", y: "value", text: "label", dx: -11, dy: -1}),
+    Plot.dot(wework, {x: "date", y: "value", r: 4, fill: "white", stroke: "black", title: d => d3.format("$")(d.value)+`B`, })
+    ]
+  };
+
+      document.getElementById("wework").appendChild(Plot.plot(wework));
+  </script>
+</body>
+</html>

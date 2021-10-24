@@ -40,6 +40,12 @@
     top: .6875em;
     left: .25em;
   }
+  @media screen and (max-width: 680px) {
+    article > figure,
+    article > figcaption{
+      grid-column: 1/-1;
+    }
+  }
 </style>
 </head>
 <body>
@@ -98,7 +104,7 @@
   // Copyright 2021, Observable Inc.
   // Released under the ISC license.
   // https://observablehq.com/@d3/color-legend
-  function legend({
+  function legend(d,{
     color,
     title,
     tickSize = 6,
@@ -112,7 +118,7 @@
     tickFormat,
     tickValues
   } = {}) {
-    const svg = d3.select("#oldest_legend").append("svg")
+    const svg = d3.select(d).append("svg")
       .attr("width", width)
       .attr("height", height)
       .attr("viewBox", [0, 0, width, height])
@@ -248,6 +254,8 @@
   };
 
   var size = 12;
+  var element = d3.select('figure').node();
+  var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
 
   // Use Promises to async request data
   var promises = [d3.csv("data/oldest.csv",d3.autoType)];
@@ -262,7 +270,7 @@
     var oldest = {
       grid: true,
       inset: 10,
-      width: 740,
+      width: width,
       style:{fontSize: size},
       y: {
         label: "↑ Age",
@@ -338,14 +346,18 @@
         })),
       ]
     };
-    document.getElementById("oldest").appendChild(Plot.plot(oldest));
-    document.getElementById("oldest_legend").appendChild(legend({
+
+    var oldest_legend = {
       color: d3.scaleOrdinal(["Male", "Female"], (["hsl(227, 50%, 59%)", "hsl(16, 94%, 61%)"])),
+      // color: d3.scaleThreshold(oldest.scale("color").domain, oldest.scale("color").range),
       title: "Gender",
       marginRight: 20,
       tickSize: 0,
       width: 110,
-    }));
+    };
+
+    document.getElementById("oldest").appendChild(Plot.plot(oldest));
+    document.getElementById("oldest_legend").appendChild(legend("#oldest_legend", oldest_legend));
   });
   </script>
 
