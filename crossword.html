@@ -10,10 +10,6 @@
   <meta name="author" content="Justin Chill">
 
   <style type="text/css">
-  article > figure{
-    grid-column: 4;
-    min-width: 0;
-  }
   figcaption, figcaption > a {
     margin-bottom: 0;
     font-size: calc(8px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
@@ -78,7 +74,8 @@
 <script type="text/javascript">
   // Use Promises to async request data
   var promises = [d3.csv("data/xwstats.csv",d3.autoType)];
-  var width = 730;
+  var element = d3.select('figure').node();
+  var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
   var height = 450;
   var size = 12;
   var scheme = "set2";
@@ -125,7 +122,8 @@
       marks: [
         Plot.ruleY(xword_data.filter(d => (d.Solved === "True")), Plot.groupY({x1: "min", x2: "max"}, {y: "Day of Week", x: "Time Taken", stroke: "hsl(210, 16%, 82%)"})),
         Plot.tickX(xword_data.filter(d => (d.Solved === "True")), Plot.groupY({x: "median"}, {y: "Day of Week", x: "Time Taken", stroke: "hsl(356, 75%, 53%)"})),
-        Plot.dot(xword_data.filter(d => (d.Solved === "True")), {y: "Day of Week", x: "Time Taken", fill: "Time Taken", stroke: "Time Taken", r: 6, title: d => `${d3.timeFormat("%A %B %d, %Y")(d["Puzzle Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time Taken"]/60)} min to solve`}),
+        Plot.dot(xword_data.filter(d => (d.Solved === "True")), {y: "Day of Week", x: "Time Taken", fill: "Time Taken", stroke: "Time Taken", r: 6, title: d => `Constructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time Taken"]/60)} min to solve`}),
+        // title: d => `${d3.timeFormat("%A %B %d, %Y")(d["Puzzle Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time Taken"]/60)} min to solve`
         Plot.text(xword_data.filter(d => (d.Solved === "True" & d["Day of Week"] === "Sa")), Plot.groupY({x: "median"}, {y: "Day of Week", x: "Time Taken", fill: "hsl(356, 75%, 53%)", fillOpacity: .8, text: d => `← Median time to solve`, dy: -15, dx: 70, fontWeight: 700, fontSize: 12})),
         Plot.frame({stroke: "hsl(210, 16%, 82%)"}),
       ]
@@ -222,7 +220,7 @@
       width: width,
       height: 3200,
       style:{fontSize: size},
-      marginLeft: 350,      
+      // marginLeft: 350,      
       marginTop: 40,
       y: {
         labelAnchor: "Top",

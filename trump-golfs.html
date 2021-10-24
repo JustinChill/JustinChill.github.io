@@ -10,9 +10,9 @@
   <meta name="author" content="Justin Chill">
 
   <style type="text/css">
-  article > figure{
-    /*grid-column: 4;*/
-    /*min-width: 0;*/
+  article > figure,
+  article > figcaption{
+    grid-column: 2/7;
   }
   figcaption, figcaption > a {
     margin-bottom: 0;
@@ -68,6 +68,8 @@
 <script type="text/javascript">
   // Use Promises to async request data
   var promises = [d3.csv("data/trumpgolfcountoutings_100821.csv",d3.autoType)];
+  var element = d3.select('figure').node();
+  var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
 
   // You can request multiple srcs in a promise
   myDataPromises = Promise.all(promises);
@@ -336,7 +338,7 @@
     var golf = data[0];
 
     var cal = {
-      // width: 1200,
+      width,
       gap: .5,
       dayFormat: "",
       date: "Date",
