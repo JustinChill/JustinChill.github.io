@@ -56,8 +56,10 @@
     <figure id="timestacked"></figure>
     <!-- <p>Breaking out each puzzle by it's day of the week helps to make this chart a bit more understandable... kinda.</p> -->
 
-    <!-- <h3>Constructors</h3> -->
+    <h3>Constructors</h3>
     <figure id="constructors"></figure>
+    <p>Top 20 crossword puzzle constructors in the dataset. I'm glad <a href="https://en.wikipedia.org/wiki/Erik_Agard">Erik Agard</a> is on the list- he's one of my personal favorites. I highly recommend his <a href="https://www.amazon.com/Food-Thought-Crosswords-Erik-Agard/dp/1454916311/ref=sr_1_1?dchild=1&qid=1635195835&refinements=p_27%3AErik+Agard&s=books&sr=1-1">food-themed puzzle book</a> 🤓</p>
+    <p><a href="https://rosswordpuzzles.com/whos-ross/">Ross Trudeau</a> takes first place with more than 10 puzzles published in the Times.</p>
 
   </article>
 </main>
@@ -218,29 +220,39 @@
 
     var constructors = {
       width: width,
-      height: 3200,
       style:{fontSize: size},
-      marginLeft: 350,      
+      marginLeft: 200,
       marginTop: 40,
-      y: {
-        labelAnchor: "Top",
-        domain: d3.sort(xword_data, d => -d.Constructor).map(d => d.Constructor)
+      marginBottom: 0,
+      insetBottom: 0,
+      color: {
+        domain: ["Erik", "not"],
+        range: ["hsl(123, 35%, 51%)", "rgba(204,204,204,.8)"],
       },
       x: {
+        grid: true,
+        labelAnchor: "right",
+        label: "# of puzzles in NYT",
         axis: "top",
-        label: "Count →",
-        labelOffset: 40,
+        tickSize: 0,
+        nice: true, 
+      },
+      y: { 
+        labelAnchor: "top",
+        tickSize: 0,  
       },
       marks: [
-        Plot.barX(xword_data, Plot.groupY({x: "count"}, {y: "Constructor"})),
+        // Plot.barY(xword_data, Plot.groupX({y: "count"}, {x: "Constructor"})),
+        Plot.barX(xword_data, Plot.groupY({x: "count"}, {y: "Constructor", fill: d => d.Constructor === "Erik Agard" ? "Erik" : "not", sort: {y: "x", reverse: true, limit: 20}})),
       ]
+
     };
 
     document.getElementById("xword").appendChild(Plot.plot(xword));
     document.getElementById("week").appendChild(Plot.plot(week));
     document.getElementById("alltime").appendChild(Plot.plot(alltime));
     // document.getElementById("timestacked").appendChild(Plot.plot(timestacked));
-    // document.getElementById("constructors").appendChild(Plot.plot(constructors));
+    document.getElementById("constructors").appendChild(Plot.plot(constructors));
   });
 </script>
 </body>
