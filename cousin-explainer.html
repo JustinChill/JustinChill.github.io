@@ -12,102 +12,83 @@
 	<meta name="author" content="Justin Chill">
 
 	<style type="text/css">
-		.nav {
-			min-height: auto;
-		}
 
-		.nav *{
-			-webkit-transition: all ease .3s;
-			-moz-transition: all ease .3s;
-			transition: all ease .3s;
-		}
+	.tree, .tree ul, .tree li {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		position: relative;
+		font-size: 1rem;
+	}
 
-		.nav ul {
-			position: relative;
-			padding-top: 20px; 
-		}
+	.tree {
+		margin: 0 0 1em;
+		text-align: center;
+	}
+	.tree, .tree ul {
+		display: table;
+	}
+	.tree ul {
+		width: 100%;
+	}
+	.tree li {
+		display: table-cell;
+		padding: .5em 0;
+		vertical-align: top;
+	}
+	/* _________ */
+	.tree li:before {
+		outline: solid 1px #666;
+		content: "";
+		left: 0;
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+	.tree li:first-child:before {left: 50%;}
+	.tree li:last-child:before {right: 50%;}
 
-		.nav li {
-			position: relative;
-			padding: 20px 3px 0 3px; 
-			float: left; 
+	.tree code, .tree span {
+		border: solid .1em #666;
+		border-radius: .2em;
+		display: inline-block;
+		margin: 0 .2em .5em;
+		padding: .2em .5em;
+		position: relative;
+	}
+	/* If the tree represents DOM structure */
+	.tree code {
+		font-family: monaco, Consolas, 'Lucida Console', monospace;
+	}
 
-			text-align: center;
-			list-style-type: none; 
-		}
+	/* | */
+	.tree ul:before,
+	.tree code:before,
+	.tree span:before {
+		outline: solid 1px #666;
+		content: "";
+		height: .5em;
+		left: 50%;
+		position: absolute;
+	}
+	.tree ul:before {
+		top: -.5em;
+	}
+	.tree code:before,
+	.tree span:before {
+		top: -.55em;
+	}
 
-		.nav li::before, .nav li::after{
-			content: '';
-			position: absolute; 
-			top: 0; 
-			right: 50%;
-			width: 50%; 
-			height: 20px;
-			border-top: 1px solid #ccc;
-		}
+	/* The root node doesn't connect upwards */
+	.tree > li {margin-top: 0;}
+	.tree > li:before,
+	.tree > li:after,
+	.tree > li > code:before,
+	.tree > li > span:before {
+		outline: none;
+	}
 
-		.nav li::after{
-			left: 50%;
-			right: auto; 
-
-			border-left: 1px solid #ccc;
-		}
-
-		.nav li:only-child::after, .nav li:only-child::before {
-			content: '';
-			display: none;
-		}
-
-		.nav li:only-child{ padding-top: 0;}
-		.nav li:first-child::before, .nav li:last-child::after{
-			border: 0 none;
-		}
-
-		.nav li:last-child::before{
-			border-right: 1px solid #ccc;
-			border-radius: 0 5px 0 0;
-		}
-
-		.nav li:first-child::after{
-			border-radius: 5px 0 0 0;
-		}
-		.nav ul ul::before{
-			content: '';
-			position: absolute; top: 0; left: 50%;
-			border-left: 1px solid #ccc;
-			width: 0; 
-			height: 20px;
-		}
-
-		.nav li a{
-			display: inline-block;
-			padding: 5px 10px;
-
-			border-radius: 5px;
-			border: 1px solid #ccc;
-
-			text-decoration: none;
-			text-transform: uppercase;
-			color: hsl(184, 91%, 17%);
-			font-family: arial, verdana, tahoma;
-			font-size: 11px;
-		}
-
-		/*Optional hover states*/
-		.nav li a:hover, .nav li a:hover+ul li a {
-			color: #000;
-			background: #c8e4f8;   
-			border: 1px solid hsl(184, 80%, 74%);
-		}
-
-		.nav li a:hover+ul li::after, 
-		.nav li a:hover+ul li::before, 
-		.nav li a:hover+ul::before, 
-		.nav li a:hover+ul ul::before{
-			content: '';
-			border-color: hsl(184, 80%, 74%);
-		}
-	</style>
+</style>
 
 </head>
 <body>
@@ -129,125 +110,118 @@
 				<h1>Cousin Explainer</h1>		
 				<h2 class="subtitle">The family tree, explained</h2>
 			</header>
-			<figure class="nav">
-				<ul>
-					<li>
-						<a href="#">Great great grandparent</a>
-						<ul>
-							<li>
-								<a href="#">Great grandparent</a>
-								<ul>
-									<li>
-										<a href="#">Grandparent</a>
 
-										<!-- Grandparents -->
+			<figure>
+				<figcaption>Example DOM structure diagram</figcaption>
+				<ul class="tree">
+					<li><code>Great great grandparent</code>
+						<ul>
+							<li><code>Great grand aunt / uncle</code>
+								<ul>
+									<li><code>First cousin twice removed</code>
 										<ul>
-											<ul>
-												<li><a href="#">Aunt / uncle</a></li>
+											<li><code>Second cousin once removed</code>
+												<ul>
+													<li><code>Third cousin</code>
+														<ul>
+															<li><code>Third cousin once removed</code>
+																<ul>
+																	<li><code>Third cousin twice removed</code></li>
+																</ul></li>
+															</ul></li>
+														</ul></li>
+													</li>
+												</ul>
 											</ul>
+										</li>
+										<li><code>Great grandparent</code>
 											<ul>
-												<li>
-													<a href="#">Parent</a>
+												<li><code>Grandparent</code>
 													<ul>
-														<li>
-															<a href="#">YOU!</a>
+														<li><code>Parent</code></li>
+														<li><code>Aunt / uncle</code></li>
+													</ul>
+												</li>
+												<li><code>Great aunt / uncle</code>
+													<ul>
+														<li><code>a</code></li>
+														<li><code>a</code></li>
+														<li><code>a</code></li>
+														<li><code>a</code></li>
+													</ul>
+												</li>
+												<li><code>main</code>
+													<ul>
+														<li><code>h1</code></li>
+														<li><code>article</code>
 															<ul>
-																<li>
-																	<a href="#">Your child</a>
-																	<ul>
-																		<li>
-																			<a href="#">Your grand child</a>
-																		</li>
-																	</ul>
-																</li>
+																<li><code>h2</code></li>
+																<li><code>p</code></li>
+																<li><code>p</code></li>
 															</ul>
 														</li>
 													</ul>
+												</li>
+												<li><code>aside</code>
 													<ul>
-														<li>
-															<a href="#">Brother / sister</a>
+														<li><code>h2</code></li>
+														<li><code>p</code></li>
+														<li><code>p</code>
 															<ul>
-																<li>
-																	<a href="#">Nephew / niece</a>
-																	<ul>
-																		<li>
-																			<a href="#">Grand nephew / niece</a>
-																		</li>
-																	</ul>
-																</li>
+																<li><code>a</code></li>
+															</ul>
+														</li>
+													</ul>
+												</li>
+												<li><code>footer</code>
+													<ul>
+														<li><code>nav</code>
+															<ul>
+																<li><code>a</code></li>
+																<li><code>a</code></li>
+																<li><code>a</code></li>
+																<li><code>a</code></li>
 															</ul>
 														</li>
 													</ul>
 												</li>
 											</ul>
-										</ul>
-										<!-- End grandparents -->
-									</li>
-									<li>
-										<a href="#">Great aunt / uncle</a>
-										<!-- Greant aunt / uncle -->
-										<ul>
-											<li>
-												<a href="#">First cousin once removed</a>
-												<ul>
-													<li>
-														<a href="#">Second cousin</a>
-														<ul>
-															<li>
-																<a href="#">Second cousin once removed</a>
-																<ul>
-																	<li>
-																		<a href="#">Second cousin twice removed</a>
-																	</li>
-																</ul>
-															</li>
-														</ul>
-													</li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-									<!-- End greant aunt / uncle -->
-								</ul>
-							</li>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</figure>
 
-							<li>
-								<a href="#">Great grand aunt / uncle</a>
-								<ul>
-									<li>
-										<a href="#">First cousin twice removed</a>
-										<ul>
-											<li>
-												<a href="#">Second cousin once removed</a>
-												<ul>
-													<li>
-														<a href="#">Third cousin</a>
-														<ul>
-															<li>
-																<a href="#">Third cousin once removed</a>
-																<ul>
-																	<li>
-																		<a href="#">Third cousin twice removed</a>
-																	</li>
-																</ul>
-															</li>
-														</ul>
-													</li>
-												</ul>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</li>
-				</ul>
-			</nav>
-		</figure>
-		<p>Trying to recreate <a href="https://images-na.ssl-images-amazon.com/images/I/61xA+L+4PnL.jpg">this graphic</a> using HTML & CSS. Lots of help from <a href="https://codepen.io/joellesenne/pen/KGJkz">this Codepen</a> by Jöel.</p>
-	</article>
-</main>
-<footer>
-</footer>
+<!-- 		<a href="#">Great great grandparent</a>
+			<a href="#">Great grandparent</a>
+			<a href="#">Grandparent</a>
+			<li><a href="#">Aunt / uncle</a></li>
+			<a href="#">Parent</a>
+			<a href="#">YOU!</a>
+			<a href="#">Your child</a>
+			<a href="#">Your grand child</a>
+			<a href="#">Brother / sister</a>
+			<a href="#">Nephew / niece</a>
+			<a href="#">Grand nephew / niece</a>
+			<a href="#">Great aunt / uncle</a>
+			Greant aunt / uncle
+			<a href="#">First cousin once removed</a>
+			<a href="#">Second cousin</a>
+			<a href="#">Second cousin once removed</a>
+			<a href="#">Second cousin twice removed</a>
+			<a href="#">Great grand aunt / uncle</a>
+			<a href="#">First cousin twice removed</a>
+			<a href="#">Second cousin once removed</a>
+			<a href="#">Third cousin</a>
+			<a href="#">Third cousin once removed</a>
+			<a href="#">Third cousin twice removed</a -->
+			<p>Trying to recreate <a href="https://images-na.ssl-images-amazon.com/images/I/61xA+L+4PnL.jpg">this graphic</a> using HTML & CSS. Lots of help from <a href="https://codepen.io/joellesenne/pen/KGJkz">this Codepen</a> by Jöel.</p>
+		</article>
+	</main>
+	<footer>
+	</footer>
+
 </body>
 </html>
