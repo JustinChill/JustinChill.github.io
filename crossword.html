@@ -52,9 +52,9 @@
     <figure id="alltime"></figure>
     <p>A noticeable uptick in puzzle activity during the pandemic.</p>
 
-    <!-- <h3>Puzzles over time</h3> -->
-    <figure id="timestacked"></figure>
-    <!-- <p>Breaking out each puzzle by it's day of the week helps to make this chart a bit more understandable... kinda.</p> -->
+    <h3>Puzzles by day of week</h3>
+    <figure id="facet"></figure>
+    <p>Breaking out each puzzle by it's day of the week helps to make this chart a bit more understandable. You can see time to solve creeps up as the week goes on, as puzzles become more challenging later in the week.</p>
 
     <h3>Constructors</h3>
     <figure id="constructors"></figure>
@@ -176,45 +176,50 @@
       },
       marks: [
         Plot.line(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle Date", y:"Time Taken", curve: "catmull-rom", stroke:"hsl(230, 49%, 41%)"}),
-        Plot.dot(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle Date", y:"Time Taken",fill:"hsl(230, 49%, 41%)", strokeWidth:0, r:2,title: d => `${d3.timeFormat("%A %B %d, %Y")(d["Puzzle Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time Taken"]/60)} min to solve` }),
+        Plot.dot(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle Date", y:"Time Taken",fill:"hsl(230, 49%, 41%)", strokeWidth:0, r:2, title: d => `${d3.timeFormat("%A %B %d, %Y")(d["Puzzle Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time Taken"]/60)} min to solve` }),
       ]
     };
 
-    var timestacked = {
+    var facet = {
       width: width,
       style:{fontSize: size},
-      marginTop: 50,
-      marginRight: 30,
+      grid: true,
+      // inset: 10,
+      // width: 928,
+      height: 350,
+      marginBottom: 40,
       color: {
-        scheme: "BuRd",
-        reverse: false,
+        scheme: "RdYlGn",
+        reverse: true,
+      },
+      facet: {
+        data: xword_data,
+        x: "Day of Week",
+      },
+      fx: { 
+      domain: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"], // Facet axis (top)
+      label: null,
+      tickFormat: d => `${d}.`,
+      }, 
+      x: {
+        transform: d => d / 60, // turn seconds into minutes
+        tickFormat: d => d == 100 ? `` : `${d}m`, // I want 3 ticks but don't want them to overlap
+        label: "Time to solve (min.) →",
+        nice: true,
+        ticks: 3,
+        tickSize: 0,
+        labelOffset: 40,
       },
       y: {
-        labelAnchor: "Top",
-        label: `Average time (minutes)`,
-        transform: d => d / 60, // turn seconds into minutes
-        grid: true,
-        domain: [0, 90],
-      },
-      x: {
+        domain: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"], // y axis (left)
         label: null,
+        tickSize: 0,
+        tickFormat: d => `${d}.`,
       },
       marks: [
-        // Plot.areaY(xword_data.filter(d => (d.Solved === "True")),Plot.stackY({x:"Puzzle Date", y:"Time Taken", curve: "catmull-rom", fill:"Day of Week", title:"Day of Week", })),
-        // Plot.areaY(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle Date", y:"Time Taken", stroke:"Day of Week"}),
-          // Plot.areaY(xword_data.filter(d => (d.Solved === "True")), Plot.stackY({
-          //   x: "Puzzle Date",
-          //   y: "Time Taken",
-          //   curve: "catmull-rom",
-          //   fill: "Day of Week",
-          //   order: "Puzzle Date"
-          // })),
-          Plot.ruleY([0]),
-          Plot.areaY(xword_data.filter(d => (d.Solved === "True")), {x: "Puzzle Date", y2: "Time Taken", z: "Day of Week",z: "Day of Week", fillOpacity: 0.1}),
-          Plot.lineY(xword_data.filter(d => (d.Solved === "True")), {x: "Puzzle Date", y: "Time Taken", z: "Day of Week", strokeWidth: 1}),
-          Plot.text(xword_data.filter(d => (d.Solved === "True")), Plot.selectLast({x: "Puzzle Date", y: "Time Taken", z: "Day of Week", text: d => `${d["Day of Week"]}.`, textAnchor: "start", dx: 6})),
-
-        Plot.dot(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle Date", y:"Time Taken",fill:"hsl(211, 12%, 43%)", strokeWidth:0, r:2,title: d => `${d3.timeFormat("%A %B %d, %Y")(d["Puzzle Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time Taken"]/60)} min to solve` }),
+        Plot.frame({stroke: "#ccc"}),
+        Plot.tickX(xword_data, Plot.groupY({x: "median"}, {filter: d => (d.Solved === "True"), y: "Day of Week", x: "Time Taken", stroke: "hsl(356, 75%, 53%)"})),
+        Plot.dot(xword_data, {filter: d => (d.Solved === "True"),r:4, x: "Time Taken", y: "Day of Week", fill: "Time Taken", stroke: "Time Taken", title: d => `${d3.timeFormat("%A %B %d, %Y")(d["Puzzle Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time Taken"]/60)} min to solve`}),
       ]
     };
 
@@ -239,7 +244,7 @@
       },
       y: { 
         labelAnchor: "top",
-        tickSize: 0,  
+        tickSize: 0, 
       },
       marks: [
         // Plot.barY(xword_data, Plot.groupX({y: "count"}, {x: "Constructor"})),
@@ -251,7 +256,7 @@
     document.getElementById("xword").appendChild(Plot.plot(xword));
     document.getElementById("week").appendChild(Plot.plot(week));
     document.getElementById("alltime").appendChild(Plot.plot(alltime));
-    // document.getElementById("timestacked").appendChild(Plot.plot(timestacked));
+    document.getElementById("facet").appendChild(Plot.plot(facet));
     document.getElementById("constructors").appendChild(Plot.plot(constructors));
   });
 </script>
