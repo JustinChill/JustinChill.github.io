@@ -10,6 +10,9 @@
   <meta name="author" content="Justin Chill">
 
   <style type="text/css">
+    figure{
+      grid-column: 2 / -2;
+    }
     figcaption{
       text-align: right;
     }
@@ -45,7 +48,8 @@
     
 
     <h3>Original graphic</h3>
-    <p><a href="https://www.nytimes.com/interactive/2017/01/18/science/earth/2016-hottest-year-on-record.html">The New York Times</a></p>
+    <a href="https://www.nytimes.com/interactive/2017/01/18/science/earth/2016-hottest-year-on-record.html"><img src="imgs/nyt-global-temps.png" alt="The New York Times original graphic, visualizing global temperatures since 1880." title="The New York Times original graphic, visualizing global temperatures since 1880."></a>
+    
 
 </article>
 </main>
@@ -79,7 +83,7 @@
 
     var temps = {
       width: width,
-      height: width / 1.5,
+      // height: width / 1.5,
       style:{fontSize: size},
       x: {
         grid: true,
@@ -89,7 +93,7 @@
         grid: true,
         nice: true,
         tickFormat: "+f",
-        label: "↑ Surface temperature (°C)",
+        label: "↑ Surface temperature change (°C)",
         tickSize: 0,
         ticks: 4,
       },
@@ -103,7 +107,7 @@
       },
       marks: [
       Plot.ruleY([0], {stroke:"rgba(0,0,0,.3)"}),
-      Plot.dot(hadcrut, {x: "date", y: "value", stroke: "value",fill: "value", title: (d) =>
+      Plot.dot(hadcrut, {x: "date", y: "value", r:3, stroke: "value",fill: "value", title: (d) =>
         `${d3.timeFormat("%B %d, %Y")(d["date"])} \nTemp: ${d3.format("+.2f")(d["value"])}`,}),
       Plot.text(hadcrut, {filter: d=> d.date == "Sun Jan 31 2016 19:00:00 GMT-0500 (EST)", x: "date", y: "value", dx: -40, dy: -2, text: d => d3.timeFormat("%B %Y")(d.date)}),
       Plot.text(hadcrut, {filter: d=> d.date == "Mon Feb 29 2016 19:00:00 GMT-0500 (EST)", x: "date", y: "value", dx: -42, dy: 4, text: d => d3.timeFormat("%B %Y")(d.date)}),
