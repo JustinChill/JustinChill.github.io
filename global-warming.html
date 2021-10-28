@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>How 2016 became Earth's Hottest Year on Record</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Global temperature trends based on NASA's Goddard Institute for Space Studies.">
+  <meta name="author" content="Justin Chill">
+
+  <style type="text/css">
+    figcaption{
+      text-align: right;
+    }
+
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+      <a href="fun.html" class="nav__item">Fun</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+  
+  <main role="main">
+    <article>
+       <div class="article-hero">
+        <h2 class="article-category">Post</h2>
+        <h1 class="article-title">Global Temperature Trends</h1>
+        <h2 class="article-subtitle">How 2016 became Earth's hottest year on record</h2>
+      </div>
+
+    <figcaption id="legend"></figcaption>
+    <figure id="temps"></figure>
+    <figcaption>Data: <a href="https://data.giss.nasa.gov/gistemp/">NASA's Goddard Institute for Space Studies</a></figcaption>
+
+    <p>Of the 17 hottest years ever recorded, 16 have now occurred since 2000. The chart above is my recreation of a wonderful graphic from <a href="https://nyti.ms/3x89ywY">the New York Times</a>, featured in the article, "How 2016 Became Earth’s Hottest Year on Record". Thanks to publically available data from NASA we can plot recorded temperatures by data going back to 1880. Once visualized we can clearly see temperatures climbing and increasingly rapidly in the past 2 decades.</p>
+    
+
+    <h3>Original graphic</h3>
+    <p><a href="https://www.nytimes.com/interactive/2017/01/18/science/earth/2016-hottest-year-on-record.html">The New York Times</a></p>
+
+</article>
+</main>
+<footer>
+  <h2 id="footnote-label">Footnotes</h2>
+  <ol>
+
+  </ol>
+  <div>
+    <p>Justin Chill © 2021. Thanks for reading!</p>
+    <p><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="gh">Source code and feedback</a></p>    
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.2"></script>
+
+<script type="text/javascript">
+  var element = d3.select('figure').node();
+  var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+  var size = 12;
+
+  // Use Promises to async request data
+  var promises = [d3.csv("data/global-temps.csv",d3.autoType)];
+  myDataPromises = Promise.all(promises);
+
+  // After data is successfully fetched, generate viz
+  myDataPromises.then(function(data) {
+    
+    // Define the data
+    var hadcrut = data[0];
+
+    var temps = {
+      width: width,
+      height: width / 1.5,
+      style:{fontSize: size},
+      x: {
+        grid: true,
+        nice: true,
+      },
+      y: {
+        grid: true,
+        nice: true,
+        tickFormat: "+f",
+        label: "↑ Surface temperature (°C)",
+        tickSize: 0,
+        ticks: 4,
+      },
+      style: {
+        background: "hsl(0, 0%, 99%)",
+        // color: "white"
+      },
+      color: {
+        type: "diverging",
+        scheme: "BuRd"
+      },
+      marks: [
+      Plot.ruleY([0], {stroke:"rgba(0,0,0,.3)"}),
+      Plot.dot(hadcrut, {x: "date", y: "value", stroke: "value",fill: "value", title: (d) =>
+        `${d3.timeFormat("%B %d, %Y")(d["date"])} \nTemp: ${d3.format("+.2f")(d["value"])}`,}),
+      Plot.text(hadcrut, {filter: d=> d.date == "Sun Jan 31 2016 19:00:00 GMT-0500 (EST)", x: "date", y: "value", dx: -40, dy: -2, text: d => d3.timeFormat("%B %Y")(d.date)}),
+      Plot.text(hadcrut, {filter: d=> d.date == "Mon Feb 29 2016 19:00:00 GMT-0500 (EST)", x: "date", y: "value", dx: -42, dy: 4, text: d => d3.timeFormat("%B %Y")(d.date)}),
+      Plot.text(hadcrut, {filter: d=> d.date == "Wed Feb 28 1990 19:00:00 GMT-0500 (EST)", x: "date", y: "value", dx: -14 , dy: -10, text: d => d3.timeFormat("%B %Y")(d.date)}),
+      Plot.text(hadcrut, {filter: d=> d.date == "Tue Dec 31 1957 19:00:00 GMT-0500 (EST)", x: "date", y: "value", dx: -8, dy: -10, text: d => d3.timeFormat("%B %Y")(d.date)}),
+      Plot.text(hadcrut, {filter: d=> d.date == "Thu Dec 31 1925 19:00:00 GMT-0500 (EST)", x: "date", y: "value", dx: -8, dy: -10, text: d => d3.timeFormat("%B %Y")(d.date)}),
+      Plot.text(hadcrut, {filter: d=> d.date == "Thu Jan 31 1889 19:00:00 GMT-0500 (EST)", x: "date", y: "value", dx: -5, dy: -10, text: d => d3.timeFormat("%B %Y")(d.date)}),      
+      ]
+    };
+
+    document.getElementById("temps").appendChild(Plot.plot(temps));
+  });
+  </script>
+</body>
+</html>
