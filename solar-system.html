@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Solar System</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An overview diagram of the solar system. The sun is placed on the left and every planet rotating around it is placed on the right within its own orbit. Some planets, such as Jupiter or Saturn, have in turn moons drawn around them.">
+  <meta name="author" content="Justin Chill">
+
+  <style type="text/css">
+    :root {
+      --background-color: floralwhite;
+    }
+    figure{
+      grid-column: 3/5;
+      height: 80vh;
+      margin: 20px 0;
+    }
+    figcaption{
+      text-align: right;
+    }
+    svg {
+      font-family: sans-serif;
+      font-weight: lighter;
+      font-size: 14px;
+      width: 100%;
+      height: 100%;
+      background: var(--background-color);
+    }
+    text {
+      pointer-events: none;
+    }
+    .planet .halo, .subplanet .halo {
+      fill: var(--background-color);
+    }
+    .planet line {
+      stroke: #000;
+    }
+    .subplanet text {
+      font-size: 11px;
+      fill: #606060;
+    }
+    .orbit circle {
+      fill: transparent;
+      stroke: rgba(0,0,0,0.2);
+      stroke-width: 1;
+    }
+    .suborbit circle {
+      fill: transparent;
+      stroke: rgba(0,0,0,0.1);
+      stroke-width: 1;
+    }
+    .legend rect {
+      fill: var(--background-color);
+      fill-opacity: 0.8;
+    }
+    .legend .item text {
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+      <a href="fun.html" class="nav__item">Fun</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+  
+  <main role="main">
+    <article>
+     <div class="article-hero">
+      <h2 class="article-category">Post</h2>
+      <h1 class="article-title">Solar System</h1>
+      <h2 class="article-subtitle">A diagram of our solar system</h2>
+    </div>
+
+    <figure>
+      <svg id="solar_system"></svg>
+    </figure>
+    <figcaption>Data: <a href="https://en.wikipedia.org/wiki/List_of_gravitationally_rounded_objects_of_the_Solar_System">Wikipedia</a></figcaption>
+    <p>Our solar system formed about 4.6 billion years ago. The four planets closest to the Sun — Mercury, Venus, Earth, and Mars — are called the terrestrial planets because they have solid, rocky surfaces. Two of the outer planets beyond the orbit of Mars — Jupiter and Saturn — are known as gas giants; the more distant Uranus and Neptune are called ice giants.</p>
+
+  </article>
+</main>
+<footer>
+  <h2 id="footnote-label">Footnotes</h2>
+  <ol>
+
+  </ol>
+  <div>
+    <p>Justin Chill © 2021. Thanks for reading!</p>
+    <p><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="gh">Source code and feedback</a></p>    
+  </div>
+</footer>
+<!-- <script src="https://cdn.jsdelivr.net/npm/d3@7"></script> -->
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/d3-selection-multi.v0.4.min.js"></script>
+
+<script type="text/javascript">
+
+  // Recreated from Fabiovalse: https://gist.github.com/fabiovalse/96f1c7575f6a66facc34a7d8408287f0
+  (function() {
+    var celestial_body_types, color, height, margin, sun_radius, svg, vis, width;
+
+    sun_radius = 30;
+
+    margin = 15;
+
+    celestial_body_types = [
+    {
+      label: '',
+      value: 'NULL',
+      color: '#ffc252'
+    }, {
+      label: 'Terrestrial',
+      value: 'terrestrial',
+      color: '#e5d8bd'
+    }, {
+      label: 'Gas giant',
+      value: 'gas_giant',
+      color: 'lightgray'
+    }, {
+      label: 'Ice giant',
+      value: 'ice_giant',
+      color: '#b3cde3'
+    }, {
+      label: 'Asteroid',
+      value: 'asteroid',
+      color: '#fbb4ae'
+    }, {
+      label: 'Plutoid',
+      value: 'plutoid',
+      color: '#decbe4'
+    }, {
+      label: 'Satellite',
+      value: 'satellite',
+      color: 'gray'
+    }
+    ];
+
+    color = d3.scaleOrdinal().domain(celestial_body_types.map(function(d) {
+      return d.value;
+    })).range(celestial_body_types.map(function(d) {
+      return d.color;
+    }));
+
+    svg = d3.select('svg');
+
+    width = svg.node().getBoundingClientRect().width;
+
+    height = svg.node().getBoundingClientRect().height;
+
+    vis = svg.append('g').attrs({
+      transform: "translate(0, " + (height / 2) + ")"
+    });
+
+    d3.csv('https://gist.githubusercontent.com/fabiovalse/96f1c7575f6a66facc34a7d8408287f0/raw/15a23da6279096ba0fea962e50a24524bf4f5a64/data.csv', function(data) {
+      var all_legend, all_orbits, all_planets, all_suborbits, all_subplanets, angles, distance, en_legend, en_orbits, en_planets, en_suborbits, en_subplanets, leg, legend, orbits, planets, radius, solar_system, suborbits, subplanets;
+      data = data.sort(function(a, b) {
+        return a.distance_from_primary_km - b.distance_from_primary_km;
+      });
+      solar_system = (d3.stratify().id(function(d) {
+        if (d.label === 'NULL') {
+          return '';
+        } else {
+          return d.label;
+        }
+      }).parentId(function(d) {
+        if (d.primary === 'NULL') {
+          return '';
+        } else {
+          return d.primary;
+        }
+      }))(data);
+      // Calculate planet dimensions.
+      // Except the sun, planet dimensions have been computed using the same scale (i.e., power scale with a 0.4 exponent). Also the planet distance from the sun and the moon distance from their primary planet have been calculated using the same scale (i.e., power scale with a 0.33 exponent).
+      distance = d3.scalePow().exponent(0.33).domain([
+        8000000, d3.max(solar_system.children, function(d) {
+          return +d.data.distance_from_primary_km;
+        })
+        ]).range([0, width - sun_radius / 2 - margin]);
+      radius = d3.scalePow().exponent(0.4).domain([
+        0, d3.max(solar_system.children, function(d) {
+          return +d.data.equatorial_radius_km;
+        })
+        ]).range([0, 20]);
+
+      /* Sun
+      */
+      vis.append('circle').attrs({
+        r: sun_radius * 2,
+        cx: -sun_radius / 1.5,
+        fill: function(d) {
+          return color(solar_system.data.subtype);
+        },
+        stroke: '#ffe27a',
+        'stroke-width': '5px'
+      });
+
+      /* Orbits
+      */
+      orbits = vis.selectAll('.orbit').data(solar_system.children);
+      en_orbits = orbits.enter().append('g').attrs({
+        "class": 'orbit'
+      });
+      all_orbits = en_orbits.merge(orbits);
+      all_orbits.append('circle').attrs({
+        r: function(d) {
+          return distance(d.data.distance_from_primary_km);
+        }
+      });
+      orbits.exit().remove();
+
+      /* Sub-orbits
+      */
+      angles = [45, 22.5, 0, -22.5, -45, -22.5, 0, 11, 0, -11, 0, 11, 0];
+      suborbits = all_orbits.selectAll('.suborbit').data(function(d) {
+        if (d.children != null) {
+          return d.children;
+        } else {
+          return [];
+        }
+      });
+      en_suborbits = suborbits.enter().append('g').attrs({
+        "class": 'suborbit',
+        transform: function(d) {
+          var i, x, y;
+          i = d.parent.parent.children.indexOf(d.parent);
+          x = distance(d.parent.data.distance_from_primary_km) * Math.cos(angles[i] * Math.PI / 180);
+          y = distance(d.parent.data.distance_from_primary_km) * Math.sin(angles[i] * Math.PI / 180);
+          return "translate(" + x + ", " + y + ")";
+        }
+      });
+      all_suborbits = en_suborbits.merge(suborbits);
+      all_suborbits.append('circle').attrs({
+        r: function(d, i) {
+          return radius(d.data.distance_from_primary_km);
+        }
+      });
+      suborbits.exit().remove();
+
+      /* Planets
+      */
+      planets = vis.selectAll('.planet').data(solar_system.children);
+      en_planets = planets.enter().append('g').attrs({
+        "class": 'planet',
+        transform: function(d, i) {
+          var x, y;
+          x = distance(d.data.distance_from_primary_km) * Math.cos(angles[i] * Math.PI / 180);
+          y = distance(d.data.distance_from_primary_km) * Math.sin(angles[i] * Math.PI / 180);
+          return "translate(" + x + ", " + y + ")";
+        }
+      });
+      all_planets = en_planets.merge(planets);
+      all_planets.append('circle').attrs({
+        "class": 'halo',
+        r: function(d) {
+          return radius(d.data.equatorial_radius_km) + 3;
+        }
+      });
+      all_planets.append('circle').attrs({
+        r: function(d) {
+          return radius(d.data.equatorial_radius_km);
+        }
+      }).styles({
+        fill: function(d) {
+          return color(d.data.subtype);
+        }
+      }).append('title').text(function(d) {
+        return d.data.label;
+      });
+      all_planets.append('text').attrs({
+        'text-anchor': 'middle',
+        y: function(d, i) {
+          return -radius(d.data.equatorial_radius_km) - 5;
+        }
+      }).text(function(d) {
+        return d.id;
+      });
+      planets.exit().remove();
+
+      /* Sub-planets
+      */
+      subplanets = all_planets.selectAll('.subplanet').data(function(d) {
+        if (d.children != null) {
+          return d.children;
+        } else {
+          return [];
+        }
+      });
+      en_subplanets = subplanets.enter().append('g').attrs({
+        "class": 'subplanet'
+      });
+      all_subplanets = en_subplanets.merge(subplanets);
+      all_subplanets.append('circle').attrs({
+        "class": 'halo',
+        r: function(d) {
+          return radius(d.data.equatorial_radius_km);
+        },
+        cx: function(d, i) {
+          var a, r;
+          r = radius(d.data.distance_from_primary_km);
+          a = Math.cos((i * 30 + 60) * Math.PI / 180);
+          return r * a;
+        },
+        cy: function(d, i) {
+          var a, r;
+          r = radius(d.data.distance_from_primary_km);
+          a = Math.sin((i * 30 + 60) * Math.PI / 180);
+          return r * a;
+        }
+      });
+      all_subplanets.append('circle').attrs({
+        r: function(d) {
+          return radius(d.data.equatorial_radius_km);
+        },
+        cx: function(d, i) {
+          var a, r;
+          r = radius(d.data.distance_from_primary_km);
+          a = Math.cos((i * 30 + 60) * Math.PI / 180);
+          return r * a;
+        },
+        cy: function(d, i) {
+          var a, r;
+          r = radius(d.data.distance_from_primary_km);
+          a = Math.sin((i * 30 + 60) * Math.PI / 180);
+          return r * a;
+        }
+      }).styles({
+        fill: function(d) {
+          return color(d.data.type);
+        }
+      }).append('title').text(function(d) {
+        return d.data.label;
+      });
+      all_subplanets.append('text').attrs({
+        'text-anchor': function(d, i) {
+          var a, r;
+          r = radius(d.data.distance_from_primary_km);
+          a = Math.cos((i * 30 + 60) * Math.PI / 180);
+          if (r * a < 0) {
+            return 'end';
+          } else {
+            return 'start';
+          }
+        },
+        x: function(d, i) {
+          var a, r;
+          r = radius(d.data.distance_from_primary_km);
+          a = Math.cos((i * 30 + 60) * Math.PI / 180);
+          return r * a;
+        },
+        y: function(d, i) {
+          var a, r;
+          r = radius(d.data.distance_from_primary_km);
+          a = Math.sin((i * 30 + 60) * Math.PI / 180);
+          return r * a + 15;
+        }
+      }).text(function(d) {
+        return d.id;
+      });
+      subplanets.exit().remove();
+
+      /* Legend
+      */
+      leg = vis.append('g').attrs({
+        "class": 'legend',
+        transform: "translate(15, " + (height / 2 - 105) + ")"
+      });
+      leg.insert('rect').attrs({
+        x: -7,
+        y: -7,
+        width: 105,
+        height: 110
+      });
+      legend = leg.selectAll('.item').data(celestial_body_types.slice(1));
+      en_legend = legend.enter().append('g').attrs({
+        "class": 'item'
+      });
+      all_legend = en_legend.merge(legend);
+      all_legend.append('circle').attrs({
+        r: 7,
+        cx: 0,
+        cy: function(d, i) {
+          return i * 18;
+        }
+      }).styles({
+        fill: function(d) {
+          return d.color;
+        }
+      });
+      all_legend.append('text').attrs({
+        x: 12,
+        y: function(d, i) {
+          return i * 18;
+        },
+        dy: '0.35em'
+      }).text(function(d) {
+        return d.label.toUpperCase();
+      });
+      return legend.exit().remove();
+    });
+
+}).call(this);
+</script>
+</body>
+</html>
