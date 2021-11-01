@@ -14,9 +14,9 @@
       --background-color: floralwhite;
     }
     figure{
-      grid-column: 3/5;
+      grid-column: 2/-2;
       height: 80vh;
-      margin: 20px 0;
+      margin-top: 20px;
     }
     figcaption{
       text-align: right;
@@ -44,13 +44,15 @@
     }
     .orbit circle {
       fill: transparent;
-      stroke: rgba(0,0,0,0.2);
+      stroke: rgba(0,0,0,0.15);
       stroke-width: 1;
+      stroke-dasharray: 2;
     }
     .suborbit circle {
       fill: transparent;
       stroke: rgba(0,0,0,0.1);
       stroke-width: 1;
+      stroke-dasharray: 5;
     }
     .legend rect {
       fill: var(--background-color);
@@ -87,6 +89,8 @@
     </figure>
     <figcaption>Data: <a href="https://en.wikipedia.org/wiki/List_of_gravitationally_rounded_objects_of_the_Solar_System">Wikipedia</a></figcaption>
     <p>Our solar system formed about 4.6 billion years ago. The four planets closest to the Sun — Mercury, Venus, Earth, and Mars — are called the terrestrial planets because they have solid, rocky surfaces. Two of the outer planets beyond the orbit of Mars — Jupiter and Saturn — are known as gas giants; the more distant Uranus and Neptune are called ice giants.</p>
+
+    <p>This visualization shows the different objects orbting the sun in our solar system. Objects are drawn on the same scale to represent their distance from the sun (left) accurately. The mass of planets and their moons is reflected in the size of each object.</p>
 
   </article>
 </main>
@@ -180,6 +184,8 @@
           return d.primary;
         }
       }))(data);
+      console.log(data);
+
       // Calculate planet dimensions.
       // Except the sun, planet dimensions have been computed using the same scale (i.e., power scale with a 0.4 exponent). Also the planet distance from the sun and the moon distance from their primary planet have been calculated using the same scale (i.e., power scale with a 0.33 exponent).
       distance = d3.scalePow().exponent(0.33).domain([
@@ -275,7 +281,7 @@
           return color(d.data.subtype);
         }
       }).append('title').text(function(d) {
-        return d.data.label;
+        return `${d.data.label}\nDistance from sun: ${d3.format(",")(d.data.distance_from_primary_km)}km\nType: ${d.data.type}`;
       });
       all_planets.append('text').attrs({
         'text-anchor': 'middle',
@@ -339,7 +345,7 @@
           return color(d.data.type);
         }
       }).append('title').text(function(d) {
-        return d.data.label;
+        return `${d.data.label}\nDistance from sun: ${d3.format(",")(d.data.distance_from_primary_km)}km\nType: ${d.data.type}`;
       });
       all_subplanets.append('text').attrs({
         'text-anchor': function(d, i) {
