@@ -10,11 +10,12 @@
   <meta name="author" content="Justin Chill">
 
   <style type="text/css">
-    figure{
+    figure, figcaption{
       grid-column: 2 / -2;
     }
     figcaption#temps_legend{
       margin-bottom: 0;
+      grid-column: 4;
       display: flex;
       flex-direction: row-reverse;
     }
@@ -249,6 +250,7 @@
         grid: true,
         nice: true,
         ticks: 5,
+        tickSize: 0,
       },
       y: {
         grid: true,
@@ -260,17 +262,13 @@
       },
       style: {
         background: "hsl(0, 0%, 99%)",
-        // color: "white"
+        color: "rgba(0, 0, 0, 0.84)",
       },
       color: {
-        // type: "diverging",
+        type: "quantile",
+        quantiles: 69,
         scheme: "BuRd",
         reverse: false,
-        type: "quantile",
-        // clamp: true,
-        // ticks: 5,
-        quantiles: 8,
-
       },
       marks: [
       Plot.ruleY([0], {stroke:"rgba(0,0,0,.3)"}),
@@ -289,15 +287,11 @@
     console.log(mycolor);
 
     var temps_legend = {
-      title: "Temperature",
-      // title: mycolor.label,
-      color: d3.scaleThreshold(mycolor.domain, mycolor.range),
-      tickSize: 1,
+      title: "Temperature Change (°C)",
+      color: d3.scaleLinear(mycolor.domain, mycolor.range),
       tickFormat: "+.1f",
+      tickSize: 0,
       width: 210,
-      nice: true,
-      round: true,
-      ticks: 5,
     };
 
     document.getElementById("temps").appendChild(Plot.plot(temps));
