@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>4 Decades of Inequality</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A reproduction of a New York Times article on inequality. My hometown of Fairfield, CT stands out for it's sharp increase in inequality.">
+  <meta name="author" content="Justin Chill">
+
+  <style type="text/css">
+    :root {
+      --background-color: floralwhite;
+    }
+    figure{
+      background-color: var(--background-color);
+    }
+    figcaption{
+      text-align: right;
+    }
+    .plot text {
+      color: #656568;
+      font-family: 'Ubuntu', sans-serif;
+      /*pointer-events: none;*/
+      font-size: calc(5px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+      /*padding: 2rem;*/
+    }
+
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+      <a href="fun.html" class="nav__item">Fun</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+  
+  <main role="main">
+    <article>
+     <div class="article-hero">
+      <h2 class="article-category">Post</h2>
+      <h1 class="article-title">4 Decades of Inequality</h1>
+      <h2 class="article-subtitle">Why Are Some Places So Much More Unequal Than Others?</h2>
+    </div>
+
+    <h3>Ratio of inequality to population in 195 metro areas, 1980 - 2015</h3>
+    <!-- <figcaption id="inequality_legend"></figcaption> -->
+    <figure id="inequality"></figure>
+    <figcaption class="alignLeft">Data: <a href="https://www.nytimes.com/2019/12/02/upshot/wealth-poverty-divide-american-cities.html">The New York Times</a></figcaption>
+
+    <p>Economic inequality is measured using the distribution of income (the amount of money people are paid) and the distribution of wealth (the amount of wealth people own). It has been rising everywhere in the United States, but it's rising much faster in the places that attract engineers, lawyers and innovators with top salaries. Those places today are the largest metropolitan areas in the country: New York, Los Angeles, San Francisco, San Jose, Houston, Washington.</p>
+    <p>Using data from <a href="https://www.newyorkfed.org/medialibrary/media/research/epr/2019/epr_2019_wage-inequality_abel-deitz.pdf">a recent analysis by Jaison Abel and Richard Deitz</a> of the New York Fed, we can visualize what this inequality looks like in major metro areas in the United States. In the chart above, dots represent metro areas and the color of each line is shaded according to the change in inequality between 1980 and 2015. The paper's authors use the “90/10 ratio” to define the rate of economic inequality. This ratio represents the wages earned by a worker at the 90th percentile of the wage distribution divided by the wages earned by a worker at the 10th percentile in each place. </p>
+    <p>The 90/10 ratios range from a high of <b>8.7</b> in Fairfield, Connecticut, to a low of <b>3.9</b> in Johnstown, Pennsylvania, with a median of 5.2 across all metropolitan areas. These ratios indicate that in Fairfield, a worker at the 90th percentile earned <i>nearly nine times</i> as much as a worker at the 10th percentile, but in Johnstown, a worker at the 90th percentile earned only about four times as much as one at the 10th percentile.</p>
+
+    <h2>Why is this happening?</h2>
+    <p>Abel and Deitz find three drivers of wage inequality: differences in the local demand for skilled and unskilled workers; urban agglomeration<a href="#mass" aria-describedby="footnote-label" id="mass-ref"></a> economies, which tend to favor higher-skilled workers; and the migration of skilled workers between locations. </p>
+
+  </article>
+</main>
+<footer>
+  <h2 id="footnote-label">Footnotes</h2>
+  <ol>
+    <li id="mass"><b>Agglomeration</b> is the  state of gathering or being gathered into a mass. <a href="#mass-ref" aria-label="Back to content">↩</a></li>
+  </ol>
+  <div>
+    <p>Justin Chill © 2021. Thanks for reading!</p>
+    <p><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="gh">Source code and feedback</a></p>    
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.2"></script>
+<script type="text/javascript">
+  var size = 12;
+  var element = d3.select('figure').node();
+  var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive  
+  var promises = [d3.csv("data/metros.csv", d3.autoType)];   // Use Promises to async request data
+
+
+  // Copyright 2021, Observable Inc.
+  // Released under the ISC license.
+  // https://observablehq.com/@d3/color-legend
+  function legend(d,{
+    color,
+    title,
+    tickSize = 6,
+    width = 320,
+    height = 44 + tickSize,
+    marginTop = 18,
+    marginRight = 0,
+    marginBottom = 16 + tickSize,
+    marginLeft = 0,
+    ticks = width / 64,
+    tickFormat,
+    tickValues
+  } = {}) {
+    const svg = d3.select(d).append("svg")
+      .attr("width", width)
+      .attr("height", height)
+      .attr("viewBox", [0, 0, width, height])
+      .style("overflow", "visible")
+      .style("display", "block");
+
+    let tickAdjust = g => g.selectAll(".tick line").attr("y1", marginTop + marginBottom - height);
+    let x;
+
+    // Continuous
+    if (color.interpolate) {
+      const n = Math.min(color.domain().length, color.range().length);
+
+      x = color.copy().rangeRound(d3.quantize(d3.interpolate(marginLeft, width - marginRight), n));
+
+      svg.append("image")
+        .attr("x", marginLeft)
+        .attr("y", marginTop)
+        .attr("width", width - marginLeft - marginRight)
+        .attr("height", height - marginTop - marginBottom)
+        .attr("preserveAspectRatio", "none")
+        .attr("xlink:href", ramp(color.copy().domain(d3.quantize(d3.interpolate(0, 1), n))).toDataURL());
+    }
+
+    // Sequential
+    else if (color.interpolator) {
+      x = Object.assign(color.copy()
+        .interpolator(d3.interpolateRound(marginLeft, width - marginRight)), {
+          range() {
+            return [marginLeft, width - marginRight];
+          }
+        });
+
+      svg.append("image")
+        .attr("x", marginLeft)
+        .attr("y", marginTop)
+        .attr("width", width - marginLeft - marginRight)
+        .attr("height", height - marginTop - marginBottom)
+        .attr("preserveAspectRatio", "none")
+        .attr("xlink:href", ramp(color.interpolator()).toDataURL());
+
+      // scaleSequentialQuantile doesn’t implement ticks or tickFormat.
+      if (!x.ticks) {
+        if (tickValues === undefined) {
+          const n = Math.round(ticks + 1);
+          tickValues = d3.range(n).map(i => d3.quantile(color.domain(), i / (n - 1)));
+        }
+        if (typeof tickFormat !== "function") {
+          tickFormat = d3.format(tickFormat === undefined ? ",f" : tickFormat);
+        }
+      }
+    }
+
+    // Threshold
+    else if (color.invertExtent) {
+      const thresholds = color.thresholds ? color.thresholds() // scaleQuantize
+        :
+        color.quantiles ? color.quantiles() // scaleQuantile
+        :
+        color.domain(); // scaleThreshold
+
+      const thresholdFormat = tickFormat === undefined ? d => d :
+        typeof tickFormat === "string" ? d3.format(tickFormat) :
+        tickFormat;
+
+      x = d3.scaleLinear()
+        .domain([-1, color.range().length - 1])
+        .rangeRound([marginLeft, width - marginRight]);
+
+      svg.append("g")
+        .selectAll("rect")
+        .data(color.range())
+        .join("rect")
+        .attr("x", (d, i) => x(i - 1))
+        .attr("y", marginTop)
+        .attr("width", (d, i) => x(i) - x(i - 1))
+        .attr("height", height - marginTop - marginBottom)
+        .attr("fill", d => d);
+
+      tickValues = d3.range(thresholds.length);
+      tickFormat = i => thresholdFormat(thresholds[i], i);
+    }
+
+    // Ordinal
+    else {
+      x = d3.scaleBand()
+        .domain(color.domain())
+        .rangeRound([marginLeft, width - marginRight]);
+
+      svg.append("g")
+        .selectAll("rect")
+        .data(color.domain())
+        .join("rect")
+        .attr("x", x)
+        .attr("y", marginTop)
+        .attr("width", Math.max(0, x.bandwidth() - 1))
+        .attr("height", height - marginTop - marginBottom)
+        .attr("fill", color);
+
+      tickAdjust = () => {};
+    }
+
+    svg.append("g")
+      .attr("transform", `translate(0,${height - marginBottom})`)
+      .call(d3.axisBottom(x)
+        .ticks(ticks, typeof tickFormat === "string" ? tickFormat : undefined)
+        .tickFormat(typeof tickFormat === "function" ? tickFormat : undefined)
+        .tickSize(tickSize)
+        .tickValues(tickValues))
+      .call(tickAdjust)
+      .call(g => g.select(".domain").remove())
+      .call(g => g.append("text")
+        .attr("x", marginLeft)
+        .attr("y", marginTop + marginBottom - height - 6)
+        .attr("fill", "currentColor")
+        .attr("text-anchor", "start")
+        .attr("font-weight", "bold")
+        .text(title));
+
+    return svg.node();
+  }
+
+  function ramp(color, n = 256) {
+    var canvas = document.createElement('canvas');
+    canvas.width = n;
+    canvas.height = 1;
+    const context = canvas.getContext("2d");
+    for (let i = 0; i < n; ++i) {
+      context.fillStyle = color(i / (n - 1));
+      context.fillRect(i, 0, 1, 1);
+    }
+    return canvas;
+  };
+
+  myDataPromises = Promise.all(promises);
+
+  // After data is successfully fetched, generate viz
+  myDataPromises.then(function(data) {
+
+    var metros = data[0];
+    console.log(metros);
+
+    var inequality = {
+      grid: true,
+      inset: 10,
+      width: width,
+      style:{fontSize: size},
+      marginTop: 30,
+      marginBottom: 50,
+      style: {
+        background: "hsl(0, 0%, 99%)",
+      },
+      x: {
+        type: "log",
+        label: "Population →",
+        labelOffset: 40,
+        tickSize: 0,
+      },
+      y: {
+        label: "↑ Inequality",
+        tickSize: 0,
+        nice: true,
+      },
+      color: {
+        type: "diverging",
+        scheme: "BuRd",
+        reverse: false,
+        symmetric: false,
+        clamp: true,
+      },
+      marks: [
+      Plot.link(metros, {
+        x1: "POP_1980",
+        y1: "R90_10_1980",
+        x2: "POP_2015",
+        y2: "R90_10_2015",
+        stroke: d => d.R90_10_2015 - d.R90_10_1980
+      }),
+      Plot.dot(metros, {
+        x: "POP_2015",
+        y: "R90_10_2015",
+        r: 1,
+        stroke: d => d.R90_10_2015 - d.R90_10_1980,
+        fill: d => d.R90_10_2015 - d.R90_10_1980,
+        title:  (d) =>
+        `${d.nyt_display} \nPopulation in 1980: ${d3.format(",")(d.POP_1980)}\nPopulation in 2015: ${d3.format(",")(d.POP_2015)}\nCurrent level of inequality: ${d3.format(",")(d.R90_10_2015)}\nChange in inequality: ${d3.format("+.2")(d.R90_10_2015 - d.R90_10_1980)}`, // \n makes a new line
+      }),
+      Plot.text(metros.filter(d => d.nyt_display !== "San Francisco"), {
+        x: "POP_2015",
+        y: "R90_10_2015",
+        fontSize: size*1.1,
+        text: d => d.highlight && d.nyt_display,
+        dy: -6
+      }),
+      Plot.text(metros.filter(d => d.nyt_display === "San Francisco"), {
+        x: "POP_2015",
+        y: "R90_10_2015",
+        fontSize: size*1.1,
+        text: d => d.highlight && d.nyt_display,
+        dy: -2,
+        dx: -42
+      }),
+      ]
+    };
+
+    // scale
+
+    var mycolor = Plot.plot(inequality).scale("color");
+    console.log(mycolor);
+
+    var inequality_legend = {
+      title: "Change in inequality",
+      color: d3.scaleSequential(mycolor.domain),
+      tickFormat: "+.1f",
+      tickSize: 0,
+      width: 210,
+    };
+
+    document.getElementById("inequality").appendChild(Plot.plot (inequality));
+    // document.getElementById("inequality_legend").appendChild(legend("#inequality_legend", inequality_legend));
+  });
+
+  myDataPromises.catch(function() {
+    console.log('🚨 Oops - Something has gone wrong fetching data.')
+  });
+
+</script>
+</body>
+</html>

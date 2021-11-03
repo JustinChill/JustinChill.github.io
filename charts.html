@@ -921,18 +921,20 @@ var example_line = {
   style:{fontSize: size},
   y: {
     grid: true,
+    nice: true,
     domain: [0, 100],
+    labelOffset: 35,
     label: "↑ Excitement level"
   },
   x:{
     domain: d3.sort(ex_lvls, d => -d.Phrase).map(d => d.Phrase),
     axis: null,
   },
-  color: "turbo",
   marks: [
-  Plot.line(ex_lvls, {x: "Phrase", y: "level", stroke: "brown", strokeWidth: 2.5}),
-  Plot.dot(ex_lvls, {x: "Phrase", y: "level", fill: "brown"}),
-  Plot.text(ex_lvls, {x: "Phrase", y: "level", text: "Phrase", dy: 16, dx: 5}),
+  Plot.line(ex_lvls, {x: "Phrase", y: "level", stroke: "hsl(22, 82%, 39%)", strokeWidth: 2.5}),
+  Plot.dot(ex_lvls, {x: "Phrase", y: "level", fill: "hsl(22, 82%, 39%)"}),
+  Plot.text(ex_lvls.filter(d => (d.level <= 70)), {x: "Phrase", y: "level", text: "Phrase", dy: 18, dx: 14, fontSize: size*1.2}),
+  Plot.text(ex_lvls.filter(d => (d.level >= 70)), {x: "Phrase", y: "level", text: "Phrase", dy: -6, dx: 2,fontSize: size*1.2}),
       // Plot.ruleY([0,100]),  
       ]
     };
@@ -1659,10 +1661,13 @@ var example_line = {
       x: {
         type: "log",
         label: "Population →",
-        labelOffset: 50
+        labelOffset: 40,
+        tickSize: 0,
       },
       y: {
         label: "↑ Inequality",
+        tickSize: 0,
+        nice: true,
       },
       color: {
         type: "diverging",
@@ -1680,7 +1685,11 @@ var example_line = {
       Plot.dot(metros, {
         x: "POP_2015",
         y: "R90_10_2015",
-        r: 1
+        r: 1,
+        stroke: d => d.R90_10_2015 - d.R90_10_1980,
+        fill: d => d.R90_10_2015 - d.R90_10_1980,
+        title:  (d) =>
+        `${d.nyt_display} \nPopulation in 1980: ${d3.format(",")(d.POP_1980)}\nPopulation in 2015: ${d3.format(",")(d.POP_2015)}\nCurrent level of inequality: ${d3.format(",")(d.R90_10_2015)}\nChange in inequality: ${d3.format("+.2")(d.R90_10_2015 - d.R90_10_1980)}`, // \n makes a new line
       }),
       Plot.text(metros, {
         x: "POP_2015",
