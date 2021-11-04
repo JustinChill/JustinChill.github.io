@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>A clear majority of Americans favour abortion rights</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Understanding American opinion on abortion rights. Despite a majority of Americans being in favor of abortion rights, the Supreme Court may soon restrict them.">
+  <meta name="author" content="Justin Chill">
+
+  <style type="text/css">
+  article > figure{
+    min-width: 0;
+  }
+
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+      <a href="fun.html" class="nav__item">Fun</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+  
+  <main role="main">
+    <article>
+     <div class="article-hero">
+      <h2 class="article-category">Post</h2>
+      <h1 class="article-title">American opinion on abortion</h1>
+      <h2 class="article-subtitle">A clear majority of Americans favour abortion rights</h2>
+    </div>
+
+    <div>
+      <h3>Should the Supreme Court overturn Roe v Wade?</h3>
+    <figure id="opinion_bar"></figure>
+    <figcaption>Data: <a href="">The Economist</a></figcaption>
+    </div>
+
+  </article>
+</main>
+<footer>
+  <h2 id="footnote-label">Footnotes</h2>
+  <div>
+    <p>Justin Chill © 2021. Thanks for reading!</p>
+    <p><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="gh">Source code and feedback</a></p>    
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.2"></script>
+
+<script type="text/javascript">
+  // Use Promises to async request data
+  var promises = [d3.csv("data/caffeine.csv",d3.autoType)];
+  var element = d3.select('figure').node();
+  var width = element.getBoundingClientRect().width /2; // get width of article so graphic is responsive
+  var size = 12;
+
+  var opinions = [
+  { opinion: "No, keep rights", percent: 48},
+  { opinion: "Not sure", percent: 24},
+  { opinion: "Yes, overturn", percent: 28}];
+
+  // You can request multiple srcs in a promise
+  myDataPromises = Promise.all(promises);
+
+  // After data is successfully fetched, generate viz
+  myDataPromises.then(function(data) {
+    var opinion_bar = {
+      width: width,
+      style:{fontSize: size},
+      marginRight: 150,
+      x: {
+        // tickFormat: "%Y",
+        tickSize: 0,
+        label: null,
+        axis: null,
+      },
+      y: {
+        grid: false,
+        ticks: 3,
+        tickSize: 0,
+        nice: true,
+        label: null,
+        tickFormat: d => d + "%",
+      },
+      color: {
+        type: "ordinal",
+        range: ["#4e5f98", "#cce0eb", "#e2b346" ],
+        reverse: false,
+      },
+      marks: [
+      // Plot.rectY(opinion, {x: "opinion", y: "percent", fill: "opinion"}) // title doesn't work with binX? 🤔
+      Plot.ruleY([0], {
+        stroke: "#ccc",
+        strokeWidth: 2,
+        strokeLinecap: "round"
+      }),
+      Plot.ruleY([25], {
+        stroke: "#ccc",
+        strokeWidth: 2,
+        strokeLinecap: "round"
+      }),
+      Plot.ruleY([50], {
+        stroke: "#ccc",
+        strokeWidth: 2,
+        strokeLinecap: "round"
+      }),
+      Plot.ruleY([75], {
+        stroke: "#ccc",
+        strokeWidth: 2,
+        strokeLinecap: "round"
+      }),
+      Plot.ruleY([100], {
+        stroke: "#ccc",
+        strokeWidth: 2,
+        strokeLinecap: "round"
+      }),
+      Plot.barY(opinions, Plot.stackX({x: "opinion", y: "percent", fill: "opinion", title: "opinion"})),
+      Plot.text(opinions, Plot.stackX({x: "opinion", y: "percent", text: "opinion", fontSize: 28, fontWeight: 700, 
+        fill: "opinion", dx: 150})),
+      ]
+    };
+
+    document.getElementById("opinion_bar").appendChild(Plot.plot(opinion_bar));
+
+  });
+</script>
+</body>
+</html>

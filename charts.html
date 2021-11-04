@@ -338,7 +338,7 @@ article > figcaption{
   <h3>4 decades of inequality</h3>
   <figcaption id="inequality"></figcaption>
   <figcaption class="alignLeft">Data: <a href="https://www.nytimes.com/2019/12/02/upshot/wealth-poverty-divide-american-cities.html">NYT</a></figcaption>
-  <p>Based on a graphic by Emily Badger and Kevin Quealy, this chart shows the change from 1980 to 2015 of the ratio of 90th-percentile wages to 10th-percentile wages, along with population, in 195 metro areas.</p>    
+  <p>This chart shows the change of economic inequality, from 1980 to 2015 wages, along with population change in 195 metro areas. Read the full post <a href="inequality.html">here</a>.</p>    
   <h2>Small multiples</h2>
   <h3>Comparing MPG by vehicle type</h3>
   <figure id="mpg"></figure>
@@ -1685,18 +1685,36 @@ var example_line = {
       Plot.dot(metros, {
         x: "POP_2015",
         y: "R90_10_2015",
-        r: 1,
-        stroke: d => d.R90_10_2015 - d.R90_10_1980,
+        r: 3,
+        stroke: "black",
+        strokeWidth: 1,
         fill: d => d.R90_10_2015 - d.R90_10_1980,
         title:  (d) =>
         `${d.nyt_display} \nPopulation in 1980: ${d3.format(",")(d.POP_1980)}\nPopulation in 2015: ${d3.format(",")(d.POP_2015)}\nCurrent level of inequality: ${d3.format(",")(d.R90_10_2015)}\nChange in inequality: ${d3.format("+.2")(d.R90_10_2015 - d.R90_10_1980)}`, // \n makes a new line
       }),
-      Plot.text(metros, {
+      Plot.text(metros.filter(d => d.nyt_display !== "San Francisco" && d.nyt_display !== "Johnstown"), {
         x: "POP_2015",
         y: "R90_10_2015",
+        fontSize: size*1.1,
         text: d => d.highlight && d.nyt_display,
         dy: -6
-      })
+      }),
+      Plot.text(metros.filter(d => d.nyt_display === "San Francisco"), {
+        x: "POP_2015",
+        y: "R90_10_2015",
+        fontSize: size*1.1,
+        text: d => d.highlight && d.nyt_display,
+        dy: -2,
+        dx: -42
+      }),
+      Plot.text(metros.filter(d => d.nyt_display === "Johnstown"), {
+        x: "POP_2015",
+        y: "R90_10_2015",
+        fontSize: size*1.1,
+        text: d => d.highlight && d.nyt_display,
+        dy: 15,
+        dx: 18
+      }),
       ]
     };
 

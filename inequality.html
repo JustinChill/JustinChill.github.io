@@ -276,13 +276,14 @@
       Plot.dot(metros, {
         x: "POP_2015",
         y: "R90_10_2015",
-        r: 1,
-        stroke: d => d.R90_10_2015 - d.R90_10_1980,
+        r: 3,
+        stroke: "black",
+        strokeWidth: 1,
         fill: d => d.R90_10_2015 - d.R90_10_1980,
         title:  (d) =>
         `${d.nyt_display} \nPopulation in 1980: ${d3.format(",")(d.POP_1980)}\nPopulation in 2015: ${d3.format(",")(d.POP_2015)}\nCurrent level of inequality: ${d3.format(",")(d.R90_10_2015)}\nChange in inequality: ${d3.format("+.4")(d.R90_10_2015 - d.R90_10_1980)}`, // \n makes a new line
       }),
-      Plot.text(metros.filter(d => d.nyt_display !== "San Francisco"), {
+      Plot.text(metros.filter(d => d.nyt_display !== "San Francisco" && d.nyt_display !== "Johnstown"), {
         x: "POP_2015",
         y: "R90_10_2015",
         fontSize: size*1.1,
@@ -296,6 +297,14 @@
         text: d => d.highlight && d.nyt_display,
         dy: -2,
         dx: -42
+      }),
+      Plot.text(metros.filter(d => d.nyt_display === "Johnstown"), {
+        x: "POP_2015",
+        y: "R90_10_2015",
+        fontSize: size*1.1,
+        text: d => d.highlight && d.nyt_display,
+        dy: 15,
+        dx: 18
       }),
       ]
     };
