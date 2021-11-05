@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>The relative harm of drugs</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Comparing the relative harms of drugs. Some drugs classified as highly dangerous are less harmful than alcohol or tobacco.">
+  <meta name="author" content="Justin Chill">
+
+  <style type="text/css">
+    figcaption, figcaption a{
+      text-align: right;
+      font-size:  calc(10px + (22 - 16) * ((100vw - 320px) / (1300 - 320)))
+    }
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+      <a href="fun.html" class="nav__item">Fun</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+  
+  <main role="main">
+    <article>
+       <div class="article-hero">
+        <h2 class="article-category">Post</h2>
+        <h1 class="article-title">The relative harm of drugs</h1>
+        <h2 class="article-subtitle"></h2>
+      </div>
+    
+    <figure id="drug_bar"></figure>
+    <figcaption>Data: David Nutt, <a href="https://www.drugscience.org.uk">Drug Science</a></figcaption>
+
+    <h3>Original graphic</h3>
+    <a href="https://www.economist.com/graphic-detail/2019/06/25/what-is-the-most-dangerous-drug"><img src="https://www.economist.com/img/b/1280/936/90/sites/default/files/images/2019/06/articles/main/20190629_woc294.png" alt="The Economist original graphic, visualizing the relative harm of drugs." title="The original graphic from the Economist."></a>
+    
+
+</article>
+</main>
+<footer>
+  <h2 id="footnote-label">Footnotes</h2>
+  <ol>
+
+  </ol>
+  <div>
+    <p>Justin Chill © 2021. Thanks for reading!</p>
+    <p><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="gh">Source code and feedback</a></p>    
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.2"></script>
+
+<script type="text/javascript">
+  var element = d3.select('figure').node();
+  var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+  var size = 12;
+
+  // Use Promises to async request data
+  var promises = [d3.json("data/drugs.json")];
+  myDataPromises = Promise.all(promises);
+
+  // After data is successfully fetched, generate viz
+  myDataPromises.then(function(data) {
+    
+    // Define the data
+    var drugs = data[0];
+
+    var drug_bar = {
+      width: width,
+      style:{fontSize: size},
+      x: {
+        grid: true,
+        nice: true,
+        // ticks: 5,
+        tickSize: 0,
+      },
+      y: {
+        grid: true,
+        nice: true,
+        tickSize: 0,
+        // ticks: 4,
+      },
+      facet:{
+        data: drugs,
+        y: "Drug",
+      },
+      style: {
+        background: "hsl(0, 0%, 99%)",
+        color: "rgba(0, 0, 0, 0.84)",
+      },
+      color: {
+        scheme: "Set2",
+        reverse: false,
+      },
+      marks: [
+      // Plot.ruleY([0], {stroke:"rgba(0,0,0,.3)"}),
+      Plot.barX(drugs, Plot.binX({x: "sum" }, {x: "" ,y: "Mean_Physical_harm_plus_Mean_Dependence", fill: "Drug"})),
+      Plot.barX(drugs, Plot.binX({x: "sum" }, {x: "" ,y: "Mean_Physical_harm", fill: "Drug"})),
+      Plot.barX(drugs, Plot.binX({x: "sum" }, {x: "" ,y: "Median Physical harm", fill: "Drug"})),
+      Plot.barX(drugs, Plot.binX({x: "sum" }, {x: "" ,y: "Mean Dependence", fill: "Drug"})),
+      ]
+    };
+
+    document.getElementById("drug_bar").appendChild(Plot.plot(drug_bar));
+  });
+  </script>
+</body>
+</html>
