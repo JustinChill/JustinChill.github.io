@@ -1,19 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>A clear majority of Americans favour abortion rights</title>
+  <title>Reproducing Charts from the Economist</title>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="style.css" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Understanding American opinion on abortion rights. Despite a majority of Americans being in favor of abortion rights, the Supreme Court may soon restrict them.">
+  <meta name="description" content="Reproducing different types of charts featured in the Economist.">
   <meta name="author" content="Justin Chill">
 
   <style type="text/css">
-  article > figure{
-    min-width: 0;
-  }
-
 </style>
 </head>
 <body>
@@ -33,16 +29,22 @@
     <article>
      <div class="article-hero">
       <h2 class="article-category">Post</h2>
-      <h1 class="article-title">American opinion on abortion</h1>
-      <h2 class="article-subtitle">A clear majority of Americans favour abortion rights</h2>
+      <h1 class="article-title">Economist Charts</h1>
+      <h2 class="article-subtitle"></h2>
     </div>
 
     <div>
       <h3>Should the Supreme Court overturn Roe v Wade?</h3>
     <figure id="opinion_bar"></figure>
-    <figure id="circumstances_bar"></figure>
     <figcaption>Data: <a href="">The Economist</a></figcaption>
     </div>
+    <a href="https://www.economist.com/graphic-detail/2021/09/23/a-clear-majority-of-americans-favour-abortion-rights"><img src="https://www.economist.com/img/b/1280/757/90/media-assets/image/20210925_WOC417.png" alt="A clear majority of Americans favour abortion rights." title="Court of public opinion."></a>
+
+    <h3>Game on</h3>
+    <a href="https://www.economist.com/graphic-detail/2013/05/21/game-on"><img src="https://www.economist.com/img/b/600/1147/90/sites/default/files/images/2013/05/blogs/graphic-detail/20130525_gdc970.png" alt="Visualizing the most successful video-games consoles."></a>
+
+    <h3>What is the most dangerous drug?</h3>
+    <a href="https://www.economist.com/graphic-detail/2019/06/25/what-is-the-most-dangerous-drug"><img src="https://www.economist.com/img/b/1280/936/90/sites/default/files/images/2019/06/articles/main/20190629_woc294.png" alt="Visualizing the relative social and physical harms of drugs."></a>
 
   </article>
 </main>
@@ -60,23 +62,13 @@
   // Use Promises to async request data
   var promises = [d3.csv("data/caffeine.csv",d3.autoType)];
   var element = d3.select('figure').node();
-  var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+  var width = element.getBoundingClientRect().width /2; // get width of article so graphic is responsive
   var size = 12;
 
   var opinions = [
   { opinion: "No, keep rights", percent: 48},
   { opinion: "Not sure", percent: 24},
   { opinion: "Yes, overturn", percent: 28}];
-
-  circumstances = [
-  { opinion: "When the life of the mother is threatened", percent: 68},
-  { opinion: "Child is product of rape", percent: 65},
-  { opinion: "Child is product of incest", percent: 61},
-  { opinion: "Baby would have a congenital disorder", percent: 57},
-  { opinion: "Family cannot support", percent: 32},
-  { opinion: "Woman wants it for any reason", percent: 31},
-  { opinion: "Woman is married and wants no more kids", percent: 29},
-  ];
 
   // You can request multiple srcs in a promise
   myDataPromises = Promise.all(promises);
@@ -139,44 +131,7 @@
       ]
     };
 
-    var circumstances_bar = {
-      height: 500,
-      width: width,
-      marginLeft: 270,
-      // marginRight: 40,
-      style:{fontSize: size},
-      color: {
-        range: ["#969696", "#4e79a7"]
-      },
-      x: {
-        ticks: 0,
-        label: null,
-      },
-      y: {
-        domain: d3.sort(circumstances, d => -d.percent).map(d => d.opinion),
-        tickSize: 0,
-        label: null
-      },
-      marks: [
-      Plot.barX(circumstances, {
-        x: "percent",
-        y: "opinion",
-        inset:2,
-        fill: "#4e5f98",
-      }),
-      Plot.text(circumstances, {
-        x: "percent", 
-        y: "opinion", 
-        text: d => d3.format(",.0f")(d.percent), 
-        textAnchor: "start", 
-        dx: 2, 
-        dy: 3
-      })
-      ]
-    };
-
     document.getElementById("opinion_bar").appendChild(Plot.plot(opinion_bar));
-    document.getElementById("circumstances_bar").appendChild(Plot.plot(circumstances_bar));    
 
   });
 </script>
