@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <meta name="description" content="So many ideas, so few posts">
+  <meta name="description" content="So many ideas, so few posts.">
   <meta name="author" content="Justin Chill">
 
   <link rel="stylesheet" href="style.css">
@@ -17,6 +17,53 @@
   <meta property="og:description" content="So many ideas, so few posts">
 
   <style>
+
+    html {
+      /*font-family: Roboto, Helvetica, Arial, sans-serif;*/
+      /*line-height: 1.4;*/
+    }
+
+    body{
+      display: flex;
+      flex-direction: column;
+    }
+
+    main a:not([class]) {
+    text-decoration: none;
+    text-decoration-skip-ink: auto;
+    cursor: pointer;
+    }
+    main a {
+      text-decoration: none;
+      color: #000;
+      border-bottom: 3px solid #b4e7f8;
+      box-shadow: inset 0 -4px 0 #b4e7f8;
+      cursor: pointer;
+      transition: background-color 0.15s cubic-bezier(0.33, 0.66, 0.66, 1);
+    }
+    main a:hover, main a:focus {
+      background-color: #b4e7f8;
+    }
+
+    main{
+      flex: 1 0 auto;
+    }
+
+    main ul{
+      padding-left: 0px;
+    }
+
+    footer{
+      flex-shrink: 0;
+      border-top: none;
+      background-color: #e9eaea;
+      min-height: 90px;
+      margin-bottom: 0;
+    }
+
+    .container{
+      margin: 2rem auto;
+    }
 
     /*--------------------------------------------------------------
     Accessibility
@@ -51,344 +98,738 @@
       z-index: 100000; /* Above WP toolbar */
     } 
 
-    /* Nav ------------ */
+    /*--------------------------------------------------------------
+    Navigation
+    --------------------------------------------------------------*/
+    @font-face {
+      font-family: "Product Sans"; 
+      src: url("fonts/Product Sans Regular.ttf");
+    }
 
-    .nav {
+    header {
       display: flex;
-      overflow-x: auto;
-      margin: var(--gutter) 0 calc(var(--gutter) * 4) 0;
-      padding: 0 var(--gutter);
-      transition: opacity 0.2s, transform 0.2s;
-    }
-
-    .nav__list {
-      display: flex;
-      margin-bottom: var(--gutter);
-      margin-right: var(--gutter);
-    }
-
-    a.nav__item {
-      display: inline-block;
-      padding: 0.65em 0.35em;
-      margin-right: 0.5em;
-      color: var(--muted-color);
-      border-radius: var(--radius);
-      font-family: var(--font-ui);
-      font-weight: var(--weight-bold);
-      background-color: transparent;
-    }
-
-    a.nav__item:hover {
-      color: var(--color-bold);
-    }
-
-    .nav__divider {
-      display: none;
-    }
-
-    @media (min-width: 800px) {
-      .nav {
-        display: block;
-        position: fixed;
-        left: 0;
-        padding: 0;
-        margin: calc(var(--gutter) * 4) 0 0 var(--gutter);
-      }
-
-      .nav__list {
-        display: block;
-        margin-right: 0;
-        margin-bottom: var(--gutter);
-        border: none;
-      }
-
-      a.nav__item {
-        display: block;
-        padding: 0.25em 1em 0.25em 0.5em;
-        margin-right: 0;
-        border: 0;
-        border-radius: var(--radius);
-      }
-    }
-
-    html {
-      font-family: Roboto, Helvetica, Arial, sans-serif;
-      line-height: 1.4;
-    }
-
-    /* Body ------------ */
-
-    body{
-      /*margin: 1.2em auto;*/
-      font-size: 1rem;
-      /*max-width: 1024px;*/
-      /*padding: 1rem;*/
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: left;
-      flex-flow: column;
-    }
-    header{
-      margin: calc(var(--gutter) * 4) 0 calc(var(--gutter) * 2) 0;
-    }
-    .container {
+      margin: 4rem auto;
       width: 100%;
-      height: 100%;
-      max-width: 1024px;
-      /*      background-color:red;*/
-      margin: 0 auto;
+      background: rgba(255, 255, 255, 1);
     }
 
-    main {
-      width: 100%;
-      padding: 2rem 0;
-      /*height: 800px;*/
+    header h2,
+    footer h2 {
+      font-family: "Product Sans", sans-serif;
+      color: hsl(356, 75%, 53%);
+      margin: auto;
+      cursor: default;
     }
 
-    /* Content ------------ */
-    a:not([class]){
-      text-decoration: none;
-    }
-
-    .primary {
-      display: inline-block;
-      //background-color:pink;
-      width: 66%;
-      height: 100%;
-    }
-    .section-title {
-      width: 90%;
-      margin: 5px auto;
-      color: #d1d3d4;
-      font-size: calc(12px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
-    }
-    .article-1 {
-      /*height: 33%;*/
-      width: 90%;
-      text-align: center;
-      margin: 0 auto;
-    }
-    .primary .article-2 p{
+    .intro h1{
       text-align: left;
+      font-weight: bold;
+      color: #2b2c35;
     }
 
-    .article-2 {
-      text-align: center;
-      /*height: 21%;*/
-      border-top: 2px solid #d1d3d4;
-      width: 90%;
-      margin: 1rem auto;
-    }
-
-    .col-a {
-      /*background-color:blue;*/
-      width: 63%;
-      height: 100%;
-      border-right: 2px solid #d1d3d4;
-      float: left;
-    }
-
-    .col-b {
-      /*background-color:steelblue;*/
-      width: 33%;
-      height: 100%;
-      float: right;
-      margin: 0 10px;
-    }
-
-    .secondary {
-      /*background-color:yellow;*/
-      width: 33%;
-      height: 100%;
-      float: right;
-      border-left: 2px solid #d1d3d4;
-    }
-
-    main{
-     margin: 1em 0;
-   }
-
-   header h1{
-    font-size: calc(46px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
-  }
-
-  .intro {
-    margin: 1em auto;
-    padding: .5em 0;
-    max-width: 50em;
-    text-align: left;
-    line-height: 1.4em;
-  }
-
-  .intro h2{
-    margin: 2rem 0 1rem;
-  }
-
-  .pages {
-    margin: 0;
-  }
-
-  .pages li {
-    padding-block-end: 0.5rem;
-  }
-
-  .article-2 p,.article-1 p {
-    display: inline;
-    text-decoration: underline;
-    text-decoration-skip:   auto;
-    text-decoration-color:  var(--primary-color);
-    text-decoration-style:  solid;
-  }
-  a{
-    text-decoration: none;
-  }
-
-
-  @media screen and (max-width: 680px) {
-    body{
-      font-size: .7rem;
-    }
-    header{
-      margin: 2rem 0 2rem;
-    }
-    .nav{
-      margin: var(--gutter) 0 calc(var(--gutter) * 1) 0;
-    }
-  }
-
-  @media screen and (max-width: 900px) {
-    header{
-      margin: 2.5rem 0 2.5rem;
-    }
-    header h1{
-      font-size: calc(36px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
-      margin-bottom: 1rem;
-    }
-    main{
-      padding:  0;
-    }
-    .intro {
-      margin: 1rem;
-    }
-
-    .intro h2{
-      margin: 1rem 0;
-    }
-    .article-1, .article-2{
-      text-align: left;
-    }
-    .col-a, .col-b, .primary, .secondary{
-      width: 100%;
+    nav ul, nav li{
       margin: 0;
     }
-    .col-b, .secondary{
-      margin-top: .5rem;
+
+    #footlogo{
+      text-align: right;
+      padding-top: 30px;
     }
-    .article-2 p{
+
+    a.nav__item{
+      text-decoration: none;
+      float: right;
+    }
+
+    main ul > li:before{
+      content: "";
+      position: absolute;
+      background-color: #cbd5e0;
+      border-radius: 50%;
+      width: .375em;
+      height: .375em;
+      top: .6875em;
+      left: .25em;
+    }
+
+    nav li > a:hover, nav li > a:focus {
+      color: hsl(210, 22%, 49%);
+    }
+
+    ul > li {
+      position: relative;
+      padding-left: 1.4em;
+      list-style: none;
       text-align: left;
     }
 
-  }
-</style>
+    /*--------------------------------------------------------------
+    Chill logo
+    --------------------------------------------------------------*/
+
+    svg#chill-logo{
+      width: 100%;
+      height: 244px;
+    }
+
+    #chill-logo path{
+      stroke-width: 10;
+      stroke: #2b2c35;
+      fill: transparent; /*transparent is animatable, "none" isn't*/
+      fill-opacity: 0;
+      transition: fill-opacity 1.4s;
+    }
+
+    .clear-stroke path{
+      stroke: none;
+    }
+
+    #chill-logo.filled path{
+      fill: #2b2c35;
+      fill-opacity: 1;
+    }
+
+    /*--------------------------------------------------------------
+    12 column layout
+    --------------------------------------------------------------*/
+    .flex-container {
+      box-sizing: border-box;
+      margin: 0 auto;
+      padding: 0 1em;
+    }
+    @media (min-width: 540px) {
+      .flex-container {
+        max-width: 540px;
+      }
+    }
+    @media (min-width: 768px) {
+      .flex-container {
+        max-width: 768px;
+      }
+    }
+    @media (min-width: 992px) {
+      .flex-container {
+        max-width: 992px;
+      }
+    }
+    @media (min-width: 1200px) {
+      .flex-container {
+        max-width: 1200px;
+      }
+    }
+
+    .flex-row {
+      box-sizing: border-box;
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 1em;
+    }
+
+    .flex-row--align-v-center {
+      align-items: center;
+    }
+
+    .flex-row--align-v-bottom {
+      align-items: flex-end;
+    }
+
+    .flex-row--align-h-center {
+      justify-content: center;
+    }
+
+    .flex-row--align-h-right {
+      justify-content: flex-end;
+    }
+
+    .flex-row--reverse {
+      flex-direction: row-reverse;
+    }
+
+    .flex-col-xs-1,
+    .flex-col-sm-1,
+    .flex-col-md-1,
+    .flex-col-lg-1 {
+      box-sizing: border-box;
+      padding: 1em;
+      width: 100%;
+    }
+
+    @media (min-width: 540px) {
+      .flex-col-xs-1 {
+        width: calc(100% * (1 / 12));
+      }
+    }
+
+    @media (min-width: 768px) {
+      .flex-col-sm-1 {
+        width: calc(100% * (1 / 12));
+      }
+    }
+
+    @media (min-width: 992px) {
+      .flex-col-md-1 {
+        width: calc(100% * (1 / 12));
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .flex-col-lg-1 {
+        width: calc(100% * (1 / 12));
+      }
+    }
+
+    .flex-col-xs-2,
+    .flex-col-sm-2,
+    .flex-col-md-2,
+    .flex-col-lg-2 {
+      box-sizing: border-box;
+      padding: 1em;
+      width: 100%;
+    }
+
+    @media (min-width: 540px) {
+      .flex-col-xs-2 {
+        width: calc(100% * (2 / 12));
+      }
+    }
+
+    @media (min-width: 768px) {
+      .flex-col-sm-2 {
+        width: calc(100% * (2 / 12));
+      }
+    }
+
+    @media (min-width: 992px) {
+      .flex-col-md-2 {
+        width: calc(100% * (2 / 12));
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .flex-col-lg-2 {
+        width: calc(100% * (2 / 12));
+      }
+    }
+
+    .flex-col-xs-3,
+    .flex-col-sm-3,
+    .flex-col-md-3,
+    .flex-col-lg-3 {
+      box-sizing: border-box;
+      padding: 1em;
+      width: 100%;
+    }
+
+    @media (min-width: 540px) {
+      .flex-col-xs-3 {
+        width: calc(100% * (3 / 12));
+      }
+    }
+
+    @media (min-width: 768px) {
+      .flex-col-sm-3 {
+        width: calc(100% * (3 / 12));
+      }
+    }
+
+    @media (min-width: 992px) {
+      .flex-col-md-3 {
+        width: calc(100% * (3 / 12));
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .flex-col-lg-3 {
+        width: calc(100% * (3 / 12));
+      }
+    }
+
+    .flex-col-xs-4,
+    .flex-col-sm-4,
+    .flex-col-md-4,
+    .flex-col-lg-4 {
+      box-sizing: border-box;
+      padding: 1em;
+      width: 100%;
+    }
+
+    @media (min-width: 540px) {
+      .flex-col-xs-4 {
+        width: calc(100% * (4 / 12));
+      }
+    }
+
+    @media (min-width: 768px) {
+      .flex-col-sm-4 {
+        width: calc(100% * (4 / 12));
+      }
+    }
+
+    @media (min-width: 992px) {
+      .flex-col-md-4 {
+        width: calc(100% * (4 / 12));
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .flex-col-lg-4 {
+        width: calc(100% * (4 / 12));
+      }
+    }
+
+    .flex-col-xs-5,
+    .flex-col-sm-5,
+    .flex-col-md-5,
+    .flex-col-lg-5 {
+      box-sizing: border-box;
+      padding: 1em;
+      width: 100%;
+    }
+
+    @media (min-width: 540px) {
+      .flex-col-xs-5 {
+        width: calc(100% * (5 / 12));
+      }
+    }
+
+    @media (min-width: 768px) {
+      .flex-col-sm-5 {
+        width: calc(100% * (5 / 12));
+      }
+    }
+
+    @media (min-width: 992px) {
+      .flex-col-md-5 {
+        width: calc(100% * (5 / 12));
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .flex-col-lg-5 {
+        width: calc(100% * (5 / 12));
+      }
+    }
+
+    .flex-col-xs-6,
+    .flex-col-sm-6,
+    .flex-col-md-6,
+    .flex-col-lg-6 {
+      box-sizing: border-box;
+      padding: 1em;
+      width: 100%;
+    }
+
+    @media (min-width: 540px) {
+      .flex-col-xs-6 {
+        width: calc(100% * (6 / 12));
+      }
+    }
+
+    @media (min-width: 768px) {
+      .flex-col-sm-6 {
+        width: calc(100% * (6 / 12));
+      }
+    }
+
+    @media (min-width: 992px) {
+      .flex-col-md-6 {
+        width: calc(100% * (6 / 12));
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .flex-col-lg-6 {
+        width: calc(100% * (6 / 12));
+      }
+    }
+
+    .flex-col-xs-7,
+    .flex-col-sm-7,
+    .flex-col-md-7,
+    .flex-col-lg-7 {
+      box-sizing: border-box;
+      padding: 1em;
+      width: 100%;
+    }
+
+    @media (min-width: 540px) {
+      .flex-col-xs-7 {
+        width: calc(100% * (7 / 12));
+      }
+    }
+
+    @media (min-width: 768px) {
+      .flex-col-sm-7 {
+        width: calc(100% * (7 / 12));
+      }
+    }
+
+    @media (min-width: 992px) {
+      .flex-col-md-7 {
+        width: calc(100% * (7 / 12));
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .flex-col-lg-7 {
+        width: calc(100% * (7 / 12));
+      }
+    }
+
+    .flex-col-xs-8,
+    .flex-col-sm-8,
+    .flex-col-md-8,
+    .flex-col-lg-8 {
+      box-sizing: border-box;
+      padding: 1em;
+      width: 100%;
+    }
+
+    @media (min-width: 540px) {
+      .flex-col-xs-8 {
+        width: calc(100% * (8 / 12));
+      }
+    }
+
+    @media (min-width: 768px) {
+      .flex-col-sm-8 {
+        width: calc(100% * (8 / 12));
+      }
+    }
+
+    @media (min-width: 992px) {
+      .flex-col-md-8 {
+        width: calc(100% * (8 / 12));
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .flex-col-lg-8 {
+        width: calc(100% * (8 / 12));
+      }
+    }
+
+    .flex-col-xs-9,
+    .flex-col-sm-9,
+    .flex-col-md-9,
+    .flex-col-lg-9 {
+      box-sizing: border-box;
+      padding: 1em;
+      width: 100%;
+    }
+
+    @media (min-width: 540px) {
+      .flex-col-xs-9 {
+        width: calc(100% * (9 / 12));
+      }
+    }
+
+    @media (min-width: 768px) {
+      .flex-col-sm-9 {
+        width: calc(100% * (9 / 12));
+      }
+    }
+
+    @media (min-width: 992px) {
+      .flex-col-md-9 {
+        width: calc(100% * (9 / 12));
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .flex-col-lg-9 {
+        width: calc(100% * (9 / 12));
+      }
+    }
+
+    .flex-col-xs-10,
+    .flex-col-sm-10,
+    .flex-col-md-10,
+    .flex-col-lg-10 {
+      box-sizing: border-box;
+      padding: 1em;
+      width: 100%;
+    }
+
+    @media (min-width: 540px) {
+      .flex-col-xs-10 {
+        width: calc(100% * (10 / 12));
+      }
+    }
+
+    @media (min-width: 768px) {
+      .flex-col-sm-10 {
+        width: calc(100% * (10 / 12));
+      }
+    }
+
+    @media (min-width: 992px) {
+      .flex-col-md-10 {
+        width: calc(100% * (10 / 12));
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .flex-col-lg-10 {
+        width: calc(100% * (10 / 12));
+      }
+    }
+
+    .flex-col-xs-11,
+    .flex-col-sm-11,
+    .flex-col-md-11,
+    .flex-col-lg-11 {
+      box-sizing: border-box;
+      padding: 1em;
+      width: 100%;
+    }
+
+    @media (min-width: 540px) {
+      .flex-col-xs-11 {
+        width: calc(100% * (11 / 12));
+      }
+    }
+
+    @media (min-width: 768px) {
+      .flex-col-sm-11 {
+        width: calc(100% * (11 / 12));
+      }
+    }
+
+    @media (min-width: 992px) {
+      .flex-col-md-11 {
+        width: calc(100% * (11 / 12));
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .flex-col-lg-11 {
+        width: calc(100% * (11 / 12));
+      }
+    }
+
+    .flex-col-xs-12,
+    .flex-col-sm-12,
+    .flex-col-md-12,
+    .flex-col-lg-12 {
+      box-sizing: border-box;
+      padding: 1em;
+      width: 100%;
+    }
+
+    @media (min-width: 540px) {
+      .flex-col-xs-12 {
+        width: calc(100% * (12 / 12));
+      }
+    }
+
+    @media (min-width: 768px) {
+      .flex-col-sm-12 {
+        width: calc(100% * (12 / 12));
+      }
+    }
+
+    @media (min-width: 992px) {
+      .flex-col-md-12 {
+        width: calc(100% * (12 / 12));
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .flex-col-lg-12 {
+        width: calc(100% * (12 / 12));
+      }
+    }
+    /* End 12 column layout */
+
+
+    /*--------------------------------------------------------------
+    Media queries
+    --------------------------------------------------------------*/
+    @media screen and (max-width: 550px) {
+      .flex-row h2{
+        margin: 0;
+      }
+    }
+
+    @media screen and (min-width: 550px) {
+      .container{
+        margin: .3rem auto;
+      }
+    }
+
+
+    @media screen and (min-width: 680px) {
+      .container{
+        margin: .5rem auto;
+      }
+    }
+
+    @media screen and (min-width: 900px) {
+      #content > div.flex-container{
+        margin-top: 3rem;
+        margin-top: 15vh;
+      }
+      #content > div.flex-container > .flex-row{
+        margin-bottom: 3rem;
+        margin-bottom: 15vh;
+      }
+      .container{
+        margin: .75rem auto;
+      }
+    }
+
+    @media screen and (min-width: 1200px) {
+      #content > div.flex-container{
+        margin-top: 8rem;
+        margin-top: 20vh;
+      }
+      #content > div.flex-container > .flex-row{
+        margin-bottom: 8rem;
+        margin-bottom: 20vh;
+      }
+      .container{
+        margin: .75rem auto;
+      }
+    }
+  </style>
 </head>
+
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-  <nav class="nav">
-    <div class="nav__list">
-      <a href="blog.html" class="nav__item">Blog</a>
-      <a href="fun.html" class="nav__item">Fun</a>
+  <header class="flex-container flex-row--align-v-center">
+    <aside class="flex-col-sm-12" >
+      <h2 id="logo">Justin Chill</h2>
+    </aside>
+    <nav class="flex-col-sm-12" >
+      <ul>
+        <li><a href="blog.html" class="nav__item">Blog</a></li>
+      </ul>
+    </nav>
+  </header>
 
-      <!-- <a href="/notes/" class="nav__item">Reviews</a> -->
-      <!-- <a href="/style-guide/" class="nav__item nav__item--mobile-last">Style guide</a> -->
-      <!--     <a href="/inspiration/" class="nav__item nav__item--hide-mobile">Inspiration</a> -->
-    </div>
-    <div class="nav__list">
-      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
-      <a href="#" class="nav__item js-email-link">Email</a>
-    </div>
-  </nav>
-  <header>
-   <h1>Justin Chill</h1>
-   <div class="intro">
-    <h2>Welcome! <span class="wave">👋</span></h2>
-    <p>You're reading Justin's personal blog. Majority nonsense.</p>
-  </div>
-</header>
+  <main id="content">
 
-<main>
-  <div class="container">
-    <div class="primary">
-      <div class="col-a">
-        <div class="article-1">
-          <a href="charts.html"><h2>A collection of charts & graphs</h2>
-            <p>Exploring different ways to visualize data on the web</p></a>
+    <div class="flex-container">
+      <div class="flex-row">
+        <div class="flex-col-md-1"></div>
+        <div class="flex-col-md-4">
+
+          <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+          <svg
+             version="1.0"
+             width="432.22"
+             height="457.568"
+             viewBox="0 0 324.165 343.176"
+             preserveAspectRatio="xMidYMid meet"
+             id="chill-logo"
+             sodipodi:docname="chill-logo-final.svg"
+             inkscape:version="1.1 (c4e8f9e, 2021-05-24)"
+             xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+             xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+             xmlns="http://www.w3.org/2000/svg"
+             xmlns:svg="http://www.w3.org/2000/svg">
+            <defs
+               id="defs838" />
+            <g
+               transform="matrix(.1 0 0 -.1 -187.925 434.075)"               
+               id="g840">
+              <path
+                 d="m 1892,4328 c -17,-17 -17,-3389 0,-3406 9,-9 115,-12 414,-12 353,0 405,2 418,16 13,13 16,43 16,170 0,88 -4,164 -10,175 -10,18 -24,19 -240,19 h -230 v 1335 1335 h 224 c 191,0 227,2 240,16 24,23 24,325 0,348 -13,14 -65,16 -418,16 -299,0 -405,-3 -414,-12 z"
+                 id="letter-c"/>
+              <path
+                 d="m 2853,4332 c -10,-6 -13,-174 -15,-763 l -3,-754 -47,-3 -48,-3 v 506 c 0,330 -4,513 -10,526 -10,18 -23,19 -178,19 -117,0 -172,-4 -180,-12 -17,-17 -17,-2429 0,-2446 8,-8 63,-12 180,-12 155,0 168,1 178,19 6,13 10,196 10,526 v 506 l 48,-3 47,-3 3,-749 c 1,-533 5,-753 13,-763 15,-18 329,-19 347,-1 17,17 17,3389 0,3406 -14,14 -324,17 -345,4 z"
+                 id="letter-h"/>
+              <path
+                 d="m 3320,4321 c -16,-30 -14,-3383 2,-3399 8,-8 61,-12 174,-12 134,0 165,3 178,16 14,14 16,182 16,1699 0,1517 -2,1685 -16,1699 -13,13 -44,16 -179,16 -152,0 -165,-1 -175,-19 z"
+                 id="letter-i"/>
+              <path
+                 d="m 3802,4328 c -17,-17 -17,-3389 0,-3406 9,-9 167,-12 649,-12 566,0 639,2 653,16 13,13 16,43 16,170 0,88 -4,164 -10,175 -10,18 -26,19 -480,19 h -470 v 1513 c 0,1163 -3,1516 -12,1525 -17,17 -329,17 -346,0 z"
+                 id="letter-l1"/>
+              <path
+                 d="m 4276,4324 c -14,-14 -16,-160 -16,-1463 0,-1112 3,-1450 12,-1459 17,-17 819,-17 836,0 8,8 12,61 12,174 0,134 -3,165 -16,178 -13,14 -49,16 -240,16 h -224 v 1273 c 0,977 -3,1276 -12,1285 -8,8 -61,12 -174,12 -134,0 -165,-3 -178,-16 z"
+                 id="letter-l2"/>
+              <g
+                 id="g1029">
+                <g
+                   id="exclamation">
+                  <g
+                     id="g1037">
+                    <path
+                       d="m 4752,4328 c -17,-17 -17,-1959 0,-1976 8,-8 61,-12 174,-12 134,0 165,3 178,16 14,14 16,117 16,984 0,867 -2,970 -16,984 -13,13 -44,16 -178,16 -113,0 -166,-4 -174,-12 z"
+                       id="exclamation1"/>
+                    <path
+                       d="m 4751,2226 c -8,-9 -11,-66 -9,-182 l 3,-169 174,-3 c 119,-2 178,1 187,9 19,15 20,329 2,347 -18,18 -342,17 -357,-2 z"
+                       id="exclamation2"/>
+                  </g>
+                </g>
+              </g>
+            </g>
+          </svg>
+
+
+        </div>
+        <div class="flex-col-md-6 intro">
+
+          <h1>Welcome! <span class="wave">👋</span></h1>
+          <p>You're reading Justin's personal blog. This is where I experiment with web development, typography, and interaction design. Enjoy!</p>
+        </div>
+        <div class="flex-col-md-1"></div>
+      </div>
+
+      <div class="flex-row">
+        <div class="flex-col-md-4">
+          <h5><strong><a href="inequality.html">4 Decades of Inequality</a></strong></h5>
+          <p>A reproduction of a New York Times article on inequality in America. My hometown of Fairfield, CT stands out for it's sharp increase in inequality.</p>
+        </div>
+        <div class="flex-col-md-4">
+          <h5><strong><a href="feeling-wheel.html">The Feeling Wheel</a></strong></h5>
+          <p>Designed by Gloria Willcox, the feeling wheel is a visual aid that helps people recognize, talk about, and change their feelings. I've recreated it for the web using javascript.</p>
+        </div>
+        <div class="flex-col-md-4">
+          <h5><strong><a href="solar-system.html">Our solar system</a></strong></h5>
+          <p>A diagram of our solar system created using HTML, CSS, and javascript. Planets and their significant moons are shown to scale and position from the sun.</p>
+        </div>
+      </div>
+
+      <div class="flex-row">
+        <div class="flex-col-md-2"></div>
+        <div class="flex-col-md-4">
+          <div class="popular">
+            <h2>Popular</h2>
+            <ul>
+              <li><a href="crossword.html">Crossword Puzzles</a></li>
+              <li><a href="inf-hoe-graphic.html">Where Rapper Ludacris Has Hoes</li>
+                <li><a href="css-selectors.html">An introduction to CSS</a></li>
+                <li><a href="UI-details.html">User Interface Details</a></li>
+                <li><a href="charts.html">A collection of charts & graphs</a></li>
+              </ul>
+            </div>
           </div>
-          <div class="article-2">
-            <a href="csat.html"><h2>CSAT surveys</h2>
-              <p>Using customer satisfaction surveys</p></a>
-            </div>
-          <div class="article-2">
-            <a href="UI-details.html"><h2>User Interface Details</h2>
-              <p>Practical tips for styling UIs</p></a>
-            </div>
-            <div class="article-2">
-              <a href="APIs.html"><h2>APIs Explained</h2>
-                <p>An introduction to functional APIs</p></a>
-              </div>
-              <div class="article-2">
-                <a href="css-selectors.html"><h2>An introduction to CSS</h2>
-                  <p>Using CSS selectors</p></a>
-                </div>
-              </div>
-              <div class="col-b">
-                <p class="section-title"> THE LATEST </p>
-                <div class="article-2">
-                  <a href="caffeine.html"><h2>Caffeine Data Viz</h2>
-                    <p>Visualizing caffeine in foods</p></a>
-                  </div>
-                <div class="article-2">
-                  <a href="oldest.html"><h2>World's Oldest Person</h2>
-                    <p>Supercentenarians Visualized</p></a>
-                  </div>
-                  <div class="article-2">
-                    <a href="equations.html"><h2>Mathematical Equations</h2>
-                      <p>Famous math equations in history</p></a>
-                    </div>
-                    <div class="article-2">
-                      <a href="Anscombe.html"><h2>Anscombe’s quartet</h2>
-                        <p>A lesson in graphing data</p></a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="secondary">
-                    <p class="section-title"> FUN</p>
-                    <div class="article-2">
-                      <a href="crossword.html"><h2>Crossword Puzzles</h2>
-                        <p>NYT puzzle performance</p></a>
-                      </div>
-                    <div class="article-2">
-                      <a href="inf-hoe-graphic.html"><h2>Where Rapper Ludacris Has Hoes</h2>
-                        <p>Inf-hoe-graphic</p></a>
-                      </div>
-                      <div class="article-2">
-                        <a href="to-don't.html"><h2>To-Don't List</h2>
-                          <p>Remember not to do these things</p></a>
-                        </div>
-                        <div class="article-2">
-                          <a href="bingo.html"><h2>Conference Call Bingo</h2>
-                            <p>Sorry, I was on mute</p></a>
-                          </div>
-                          <div class="article-2">
-                            <a href="Mondrain.html"><h2>Piet Mondrain</h2>
-                              <p>A recreation using CSS</p></a>
-                            </div>
-                          </div>
-                        </div>
-                      </main>
 
-                      <footer>
-                      </footer>
-                      <script type="text/javascript">
+          <div class="flex-col-md-4">
+            <div class="latest">
+              <h2>Just In</h2>
+              <ul>
+                <li><a href="csat.html">CSAT surveys</a></li>
+                <li><a href="Anscombe.html">Anscombe’s quartet</a></li>
+                <li><a href="equations.html">Equations that changed the world</a></li>
+                <li><a href="oldest.html">World's Oldest Person</a></li>
+                <li><a href="caffeine.html">Caffeine Data Viz</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="flex-col-md-2"></div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <aside class="flex-container flex-row--align-v-center">
+        <h2 id="footlogo">Justin Chill</h2>
+      </aside>
+    </footer>
+    <script type="text/javascript">
   /**
    * Activate email links designated with .js-email-link classes.
    * We're avoiding putting our email in the href to prevent harvesting for
@@ -402,6 +843,12 @@
       return false;
     });
   });
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vivus/0.4.6/vivus.min.js"></script>
+<script type="text/javascript">
+  new Vivus('chill-logo', { type:"scenario-sync", duration: 40, start:"inViewport", pathTimingFunction: Vivus.EASEOUT },function(obj){
+      obj.el.classList.add('filled', 'clear-stroke');
+    });
 </script>
 </body>
 </html>
