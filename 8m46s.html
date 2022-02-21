@@ -11,77 +11,168 @@
 
   <style type="text/css">
 
-  .timer {
-    font-size: 6.250rem;
-    font-weight: bold;
-    font-variant-numeric: tabular-nums;
-    text-align: center;
-  }
-  button {
-    font-size: 20px;
-  }
-  .hide {
-    opacity: 0;
-  }
-  .wrapper {
-    margin-top: 100px;
-    /*grid-column: 4;*/
-    padding: 0;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
-  }
-  @media (max-width: 600px) {
-    .wrapper {
-      margin-top: 20px;
+    .timer {
+      font-size: 6.250rem;
+      font-weight: bold;
+      font-variant-numeric: tabular-nums;
+      text-align: center;
     }
-  }
-  .intro,
-  button {
-    transition: opacity 2s;
-  }
-  #transcript, .intro {
-    padding-top: 2rem;
-  }
-  #transcript {
-    transition: opacity 3s;
-    font-family: serif;
-    font-size: 24px;
-    font-style: italic;
-  }
-  .transcript-hide {
-    opacity: 0;
-  }
-  .transcript-show {
-    opacity: 1;
-  }
-
-  html,
-  article{
-    background: #000;
-  }
-  a.nav__item,
-  article > p,
-  .timer,
-  #transcript
-  #transcript a{
-    color:  #fff;
-  }
-
-  @media screen and (min-width: 900px){
-    article{ 
-      /* Absolutely position content only when large enough to do so properly */
+    /*For the button*/
+    .pushable {
+      position: relative;
+      border: none;
+      background: transparent;
+      padding: 0;
+      cursor: pointer;
+      outline-offset: 4px;
+      transition: filter 250ms;
+    }
+    .shadow {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      background: hsl(0deg 0% 0% / 0.25);
+      will-change: transform;
+      transform: translateY(2px);
+      transition:
+      transform
+      600ms
+      cubic-bezier(.3, .7, .4, 1);
     }
-  }
+    .edge {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      background: linear-gradient(
+        to left,
+        hsl(262, 36%, 96%) 0%,
+        hsl(260, 4%, 67%) 8%,
+        hsl(260, 4%, 67%) 92%,
+        hsl(262, 36%, 96%) 100%
+      );
+    }
+    .front {
+      display: block;
+      position: relative;
+      padding: 12px 42px;
+      border-radius: 12px;
+      font-size: 1.25rem;
+      color: #3C3B3D;
+      background: hsl(266, 10%, 86%);
+      will-change: transform;
+      transform: translateY(-4px);
+      transition:
+      transform
+      600ms
+      cubic-bezier(.3, .7, .4, 1);
+    }
+    .pushable:hover {
+      filter: brightness(110%);
+    }
+    .pushable:hover .front {
+      transform: translateY(-6px);
+      transition:
+      transform
+      250ms
+      cubic-bezier(.3, .7, .4, 1.5);
+    }
+    .pushable:active .front {
+      transform: translateY(-2px);
+      transition: transform 34ms;
+    }
+    .pushable:hover .shadow {
+      transform: translateY(4px);
+      transition:
+      transform
+      250ms
+      cubic-bezier(.3, .7, .4, 1.5);
+    }
+    .pushable:active .shadow {
+      transform: translateY(1px);
+      transition: transform 34ms;
+    }
+    .pushable:focus:not(:focus-visible) {
+      outline: none;
+    }
 
-</style>
+    .hide {
+      opacity: 0;
+    }
+    .wrapper {
+      margin-top: 100px;
+      /*grid-column: 4;*/
+      padding: 0;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-content: center;
+    }
+
+    .intro{
+      transition: opacity 2s;
+    }
+    #transcript, .intro {
+      padding-top: 2rem;
+    }
+    #transcript {
+      transition: opacity 2s;
+      /*font-family: serif;*/
+      font-size: 24px;
+      font-style: italic;
+      color: whitesmoke;
+      text-align: center;
+    }
+    .transcript-hide {
+      opacity: 0;
+      visibility: hidden;
+    }
+    .transcript-show {
+      opacity: 1;
+    }
+
+    html,
+    article{
+      background: #000;
+    }
+
+    a.nav__item,
+    article > p,
+    .timer,
+    #transcript
+    #transcript a{
+      color:  #fff;
+    }
+    a.nav__item:hover {
+      color: #f9f9f9;
+    }
+
+    /*--------------------------------------------------------------
+    Media queries
+    --------------------------------------------------------------*/
+    @media (max-width: 600px) {
+      .wrapper {
+        margin-top: 20px;
+      }
+    }
+    @media screen and (min-width: 900px){
+      article{ 
+        /* Absolutely position content only when large enough to do so properly */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+  </style>
 </head>
+
 <body>
   <nav class="nav">
     <div class="nav__list">
@@ -97,15 +188,23 @@
   
   <main role="main">
     <article>
-    <div class="wrapper">
-      <div class="timer" id="timer">8:46</div>
-      <button id="start" onclick="start()">Start Timer</button>
-      <div id="transcript" class="transcript-hide"></div>
-    </div>
-    <p class="intro" id="intro">On May 25th 2020, Derek Chauvin held his knee on the neck of George Floyd for 8 minutes and 46 seconds, resulting in Mr. Floyd's death. I invite you to sit quietly and reflect for this same length of time. It feels like an eternity. If you feel discomfort, and want to leave the website prior to the timer finishing, reflect on that feeling.</p>
+      <div class="wrapper">
+        <div class="timer" id="timer">8:46</div>
+        <!-- <button id="start" onclick="start()">Start Timer</button> -->
+        <button class="pushable" id="start" onclick="start()">
+          <span class="shadow"></span>
+          <span class="edge"></span>
+          <span class="front">
+            Start Timer
+          </span>
+        </button>
+      </div>
+      <p class="intro" id="intro">On May 25th 2020, Derek Chauvin held his knee on the neck of George Floyd for 8 minutes and 46 seconds, resulting in Mr. Floyd's death. <br><br>I invite you to sit quietly and reflect for this same length of time. It feels like an eternity. If you feel discomfort, and want to leave the website prior to the timer finishing, reflect on that feeling.</p>
+
+      <p id="transcript" class="transcript-hide"></p>
     </article>
 
-</main>
+  </main>
 <!-- <footer>
   <h2 id="footnote-label">Footnotes</h2>
   <div>
@@ -114,20 +213,34 @@
   </div>
 </footer> -->
 
-
+<script type="text/javascript">
+  /**
+   * Activate email links designated with .js-email-link classes.
+   * We're avoiding putting our email in the href to prevent harvesting for
+   * spam. This tip from Lokesh Dhakar.
+   */
+   [...document.getElementsByClassName('js-email-link')].forEach(link => {
+    link.addEventListener('click', event => {
+      const a = "Justin.richard.hill@";
+      const b = "gmail.com";
+      window.open(`mailto:${a}${b}`, 'email');
+      return false;
+    });
+  });
+</script>
 <script type="text/javascript">
   function start() {
     var startButton = document.getElementById('start');
     var intro = document.getElementById('intro');
 
-    if (startButton.classList.contains('hide')) {
+    if (startButton.classList.contains('visually-hidden')) {
       return // end function if button already pressed
     }
 
-    startButton.classList = 'hide';
-    intro.classList.add('hide');
+    startButton.classList = 'visually-hidden';
+    intro.classList.add('visually-hidden');
 
-    var eight_minutes_from_now = new Date().getTime() + 527000; //The getTime() method returns the number of milliseconds since the Unix Epoch, so 8.78 minutes is 527000 
+    var eight_minutes_from_now = new Date().getTime() + 527000; //The getTime() method returns the number of milliseconds since the Unix Epoch, so 8.78 minutes is 527,000 
     var interval = setInterval(function() {
 
       var now = new Date().getTime();
@@ -157,7 +270,7 @@
     }, 200);
   }
   function fadeInText(t) {
-    var transcript = document.getElementById('transcript');
+    // var transcript = document.getElementById('transcript');
     transcript.innerHTML = t;
     transcript.classList = 'transcript-show';
     setTimeout(function(){
@@ -165,6 +278,7 @@
       transcript.classList = 'transcript-hide';
     }, 7000)
   }
+
   function getTranscriptItem(current_time) {
     var fullTranscript = {
       520000: "&ldquo;Please, please, please! I can't breathe!&rdquo;",
