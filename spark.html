@@ -348,7 +348,7 @@
       </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 
     <script type="text/javascript">
       // Use Promises to async request data
@@ -381,10 +381,6 @@
           domain: d3.sort(popdata, d => -d["percent"]).map(d => d.people),
           tickSize: 0,
         },
-        color: {
-          // type: "categorical",
-          // scheme: scheme,
-        },
         width: width,
         marks: [
         Plot.barX(popdata, {x: "percent", y: "people", fill: "#131F5A", title: "percent", title: (d) =>
@@ -392,17 +388,9 @@
         Plot.text(popdata, {x: "percent", y: "people", text: d => d.percent +'%', textAnchor: "End", fill: "white", dx: -12, fontWeight: 700}),
         ]
       };
-        document.getElementById("pop").appendChild(Plot.plot(pop));
+      
+      document.getElementById("pop").appendChild(Plot.plot(pop));
 
-      // You can request multiple srcs in a promise
-      myDataPromises = Promise.all(promises);
-
-      // After data is successfully fetched, generate viz
-      myDataPromises.then(function(data) {
-        // Define the data
-        // var caffeine = data[0];
-
-        });
 </script>
   </body>
   </html>

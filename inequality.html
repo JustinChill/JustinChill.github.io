@@ -69,7 +69,7 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 <script type="text/javascript">
   var size = 12;
   var element = d3.select('figure').node();
@@ -245,12 +245,12 @@
       marginTop: 30,
       marginBottom: 50,
       style: {
-        background: "hsl(0, 0%, 99%)",
+        background: "hsla(209, 23%, 99%, 1)",
       },
       x: {
         type: "log",
         label: "Population →",
-        labelOffset: 40,
+        labelOffset: 48,
         tickSize: 0,
       },
       y: {
@@ -283,20 +283,21 @@
         title:  (d) =>
         `${d.nyt_display} \nPopulation in 1980: ${d3.format(",")(d.POP_1980)}\nPopulation in 2015: ${d3.format(",")(d.POP_2015)}\nCurrent level of inequality: ${d3.format(",")(d.R90_10_2015)}\nChange in inequality: ${d3.format("+.4")(d.R90_10_2015 - d.R90_10_1980)}`, // \n makes a new line
       }),
-      Plot.text(metros.filter(d => d.nyt_display !== "San Francisco" && d.nyt_display !== "Johnstown"), {
+      Plot.text(metros.filter(d => d.nyt_display !== "San Francisco" && d.nyt_display !== "Johnstown" && d.nyt_display !== "Houston"), {
         x: "POP_2015",
         y: "R90_10_2015",
         fontSize: size*1.1,
         text: d => d.highlight && d.nyt_display,
-        dy: -6
+        dy: -6,
+        dx: -4
       }),
       Plot.text(metros.filter(d => d.nyt_display === "San Francisco"), {
         x: "POP_2015",
         y: "R90_10_2015",
         fontSize: size*1.1,
         text: d => d.highlight && d.nyt_display,
-        dy: -2,
-        dx: -42
+        dy: -8,
+        dx: -40
       }),
       Plot.text(metros.filter(d => d.nyt_display === "Johnstown"), {
         x: "POP_2015",
@@ -305,6 +306,13 @@
         text: d => d.highlight && d.nyt_display,
         dy: 15,
         dx: 18
+      }),
+      Plot.text(metros.filter(d => d.nyt_display === "Houston"), {
+        x: "POP_2015",
+        y: "R90_10_2015",
+        fontSize: size*1.1,
+        text: d => d.highlight && d.nyt_display,
+        dy: -18,
       }),
       ]
     };
