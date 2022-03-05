@@ -180,7 +180,7 @@ img {
 .nav {
   display: flex;
   overflow-x: auto;
-  margin: var(--gutter) 0 calc(var(--gutter) * 4) 0;
+  margin: var(--gutter) 0;
   padding: 0 var(--gutter);
   transition: opacity 0.2s, transform 0.2s;
 }
@@ -216,7 +216,7 @@ a.nav__item:hover {
     position: fixed;
     left: 0;
     padding: 0;
-    margin: 0 0 0 var(--gutter);
+    margin: 64px 0 0 var(--gutter);
   }
 
   .nav__list {
@@ -236,21 +236,18 @@ a.nav__item:hover {
 }
 
 /* General styling - adapted from https://tinyurl.com/yy8ycg4v */
-article {
+article,
+footer {
   display: grid;
   grid-template-columns: 1fr 1fr 10px 740px 10px 1fr 1fr;
-  margin: 4rem auto 4rem;
   background: rgba(255, 255, 255, 1);
+  padding: 1em 0;
 }
 
-article > * {
+article > *,
+footer > * {
   grid-column: 4;
   min-width: 0;
-}
-
-article > figure {
-  /*grid-column: 4;*/
-  /*margin: 20px 0;*/
 }
 
 article > blockquote {
@@ -279,23 +276,15 @@ a:focus, button:focus, input:focus, select:focus, submit:focus, textarea:focus, 
   outline-color: currentColor;
   outline-offset: 2px;
 }
-header{
-/*  display: grid;
-grid-template-columns: 1fr 1fr 10px 740px 10px 1fr 1fr;*/
-}
-header > *{
-/*  grid-column: 4;
-min-width: 0;*/
-}/*Article & Font Layout */
+
 article > p,
 article > ul,
 article > ol,
 thead th,
-tbody tr,
-footer > ol {
+tbody tr{
   font-weight: 400;
   font-style: normal;
-  font-size: calc(14px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+  font-size: calc(1.2rem + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
   text-align: justify;
   line-height: 1.58;
   letter-spacing: -.003em;
@@ -304,6 +293,11 @@ footer > ol {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
+
+article h2 + p{
+  margin-top: 0;
+}
+
 
 article > ul,
 article > ol{
@@ -375,7 +369,7 @@ pre > code {
 figcaption,
 figcaption > a {
   color: #718096;  
-  font-size: calc(8px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+  font-size: calc(.5em + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
   text-align: left;
   margin-bottom: 1rem;
   padding-top: 1em;
@@ -404,18 +398,9 @@ h1 {
   margin-bottom: 2rem;
 }
 
-h2,
 table caption,
 footer h2 {
   font-family: Inter, Lato, sans-serif;
-  font-size: 26px;
-  font-size: calc(18px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
-  font-weight: 700;
-  padding: 0;
-  text-align: left;
-  line-height: 34.5px;
-  letter-spacing: -0.45px;
-  margin: 2rem 0 0.4em 0; 
 }
 
 h3{
@@ -443,7 +428,8 @@ h4{
 
 p, i, a, time {
   font-family: "Lora", sans-serif, serif;
-  font-size: calc(13px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+  font-size: calc(14px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+  font-size: calc(1rem + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
   letter-spacing: -0.03px;
   line-height: 1.58;
 }
@@ -537,8 +523,8 @@ article > p:first-of-type:first-letter {
 }
 
 .article-hero{
-  text-align: center;
-  padding: 2rem 0;
+/*  text-align: center;
+  padding: 2rem 0;*/
 }
 .article-category{
   text-align: center;      
@@ -704,20 +690,30 @@ article > p:first-of-type:first-letter {
   }
 }
 
-/* Footnote Counting / Styling */
-main + footer {
-  margin-top: 3em;
+footer h2{
   border-top: 1px solid silver;
-  display: grid;
-  grid-template-columns: 1fr 1fr 10px 740px 10px 1fr 1fr;
-  margin-bottom: 1em;
-}
-footer > * {
-  width: 100%;
-  grid-column: 2/7;
+  padding: 1em 0;
 }
 
-.gh{
+footer ::marker{
+  display: list-item;
+}
+footer ol{
+  margin: 0;
+  padding: 0;
+}
+footer div{
+  grid-column: 1/-1;
+  margin: var(--gutter);
+  display: flex;
+  justify-content: space-between;
+}
+
+footer div p{
+  padding: 0 .5em;
+}
+
+.icon{
   width: 16px;
   margin-right: .5em;
 }
@@ -743,17 +739,6 @@ footer > * {
   100% { transform: rotate( 0.0deg) }
 }
 
-footer div{
-  margin: 1rem 0;
-  padding-top: 1rem;
-  border-top: 1px solid #ccc;
-  display: flex;
-  justify-content: space-between;
-}
-
-footer ol {
-  padding-left: 20px;
-}
 
   /**
    * Initialiazing a `footnotes` counter on the wrapper
@@ -1206,16 +1191,15 @@ footer ol {
     }
     footer {
       margin-top: .5em;
-      grid-template-columns: 10px 1fr 10px;
+      grid-template-columns: 1em 1fr 1em;
       margin-bottom: .5em;
     }
   }
 
   @media screen and (max-width: 900px) {
-    article {
+    article, footer {
       display: grid;
       grid-template-columns: 1em 1fr 1fr 1fr 1fr 1fr 1em;
-      margin: 2rem auto;
       background: rgba(255, 255, 255, 1);
     }
 
@@ -1225,6 +1209,7 @@ footer ol {
     }
 
     article > *,
+    footer *,
     article > figure,
     article > figcaption {
       grid-column: 2 / 7;
@@ -1240,17 +1225,6 @@ footer ol {
       padding: 0;
       width: 100%;
       line-height: 1.4;
-    }
-
-    article > p,
-    footer > ol {    
-      font-weight: 400;
-      font-style: normal;
-      line-height: 1.58;
-      letter-spacing: -.003em;
-      color: rgba(0,0,0,.84);
-      text-rendering: optimizeLegibility;
-      -webkit-font-smoothing: antialiased;
     }
 
     ul > ul{
@@ -1282,7 +1256,10 @@ footer ol {
   }
   footer {
     margin: 1.5em 0;
-    grid-template-columns: 20px 1fr 20px;
+    grid-template-columns: 10px 1fr 10px;
+  }
+  footer ol li{
+    margin-left: 1em;
   }
 }
 
