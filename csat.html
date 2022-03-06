@@ -10,34 +10,30 @@
   <meta name="author" content="Justin Chill">
 
   <style type="text/css">
-  ul{
-    margin-top: 0;
-  }
-  main h4{
-    margin: 1em 0;
-  }
+    @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500&family=Ubuntu:wght@500&display=swap');
+
   .panel-container {
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     border-radius: 4px;
-    font-size: 90%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 30px;
-    margin: 2rem auto;
+    padding: 1em;
+    margin: 44px auto 1em;
     max-width: 400px;
     text-align: center;
   }
 
   .panel-container strong {
-    /*line*/-height: 20px;
+    line-height: 20px;
   }
 
   .panel-container p {
     margin-top: 1rem;
-    /*line-height: 20px;*/
+    font-size: 100%;
+    text-align: center;
   }
 
   .ratings-container {
@@ -60,13 +56,12 @@
 
   .rating img,
   #panel img {
-    width: 40px;
+    width: 60px;
   }
 
   .rating small {
     color: #555;
     display: inline-block;
-    margin: 10px 0 0;
     font-family: var(--font-ui);
   }
 
@@ -195,7 +190,7 @@
   ol.scale {
     list-style: none;
     counter-reset: my-awesome-counter;
-    padding-left: 0;
+    padding: 1.25em 0;
   }
   .scale li {
     counter-increment: my-awesome-counter;
@@ -228,6 +223,13 @@
   }
   .scale li:nth-child(5):before {
     background: #31B237;
+  }
+
+  .plot text {
+    color: #656568;
+    font-family: 'Ubuntu', sans-serif;
+    pointer-events: none;
+    font-size: calc(5px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
   }
 
   @media screen and (max-width: 900px){
@@ -264,7 +266,7 @@
     <p>Customer Satisfaction, or CSAT, is a customer experience metric that measures happiness with a product, service, or support interaction through a customer satisfaction survey. CSAT surveys look to measure a customer's “here and now” reaction to a specific interaction, product, or event. This blog post will cover implementing these surveys, understanding the data generated, and how it can benefit your organization.</p>
 
     <div id="panel" class="panel-container">
-      <p>How satisfied were you with our<br /> customer support performance?</p>
+      <p>How satisfied were you with our customer support performance?</p>
       <div class="ratings-container">
         <div class="rating">
           <img src="imgs/frown.svg" alt=""/>
@@ -292,15 +294,15 @@
     <h3>Pros and Cons</h3>
     <h4>Pros</h4>
     <ul>
-      <li>Easy to implement and manage</li>
-      <li>Intuitive score to understand </li>
-      <li>Generally high response rates since it's low friction</li>
+      <li>Easy to implement and manage.</li>
+      <li>Intuitive score to understand. </li>
+      <li>Generally high response rates since it's low friction.</li>
     </ul>
     <h4>Cons</h4>
     <ul>
       <li>Polarized results- those who submit tend to skew highly positive or negative. This is called <a href="https://link.springer.com/article/10.1007%2FBF02723476">response bias</a>.</li>
-      <li>"Satisfed" is subjective, and may mean different things to different people</li>
-      <li>Surveys are limited in the information they capture</li>
+      <li>"Satisfed" is subjective, and may mean different things to different people.</li>
+      <li>Surveys are limited in the information they capture.</li>
     </ul>
 
     <h3>Measuring CSAT</h3>
@@ -312,8 +314,9 @@
       <li>Satisfied</li>
       <li>Very satisfied</li>
     </ol>
-    <p>To calculate your score as a percentage, sum all positive responses (scores 4 or 5) divided by the total amount of responses. Then multiply by 100. For example, if you received 100 total responses and 94 of them were positive — your CSAT score would be 94% <b>(94 positive responses / 100 total responses = .94 x 100 = 94%)</b>.
+    <p>To calculate your score as a percentage, sum all positive responses (scores 4 or 5) divided by the total amount of responses. Then multiply by 100. For example, if you received 100 total responses and 94 of them were positive — your CSAT score would be 94%.
     </p>
+    <p><b>(94 positive responses / 100 total responses = .94 x 100 = 94%)</b></p>
     <h3>CSAT timing</h3>
     <p>You generally want to collect customer feedback immediately, so that the experience is fresh in the mind of the responder. CSAT is a “right here, right now” metric that relates to a specific experience rather than an ongoing customer relationship. This doesn't preclude you from using a CSAT survey to learn about the experience of a longer term sale, but it may require you to word your question differently.</p>
     <p>To keep response rates high, make sure you’re not over-surveying the same customer, that surveys are triggered upon completion of the interaction, and that you’ll be able to respond to any feedback received to ensure the customers feel heard.</p>
@@ -338,7 +341,7 @@
     <p><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="icon">Source code and feedback</a></p>    
   </div>
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3"></script>
 <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 
 <script type="text/javascript">
@@ -399,12 +402,12 @@
       Plot.dot(tinyapple, Plot.selectLast({x: "Date", y: "Close", fill: "white", stroke: "rgba(0, 0, 0, .75)"})),
       Plot.dot(tinyapple, Plot.selectFirst({x: "Date", y: "Close", fill: "white", stroke: "rgba(0, 0, 0, .75)"})),
 
-      Plot.text(marker, {x: "Date", y: "Close", text: d => `Bug reported`, dy: -10, dx: 60, rotate: 270}),
+      Plot.text(marker, {x: "Date", y: "Close", text: d => `Bug reported`, dy: -50, dx: 10, rotate: 270}),
       Plot.ruleX(marker, {x: "Date", strokeDasharray: [2, 2], strokeWidth: 0.5,stroke: "rgba(0, 0, 0, .75)"}),
-      Plot.text(marker2, {x: "Date", y: "Close", text: d => `New hire`, dy: -10, dx: 55, rotate: 270}),
+      Plot.text(marker2, {x: "Date", y: "Close", text: d => `New hire`, dy: -50, dx: 10, rotate: 270}),
       Plot.ruleX(marker2, {x: "Date", strokeDasharray: [2, 2], strokeWidth: 0.5,stroke: "rgba(0, 0, 0, .75)"}),
-      Plot.text(tinyapple, Plot.selectLast({x: "Date", y: "Close", text: d => `CSAT: ${d3.format(".2f")(d.Close)}%`, dy: -10, dx: -25, fontWeight: 700, fontSize: 14})),
-      Plot.text(tinyapple, Plot.selectFirst({x: "Date", y: "Close", text: d => `CSAT: ${d3.format(".2f")(d.Close)}%`, dy: -10, dx: 52, fontWeight: 700, fontSize: 14})),
+      Plot.text(tinyapple, Plot.selectLast({x: "Date", y: "Close", text: d => `${d3.format(".2f")(d.Close)}%`, dy: -10, dx: -6, fontWeight: 700, fontSize: 14})),
+      Plot.text(tinyapple, Plot.selectFirst({x: "Date", y: "Close", text: d => `CSAT: ${d3.format(".2f")(d.Close)}%`, dy: -10, dx: 48, fontWeight: 700, fontSize: 14})),
       ]
     };
     

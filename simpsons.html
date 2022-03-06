@@ -12,7 +12,7 @@
 
   <style type="text/css">
 
-    body, article {
+    body, article, footer {
       background: #fac5cb;
       padding: 50px 0;
     }
@@ -287,12 +287,9 @@
       font-size: calc(4px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
       padding: 2rem;
     }
-    .plot + figcaption {
+    figcaption {
       color: #656568;
-      text-align: left;
-      font-style: normal;      
-      font-family: 'Ubuntu', sans-serif;
-      font-size: calc(10px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+      text-align: right;
     }
 
     /* Episode matrix */
@@ -307,6 +304,7 @@
     /* Random quote */
     .container {
       grid-column: 1 / -1;
+
     }
 
     div.layout {
@@ -537,12 +535,12 @@
       <p>Conveniently hosted for us on Github is a nice dataset of The Simpsons and IMDB rating. It spans over 20 years and covers 600+ episodes.</p> 
       <p class="title">Ratings for The Simpsons have declined over time</p>
       <figure id="example_area"></figure>
-      <figcaption>Data: IMDB</figcaption>
+      <figcaption>Data: <a href="https://www.imdb.com/title/tt0096697/">IMDB</a></figcaption>
 
       <!-- Cell plot with IMDB score -->
       <p class="title">The Simpsons episodes and IMDB rating</p>
       <figure id="matrix"></figure> 
-      <p>Data provided from the wonderful <mark>Observable Plot <a href="https://github.com/observablehq/plot/blob/main/src/marks/cell.js">documentation</a></mark>.</p>
+      <p>Data provided from the wonderful Observable Plot <a href="https://github.com/observablehq/plot/blob/main/src/marks/cell.js">documentation</a>.</p>
 
       <!-- Random Simpson's quote -->
       <h2>Random quote</h2>
@@ -3524,8 +3522,13 @@
     </article>
   </main>
   <footer>
+    <div>
+      <p>Justin Chill © 2021. Thanks for reading!</p>
+      <p><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="icon">Source code and feedback</a></p>    
+    </div>
   </footer>
-  <script src="https://cdn.jsdelivr.net/npm/d3@6"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
   <script type="text/javascript">
     // Wait for the page to load
@@ -3591,8 +3594,7 @@
 
       // Define the data
       var simpsons = data[0];
-
-      console.log(simpsons);
+      // console.log(simpsons);
 
       // Simpsons line chart IMDB rating
       var ep_options = {
@@ -3663,19 +3665,20 @@
           };
 
       // Example area chart - Simpsons rating over time
-      var example_area = {      
+      var example_area = {
+        height: 400,
+        width: width,
         y: {
           grid: true,
-          // Todo: find min, max instead of hardcoding domain
-          domain: [0,10],
           tickSize: 0,
           nice: true,
-          label: "IMDB Ratings for The Simpsons, 1989 - 2019 ",
+          label: "IMDB Rating",
         },
         x: {
           label: "Episode number →",
-          // Emphasize that axis
-          tickSize: 8,
+          labelAnchor: "center",
+          // labelOffset: 44,
+          tickSize: 8,  // Emphasize that axis
           nice: true,
         },
         style: "background: none",
@@ -3687,6 +3690,7 @@
 
       // Episode matrix options
       var options = {      
+        height: 900,
         width: width,
         padding: 0.05,
         style: "background: none",
