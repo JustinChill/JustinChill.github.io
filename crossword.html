@@ -11,8 +11,6 @@
 
   <style type="text/css">
     figcaption, figcaption > a {
-      margin-bottom: 0;
-      font-size: calc(8px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
       text-align: right;
     }
   </style>
@@ -48,11 +46,11 @@
     <h3>Average time by day of week</h3>
     <figure id="week"></figure>
 
-    <p>We can see a pretty clear jump from the time it takes to solve Monday, Tuesday, and Wednesday puzzles to solving Thursday and beyond.</p>
+    <p>The puzzle gets progressively harder as the week goes on, with Saturday being the most challenging day of the week. The Saturday and Sunday puzzles also feature a larger grid of 25x25 squares as compared to a 15x15 weekday puzzle. In the graph above we can see a pretty clear jump from the time it takes to solve Monday, Tuesday, and Wednesday puzzles to solving Thursday and beyond.</p>
 
     <h3>Puzzles over time</h3>
     <figure id="alltime"></figure>
-    <p>A noticeable uptick in puzzle activity during the pandemic.</p>
+    <p>A noticeable uptick in puzzle activity since the onset of the pandemic.</p>
 
     <h3>Puzzles by day of week</h3>
     <figure id="facet"></figure>
@@ -172,6 +170,8 @@
       ]
     };
 
+    const marker = xword_data.slice(394,395);
+
     var alltime = {
       width: width,
       style:{fontSize: size},
@@ -193,6 +193,9 @@
       marks: [
       Plot.line(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle Date", y:"Time Taken", curve: "catmull-rom", stroke:"hsl(230, 49%, 41%)"}),
       Plot.dot(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle Date", y:"Time Taken",fill:"hsl(230, 49%, 41%)", strokeWidth:0, r:2, title: d => `${d3.timeFormat("%A %B %d, %Y")(d["Puzzle Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time Taken"]/60)} min to solve` }),
+
+      Plot.text(marker, {x: "Puzzle Date", y: "Time Taken", text: d => `COVID-19 Pandemic`, dy: -10, dx: -8, rotate: 270}),
+      Plot.ruleX(marker, {x: "Puzzle Date", strokeDasharray: [2, 2], strokeWidth: 0.5,stroke: "rgba(0, 0, 0, .75)"}),
       ]
     };
 
@@ -253,7 +256,7 @@
       x: {
         grid: true,
         labelAnchor: "right",
-        label: "# of puzzles in NYT",
+        label: "# of puzzles →",
         axis: "top",
         tickSize: 0,
         nice: true, 
