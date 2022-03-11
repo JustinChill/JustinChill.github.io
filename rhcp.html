@@ -16,12 +16,8 @@
       src: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/Franklin_Gothic_Heavy_Regular.woff);
     }
 
-    main{
-      margin-top: 60px;
-    }
-
     /*Logo*/
-    svg#rhcp_logo { width: 100%; text-align: center; background: black; margin: 0 auto; max-height: 400px;}
+    svg#rhcp_logo { width: 100%; text-align: center; background: black; margin: 0 auto; max-height: 400px;border-radius: 4px;}
     #rhcp_logo rect { fill: #FE0304 }
     #rhcp_logo text,
     #rhcp_logo_explained text { 
@@ -30,7 +26,8 @@
       font-weight: 900; 
       text-transform: uppercase;
       letter-spacing: 21px;
-      fill: white;
+      fill: var(--bg-color);
+      border-radius: 4px;
     }
     #rhcp_logo_explained text{
       fill: white; 
@@ -51,18 +48,20 @@
       stroke-linecap: round;
     }
 
+    figcaption{
+      text-align: right;
+    }
+
     svg.mid-size{
       height: 500px;
     }
 
-
     /*Album section*/
     .album_grid{
-      grid-column: 1/-1;
+      grid-column: 2/-2;
     }
+
     .grid img {
-      /*     width:100%; */
-      /*     height: auto; */
       box-shadow: -5px 5px 10px rgba(35,41,95,0.3);
     }
 
@@ -70,435 +69,288 @@
       display:none;
     }
 
-    section.grid {
-      width:100%;
-      padding-bottom:20px;
+    .album_grid section{
+      padding: 1rem 0;
     }
 
-    .grid p {
-      /*font-size:1.7rem;*/
-      /*line-height:2.3rem;*/
-      /*letter-spacing:0.05rem;*/
-      /*color:#4c4c4c;*/
-      margin-bottom:1.7rem;
-    }
-    .grid {
+    section.grid {
+      width: 100%;
+      /*padding-bottom: 20px;*/
       display:inline-block;
     }
+
     .grid > div {
-      flex:1;
-      padding:20px;
+      flex: 1;
+      /*padding: 10px;*/
     }
+
     .feature-text {
-      position:relative;
+      position: relative;
     }
+
     .feature-text::before {
-      content:"";
-      width:100px;
-      height:3px;
-      background:hsl(44, 92%, 63%);
-      position:absolute;
-      top:0;
+      content: "";
+      width: 100px;
+      height: 3px;
+      background: hsl(44, 92%, 63%);
+      position: absolute;
+      top: 0;
     }
+
+    .feature-grid-1 .feature-text::before{ background: #e56399; }
     .feature-grid-2 .feature-text::before{ background: #EF2E33; }
-    .feature-grid-3 .feature-text::before{ background: hsl(203, 87%, 34%); }
+    .feature-grid-3 .feature-text::before{ background: hsl(201, 98%, 44%); }
+    .feature-grid-4 .feature-text::before{ background: #3D59A6; }
     .feature-grid-5 .feature-text::before{ background: #e9d32c; }    
     .feature-grid-6 .feature-text::before{ background: #bc4a0a; }        
 
     .grid h3 {
-      font-size:3rem;
-      /*margin-bottom:1.2rem;*/
       padding:0;
+      margin: .5em 0;
       /*color: #23295f;*/
     }
 
     @media screen and (min-width:768px) {
-      .grid {
+      section.grid {
         display:grid;
+        margin: 1rem 0;
       }
       
       .grid > div {
-        padding:0;
+        /*padding: 10px 0;*/
       }
       
       .show-on-desktop {
         display:block;
       }
-      .album_grid .feature-grid-1,
-      .album_grid .feature-grid-4 {
-        grid-template-columns: 1fr 2fr 6fr 2fr 1fr 10fr 2fr;
-        grid-template-rows: 80px 80px 200px 100px auto minmax(100px, 200px);
-        grid-template-rows: 80px auto 200px auto 100px;
-      }
-      .album_grid .bg1,
-      .album_grid .bg4{
-        /*     height:300px; */
-        grid-column: 2 / 4;
-        grid-row: 2 / 4;
-      }
+
       .album_grid .bg1{
         background: #e56399;
+        max-height: 3rem;
       }
-      .album_grid .img1,
-      .album_grid .img4{
-        grid-column: 2 / 4;
-        grid-row: 2 / 5;
+      .album_grid .bg3{
+        background: hsl(201, 98%, 44%);
+        max-height: 3rem;
       }
-      
-      .album_grid .feature-desc-01,
-      .album_grid .feature-desc-04 {
-        grid-column: 6;
-        grid-row: 3;
-        position:relative;
-      }
-      
-      .feature-desc-01::before {
-        content:"";
-        width:50px;
-        height:3px;
-        background: #e56399;
-        position:absolute;
-      }
-      .feature-desc-04::before { background: #3D59A6}
-      
-      .album_grid .feature-grid-2,
-      .album_grid .feature-grid-5{
-        grid-template-columns: 1fr 6fr 1fr 2fr 2fr 1fr ;
-        grid-template-rows:60px 60px auto auto 100px;
-      }
-      
-      .album_grid .img2,
-      .album_grid .img5       {
-        grid-column: 4 / 6;
-        grid-row: 1 / 5;
-      }
-/*      .album_grid .bg2 {
-        grid-column: 1 / 2;
-        grid-row: 4/5;
-        background: #EF2E33;
-        }*/
-/*      .album_grid .bg3 {
-        grid-column: 3 / 4;
-        grid-row:  2 / 3;
-        background:pink;
-        }*/
-        .album_grid .bg8 {
-          grid-column: 5 / 7;
-          grid-row: 4;
-          background: #2F457F;
-          opacity: 95%;
-          height: 150px;
-        }
-        .album_grid .feature-desc-02 {
-          grid-column: 2 / 3;
-          grid-row: 3;
-        }
 
-        .album_grid .feature-grid-3,
-        .album_grid .feature-grid-6 {
-          grid-template-columns: 1fr 1fr 2fr 2fr 2fr 3fr 1fr 1fr 2fr;
-          grid-template-rows: 80px auto 200px auto 100px;
-        }
-        .album_grid .img3,
-        .album_grid .img6{
-          grid-column: 2/5;
-          grid-row: 1 / 5;
-        }
-        .album_grid .feature-grid-3 h3 {
-          grid-column: 6 / 9;
-          grid-row: 2 / 3;
-        }
-        .album_grid .feature-desc-03 {
-          grid-column: 6 / 9;
-          grid-row: 3 / 5;
-        }
-        .feature-grid-3.feature-text::before {
-          content:"";
-          width:100px;
-          height:10px;
-          position: absolute;
-          top:0;
-          display:none;
-        }
+      .album_grid .grid:nth-child( odd ){
+        display: grid;
+        grid-template-columns: 1fr 4fr 1fr 6fr 1fr ;
+        grid-template-rows: auto;
+        padding-top: 8vw;
       }
+
+      .album_grid .grid:nth-child( even ){
+        display: grid;
+        grid-template-columns: 1fr 6fr 1fr 4fr 1fr ;
+        grid-template-rows: auto;
+        padding-top: 4vw;
+      }
+
+      .album_grid .img:nth-child( odd ){
+        grid-column: 4;
+        max-width: 300px;
+      }
+      .album_grid .img:nth-child( even ){
+        grid-column: 2;
+        max-width: 300px;
+      }
+      .album_grid .feature-text:nth-child( odd ){
+        grid-column: 4;
+      }
+      .album_grid .feature-text:nth-child( even ){
+        grid-column: 2;
+        grid-row: 1;
+      }
+
 
       /*End album section*/
+      @media screen and (max-width: 900px) {
+        /*Logo*/
+        svg#rhcp_logo { width: 100%; text-align: center; background: black; margin: 0 auto;}
+        #rhcp_logo rect { fill: #FE0304 }
+        #rhcp_logo text,
+        #rhcp_logo_explained text { 
+          font-size: 56.5px;
+        }
 
-      /* Timeline */
-      .timeline {
-        width: 740px;
-        margin: auto;
-        counter-reset: section;
-
-        /* Hide work in progress */
-        display: none;  
+        .grid > div {
+          padding: 20px 0;
+        }
       }
 
-      .timeline p {
-        border-top: 2px dashed;
-        border-color: hsl(360, 83%, 62%) !important;
-        margin: 0; 
-        padding: 30px 20px;
-        position: relative;
-        counter-increment: section;
-      }
+    </style>
 
-      .timeline p:nth-child(even):before {
-        content: counter(section) ".";
-        right: 100%;
-        margin-right: -44px;
-        position: absolute;
-
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        padding: auto 10px;
-        background: #fff;
-        border: 3px solid hsl(360, 83%, 62%);
-        color: hsl(360, 83%, 62%);
-        text-align: center;
-        font: 24px Arial, sans-serif;
-        line-height: inherit;
-      }
-
-      .timeline p:nth-child(odd):before {
-        content: counter(section) ".";
-        left: 100%; 
-        margin-left: -44px;
-        position: absolute;
-
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        padding: auto 10px;
-        background: #fff;
-        border: 3px solid hsl(360, 83%, 62%);
-        color: hsl(360, 83%, 62%);
-        text-align: center;
-        font: 24px Arial, sans-serif;
-        line-height: inherit;
-      }
-
-      .timeline p:nth-child(even) {
-        border-left: 2px dashed;
-        border-top-left-radius: 30px;
-        border-bottom-left-radius: 30px;
-        margin-right: 30px; 
-        padding-right: 0;
-        padding-left: 3rem;
-      }
-
-      .timeline p:nth-child(odd) {
-        border-right: 2px dashed;
-        border-top-right-radius: 30px;
-        border-bottom-right-radius: 30px;
-        margin-left: 30px; 
-        padding-left: 0;
-        padding-right: 3rem;
-      }
-
-      .timeline p:first-child {
-        border-top: 0;
-        border-top-right-radius:0;
-        border-top-left-radius:0;
-      }
-
-      .timeline p:last-child {
-        border-bottom-right-radius:0;
-        border-bottom-left-radius:0;
-      }
-
-      .timeline span{ 
-       display: inline-block;
-     }
-
-
-     @media screen and (max-width: 900px) {
-      /*Logo*/
-      svg#rhcp_logo { width: 100%; text-align: center; background: black; margin: 0 auto;}
-      #rhcp_logo rect { fill: #FE0304 }
-      #rhcp_logo text,
-      #rhcp_logo_explained text { 
-        font-size: 56.5px;
-      }
-    }
-
-  </style>
-
-</head>
-<body>
-  <nav class="nav">
-    <div class="nav__list">
-      <a href="index.html" class="nav__item">Home</a>
-      <a href="blog.html" class="nav__item">Blog</a>
-      <a href="fun.html" class="nav__item">Fun</a>
-    </div>
-    <div class="nav__list">
-      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
-      <a href="#" class="nav__item js-email-link">Email</a>
-    </div>
-  </nav>
-
-  <main role="main">
-    <article>
-
-      <svg id="rhcp_logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500">
-        <title>Red Hot Chilli Peppers Logo</title>
-        <defs>
-          <path d="M50,250c0-110.5,89.5-200,200-200s200,89.5,200,200s-89.5,200-200,200S50,360.5,50,250" id="textcircle">
-            <animateTransform
-            attributeName="transform"
-            begin="0s"
-            dur="30s"
-            type="rotate"
-            from="0 250 250"
-            to="360 250 250"
-            repeatCount="indefinite" 
-            />
-            <!-- SMIL animation: deprecated in Chrome, so eventually will have to be replaced with Web Animation API or alternative -->
-          </path>
-          <symbol>
-            <rect x="225" y="135" width="50" height="230" id="redstripe"/>
-          </symbol>
-        </defs>
-        <use xlink:href="#redstripe" />
-        <use xlink:href="#redstripe" transform="rotate(90 250 250)" />
-        <use xlink:href="#redstripe" transform="rotate(45 250 250)" />
-        <use xlink:href="#redstripe" transform="rotate(-45 250 250)" />
-        <text dy="70" textLength="1220">
-          <!-- textLength (essentially the circumference of the circle) is used as an alternative to letter-spacing for Firefox, which currently doesn't support letter-spacing for SVG -->
-          <textPath xlink:href="#textcircle">Red Hot Chilli Peppers</textPath>
-        </text>
-      </svg>
-
-      <div class="article-hero">
-        <h2 class="article-category">Post</h2>
-        <h1 class="article-title">Red Hot Chili Peppers</h1>
-        <h2 class="article-subtitle">A tribute</h2>
-      </div> 
-
-      <p>I've just finished reading <a href="https://www.goodreads.com/book/show/96647.Scar_Tissue">Scartissue</a> by Anthony Kiedis. It's an absolute trip and I couldn't put it down. Kiedis takes us into his world and through his life, laying everything bare and sparing no gory detail. If you haven't had a chance to read it yet, I highly encourage it. <a href="https://www.goodreads.com/book/show/39667068-acid-for-the-children">Acid for the Children</a>, by Flea, is another great read. Flea writes about his life before the band, including his teenage years in LA with Kiedis. It's a beautiful book. This page is my humble tribute to them and the band that brings so much love to my life.</p>
-
-      <p>The rotating logo above is an <code>svg</code> image. Four red rectangles are drawn and rotated around the center to create the star. A rotation animation is applied to rotate the text around the red stripes in a circle. It takes about 30 lines of code in total to create the whole thing. Logo from <a href="https://codepen.io/dudleystorey">Dudley Storey</a>.</p>
-
-      <svg id="rhcp_logo_explained" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" class="mid-size">
-        <title>Red Hot Chilli Peppers Logo</title>
-        <defs>
-          <path d="M50,250c0-110.5,89.5-200,200-200s200,89.5,200,200s-89.5,200-200,200S50,360.5,50,250" id="textcircle2">
-            <animateTransform
-            attributeName="slow-transform"
-            begin="0s"
-            dur="120s"
-            type="rotate"
-            from="0 250 250"
-            to="360 250 250"
-            repeatCount="indefinite" 
-            />
-            <!-- SMIL animation: deprecated in Chrome, so eventually will have to be replaced with Web Animation API or alternative -->
-          </path>
-          <symbol>
-            <rect x="225" y="135" width="50" height="230" id="whitestripe"/>
-          </symbol>
-        </defs>
-        <use xlink:href="#whitestripe" />
-        <use xlink:href="#whitestripe" transform="rotate(90 250 250)" />
-        <use xlink:href="#whitestripe" transform="rotate(45 250 250)" />
-        <use xlink:href="#whitestripe" transform="rotate(-45 250 250)" />
-        <text dy="70" textLength="1220">
-          <!-- textLength (essentially the circumference of the circle) is used as an alternative to letter-spacing for Firefox, which currently doesn't support letter-spacing for SVG -->
-          <textPath xlink:href="#textcircle2">Red Hot Chilli Peppers</textPath>
-        </text>
-      </svg>
-      <figcaption>Deconstructed RHCP logo</figcaption>
-
-      <div class="album_grid">
-        <div class="timeline">
-          <p>Red Hot Chili Peppers were formed in Los Angeles by singer <strong>Anthony Kiedis</strong>, guitarist <strong>Hillel Slovak</strong>, bassist <strong>Flea</strong>, and drummer <strong>Jack Irons</strong>, classmates at Fairfax High School. Early band names included <i>Tony Flow</i> and the <i>Miraculously Majestic Masters of Mayhem</i>.</p>
-          <p>Released on August 16, 1989, <i>Mother's Milk</i> peaked at number 52 on the U.S. Billboard 200. Single <mark>"Knock Me Down"</mark> reached number six on the charts. <mark>"Higher Ground"</mark> peaked at number eleven. Band members: John Frusciante, Flea, Anthony Kiedis, Chad Smith, Hillel Slovak, and Jack Irons.
-          </p>
-        </div>
-        <section class="grid feature-grid-1">
-          <div class="bg1 mobile-none show-on-desktop"></div>
-          <div class="img1">
-            <a href="https://en.wikipedia.org/wiki/File:Mother%27sMilkAlbumcover.jpg#/media/File:Mother'sMilkAlbumcover.jpg"><img src="https://upload.wikimedia.org/wikipedia/en/9/98/Mother%27sMilkAlbumcover.jpg" alt="Mother'sMilkAlbumcover.jpg"></a>
-          </div>
-          <div class="feature-text feature-desc-01">
-            <h3>Mother's Milk (1989)</h3>
-            <p>Mother's Milk is the fourth studio album by Red Hot Chili Peppers.</p><p>Released on August 16, 1989, <i>Mother's Milk</i> peaked at number 52 on the U.S. Billboard 200. Single <mark>"Knock Me Down"</mark> reached number six on the charts. <mark>"Higher Ground"</mark> peaked at number eleven. Band members: John Frusciante, Flea, Anthony Kiedis, Chad Smith, Hillel Slovak, and Jack Irons.
-            </p>
-          </div>
-        </section>
-
-        <section class="grid feature-grid-2">
-          <div class="img2">
-            <img src="https://upload.wikimedia.org/wikipedia/en/5/5e/RHCP-BSSM.jpg" alt="The four band members' faces with elongated tongues that wrap around a rose."></a>
-          </div>
-          <div class="bg3 mobile-none show-on-desktop"></div>
-          <div class="bg4 mobile-none show-on-desktop"></div>
-          <div class="feature-text feature-desc-02">
-            <h3>Blood Sugar Sex Magik (1991)</h3>
-            <p><abbr title="Red Hot Chili Peppers">RHCP</abbr>'s fifth studio album, released on September 24, 1991.</p><p>Produced by <b>Rick Rubin</b>, the musical style differs notably from the band's previous album <i>Mother's Milk</i> (1989), reducing the use of heavy metal guitar riffs and accentuating the melodic songwriting contributions of guitarist <b>John Frusciante</b>. Band members: John Frusciante, Flea, Anthony Kiedis, and Chad Smith.</p>
-          </div>
-        </section>
-
-        <section class="grid feature-grid-3">
-          <div class="img3">
-            <a href="https://en.wikipedia.org/wiki/File:RedHotChiliPeppersCalifornication.jpg#/media/File:RedHotChiliPeppersCalifornication.jpg"><img src="https://upload.wikimedia.org/wikipedia/en/d/df/RedHotChiliPeppersCalifornication.jpg" alt="RedHotChiliPeppersCalifornication.jpg"></a>
-          </div>          
-          <div class="feature-text feature-desc-03">
-            <h3>Californication (1999)</h3>
-            <p><i>Soft spoken with a broken jaw <br>Step outside but not to brawl</i></p>
-            <p><abbr title="Red Hot Chili Peppers">RHCP</abbr>'s seventh studio album, released on June 8, 1999. Also produced by <b>Rick Rubin</b>. Californication marked the return of John Frusciante, who had previously appeared on <i>Mother's Milk</i> and <i>Blood Sugar Sex Magik</i>, to replace Dave Navarro as the band's guitarist<a href="#footnotes" aria-describedby="footnote-label" id="footnotes-ref"></a>. </p>
-
-          </div>
-        </section>
-        <section class="grid feature-grid-4">
-          <div class="img4">
-            <a href="https://en.wikipedia.org/wiki/File:Rhcp9.jpg#/media/File:Rhcp9.jpg"><img src="https://upload.wikimedia.org/wikipedia/en/2/23/Rhcp9.jpg" alt="Rhcp9.jpg"></a>
-          </div>
-          <div class="feature-text feature-desc-04">
-            <h3>By the Way (2002)</h3>
-            <p>By the Way sold more than 286,000 copies in its first week, and peaked at number two on the Billboard 200. Released July 9, 2002.</p> <p>Singles include "<mark>By the Way</mark>," "<mark>The Zephyr Song</mark>," "<mark>Can't Stop</mark>," and "<mark>Universally Speaking</mark>". </p>
-          </div>
-        </section>
-
-        <section class="grid feature-grid-5">
-          <div class="img5">
-            <a href="https://en.wikipedia.org/wiki/File:Stadiumarcadium.jpg#/media/File:Stadiumarcadium.jpg"><img src="https://upload.wikimedia.org/wikipedia/en/e/e6/Stadiumarcadium.jpg" alt="Stadiumarcadium.jpg"></a>
-          </div>
-          <div class="bg2 mobile-none show-on-desktop"></div>
-          <div class="bg3 mobile-none show-on-desktop"></div>
-          <div class="bg9 mobile-none show-on-desktop"></div>
-          <div class="feature-text feature-desc-02">
-            <h3>Stadium Arcadium (2006)</h3>
-            <p>Stadium Arcadium was released on May 9, 2006.</p><p>It graced us with five singles: "<mark>Dani California</mark>", "<mark>Tell Me Baby</mark>", "<mark>Snow (Hey Oh)</mark>", and "<mark>Hump de Bump</mark>", along with the first-ever fan-made music video for the song "<a href="https://www.youtube.com/watch?v=wNvOUkRTkz8">Charlie</a>". In the United States, Stadium Arcadium became the band's first number-one album. It was the group's last to feature guitarist John Frusciante before his departure in 2009 and return in 2019.</p>
-
-          </div>
-        </section>
-
-        <section class="grid feature-grid-6">
-          <div class="img6">
-            <a href="https://en.wikipedia.org/wiki/File:RHCP_I%27m_With_You_Cover.jpg#/media/File:RHCP_I'm_With_You_Cover.jpg"><img src="https://img.discogs.com/R19Ddy4jWZUoEbVOWjnAY5yFDdg=/fit-in/600x600/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-3181077-1320692876.jpeg.jpg" alt="A photo of a fly standing on a dark-red pill on a white table in a white room with the words &quot;I'm With You&quot;. Half of the pill is colored white. The words &quot;Red Hot Chili Peppers&quot; can be seen above the fly and the pill in white."></a>
-          </div>
-          <div class="feature-text feature-desc-03">
-            <h3>I'm with You (2011)</h3>
-            <p>I'm with You dropped August 29, 2011.</p><p>The album made its debut at number one in 18 countries including the United Kingdom, while reaching number two in the United States and Canada. Singles include "<mark>The Adventures of Rain Dance Maggie</mark>" and "<mark>Monarchy of Roses</mark>".</p>
-            <p>Band members include Josh Klinghoffer, Anthony Kiedis, Flea, and Chad Smith.</p>
-
-          </div>
-        </section>
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="nav__list">
+        <a href="index.html" class="nav__item">Home</a>
+        <a href="blog.html" class="nav__item">Blog</a>
+        <a href="fun.html" class="nav__item">Fun</a>
       </div>
+      <div class="nav__list">
+        <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+        <a href="#" class="nav__item js-email-link">Email</a>
+      </div>
+    </nav>
 
+    <main role="main">
+      <article>
 
-    </article>
-  </main>
-  <footer>
+        <svg id="rhcp_logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500">
+          <title>Red Hot Chilli Peppers Logo</title>
+          <defs>
+            <path d="M50,250c0-110.5,89.5-200,200-200s200,89.5,200,200s-89.5,200-200,200S50,360.5,50,250" id="textcircle">
+              <animateTransform
+              attributeName="transform"
+              begin="0s"
+              dur="30s"
+              type="rotate"
+              from="0 250 250"
+              to="360 250 250"
+              repeatCount="indefinite" 
+              />
+              <!-- SMIL animation: deprecated in Chrome, so eventually will have to be replaced with Web Animation API or alternative -->
+            </path>
+            <symbol>
+              <rect x="225" y="135" width="50" height="230" id="redstripe"/>
+            </symbol>
+          </defs>
+          <use xlink:href="#redstripe" />
+          <use xlink:href="#redstripe" transform="rotate(90 250 250)" />
+          <use xlink:href="#redstripe" transform="rotate(45 250 250)" />
+          <use xlink:href="#redstripe" transform="rotate(-45 250 250)" />
+          <text dy="70" textLength="1220">
+            <!-- textLength (essentially the circumference of the circle) is used as an alternative to letter-spacing for Firefox, which currently doesn't support letter-spacing for SVG -->
+            <textPath xlink:href="#textcircle">Red Hot Chilli Peppers</textPath>
+          </text>
+        </svg>
 
-    <h2 id="footnote-label">Footnotes</h2>
-    <ol>
-      <li id="footnotes">Frusciante's return was credited with changing the band's sound altogether, producing a notable shift in style from the music recorded with Navarro. The album's subject material incorporated various sexual innuendos commonly associated with the band, but also contained more varied themes than previous outings, including death, contemplations of suicide, California, drugs, globalization, and travel.<a href="#footnotes-ref" aria-label="Back to content">↩</a></li>
-    </ol>
-    <h1 class="visually-hidden">Justin Chill © 2020</h1>
-  </footer>
-</body>
-</html>
+        <div class="article-hero">
+          <!-- <h2 class="article-category">Post</h2> -->
+          <h1 class="article-title">Red Hot Chili Peppers</h1>
+          <h2 class="article-subtitle">Choose not a life of imitation</h2>
+        </div> 
+
+        <p>I've just finished reading <a href="https://www.goodreads.com/book/show/96647.Scar_Tissue">Scartissue</a> by Anthony Kiedis. It's an absolute trip and I couldn't put it down. Kiedis takes us into his world and through his life, laying everything bare and sparing no gory detail. If you haven't had a chance to read it yet, I highly encourage it. <a href="https://www.goodreads.com/book/show/39667068-acid-for-the-children">Acid for the Children</a>, by Flea, is another great read. Flea writes about his life before the band, including his teenage years in LA with Kiedis. It's a beautiful book. This page is my humble tribute to them and the band that brings so much love to my life.</p>
+
+        <p>The rotating logo above is an <code>svg</code> image. Four red rectangles are drawn and rotated around the center to create the star. A rotation animation is applied to rotate the text around the red stripes in a circle. It takes about 30 lines of code in total to create the whole thing. Logo from <a href="https://codepen.io/dudleystorey">Dudley Storey</a>.</p>
+
+        <svg id="rhcp_logo_explained" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" class="mid-size">
+          <title>Red Hot Chilli Peppers Logo</title>
+          <defs>
+            <path d="M50,250c0-110.5,89.5-200,200-200s200,89.5,200,200s-89.5,200-200,200S50,360.5,50,250" id="textcircle2">
+              <animateTransform
+              attributeName="slow-transform"
+              begin="0s"
+              dur="120s"
+              type="rotate"
+              from="0 250 250"
+              to="360 250 250"
+              repeatCount="indefinite" 
+              />
+              <!-- SMIL animation: deprecated in Chrome, so eventually will have to be replaced with Web Animation API or alternative -->
+            </path>
+            <symbol>
+              <rect x="225" y="135" width="50" height="230" id="whitestripe"/>
+            </symbol>
+          </defs>
+          <use xlink:href="#whitestripe" />
+          <use xlink:href="#whitestripe" transform="rotate(90 250 250)" />
+          <use xlink:href="#whitestripe" transform="rotate(45 250 250)" />
+          <use xlink:href="#whitestripe" transform="rotate(-45 250 250)" />
+          <text dy="70" textLength="1220">
+            <!-- textLength (essentially the circumference of the circle) is used as an alternative to letter-spacing for Firefox, which currently doesn't support letter-spacing for SVG -->
+            <textPath xlink:href="#textcircle2">Red Hot Chilli Peppers</textPath>
+          </text>
+        </svg>
+        <figcaption>Deconstructed RHCP logo</figcaption>
+
+        <p>Red Hot Chili Peppers were formed in Los Angeles by singer <strong>Anthony Kiedis</strong>, guitarist <strong>Hillel Slovak</strong>, bassist <strong>Flea</strong>, and drummer <strong>Jack Irons</strong>, classmates at Fairfax High School. Early band names included <i>Tony Flow</i> and the <i>Miraculously Majestic Masters of Mayhem</i>.</p>
+
+        <div class="album_grid">
+          <section class="grid feature-grid-1">
+            <div class="bg1 mobile-none show-on-desktop"></div>
+            <div class="img">
+              <a href="https://en.wikipedia.org/wiki/File:Mother%27sMilkAlbumcover.jpg#/media/File:Mother'sMilkAlbumcover.jpg"><img src="https://upload.wikimedia.org/wikipedia/en/9/98/Mother%27sMilkAlbumcover.jpg" alt="Mother'sMilkAlbumcover.jpg"></a>
+            </div>
+            <div class="feature-text">
+              <h3 class="feature-desc-01">Mother's Milk (1989)</h3>
+              <p>Mother's Milk is the fourth studio album by the Red Hot Chili Peppers. Released on August 16, 1989, <i>Mother's Milk</i> peaked at number 52 on the U.S. Billboard 200. Single <mark>"Knock Me Down"</mark> reached number six on the charts. <mark>"Higher Ground"</mark> peaked at number eleven. Band members: John Frusciante, Flea, Anthony Kiedis, Chad Smith, Hillel Slovak, and Jack Irons.
+              </p>
+            </div>
+          </section>
+
+          <section class="grid feature-grid-2">
+            <div class="img">
+              <img src="https://upload.wikimedia.org/wikipedia/en/5/5e/RHCP-BSSM.jpg" alt="The four band members' faces with elongated tongues that wrap around a rose."></a>
+            </div>
+<!--             <div class="bg3 mobile-none show-on-desktop"></div>
+            <div class="bg4 mobile-none show-on-desktop"></div> -->
+            <div class="feature-text feature-desc-02">
+              <h3>Blood Sugar Sex Magik (1991)</h3>
+              <p><abbr title="Red Hot Chili Peppers">RHCP</abbr>'s fifth studio album, released on September 24, 1991. Produced by <b>Rick Rubin</b>, the musical style differs notably from the band's previous album <i>Mother's Milk</i> (1989), reducing the use of heavy metal guitar riffs and accentuating the melodic songwriting contributions of guitarist <b>John Frusciante</b>. Band members: John Frusciante, Flea, Anthony Kiedis, and Chad Smith.</p>
+            </div>
+          </section>
+
+          <section class="grid feature-grid-3">
+            <div class="bg3 mobile-none show-on-desktop"></div>
+            <div class="img">
+              <a href="https://en.wikipedia.org/wiki/File:RedHotChiliPeppersCalifornication.jpg#/media/File:RedHotChiliPeppersCalifornication.jpg"><img src="https://upload.wikimedia.org/wikipedia/en/d/df/RedHotChiliPeppersCalifornication.jpg" alt="RedHotChiliPeppersCalifornication.jpg"></a>
+            </div>          
+            <div class="feature-text feature-desc-03">
+              <h3>Californication (1999)</h3>
+              <p><i>Soft spoken with a broken jaw <br>Step outside but not to brawl</i></p>
+              <p><abbr title="Red Hot Chili Peppers">RHCP</abbr>'s seventh studio album, released on June 8, 1999. Also produced by <b>Rick Rubin</b>. Californication marked the return of John Frusciante, who had previously appeared on <i>Mother's Milk</i> and <i>Blood Sugar Sex Magik</i>, to replace Dave Navarro as the band's guitarist<a href="#footnotes" aria-describedby="footnote-label" id="footnotes-ref"></a>. </p>
+
+            </div>
+          </section>
+          <section class="grid feature-grid-4">
+            <div class="img">
+              <a href="https://en.wikipedia.org/wiki/File:Rhcp9.jpg#/media/File:Rhcp9.jpg"><img src="https://upload.wikimedia.org/wikipedia/en/2/23/Rhcp9.jpg" alt="Rhcp9.jpg"></a>
+            </div>
+            <div class="feature-text feature-desc-04">
+              <h3>By the Way (2002)</h3>
+              <p>By the Way sold more than 286,000 copies in its first week, and peaked at number two on the Billboard 200. Released July 9, 2002.</p> <p>Singles include "<mark>By the Way</mark>," "<mark>The Zephyr Song</mark>," "<mark>Can't Stop</mark>," and "<mark>Universally Speaking</mark>". </p>
+            </div>
+          </section>
+
+          <section class="grid feature-grid-5">
+            <div class="bg2 mobile-none show-on-desktop"></div>
+            <div class="bg3 mobile-none show-on-desktop"></div>
+            <div class="bg9 mobile-none show-on-desktop"></div>
+            <div class="img">
+              <a href="https://en.wikipedia.org/wiki/File:Stadiumarcadium.jpg#/media/File:Stadiumarcadium.jpg"><img src="https://upload.wikimedia.org/wikipedia/en/e/e6/Stadiumarcadium.jpg" alt="Stadiumarcadium.jpg"></a>
+            </div>
+            <div class="feature-text feature-desc-02">
+              <h3>Stadium Arcadium (2006)</h3>
+              <p>Stadium Arcadium was released on May 9, 2006. It graced us with five singles: "<mark>Dani California</mark>", "<mark>Tell Me Baby</mark>", "<mark>Snow (Hey Oh)</mark>", and "<mark>Hump de Bump</mark>", along with the first-ever fan-made music video for the song "<a href="https://www.youtube.com/watch?v=wNvOUkRTkz8">Charlie</a>". In the United States, Stadium Arcadium became the band's first number-one album. It was the group's last to feature guitarist John Frusciante before his departure in 2009 and return in 2019.</p>
+
+            </div>
+          </section>
+
+          <section class="grid feature-grid-6">
+            <div class="img">
+              <a href="https://en.wikipedia.org/wiki/File:RHCP_I%27m_With_You_Cover.jpg#/media/File:RHCP_I'm_With_You_Cover.jpg"><img src="https://img.discogs.com/R19Ddy4jWZUoEbVOWjnAY5yFDdg=/fit-in/600x600/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-3181077-1320692876.jpeg.jpg" alt="A photo of a fly standing on a dark-red pill on a white table in a white room with the words &quot;I'm With You&quot;. Half of the pill is colored white. The words &quot;Red Hot Chili Peppers&quot; can be seen above the fly and the pill in white."></a>
+            </div>
+            <div class="feature-text feature-desc-03">
+              <h3>I'm with You (2011)</h3>
+              <p>I'm with You dropped August 29, 2011. The album made its debut at number one in 18 countries including the United Kingdom, while reaching number two in the United States and Canada. Singles include "<mark>The Adventures of Rain Dance Maggie</mark>" and "<mark>Monarchy of Roses</mark>".</p>
+              <p>Band members include Josh Klinghoffer, Anthony Kiedis, Flea, and Chad Smith.</p>
+
+            </div>
+          </section>
+        </div>
+      </article>
+    </main>
+    <footer>
+
+      <h2 id="footnote-label">Footnotes</h2>
+      <ol>
+        <li id="footnotes">Frusciante's return was credited with changing the band's sound altogether, producing a notable shift in style from the music recorded with Navarro. The album's subject material incorporated various sexual innuendos commonly associated with the band, but also contained more varied themes than previous outings, including death, contemplations of suicide, California, drugs, globalization, and travel.<a href="#footnotes-ref" aria-label="Back to content">↩</a></li>
+      </ol>
+      <h1 class="visually-hidden">Justin Chill © 2020</h1>
+    </footer>
+  </body>
+  </html>
