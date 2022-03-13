@@ -206,6 +206,7 @@ footer h2 {
 h2{
   font-family: 'Libre Franklin',"Lato", sans-serif;
   margin-top: 1em;
+  margin-bottom: .25em;
 }
 
 h3{
@@ -270,6 +271,7 @@ article > blockquote{
   line-height:1.6;
   position: relative;
   background:hsl(43, 13%, 90%);
+  margin: 0;
 }
 
 article > blockquote::before{
@@ -340,7 +342,7 @@ article > p:first-of-type:first-letter {
 }
 
 .article-subtitle {
-  font-family: "Lato", sans-serif;
+  font-family: 'Libre Franklin',"Lato", sans-serif;
   color: rgba(0, 0, 0, 0.54);
   text-align: center;
 }
@@ -390,7 +392,7 @@ a.nav__item:hover {
   display: none;
 }
 
-@media (min-width: 800px) {
+@media (min-width: 1024px) {
   .nav {
     display: block;
     position: fixed;
@@ -427,7 +429,6 @@ footer {
   display: grid;
   grid-template-columns: 1fr 1fr 10px 740px 10px 1fr 1fr;
   background: rgba(255, 255, 255, 1);
-  padding: 1em 0;
 }
 
 article > *,
@@ -498,7 +499,7 @@ article > p + ol,{
 }
 article > h3{
   padding-top: 44px;
-  font-size: calc(20px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+  font-size: calc(16px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
 }
 
 html, input, textarea {
@@ -717,12 +718,14 @@ footer ::marker{
 }
 footer ol{
   margin: 0;
-  padding: 0;
+  padding-bottom: 1em;
+  border-bottom: 1px solid silver;
 }
 footer div{
   grid-column: 1/-1;
   margin: var(--gutter);
   margin-top: calc(var(--gutter)*4);
+  margin-bottom: calc(var(--gutter));
   display: flex;
   justify-content: space-between;
 }
@@ -930,6 +933,10 @@ footer p a{
 
   /* Print styles (don't forget about print styles!) */
   @media print {
+    a[href]:after {
+      content: " (" attr(href) ") "; /* Append the full URL after a link if printed */
+    } 
+
     mark {
       border: 1pt dotted #000;
     }
@@ -982,10 +989,11 @@ footer p a{
     text-align: right;
   }
 
-  .plot text {
+  svg[class*="plot"]{
     color: #656568;
     font-family: 'Ubuntu', sans-serif;
     pointer-events: none;
+    letter-spacing: -0.15px;
     font-size: calc(5px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
   }
 
