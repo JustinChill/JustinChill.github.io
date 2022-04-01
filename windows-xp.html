@@ -21,10 +21,6 @@
     margin: 6rem 0 4rem;
   }
 
-  .plot{
-    width: 700px;
-    margin: 0 auto;
-  }
   figure.xp-loading{
     grid-column: 4;
     margin: 20px 0;
@@ -524,8 +520,6 @@
 
     <header>
       <h1>Windows XP</h1>
-      <h2 class="subtitle"></h2>
-      <time date="2021-2-12">May 2021</time>
     </header>
     <p>Microsoft invested $1B in marketing<a href="#1b" aria-describedby="footnote-label" id="1b-ref"></a> when it prepared to ship Windows XP. When the operating system was released in 2001, it was many people's first experience with a home computer. Windows XP introduced a suite of features that made using a computer accessible: a standard user interface, easy software updates over the internet,  and faster app switching.</p>
     <h3>OS marketshare, 2020</h3>
@@ -615,9 +609,15 @@
       updateClock();
 
       // Thicken the plot
-      var os_marketshare = {        
+      var element = d3.select('figure').node();
+      var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive  
+
+      var os_marketshare = {
+        width: width,
         x:{
           label: "Operating System",
+          tickSize: 0,
+          labelOffset: 40,
         },
         y:{
           label: "↑ Market Share %",
