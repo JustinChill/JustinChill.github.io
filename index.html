@@ -18,6 +18,7 @@
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500&family=Ubuntu:wght@500&display=swap');
+    @import url('https://fonts.googleapis.com/css?family=Oswald');
 
     html {
       /*font-family: Roboto, Helvetica, Arial, sans-serif;*/
@@ -191,6 +192,7 @@
       fill: transparent; /*transparent is animatable, "none" isn't*/
       fill-opacity: 0;
       transition: fill-opacity 1.4s;
+      transition-delay: 1s;
     }
 
     .clear-stroke path{
@@ -205,7 +207,7 @@
     /*--------------------------------------------------------------
     Featured posts
     --------------------------------------------------------------*/
-    main img{
+/*    main img{
       box-shadow: 0 3px 15px rgba(51, 51, 51, 0.2);
       border-radius: 10px;
       transition: 0.2s ease;
@@ -233,9 +235,139 @@
     .logogrid__img {
       -o-object-fit: cover;
       object-fit: cover;
-      /*max-width: 120px;*/
+      max-width: 120px;
       border-radius: 0;
       box-shadow: none;
+    }*/
+
+    .wrap{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+      grid-gap:10px;
+      padding:0.5em;
+      perspective:500px;
+    }
+    .article {
+      display:flex;
+      flex-direction:column;
+      height:300px;
+      position:relative;
+      background-size:cover;
+      background-position: center;
+      border: none;
+      border-radius:7px;
+      overflow:hidden;
+      padding:1em;
+      cursor:pointer;
+      transform: rotateX(0deg) rotateY(0deg);
+      transition: all 0.2s linear ;
+      will-change: transform;
+    }
+
+    .article:nth-child(5n+1){
+        background-image:url("imgs/inequality-preview.png");
+        background-position: top;
+    }
+
+    .article:nth-child(5n+2){
+        background-image:url("imgs/feelwheel-preview.png");
+    }
+    .article:nth-child(5n+3){
+      background-image:url("imgs/solar-preview.png");
+    }
+
+    .article:nth-child(5n+4){
+      background-image:url("imgs/8m46-preview.png");
+    }
+    .article:nth-child(5n+5){
+      background-image:url("imgs/charts-preview.png");
+    }
+    .article:nth-child(5n+6){
+      background-image:url("imgs/Mondrian-preview.png");
+    }
+
+
+    .overlay {
+      width:100%;
+      height:100%;
+      background-image:radial-gradient(circle at 50% 50%,rgba(0,0,0,0.3) 20%,rgba(0,0,0,0.4) 50%);
+      position:absolute;
+      left:0;
+      top:0;
+      z-index:1;
+    }
+    .article h1{
+      font-size:1.5em;
+      font-family:'Oswald';
+      margin-top:auto;
+      cursor:pointer;
+      transition:all 0.3s;
+      position:relative;
+      z-index:2;
+      pointer-events:none;
+    }
+
+    .article h1{
+      transform:translateY(-20px)
+    }
+    .article h1 span{
+      color:#fff;
+    }
+
+    .article span.cat {
+      letter-spacing:2px;
+      font-weight:bold;
+      font-family: 'Lato', sans-serif;
+      position:relative;
+      z-index:2;
+      pointer-events:none;
+      overflow:hidden;
+      color:#fff;
+    }
+
+    @media screen and (min-width:1000px){
+      .wrap{
+        grid-template-columns:repeat(auto-fit,minmax(400px,1fr));
+        grid-gap:1.5rem;
+        padding: 0 2rem;
+      }
+      .article h1{
+        transform:translateY(0px);
+      }
+      .article:hover h1{
+      transform:translateY(-20px)
+      }
+      
+      .article span.cat {
+        color:transparent;
+      }
+      
+    .article span.cat::before,.article span.cat::after{
+      content:attr(data-hover);
+      position:absolute;
+      display:inline-block;
+      left:0;
+      top:0;
+      white-space: nowrap;
+      overflow:hidden;
+      max-width:0%;
+      transition:max-width 300ms ease-out; 
+    }
+    .article span.cat::before {
+      color:yellow;
+      transition-delay:100ms;
+    }
+    .article span.cat::after {
+      color:white;
+    }
+
+    .article:hover span.cat:after,.article:hover span.cat:before{
+      max-width:100%;
+    }
+
+    .article:hover span.cat:after {
+      transition-delay:300ms;
+    }
     }
 
     /*--------------------------------------------------------------
@@ -826,7 +958,7 @@
 <div class="flex-col-md-1"></div>
 </div>
 
-<div class="flex-row">
+<!-- <div class="flex-row">
   <div class="flex-col-md-4">          
     <a href="inequality.html"><img alt="A chart showing the increase in inequality in different American cities over 4 decades." src="imgs/inequality-preview.png" /></a>
     <h5><a href="inequality.html">4 Decades of Inequality</a></h5>
@@ -842,16 +974,16 @@
     <h5><strong><a href="solar-system.html">Our solar system</a></strong></h5>
     <p>A diagram of our solar system created using HTML, CSS, and javascript. Planets and their significant moons are shown to scale and position from the sun.</p>
   </div>
-</div>
+</div> -->
 
-<div class="flex-row">
+<!-- <div class="flex-row">
   <div class="flex-col-md-4">          
     <a href="8m46s.html"><img class="george" alt="A black background with 8 minutes, 46 seconds in large white letters above a stopwatch timer button." src="imgs/8m46-preview.png" /></a>
     <h5><a href="8m46s.html">8 Minutes, 46 Seconds</a></h5>
     <p>A reflection on George Floyd's murder.</p>
   </div>
   <div class="flex-col-md-4">
-      <!-- <img alt="A visual glossary of charts and data visualizations." src="imgs/charts-preview.png" /> -->
+      <img alt="A visual glossary of charts and data visualizations." src="imgs/charts-preview.png" />
       <section class="logogrid">
         <div class="logogrid__item"><img src="imgs/graph-7.svg" class="logogrid__img" alt="Illustration of a graph"></div>
         <div class="logogrid__item"><img src="imgs/graph-10.svg" class="logogrid__img" alt="Illustration of a graph"></div>
@@ -871,8 +1003,44 @@
     <h5><strong><a href="Mondrain.html">Piet Mondrain in CSS</a></strong></h5>
     <p>Composition with Red, Blue and CSS (2022)</p>
   </div>
+</div> -->
+
 </div>
 
+<div class="wrap">
+  <button class="article" onclick="window.location.href='inequality.html';">
+    <div class="overlay"></div>
+    <div class="wrap-cat"><span class="cat" data-hover="Data viz">Data viz</span></div>
+    <h1><span>4 Decades of Inequality</span></h1>
+  </button>
+  <button class="article" onclick="window.location.href='feeling-wheel.html';">
+    <div class="overlay"></div>
+    <div class="wrap-cat"><span class="cat" data-hover="Design">Design</span></div>
+    <h1><span>The Feeling Wheel</span></h1>
+  </button>
+  <button class="article" onclick="window.location.href='solar-system.html';">
+    <div class="overlay"></div>
+    <div class="wrap-cat"><span class="cat" data-hover="Data viz">Data viz</span></div>
+    <h1><span>Our solar system</span></h1>
+  </button>
+  <button class="article"  onclick="window.location.href='8m46s.html';">
+    <div class="overlay"></div>
+    <div class="wrap-cat"><span class="cat" data-hover="An ode">An ode</span></div>
+    <h1><span>8 Minutes, 46 Seconds</span></h1>
+  </button>
+  <button class="article" onclick="window.location.href='charts.html';">
+    <div class="overlay"></div>
+    <div class="wrap-cat"><span class="cat" data-hover="Data viz">Data viz</span></div>
+    <h1><span>Charts &amp; Data Visualizations</span></h1>
+  </button>
+  <button class="article" onclick="window.location.href='Mondrain.html';">
+    <div class="overlay"></div>
+    <div class="wrap-cat"><span class="cat" data-hover="Experiment">Experiment</span></div>
+    <h1><span>Piet Mondrain in CSS</span></h1>
+  </button>
+</div>
+
+<div class="flex-container">
 <div class="flex-row flex-row--align-h-center">
   <div class="flex-col-md-5">
     <div class="popular">
@@ -925,9 +1093,48 @@
 </script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vivus/0.4.6/vivus.min.js"></script>
 <script type="text/javascript">
-  new Vivus('chill-logo', { type:"sync", duration: 100, start:"inViewport", pathTimingFunction: Vivus.EASE },function(obj){
+  // Animate CHILL logo
+  new Vivus('chill-logo', { 
+    duration: 130,
+    type: 'async',
+    dashGap: 15,
+    start:"inViewport",
+    forceRender: false,
+    pathTimingFunction: Vivus.EASE_IN
+  },function(obj){
     obj.el.classList.add('filled', 'clear-stroke');
   });
+
+  // Fancy hover effect for featured articles
+  let articles = document.querySelectorAll(".article");
+
+  articles.forEach(i => {
+    i.addEventListener(
+      "mousemove",
+      e => {
+        let mouseX = e.offsetX;
+        let mouseY = e.offsetY;
+        i.querySelector(".overlay")
+          .style.setProperty(
+          "background-image",
+          `radial-gradient(circle at ${(mouseX) * 100  / -i.offsetWidth+100}% ${(mouseY) * 100  / -i.offsetHeight+100}%,rgba(0,0,0,0.2) 20%,rgba(0,0,0,0.3) 50%)`
+        );
+        i.style.setProperty("transform", `rotateY(${  ( ( (mouseX*100) / i.offsetWidth - 50 ) / 100) * 2}deg) rotateX(${  ( ( (mouseY*100) / i.offsetHeight - 50 ) / 100) * 2}deg) `
+  )
+      },
+      false
+    );
+    i.addEventListener("mouseleave",()=>{
+      i.style.setProperty("transform",`rotateX(0deg) rotateY(0deg)`);
+      
+            i.querySelector(".overlay")
+          .style.setProperty(
+          "background-image",
+          `radial-gradient(circle at 50% 50%,rgba(0,0,0,0.2) 20%,rgba(0,0,0,0.3) 50%)`
+        );
+    })
+  });
+
 </script>
 </body>
 </html>
