@@ -18,7 +18,7 @@
   #corruption_legend{
     margin-bottom: 0;
   }
-  #corruption_legend span::before{
+  #corruption_legend svg{
     border-radius: 50%;
   }
   .plot text{
@@ -74,7 +74,7 @@
     <figure id="corruption"></figure>
     <figcaption>Data: <a href="https://www.economist.com/graphic-detail/2011/12/02/corrosive-corruption">The Economist</a></figcaption>
 
-    <p>Transparency International's annual Corruption Perceptions Index measures the perceived levels of public-sector graft (using one's political position for personal gain) by aggregating independent surveys from across the globe. Comparing the corruption index with the UN's Human Development Index, a measure combining health, wealth and education, demonstrates an interesting connection. As the corruption index rises beyond 4.0 a strong connection with the human development index can be seen. Notable outliers include small but well-run poorer countries such as Bhutan and Cape Verde, while Greece and Italy stand out among the richer countries.</p>
+    <p>Transparency International's annual <strong>Corruption Perceptions Index</strong> measures how citizens feel about public-sector graft (using one's political position for personal gain) by aggregating independent surveys from across the globe. Comparing the corruption index with the UN's <strong>Human Development Index</strong>, a measure combining health, wealth and education, demonstrates an interesting connection. As the corruption index rises beyond 4.0 a strong connection with the human development index can be seen. Notable outliers include small but well-run poorer countries such as Bhutan and Cape Verde, while Greece and Italy stand out among the richer countries.</p>
 
     <h3>Original graphic</h3>
     <a href="https://www.economist.com/graphic-detail/2011/12/02/corrosive-corruption"><img src="https://cdn.static-economist.com/sites/default/files/20111210_WOC210.gif" alt="A scatter plot chart showing the correlation of corruption and development for 196 countries in the world."></a>
@@ -98,35 +98,35 @@
 
 
 <script type="text/javascript">
-  function linearRegression(y,x){
-          var lr = {};
-          var n = y.length;
-          var sum_x = 0;
-          var sum_y = 0;
-          var sum_xy = 0;
-          var sum_xx = 0;
-          var sum_yy = 0;
+  // function linearRegression(y,x){
+  //         var lr = {};
+  //         var n = y.length;
+  //         var sum_x = 0;
+  //         var sum_y = 0;
+  //         var sum_xy = 0;
+  //         var sum_xx = 0;
+  //         var sum_yy = 0;
 
-          for (var i = 0; i < y.length; i++) {
+  //         for (var i = 0; i < y.length; i++) {
 
-              sum_x += x[i];
-              sum_y += y[i];
-              sum_xy += (x[i]*y[i]);
-              sum_xx += (x[i]*x[i]);
-              sum_yy += (y[i]*y[i]);
-          } 
+  //             sum_x += x[i];
+  //             sum_y += y[i];
+  //             sum_xy += (x[i]*y[i]);
+  //             sum_xx += (x[i]*x[i]);
+  //             sum_yy += (y[i]*y[i]);
+  //         } 
 
-          lr['slope'] = (n * sum_xy - sum_x * sum_y) / (n*sum_xx - sum_x * sum_x);
-          lr['intercept'] = (sum_y - lr.slope * sum_x)/n;
-          lr['r2'] = Math.pow((n*sum_xy - sum_x*sum_y)/Math.sqrt((n*sum_xx-sum_x*sum_x)*(n*sum_yy-sum_y*sum_y)),2);
+  //         lr['slope'] = (n * sum_xy - sum_x * sum_y) / (n*sum_xx - sum_x * sum_x);
+  //         lr['intercept'] = (sum_y - lr.slope * sum_x)/n;
+  //         lr['r2'] = Math.pow((n*sum_xy - sum_x*sum_y)/Math.sqrt((n*sum_xx-sum_x*sum_x)*(n*sum_yy-sum_y*sum_y)),2);
 
-          return lr;
-  };
-  var known_y = [1, 2, 3, 4];
-  var known_x = [5.2, 5.7, 5.0, 4.2];
+  //         return lr;
+  // };
+  // var known_y = [1, 2, 3, 4];
+  // var known_x = [5.2, 5.7, 5.0, 4.2];
 
-  var lr = linearRegression(known_y, known_x);
-  console.log(lr);
+  // var lr = linearRegression(known_y, known_x);
+  // console.log(lr);
 
   var element = d3.select('figure').node();
   var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
@@ -177,18 +177,7 @@
         reverse: true,
       },
       marks: [
-      // I'm ashamed of this hack to get the r2 line
-      // Plot.lineY([.28, .44, .56, .64, .72, .79, .83, .85, .88, .9], {
-      //   stroke: "red",
-      //   strokeWidth: 2,
-      //   curve: "natural",
-      // }),
-      // Plot.line([
-      //    [0,.5*0 + 1],
-      //    [10,.5*10 + 1]
-      //  ],{stroke:"red"}),
-
-
+        Plot.linearRegressionY(data, {x: "CPI", y: "HDI", stroke: "crimson", ci: 0.95}),
         Plot.dot(data, {
           x: "CPI",
           y: "HDI",
@@ -393,8 +382,7 @@
     var corruption_legend = {
       label: "Temperature Change (°C) →",
       color: corruption_color,
-      // ticks: 4,
-      // tickFormat: "+f",
+      swatchSize: 20,
     };
 
     document.getElementById("corruption").appendChild(Plot.plot(corruption));

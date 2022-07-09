@@ -108,19 +108,22 @@
         scheme: "BuRd",
       },
       marks: [
-      Plot.link(metros, {
+      Plot.arrow(metros, {
         x1: "POP_1980",
         y1: "R90_10_1980",
         x2: "POP_2015",
         y2: "R90_10_2015",
-        stroke: d => d.R90_10_2015 - d.R90_10_1980
+        bend: true,
+        stroke: d => d.R90_10_2015 - d.R90_10_1980,
+        title:  (d) =>
+        `${d.nyt_display} \nPopulation in 1980: ${d3.format(",")(d.POP_1980)}\nPopulation in 2015: ${d3.format(",")(d.POP_2015)}\nCurrent level of inequality: ${d3.format(",")(d.R90_10_2015)}\nChange in inequality: ${d3.format("+.4")(d.R90_10_2015 - d.R90_10_1980)}`, // \n makes a new line
       }),
+      // This dot helps increase the surface area at the end of the arrow for hovering
       Plot.dot(metros, {
         x: "POP_2015",
         y: "R90_10_2015",
-        r: 3,
-        stroke: "black",
-        strokeWidth: 1,
+        r: 10,
+        fillOpacity: 0,
         fill: d => d.R90_10_2015 - d.R90_10_1980,
         title:  (d) =>
         `${d.nyt_display} \nPopulation in 1980: ${d3.format(",")(d.POP_1980)}\nPopulation in 2015: ${d3.format(",")(d.POP_2015)}\nCurrent level of inequality: ${d3.format(",")(d.R90_10_2015)}\nChange in inequality: ${d3.format("+.4")(d.R90_10_2015 - d.R90_10_1980)}`, // \n makes a new line
@@ -164,9 +167,10 @@
     var inequality_scale = Plot.plot(inequality).scale("color");
 
     var inequality_legend = {
-      label: "Change in inequality",
       color: inequality_scale,
-      width: 210,
+      label: "Change in inequality from 1980 to 2015",
+      ticks: 6,
+      tickFormat: "+f"
     };
 
     document.getElementById("inequality").appendChild(Plot.plot (inequality));
