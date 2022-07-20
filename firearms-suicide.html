@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Firearms and Suicide in the United States</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Firearms and Suicide in the United States">
+  <meta name="author" content="Justin Chill">
+
+  <style type="text/css">
+    figure, figcaption{
+      grid-column: 2 / -2;
+    }
+    figcaption#temps_legend{
+      margin-bottom: 0;
+      grid-column: 4;
+      display: flex;
+      flex-direction: row-reverse;
+    }
+
+    #temps_legend *{
+      font-weight: 100;
+      color: hsl(211, 10%, 53%);
+    }
+    figcaption, figcaption a{
+      text-align: right;
+      font-size:  calc(10px + (22 - 16) * ((100vw - 320px) / (1300 - 320)))
+    }
+
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+      <a href="fun.html" class="nav__item">Fun</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+  
+  <main role="main">
+    <article>
+       <div class="article-hero">
+        <h2 class="article-category">Post</h2>
+        <h1 class="article-title">Firearms and Suicide in the United States</h1>
+        <h2 class="article-subtitle"></h2>
+      </div>
+
+    <figure id="gunDeaths"></figure>
+    <figcaption>Data: <a href="https://academic.oup.com/aje/article/178/6/946/111054">American Journal of Epidemiology</a></figcaption>
+
+    <p>Of the 17 hottest years ever recorded, 16 have now occurred since 2000. The chart above is my recreation of a wonderful graphic from <a href="https://nyti.ms/3x89ywY">the New York Times</a>, featured in the article, "How 2016 Became Earth’s Hottest Year on Record". Thanks to publically available data<a href="#NOAA" aria-describedby="footnote-label" id="NOAA-ref"></a> from NASA we can plot recorded temperatures by data going back to 1880. Once visualized we can clearly see temperatures climbing and increasingly rapidly in the past 2 decades.</p>
+
+
+</article>
+</main>
+<footer>
+  <h2 id="footnote-label">Footnotes</h2>
+  <ol>
+    <li id="NOAA">NOAA National Centers for Environmental information, Climate at a Glance: Global Mapping, published July 2022, retrieved on July 14, 2022 from <a href="https://www.ncei.noaa.gov/cag/">https://www.ncei.noaa.gov/cag/</a><a href="#NOAA-ref" aria-label="Back to content">↩</a></li>
+  </ol>
+  <div>
+    <p>Justin Chill © 2022. Thanks for reading!</p>
+    <p><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="icon">Source code and feedback</a></p>    
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/d3"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+
+<script type="text/javascript">
+  var element = d3.select('figure').node();
+  var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+  var size = 12;
+
+  // Use Promises to async request data
+  var promises = [d3.json("data/firearm-causes.json",d3.autoType)];
+  myDataPromises = Promise.all(promises);
+  // var keys = [ "suicide_gun_rate","suicide_other_rate","homicide_gun_rate","homicide_other_rate" ];
+  // var layers = d3.stack().keys(keys);
+
+  // After data is successfully fetched, generate viz
+  myDataPromises.then(function(data) {
+    
+    // Define the data
+    var causes = data[0];
+
+    var gunDeaths = {
+      width: width,
+      style:{fontSize: size},
+      marks: [
+      // Plot.rectY(layers, Plot.binX({y: "sum"}, {x: "state", y: "total", fill: "currentColor"}))
+      Plot.rectY(causes, Plot.binX({y: "sum"}, {x: "state", y: "total_rate"}))
+      ]
+    };
+
+    document.getElementById("gunDeaths").appendChild(Plot.plot(gunDeaths));
+  });
+  </script>
+</body>
+</html>
