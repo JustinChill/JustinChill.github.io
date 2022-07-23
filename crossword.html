@@ -82,9 +82,6 @@
 
   // Stats section
   const puzzleCount = document.querySelectorAll('#puzzleCount');
-
-  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  const formatDay = d3.timeFormat("%a");
   
   // And the plot thickens...
   myDataPromises = Promise.all(promises);
@@ -96,9 +93,10 @@
 
     var xword = {
       width: width,
-      inset: 10,
+      insetLeft: 20,
+      insetRight: 10,
       style:{fontSize: size, background: "#FFF2E6"},
-      height: width/1.5,
+      height: width*.9,
       x: {
         grid: true,
         label: null,
@@ -106,11 +104,12 @@
       },
       y: {
         tickSize: 0,
-        type: "band",
-        tickFormat: d => `${d3.timeFormat("%a")(d)}.`
+        label: null,
+        tickFormat: d => d +'.',
+        domain: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
       },
       r: {
-        range: [5, 25]
+        range: [7, 35],
       },
       color: {
         type: "linear",
@@ -119,95 +118,49 @@
         range: ["#71dbe5","#fd78a3"],
       },
       marks: [
-        Plot.dot(xword_data,
-        {
-          sort: {x: "y"},
-          x: "Puzzle_Date",
-          y: d => d.Puzzle_Date.getDay(),
-          r: d => d.Adjusted_Time / 12,
+      Plot.dot(xword_data,
+      {
+        x: "Puzzle_Date",
+          sort: {channel: "x", order: "ascending"}, // latest dates on top
+          y: "Day_of_Week",
+          r: d => d.Adjusted_Time,
           fill: d => d.Adjusted_Time / 12,
           fillOpacity: .95,
-          stroke: d => (d.Adjusted_Time / 12)-90,
+          stroke: d => (d.Adjusted_Time / 12)-50, // Subtly color offset for stroke
           strokeWidth: 1,
-          title:  d => `${d3.timeFormat("%A %B %d, %Y")(d["Puzzle_Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time_Taken"]/12)} min. to solve`,
+          strokeOpacity: .9,
+          mixBlendMode: "blend",
+          title:  d => `${d3.timeFormat("%b %d %Y")(d["Puzzle_Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time_Taken"]/12)} min. to solve`,
         }),
       ],
     };
 
-    var xword_old = {
+
+    var text_stats = { 
       width: width,
-      height: height,
       style:{fontSize: size},
-      // grid: false,
-      inset: 10,
-      // marginBottom: 50,
-      // marginTop: 25,
-      y: {
-        // Bug: I think I need to sort days of week in an accessor function
-        // domain: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"], 
-        // domain: (d) => d.'Day of Week',
-        // thresholds: (d) => d.Puzzle_Date.getUTCDay(),
-        // days in puzzle difficulty order
-        // range: "Day of Week",
-        // range: ["Mon", "Tue", "Wed", "Thr", "Fri", "Sat", "Sun"],
-        labelAnchor: "Top",
-        // thresholds: "Day of Week",
-        // tickSize: 0,
-        // tickFormat: d => `${d}.`, // add period after day
-      },
-      x: {
-        tickFormat: ",.2r",
-        transform: d => d / 60, // turn seconds into minutes
-        label: "Time taken (minutes) →",
-        labelAnchor: "center",
-        // labelOffset: 50,
-      },
-      color: {
-        scheme: "RdYlGn",
-        // reverse: true,
-      },
+      marginLeft: 20,
       marks: [
-      Plot.dot(xword_data.filter(d => (d.Solved === "True")), {
-        x: "Adjusted_Time", 
-        y: "Puzzle_Date",
-        // r: d => d.frequency * 1, 
-        fill: "Adjusted_Time",
-        stroke: "black",
-        title:  d => `${d3.timeFormat("%A %B %d, %Y")(d["Puzzle_Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time_Taken"]/60)} min to solve`,})
-      // Plot.ruleY(xword_data.filter(d => (d.Solved === "True")), Plot.groupY({x1: "min", x2: "max"}, {y: "Day of Week", x: "Time Taken", stroke: "hsl(210, 16%, 82%)"})),
-      // Plot.tickX(xword_data), 
-      // Plot.groupY({x: "median"}, {y: "Day of Week", x: "Time Taken", stroke: "hsl(356, 75%, 53%)"})),
-      // Plot.dot(xword_data), {y: "Day of Week", x: "Time Taken", fill: "Time Taken", stroke: "Time Taken", r: 6, title: d => `Constructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time Taken"]/60)} min to solve`}),
-        // title: d => `${d3.timeFormat("%A %B %d, %Y")(d["Puzzle Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time Taken"]/60)} min to solve`,
-        // Plot.text(xword_data.filter(d => (d.Solved === "True" & d["Day of Week"] === "Sa")), Plot.groupY({x: "median"}, {y: "Day of Week", x: "Time Taken", fill: "hsl(356, 75%, 53%)", fillOpacity: .8, text: d => `← Median time to solve`, dy: -15, dx: 70, fontWeight: 700, fontSize: 12})),
-        ]
-      };
+      Plot.text(xword_data, Plot.groupY(
+        {text: (series) => new d3.InternSet(series).size}),
+      {
+        y: "Day_of_Week",
+        text: "Solved"
+      })
+      ]
+    };
 
-      var text_stats = { 
-        width: width,
-        style:{fontSize: size},
-        marginLeft: 20,
-        marks: [
-        Plot.text(xword_data, Plot.groupY(
-          {text: (series) => new d3.InternSet(series).size}),
-        {
-          y: "Day_of_Week",
-          text: "Solved"
-        })
-        ]
-      };
-
-      var week = {
-        width: width,
-        style:{fontSize: size},
-        marginTop: 50,
-        color: {
-          scheme: "GnBu",
-          reverse: false,
-        },
-        y: {
-          labelAnchor: "Top",
-          label: `Average time (minutes)`,
+    var week = {
+      width: width,
+      style:{fontSize: size},
+      marginTop: 50,
+      color: {
+        scheme: "GnBu",
+        reverse: false,
+      },
+      y: {
+        labelAnchor: "Top",
+        label: `Average time (minutes)`,
         transform: d => d / 60, // turn seconds into minutes
         grid: true,
       },
