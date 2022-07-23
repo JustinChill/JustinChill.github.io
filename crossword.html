@@ -175,7 +175,7 @@
       ]
     };
 
-    const marker = xword_data.slice(394,395);
+    const marker = xword_data.slice(577,578);
 
     var alltime = {
       width: width,
@@ -197,7 +197,7 @@
       },
       marks: [
       Plot.line(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle_Date", y:"Time_Taken", curve: "catmull-rom", stroke:"hsl(230, 49%, 41%)"}),
-      Plot.dot(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle_Date", y:"Time_Taken",fill:"hsl(230, 49%, 41%)", strokeWidth:0, r:2, title: d => `${d3.timeFormat("%A %B %d, %Y")(d["Puzzle_Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time_Taken"]/60)} min to solve` }),
+      Plot.dot(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle_Date", y:"Time_Taken",fill:"hsl(230, 49%, 41%)", strokeWidth:0, r:1, title: d => `${d3.timeFormat("%A %B %d, %Y")(d["Puzzle_Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time_Taken"]/60)} min to solve` }),
 
       Plot.text(marker, {x: "Puzzle_Date", y: "Time_Taken", text: d => `COVID-19 Pandemic`, dy: -10, dx: -8, rotate: 270}),
       Plot.ruleX(marker, {x: "Puzzle_Date", strokeDasharray: [2, 2], strokeWidth: 0.5,stroke: "rgba(0, 0, 0, .75)"}),
@@ -208,8 +208,7 @@
       width: width,
       style:{fontSize: size},
       grid: true,
-      // inset: 10,
-      // width: 928,
+      inset: 10,
       height: 350,
       marginBottom: 40,
       color: {
@@ -218,32 +217,35 @@
       },
       facet: {
         data: xword_data,
-        x: "Day of Week",
+        x: "Day_of_Week",
       },
       fx: { 
-      domain: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"], // Facet axis (top)
+      // domain: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"], // Facet axis (top)
       label: null,
       tickFormat: d => `${d}.`,
     }, 
     x: {
         transform: d => d / 60, // turn seconds into minutes
-        tickFormat: d => d == 100 ? `` : `${d}m`, // I want 3 ticks but don't want them to overlap
+        tickFormat: d => `${d}m`,
         label: "Time to solve (min.) →",
         nice: true,
+        clamp: true,
         ticks: 3,
         tickSize: 0,
         labelOffset: 40,
+        tickRotate: -35
       },
       y: {
-        domain: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"], // y axis (left)
+        // domain: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"], // y axis (left)
         label: null,
         tickSize: 0,
         tickFormat: d => `${d}.`,
+        // sort: {y: "x", reverse: true}
       },
       marks: [
       Plot.frame({stroke: "#ccc"}),
       Plot.tickX(xword_data, Plot.groupY({x: "median"}, {filter: d => (d.Solved === "True"), y: "Day_of_Week", x: "Time_Taken", stroke: "hsl(356, 75%, 53%)"})),
-      Plot.dot(xword_data, {filter: d => (d.Solved === "True"),r:4, x: "Time_Taken", y: "Day_of_Week", fill: "Time_Taken", stroke: "Time_Taken", title: d => `${d3.timeFormat("%B %d, %Y")(d["Puzzle_Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time_Taken"]/60)} min to solve`}),
+      Plot.dot(xword_data, {filter: d => (d.Solved === "True"),r:4, x: "Time_Taken", y: "Day_of_Week", fill: "Time_Taken", stroke: "Time_Taken", title: d => `${d3.timeFormat("%A %d, %Y")(d["Puzzle_Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time_Taken"]/60)} min to solve`}),
       ]
     };
 
