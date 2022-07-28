@@ -40,12 +40,10 @@
 <footer>
   <h2 id="footnote-label">Footnotes</h2>
   <ol>
-    <li id="footnotes">Inspiration for using Aliens as boilderplate HTML elements from <a href="https://tailwind-typography-playground.vercel.app">this</a> lovely Tailwinds example <a href="#footnotes-ref" aria-label="Back to content">↩</a></li>
-
   </ol>
   <div>
     <p>Justin Chill © 2022. Thanks for reading!</p>
-    <p><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="icon">Source code and feedback</a></p>    
+    <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="icon">Source code and feedback</a></span>    
   </div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/d3"></script>
@@ -54,6 +52,9 @@
 <script type="text/javascript">
   // Use Promises to async request data
   var promises = [d3.csv("data/plane_crash_deaths_annual_number.csv",d3.autoType)];
+  var element = d3.select('figure').node();
+  var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+  var size = 12;
 
   // You can request multiple srcs in a promise
   myDataPromises = Promise.all(promises);
@@ -64,14 +65,38 @@
     var plane = data[0];
 
     var plane_line = {
-      width: 720,
+      width: width,
+      style:{fontSize: size},
       y: {
         grid: true,
       },
-      x:{
-      },
       marks: [
-      Plot.lineY(plane, Plot.binX({y: "sum"},{x: "country", strokeWidth: 1, stroke: "steelblue"})),
+      Plot.rectY(
+        plane,
+        Plot.binX(
+          { y: "count" },
+          {
+            x: "country",
+            // fill: (d) => (["R", "L"].includes(d.hand) ? d.hand : "other"),
+            interval: 5,
+            opacity: 0 // 💡 invisible marks!
+          }
+        )
+      ),
+
+      Plot.rectY(
+        plane,
+        Plot.binX(
+          { y: "count" },
+          {
+            x: "count",
+            // filter: (d) => d.age >= ageMin && d.age < ageMax,
+            // fill: (d) => (["R", "L"].includes(d.hand) ? d.hand : "other"),
+            interval: 5
+          }
+        )
+      ),
+      Plot.ruleY([0])
       ]
     };
     document.getElementById("plane_line").appendChild(Plot.plot(plane_line));
