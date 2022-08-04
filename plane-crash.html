@@ -71,32 +71,7 @@
         grid: true,
       },
       marks: [
-      Plot.rectY(
-        plane,
-        Plot.binX(
-          { y: "count" },
-          {
-            x: "country",
-            // fill: (d) => (["R", "L"].includes(d.hand) ? d.hand : "other"),
-            interval: 5,
-            opacity: 0 // 💡 invisible marks!
-          }
-        )
-      ),
-
-      Plot.rectY(
-        plane,
-        Plot.binX(
-          { y: "count" },
-          {
-            x: "count",
-            // filter: (d) => d.age >= ageMin && d.age < ageMax,
-            // fill: (d) => (["R", "L"].includes(d.hand) ? d.hand : "other"),
-            interval: 5
-          }
-        )
-      ),
-      Plot.ruleY([0])
+      Plot.lineY(plane, Plot.binX({y: "sum"},{x: "country", strokeWidth: 1, stroke: "steelblue"})),
       ]
     };
     document.getElementById("plane_line").appendChild(Plot.plot(plane_line));
