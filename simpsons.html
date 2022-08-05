@@ -3658,12 +3658,14 @@
           y: "episode_score",
           fill: "hsl(42, 87%, 55%)",
           r: 2,
+          title: (d) => `${d.episode_name}\nS${d.season_no} E${d.episode_no}\n${d.episode_score} IMDB rating`, 
         })),
         Plot.dot(simpsons_imdb, Plot.selectMaxY({
           x: "episode_no_abs",
           y: "episode_score",
           fill: "hsl(42, 87%, 55%)",
           r: 2,
+          title: (d) => `${d.episode_name}\nS${d.season_no} E${d.episode_no}\n${d.episode_score} IMDB rating`, 
         })),
         Plot.text(simpsons_imdb, Plot.selectMinY({
           x: "episode_no_abs",
@@ -3754,6 +3756,9 @@
           tickSize: 0,
           domain: [1,10]
         },
+        color: {
+          scheme: "Viridis",
+        },        
         marks: [
           // Plot.boxY(simpsons_imdb, {
           //   x: "season_no", 
@@ -3763,7 +3768,8 @@
           Plot.ruleX(simpsons_imdb, 
             Plot.groupX({y1: "min", y2: "max"}, {
               x: "season_no", 
-              y: "episode_score"
+              y: "episode_score",
+              stroke: "hsl(211, 12%, 43%)"
             })
           ),
           Plot.line(simpsons_imdb, 
@@ -3776,9 +3782,26 @@
           Plot.dot(simpsons_imdb, {
             x: "season_no", 
             y: "episode_score",
-            fill: "rgba(0, 0, 0, .65)",
+            fill: "episode_score",
             title: (d) => `${d.episode_name}\nS${d.season_no} E${d.episode_no}\n${d.episode_score} IMDB rating`, 
           }),
+          Plot.text(simpsons_imdb, Plot.selectMinY({
+            x: "season_no",
+            y: "episode_score",
+            text: d => d.episode_name + ' (' +  d.episode_score + ')',
+            textAnchor: "center",
+            fontSize: size,
+            dy: 12,
+          })),
+          Plot.text(simpsons_imdb, Plot.selectMaxY({
+            x: "season_no",
+            y: "episode_score",
+            text: d => d.episode_name + ' (' +  d.episode_score + ')',
+            textAnchor: "center",
+            fontSize: size,
+            dy: -12,
+            dx: 4
+          })),
         ]
       };
 
