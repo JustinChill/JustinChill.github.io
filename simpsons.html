@@ -7,7 +7,7 @@
   <script src="script.js"></script>  <script src="script.js"></script>
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="A tribute to the Simpsons">
+  <meta name="description" content="A tribute to the Simpsons, by the data.">
   <meta name="author" content="Justin Chill">
 
   <style type="text/css">
@@ -37,6 +37,16 @@
     figure{
       text-align: center;
     }
+
+    figure.padding2{
+      padding: 4rem 0;
+    }
+
+/*  so hacky, but wanted to control the alignment of each tick   
+    g[aria-label="y-axis"] g.tick text{
+      transform: translateY(-4px);
+    }
+    */ 
 
     #painting {
       -moz-transform: rotate(-2deg);
@@ -292,14 +302,11 @@
       text-align: right;
     }
 
-    /* Episode matrix */
-    #matrix, #best-eps{
-      margin: 0 auto;
+    #simpsonsEpisodes svg[class*="plot"], #simpsonsSeasons svg[class*="plot"] {
+      font-size: 10px;
+      background: none;
     }
 
-    #best-eps{
-      /*display: none;*/
-    }
 
     /* Random quote */
     .container {
@@ -511,7 +518,7 @@
 
   <main role="main">
     <article>
-      <figure>
+      <figure class="padding2">
         <div id="painting">
           <div class="nail"></div>
           <div class="plaque">Scene From Moby Dick</div>
@@ -526,23 +533,28 @@
 
       <div class="article-hero">
         <h2 class="article-category"></h2>
-        <h1 class="article-title">The Simpsons tribute</h1>
+        <h1 class="article-title">The Simpsons by the Data</h1>
         <h2 class="article-subtitle">Insert couch gag here</h2>
       </div> 
       
       <article>
-        <p>The Simpsons needs no introduction. At 32 seasons and counting, it’s the longest-running scripted series in the history of American primetime television. If Bart Simpson aged in real time with the show, <a href="https://screenrant.com/simpsons-characters-real-life-age-how-old/#:~:text=Bart%20Simpson's%20Age,years%2Dold%20as%20of%202020.">he would now be 40</a>. </p> 
+        <p>The Simpsons needs no introduction. At 32 seasons and counting, it’s the longest-running scripted series in the history of American primetime television. If Bart Simpson aged in real time with the show, <a href="https://screenrant.com/simpsons-characters-real-life-age-how-old/#:~:text=Bart%20Simpson's%20Age,years%2Dold%20as%20of%202020.">he would now be in his 40s</a>. </p> 
         <p>As a fan of the show, I present here a few short analyses about Springfield, from the show’s dialogue to its TV ratings. All code used for this post is available on <a href="https://github.com/JustinChill/JustinChill.github.io/blob/main/simpsons.html">GitHub</a>.</p>
 
         <p class="title">Ratings for The Simpsons have declined over time</p>
-        <figure id="simpsonsRatings"></figure>
-        <figcaption>Data: <a href="https://www.imdb.com/title/tt0096697/">IMDB</a></figcaption>      
+        <figure class="mid-size" id="simpsonsRatings"></figure>
+        <figcaption>Data: <a href="https://www.imdb.com/title/tt0096697/">IMDB</a></figcaption>
+        <p><em>You Only Move Twice</em> aired <time datetime="1996-11-03">Nov 3, 1996</time> and remains the highest scoring episode with an IMDB score of <strong>9.3</strong>. Ratings decline steadily after season 10 but the decline has largely tapered off. The lowest scoring episode to date came in season 23 with <em>Lisa Goes Gaga</em> (<strong>3.9</strong>).</p>
 
-        <p class="title">The Simpsons episodes and IMDB rating</p>
-        <figure id="matrix"></figure> 
+        <p class="title">600+ episodes </p>
+        <figure id="simpsonsEpisodes"></figure> 
+        <figcaption>Data: <a href="https://www.imdb.com/title/tt0096697/">IMDB</a></figcaption>
+        <p>This matrix graph visualizes each episode as an individual cell, shaded according to IMDB score. This creates a heatmap, allowing you to see trends more quickly.</p>  
 
-        <p class="title">Box Plot by season</p>
-        <figure id="boxplot"></figure> 
+        <p class="title">Average rating by season</p>
+        <figure id="simpsonsSeasons"></figure> 
+        <figcaption>Data: <a href="https://www.imdb.com/title/tt0096697/">IMDB</a></figcaption>
+        <p>Here we look at the difference between episodes within each season. Early seasons have a tighter grouping of episodes, meaning they all score roughly the same. Starting in season 6 we start to see a greater spread of episodes. Season 23 has the greatest range of scores within a season (&plusmn; 4.4).</p>
 
         <!-- Random Simpson's quote -->
         <h2>Random quote</h2>
@@ -576,6 +588,7 @@
 
         <p>Quotes provided from the wonderful <a href="https://github.com/JLuboff/TheSimpsonsQuoteAPI">Simpsons Quote API</a>. It's available at <code>https://thesimpsonsquoteapi.glitch.me/quotes</code> and it returns a random Simpsons quote, character, link to their picture, and the direction the character is facing. I've used that last tidbit to make sure the character is always facing their quote.</p>
 
+
         <!-- Work in progress -->
         <!-- <h2>Episodes by IMDB rating</h2> -->
         <!-- <figure id="best-eps"></figure>  -->
@@ -586,9 +599,14 @@
         <!-- <h2>Top ten episodes</h2> -->
         <!-- <figure id="top_ten"></figure>       -->
 
+        <h2>Simpsons no-nos</h2>
+        <figure class="mid-size">
+          <img src="http://i.imgur.com/d7FqN8Z.jpg" alt="Simpsons no-nos" loading="lazy">
+        </figure>
+        <p>In the book <a href="https://www.slideshare.net/DGIREDeportes/matt-groening-cartooning-with-the-simpsons?related=1">Cartooning with the Simpsons</a> the authors include this full page graphic on what specifically to avoid when drawing the head of a Simpson. It is a great example of the effect that every detail can have on an observer!</p>      
+
         <!-- SVG of the blackboard -->
-        <!--       <h2></h2> -->
-        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" x="0px" y="0px" width="1227px" height="842px" viewBox="-30.829 -43.947 1227 842" enable-background="new -30.829 -43.947 1227 842" xml:space="preserve" class="chalkboard">
+        <svg loading="lazy" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" x="0px" y="0px" width="1227px" height="842px" viewBox="-30.829 -43.947 1227 842" enable-background="new -30.829 -43.947 1227 842" xml:space="preserve" class="chalkboard">
           <defs>
           </defs>
           <g>
@@ -3510,29 +3528,18 @@
             <text x="80" y="640">A fire drill does not require a fire.</text>
           </g>
         </svg>
+      </article>
+    </main>
+    <footer>
+      <div>
+        <p>Justin Chill © 2022. Thanks for reading!</p>
+        <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="icon">Source code and feedback</a></span>    
+      </div>
+    </footer>
 
-        <!-- Simpson's logo -->
-<!--       <div class="simpsons-logo">
-        <img src="imgs/simpsons-logo.svg" class="mid-size">
-      </div> -->
-
-      <figure class="mid-size">
-        <img src="http://i.imgur.com/d7FqN8Z.jpg" alt="Simpsons no-nos" >
-      </figure>
-      <p>In the book <a href="https://www.slideshare.net/DGIREDeportes/matt-groening-cartooning-with-the-simpsons?related=1">Cartooning with the Simpsons</a> the authors include this full page graphic on what specifically to avoid when drawing the head of a Simpson. It is a great example of the effect that every detail can have on an observer!</p>      
-
-    </article>
-  </main>
-  <footer>
-    <div>
-      <p>Justin Chill © 2022. Thanks for reading!</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="icon">Source code and feedback</a></span>    
-    </div>
-  </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
-  <script type="text/javascript">
+    <script src="https://cdn.jsdelivr.net/npm/d3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+    <script type="text/javascript">
     // Wait for the page to load
     window.onload = () => {
       randomQuote()
@@ -3583,7 +3590,7 @@
     var bucket = {}
 
     // Use Promises to async request data
-    var promises = [d3.json("data/simpsons.json"), d3.json("data/simpsons_imdb.json", function(d) {
+    var promises = [d3.json("data/simpsons_imdb.json", function(d) {
       return { // Accessor function to convert strings to numbers, dates
           episode_no_abs: +d.episode_no_abs,  // convert column to number
           season_no: +d.season_no, 
@@ -3595,7 +3602,7 @@
           // episode_description: d.episode_description,
         }}
         )];
-    var element = d3.select('figure').node();
+    var element = d3.select('figure.mid-size').node();
     var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
     var size = 12;
 
@@ -3606,14 +3613,13 @@
     myDataPromises.then(function(data) {
 
       // Define the data
-      var simpsons = data[0];
-      var simpsons_imdb = data[1];
+      var simpsons_imdb = data[0];
 
       // Line chart ratings over time
       var simpsonsRatings = {
         width: width,
-        inset: 4,
-        style: "background: none",
+        inset: 1,
+        style: "background: none;",
         // color: {type: "diverging", scheme: "rdylgn"},
         x: {
           label: null,
@@ -3622,11 +3628,12 @@
         y: {
           label: "IMDB Rating",
           labelAnchor: "top",
-          labelOffset: 25,
+          labelOffset: 35,
           grid: true,
           nice: true,
           clamp: true,
           tickSize: 0,
+          tickPadding: 10,
           domain: [1,10]
         },
         color: {
@@ -3634,6 +3641,7 @@
           legend: true,
         },
         marks: [
+        // Plot.frame(),
         Plot.ruleX(simpsons_imdb.filter(d => d.episode_no == "1" && d.episode_no_abs > 1 && d.season_no % 5 == 0), {
           x: "episode_no_abs",
           inset: 5,
@@ -3688,20 +3696,44 @@
           x: "episode_no_abs", 
           text: d => `Season ` + d.season_no,
           fontWeight: 500,
-          textAnchor: "end",
-          dy: 105, 
+          textAnchor: "start",
+          dy: 165, 
           dx: 10, 
           rotate: 270,
         }),
+        // TODO: Add an input to toggle regression
+        // Plot.linearRegressionY(simpsons_imdb, {x: "episode_no_abs", y: "episode_score", opacity: .55, stroke: "hsl(356, 75%, 53%)", ci: 0.95}),
         ]
       };
 
-      // Matrix chart episodes by season, episode no.
-      var options = {      
-        height: 850,
+      // Plot Initializer
+      // https://observablehq.com/@observablehq/plot-colorcontrast-custom-transform?collection=@observablehq/plot-examples
+      colorContrast = ({ luminance = 60, ...options }) =>
+      Plot.initializer(options, (data, facets, channels, scales) => {
+        const contrast = (color) =>
+        d3.hcl(color).l > luminance ? "black" : "white";
+        return {
+          channels: {
+            fill: {
+              ...channels.fill,
+              scale: undefined,
+              value:
+                  channels.fill == null // when options.fill is a constant color such as "red"
+                  || scales.color == null // when the scale isn't yet available (e.g. hexbin below)
+                  ? Array.from(data).fill(contrast(options.fill))
+                  : Array.from(channels.fill.value, (value) => contrast(scales.color(value)))
+                }
+              }
+            };
+          });
+
+      // Matrix cell chart episodes by season, episode no.
+      var simpsonsEpisodes = {      
+        height: width*.85,
         width: width,
         style: "background: none; cursor: default;",
         grid: true,
+        padding: 0.05,
         x: {
           axis: "top",
           label: "Season  →",
@@ -3714,27 +3746,38 @@
           tickSize: 0,
         },
         color: {
+          type: "linear",
           scheme: "RdYlBu",
+          unknown: "#ddd", 
+          legend: true,
+          label: "IMDB Rating",
+          clamp: true,
+          nice: true,
+          tickSize: 0,
+          domain: [1,10], // show nicer scale
+          range: [.25,1], // clamping the color scheme gives tighter control over the color range
         },
         marks: [
+        Plot.frame(),
         Plot.cell(simpsons_imdb, {
           x: "season_no",
           y: "episode_no",
           title: (d) => `${d.episode_name}\nS${d.season_no} E${d.episode_no}\n${d.episode_score} IMDB rating`, 
           fill: "episode_score",
         }),
-        Plot.text(simpsons_imdb, {
+        Plot.text(simpsons_imdb, colorContrast({
           x: "season_no",
           y: "episode_no",
           text: d => d.episode_score?.toFixed(1),
           title: (d) => `${d.episode_name}\nS${d.season_no} E${d.episode_no}\n${d.episode_score} IMDB rating`, 
-          fill: "#fff",
+          fill: "episode_score",
         })
+        )
         ]
       };
 
       // Matrix chart episodes by season, episode no.
-      var boxplot = {      
+      var simpsonsSeasons = {      
         width: width,
         inset: 5,
         style: "background: none;",
@@ -3748,8 +3791,8 @@
         },
         y: {
           label: "IMDB Rating",
-          labelAnchor: "top",
-          labelOffset: 25,
+          labelAnchor: "center",
+          labelOffset: 45,
           grid: true,
           nice: true,
           clamp: true,
@@ -3757,7 +3800,16 @@
           domain: [1,10]
         },
         color: {
-          scheme: "Viridis",
+          scheme: "RdYlBu",
+          type: "linear",
+          unknown: "#ddd", 
+          legend: true,
+          label: "IMDB Rating",
+          clamp: true,
+          nice: true,
+          tickSize: 0,
+          domain: [1,10], // show nicer scale
+          range: [.25,1], // clamping the color scheme gives tighter control over the color range
         },        
         marks: [
           // Plot.boxY(simpsons_imdb, {
@@ -3771,14 +3823,14 @@
               y: "episode_score",
               stroke: "hsl(211, 12%, 43%)"
             })
-          ),
+            ),
           Plot.line(simpsons_imdb, 
             Plot.groupX({y: "median"}, {
               x: "season_no", 
               y: "episode_score", 
               stroke: "#e41a1c"
             })
-          ),
+            ),
           Plot.dot(simpsons_imdb, {
             x: "season_no", 
             y: "episode_score",
@@ -3802,13 +3854,13 @@
             dy: -12,
             dx: 4
           })),
-        ]
-      };
+          ]
+        };
 
-      document.getElementById("simpsonsRatings").appendChild(Plot.plot(simpsonsRatings));
-      document.getElementById("matrix").appendChild(Plot.plot(options));
-      document.getElementById("boxplot").appendChild(Plot.plot(boxplot));
-    })
+        document.getElementById("simpsonsRatings").appendChild(Plot.plot(simpsonsRatings));
+        document.getElementById("simpsonsEpisodes").appendChild(Plot.plot(simpsonsEpisodes));
+        document.getElementById("simpsonsSeasons").appendChild(Plot.plot(simpsonsSeasons));
+      })
 
 myDataPromises.catch(function() {
   console.log('🚨 Something has gone wrong fetching data.')
