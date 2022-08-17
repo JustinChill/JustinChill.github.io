@@ -4,7 +4,7 @@
 	<title>Charts</title>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="style.css" />
-  <script src="script.js"></script>
+  <script async src="script.js"></script>
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Charts and data">
@@ -52,7 +52,7 @@
       left: .25em;
     }
     article > h2{
-      margin-top: 4.2rem;
+      margin-top: 3rem;
     }
     article > h3{
       padding-top: 0;
@@ -101,11 +101,14 @@
       margin: 0 auto;
     }
     article > figcaption{
-      margin-bottom: 1rem;
+      margin: 1rem 0;
       text-align: right;
     }
 
     @media screen and (max-width: 680px) {
+      article > h2{
+        margin-top: 1.2rem;
+      }
       article > h3{
         margin-left: 0;
         margin-right: 0;
@@ -128,6 +131,9 @@
     }
 
     @media screen and (max-width: 1024px){
+      article > h2{
+        margin-top: 2rem;
+      }
       .logogrid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
@@ -224,12 +230,12 @@
       <p>A stacked area chart stacks values so that the cumulative area represents 100%. These charts can help to show a progression and composition over time, and the 100% stacked area chart is meant to show the percentage that each component contributes when the cumulative total is not important.</p>
       <h2>Bar chart</h2>
       <h3>English letter frequency</h3>
-      <figure id="example_bar"></figure>
+      <figure id="freq_letters"></figure>
       <figcaption>Data: <a href="http://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html">Cornell</a></figcaption>
       <p>The classic bar chart. The height or length of each bar is proportional to the values that they represent. The baseline starts at zero.</p>
       <h3>Global Emissions by Country</h3>
       <span class="article-subtitle">Metric Tonne Carbon Dioxide Equivalent (MtCO₂)</span>
-      <figure id="horizontal"></figure>
+      <figure id="country_emissions"></figure>
       <figcaption>Data: <a href="https://www.iea.org/articles/global-energy-review-co2-emissions-in-2020">IEA</a></figcaption>
       <p>A variation on the regular, vertical bar chart is the horizontal bar chart. This orientation is more useful for comparing categories.</p>
       <!-- <h2>Bar chart race</h2> -->
@@ -276,7 +282,7 @@
       <h3>Apple Inc. (AAPL) Stock Price</h3>
       <figure id="candlestick"></figure>
       <figcaption>Data: <a href="https://observablehq.com/@observablehq/plot-area">Apple stock price</a></figcaption>
-      <p>A candlestick chart is a style of bar-chart used to describe price movements of a security, derivative, or currency for a designated span of time. Each bar represents the range of price movement over a given time interval. The dataset for a candlestick chart contains low, high, open and close values. The high and low values are visualized as the top and bottom of each stick, where the open and close values are reflected in the square inside.</p>
+      <p>A candlestick chart is a style of bar chart used to describe price movements of a security, derivative, or currency for a designated span of time. Each bar represents the range of price movement over a given time interval. The dataset for a candlestick chart contains low, high, open and close values. The high and low values are visualized as the top and bottom of each stick, where the open and close values are reflected in the square inside.</p>
       <h2>Chord diagram</h2>
       <a href="https://lotr.visualcinnamon.com/"><img src="https://uploads-ssl.webflow.com/5fa9d88da1855554db37b1e1/5fb1377b21d82ea1d953ef91_lotr_final.png" loading="lazy"></a>
       <figcaption>Created by <a href="https://lotr.visualcinnamon.com">Nadieh Bremer</a></figcaption>
@@ -617,11 +623,10 @@
     ]
   };
 
-  var horizontal = {
-    height: 500,
+  var country_emissions = {
     width: width,
-    marginLeft: 170,
-    marginRight: 40,
+    marginLeft: width > 400 ? 100 : 60,
+    marginRight: width > 400 ? 0 : 20,
     style:{fontSize: size},
     color: {
       range: ["#969696", "#4e79a7"]
@@ -811,7 +816,7 @@ var example_line = {
   // document.getElementById("popcorn").appendChild(Plot.plot(popcorn));
   document.getElementById("example_dot").appendChild(Plot.plot(example_dot));
   document.getElementById("network").appendChild(Plot.plot(network));
-  document.getElementById("horizontal").appendChild(Plot.plot(horizontal));
+  document.getElementById("country_emissions").appendChild(Plot.plot(country_emissions));
   document.getElementById("example_line").appendChild(Plot.plot(example_line));
 
   var boxY = function boxY(data, {
@@ -907,20 +912,22 @@ var example_line = {
     var electricity = {
       height: 400,
       width: width,
-      marginLeft: 30,
-      marginRight: 100,
+      marginLeft: width > 400 ? 30 : 10,
+      marginRight: width > 400 ? 100 : 20,
       style:{fontSize: size},
       x: {
         // ticks: 8,
-        tickSize: 2,
+        tickSize: 4,
         tickPadding: 8,
-        label: null
+        label: null,
       },
       y: {
         tickFormat: "%",
         ticks: 5,
-        tickSize: 0,
+        tickSize: 4,
         tickPadding: 4,
+        nice: true,
+        clamp: true,
         grid: true,
         label: null
       },
@@ -930,7 +937,7 @@ var example_line = {
         y: "percentage", 
         fill: "source", 
         order: ['Coal', 'Gas', 'Oil', 'Nuclear', 'Hydroelectric', 'Wind', 'Solar', 'Other renewables'],
-        offset: "expand"})),
+        offset: "expand"})),      
       Plot.text(electric, Plot.selectLast(Plot.stackY({
         x: "year",
         y: "percentage",
@@ -938,7 +945,7 @@ var example_line = {
         order: ['Coal', 'Gas', 'Oil', 'Nuclear', 'Hydroelectric', 'Wind', 'Solar', 'Other renewables'], 
         offset: "expand",
         fill: "source",
-        text: "source",
+        text: d => d.source == 'Other renewables' ? "Other" : d.source,
         fontWeight: 700,
         textAnchor: "start", dx: 4, dy: 3
       }))),
@@ -952,7 +959,7 @@ var example_line = {
     var apple_area = {
       width: width,
       style:{fontSize: size},
-      marginLeft: width > 450 ? 40 : 20,
+      marginLeft: width > 450 ? 40 : 25,
       marginRight: width > 450 ? 0 : 10,
       y: {
         grid: true,
@@ -970,16 +977,20 @@ var example_line = {
     const tinyapple = aapl.slice(-90);
 
     var candlestick = {
-      inset: 6,
       width: width,
-      grid: true,
       style:{fontSize: size},
+      grid: true,
+      inset: 6,
+      marginLeft: 20,
+      marginRight: 0,
+      marginTop: 10,
+      marginBottom: 10,
       y: {
         label: "↑ Apple stock price ($)",
         tickFormat: "$f",
       },
       x:{
-
+        nice: true,
       },
       color: {
         range: ["#e41a1c", "#000000", "#4daf4a"]
@@ -1001,9 +1012,13 @@ var example_line = {
       ]
     };
 
-    var example_bar = {
+    var freq_letters = {
       width: width,
       style:{fontSize: size},
+      marginLeft: 10,
+      marginRight: 0,
+      marginTop: 10,
+      marginBottom: 10,
       x:{
         label: null,
         tickSize: 0,},    
@@ -1048,8 +1063,13 @@ var example_line = {
     var anomaly_barcode = { 
       width: width,
       style:{fontSize: size},
+      marginLeft: 0,
+      marginRight: 0,
+      marginTop: 0,
+      marginBottom: 10,
       x: {
-        round: true
+        round: true,
+        nice: true,
       },
       color: {
         type: "diverging",
@@ -1069,6 +1089,10 @@ var example_line = {
     var stocks_baseline = {
       width: width,
       style:{fontSize: size},
+      marginLeft: 20,
+      marginRight: 40,
+      marginTop: 10,
+      marginBottom: 10,
       color: {
         scheme: "BuRd"
       },
@@ -1180,6 +1204,10 @@ var example_line = {
     var morley = {
       width: width,
       style:{fontSize: size},
+      marginLeft: 20,
+      marginRight: 0,
+      marginTop: 10,
+      marginBottom: 10,
       y: {
         grid: true,
         inset: 6
@@ -1191,9 +1219,13 @@ var example_line = {
     };
 
     var gapminder = { 
-      width: width,     
-      inset: 2,
+      width: width,           
       style:{fontSize: size},
+      inset: 2,
+      marginLeft: 20,
+      marginRight: 0,
+      marginTop: 10,
+      marginBottom: 10,
       y: {
         // grid: true,
         label: "↑ Life Expectency",        
@@ -1218,12 +1250,16 @@ var example_line = {
       width: width,
       height: 85,
       style:{fontSize: size},
+      marginLeft: 0,
+      marginRight: 0,
       x: {
         axis: "bottom",
         grid: true,
         // ticks: d3.range(0, 51, 10),
         tickFormat: (d) => (d === 50 ? `${d}%` : `${d}`),
-        tickSize: 0
+        tickSize: 0,
+        nice: true,
+        clamp: true,
       },
       y: { label: null, reverse: true, domain: ["all"], axis: null },
       color: { scheme: "dark2" },
@@ -1255,10 +1291,14 @@ var example_line = {
     };
 
     var driving_line = {
+      style:{fontSize: size},
       width: width,
       height: 500,
       inset: 10,
-      style:{fontSize: size},
+      marginLeft: 10,
+      marginRight: 10,
+      marginTop: 10,
+      marginBottom: 10,
       grid: true,
       x: {
         label: "Miles driven per capita each year →",
@@ -1274,13 +1314,13 @@ var example_line = {
       Plot.line(driving, {x: "miles", y: "gas", curve: "catmull-rom", strokeWidth: 2}),
       Plot.dot(driving, {x: "miles", y: "gas", fill: "white", stroke: "black",title: (d) =>
         `${d3.timeFormat("%B %d, %Y")(d["year"])} \nGas price: ${d3.format("$.2f")(d["gas"])} \nMiles: ${d3.format(",.2r")(d["miles"])}`,}),
-      Plot.text(driving.filter(d => (d.year == "1956")), {x: "miles", y: "gas", text: d => "Annual\naverage", dx: -24, dy: 18, fontSize: 10, fontWeight: 900}),
+      Plot.text(driving.filter(d => (d.year == "1956")), {x: "miles", y: "gas", text: width > 400 ? d => "Annual\naverage" : "", dx: -24, dy: 18, fontSize: 10, fontWeight: 900}),
       Plot.text(driving.filter(d => (d.year == 1956)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: -18, dy: 0, fontSize: 10}),
       Plot.text(driving.filter(d => (d.year == 1956+1)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 16, dy: -2, fontSize: 10}),      
       Plot.text(driving.filter(d => (d.year == 1956+2)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: -4, dy: 10, fontSize: 10}),
       Plot.text(driving.filter(d => (d.year == 1956+3)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 0, dy: -10, fontSize: 10}),
-      Plot.text(driving.filter(d => (d.year == 1956+3)), {x: "miles", y: "gas", dx: -12, dy: 90, fontSize: 12, fontWeight: 900, text: d => "↑ Price of\na gallon\nof gasoline"}),
-      Plot.text(driving.filter(d => (d.year == 1956+3)), {x: "miles", y: "gas", dx: 6, dy: 130, fontStyle: "italic", textAlign: "left", fontSize: 10, fontWeight: 300, text: d => "Annual average for\nregular grade gas,\nadjusted for inflation."}),
+      Plot.text(driving.filter(d => (d.year == 1956+3)), {x: "miles", y: "gas", dx: 12, dy: 90, fontSize: 12, fontWeight: 900, text: d => "↑ Price of\na gallon\nof gasoline"}),
+      Plot.text(driving.filter(d => (d.year == 1956+3)), {x: "miles", y: "gas", dx: 12, dy: 130, fontStyle: "italic", textAlign: "left", fontSize: 10, fontWeight: 300, lineHeight: 1.3, text: d => "Annual average for\nregular grade gas,\nadjusted for inflation."}),
       Plot.text(driving.filter(d => (d.year == 1956+4)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 16, 
         dy: -4, fontSize: 10}),
       Plot.text(driving.filter(d => (d.year == 1956+5)), {x: "miles", y: "gas", text: d => "'61", dx: -2, 
@@ -1293,7 +1333,7 @@ var example_line = {
         dy: 10, fontSize: 10}),
       Plot.text(driving.filter(d => (d.year == 1956+9)), {x: "miles", y: "gas", text: d => "'65", dx: 0, 
         dy: 10, fontSize: 10}),
-      Plot.text(driving.filter(d => (d.year == 1956+9)), {x: "miles", y: "gas", text: d => "Cheap gas,\nlonger commutes", dx: 40, dy: -50, fontSize: 12, fontWeight: 900}),
+      Plot.text(driving.filter(d => (d.year == 1956+9)), {x: "miles", y: "gas", text: width > 400 ? d => "Cheap gas,\nlonger commutes" : "", dx: 40, dy: -50, fontSize: 12, fontWeight: 900}),
       Plot.text(driving.filter(d => (d.year == 1956+10)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 0, 
         dy: -9, fontSize: 10}),
       Plot.text(driving.filter(d => (d.year == 1956+11)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 0, 
@@ -1308,7 +1348,7 @@ var example_line = {
         dy: 12, fontSize: 10}),
       Plot.text(driving.filter(d => (d.year == 1956+16)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 0, 
         dy: 12, fontSize: 10}),
-      Plot.text(driving.filter(d => (d.year == 1956+16)), {x: "miles", y: "gas", text: d => "The Arab\noil embargo", dx: 60, dy: -50, fontSize: 12, fontWeight: 900}),
+      Plot.text(driving.filter(d => (d.year == 1956+16)), {x: "miles", y: "gas", text: width > 400 ? d => "The Arab\noil embargo" : "", dx: 60, dy: -50, fontSize: 12, fontWeight: 900}),
       Plot.text(driving.filter(d => (d.year == 1956+17)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 16, 
         dy: 0, fontSize: 10}),
       Plot.text(driving.filter(d => (d.year == 1956+18)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: -18,
@@ -1348,7 +1388,7 @@ var example_line = {
       Plot.text(driving.filter(d => (d.year == 1956+36)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 16, 
         dy: 0, fontSize: 10}),
       Plot.text(driving.filter(d => (d.year == 1956+37)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: -18, dy: 1, fontSize: 10}),
-      Plot.text(driving.filter(d => (d.year == 1956+40)), {x: "miles", y: "gas", text: d => "Record low prices", dx: -6, dy: -80, fontSize: 12, fontWeight: 900}),
+      Plot.text(driving.filter(d => (d.year == 1956+40)), {x: "miles", y: "gas", text: width > 400 ? d => "Record low prices" : "", dx: -6, dy: -80, fontSize: 12, fontWeight: 900}),
       Plot.text(driving.filter(d => (d.year == 1956+38)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 0, 
         dy: 12, fontSize: 10}),
       Plot.text(driving.filter(d => (d.year == 1956+39)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 0, 
@@ -1381,8 +1421,8 @@ var example_line = {
         dy: 12, fontSize: 10}),
       Plot.text(driving.filter(d => (d.year == 1956+54)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: -18, dy: 0, fontSize: 10}),
       Plot.text(driving.filter(d => (d.year == 1956+54)), {x: "miles", y: "gas", text: d => "The swing backwards", dx: -
-        80, dy: -92, fontSize: 12, fontWeight: 900, style: {background:"white"}}),
-      Plot.text(driving.filter(d => (d.year == 1956+54)), {x: "miles", y: "gas", dx: -80, dy: -55, fontSize: 10, fontWeight: 300, text: d => "The average number of\nmiles that Americans\ndrive annually begins to\nfall, so the chart appear\nto turn around."}),
+        80, dy: -95, fontSize: 12, fontWeight: 900, style: {background:"white"}}),
+      Plot.text(driving.filter(d => (d.year == 1956+54)), {x: "miles", y: "gas", dx: -80, dy: -55, fontSize: 10, lineHeight: 1.3, fontWeight: 300, text: d => "The average number of\nmiles that Americans\ndrive annually begins to\nfall, so the chart appear\nto turn around."}),
       ]
     };
 
@@ -1737,7 +1777,7 @@ var example_line = {
 
     // Draw the plots (data fetched)
     document.getElementById("electricity").appendChild(Plot.plot (electricity));
-    document.getElementById("example_bar").appendChild(Plot.plot (example_bar));
+    document.getElementById("freq_letters").appendChild(Plot.plot (freq_letters));
     document.getElementById("apple_area").appendChild(Plot.plot (apple_area));
     document.getElementById("candlestick").appendChild(Plot.plot (candlestick));
     document.getElementById("anomaly_barcode").appendChild(Plot.plot (anomaly_barcode));

@@ -302,6 +302,10 @@
       text-align: right;
     }
 
+    #simpsonsEpisodes svg[class*="plot"]{
+      margin: 20px 0px;
+    }
+
     #simpsonsEpisodes svg[class*="plot"], #simpsonsSeasons svg[class*="plot"] {
       font-size: 10px;
       background: none;
@@ -499,6 +503,15 @@
       fill-opacity: 0.5;
       stroke: #fff;
       stroke-width: 1;
+    }
+
+    @media screen and (max-width: 900px){
+      article figure {
+        grid-column: 1/-1;
+      }
+      #simpsonsEpisodes svg[class*="plot"]{
+        margin: 0px;
+      }
     }
   </style>
 
@@ -3528,9 +3541,17 @@
             <text x="80" y="640">A fire drill does not require a fire.</text>
           </g>
         </svg>
+
+        <p>Although The Simpsons is loved by many, it is evident that the show has seen its better days. As Matt Groening, the creator of The Simpsons once said<a href="#finalquote" aria-describedby="footnote-label" id="finalquote-ref"></a>: "The problem with doing a sitcom which has lasted more than 300 episodes is you're trying not to repeat yourself, you're trying to surprise the audience, and you're trying to keep everybody who works on the show surprised. As a result, the show has gone off in some very peculiar directions."</p>
+
       </article>
     </main>
     <footer>
+      <h2 id="footnote-label">Footnotes</h2>
+      <ol>
+        <li id="finalquote">Matt Groening quoted by <a href="https://www.npr.org/2014/08/20/341884238/prepare-for-the-simpsons-marathon-with-interviews-from-the-fresh-air-archives">NPR</a>.<a href="#finalquote-ref" aria-label="Back to content">↩</a></li>
+
+      </ol>
       <div>
         <p>Justin Chill © 2022. Thanks for reading!</p>
         <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="icon">Source code and feedback</a></span>    
@@ -3620,6 +3641,10 @@
         width: width,
         inset: 1,
         style: "background: none;",
+        marginLeft: 10,
+        marginRight: 0,
+        marginTop: 10,
+        marginBottom: 20,
         // color: {type: "diverging", scheme: "rdylgn"},
         x: {
           label: null,
@@ -3648,7 +3673,7 @@
           strokeDasharray: [2, 2], 
           strokeWidth: 0.5,
           stroke: "rgba(0, 0, 0, .75)",
-          opacity: .45,
+          opacity: .85,
         }),
         Plot.line(simpsons_imdb, {
           x: "episode_no_abs", 
@@ -3697,7 +3722,7 @@
           text: d => `Season ` + d.season_no,
           fontWeight: 500,
           textAnchor: "start",
-          dy: 165, 
+          dy: 175, 
           dx: 10, 
           rotate: 270,
         }),
@@ -3731,18 +3756,22 @@
       var simpsonsEpisodes = {      
         height: width*.85,
         width: width,
-        style: "background: none; cursor: default;",
+        style: "background: none; cursor: default; minWidth: 350px; minHeight: 500px;",
+        marginLeft: 0,
+        marginRight: 0,
+        marginTop: 10,
+        marginBottom: 0,
         grid: true,
         padding: 0.05,
         x: {
           axis: "top",
           label: "Season  →",
-          labelOffset: 45,
+          labelOffset: 35,
           tickSize: 0,
         },
         y: {
           label: "←  Episode number",
-          labelOffset: 45,
+          labelOffset: 35,
           tickSize: 0,
         },
         color: {
@@ -3758,7 +3787,7 @@
           range: [.25,1], // clamping the color scheme gives tighter control over the color range
         },
         marks: [
-        Plot.frame(),
+        Plot.frame({stroke: "hsl(209, 23%, 60%)"}),
         Plot.cell(simpsons_imdb, {
           x: "season_no",
           y: "episode_no",
@@ -3776,23 +3805,27 @@
         ]
       };
 
-      // Matrix chart episodes by season, episode no.
+      // Average rating by season
       var simpsonsSeasons = {      
         width: width,
         inset: 5,
         style: "background: none;",
+        marginLeft: 10,
+        marginRight: 0,
+        marginTop: 10,
+        marginBottom: 10,
         grid: true,
         x: {
           label: "Season",
           labelAnchor: "center",
-          labelOffset: 45,
+          labelOffset: 35,
           clamp: true,
           tickSize: 0,
         },
         y: {
           label: "IMDB Rating",
           labelAnchor: "center",
-          labelOffset: 45,
+          labelOffset: 35,
           grid: true,
           nice: true,
           clamp: true,
