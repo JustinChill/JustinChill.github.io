@@ -153,7 +153,9 @@
     var week = {
       width: width,
       style:{fontSize: size},
-      marginTop: 50,
+      // marginTop: 50,
+      marginLeft: 10,
+      marginRight: 0,      
       color: {
         scheme: "GnBu",
         reverse: false,
@@ -163,6 +165,8 @@
         label: `Average time (minutes)`,
         transform: d => d / 60, // turn seconds into minutes
         grid: true,
+        nice: true,
+        tickSize: 0,
       },
       x: {
         domain: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
@@ -171,7 +175,13 @@
         tickSize: 0,
       },
       marks: [
-      Plot.barY(xword_data.filter(d => (d.Solved === "True")), Plot.groupX({y: "mean"}, {y: "Time_Taken", x: "Day_of_Week", fill: "Day_of_Week", fillOpacity: .8})),
+      Plot.barY(xword_data.filter(d => (d.Solved === "True")), 
+        Plot.groupX({y: "mean"}, {
+          y: "Time_Taken", 
+          x: "Day_of_Week", 
+          fill: "Day_of_Week", 
+          fillOpacity: .8
+        })),
       ]
     };
 
@@ -181,6 +191,8 @@
       width: width,
       style:{fontSize: size},
       marginTop: 50,
+      marginLeft: 10,
+      marginRight: 0, 
       color: {
         scheme: "GnBu",
         reverse: false,
@@ -191,9 +203,11 @@
         transform: d => d / 60, // turn seconds into minutes
         grid: true,
         domain: [0, 90],
+        tickSize: 0,
       },
       x: {
         label: null,
+        nice: true,
       },
       marks: [
       Plot.line(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle_Date", y:"Time_Taken", curve: "catmull-rom", stroke:"hsl(230, 49%, 41%)"}),
@@ -209,8 +223,10 @@
       style:{fontSize: size},
       grid: true,
       inset: 10,
-      height: 350,
-      marginBottom: 40,
+      height: 300,
+      // marginBottom: 60,
+      marginLeft: 20,
+      marginRight: 0,
       color: {
         scheme: "RdYlGn",
         reverse: true,
@@ -228,12 +244,13 @@
         transform: d => d / 60, // turn seconds into minutes
         tickFormat: d => `${d}m`,
         label: "Time to solve (min.) →",
+        labelAnchor: "center",
         nice: true,
         clamp: true,
-        ticks: 3,
+        ticks: width > 400 ? 3 : 1,
         tickSize: 0,
-        labelOffset: 40,
-        tickRotate: -35
+        labelOffset: 45,        
+        tickRotate: -35,
       },
       y: {
         // domain: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"], // y axis (left)
@@ -252,7 +269,7 @@
     var constructors = {
       width: width,
       style:{fontSize: size},
-      marginLeft: 200,
+      marginLeft: 180,
       marginTop: 40,
       marginBottom: 0,
       insetBottom: 0,

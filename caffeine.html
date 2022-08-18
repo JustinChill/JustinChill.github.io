@@ -434,12 +434,13 @@
     var caffeine_bar = {
       width: width,
       style:{fontSize: size},
-      marginLeft: 160,
-      marginRight: 60,
+      marginLeft: 140,
+      marginRight: 10,
       marginBottom: 40,
       x: {
         labelOffset: 40,
-        grid: true
+        grid: true,
+        nice: true,
       },
       color: {
         type: "categorical",
@@ -464,18 +465,29 @@
     var caffeine_box = {
       width: width,
       style:{fontSize: size},
-      marginTop: 30,
+      marginTop: 20,
+      marginBottom: 40,
+      marginLeft: 20,
+      marginRight: 0,
       y: {
         grid: true,
         inset: 6,
       },
-      x:{ label:"Class", labelOffset: 50, domain: d3.sort(caffeine, d => -d["Caffeine (mg)"]).map(d => d.Class)},
+      x:{ 
+        label: width > 450 ? "Class" : "", 
+        labelOffset: 50, 
+        tickRotate: width > 450 ? 0 : -30,
+        domain: d3.sort(caffeine, d => -d["Caffeine (mg)"]).map(d => d.Class)
+      },
       color: {
         type: "categorical",
         scheme: scheme,
       },
       marks: [
-      boxY(caffeine, {x: "Class", y: "Caffeine (mg)", fill: "Class"})
+      boxY(caffeine, {
+        x: "Class", 
+        y: "Caffeine (mg)", 
+        fill: "Class"})
       ]
     };
 
@@ -484,6 +496,8 @@
       style:{fontSize: size},
       marginTop: 30,
       marginBottom: 100,
+      marginLeft: 20,
+      marginRight: 0,
       x: {
         tickRotate: -35,
         tickSize: 0,
@@ -501,15 +515,21 @@
     var caffeine_facet = {
       width: width - 20,
       style:{fontSize: size},
-      x: {label: null, ticks: 2, labelOffset: 50, axis: null},
       // y: {label: "↑ Highway mpg", ticks: 6, labelOffset: 90},
-      // marginLeft: 20,
+      marginLeft: 20,
+      marginRight: 0,
       marginTop: 40,
       // marginBottom: 50,
       inset: 4,
       color: {
         type: "categorical",
         scheme: scheme,
+      },
+      x: {
+        label: null, 
+        ticks: 2, 
+        labelOffset: 50, 
+        axis: null,
       },
       facet: {
         data : caffeine,

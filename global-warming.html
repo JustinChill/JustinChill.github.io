@@ -99,6 +99,8 @@
     var temps = {
       width: width,
       inset: 0,
+      marginLeft: 20,
+      marginRight: 0,
       x: {
         grid: true,
         nice: true,
@@ -109,10 +111,9 @@
         grid: true,
         nice: true,
         tickFormat: "+f",
-        // tickFormat: (d) => `${d} °C`,
-        label: "↑ Surface temperature change (°C)",
+        label: null,
         tickSize: 0,
-        ticks: 4,
+        ticks: 4,        
       },
       style: {
         background: "hsla(209, 23%, 99%, 1)",
@@ -123,6 +124,9 @@
         scheme: "BuRd",
         range: [0,1.3], // clamping the color scheme so that blue appears below the x axis, red above
         reverse: false,
+        legend: true,
+        tickFormat: "+f",
+        label: "Surface temperature change (°C)",
       },
       marks: [
       Plot.ruleY([0], {stroke:"rgba(0,0,0,.3)", strokeOpacity: .75}),
@@ -140,9 +144,15 @@
 
     var stripes = {
       width: width,
-      color: { scheme: "burd" },
+      color: { 
+        scheme: "burd",
+        legend: true,
+        tickFormat: "+f",
+        label: "Surface temperature change (°C)", 
+      },
       x: { axis: null },
       marginRight: 5,
+      marginLeft: 0,
       marginBottom: 8,
       height: width/5,
       marks: [
@@ -172,16 +182,16 @@
 
 
     // Create the legend separately, using the color scale from the temps plot 
-    var temps_color = Plot.plot(temps).scale("color");
-    var temps_legend = {
-      label: "Temperature Change (°C) →",
-      color: temps_color,
-      tickFormat: "+f",
-    };
+    // var temps_color = Plot.plot(temps).scale("color");
+    // var temps_legend = {
+    //   label: "Temperature Change (°C) →",
+    //   color: temps_color,
+    //   tickFormat: "+f",
+    // };
 
     document.getElementById("temps").appendChild(Plot.plot(temps));
     document.getElementById("stripes").appendChild(Plot.plot(stripes));
-    document.getElementById("temps_legend").appendChild(Plot.legend(temps_legend));
+    // document.getElementById("temps_legend").appendChild(Plot.legend(temps_legend));
   });
   </script>
 </body>
