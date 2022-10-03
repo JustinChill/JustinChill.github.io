@@ -569,6 +569,9 @@
         <figcaption>Data: <a href="https://www.imdb.com/title/tt0096697/">IMDB</a></figcaption>
         <p>Here we look at the difference between episodes within each season. Early seasons have a tighter grouping of episodes, meaning they all score roughly the same. Starting in season 6 we start to see a greater spread of episodes. Season 23 has the greatest range of scores within a season (&plusmn; 4.4).</p>
 
+        <!-- <p class="title">Average rating by season</p> -->
+        <figure id="simpsonsFacet"></figure> 
+
         <!-- Random Simpson's quote -->
         <h2>Random quote</h2>
         <div class="container">
@@ -3808,10 +3811,10 @@
       // Average rating by season
       var simpsonsSeasons = {      
         width: width,
-        inset: 5,
+        // inset: 1,
         style: "background: none;",
         marginLeft: 10,
-        marginRight: 0,
+        marginRight: 10,
         marginTop: 10,
         marginBottom: 10,
         grid: true,
@@ -3890,9 +3893,24 @@
           ]
         };
 
+        var simpsonsFacet = {
+          width: width,
+          style:{fontSize: size},
+          height: 600,
+          inset: 5,
+          marginLeft: 110,
+          color: { type: "categorical" },
+          facet: { data: simpsons_imdb, y: "season_no", marginRight: 90 }, // ← gives facet labels more space
+          marks: [
+            Plot.frame(),
+            Plot.dot(simpsons_imdb, { x: "episode_no", y: "episode_score", stroke: "episode_score" })
+          ]
+        };
+
         document.getElementById("simpsonsRatings").appendChild(Plot.plot(simpsonsRatings));
         document.getElementById("simpsonsEpisodes").appendChild(Plot.plot(simpsonsEpisodes));
         document.getElementById("simpsonsSeasons").appendChild(Plot.plot(simpsonsSeasons));
+        // document.getElementById("simpsonsFacet").appendChild(Plot.plot(simpsonsFacet));
       })
 
 myDataPromises.catch(function() {
