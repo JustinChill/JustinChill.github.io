@@ -29,7 +29,7 @@
       font-size:  calc(10px + (22 - 16) * ((100vw - 320px) / (1300 - 320)))
     }
 
-</style>
+  </style>
 </head>
 <body>
   <nav class="nav">
@@ -46,11 +46,11 @@
   
   <main role="main">
     <article>
-       <div class="article-hero">
-        <h2 class="article-category">Post</h2>
-        <h1 class="article-title">Global Temperature Trends</h1>
-        <h2 class="article-subtitle">How 2016 became Earth's hottest year on record</h2>
-      </div>
+     <div class="article-hero">
+      <h2 class="article-category">Post</h2>
+      <h1 class="article-title">Global Temperature Trends</h1>
+      <h2 class="article-subtitle">How 2016 became Earth's hottest year on record</h2>
+    </div>
 
     <figcaption id="temps_legend"></figcaption>
     <figure id="temps"></figure>
@@ -66,7 +66,7 @@
     <a href="https://www.nytimes.com/interactive/2017/01/18/science/earth/2016-hottest-year-on-record.html"><img src="imgs/nyt-global-temps.png" alt="The New York Times original graphic, visualizing global temperatures since 1880." loading="lazy" title="The New York Times original graphic, visualizing global temperatures since 1880."></a>
     
 
-</article>
+  </article>
 </main>
 <footer>
   <h2 id="footnote-label">Footnotes</h2>
@@ -87,12 +87,12 @@
   var size = 12;
 
   // Use Promises to async request data
-  var promises = [d3.csv("data/global-temps.csv",d3.autoType)];
+  var promises = [d3.csv("data/global-temps.csv", d3.autoType)];
   myDataPromises = Promise.all(promises);
 
   // After data is successfully fetched, generate viz
   myDataPromises.then(function(data) {
-    
+
     // Define the data
     var hadcrut = data[0];
 
@@ -129,17 +129,18 @@
         label: "Surface temperature change (°C)",
       },
       marks: [
-      Plot.ruleY([0], {stroke:"rgba(0,0,0,.3)", strokeOpacity: .75}),
+        Plot.ruleY([0], {stroke:"rgba(0,0,0,.3)", strokeOpacity: .75}),
       // Plot.linearRegressionY(hadcrut, {x: "date", y: "value", stroke: "hsl(356, 75%, 53%)", ci: 0.95}),
-      Plot.dot(hadcrut, {x: "date", y: "value", r: width < 500 ? 1 : 3, strokeWidth: 1, strokeOpacity: .85, stroke: "value", fill: "value", title: (d) =>
-        `${d3.timeFormat("%B %d, %Y")(d["date"])} \nTemp: ${d3.format("+.2f")(d["value"])}℃`,}),
-      Plot.text(hadcrut, {filter: d=> d.date == "Sun Jan 31 2016 19:00:00 GMT-0500 (EST)", x: "date", y: "value", dx: -50, dy: -2, text: d => d3.timeFormat("%B %Y")(d.date)}),
-      Plot.text(hadcrut, {filter: d=> d.date == "Mon Feb 29 2016 19:00:00 GMT-0500 (EST)", x: "date", y: "value", dx: -50, dy: 4, text: d => d3.timeFormat("%B %Y")(d.date)}),
-      Plot.text(hadcrut, {filter: d=> d.date == "Wed Feb 28 1990 19:00:00 GMT-0500 (EST)", x: "date", y: "value", dx: -14 , dy: -12, text: d => d3.timeFormat("%B %Y")(d.date)}),
-      Plot.text(hadcrut, {filter: d=> d.date == "Tue Dec 31 1957 19:00:00 GMT-0500 (EST)", x: "date", y: "value", dx: -8, dy: -12, text: d => d3.timeFormat("%B %Y")(d.date)}),
-      Plot.text(hadcrut, {filter: d=> d.date == "Thu Dec 31 1925 19:00:00 GMT-0500 (EST)", x: "date", y: "value", dx: -8, dy: -12, text: d => d3.timeFormat("%B %Y")(d.date)}),
-      Plot.text(hadcrut, {filter: d=> d.date == "Thu Jan 31 1889 19:00:00 GMT-0500 (EST)", x: "date", y: "value", dx: -5, dy: -12, text: d => d3.timeFormat("%B %Y")(d.date)}),      
-      ]
+        Plot.dot(hadcrut, {x: "date", y: "value", r: width < 500 ? 1 : 3, strokeWidth: 1, strokeOpacity: .85, stroke: "value", fill: "value", title: (d) =>
+          `${d3.timeFormat("%B %d, %Y")(d["date"])} \nTemp: ${d3.format("+.2f")(d["value"])}℃`,}),
+        Plot.text(hadcrut.filter(d => (d.date == "1889-02-01")), {x: "date", y: "value", dx: 0, dy: -2, text: d => d3.timeFormat("%B %Y")(d.date)})
+        // Plot.text(hadcrut, {filter: d=> d.date == "Sun Jan 31 2016 19:00:00 GMT-0500 (EST)", x: "date", y: "value", dx: -50, dy: -2, text: d => d3.timeFormat("%B %Y")(d.date)}),
+        // Plot.text(hadcrut, {filter: d=> d.date == "Mon Feb 29 2016 19:00:00 GMT-0500 (EST)", x: "date", y: "value", dx: -50, dy: 4, text: d => d3.timeFormat("%B %Y")(d.date)}),
+        // Plot.text(hadcrut, {filter: d=> d.date == "Wed Feb 28 1990 19:00:00 GMT-0500 (EST)", x: "date", y: "value", dx: -14 , dy: -12, text: d => d3.timeFormat("%B %Y")(d.date)}),
+        // Plot.text(hadcrut, {filter: d=> d.date == "Tue Dec 31 1957 19:00:00 GMT-0500 (EST)", x: "date", y: "value", dx: -8, dy: -12, text: d => d3.timeFormat("%B %Y")(d.date)}),
+        // Plot.text(hadcrut, {filter: d=> d.date == "Thu Dec 31 1925 19:00:00 GMT-0500 (EST)", x: "date", y: "value", dx: -8, dy: -12, text: d => d3.timeFormat("%B %Y")(d.date)}),
+        // Plot.text(hadcrut, {filter: d=> d.date == "Thu Jan 31 1889 19:00:00 GMT-0500 (EST)", x: "date", y: "value", dx: -5, dy: -12, text: d => d3.timeFormat("%B %Y")(d.date)}),   
+        ]
     };
 
     var stripes = {
@@ -173,11 +174,11 @@
           x: "date",
           filter: (d) => d["date"].getFullYear() % 10 === 0 && d["date"].getMonth() == 1,
           text: (d) =>
-            [1880, 1900, 2000].includes(d["date"].getFullYear()) ? `${d["date"].getFullYear()}` : `’${d["date"].getFullYear() % 100}`,
+          [1880, 1900, 2000].includes(d["date"].getFullYear()) ? `${d["date"].getFullYear()}` : `’${d["date"].getFullYear() % 100}`,
           textAnchor: "start",
           dx: 3
         })
-      ]
+        ]
     };
 
 
@@ -193,6 +194,6 @@
     document.getElementById("stripes").appendChild(Plot.plot(stripes));
     // document.getElementById("temps_legend").appendChild(Plot.legend(temps_legend));
   });
-  </script>
+</script>
 </body>
 </html>
