@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>The spread of Walmart</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="The spread of Walmart.">
+  <meta name="author" content="Justin Chill">
+
+  <style type="text/css">
+    picture{
+      margin: 0 auto;
+    }
+    svg{
+      width: 100%;
+      margin: 12px;
+    }
+
+  figcaption, figcaption > a {
+    margin-bottom: 0;
+    font-size: calc(8px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+    text-align: right;
+  }
+  cite a:not([class]){
+    text-decoration: none;
+    color:  hsl(234, 62%, 26%);
+  }
+  article > blockquote{
+    background:  hsl(221, 68%, 93%);
+    border-left: 8px solid hsl(227, 42%, 51%);
+  }
+  article > blockquote:before{
+    color:  hsl(227, 42%, 51%);
+  }
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+      <a href="fun.html" class="nav__item">Fun</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+  
+  <main role="main">
+    <article>
+       <div class="article-hero">
+        <h2 class="article-category">Post</h2>
+        <h1 class="article-title">Walmart</h1>
+        <h2 class="article-subtitle"></h2>
+      </div>
+
+      <h3></h3>
+      <figure id="minimap"></figure>
+      <figcaption>Data: <a href=""></a></figcaption>
+
+      <p>WeWork (also known as The We Company) is a provider of shared workspaces for technology startup subculture communities. The company offers office space with facilities and services like the Internet, printers, free refreshments, and private phone booths, enabling startups, entrepreneurs, and small businesses to collaborate and share experiences.</p>
+      <p>Between 2010 and 2020 WeWork soared to a valuation of more than $45b before it came crashing down.</p>
+
+</article>
+</main>
+<footer>
+  <!-- <h2 id="footnote-label">Footnotes</h2> -->
+  <div>
+    <p>Justin Chill © 2024. Thanks for reading!</p>
+    <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="icon">Source code and feedback</a></span>    
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/d3"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+
+<script type="text/javascript">
+  var element = d3.select('figure').node();
+  var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+  var size = 12;
+  
+  // Use Promises to async request data
+  var promises = [d3.json("data/statemesh.json"),d3.json("data/nation.json"),d3.json("data/walmarts.json")];
+
+  // You can request multiple srcs in a promise
+  myDataPromises = Promise.all(promises);
+
+  // After data is successfully fetched, generate viz
+  myDataPromises.then(function(data) {
+    // Define the data. There's gotta be a better way to do this:
+    var statemesh = data[0];
+    var nation = data[1];
+    var walmarts = data[2];
+
+    var minimap = {
+      width: width,
+      style:{fontSize: size},
+      marginTop: 30,
+
+      marginLeft: 0,
+      marginRight: 0,
+      projection: "albers",
+      fx: {
+        interval: "10 years",
+        tickFormat: (d) => `${d.getUTCFullYear()}’s`,
+        label: null
+      },
+      marks: [
+        Plot.geo(statemesh, {strokeOpacity: 0.1}),
+        Plot.geo(nation),
+        Plot.dot(walmarts, {fx: "date", x: "longitude", y: "latitude", r: 1, fill: "currentColor"})
+        ]
+    };
+    document.getElementById("minimap").appendChild(Plot.plot(minimap));
+  });
+  </script>
+</body>
+</html>
