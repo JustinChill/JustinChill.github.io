@@ -500,6 +500,20 @@
     <p>In a Voronoi diagram, each polygon, called a Voronoi cell, contains a data point and all areas that are closer to that point than any other.</p> -->
   </article>
 </main>
+
+<!-- Todo: find better way to define SVG gradient, as in https://observablehq.com/@observablehq/plot-area-chart-with-gradient -->
+<svg
+  version="1.1"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+        <linearGradient id="gradient" gradientTransform="rotate(90)">
+          <stop offset="20%" stop-color="rgba(0, 0, 0, .75)" stop-opacity="0.5" />
+          <stop offset="100%" stop-color="LightSkyBlue" stop-opacity="0" />
+        </linearGradient>
+      </defs>
+</svg>
+
 <footer>
   <h2 id="footnote-label">Footnotes</h2>
   <ol>
@@ -983,7 +997,7 @@ var animals = {
         scheme: "BuRd"
       },
     };
-
+   
     var apple_area = {
       width: width,
       style:{fontSize: size},
@@ -995,7 +1009,7 @@ var animals = {
         tickSize: 0,
       },
       marks: [
-      Plot.areaY(aapl, {x: "Date", y: "Close", fill: "rgba(204,204,204,.8)"}),
+      Plot.areaY(aapl, {x: "Date", y: "Close", fill: "url(#gradient)"}),
       Plot.lineY(aapl, {x: "Date", y: "Close", title: "Close", stroke: "rgba(0, 0, 0, .75)"}),
       Plot.dot(aapl, Plot.selectLast({x: "Date", y: "Close", fill: "white", stroke: "rgba(0, 0, 0, .75)"})),
       Plot.text(aapl, Plot.selectLast({x: "Date", y: "Close", text: d => formatCurrency(d.Close), dy: -12, dx: -10, fontWeight: 700, fontSize: 15})),
@@ -1185,7 +1199,8 @@ var animals = {
       marks: [
       Plot.ruleY([0], {stroke:"rgba(0,0,0,.6)"}),
       Plot.dot(hadcrut, {x: "date", y: "value", r: width < 500 ? 1 : 3, stroke: "value",fill: "value", title: (d) =>
-        `${d3.timeFormat("%B %d, %Y")(d["date"])} \nTemp: ${d3.format("+.2f")(d["value"])}℃`,}),
+        `${d3.timeFormat("%B %d, %Y")(d["date"])} \nTemp: ${d3.format("+.2f")(d["value"])}℃`, tip: true}),
+      Plot.lineY(hadcrut, Plot.windowY(12, {x: "date", y: "value", stroke: "currentColor"}))
 
       ]
 

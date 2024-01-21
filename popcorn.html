@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Steph Curry Ranks the Popcorn at All 29 N.B.A. Arenas</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Speth Curry has a popcorn problem.">
+  <meta name="author" content="Justin Chill">
+
+  <style type="text/css">
+
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+      <a href="fun.html" class="nav__item">Fun</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+  
+  <main role="main">
+    <article>
+     <div class="article-hero">
+      <h2 class="article-category">Post</h2>
+      <h1 class="article-title">Steph Curry Popcorn</h1>
+      <h2 class="article-subtitle"></h2>
+    </div>
+
+    <h3>Steph Curry Ranks the Popcorn at All 29 N.B.A. Arenas</h3>
+    <figure id="heatmap"></figure>
+    <figcaption>Data: <a href="https://www.nytimes.com/interactive/2019/04/12/sports/basketball/stephen-curry-warriors-popcorn.html">New York Times, 2019</a></figcaption>
+
+    <p>Golden State Warriors superstar guard Steph Curry is a self-professed “popcorn addict.” Asked by <a href="https://www.nytimes.com/interactive/2019/04/12/sports/basketball/stephen-curry-warriors-popcorn.html">The New York Times</a> if he was prepared to officially compile a 1-to-29 ladder for publication, Curry not only agreed but also suggested scoring five factors on a scale of 1 to 5 to support the rankings: freshness, saltiness, crunchiness, butter and presentation.</p>
+
+    <p>He proudly shared<a href="#story" aria-describedby="footnote-label" id="story-ref"></a> a story of Miami Heat ball boys, at the morning shootaround on Feb. 27, assuring him that he would be “impressed by their efforts on the popcorn front” — and then being greeted later that evening by a table with popcorn bags lined up on wood planks under heat lamps.</p>
+
+    <img src="https://static01.nyt.com/images/2019/04/13/sports/13CurryPopcorn1_Mavericks/13CurryPopcorn1_Mavericks-master1050-v2.jpg" alt="Stephen Curry’s Dallas Popcorn Ballot">
+
+    <p>Curry says he never adds anything to the popcorn to change its appearance, taste or temperature.</p>
+
+    <blockquote>“I really get off on popcorn,” Curry said. “It’s not even a joke.”</blockquote>
+
+  </article>
+</main>
+<footer>
+  <h2 id="footnote-label">Footnotes</h2>
+  <ol>
+    <li id="story"><a href="https://www.nytimes.com/interactive/2019/04/12/sports/basketball/stephen-curry-warriors-popcorn.html">Marc Stein, New York Times</a>.<a href="#story-ref" aria-label="Back to content">↩</a></li>
+  </ol>
+
+  <div>
+    <p>Justin Chill © 2024. Thanks for reading!</p>
+    <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="icon">Source code and feedback</a></span>    
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/d3"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+
+<script type="text/javascript">
+  var element = d3.select('figure').node();
+  var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+  var size = 12;
+  
+  // Use Promises to async request data
+  var promises = [d3.json("data/popcorn.json")];
+
+  // You can request multiple srcs in a promise
+  myDataPromises = Promise.all(promises);
+
+  // After data is successfully fetched, generate viz
+  myDataPromises.then(function(data) {
+    // Define the data. There's gotta be a better way to do this:
+    var popcorn = data[0];
+
+    var heatmap = {
+      width: width,
+      marginLeft: 120,
+      padding: 0,
+      y: {label: null},
+      color: {legend: true, zero: true},
+      // fx: {tickFormat: ""},
+      // marks: [
+      //   Plot.cell(
+      //     popcorn,
+      //     Plot.group(
+      //       {fill: "median"},
+      //       {x: (d) => [d.Freshness, d.Saltiness, d.Crunchiness, d.Butter, d.Presentation], y: "Team", fill: "Freshness", inset: 0.5, sort: {y: "-fill"}, tip: true, fy: (d,i) => d[i]}
+      //     )
+      //   )
+      // ]
+
+      // marks: [
+      //   Plot.cell(popcorn, Plot.group({fill: "max"}, {
+      //     x: (d) => [d.Freshness, d.Saltiness, d.Crunchiness, d.Butter, d.Presentation],
+      //     // x: ["Freshness", "Saltiness", "Crunchiness", "Butter", "Presentation"],
+      //     y: "Team",
+      //     // fill: "max", sort: {y: "-fill"}, tip: true, 
+      //     inset: 0.5
+      //   }))
+      //   ]
+
+      marginTop: 80,
+      x: {label: null, axis: "top", tickRotate: 90},
+      y: {label: null, tickSize: 0},
+      color: {label: "Score", legend: true, scheme: "YlGnBu"},
+      marks: [
+        Plot.cell(popcorn, Plot.group({fill: "max"}, {fill: "Freshness", sort: {y: "-fill"}, tip: true, x: (d) => [d.Freshness, d.Saltiness, d.Crunchiness, d.Butter, d.Presentation], y: "Team"}))
+      ]
+    };
+    document.getElementById("heatmap").appendChild(Plot.plot(heatmap));
+
+  });
+</script>
+</body>
+</html>
