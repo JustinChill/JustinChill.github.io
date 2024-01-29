@@ -15,6 +15,10 @@
       margin: 20px 0;
     }
 
+    svg text{
+      font-weight: normal;
+    }
+
   /*  Hacky way to avoid the legend, target the map  */
     figure#map svg+svg text{
       font-size: calc(12px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
@@ -74,8 +78,9 @@
 
     <p>Over the next several decades, these retailers expanded strategically across the United States<a href="#Graff" aria-describedby="footnote-label" id="finalquote-ref"></a>. Target and K-Mart grew quickly and located stores in major metropolitan areas. Wal-Mart chose to locate stores in smaller towns close to their home office of Bentonville, Arkansas.</p>
 
-    <!-- <figure id="bars"></figure>
-    <figcaption>Data: Diffusion of Wal-Mart Stores (<a href="https://digital.library.unt.edu/ark:/67531/metadc68027/m2/1/high_res_d/thesis.pdf">Holmes 2011</a>)</figcaption> -->
+    <h3>Stores built per year</h3>
+    <figure id="bars"></figure>
+    <figcaption>Data: Diffusion of Wal-Mart Stores (<a href="https://digital.library.unt.edu/ark:/67531/metadc68027/m2/1/high_res_d/thesis.pdf">Holmes 2011</a>)</figcaption>
 
   </article>
 </main>
@@ -126,7 +131,7 @@
       },
       marks: [
         Plot.geo(statemesh, {strokeOpacity: 0.1}),
-        Plot.geo(nation, {strokeOpacity: 0.9}),
+        Plot.geo(nation, {strokeOpacity: 0.7}),
         Plot.dot(walmarts, {fx: "date", x: "longitude", y: "latitude", r: 1, fill: walcolor}),
         Plot.tip(nation, {x: 36.372852, y: -94.208817})
         ]
@@ -149,7 +154,7 @@
 
       marks: [
         Plot.geo(nation, {strokeOpacity: 0.9, fill: "#222", opacity: .05}),
-        Plot.geo(statemesh, {strokeOpacity: 0.7, }),
+        Plot.geo(statemesh, {strokeOpacity: 0.7}),
         Plot.density(walmarts, {
           x: "longitude",
           y: "latitude",
@@ -157,11 +162,20 @@
           fill: (d) => d.date.getUTCFullYear(),
           opacity: .15
         }),
-        Plot.dot(walmarts, {x: "longitude", y: "latitude", r: 5, fill: (d) => d.date.getUTCFullYear(), tip:true,}),
+        Plot.dot(walmarts, {
+          x: "longitude", 
+          y: "latitude", 
+          r: 5, fill: (d) => d.date.getUTCFullYear(),
+          tip: {
+            opacity: 0.85,
+            textPadding: 10,
+          },
+        }),
         ]
     };
 
     var bars = {
+      width:  width,
       marks: [
         Plot.ruleY([0], { stroke: '#555' }),
         Plot.dot(
@@ -176,15 +190,12 @@
         label: null,
         tickSize: 0,
       },
-      y: {grid: true, ticks: 10, nice: true},
-      marginTop: 10, marginBottom: 20, marginLeft: 10, marginRight: 10,
-      width:  width,
-      // height: 30 + 2 * radius * ymax // include margin top/bottom
+      y: {grid: true, ticks: 5, nice: true},
     };
 
     document.getElementById("minimap").appendChild(Plot.plot(minimap));
     document.getElementById("map").appendChild(Plot.plot(map));
-    // document.getElementById("bars").appendChild(Plot.plot(bars));
+    document.getElementById("bars").appendChild(Plot.plot(bars));
   });
 </script>
 </body>
