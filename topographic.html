@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Topographic Mapping</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Building a topographic map with Plot.">
+  <meta name="author" content="Justin Chill">
+
+  <style type="text/css">
+
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+      <a href="fun.html" class="nav__item">Fun</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+  
+  <main role="main">
+    <article>
+     <div class="article-hero">
+      <h2 class="article-category">Post</h2>
+      <h1 class="article-title">Topographic Mapping</h1>
+      <h2 class="article-subtitle"></h2>
+    </div>
+
+
+    <h3>Elevation Coloring</h3>
+    <figure id="dem1"></figure>
+    <figcaption>Data: (<a href="https://www.gicentre.net/utils/mapprojection">giCentre</a>)</figcaption>
+
+    <p>Assume as a starting point we have have a dataset containing a regular grid of elevation values, often known as a <a href="https://en.wikipedia.org/wiki/Digital_elevation_model">digital elevation model</a> (DEM). A common text format for DEMs is the ESRI ASCII (grid) format. Here we use a sample of raster DEMs from the Ordnance Survey Terrain 50 dataset<a href="#Holmes" aria-describedby="footnote-label" id="Holmes-ref"></a> covering parts of the English Lake District. These record elevations at regular 50m gridded intervals.</p>
+
+    <h3>Swiss Style</h3>
+    <figure id="dem2"></figure>
+
+    <p>The default 'Turbo' colour scheme is somewhat garish, so let's provide a custom colour scheme more suited to terrain. In this example, we are aiming for a topographic map inspired by the 'Swiss style', and especially Eduard Imhof, so here is a one of the colour schemes recommended in his book Cartographic Relief Presentation.</p>
+
+    <h3>Shaded relief</h3>
+    <figure id="relief"></figure>
+    <figcaption>Data: (<a href="https://www.gicentre.net/utils/mapprojection">giCentre</a>)</figcaption>    
+
+    <p>Showing elevation by colour alone generates a somewhat flat looking map. To add a bit of depth we can calculate the local <a href="https://en.wikipedia.org/wiki/Terrain_cartography#Shaded_relief">shaded relief</a>.</p>
+
+    <h3>Hypsometric Tinting</h3>
+    <figure id="hypsometric"></figure>
+    <figcaption>Data: (<a href="https://www.gicentre.net/utils/mapprojection">giCentre</a>)</figcaption> 
+
+    <p>Hypsometric tinting is the process of colouring a shaded relief map to reflect the altitude of the underlying terrain. We can achieve this in Plot by rendering both the coloured elevation raster and the relief raster using a mixBlendMode such as luminosity that combines both.</p>
+
+    <h3>Enhancing shape with contours</h3>
+    <figure id="relief2"></figure>
+
+    <p>Relief shading gives a pretty good idea of terrain shape, but we can enhance it further by overlaying contour lines. These are easily specified with Plot's contour mark. It is common in topographic maps to use two weights of contour lines – a heavier weight for 'major' contours (e.g. at 200m intervals) and a lighter weight for 'minor' ones (e.g. 50m intervals).</p>
+
+    <h3>Contours</h3>
+    <figure id="contour_outline"></figure>
+
+    <p>We don't want the contours to stand out too much, just to subtly emphasise the shape of the terrain. Smoothing them slightly with a blur value of 2 and setting their opacity to a low value stops them from dominating the map.</p>
+
+    <h2>Geographical Features</h2>
+    <p>So far, the rasters and contours have been specified in 'grid space' – that is, where location is somewhere between [0,0] and [nRows-1,nCols-1] determined by the size of the DEM grid. To integrate with other geographic information, we are going to need to locate that grid in 'geographic space' such as longitude/latitude or with a pre-projected map coordinate system. We can do this because the input DEM contains metadata on the geographic location of the bottom-left corner and the size of each grid cell:</p>
+
+    <h3>Water Features</h3>
+    <figure id="waterFeatures"></figure>
+
+  </article>
+</main>
+<footer>
+  <h2 id="footnote-label">Footnotes</h2>
+  <ol>
+    <li id="Holmes"><a href="https://digital.library.unt.edu/ark:/67531/metadc68027/m2/1/high_res_d/thesis.pdf">Holmes, 2011</a>.<a href="#Holmes-ref" aria-label="Back to content">↩</a></li>
+    <li id="Graff"><a href="https://onlinelibrary.wiley.com/doi/abs/10.1111/j.0033-0124.1994.00019.x">Graff and Ashton, 1994</a>.<a href="#Graff-ref" aria-label="Back to content">↩</a></li>    
+  </ol>
+
+  <div>
+    <p>Justin Chill © 2024. Thanks for reading!</p>
+    <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="icon">Source code and feedback</a></span>    
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/d3"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.min.js"></script>
+
+<script type="text/javascript">
+  var element = d3.select('figure').node();
+  var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+  var size = 12;
+
+  // ------------------------------------------------------------------------------
+  // GeoJson Generator
+  class GeoJSON {
+    constructor(cw = true) {
+      this._mer = {
+        minX: Infinity,
+        maxX: -Infinity,
+        minY: Infinity,
+        maxY: -Infinity
+      };
+      this._fc = { type: "FeatureCollection", features: [] };
+      this.clockwiseWinding = cw;
+    }
+
+    // ------------------------------------------------------------------------------
+    // Add a single point.
+    point(pt, options = {}) {
+      this._validateCoords([pt], "Point");
+      this._addFeature("Point", pt, options);
+      return this; // Allow chaining
+    }
+
+    // ------------------------------------------------------------------------------
+    // Add a multi-point set.
+    points(coords, options = {}) {
+      this._validateCoords(coords, "MultiPoint");
+      this._addFeature("MultiPoint", coords, options);
+      return this; // Allow chaining
+    }
+
+    // ------------------------------------------------------------------------------
+    // Add a single line.
+    line(coords, options = {}) {
+      this._validateCoords(coords, "LineString");
+      this._addFeature("LineString", coords, options);
+      return this; // Allow chaining
+    }
+
+    // ------------------------------------------------------------------------------
+    // Add a multiline feature.
+    lines(coords, options = {}) {
+      if (
+        !Array.isArray(coords) ||
+        coords.some(
+          (line) => !Array.isArray(line) || !line.every(this._isValidCoord)
+        )
+      ) {
+        throw new Error(
+          "MultiLine coordinate array must have a depth of 3 to be added to a GeoJSON object."
+        );
+      }
+      this._addFeature("MultiLineString", coords, options);
+      return this; // Allow chaining
+    }
+
+    // ------------------------------------------------------------------------------
+    // Add a polygon.
+    polygon(coords, options = {}) {
+      const depth = this._getArrayDepth(coords);
+      if (depth < 2 || depth > 3) {
+        throw new Error(
+          "Polygon coordinate array must have a depth of 2 or 3 to be added to a GeoJSON object."
+        );
+      }
+      const feat = this._addFeature(
+        "Polygon",
+        depth === 2 ? [coords] : coords,
+        options
+      );
+
+      if (options.clean !== false) {
+        // First ring should be in the winding order unless overridden with a per-feature winding order.
+        // Any subsequent rings should be in the opposite order to the outer one.
+        const cs = feat.geometry.coordinates;
+        const windClockwise = options.isClockwise ?? this.clockwiseWinding;
+        if (this._isClockwise(cs[0]) !== windClockwise) {
+          cs[0].reverse();
+        }
+        for (let i = 1; i < cs.length; i++) {
+          if (this._isClockwise(cs[i]) === windClockwise) {
+            cs[i].reverse();
+          }
+        }
+
+        // Close polygon rings if not already closed.
+        for (const cs of feat.geometry.coordinates) {
+          const [first, last] = [cs[0], cs[cs.length - 1]];
+          if (first[0] !== last[0] || first[1] !== last[1]) {
+            cs.push([...first]);
+          }
+        }
+      }
+      return this; // Allow chaining
+    }
+
+    // ------------------------------------------------------------------------------
+    // Add a multipolygon to this geoJSON. Optional properties as second argument.
+    polygons(coords, options = {}) {
+      const depth = this._getArrayDepth(coords);
+      if (depth != 4) {
+        throw new Error(
+          "MultiPolygon coordinate array must have a depth of 4 to be added to a GeoJSON object."
+        );
+      }
+      const feat = this._addFeature("MultiPolygon", coords, options);
+
+      if (options.clean !== false) {
+        for (const cs of feat.geometry.coordinates) {
+          // First ring should be in the winding order unless overridden with a per-feature winding order.
+          // Any subsequent rings should be in the opposite order to the outer one.
+          const windClockwise = options.isClockwise ?? this.clockwiseWinding;
+          if (this._isClockwise(cs[0]) !== windClockwise) {
+            cs[0].reverse();
+          }
+          for (let i = 1; i < cs.length; i++) {
+            if (this._isClockwise(cs[i]) === windClockwise) {
+              cs[i].reverse();
+            }
+          }
+
+          // Close polygon rings if not already closed.
+          for (const cs2 of cs) {
+            const [first, last] = [cs2[0], cs2[cs2.length - 1]];
+            if (first[0] !== last[0] || first[1] !== last[1]) {
+              cs2.push([...first]);
+            }
+          }
+        }
+      }
+      return this; // Allow chaining
+    }
+
+    // ------------------------------------------------------------------------------
+    // Create a new GeoJSON generator from the given Geo/TopoJSON file.
+    async from(
+      fileName,
+      feat = fileName.replace(/^.*\/|\\/, "").replace(/\.[^/.]+$/, ""),
+      cw = true
+    ) {
+      const loaded = await d3.json(fileName);
+      const geoObj =
+        loaded.type === "Topology" ? topojson.feature(loaded, feat) : loaded;
+      this._processGeoJSON(geoObj);
+      return this;
+    }
+
+    // ------------------------------------------------------------------------------
+    // Create a new GeoJSON generator from the given feature collection
+    fromFeatureCollection(fc) {
+      this._processGeoJSON(fc);
+      return this;
+    }
+
+    // ------------------------------------------------------------------------------
+    // Provide the feature collection of all features that have been added
+    get featureCollection() {
+      return this._fc;
+    }
+
+    // ------------------------------------------------------------------------------
+    // Provide the bounding rectangle as a geoJSON object
+    boundingRect() {
+      return new GeoJSON(this.clockwiseWinding).polygon([
+        [this._mer.minX, this._mer.minY],
+        [this._mer.minX, this._mer.maxY],
+        [this._mer.maxX, this._mer.maxY],
+        [this._mer.maxX, this._mer.minY]
+      ]).featureCollection;
+    }
+
+    // ------------------------------------------------------------------------------
+    // ----------------------- Private methods
+    _getArrayDepth(xs, depth = 0) {
+      return Array.isArray(xs) && xs.length > 0
+        ? this._getArrayDepth(xs[0], depth + 1)
+        : depth;
+    }
+
+    _flatten(coords) {
+      const flat = coords.flat(Infinity); // Flatten to a single list of values [x1,y1,x2,y2...]
+      // Reassemble as [[x1,y1],[x2,y2],...]
+      return Array.from({ length: flat.length / 2 }, (_, i) => [
+        flat[2 * i],
+        flat[2 * i + 1]
+      ]);
+    }
+
+    _processGeoJSON(geoObj) {
+      const actions = {
+        Point: (coords, options) => this.point(coords, options),
+        MultiPoint: (coords, options) => this.points(coords, options),
+        LineString: (coords, options) => this.line(coords, options),
+        MultiLineString: (coords, options) => this.lines(coords, options),
+        Polygon: (coords, options) => this.polygon(coords, options),
+        MultiPolygon: (coords, options) => this.polygons(coords, options)
+      };
+
+      const addFeature = (obj, options = {}) => {
+        if (obj.type === "Feature") {
+          addFeature(obj.geometry, {
+            clean: false,
+            id: obj.id,
+            properties: obj.properties
+          });
+        } else if (obj.type === "FeatureCollection") {
+          obj.features.forEach((feature) => addFeature(feature));
+        } else if (obj.type === "GeometryCollection") {
+          obj.geometries.forEach((geometry) =>
+            addFeature(geometry, {
+              clean: false,
+              id: obj.id,
+              properties: obj.properties
+            })
+          );
+        } else {
+          const action = actions[obj.type];
+          if (!action) {
+            throw new Error(
+              `Unexpected geometry type when reading geo file: '${obj.type}'`
+            );
+          }
+          action(obj.coordinates, options);
+        }
+      };
+
+      addFeature(geoObj);
+    }
+
+    _addFeature(geometryType, coords, options) {
+      const feat = {
+        type: "Feature",
+        geometry: { type: geometryType, coordinates: [...coords] },
+        ...(options.id && { id: options.id }),
+        ...(options.properties && { properties: options.properties })
+      };
+      this._fc.features.push(feat);
+      [this._mer.minX, this._mer.maxX, this._mer.minY, this._mer.maxY] =
+        this._updateBounds(coords);
+      return feat;
+    }
+
+    _updateBounds(coords) {
+      return this._flatten(coords).reduce(
+        ([minX, maxX, minY, maxY], [x, y]) => [
+          Math.min(minX, x),
+          Math.max(maxX, x),
+          Math.min(minY, y),
+          Math.max(maxY, y)
+        ],
+        [this._mer.minX, this._mer.maxX, this._mer.minY, this._mer.maxY]
+      );
+    }
+
+    _isClockwise(coords) {
+      return (
+        coords.reduce((area, [x1, y1], i) => {
+          const [x2, y2] = coords[(i + 1) % coords.length];
+          const dx = ((x2 - x1 + 540) % 360) - 180; // Account for spanning antimeridian
+          return area + dx * (y2 + y1);
+        }, 0) > 0
+      );
+    }
+
+    _isValidCoord(coord) {
+      return Array.isArray(coord) && coord.length === 2;
+    }
+
+    _validateCoords(coords, featType) {
+      if (!Array.isArray(coords) || !coords.every(this._isValidCoord)) {
+        throw new Error(
+          `${featType} coordinate array must have a depth of 2 to be added to a GeoJSON object.`
+        );
+      }
+    }
+  }
+
+  // For loading ASCII Grid files:
+  function loadGrid(gridText) {
+    const header = {
+      NCOLS: (val) => ({ nCols: Number(val) }),
+      NROWS: (val) => ({ nRows: Number(val) }),
+      XLLCORNER: (val) => ({ xllCorner: Number(val) }),
+      YLLCORNER: (val) => ({ yllCorner: Number(val) }),
+      CELLSIZE: (val) => ({ cellSize: Number(val) }),
+      NODATA_VALUE: (val) => ({ noDataValue: Number(val) })
+    };
+    let headerData = {};
+    let i;
+    const lines = gridText.trim().split("\n");
+
+    for (i = 0; i < lines.length; i++) {
+      const [key, value] = lines[i].trim().split(/\s+/);
+      const handler = header[key.toUpperCase()];
+      if (!handler) {
+        break;
+      }
+      headerData = { ...headerData, ...handler(value) };
+    }
+
+    return {
+      nRows: headerData.nRows,
+      nCols: headerData.nCols,
+      llCorner: [
+        headerData.xllCorner + headerData.cellSize / 2,
+        headerData.yllCorner + headerData.cellSize / 2
+        ],
+      cellSize: headerData.cellSize,
+      values: lines
+      .slice(i)
+        .reverse() // Plot expecting rows from bottom to top.
+        .flatMap((line) =>
+          line
+          .trim()
+          .split(/\s+/)
+          .map((val) =>
+            val === headerData.noDataValue.toString() ? null : Number(val)
+            )
+          )
+      };
+    }
+
+  // For creating continuous colour schemes with custom colours:
+    function sequence(clrs, interp = d3.interpolateRgb) {
+      const interps = [];
+      for (let i = 0; i < clrs.length - 1; i++) {
+        interps.push(interp(clrs[i], clrs[i + 1]));
+      }
+      return (t) => {
+        if (t < 0) {
+          return "blue";
+        }
+        const scaledT = d3.scaleLinear().range([0, clrs.length - 1])(t);
+        const intT = Math.min(clrs.length - 2, Math.floor(scaledT));
+        return interps[intT](scaledT - intT);
+      };
+    }
+
+  // For calculating local shaded relief from an elevation raster:
+    function calcRelief(dem, azim = 315, zen = 75) {
+      const π = Math.PI;
+      const rad = (deg) => (deg * π) / 180;
+      const zenith = rad(zen);
+      const azimuth = rad(-azim);
+      const dx = dem.cellSize;
+      const shade = new Array(dem.values.length).fill(0.5);
+      const offsets = [
+      // 3x3 local window
+        [-1, -1],
+        [0, -1],
+        [1, -1],
+        [-1, 0],
+        [0, 0],
+        [1, 0],
+        [-1, 1],
+        [0, 1],
+        [1, 1]
+        ];
+
+      const sc = d3.scaleLinear().domain([-1, 1]);
+      for (let y = 1; y < dem.nRows - 1; y++) {
+        for (let x = 1; x < dem.nCols - 1; x++) {
+          const i = y * dem.nCols + x;
+          const w = offsets.map(([dx, dy]) => dem.values[i + dx + dy * dem.nCols]);
+          const dzdx =
+          (w[2] + 2 * w[5] + w[8] - (w[0] + 2 * w[3] + w[6])) / (8 * dx);
+          const dzdy =
+          (w[0] + 2 * w[1] + w[2] - (w[6] + 2 * w[7] + w[8])) / (8 * dx);
+          const slope = -Math.atan(Math.sqrt(dzdx * dzdx + dzdy * dzdy));
+          const aspect = Math.atan2(dzdy, -dzdx);
+          shade[i] = sc(
+            Math.cos(zenith) * Math.cos(slope) +
+            Math.sin(zenith) *
+            Math.sin(slope) *
+            Math.cos(azimuth - π / 2 - aspect)
+            );
+        }
+      }
+      return { ...dem, values: shade };
+    }
+
+  // Convert relief to grid:
+
+  // Use Promises to async request data
+    var promises = [d3.text("https://gicentre.github.io/data/lakeDistrict/centralDEM.asc").then((d) => loadGrid(d)), d3.json("https://gicentre.github.io/data/lakeDistrict/centralLakes.json").then((d) => topojson.feature(d, "lakes")), d3.json("https://gicentre.github.io/data/lakeDistrict/centralStreams.json").then((d) => topojson.feature(d, "streams"))];
+
+    var terrainClrs = [
+      "rgb(141,166,141)",
+      "rgb(172,194,155)",
+      "rgb(221,219,167)",
+      "rgb(254,235,181)",
+      "rgb(248,212,153)",
+      "rgb(241,170,109)",
+      "rgb(227,112,72)"
+      ];
+
+  // You can request multiple srcs in a promise
+    myDataPromises = Promise.all(promises);
+
+  // After data is successfully fetched, generate viz
+    myDataPromises.then(function(data) {
+    // Define the data. There's gotta be a better way to do this:
+      var dem = data[0];
+      var lakes = data[1];
+      var streams = data[2];
+
+      var localRelief = calcRelief(dem);
+      var bounds = ({
+        x1: dem.llCorner[0] - dem.cellSize / 2,
+        y1: dem.llCorner[1] - dem.cellSize / 2,
+        x2: dem.llCorner[0] + dem.nCols * dem.cellSize + dem.cellSize / 2,
+        y2: dem.llCorner[1] + dem.nRows * dem.cellSize + dem.cellSize / 2,
+        width: dem.nCols,
+        height: dem.nRows
+      });
+
+      var dem1 = {
+        width: width,
+        style:{fontSize: size},
+        marks: [Plot.raster(dem.values, { width: dem.nCols, height: dem.nRows })]
+      };
+
+      var dem2 = {
+        width: width,
+        style:{fontSize: size},
+        color: {
+          label: "Elevation (m)",
+          interpolate: sequence(terrainClrs),
+          legend: true
+        },
+        marks: [Plot.raster(dem.values, { width: dem.nCols, height: dem.nRows })]
+      };
+
+      var relief = {
+        width: width,
+        style:{fontSize: size},
+        marks: [
+          Plot.raster(localRelief.values, {
+            width: localRelief.nCols,
+            height: localRelief.nRows,
+            fill: d3.interpolate("#333", "white")
+          })
+          ]
+      };
+
+      var hypsometric = {
+        width: width,
+        style:{fontSize: size},
+        color: { interpolate: sequence(terrainClrs), legend: true },
+        marks: [
+          Plot.raster(dem.values, {
+            width: dem.nCols,
+            height: dem.nRows,
+          opacity: 0.4 // Try changing this value between 0-1 to see the effect.
+        }),
+          Plot.raster(localRelief.values, {
+            width: localRelief.nCols,
+            height: localRelief.nRows,
+            fill: d3.interpolate("black", "white"),
+            mixBlendMode: "luminosity"
+          })
+          ]
+      };
+
+      var relief2 = {
+        width: width,
+        style:{fontSize: size},
+        color: { interpolate: sequence(terrainClrs) },
+        marks: [
+          Plot.raster(dem.values, {
+            width: dem.nCols,
+            height: dem.nRows,
+            opacity: 0.4
+          }),
+          Plot.raster(localRelief.values, {
+            width: localRelief.nCols,
+            height: localRelief.nRows,
+            fill: d3.interpolate("black", "white"),
+            mixBlendMode: "luminosity"
+          }),
+          Plot.contour(dem.values, {
+            width: dem.nCols,
+            height: dem.nRows,
+            blur: 2,
+            thresholds: d3.range(0, 1000, 50),
+            opacity: 0.05
+          }),
+          Plot.contour(dem.values, {
+            width: dem.nCols,
+            height: dem.nRows,
+            blur: 2,
+            opacity: 0.1,
+            thresholds: d3.range(0, 1000, 200)
+          })
+          ]
+      };
+
+      var contour_outline = {
+        width: width,
+        style:{fontSize: size},
+        marks: [
+          Plot.contour(dem.values, {
+            width: dem.nCols,
+            height: dem.nRows,
+            blur: 2,
+            thresholds: d3.range(0, 1000, 50),
+            opacity: 0.05
+          }),
+          Plot.contour(dem.values, {
+            width: dem.nCols,
+            height: dem.nRows,
+            blur: 2,
+            opacity: 0.1,
+            thresholds: d3.range(0, 1000, 200)
+          })
+          ]
+      };
+
+      var bounds = ({
+        x1: dem.llCorner[0] - dem.cellSize / 2,
+        y1: dem.llCorner[1] - dem.cellSize / 2,
+        x2: dem.llCorner[0] + dem.nCols * dem.cellSize + dem.cellSize / 2,
+        y2: dem.llCorner[1] + dem.nRows * dem.cellSize + dem.cellSize / 2,
+        width: dem.nCols,
+        height: dem.nRows
+      });
+
+      var projection = ({
+        type: "reflect-y",
+        domain: new GeoJSON().points([
+          [bounds.x1, bounds.y1],
+          [bounds.x2, bounds.y2]
+          ]).featureCollection
+      });
+
+      var terrain = [
+        Plot.raster(dem.values, { ...bounds, opacity: 0.5 }),
+        Plot.raster(relief.values, {
+          ...bounds,
+          fill: d3.interpolate("black", "white"),
+          mixBlendMode: "multiply"
+        })
+        ];
+
+      var contours = [
+      // Minor contours
+        Plot.contour(dem.values, {
+          ...bounds,
+          blur: 2,
+          thresholds: d3.range(0, 1000, 50),
+          opacity: 0.05
+        }),
+      // Major contours
+        Plot.contour(dem.values, {
+          ...bounds,
+          blur: 2,
+          opacity: 0.1,
+          thresholds: d3.range(0, 1000, 200)
+        })
+        ];
+
+      var waterFeatures = {
+        width: width,
+        style:{fontSize: size},
+        projection: projection,
+        marks: [
+          Plot.geo(streams, {
+            stroke: "steelblue",
+            strokeWidth: (d) => 0.2 + Math.log(d.properties.shreve) / 4
+          }),
+          Plot.geo(lakes, {
+            fill: "rgba(202,227,246,0.95)",
+            stroke: "steelblue",
+            strokeWidth: 0.5
+          })
+          ]
+      };
+
+      document.getElementById("dem1").appendChild(Plot.plot(dem1));
+      document.getElementById("dem2").appendChild(Plot.plot(dem2));
+      document.getElementById("relief").appendChild(Plot.plot(relief));
+      document.getElementById("hypsometric").appendChild(Plot.plot(hypsometric));
+      document.getElementById("relief2").appendChild(Plot.plot(relief));
+      document.getElementById("contour_outline").appendChild(Plot.plot(contour_outline));
+      document.getElementById("waterFeatures").appendChild(Plot.plot(waterFeatures));
+    });
+  </script>
+</body>
+</html>

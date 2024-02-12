@@ -255,8 +255,9 @@
       <figure id="stocks_baseline"></figure>
       <figcaption>Market Data: <a href="https://www.wsj.com/market-data">Wall Street Journal</a></figcaption>
       <p>A baseline chart uses a reference point, which becomes the baseline, to compare all the other categories to. In business, the success of a project or product is often measured against a <strong>baseline</strong> number for costs, sales, or other variables. A project may exceed a baseline number or fail to meet it.</p>
-      <h2>Beeswarm</h2>
-      <img src="https://flowingdata.com/wp-content/uploads/2021/06/hospital-billing-1536x1127.png" loading="lazy">
+      <h2>Beeswarm </h2>
+      <figure id="beeswarm"></figure>
+      <!-- <img src="https://flowingdata.com/wp-content/uploads/2021/06/hospital-billing-1536x1127.png" loading="lazy"> -->
       <p>Beeswarm plots are a fun, visually pleasing alternative to histograms that can be used when data is sufficiently small and you want to plot every point. A beeswarm chart is a one-dimensional chart that shows all the information on a single-axis (usually the X axis). It is similar to a strip plot, except that would-be overlapping points are separated such that each is visible. </p>
       <h2>Box plot</h2>
       <h3>Michaelson-Morley Speed of Light Data</h3>
@@ -668,10 +669,13 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
 
   var country_emissions = {
     width: width,
-    marginLeft: width > 400 ? 140 : 60,
+    marginLeft: width > 400 ? 180 : 60,
     marginRight: width > 400 ? 100 : 20,
     marginBottom: 0,
-    style:{fontSize: size},
+    style:{
+      fontSize: size,
+      backgroundColor: 'rgba(242,245,248,1)',
+    },
     color: {
       range: ["#969696", "#4e79a7"]
     },
@@ -698,6 +702,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
         y: "country", 
         text: d => d3.format(",.0f")(d.value), 
         textAnchor: "start",
+        fontSize: 12,
         dx: 6, 
         dy: 0,
       }),
@@ -978,7 +983,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
       height: 400,
       width: width,
       marginLeft: width > 400 ? 30 : 10,
-      marginRight: width > 400 ? 100 : 20,
+      marginRight: width > 400 ? 60 : 20,
       style:{fontSize: size},
       color: {
         scheme: "BuRd"
@@ -1037,18 +1042,54 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
       marginRight: width > 450 ? 0 : 10,
       y: {
         grid: true,
-        tickFormat: "$f",
-        tickSize: 0,
+        // tickFormat: "$f",
+        // tickSize: 0,
       },
       marks: [
         Plot.areaY(aapl, {x: "Date", y: "Close", fill: "url(#gradient)"}),
         Plot.lineY(aapl, {x: "Date", y: "Close", title: d => formatCurrency(d.Close), stroke: "rgba(0, 0, 0, .75)", tip: true,}),
         Plot.dot(aapl, Plot.selectLast({x: "Date", y: "Close", fill: "white", stroke: "rgba(0, 0, 0, .75)"})),
         Plot.text(aapl, Plot.selectLast({x: "Date", y: "Close", text: d => formatCurrency(d.Close)+", " + formatTime(d.Date), dy: -12, dx: -10, fontWeight: 100, fontSize: 15})),
-        ]
+        Plot.axisY({
+          tickSize: 0, // don’t draw ticks
+          dx: 2, // offset right
+          dy: -6, // offset up
+          lineAnchor: "bottom", // draw labels above grid lines
+          tickFormat: (d, i, _) => (i === _.length - 1 ? `$${d}` : d) // Show $ on first tick only
+        }),
+        ],
     };
 
     const tinyapple = aapl.slice(-90);
+
+    var beeswarm = {
+      width: width,
+      style:{
+        fontSize: size,
+        backgroundColor: 'rgba(242,245,248,1)',
+    },
+      height: 300,
+      color: {
+        legend: true,
+      },
+      x: {
+        round: true,
+        nice: true,
+        zero: true,
+        grid: true,
+        ticks: 6,
+        tickSize: 0,
+        labelOffset: -10,
+        label: "Highway mileage"
+      },
+      marks: [
+        Plot.dot(mpg, Plot.dodgeY("middle", {
+          x: "hwy",
+          fill: d => d.manufacturer.replace(/^[a-z]/i, str => str.toUpperCase()), // Capitalize string: https://stackoverflow.com/a/53203953
+          tip: true,
+        })),
+        ],
+    };
 
     var candlestick = {
       width: width,
@@ -1178,6 +1219,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
       y: {
         type: "log",
         label: "Change in price (%)",
+        labelOffset: 0,
         grid: true,
         labelAnchor: "top",
         tickSize: 0,
@@ -1698,25 +1740,25 @@ var drug_scatter = {
 
     // https://observablehq.com/@observablehq/plot-proportion-plot
     var proportion_data = [
-      {
-        "age": "16-34’s",
-        "population": 30,
-        "wealth": 3
-      },
-      {
-        "age": "35-54’s",
-        "population": 33,
-        "wealth": 32
-      },
-      {
-        "age": "55-74’s",
-        "population": 28,
-        "wealth": 52
-      },
-      {
-        "age": "Over 75’s",
-        "population": 9,
-        "wealth": 13
+    {
+      "age": "16-34’s",
+      "population": 30,
+      "wealth": 3
+    },
+    {
+      "age": "35-54’s",
+      "population": 33,
+      "wealth": 32
+    },
+    {
+      "age": "55-74’s",
+      "population": 28,
+      "wealth": 52
+    },
+    {
+      "age": "Over 75’s",
+      "population": 9,
+      "wealth": 13
     }];
     const stack = (options) => Plot.stackY({}, { x: "type", y: "value", z: "age", ...options });
     var columns = ["population", "wealth"];
@@ -2116,6 +2158,7 @@ var drug_scatter = {
       document.getElementById("anomaly_legend").appendChild(Plot.legend(anomaly_legend));
       document.getElementById("anomaly_legend1").appendChild(Plot.legend(anomaly_legend));
       document.getElementById("apple_area").appendChild(Plot.plot (apple_area));
+      document.getElementById("beeswarm").appendChild(Plot.plot (beeswarm));
       document.getElementById("bls_bar").appendChild(Plot.plot (bls_bar));
       document.getElementById("bls_line").appendChild(Plot.plot (bls_line));
       document.getElementById("bls_stacked").appendChild(Plot.plot (bls_stacked));

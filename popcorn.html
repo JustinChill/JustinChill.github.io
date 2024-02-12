@@ -38,6 +38,8 @@
     <figure id="heatmap"></figure>
     <figcaption>Data: <a href="https://www.nytimes.com/interactive/2019/04/12/sports/basketball/stephen-curry-warriors-popcorn.html">New York Times, 2019</a></figcaption>
 
+    <img src="https://flowingdata.com/wp-content/uploads/2019/04/Stephen-Curry-popcorn-scores.png" loading="lazy">
+
     <p>Golden State Warriors superstar guard Steph Curry is a self-professed “popcorn addict.” Asked by <a href="https://www.nytimes.com/interactive/2019/04/12/sports/basketball/stephen-curry-warriors-popcorn.html">The New York Times</a> if he was prepared to officially compile a 1-to-29 ladder for publication, Curry not only agreed but also suggested scoring five factors on a scale of 1 to 5 to support the rankings: freshness, saltiness, crunchiness, butter and presentation.</p>
 
     <p>He proudly shared<a href="#story" aria-describedby="footnote-label" id="story-ref"></a> a story of Miami Heat ball boys, at the morning shootaround on Feb. 27, assuring him that he would be “impressed by their efforts on the popcorn front” — and then being greeted later that evening by a table with popcorn bags lined up on wood planks under heat lamps.</p>
@@ -79,23 +81,98 @@
   myDataPromises.then(function(data) {
     // Define the data. There's gotta be a better way to do this:
     var popcorn = data[0];
+    // var groups = d3.group(popcorn, d => d["Freshness", "Saltiness", "Crunchiness", "Butter", "Presentation"]);
+    const groups = d3.group(popcorn, (d) => d["Freshness", "Saltiness", "Crunchiness", "Butter", "Presentation"]);
+    // const groups = d3.rollup(popcorn, (d) => d["Freshness", "Saltiness", "Crunchiness", "Butter", "Presentation"]);
+    // var groups = d => d["Freshness", "Saltiness", "Crunchiness", "Butter", "Presentation"];
 
     var heatmap = {
       width: width,
       marginLeft: 120,
+      marginTop: 120,
+      marginBottom: 120,
       padding: 0,
-      y: {label: null},
-      color: {legend: true, zero: true},
-      // fx: {tickFormat: ""},
+      y: {
+        // domain: popcorn.map(d => d.Team), 
+        label: "", 
+        tickSize: 0, 
+        tickFormat: d => {
+          if (d.length > 60) {
+            return d.substring(0, 57) + " ...";
+          } else {
+            return d;
+          }
+        }
+      },
+      color: {legend: true, zero: true, type: "linear", scheme: "PiYG"},
+      x: {
+        axis: "both", 
+        // type: "band", 
+        label: "", 
+        tickSize: 0,  
+        tickRotate: -60,
+        // domain: d3.group(popcorn, d => d.Freshness, d.Saltiness)
+      },
+      fy: {tickFormat: ""},
+      padding: 0,
+      grid: true,
+      // x: {axis: "top", label: "Season"},
+      // y: {label: "Episode"},
+      marks: [
+        Plot.cell(popcorn, {fill: "Freshness", x: "Freshness", y: "Team"}),
+
+        // Plot.cell(popcorn, Plot.group({fill: "max"}, {x: groups, y: "Team", inset: 0.5, fy: groups,})),
+        // Plot.text(popcorn, {x: "Freshness", y: "Team", text: (d) => d.Freshness?.toFixed(1), fill: "black", title: "Freshness"})
+      ]
+
       // marks: [
-      //   Plot.cell(
-      //     popcorn,
-      //     Plot.group(
-      //       {fill: "median"},
-      //       {x: (d) => [d.Freshness, d.Saltiness, d.Crunchiness, d.Butter, d.Presentation], y: "Team", fill: "Freshness", inset: 0.5, sort: {y: "-fill"}, tip: true, fy: (d,i) => d[i]}
-      //     )
-      //   )
-      // ]
+      //   Plot.cell(popcorn, Plot.group({fill: "max"}, {
+      //     fill: popcorn.map(d => d.Freshness), 
+      //     sort: {y: "-fill"}, 
+      //     tip: true, 
+      //     x: popcorn.map(d => d.Team, d.Freshness, d.Saltiness, d.Crunchiness, d.Butter, d.Presentation), 
+      //     y: "Team",
+      //   })),
+        // Plot.cell(popcorn, Plot.group({fill: "max"}, {
+        //   fill: popcorn.map(d => d.Saltiness), 
+        //   sort: {y: "-fill"}, 
+        //   tip: true, 
+        //   x: popcorn.map(d => d.Saltiness), 
+        //   y: "Team",
+        // })),
+        // Plot.cell(popcorn, Plot.group({fill: "max"}, {
+        //   fill: popcorn.map(d => d.Crunchiness), 
+        //   sort: {y: "-fill"}, 
+        //   tip: true, 
+        //   x: popcorn.map(d => d.Crunchiness), 
+        //   y: "Team",
+        // })),
+        // Plot.cell(popcorn, Plot.group({fill: "max"}, {
+        //   fill: popcorn.map(d => d.Butter), 
+        //   sort: {y: "-fill"}, 
+        //   tip: true, 
+        //   x: popcorn.map(d => d.Butter), 
+        //   y: "Team",
+        // })),
+        // Plot.cell(popcorn, Plot.group({fill: "max"}, {
+        //   fill: popcorn.map(d => d.Presentation), 
+        //   sort: {y: "-fill"}, 
+        //   tip: true, 
+        //   x: popcorn.map(d => d.Presentation), 
+        //   y: "Team",
+        // })),
+        // ]
+
+          // Plot.group(
+          //   {fill: "max"},
+          //   {x: ["Freshness", "Saltiness", "Crunchiness", "Butter", "Presentation"], 
+          //   y: "Team", 
+          //   fill: "Freshness", 
+          //   inset: 0.5, 
+          //   sort: {y: "-fill"}, 
+          //   tip: true, 
+          //   fy: (d,i) => d[i],
+          // }
 
       // marks: [
       //   Plot.cell(popcorn, Plot.group({fill: "max"}, {
@@ -107,13 +184,11 @@
       //   }))
       //   ]
 
-      marginTop: 80,
-      x: {label: null, axis: "top", tickRotate: 90},
-      y: {label: null, tickSize: 0},
-      color: {label: "Score", legend: true, scheme: "YlGnBu"},
-      marks: [
-        Plot.cell(popcorn, Plot.group({fill: "max"}, {fill: "Freshness", sort: {y: "-fill"}, tip: true, x: (d) => [d.Freshness, d.Saltiness, d.Crunchiness, d.Butter, d.Presentation], y: "Team"}))
-      ]
+      // marginTop: 80,
+      // x: {label: null, axis: "top", tickRotate: 90},
+      // y: {label: null, tickSize: 0},
+      // color: {label: "Score", legend: true, scheme: "YlGnBu"},
+
     };
     document.getElementById("heatmap").appendChild(Plot.plot(heatmap));
 
