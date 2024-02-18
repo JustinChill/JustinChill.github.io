@@ -42,7 +42,6 @@
      <div class="article-hero">
       <h2 class="article-category">Post</h2>
       <h1 class="article-title">Black Sea Fleet Losses during the Russo-Ukrainian War</h1>
-      <h2 class="article-subtitle">Updated Feb 12, 2024</h2>
     </div>
 
     <figure id="map"></figure>
@@ -51,6 +50,8 @@
     <figure id="ships"></figure>
 
     <p>When Russian President Vladimir Putin launched an unprovoked invasion of Ukraine in February 2022, it set off the largest armed conflict in Europe since World War II<a href="#RAND" aria-describedby="footnote-label" id="RAND-ref"></a>. At the start of the war Russia had more than 70 ships, and their propaganda called the navy “invincible”. Ukraine however has shown surprising naval capability in the <a href="https://www.defensenews.com/naval/2022/02/25/what-makes-the-black-sea-so-strategically-important/">Black Sea</a>, helping to protect its shores and shipping while keeping the Russian navy at bay. This is remarkable because Ukraine is <a href="https://www.defensenews.com/naval/2021/08/09/after-2014-decimation-ukrainian-navy-rebuilds-to-fend-off-russia/">virtually bereft of warships</a>. It has succeeded through the skillful use of <a href="https://www.defensenews.com/opinion/2023/09/11/ukraine-is-ushering-in-a-new-uncrewed-era-at-sea/">emerging technologies</a>, such as explosive-laden <a href="/pubs/commentary/2022/11/the-age-of-uncrewed-surface-vessels.html">uncrewed surface vessels</a>, and older methods, such as land-based missiles and naval mines.</p>
+
+    <img src="https://news.usni.org/wp-content/uploads/2022/10/FgPfkoOXwAMHUNI-1.jpeg" loading="lazy">
 
 <!--     <p>The current war is the latest in a long history of battles in the Black Sea, a crossroads whose fertile shores have induced numerous nations to seek to dominate the sea and its approaches. <a href="https://www.history.com/topics/ancient-greece/thucydides">Thucydides</a> described Greek fleets fighting there over 2,400 years ago; more recently, Turkish and Russian fleets fought intermittently for centuries.</p>
     <p>Some of these battles have taken place in the same areas as today's fighting. In the Crimean War of the 1850s, British and French warships contributed to the siege to Russia's naval base at Sevastopol. Others have focused on the Turkish straits, the Black Sea's only exit. <a href="https://www.csis.org/analysis/geostrategic-importance-black-sea-region-brief-history">During World War I</a>, Britain, France, and Russia tried and failed to seize those straits.</p>
@@ -79,8 +80,6 @@
  -->
     <!-- <img src="https://desu-usergeneratedcontent.xyz/k/image/1707/12/1707123149843.jpg" loading="lazy"> -->
     <img class="mid-size" src="https://desu-usergeneratedcontent.xyz/k/image/1706/98/1706984727766.jpg" loading="lazy">
-
-    <img src="https://news.usni.org/wp-content/uploads/2022/10/FgPfkoOXwAMHUNI-1.jpeg" loading="lazy">
 
   </article>
 </main>
@@ -132,16 +131,17 @@
 
     var countries50m = topojson.feature(world50m, world50m.objects.countries);
 
-    var center = [31, 46.5]; // Sets the circle center to the specified point [longitude, latitude] in degrees
+    var center = [31, 46]; // Sets the circle center to the specified point [longitude, latitude] in degrees
     var radius = 3.3;
     var highlight = [804, 643]; // Highlight countries by their ISO 3166 code https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
+    var secondary = [642, 100, 498]; // Text labels for nearby countries
     var countries = ["Ukraine", "Russia"];
     var dx = 14; // Offset country name
     var dy = 0;
 
     var map = {
       width: width,
-      height: width*0.45,
+      // height: width*0.45,
       projection: {
         type: "equal-earth",
         domain: d3.geoCircle().center(center).radius(radius)(),
@@ -197,12 +197,28 @@
             fill:"currentColor",
           })
           ),
+        Plot.text(countries50m.features, // Print country names, filtered by their ISO 3166 code (https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes)          
+          Plot.centroid({
+            filter: (d) => secondary.find((h) => h == d.id) !== undefined, 
+            text: (d) => d.properties.name,
+            fontFamily: "BellTopoSansBold",
+            textAnchor: "middle",
+            lineAnchor: "middle",
+            fontSize: width / 44,
+            fontWeight: 300,
+            opacity: .72,
+            dx, dy,
+            stroke:"white", 
+            fill:"currentColor",
+          })
+          ),
         Plot.dot(cities, ({ // Print dots for large cities          
             filter: (d) => countries.find((h) => h == d.country) !== undefined && (d.capital === "admin" && d.population >= 250000), 
             opacity: .72,
             x: "lng",
             y: "lat",
             r: "population",
+            r: 2,
             fill: "rgba(0,0,0,0.85)",
             stroke: "rgba(255,255,255,0.2)",
           })
@@ -223,19 +239,19 @@
             stroke: "rgba(255,255,255,0.2)",
           })
           ),
-        Plot.image(fleet, ({ // Images for strikes in Black Sea fleet
-          filter: (d) => d.URL !== undefined,
-          x: "Latitude", 
-          y: "Longitude",
-          dx: -10, dy: -20,
-          r: 20, // clip to a circle
-          preserveAspectRatio: "xMidYMin slice",
-          stroke: "rgba(255,255,255,0.2)",
-          opacity: .9,
-          src: "URL",
-          width: 100,
-        })
-        ),
+        // Plot.image(fleet, ({ // Images for strikes in Black Sea fleet
+        //   filter: (d) => d.URL !== undefined,
+        //   x: "Latitude", 
+        //   y: "Longitude",
+        //   dx: -10, dy: -20,
+        //   r: 20, // clip to a circle
+        //   preserveAspectRatio: "xMidYMin slice",
+        //   stroke: "rgba(255,255,255,0.2)",
+        //   opacity: .9,
+        //   src: "URL",
+        //   width: 100,
+        // })
+        // ),
         Plot.dot(fleet, ({ // Print dots for strikes in Black Sea fleet
           x: "Latitude", 
           y: "Longitude",
@@ -287,7 +303,7 @@
     };
 
     document.getElementById("map").appendChild(Plot.plot(map));
-    document.getElementById("ships").appendChild(Plot.plot(ships));
+    // document.getElementById("ships").appendChild(Plot.plot(ships));
   });
 </script>
 </body>
