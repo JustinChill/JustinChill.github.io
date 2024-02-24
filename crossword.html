@@ -73,7 +73,7 @@
 
 <script type="text/javascript">
   // Use Promises to async request data
-  var promises = [d3.csv("data/xwstats.csv",d3.autoType)];
+  var promises = [d3.csv("data/xwstats-2-2024.csv",d3.autoType)];
   var element = d3.select('figure').node();
   var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
   var height = 450;
@@ -106,7 +106,7 @@
         tickSize: 0,
         label: null,
         tickFormat: d => d +'.',
-        domain: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
+        // domain: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
       },
       r: {
         range: [7, 35],
@@ -120,17 +120,17 @@
       marks: [
       Plot.dot(xword_data,
       {
-        x: "Puzzle_Date",
+        x: "Puzzle Date",
           sort: {channel: "x", order: "ascending"}, // latest dates on top
-          y: "Day_of_Week",
-          r: d => d.Adjusted_Time,
-          // fill: d => d.Adjusted_Time / 12, 
+          y: "Day of Week",
+          r: "Adjusted Time",
+          fill: d => d["Adjusted Time"] / 12, 
           fillOpacity: .95,
-          stroke: d => (d.Adjusted_Time / 12) -60, // Subtly color offset for stroke
+          // stroke: d => (d.Adjusted_Time / 12) -60, // Subtly color offset for stroke
           strokeWidth: 1,
           strokeOpacity: .9,
           mixBlendMode: "blend",
-          title:  d => `${d3.timeFormat("%b %d %Y")(d["Puzzle_Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time_Taken"]/12)} min. to solve`,
+          // title:  d => `${d3.timeFormat("%b %d %Y")(d["Puzzle_Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time_Taken"]/12)} min. to solve`,
         }),
       ],
     };
@@ -144,7 +144,7 @@
       Plot.text(xword_data, Plot.groupY(
         {text: (series) => new d3.InternSet(series).size}),
       {
-        y: "Day_of_Week",
+        y: "Day of Week",
         text: "Solved"
       })
       ]
@@ -162,7 +162,7 @@
       },
       y: {
         labelAnchor: "Top",
-        label: `Average time (minutes)`,
+        label: `Average time taken (minutes)`,
         transform: d => d / 60, // turn seconds into minutes
         grid: true,
         nice: true,
@@ -177,10 +177,11 @@
       marks: [
       Plot.barY(xword_data.filter(d => (d.Solved === "True")), 
         Plot.groupX({y: "mean"}, {
-          y: "Time_Taken", 
-          x: "Day_of_Week", 
-          fill: "Day_of_Week", 
-          fillOpacity: .8
+          y: "Time Taken", 
+          x: "Day of Week", 
+          fill: "Day of Week", 
+          fillOpacity: .8,
+          tip: true,
         })),
       ]
     };
@@ -207,14 +208,15 @@
       },
       x: {
         label: null,
-        nice: true,
+        // nice: true,
+        clamp: true,
       },
       marks: [
-      Plot.line(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle_Date", y:"Time_Taken", curve: "catmull-rom", stroke:"hsl(230, 49%, 41%)"}),
-      Plot.dot(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle_Date", y:"Time_Taken",fill:"hsl(230, 49%, 41%)", strokeWidth:0, r:1, title: d => `${d3.timeFormat("%A %B %d, %Y")(d["Puzzle_Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time_Taken"]/60)} min to solve` }),
+      Plot.line(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle Date", y:"Time Taken", curve: "catmull-rom", stroke:"hsl(230, 49%, 41%)"}),
+      Plot.dot(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle Date", y:"Time Taken",fill:"hsl(230, 49%, 41%)", strokeWidth:0, r:1, title: d => `${d3.timeFormat("%A %B %d, %Y")(d["Puzzle Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time Taken"]/60)} min to solve` }),
 
-      Plot.text(marker, {x: "Puzzle_Date", y: "Time_Taken", text: d => `COVID-19 Pandemic`, dy: -10, dx: -8, rotate: 270}),
-      Plot.ruleX(marker, {x: "Puzzle_Date", strokeDasharray: [2, 2], strokeWidth: 0.5,stroke: "rgba(0, 0, 0, .75)"}),
+      Plot.text(marker, {x: "Puzzle Date", y: "Time Taken", text: d => `COVID-19 Pandemic`, dy: -200, dx: -8, rotate: 270}),
+      Plot.ruleX(marker, {x: "Puzzle Date", strokeDasharray: [2, 2], strokeWidth: 0.5,stroke: "rgba(0, 0, 0, .75)"}),
       ]
     };
 
@@ -261,8 +263,8 @@
       },
       marks: [
       Plot.frame({stroke: "#ccc"}),
-      Plot.tickX(xword_data, Plot.groupY({x: "median"}, {filter: d => (d.Solved === "True"), y: "Day_of_Week", x: "Time_Taken", stroke: "hsl(356, 75%, 53%)"})),
-      Plot.dot(xword_data, {filter: d => (d.Solved === "True"),r:4, x: "Time_Taken", y: "Day_of_Week", fill: "Time_Taken", stroke: "Time_Taken", title: d => `${d3.timeFormat("%A %d, %Y")(d["Puzzle_Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time_Taken"]/60)} min to solve`}),
+      Plot.tickX(xword_data, Plot.groupY({x: "median"}, {filter: d => (d.Solved === "True"), y: "Day of Week", x: "Time Taken", stroke: "hsl(356, 75%, 53%)"})),
+      Plot.dot(xword_data, {filter: d => (d.Solved === "True"),r:4, x: "Time Taken", y: "Day of Week", fill: "Time Taken", stroke: "Time Taken", title: d => `${d3.timeFormat("%A %d, %Y")(d["Puzzle Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time Taken"]/60)} min to solve`}),
       ]
     };
 
