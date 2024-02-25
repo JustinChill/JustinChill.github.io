@@ -94,7 +94,7 @@
     var calendar = {
       width: width,
       height: width / 1.5,
-      marginTop: 140,
+      marginTop: 80,
       marginLeft: 20,
       x: {
         tickFormat: Plot.formatWeekday("en", "narrow"),
@@ -110,8 +110,13 @@
         tickFormat: "", // Hacky way to format year
       },
       color: {
-        scheme: "rainbow",
-        type: "diverging"
+        scheme: "YlOrRd",
+        legend: true,
+        // reverse: true,
+        nice: true,
+        clamp: true,
+        transform: d => d / 60, // turn seconds into minutes
+        label: "Time taken (minutes)"
       },
       facet: {
         data: xword_data,
@@ -126,6 +131,8 @@
           y: (d) => d3.timeMonday.count(d3.utcMonth(d["Puzzle Date"]), d["Puzzle Date"]), // monday-based layout
           // lay the days out in the x direction based on day of the week
           x: (d) => d["Puzzle Date"].getUTCDay(),
+          stroke: "currentColor",
+          strokeOpacity: .2,
           fill: "Time Taken",
           title: (d) => `${d3.timeFormat("%B %d, %Y")(d["Puzzle Date"])} (${d["Day of Week"]}.)\nTime Taken: ${d3.format(".0f")(d["Time Taken"]/60)} minutes`,
           tip: true,
