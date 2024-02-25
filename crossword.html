@@ -36,10 +36,10 @@
       <h2 class="article-subtitle">Analyzing crossword puzzle performance</h2>
     </div>
 
-    <figure id="xword"></figure>
+    <figure id="calendar"></figure>
     <figcaption>Data: <a href="https://www.nytimes.com/crosswords">NYT Crossword</a> app</figcaption>
 
-    <p>The New York Times crossword puzzle app doesn't show much you information about your solve times. I learned it's possible to download your own stats (see <a href="https://github.com/mattdodge/nyt-crossword-stats">here</a>) and decided to do my own analysis. This dataset includes <span id="puzzleCount">600</span> puzzles solved since 2019.</p>
+    <p>The New York Times crossword puzzle app doesn't show much you information about your solve times. I learned it's possible to download your own stats (see <a href="https://github.com/mattdodge/nyt-crossword-stats">here</a>) and decided to do my own analysis. This dataset includes <span id="puzzleCount">1,000</span> puzzles solved since 2019.</p>
 
     <figure id="text_stats"></figure>
 
@@ -76,9 +76,7 @@
   var promises = [d3.csv("data/xwstats-2-2024.csv",d3.autoType)];
   var element = d3.select('figure').node();
   var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
-  var height = 450;
   var size = 12;
-  var scheme = "set2";
 
   // Stats section
   const puzzleCount = document.querySelectorAll('#puzzleCount');
@@ -90,65 +88,57 @@
   myDataPromises.then(function(data) {
     // Define the data
     var xword_data = data[0];
+    const start = d3.utcDay.offset(d3.min(xword_data, (d) => d["Puzzle Date"])); // exclusive
+    const end = d3.utcDay.offset(d3.max(xword_data, (d) => d["Puzzle Date"])); // exclusive
 
-    var xword = {
+    var calendar = {
       width: width,
-      insetLeft: 20,
-      insetRight: 10,
-      style:{fontSize: size, background: "#FFF2E6"},
-      height: width*.9,
+      height: width / 1.5,
+      marginTop: 140,
+      marginLeft: 20,
       x: {
-        grid: true,
-        label: null,
-        ticks: 4,
+        tickFormat: Plot.formatWeekday("en", "narrow"),
+        tickSize: 0,
+        domain: [1, 2, 3, 4, 5, 6, 0], // monday-based 
+        axis: "top",
+        tickFormat: null // Hide MTW...
       },
       y: {
-        tickSize: 0,
-        label: null,
-        tickFormat: d => d +'.',
-        // domain: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
+        axis: null,
       },
-      r: {
-        range: [7, 35],
+      fy: {
+        tickFormat: "", // Hacky way to format year
       },
       color: {
-        // type: "linear",
-        legend: true,
-        label: "Time Taken (min.)",
-        range: ["#71dbe5","#fd78a3"],
+        scheme: "rainbow",
+        type: "diverging"
+      },
+      facet: {
+        data: xword_data,
+        x: (d) => d["Puzzle Date"].getUTCMonth(),
+        y: (d) => d["Puzzle Date"].getUTCFullYear(),
       },
       marks: [
-      Plot.dot(xword_data,
-      {
-        x: "Puzzle Date",
-          sort: {channel: "x", order: "ascending"}, // latest dates on top
-          y: "Day of Week",
-          r: "Adjusted Time",
-          fill: d => d["Adjusted Time"] / 12, 
-          fillOpacity: .95,
-          // stroke: d => (d.Adjusted_Time / 12) -60, // Subtly color offset for stroke
-          strokeWidth: 1,
-          strokeOpacity: .9,
-          mixBlendMode: "blend",
-          // title:  d => `${d3.timeFormat("%b %d %Y")(d["Puzzle_Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time_Taken"]/12)} min. to solve`,
+        Plot.cell(xword_data, {
+          // lay the days out in the x direction based on the week of the year
+          // x: d => d3.utcWeek.count(d3.utcYear(d.date), d.date),
+
+          y: (d) => d3.timeMonday.count(d3.utcMonth(d["Puzzle Date"]), d["Puzzle Date"]), // monday-based layout
+          // lay the days out in the x direction based on day of the week
+          x: (d) => d["Puzzle Date"].getUTCDay(),
+          fill: "Time Taken",
+          title: (d) => `${d3.timeFormat("%B %d, %Y")(d["Puzzle Date"])} (${d["Day of Week"]}.)\nTime Taken: ${d3.format(".0f")(d["Time Taken"]/60)} minutes`,
+          tip: true,
         }),
-      ],
-    };
-
-
-    var text_stats = { 
-      width: width,
-      style:{fontSize: size},
-      marginLeft: 20,
-      marks: [
-      Plot.text(xword_data, Plot.groupY(
-        {text: (series) => new d3.InternSet(series).size}),
-      {
-        y: "Day of Week",
-        text: "Solved"
-      })
+        Plot.axisFx({
+          axis: "top",
+          dy: -14,
+          tickFormat: Plot.formatMonth("en", "long"),
+          tickRotate: 35
+        }),
+        // Plot.frame(),
       ]
-    };
+      };
 
     var week = {
       width: width,
@@ -220,89 +210,38 @@
       ]
     };
 
-    var facet = {
-      width: width,
-      style:{fontSize: size},
-      grid: true,
-      inset: 10,
-      height: 300,
-      // marginBottom: 60,
-      marginLeft: 20,
-      marginRight: 0,
-      color: {
-        scheme: "RdYlGn",
-        reverse: true,
-      },
-      facet: {
-        data: xword_data,
-        x: "Day_of_Week",
-      },
-      fx: { 
-      // domain: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"], // Facet axis (top)
-      label: null,
-      tickFormat: d => `${d}.`,
-    }, 
-    x: {
-        transform: d => d / 60, // turn seconds into minutes
-        tickFormat: d => `${d}m`,
-        label: "Time to solve (min.) →",
-        labelAnchor: "center",
-        nice: true,
-        clamp: true,
-        ticks: width > 400 ? 3 : 1,
-        tickSize: 0,
-        labelOffset: 45,        
-        tickRotate: -35,
-      },
-      y: {
-        // domain: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"], // y axis (left)
-        label: null,
-        tickSize: 0,
-        tickFormat: d => `${d}.`,
-        // sort: {y: "x", reverse: true}
-      },
-      marks: [
-      Plot.frame({stroke: "#ccc"}),
-      Plot.tickX(xword_data, Plot.groupY({x: "median"}, {filter: d => (d.Solved === "True"), y: "Day of Week", x: "Time Taken", stroke: "hsl(356, 75%, 53%)"})),
-      Plot.dot(xword_data, {filter: d => (d.Solved === "True"),r:4, x: "Time Taken", y: "Day of Week", fill: "Time Taken", stroke: "Time Taken", title: d => `${d3.timeFormat("%A %d, %Y")(d["Puzzle Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time Taken"]/60)} min to solve`}),
-      ]
-    };
-
     var constructors = {
       width: width,
       style:{fontSize: size},
-      marginLeft: 180,
-      marginTop: 40,
-      marginBottom: 0,
-      insetBottom: 0,
-      color: {
-        domain: ["Erik", "not"],
-        range: ["hsl(123, 35%, 51%)", "rgba(204,204,204,.8)"],
-      },
+      marginLeft: 100,
       x: {
         grid: true,
-        labelAnchor: "right",
-        label: "# of puzzles →",
+        label: "# of puzzles",
         axis: "top",
         tickSize: 0,
         nice: true, 
+        labelOffset: 40,
       },
       y: { 
         labelAnchor: "top",
         tickSize: 0, 
+        label: null,
       },
       marks: [
         // Plot.barY(xword_data, Plot.groupX({y: "count"}, {x: "Constructor"})),
-        Plot.barX(xword_data, Plot.groupY({x: "count"}, {y: "Constructor", fill: d => d.Constructor === "Erik Agard" ? "Erik" : "not", sort: {y: "x", reverse: true, limit: 20}})),
+        Plot.barX(xword_data, Plot.groupY({x: "count"}, 
+          {y: "Constructor", 
+          fill: d => d.Constructor === "Erik Agard" ? "hsl(123, 35%, 51%)" : "rgba(204,204,204,.8)", 
+          sort: {y: "x", 
+          reverse: true, 
+          limit: 20}})
+        ),
         ]
-
       };
 
-      document.getElementById("xword").appendChild(Plot.plot(xword));
-      // document.getElementById("text_stats").appendChild(Plot.plot(text_stats));
+      document.getElementById("calendar").appendChild(Plot.plot(calendar));
       document.getElementById("week").appendChild(Plot.plot(week));
       document.getElementById("alltime").appendChild(Plot.plot(alltime));
-      document.getElementById("facet").appendChild(Plot.plot(facet));
       document.getElementById("constructors").appendChild(Plot.plot(constructors));
     });
   </script>
