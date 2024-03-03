@@ -191,7 +191,7 @@
       </section>
 
       <div class="article-hero">
-              <h2 class="article-category">Post</h2>
+        <h2 class="article-category">Post</h2>
         <h1 class="article-title">Common charts and graphs</h1>
         <h2 class="article-subtitle"></h2>
       </div>
@@ -228,7 +228,6 @@
       <figcaption>Data: <a href="http://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html">Cornell</a></figcaption>
       <p>The classic bar chart. The height or length of each bar is proportional to the values that they represent. The baseline starts at zero.</p>
       <h3>Global Emissions by Country</h3>
-      <span class="article-subtitle">Metric Tonne Carbon Dioxide Equivalent (MtCO₂)</span>
       <figure id="country_emissions"></figure>
       <figcaption>Data: <a href="https://www.iea.org/articles/global-energy-review-co2-emissions-in-2020">IEA</a></figcaption>
       <p>A variation on the regular vertical bar chart is the horizontal bar chart. This orientation is more useful for comparing categories.</p>
@@ -245,8 +244,8 @@
       <figcaption>Market Data: <a href="https://www.wsj.com/market-data">Wall Street Journal</a></figcaption>
       <p>A baseline chart uses a reference point, which becomes the baseline, to compare all the other categories to. In business, the success of a project or product is often measured against a <strong>baseline</strong> number for costs, sales, or other variables. A project may exceed a baseline number or fail to meet it.</p>
       <h2>Beeswarm </h2>
-      <figure id="beeswarm"></figure>
-      <!-- <img src="https://flowingdata.com/wp-content/uploads/2021/06/hospital-billing-1536x1127.png" loading="lazy"> -->
+      <!-- <figure id="beeswarm"></figure> -->
+      <img src="https://flowingdata.com/wp-content/uploads/2021/06/hospital-billing-1536x1127.png" loading="lazy">
       <p>Beeswarm plots are a fun, visually pleasing alternative to histograms that can be used when data is sufficiently small and you want to plot every point. A beeswarm chart is a one-dimensional chart that shows all the information on a single-axis (usually the X axis). It is similar to a strip plot, except that would-be overlapping points are separated such that each is visible. </p>
       <h2>Box plot</h2>
       <h3>Michaelson-Morley Speed of Light Data</h3>
@@ -311,6 +310,7 @@
   <p>The density mark shows the estimated density of two-dimensional point clouds. Contours guide the eye towards the local peaks of concentration of the data, much like a topographic map does with elevation. This is especially useful given overplotting in dense datasets, like the above map of Walmart locations in the USA.</p>
   <h2>Dot map</h2>
   <!-- <img src="https://flowingdata.com/wp-content/themes/fd-modern-5-9/images/chart-types/dot-map.png" loading="lazy"> -->
+  <h3>World airports</h3>
   <figure id="dotmap"></figure>
   <figcaption>Data: <a href="https://observablehq.com/@d3/world-airports">World airports</a></figcaption>
   <p>Dot Maps are a way of detecting spatial patterns or the distribution of data over a geographical region, by placing equally sized points over a geographical region.</p>
@@ -342,8 +342,8 @@
   <figcaption></figcaption> <!-- Recreation: https://observablehq.com/@zanarmstrong/us-grid-map-and-observable-plot -->
   <p>Instead of using geographic boundaries, same-size cells are used to represent areas to provide equal visual attention to all.</p>
   <h2>Heatmap</h2>
-  <!--     <figure id="popcorn"></figure> -->
-  <img src="https://flowingdata.com/wp-content/uploads/2019/04/Stephen-Curry-popcorn-scores.png" loading="lazy">
+  <figure id="popcorn"></figure>
+  <figcaption>Source: <a href="popcorn.html">Steph Curry, NYT</a></figcaption>
   <p>Heatmaps visualize data through variations in coloring. When used in a tabular format, heatmaps are useful for cross-examining multivariate data, through placing variables in the rows and columns and coloring the cells within the table. Heatmaps are good for showing variance across multiple variables, revealing any patterns, displaying whether any variables are similar to each other, and for detecting if any correlations exist in-between them.</p>
   <h2>Histogram</h2>
   <h3>Apple Inc. (AAPL) Trading Volume</h3>
@@ -441,7 +441,6 @@
   <p>This type of visualisation plots time-based data along an <a href="https://en.wikipedia.org/wiki/Archimedean_spiral">Archimedean spiral</a>. The graph begins at the centre of a spiral and then progresses outwards. Spiral Plots are versatile and can use bars, lines or points to be displayed along the spiral path.</p>
   <h2>Square pie chart</h2>
   <figure id="waffle"></figure>
-  <figcaption>Data: I made this up 🙃</figcaption>
   <p>Square charts, also called waffle charts, are a form of pie charts that use squares instead of circles to represent percentages. Similar to basic circular pie charts, square pie charts take each percentage out of a total 100%. They are often 10 by 10 grids, where each cell represents 1%. Despite the name, circles, pictograms (such as of people), and other shapes may be used instead of squares. One major benefit to square charts is that smaller percentages, difficult to see on traditional pie charts, can be easily depicted.</p>
   <h2>Stacked area chart</h2>
   <h3>Unemployment by industry</h3>
@@ -541,6 +540,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
   var element = d3.select('p').node();
   var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive  
   var size = width > 450 ? ".9rem" : ".5rem";
+  var backgroundColor = "rgba(242,245,248,1)";
 
   var nodes = [
     { id: "SRI", x: 0, y: 10 },
@@ -550,18 +550,6 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
     ];
 
   var links = [ ["SRI", "UTAH"], ["SRI", "UCSB"], ["SRI", "UCLA"], ["UCLA", "UCSB"] ];
-
-  // Define small datasets locally to save an xHTTP request
-  // var nukes = [{"country":"Russia","nukes":6257},
-  // {"country":"USA","nukes":5550},
-  // {"country":"France","nukes":290},
-  // {"country":"China","nukes":350},
-  // {"country":"United Kingdom","nukes":195},
-  // {"country":"India","nukes":160},
-  // {"country":"Pakistan","nukes":165},
-  // {"country":"Israel","nukes":90},
-  // {"country":"North Korea","nukes":40},
-  // {"country":"Jeff","nukes":10}];
 
   var ex_lvls = [{ "Phrase":"Hey baby,", "level":15},
     { "Phrase":"do you want", "level":25},
@@ -598,9 +586,6 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
   var population = [{"2010":37254523,"2019":39512223,"State":"California"},{"2010":25145561,"2019":28995881,"State":"Texas"},{"2010":18801310,"2019":21477737,"State":"Florida"},{"2010":19378102,"2019":19453561,"State":"New York"},{"2010":12702379,"2019":12801989,"State":"Pennsylvania"},{"2010":12830632,"2019":12671821,"State":"Illinois"},{"2010":11536504,"2019":11689100,"State":"Ohio"},{"2010":9687653,"2019":10617423,"State":"Georgia"},{"2010":9535483,"2019":10488084,"State":"North Carolina"},{"2010":9883640,"2019":9986857,"State":"Michigan"},{"2010":8791894,"2019":8882190,"State":"New Jersey"},{"2010":8001024,"2019":8535519,"State":"Virginia"},{"2010":6724540,"2019":7614893,"State":"Washington"},{"2010":6392017,"2019":7278717,"State":"Arizona"},{"2010":6547629,"2019":6949503,"State":"Massachusetts"},{"2010":6346105,"2019":6833174,"State":"Tennessee"},{"2010":6483802,"2019":6732219,"State":"Indiana"},{"2010":5988927,"2019":6137428,"State":"Missouri"},{"2010":5773552,"2019":6045680,"State":"Maryland"},{"2010":5686986,"2019":5822434,"State":"Wisconsin"},{"2010":5029196,"2019":5758736,"State":"Colorado"},{"2010":5303925,"2019":5639632,"State":"Minnesota"},{"2010":4625364,"2019":5148714,"State":"South Carolina"},{"2010":4779736,"2019":4903185,"State":"Alabama"},{"2010":4533372,"2019":4648794,"State":"Louisiana"},{"2010":4339367,"2019":4467673,"State":"Kentucky"},{"2010":3831074,"2019":4217737,"State":"Oregon"},{"2010":3751351,"2019":3956971,"State":"Oklahoma"},{"2010":3574097,"2019":3565287,"State":"Connecticut"},{"2010":2763885,"2019":3205958,"State":"Utah"},{"2010":3046355,"2019":3155070,"State":"Iowa"},{"2010":2700551,"2019":3080156,"State":"Nevada"},{"2010":2915918,"2019":3017825,"State":"Arkansas"},{"2010":2967297,"2019":2976149,"State":"Mississippi"},{"2010":2853118,"2019":2913314,"State":"Kansas"},{"2010":2059179,"2019":2096829,"State":"New Mexico"},{"2010":1826341,"2019":1934408,"State":"Nebraska"},{"2010":1852994,"2019":1792065,"State":"West Virginia"},{"2010":1567582,"2019":1787147,"State":"Idaho"},{"2010":1360301,"2019":1415872,"State":"Hawaii"},{"2010":1316470,"2019":1359711,"State":"New Hampshire"},{"2010":1328361,"2019":1344212,"State":"Maine"},{"2010":989415,"2019":1068778,"State":"Montana"},{"2010":1052567,"2019":1059361,"State":"Rhode Island"},{"2010":897934,"2019":973764,"State":"Delaware"},{"2010":814180,"2019":884659,"State":"South Dakota"},{"2010":672591,"2019":762062,"State":"North Dakota"},{"2010":710231,"2019":731545,"State":"Alaska"},{"2010":601723,"2019":705749,"State":"District of Columbia"},{"2010":625741,"2019":623989,"State":"Vermont"},{"2010":563626,"2019":578759,"State":"Wyoming"}];
 
   var civilizations = [{"civilization":"Aegean civilization","start":-2000,"end":-1200,"startLabel":null,"endLabel":null,"region":"Europe (and colonial offshoots)","timeline":"ANCIENT WORLD"},{"civilization":"Age of pre-colonial civilization (Christian, Islamic, and traditional kingdoms)","start":650,"end":1880,"startLabel":null,"endLabel":null,"region":"Sub-Saharan Africa","timeline":"MEDIEVAL WORLD"},{"civilization":"Age of Turkic empires","start":500,"end":1200,"startLabel":null,"endLabel":null,"region":"Middle East","timeline":"MEDIEVAL WORLD"},{"civilization":"Age of united Caliphate","start":650,"end":900,"startLabel":null,"endLabel":null,"region":"Middle East","timeline":"MEDIEVAL WORLD"},{"civilization":"Ancient Andean region","start":-1000,"end":500,"startLabel":null,"endLabel":null,"region":"pre-colonial Americas","timeline":"ANCIENT WORLD"},{"civilization":"Ancient China","start":-2000,"end":500,"startLabel":null,"endLabel":null,"region":"East Asia","timeline":"ANCIENT WORLD"},{"civilization":"Ancient Steppe empires","start":-1000,"end":500,"startLabel":null,"endLabel":null,"region":"the Steppe","timeline":"ANCIENT WORLD"},{"civilization":"British India","start":1800,"end":1945,"startLabel":null,"endLabel":"WWII","region":"South Asia","timeline":"MODERN WORLD"},{"civilization":"Classic age of Mesoamerica","start":100,"end":900,"startLabel":null,"endLabel":null,"region":"pre-colonial Americas","timeline":"ANCIENT WORLD"},{"civilization":"Colonial Africa","start":1880,"end":1980,"startLabel":null,"endLabel":null,"region":"Sub-Saharan Africa","timeline":"MODERN WORLD"},{"civilization":"Colonial United States","start":1500,"end":1776,"startLabel":null,"endLabel":null,"region":"Europe (and colonial offshoots)","timeline":"MODERN WORLD"},{"civilization":"Early Islamic period","start":1200,"end":1500,"startLabel":null,"endLabel":null,"region":"South Asia","timeline":"MEDIEVAL WORLD"},{"civilization":"Early modern China","start":1500,"end":1918,"startLabel":null,"endLabel":"WWI","region":"East Asia","timeline":"MODERN WORLD"},{"civilization":"Early modern Europe","start":1500,"end":1800,"startLabel":null,"endLabel":null,"region":"Europe (and colonial offshoots)","timeline":"MODERN WORLD"},{"civilization":"Early Nubian civilization","start":-2000,"end":-1000,"startLabel":null,"endLabel":null,"region":"Sub-Saharan Africa","timeline":"ANCIENT WORLD"},{"civilization":"Egyptian civilization","start":-3000,"end":-550,"startLabel":null,"endLabel":null,"region":"Middle East","timeline":"ANCIENT WORLD"},{"civilization":"First Persian Empire","start":-550,"end":-330,"startLabel":null,"endLabel":null,"region":"Middle East","timeline":"ANCIENT WORLD"},{"civilization":"Formative age of Mesoamerica","start":-1500,"end":100,"startLabel":null,"endLabel":null,"region":"pre-colonial Americas","timeline":"ANCIENT WORLD"},{"civilization":"Formative Japan (age of Yamato rule)","start":500,"end":800,"startLabel":null,"endLabel":null,"region":"East Asia","timeline":"MEDIEVAL WORLD"},{"civilization":"Formative US","start":1776,"end":1865,"startLabel":null,"endLabel":null,"region":"Europe (and colonial offshoots)","timeline":"MODERN WORLD"},{"civilization":"Fractured Islamic world","start":900,"end":2018,"startLabel":null,"endLabel":"present","region":"Middle East","timeline":"MODERN WORLD"},{"civilization":"Great power US","start":1865,"end":1945,"startLabel":null,"endLabel":"WWII","region":"Europe (and colonial offshoots)","timeline":"MODERN WORLD"},{"civilization":"Greek age","start":-1200,"end":0,"startLabel":null,"endLabel":null,"region":"Europe (and colonial offshoots)","timeline":"ANCIENT WORLD"},{"civilization":"Heian age","start":800,"end":1200,"startLabel":null,"endLabel":null,"region":"East Asia","timeline":"MEDIEVAL WORLD"},{"civilization":"Imperial Japan","start":1870,"end":1945,"startLabel":null,"endLabel":"WWII","region":"East Asia","timeline":"MODERN WORLD"},{"civilization":"Indian kingdom age","start":-500,"end":1200,"startLabel":null,"endLabel":null,"region":"South Asia","timeline":"ANCIENT WORLD"},{"civilization":"Indus civilization","start":-2500,"end":-1500,"startLabel":null,"endLabel":null,"region":"South Asia","timeline":"ANCIENT WORLD"},{"civilization":"Inter-Persian period","start":-330,"end":200,"startLabel":null,"endLabel":null,"region":"Middle East","timeline":"ANCIENT WORLD"},{"civilization":"Kush","start":-1000,"end":300,"startLabel":null,"endLabel":null,"region":"Sub-Saharan Africa","timeline":"ANCIENT WORLD"},{"civilization":"Medieval Andean region","start":500,"end":1530,"startLabel":null,"endLabel":null,"region":"pre-colonial Americas","timeline":"MEDIEVAL WORLD"},{"civilization":"Medieval China","start":500,"end":1500,"startLabel":null,"endLabel":null,"region":"East Asia","timeline":"MEDIEVAL WORLD"},{"civilization":"Medieval Europe","start":500,"end":1500,"startLabel":null,"endLabel":null,"region":"Europe (and colonial offshoots)","timeline":"MEDIEVAL WORLD"},{"civilization":"Mesopotamian civilization","start":-3500,"end":-550,"startLabel":null,"endLabel":null,"region":"Middle East","timeline":"ANCIENT WORLD"},{"civilization":"Modern Africa","start":1980,"end":2018,"startLabel":"WWII","endLabel":"present","region":"Sub-Saharan Africa","timeline":"MODERN WORLD"},{"civilization":"Modern Europe","start":1800,"end":2018,"startLabel":null,"endLabel":"present","region":"Europe (and colonial offshoots)","timeline":"MODERN WORLD"},{"civilization":"Modern India","start":1945,"end":2018,"startLabel":null,"endLabel":"present","region":"South Asia","timeline":"MODERN WORLD"},{"civilization":"Modern Japan","start":1945,"end":2018,"startLabel":null,"endLabel":"present","region":"East Asia","timeline":"MODERN WORLD"},{"civilization":"Mongol Empire","start":1200,"end":1300,"startLabel":null,"endLabel":null,"region":"the Steppe","timeline":"MEDIEVAL WORLD"},{"civilization":"Mughal Empire","start":1500,"end":1800,"startLabel":null,"endLabel":null,"region":"South Asia","timeline":"MODERN WORLD"},{"civilization":"Peak of Aksum","start":300,"end":650,"startLabel":null,"endLabel":null,"region":"Sub-Saharan Africa","timeline":"MEDIEVAL WORLD"},{"civilization":"People's Republic of China","start":1945,"end":2018,"startLabel":"WWII","endLabel":"present","region":"East Asia","timeline":"MODERN WORLD"},{"civilization":"Postclassic age of Mesoamerica","start":900,"end":1520,"startLabel":null,"endLabel":null,"region":"pre-colonial Americas","timeline":"MEDIEVAL WORLD"},{"civilization":"Ptolemaic Egypt","start":-330,"end":0,"startLabel":null,"endLabel":null,"region":"Middle East","timeline":"ANCIENT WORLD"},{"civilization":"Republic of China","start":1918,"end":1945,"startLabel":null,"endLabel":null,"region":"East Asia","timeline":"MODERN WORLD"},{"civilization":"Roman > Byzantine Egypt","start":0,"end":650,"startLabel":null,"endLabel":null,"region":"Middle East","timeline":"ANCIENT WORLD"},{"civilization":"Roman Empire","start":0,"end":500,"startLabel":null,"endLabel":null,"region":"Europe (and colonial offshoots)","timeline":"ANCIENT WORLD"},{"civilization":"Roman Republic","start":-500,"end":0,"startLabel":null,"endLabel":null,"region":"Europe (and colonial offshoots)","timeline":"ANCIENT WORLD"},{"civilization":"Second Persian Empire","start":-200,"end":650,"startLabel":null,"endLabel":null,"region":"Middle East","timeline":"ANCIENT WORLD"},{"civilization":"Shogunate","start":1200,"end":1870,"startLabel":null,"endLabel":null,"region":"East Asia","timeline":"MEDIEVAL WORLD"},{"civilization":"Superpower US","start":1945,"end":2021,"startLabel":null,"endLabel":"present","region":"Europe (and colonial offshoots)","timeline":"MODERN WORLD"},{"civilization":"Vedic age","start":-1500,"end":-500,"startLabel":null,"endLabel":null,"region":"South Asia","timeline":"ANCIENT WORLD"}];
-
-  var popcorn = [{"Team":"Dallas Mavericks","Arena":"American Airlines Center","Freshness":5,"Saltiness":5,"Crunchiness":4,"Butter":5,"Presentation":5,"Total_Score":24},{"Team":"Brooklyn Nets","Arena":"Barclays Center","Freshness":4,"Saltiness":5,"Crunchiness":5,"Butter":4,"Presentation":5,"Total_Score":23},{"Team":"Miami Heat","Arena":"American Airlines Arena","Freshness":5,"Saltiness":4,"Crunchiness":4,"Butter":4,"Presentation":5,"Total_Score":22},{"Team":"Portland Trailblazers","Arena":"Moda Center","Freshness":4,"Saltiness":4,"Crunchiness":5,"Butter":4,"Presentation":3,"Total_Score":20},{"Team":"Sacramento Kings","Arena":"Golden 1 Center","Freshness":2,"Saltiness":4,"Crunchiness":4,"Butter":4,"Presentation":5,"Total_Score":19},{"Team":"Toronto Raptors","Arena":"Scotiabank Arena","Freshness":3,"Saltiness":4,"Crunchiness":3,"Butter":4,"Presentation":4,"Total_Score":18},{"Team":"Houston Rockets","Arena":"Toyota Center","Freshness":3,"Saltiness":4,"Crunchiness":3,"Butter":4,"Presentation":4,"Total_Score":18},{"Team":"Oklahoma City Thunder","Arena":"Chesapeake Energy Arena","Freshness":4,"Saltiness":3,"Crunchiness":4,"Butter":4,"Presentation":3,"Total_Score":18},{"Team":"Golden State Warriors","Arena":"Oracle Arena","Freshness":2,"Saltiness":4,"Crunchiness":5,"Butter":3,"Presentation":4,"Total_Score":18},{"Team":"New York City Knicks","Arena":"Madison Square Garden","Freshness":3,"Saltiness":2,"Crunchiness":4,"Butter":4,"Presentation":4,"Total_Score":17},{"Team":"Indiana Pacers","Arena":"Bankers Life Fieldhouse","Freshness":3,"Saltiness":3,"Crunchiness":5,"Butter":4,"Presentation":2,"Total_Score":17},{"Team":"New Orleans Pelicans","Arena":"Smoothie King Center","Freshness":3,"Saltiness":3,"Crunchiness":3,"Butter":3,"Presentation":5,"Total_Score":17},{"Team":"Minnesota Timberwolves","Arena":"Target Center","Freshness":2,"Saltiness":5,"Crunchiness":4,"Butter":3,"Presentation":3,"Total_Score":17},{"Team":"Washington Wizards","Arena":"Capital One Arena","Freshness":4,"Saltiness":3,"Crunchiness":3,"Butter":4,"Presentation":3,"Total_Score":17},{"Team":"Chicago Bulls","Arena":"United Center","Freshness":3,"Saltiness":4,"Crunchiness":3,"Butter":3,"Presentation":3,"Total_Score":16},{"Team":"Utah Jazz","Arena":"Vivint Smart Home Arena","Freshness":2,"Saltiness":5,"Crunchiness":4,"Butter":3,"Presentation":2,"Total_Score":16},{"Team":"Atlanta Hawks","Arena":"State Farm Arena","Freshness":3,"Saltiness":5,"Crunchiness":4,"Butter":3,"Presentation":1,"Total_Score":16},{"Team":"San Antonio Spurs","Arena":"AT&T Center","Freshness":3,"Saltiness":3,"Crunchiness":3,"Butter":3,"Presentation":3,"Total_Score":15},{"Team":"Philadelphia Sixers","Arena":"Wells Fargo Center","Freshness":4,"Saltiness":2,"Crunchiness":4,"Butter":2,"Presentation":2,"Total_Score":14},{"Team":"Phoenix Suns","Arena":"Talking Stick Resort Arena","Freshness":3,"Saltiness":3,"Crunchiness":3,"Butter":3,"Presentation":2,"Total_Score":14},{"Team":"Milwaukee Bucks","Arena":"Fiserv Forum","Freshness":2,"Saltiness":2,"Crunchiness":3,"Butter":4,"Presentation":2,"Total_Score":13},{"Team":"Boston Celtics","Arena":"TD Garden","Freshness":3,"Saltiness":3,"Crunchiness":2,"Butter":3,"Presentation":2,"Total_Score":13},{"Team":"Memphis Grizzlies","Arena":"FedExForum","Freshness":1,"Saltiness":4,"Crunchiness":4,"Butter":3,"Presentation":1,"Total_Score":13},{"Team":"Orlando Magic","Arena":"Amway Center","Freshness":3,"Saltiness":5,"Crunchiness":3,"Butter":1,"Presentation":1,"Total_Score":13},{"Team":"Denver Nuggets","Arena":"Pepsi Center","Freshness":3,"Saltiness":2,"Crunchiness":3,"Butter":2,"Presentation":3,"Total_Score":13},{"Team":"Cleveland Cavaliers","Arena":"Rocket Mortgage Fieldhouse","Freshness":2,"Saltiness":4,"Crunchiness":2,"Butter":2,"Presentation":2,"Total_Score":12},{"Team":"Detroit Pistons","Arena":"Little Caesars Arena","Freshness":1,"Saltiness":4,"Crunchiness":2,"Butter":3,"Presentation":2,"Total_Score":12},{"Team":"Charlotte Hornets","Arena":"Spectrum Center","Freshness":1,"Saltiness":2,"Crunchiness":2,"Butter":2,"Presentation":4,"Total_Score":11},{"Team":"Los Angeles Clippers/Lakers","Arena":"Staples Center","Freshness":2,"Saltiness":1,"Crunchiness":3,"Butter":1,"Presentation":3,"Total_Score":10}];
-
 
   var sales = [{"market":"Auburn, AL","segment":"Almond lovers","value":3840},{"market":"Auburn, AL","segment":"Berry buyers","value":1920},{"market":"Auburn, AL","segment":"Carrots-n-more","value":960},{"market":"Auburn, AL","segment":"Delicious-n-new","value":400},{"market":"Birmingham, AL","segment":"Almond lovers","value":1600},{"market":"Birmingham, AL","segment":"Berry buyers","value":1440},{"market":"Birmingham, AL","segment":"Carrots-n-more","value":960},{"market":"Birmingham, AL","segment":"Delicious-n-new","value":400},{"market":"Gainesville, FL","segment":"Almond lovers","value":640},{"market":"Gainesville, FL","segment":"Berry buyers","value":960},{"market":"Gainesville, FL","segment":"Carrots-n-more","value":640},{"market":"Gainesville, FL","segment":"Delicious-n-new","value":400},{"market":"Durham, NC","segment":"Almond lovers","value":320},{"market":"Durham, NC","segment":"Berry buyers","value":480},{"market":"Durham, NC","segment":"Carrots-n-more","value":640},{"market":"Durham, NC","segment":"Delicious-n-new","value":400}];
 
@@ -667,7 +652,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
     marginBottom: 0,
     style:{
       fontSize: size,
-      backgroundColor: 'rgba(242,245,248,1)',
+      backgroundColor: backgroundColor,
     },
     color: {
       range: ["#969696", "#4e79a7"]
@@ -675,7 +660,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
     x: {
       axis: "top",
       ticks: 0,
-      label: "MtCO₂ per year",
+      label: "Metric Tonne Carbon Dioxide Equivalent (MtCO₂) annually",
       labelOffset: 15
     },
     y: {
@@ -726,9 +711,6 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
         ),
       // Plot.frame(),
       ]
-  };
-
-  var popcorn = {
   };
 
   var gridmap = {
@@ -870,7 +852,6 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
   document.getElementById("wework").appendChild(Plot.plot(wework));
   document.getElementById("slope").appendChild(Plot.plot(slope));
   document.getElementById("animals").appendChild(Plot.plot(animals));
-  // document.getElementById("popcorn").appendChild(Plot.plot(popcorn));
   document.getElementById("example_dot").appendChild(Plot.plot(example_dot));
   document.getElementById("network").appendChild(Plot.plot(network));
   document.getElementById("country_emissions").appendChild(Plot.plot(country_emissions));
@@ -946,7 +927,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
   const formatTime = d3.timeFormat("%Y");
 
   // Use Promises to async request data
-  var promises = [d3.json("data/drugs.json"), d3.csv("data/aapl.csv",d3.autoType),d3.csv("data/global-temps.csv",d3.autoType), d3.csv("https://gist.githubusercontent.com/JesseCHowe/099f4b8e1a029c0b4af35b1edc1989f7/raw/8c18ed9a0940c734d423c3f2699ee063279533ec/morley.csv",d3.autoType), d3.csv("data/stocks.csv",d3.autoType),d3.csv("data/units.csv",d3.autoType),d3.json("data/qatar.json"),d3.csv("https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv",d3.autoType),d3.csv("data/driving.csv",d3.autoType),d3.csv("data/bls.csv",d3.autoType),d3.csv("data/caltrain.csv"),d3.csv("data/mpg.csv",d3.autoType), d3.csv("data/electricity.csv",d3.autoType),d3.json("data/dogdata.json"), d3.csv("data/google-trends-2020.csv",d3.autoType),d3.csv("data/covid.csv", d3.autoType),d3.csv("data/commute.csv", d3.autoType),d3.csv("data/world-airports.csv", d3.autoType),d3.json("data/geo/land.json"),d3.json("data/geo/statemesh.json"),d3.json("data/geo/nation.json"),d3.csv("data/walmarts.csv",d3.autoType) ];
+  var promises = [d3.json("data/drugs.json"), d3.csv("data/aapl.csv",d3.autoType),d3.csv("data/global-temps.csv",d3.autoType), d3.csv("https://gist.githubusercontent.com/JesseCHowe/099f4b8e1a029c0b4af35b1edc1989f7/raw/8c18ed9a0940c734d423c3f2699ee063279533ec/morley.csv",d3.autoType), d3.csv("data/stocks.csv",d3.autoType),d3.csv("data/units.csv",d3.autoType),d3.json("data/qatar.json"),d3.csv("https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv",d3.autoType),d3.csv("data/driving.csv",d3.autoType),d3.csv("data/bls.csv",d3.autoType),d3.csv("data/caltrain.csv"),d3.csv("data/mpg.csv",d3.autoType), d3.csv("data/electricity.csv",d3.autoType),d3.json("data/dogdata.json"), d3.csv("data/google-trends-2020.csv",d3.autoType),d3.csv("data/covid.csv", d3.autoType),d3.csv("data/commute.csv", d3.autoType),d3.csv("data/world-airports.csv", d3.autoType),d3.json("data/geo/land.json"),d3.json("data/geo/statemesh.json"),d3.json("data/geo/nation.json"),d3.csv("data/walmarts.csv",d3.autoType), d3.csv("data/popcornCriteria.csv",d3.autoType)];
 
   // You can request multiple srcs in a promise
   myDataPromises = Promise.all(promises);
@@ -976,12 +957,52 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
     var statemesh = data[19];
     var nation = data[20];
     var walmarts = data[21];
+    var popcorndata = data[22];
+    var sortedData = popcorndata.filter(function(d,i){
+       return i < 29; // Top 5 teams
+      });
+
+    var popcorn = {
+      width: width,
+      height: width / 2,
+      marginLeft: 120,
+      marginTop: 80,
+      marginBottom: 80,
+      padding: 0,
+      x: {
+        axis: "both", 
+        label: null, 
+        tickSize: 0,  
+        tickRotate: 35,
+      },
+      y: {
+        domain: sortedData.map(d => d.Team),
+        label: null, 
+        tickSize: 0,
+        tickFormat: d => {
+          if (d.length > 60) {
+            return d.substring(0, 57) + " ...";
+          } else {
+            return d;
+          }
+        }
+      },
+      color: {legend: true, scheme: "oranges", zero: true,},
+      marks: [
+        Plot.frame({stroke: "#ccc", anchor: "top"}),
+        Plot.cell(sortedData.filter(d => (d.Criteria != "Total Score")), {y: "Team", x: "Criteria", fill: "Score", inset: .85, tip: true,}),
+        Plot.cell(sortedData.filter(d => (d.Criteria == "Total Score")), {y: "Team", x: "Criteria", fill: "white", inset: .85,}),
+        Plot.text(sortedData, {y: "Team", lineAnchor: "bottom", dx: -310, dy: 20, textAnchor: "end", text: "Arena"}), // Todo: Seems hacky to add Arena this way
+        Plot.text(sortedData.filter(d => (d.Criteria != "Total Score")), {y: "Team", x: "Criteria", text: "Score", fill: "white", fontSize: 18}),
+        Plot.text(sortedData.filter(d => (d.Criteria == "Total Score")), {y: "Team", x: "Criteria", text: "Score", fill: "black", fontSize: 18}),
+      ]
+    };
 
     var electricity = {
       height: 400,
       width: width,
       marginLeft: width > 400 ? 30 : 10,
-      marginRight: width > 400 ? 60 : 20,
+      marginRight: width > 400 ? 40 : 20,
       style:{fontSize: size},
       color: {
         scheme: "BuRd"
@@ -999,10 +1020,12 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
         tickSize: 0,
         nice: true,
         clamp: true,
-        grid: false,
+        grid: true,
         label: null
       },
       marks: [
+        Plot.ruleY([0]),
+        Plot.gridX(),
         Plot.areaY(electric, Plot.stackY({
           x: "year", 
           y: "percentage", 
@@ -1025,11 +1048,10 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
           offset: "expand",
           fill: "source",
           text: d => d.source == 'Other renewables' ? "Other" : d.source,
-        // fontWeight: 700,
+          rotate: 5,
+          tickSize: 1,
           textAnchor: "start", dx: 4, dy: 3
         }))),
-        Plot.ruleY([0]),
-        Plot.gridX(),
         ],
     };
 
@@ -1065,7 +1087,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
       style:{
         fontSize: size,
         backgroundColor: 'rgba(242,245,248,1)',
-    },
+      },
       height: 300,
       color: {
         legend: true,
@@ -1205,11 +1227,8 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
 
     var stocks_baseline = {
       width: width,
-      style:{fontSize: size},
-      marginLeft: 20,
-      marginRight: 40,
-      marginTop: 10,
-      marginBottom: 10,
+      style:{fontSize: size, backgroundColor: backgroundColor},
+      margin: 40,
       inset: 5,
       color: {
         scheme: "BuRd"
@@ -1222,7 +1241,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
         labelAnchor: "top",
         tickSize: 0,
         tickPadding: 6,
-        tickFormat: formatChange
+        tickFormat: formatChange,
       },
       marks: [
         Plot.ruleY([1]),
@@ -1339,10 +1358,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
     var morley = {
       width: width,
       style:{fontSize: size},
-      marginLeft: 20,
-      marginRight: 0,
-      marginTop: 10,
-      marginBottom: 10,
+      margin: 20,
       inset: 10,
       y: {
         nice: true,
@@ -1351,7 +1367,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
         labelOffset: 10,
         tickSize: 0,
       },
-      x:{ label:"Experiment", labelOffset: 50},
+      x:{ label:"Experiment", labelOffset: 20},
       marks: [
         boxY(morley, {x: "Expt", y: "Speed", fill:"hsl(43, 89%, 70%)"})
         ]
@@ -1877,7 +1893,6 @@ var drug_scatter = {
 
       var stem_plot = {
         width: 240,
-      // height: 480,
         style:{fontSize: size, margin: "auto"},
         axis: null,
         y: {
@@ -2201,12 +2216,13 @@ var drug_scatter = {
 
     // Draw the plots (data fetched)
     // document.getElementById("stacked_hrz").appendChild(Plot.plot (stacked_hrz));
+      document.getElementById("popcorn").appendChild(Plot.plot(popcorn));
       document.getElementById("anomaly_barcode").appendChild(Plot.plot (anomaly_barcode));
       document.getElementById("anomaly_dot").appendChild(Plot.plot (anomaly_dot));
       document.getElementById("anomaly_legend").appendChild(Plot.legend(anomaly_legend));
       document.getElementById("anomaly_legend1").appendChild(Plot.legend(anomaly_legend));
       document.getElementById("apple_area").appendChild(Plot.plot (apple_area));
-      document.getElementById("beeswarm").appendChild(Plot.plot (beeswarm));
+      // document.getElementById("beeswarm").appendChild(Plot.plot (beeswarm));
       document.getElementById("bls_bar").appendChild(Plot.plot (bls_bar));
       document.getElementById("bls_line").appendChild(Plot.plot (bls_line));
       document.getElementById("bls_stacked").appendChild(Plot.plot (bls_stacked));

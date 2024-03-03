@@ -176,14 +176,14 @@
         Plot.groupX({y: "mean"}, {
           y: "Time Taken", 
           x: "Day of Week", 
-          fill: "Day of Week", 
+          fill: "Time Taken", 
           fillOpacity: .8,
           tip: true,
         })),
       ]
     };
 
-    const marker = xword_data.slice(577,578);
+    // const marker = xword_data.slice(577,578);
 
     var alltime = {
       width: width,
@@ -209,11 +209,11 @@
         clamp: true,
       },
       marks: [
-      Plot.line(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle Date", y:"Time Taken", curve: "catmull-rom", stroke:"hsl(230, 49%, 41%)"}),
+      Plot.line(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle Date", y:"Time Taken", curve: "catmull-rom", stroke:"hsl(230, 49%, 41%)", opacity: .8}),
       Plot.dot(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle Date", y:"Time Taken",fill:"hsl(230, 49%, 41%)", strokeWidth:0, r:1, title: d => `${d3.timeFormat("%A %B %d, %Y")(d["Puzzle Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time Taken"]/60)} min to solve` }),
 
-      Plot.text(marker, {x: "Puzzle Date", y: "Time Taken", text: d => `COVID-19 Pandemic`, dy: -200, dx: -8, rotate: 270}),
-      Plot.ruleX(marker, {x: "Puzzle Date", strokeDasharray: [2, 2], strokeWidth: 0.5,stroke: "rgba(0, 0, 0, .75)"}),
+      // Plot.text(marker, {x: "Puzzle Date", y: "Time Taken", text: d => `COVID-19 Pandemic`, dy: -200, dx: -8, rotate: 270}),
+      // Plot.ruleX(marker, {x: "Puzzle Date", strokeDasharray: [2, 2], strokeWidth: 0.5,stroke: "rgba(0, 0, 0, .75)"}),
       ]
     };
 
