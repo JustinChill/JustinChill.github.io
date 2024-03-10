@@ -31,26 +31,29 @@
      <div class="article-hero">
       <h2 class="article-category">Post</h2>
       <h1 class="article-title">The Secret Locations of ShotSpotter Gunfire Sensors</h1>
-      <h2 class="article-subtitle">The locations of microphones used to detect gunshots have been kept hidden from police and the public. A WIRED analysis of leaked coordinates confirms arguments critics have made against the technology.</h2>
+      <h2 class="article-subtitle"></h2>
     </div>
 
-    <h3></h3>
-    <figure id="map"></figure>
+    <h3>All ShotSpotter locations</h3>
+    <figure id="worldmap"></figure>
     <figcaption>Data: <a href="https://www.wired.com/story/shotspotter-secret-sensor-locations-leak/">Leaked data via WIRED</a>.</figcaption>
 
-    <p>This map shows the voyage of the HMS Beagle (1831-1836), on which Charles Darwin began to develop the theory of evolution through natural selection. Darwin found the Beagle “most beautiful” and elegantly fitted out with mahogany<a href="#Selsam" aria-describedby="footnote-label" id="Selsam-ref"></a>. She was a three-masted square-rigger, armed with a cannon. Built to carry seventy-four persons, in- cluding a squad of marines, an artist, a missionary for Tierra del Fuego, Darwin as naturalist, and three Fuegians whom <a href="https://en.wikipedia.org/wiki/Robert_FitzRoy">Captain Fitzroy</a> had seized as hostages on a previous trip and was now returning home. As the Beagle was only one hundred feet long and had to carry enormous supplies for its planned three-year voyage, everyone was cramped for space. Darwin, however, was given a very small cabin under the forecastle for the specimens he was expected to collect.</p> 
+    <p>Data leaked from SoundThinking, the new name of the company behind gunshot-detection technology ShotSpotter, revealed the secret locations of the controversial company’s sensors across the globe. An analysis of the coordinates confirms criticisms that the technology disproportionately targets communities of color.<a href="#wired" aria-describedby="footnote-label" id="wired-ref"></a></p>
+    <p>The coordinates show that nearly 70 percent of people who live in a neighborhood with at least one sensor were either Black or Latine, per estimates from the American Community Survey.</p> 
 
-    <p>He used to say later that the absolute necessity of tidiness in the cramped space of the Beagle helped to give him his methodical habits of work. Finally on December 27, 1831, with a favorable wind, the Beagle lifted anchor. In ten days they were sixteen hundred miles southwest of Plymouth. Darwin was dreadfully seasick for the first two weeks, as he was to be much of the time they were at sea for the coming five years. Out of port only three days, he wrote<a href="#Selsam2" aria-describedby="footnote-label" id="Selsam-ref2"></a> that he had often thought he would repent the trip but had had no idea “with what fervor I should do so.”</p>
+    <h3>US ShotSpotter Locations</h3>
+    <figure id="usmap"></figure>
+    <figcaption>Data: <a href="https://www.wired.com/story/shotspotter-secret-sensor-locations-leak/">Leaked data via WIRED</a>.</figcaption>
 
-    <img loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/9/94/PSM_V57_D097_Hms_beagle_in_the_straits_of_magellan.png" alt="HMS Beagle in the Straits of Magellan at Monte Sarmiento, reproduction of R. T. Pritchett's frontispiece from the 1890 illustrated edition of The Voyage of the Beagle.">
+    <p>The internal documents leaked to WIRED exposed the locations of ShotSpotter’s nationwide network of more than 25,000 microphones, equipment used to detect sounds of gunfire and alert police to the scene. This is the first time information about where the sensors are placed has been disclosed publicly, and it confirms what we have always suspected: ShotSpotter is a surveillance tool used disproportionately in communities of color. Out of port only three days, he wrote<a href="#aclu" aria-describedby="footnote-label" id="aclu-ref"></a> that he had often thought he would repent the trip but had had no idea “with what fervor I should do so.”</p>
 
   </article>
 </main>
 <footer>
   <h2 id="footnote-label">Footnotes</h2>
   <ol>
-    <li id="Selsam"><a href="https://mathcs.holycross.edu/~little/Mont201516/VoyageBeagle.pdf">Millicent E. Selsam, 1959</a>.<a href="#Selsam-ref" aria-label="Back to content">↩</a></li>
-    <li id="Selsam2"><a href="https://mathcs.holycross.edu/~little/Mont201516/VoyageBeagle.pdf">Millicent E. Selsam, 1959</a>.<a href="#Selsam-ref2" aria-label="Back to content">↩</a></li>
+    <li id="wired"><a href="https://www.wired.com/story/shotspotter-secret-sensor-locations-leak/">WIRED magazine</a>.<a href="#wired-ref" aria-label="Back to content">↩</a></li>
+    <li id="aclu"><a href="https://www.aclu-wi.org/en/news/shotspotter-leak-shows-surveillance-tech-used-overpolice-black-and-brown-communities">ACLU Wisconsin</a>.<a href="#aclu-ref" aria-label="Back to content">↩</a></li>
     
   </ol>
 
@@ -66,9 +69,13 @@
   var element = d3.select('figure').node();
   var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
   var size = 12;
+
+  // Use Promises to async request data
+  var promises = [d3.json("data/geo/land.json"),d3.json("data/geo/statemesh.json"),d3.json("data/soundThinking.json")];
+
   
   // Use Promises to async request data
-  var promises = [d3.json("data/geo/land.json"),d3.json("data/SoundThinking.json")];
+  // var promises = [d3.json("data/geo/land.json"),d3.json("data/SoundThinking.json")];
 
   // You can request multiple srcs in a promise
   myDataPromises = Promise.all(promises);
@@ -77,28 +84,38 @@
   myDataPromises.then(function(data) {
     // Define the data. There's gotta be a better way to do this:
     var land = data[0];
-    var sensors = data[1];
+    var states = data[1];
+    var sensors = data[2];
 
     // var london = {"type":"Point","coordinates":[-0.13,51.5]};
     // var Galápagos = {"type":"Point","coordinates":[-92.41,1.38]};
 
-    var map = {
+    var worldmap = {
       width: width,
       projection: "equal-earth",
       marks: [
         Plot.graticule(),
         Plot.sphere(),
         Plot.geo(land, {fill: "#ccc"}),
-        // Plot.line(beagle.coordinates, {stroke: (d, i) => i, z: null, strokeWidth: 2}),
-        // Plot.geo(london, {fill: "red", r: 5}),
-        // Plot.geo(Galápagos, {fill: "red", r: 5,  tip: true}),
-        // Plot.tip([`HMS Beagle left London in 1831, returning 1836.`], {x: -0.13, y: 51.5, dy: -3, anchor: "bottom"}),
-        // Plot.tip([`The large number of endemic species in the Galápagos Islands inspired Darwin's theory of evolution via natural selection. `], {x: -92.41, y: 1.38, dy: -3, anchor: "bottom"}),
-        // Plot.tip([`The Falkland Islands.`], {x: -62.88, y: -53.3, dy: -3, anchor: "left"}),
-        // Plot.dot(beagle.coordinates, {r: 5, fill: "none", tip: true}),
+        Plot.dot(sensors.events, {y: "lat", x:"lon", r: 2, tip: true, title: "metadata"}),
         ],
     };
-    document.getElementById("map").appendChild(Plot.plot(map));
+
+    var usmap = {
+      width: width,
+      projection: "albers",
+      color: {
+        legend: true,
+      },
+      marks: [
+        Plot.sphere(),
+        Plot.geo(land, {fill: "#ccc"}),
+        Plot.geo(states, {fill: "#ccc", stroke: "#fff"}),
+        Plot.dot(sensors.events, {y: "lat", x:"lon", r: 2, tip: true, title: "metadata", fill: "green", opacity: .75}),
+        ],
+    };
+    document.getElementById("worldmap").appendChild(Plot.plot(worldmap));
+    document.getElementById("usmap").appendChild(Plot.plot(usmap));
   });
 </script>
 </body>
