@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>The decline and Fall of the Roman Empire</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="The decline and Fall of the Roman Empire. Data by Gibbons.">
+  <meta name="author" content="Justin Chill">
+
+  <style type="text/css">
+
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+      <a href="fun.html" class="nav__item">Fun</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+  
+  <main role="main">
+    <article>
+     <div class="article-hero">
+      <h2 class="article-category">Post</h2>
+      <h1 class="article-title">The Decline and Fall of the Roman Empire</h1>
+      <h2 class="article-subtitle"></h2>
+    </div>
+
+    <h3></h3>
+    <figure id="gibbons"></figure>
+    <figcaption>Data: <a href="">Gibbons</a>.</figcaption>
+
+    <p>The English historian <a href="https://www.worldhistory.org/Edward_Gibbon/">Edward Gibbon</a> (1737-1794) wrote and published his seminal work <em>History of the Decline and Fall of the Roman Empire</em> between 1776 and 1788. The dominant theme of Gibbon's six-volume work is that the fall of the Roman Empire was due to the rise of Christianity with its negative effects on the people and politics of Rome<a href="#Selsam" aria-describedby="footnote-label" id="Selsam-ref"></a>.</p> 
+
+    <p>Gibbon's multi-volume history consisted of three separate sections:
+      <ol>
+      <li>Roman Emperor Trajan (r. 98-117 CE) to the fall of the Western Roman Empire</li>
+      <li>Byzantine Emperor Justinian I (r. 527-565) to Holy Roman Emperor Charlemagne (r. 800-814)</li>
+      <li>9th century to 1453: the fall of Constantinople</li>
+      </ol>
+    </p>
+
+    <p>In February of 1776, the first volume of the <em>Decline and Fall of the Roman Empire</em> was published; it was received well. Future editions came later in June of 1776, 1777, and 1781. Of course, public attacks soon followed. According to David Womersley, editor of Penguin History, Gibbon had managed "<em>to displease all stripes of religious opinions from High Church dogmatists to dissenters</em>" (xix). He was criticized for both restating familiar arguments that had been levelled by infidels against Christianity since late antiquity and manipulating the historical record.</p>
+    <p>The second and third volumes were received with less enthusiasm than the first. As an accomplished author, Gibbon decided to return to Lausanne, coincidentally about the time of the French Revolution; he was moderately encouraged by the events in France but as the revolution progressed, he became discouraged by its violent character. Returning to England, the historian died on January 16, 1794.</p>
+
+    <figure id="civ"></figure>
+    <figcaption>Data: <a href="https://github.com/liuchia/Roman-Emperor-Timeline/blob/master/data.csv">Liuchia</a>.</figcaption>
+  </article>
+</main>
+<footer>
+  <h2 id="footnote-label">Footnotes</h2>
+  <ol>
+    <li id="Selsam"><a href="https://mathcs.holycross.edu/~little/Mont201516/VoyageBeagle.pdf">Millicent E. Selsam, 1959</a>.<a href="#Selsam-ref" aria-label="Back to content">↩</a></li>
+  </ol>
+
+  <div>
+    <p>Justin Chill © 2024. Thanks for reading!</p>
+    <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="icon">Source code and feedback</a></span>    
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/d3"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+
+<script type="text/javascript">
+  var element = d3.select('figure').node();
+  var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+  var size = 10;
+  
+  // Use Promises to async request data
+  var promises = [d3.csv("data/gibbons.csv", function(d) {
+      return { // Accessor function to convert strings to numbers, dates
+          startPage: +d.startPage,  // convert column to number
+          endPage: +d.endPage, 
+          startDate: +d.startDate,           
+          endDate: +d.endDate, // convert column to Date
+          id: d.id,
+        }}), d3.csv("https://raw.githubusercontent.com/liuchia/Roman-Emperor-Timeline/master/data.csv", d3.autoType)];
+
+  // You can request multiple srcs in a promise
+  myDataPromises = Promise.all(promises);
+
+  // After data is successfully fetched, generate viz
+  myDataPromises.then(function(data) {
+    // Define the data. There's gotta be a better way to do this:
+    var gibbonsData = data[0];
+    var emperors = data[1];
+    console.log(emperors);
+
+    var gibbons = {
+      x: {
+        grid: true,
+        axis: null,
+      },
+      y:{
+        label: "Year",
+        labelAnchor: "Center",
+        labelOffset: 60,
+      },
+      marks: [
+        Plot.barY(gibbonsData, {
+          y1: "startDate",
+          y2: "endDate",
+          x: "startPage",
+          channels: {id: "id", endPage: "endPage"},
+          tip: true,     
+          fill: "steelblue",
+          sort: {x: "x"}
+        }),
+      ]
+    };
+
+    var civ = {
+      marginLeft: 30,
+      style:{fontSize: size},
+      axis: null,
+      color: {
+        scheme: "tableau10",
+      },
+      x: {
+        axis: "both",
+        grid: true,
+        tickFormat: (x) => x < 0 ? `${-x} BC` : `${x} AD`
+      },
+      marks: [
+        Plot.barX(emperors, {
+          x1: "START",
+          x2: "END",
+          y: "NAME",
+          fill: "DYNASTY",
+          channels: {Death: "DEATH"},
+          tip: true,
+          sort: {y: "x1"}
+        }),
+        Plot.text(emperors, {
+          x: "START",
+          y: "NAME",
+          text: "NAME",
+          textAnchor: "end",
+          dx: -3
+        })
+      ]
+    }
+    document.getElementById("gibbons").appendChild(Plot.plot(gibbons));
+    document.getElementById("civ").appendChild(Plot.plot(civ));
+  });
+</script>
+</body>
+</html>

@@ -217,21 +217,20 @@
       <h3>Apple Inc. (<small>AAPL</small>) Closing Stock Price</h3>
       <figure id="apple_area"></figure>
       <figcaption>Data: <a href="https://observablehq.com/@observablehq/plot-area">Apple stock price</a></figcaption>
-      <p>An area graph is a specialized form of the line graph, where data points are connected with a continuous line and the region below that line is filled with a solid color.</p>
+      <p>An area graph is a specialized form of the line graph, where data points are connected with a continuous line. The X axis usually represents time or an ordered variable, and the Y axis gives the value of another variable. </p>
       <h3>World electricity production, by source</h3>
       <figure id="electricity"></figure>
       <figcaption class="alignLeft">Data: <a href="https://ourworldindata.org/electricity-mix">Our World in Data</a></figcaption>
       <p>A stacked area chart stacks values so that the cumulative area represents 100%. These charts can help to show a progression and composition over time, and the 100% stacked area chart is meant to show the percentage that each component contributes when the cumulative total is not important.</p>
-      <h2>Bar chart</h2>
+      <h2>Barplot</h2>
       <h3>English letter frequency</h3>
       <figure id="freq_letters"></figure>
       <figcaption>Data: <a href="http://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html">Cornell</a></figcaption>
-      <p>The classic bar chart. The height or length of each bar is proportional to the values that they represent. The baseline starts at zero.</p>
+      <p>A barplot (or barchart) is one of the most common types of graphic. It shows the relationship between a numeric and a categoric variable. Each value of the categoric variable is represented as a bar. The size of the bar represents its numeric value. The baseline starts at zero.</p>
       <h3>Global Emissions by Country</h3>
       <figure id="country_emissions"></figure>
       <figcaption>Data: <a href="https://www.iea.org/articles/global-energy-review-co2-emissions-in-2020">IEA</a></figcaption>
       <p>A variation on the regular vertical bar chart is the horizontal bar chart. This orientation is more useful for comparing categories.</p>
-      <!-- <h2>Bar chart race</h2> -->
       <h2>Barcode chart</h2>
       <h3>Surface temperature anomalies</h3>
       <figcaption id="anomaly_legend"></figcaption>
@@ -282,6 +281,7 @@
       <figcaption>Created by <a href="https://lotr.visualcinnamon.com">Nadieh Bremer</a></figcaption>
       <p>This type of diagram visualizes the inter-relationships between entities. The connections between entities are used to display that they share something in common. This makes Chord Diagrams ideal for comparing the similarities within a dataset or between different groups of data.</p>
       <h2>Choropleth map</h2>
+      <!-- TODO -->
       <img src="imgs/ZIP3_zones.svg" loading="lazy">
       <figcaption>ZIP codes explained <a href="inf-hoe-graphic.html">here</a></figcaption>
       <p>A choropleth map is simply a shaded map. Specifically, it's a map that uses measured differences in shading or color or the placing of symbols inside defined areas on the map in order to indicate the average values of some property or quantity in those areas. Be careful with your color choices, as they can quickly change what the map shows.</p>
@@ -298,6 +298,7 @@
 <!--     <h2>Difference chart</h2>
   <p>A difference chart highlights the difference between two values, typically entries vs exits. The amount is encoded as height, and the sign (surplus vs. deficit) as a solid color.</p> -->
   <h2>Donut chart 🍩</h2>
+  <!-- TODO -->
   <h3>United States Population, 2015</h3>
   <img src="imgs/donut_chart.svg" loading="lazy">
   <figcaption>Data: <a href="https://www.census.gov/data.html">U.S. Census</a></figcaption>
@@ -615,33 +616,34 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
     color: {
       reverse: true,
       scheme: "BuRd",
+      legend: true,
     },
     marks: [
       Plot.barX(civilizations, {
         x1: "start",
         x2: "end",
         insetTop: 2,
-      insetBottom: 2, // Makes the bars slightly thinner
-      fill: "region",
-      tip: true,
-      title: (d) =>
-        `${d.civilization} \nStart: ${d.start}\nEnd: ${d.end}\nRegion: ${d.region}`, // \n makes a new line
-        y: "civilization"
+        insetBottom: 2, // Makes the bars slightly thinner
+        fill: "region",
+        tip: true,
+        title: (d) =>
+          `${d.civilization} \nStart: ${d.start}\nEnd: ${d.end}\nRegion: ${d.region}`, // \n makes a new line
+          y: "civilization"
       }),
       Plot.text(civilizations.filter(d => (d.civilization == "Mesopotamian civilization" || d.civilization == "Egyptian civilization")), {
-      x: "end", // Show label on right when start date is > -3000 years
-      y: "civilization",
-      text: "civilization",
-      textAnchor: "start",
-      dx: 10
-    }),
-      Plot.text(civilizations.filter(d => (d.civilization !== "Mesopotamian civilization" && d.civilization !== "Egyptian civilization")), {
-      x: "start", // Show label on right when start date is > -3000 years
-      y: "civilization",
-      text: "civilization",
-      textAnchor: "end",
-      dx: -6
-    }),
+        x: "end", // Show label on right when start date is > -3000 years
+        y: "civilization",
+        text: "civilization",
+        textAnchor: "start",
+        dx: 10
+      }),
+        Plot.text(civilizations.filter(d => (d.civilization !== "Mesopotamian civilization" && d.civilization !== "Egyptian civilization")), {
+          x: "start", // Show label on right when start date is > -3000 years
+          y: "civilization",
+          text: "civilization",
+          textAnchor: "end",
+          dx: -6
+      }),
       ]
   };
 
@@ -2254,7 +2256,6 @@ myDataPromises.catch(function() {
   console.log('🚨 Oops - Something has gone wrong fetching data.')
 });
 
-// Experimenting with d3 color swatches & legend:
 </script>
 </body>
 </html>
