@@ -45,6 +45,8 @@
 
     <h3>Average time by day of week</h3>
     <figure id="week"></figure>
+    <h3>Average time by day of week</h3>
+    <figure id="weekbox"></figure>
 
     <p>The puzzle gets progressively harder as the week goes on, with Saturday being the most challenging day of the week. The Saturday and Sunday puzzles also feature a larger grid of 25x25 squares as compared to a 15x15 weekday puzzle. In the graph above we can see a pretty clear jump from the time it takes to solve Monday, Tuesday, and Wednesday puzzles to solving Thursday and beyond.</p>
 
@@ -112,7 +114,6 @@
       color: {
         scheme: "YlOrRd",
         legend: true,
-        // reverse: true,
         nice: true,
         clamp: true,
         transform: d => d / 60, // turn seconds into minutes
@@ -184,6 +185,39 @@
       ]
     };
 
+    var weekbox = {
+      width: width,
+      style:{fontSize: size},
+      marginLeft: 45,
+      color: {
+        scheme: "GnBu",
+        reverse: false,
+      },
+      marks: [
+        Plot.boxX(xword_data, {
+          x: "Time Taken",
+          y: "Day of Week",
+          fill: "Day of Week",
+          stroke: "#333",
+          strokeWidth: 1,
+          r: 0.5,
+        })
+      ],
+      y: { 
+        label: null, 
+        domain: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
+        tickFormat: d => `${d}.`,
+      },
+      x: {
+        grid: true,
+        nice: true,
+        transform: d => d / 60, // turn seconds into minutes,
+        label: `Average time taken (minutes)`,
+        labelOffset: 34,
+        anchor: "bottom"
+      },
+    };
+
     // const marker = xword_data.slice(577,578);
 
     var alltime = {
@@ -249,6 +283,7 @@
 
       document.getElementById("calendar").appendChild(Plot.plot(calendar));
       document.getElementById("week").appendChild(Plot.plot(week));
+      document.getElementById("weekbox").appendChild(Plot.plot(weekbox));
       document.getElementById("alltime").appendChild(Plot.plot(alltime));
       document.getElementById("constructors").appendChild(Plot.plot(constructors));
     });
