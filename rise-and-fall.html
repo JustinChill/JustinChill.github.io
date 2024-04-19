@@ -36,9 +36,9 @@
 
     <h3></h3>
     <figure id="gibbons"></figure>
-    <figcaption>Data: <a href="">Gibbons</a>.</figcaption>
+    <figcaption>Data: <a href="https://observablehq.com/@fdesvallees/gibbons-decline-and-fall-of-the-roman-empire">François Desvallée</a>.</figcaption>
 
-    <p>The English historian <a href="https://www.worldhistory.org/Edward_Gibbon/">Edward Gibbon</a> (1737-1794) wrote and published his seminal work <em>History of the Decline and Fall of the Roman Empire</em> between 1776 and 1788. The dominant theme of Gibbon's six-volume work is that the fall of the Roman Empire was due to the rise of Christianity with its negative effects on the people and politics of Rome<a href="#Selsam" aria-describedby="footnote-label" id="Selsam-ref"></a>.</p> 
+    <p>The English historian <a href="https://www.worldhistory.org/Edward_Gibbon/">Edward Gibbon</a> (1737-1794) wrote and published <em>History of the Decline and Fall of the Roman Empire</em> between 1776 and 1788. The dominant theme of Gibbon's six-volume work is that the fall of the Roman Empire was due to the rise of Christianity with its negative effects on the people and politics of Rome<a href="#Selsam" aria-describedby="footnote-label" id="Selsam-ref"></a>.</p> 
 
     <p>Gibbon's multi-volume history consisted of three separate sections:
       <ol>
@@ -53,6 +53,7 @@
 
     <figure id="civ"></figure>
     <figcaption>Data: <a href="https://github.com/liuchia/Roman-Emperor-Timeline/blob/master/data.csv">Liuchia</a>.</figcaption>
+    <figure id="deaths"></figure>
   </article>
 </main>
 <footer>
@@ -82,7 +83,7 @@
           startDate: +d.startDate,           
           endDate: +d.endDate, // convert column to Date
           id: d.id,
-        }}), d3.csv("https://raw.githubusercontent.com/liuchia/Roman-Emperor-Timeline/master/data.csv", d3.autoType)];
+        }}), d3.csv("data/emperors.csv", d3.autoType)];
 
   // You can request multiple srcs in a promise
   myDataPromises = Promise.all(promises);
@@ -92,64 +93,146 @@
     // Define the data. There's gotta be a better way to do this:
     var gibbonsData = data[0];
     var emperors = data[1];
+    const formatTime = d3.utcFormat("%B %d, %Y");
+    const formatYear = d3.utcFormat("%Y");
+
     console.log(emperors);
 
     var gibbons = {
+      title: "Gibbon's Decline and Fall of the Roman Empire",
       x: {
         grid: true,
-        axis: null,
+        label: "Start page  ",
+        interval: 1,
+        labelOffset: 40,
+        nice: true,
+        clamp: true,
       },
       y:{
         label: "Year",
         labelAnchor: "Center",
         labelOffset: 60,
+        nice: true,
+        clamp: true,
       },
       marks: [
         Plot.barY(gibbonsData, {
           y1: "startDate",
           y2: "endDate",
           x: "startPage",
-          channels: {id: "id", endPage: "endPage"},
-          tip: true,     
           fill: "steelblue",
           sort: {x: "x"}
+        }),
+        Plot.tip(gibbonsData, Plot.pointer({
+          y1: "startDate",
+          y2: "endDate",
+          x: "startPage",
+          channels: {id: "id", endPage: "endPage"},
+          lineWidth: 80,
+        })),
+        Plot.tip(gibbonsData, {
+          y1: "startDate",
+          y2: "endDate",
+          x: "startPage",
+          lineWidth: 14,
+          channels: {id: "id"},
+          filter: (d) => d.startPage == 2663,
+          anchor: "bottom",
+          dy: -85,
+          title: (d) => [d.id].join("\n\n")
+        }),
+        Plot.tip(gibbonsData, {
+          y1: "startDate",
+          y2: "endDate",
+          x: "startPage",
+          lineWidth: 10,
+          channels: {id: "id"},
+          filter: (d) => d.startPage == 1761,
+          anchor: "right",
+          dx: -4,
+          dy: -100,
+          title: (d) => [d.id].join("\n\n")
+        }),
+        Plot.tip(gibbonsData, {
+          y1: "startDate",
+          y2: "endDate",
+          x: "startPage",
+          lineWidth: 10,
+          channels: {id: "id"},
+          filter: (d) => d.startPage == 505,
+          anchor: "bottom",
+          dy: -24,
+          title: (d) => [d.id].join("\n\n")
         }),
       ]
     };
 
     var civ = {
+      title: "Roman Emperors",
       marginLeft: 30,
       style:{fontSize: size},
       axis: null,
       color: {
         scheme: "tableau10",
+        legend: true,
+        zero: false,
       },
       x: {
         axis: "both",
         grid: true,
-        tickFormat: (x) => x < 0 ? `${-x} BC` : `${x} AD`
+        nice: true,
+        clamp: true,
+        interval: d3.utcDay,
+        tickFormat: (x) => x < 0 ? `${formatYear(-x)} BC` : `${formatYear(x)}`
       },
       marks: [
         Plot.barX(emperors, {
-          x1: "START",
-          x2: "END",
-          y: "NAME",
-          fill: "DYNASTY",
-          channels: {Death: "DEATH"},
+          x1: "reignStart",
+          x2: "reignEnd",
+          y: "name",
+          fill: "dynasty",
           tip: true,
           sort: {y: "x1"}
         }),
         Plot.text(emperors, {
-          x: "START",
-          y: "NAME",
-          text: "NAME",
+          x: "reignStart",
+          y: "name",
+          text: "name",
           textAnchor: "end",
           dx: -3
-        })
+        }),
       ]
     }
+
+    var deaths = {
+      width: width,
+      marginBottom: 50,
+      marginLeft: 10,
+      style:{fontSize: size},
+      title: "Causes of death",
+      color: {
+        scheme: "Reds",
+      },
+      x: {
+        label: null,
+        tickSize: 0,
+        tickRotate: -35,
+      },
+      y: {
+        grid: true,
+        ticks: 8,
+        nice: true,
+        clamp: true,
+        label: null,
+      },
+      marks: [
+        Plot.barY(emperors, Plot.groupX({y: "count"}, {x: "cause", tip: true, fill: "cause", fillOpacity: .8, stroke: "#ccc", strokeWidth: .125})),
+        ]
+    };
+
     document.getElementById("gibbons").appendChild(Plot.plot(gibbons));
     document.getElementById("civ").appendChild(Plot.plot(civ));
+    document.getElementById("deaths").appendChild(Plot.plot(deaths));
   });
 </script>
 </body>

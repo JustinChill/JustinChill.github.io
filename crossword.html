@@ -207,7 +207,15 @@
         clamp: true,
       },
       marks: [
-      Plot.line(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle Date", y:"Time Taken", curve: "catmull-rom", stroke:"hsl(230, 49%, 41%)", opacity: .8}),
+      Plot.ruleY([60*60], {
+        stroke: "#ccc",
+        strokeWidth: 2,
+        strokeLinecap: "round",
+        strokeDasharray: [10, 10],
+        opacity: .7,
+      }),
+      Plot.text(xword_data, {y: 60*60, text: ["1 hour"], dy: 8, dx:0, textAnchor: "left"}),
+      Plot.line(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle Date", y:"Time Taken", curve: "bump-x", stroke:"hsl(230, 49%, 41%)", opacity: .8}),
       Plot.dot(xword_data.filter(d => (d.Solved === "True")), {x:"Puzzle Date", y:"Time Taken",fill:"hsl(230, 49%, 41%)", strokeWidth:0, r:1, title: d => `${d3.timeFormat("%A %B %d, %Y")(d["Puzzle Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time Taken"]/60)} min to solve` }),
 
       // Plot.text(marker, {x: "Puzzle Date", y: "Time Taken", text: d => `COVID-19 Pandemic`, dy: -200, dx: -8, rotate: 270}),
