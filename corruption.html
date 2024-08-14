@@ -10,45 +10,11 @@
   <meta name="author" content="Justin Chill">
 
   <style type="text/css">
-  article > figure{
-    /*grid-column: 4;*/
-    min-width: 0;
-    margin: 0;
-  }
-  #corruption_legend{
-    margin-bottom: 0;
-  }
-  #corruption_legend svg{
-    border-radius: 50%;
-  }
-  .plot text{
-    font-size: 12px;
-  }
   a img{
     width: 100%;
   }
   figcaption{
     text-align: right;
-  }
-
-  figcaption span{
-    font-size: calc(8px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
-  }
-  ul > li {
-    position: relative;
-    padding-left: 1em;
-    list-style: none;
-    text-align: left;
-  }
-  ul > li:before{
-    content: "";
-    position: absolute;
-    background-color: #cbd5e0;
-    border-radius: 50%;
-    width: .375em;
-    height: .375em;
-    top: .6875em;
-    left: .25em;
   }
 </style>
 </head>
@@ -123,9 +89,8 @@
     var corruption = {
       inset: 10,
       width: width,
-      // marginBottom: 40,
-      marginLeft: 40,
-      marginRight: 0,
+      // marginLeft: width/33,
+      // marginRight: width/100,
       marginTop: 0,
       style:{fontSize: size},
       x: {
@@ -136,9 +101,10 @@
       },
       y: {
         label: "Human Development Index (1 = best)",
+        tickSize: 0,
+        anchor: "left",
         labelAnchor: "center",
         labelOffset: 50,
-        tickSize: 0,
         grid: true,
         domain: [.2, 1],
       },
@@ -149,15 +115,15 @@
       color: {
         scheme: "tableau10",
         reverse: true,
+        legend: true,
       },
       marks: [
         Plot.linearRegressionY(data, {x: "CPI", y: "HDI", stroke: "crimson", ci: 0.95}),
         Plot.dot(data, {
           x: "CPI",
           y: "HDI",
-          fill: null,
+          symbol: "circle",
           stroke: "Region",
-          fill: "white",
           r: 5,
           title: d => `${d.Country}\nCPI: ${d.CPI}\nHDI: ${d.HDI}`,
           channels: {name: "Country", HDI: "HDI"},
@@ -353,16 +319,7 @@
       ]
     };
 
-    // Create the legend separately, using the color scale from the main plot 
-    var corruption_color = Plot.plot(corruption).scale("color");
-    var corruption_legend = {
-      label: "Temperature Change (°C) →",
-      color: corruption_color,
-      swatchSize: 20,
-    };
-
     document.getElementById("corruption").appendChild(Plot.plot(corruption));
-    document.getElementById("corruption_legend").appendChild(Plot.legend(corruption_legend));
   });
   </script>
 </body>

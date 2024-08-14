@@ -17,122 +17,145 @@
   <meta property="og:description" content="So many ideas, so few posts">
 
   <style>
-  html {
-    font-family: Roboto, Helvetica, Arial, sans-serif;
-    line-height: 1.4;
-  }
-  p{
-    text-align: left;
-  }
-  main a{
-    text-decoration: underline;
-    text-decoration-skip:   auto;
-    text-decoration-color:  var(--primary-color);
-    text-decoration-style:  solid;
-  }
-
-  main, header{
-    margin-left: calc(var(--nav-width) * 2);
-    position: relative;
-    max-width: var(--page-max-width);
-    margin: 0 auto;
-    padding: 0 var(--gutter);
-  }
-  header{
-    margin: 64px auto;
-  }
-  footer{
-    margin-top: 64px;
-  }
-
-  header h1{
-    font-family: Inter, sans-serif;
-    font-size: calc(46px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
-    margin: .25em 0;
-    line-height: 1.4em;
-    text-align: left;
-  }
-
-  h2{
-    margin: 2rem 0;
-  }
-  main ul{
-    padding-left: 0px;
-  }
-  li > a:hover, li > a:focus {
-    color: hsl(210, 22%, 49%);
-  }
-
-  ul > li {
-    position: relative;
-    padding-left: 1.4em;
-    list-style: none;
-    text-align: left;
-  }
-  ol {
-    padding-left: 1em;
-  }
-  ul > li:before{
-    content: "";
-    position: absolute;
-    background-color: #cbd5e0;
-    border-radius: 50%;
-    width: .375em;
-    height: .375em;
-    top: .6875em;
-    left: .25em;
-  }
-
-  ul + p{
-    margin: 3rem 0 1.5rem;
-  }
-
-  a{
-    display: inline-block;
-  }
-
-  a[href="charts.html"]::after{
-    content: ' 📊';
-    text-decoration: none;
-    display: inline-block;
-  }
-  a[href="mac-miller.html"]::after{
-    content: ' 💙';
-    text-decoration: none;
-    display: inline-block;
-  }
-  a[href="article.html"]::after{
-    content: ' 👋';
-    text-decoration: none;
-    display: inline-block;
-  }
-
-  @media screen and (max-width: 680px) {
-    body{
-      /*font-size: .7rem;*/
+    main a{
+      text-decoration: underline;
+      text-decoration-skip:   auto;
+      text-decoration-color:  var(--primary-color);
+      text-decoration-style:  solid;
     }
+
     main, header{
-      margin-left: 0;
-      margin-top: 16px;
+      margin-left: calc(var(--nav-width) * 2);
+      position: relative;
+      max-width: var(--page-max-width);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
     }
-    header h1{
-      font-size: calc(30px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+    main{
+      max-width: 940px;
     }
-  }
+    header{
+      margin: 64px auto;
+    }
+    footer{
+      margin-top: 64px;
+    }
 
-  @media screen and (max-width: 900px) {
-    header, main{
-      margin-left: 1em;
-      margin-top: 32px;
-    }
     header h1{
-      font-size: calc(36px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+      font-family: Inter, sans-serif;
+      font-size: calc(46px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+      margin: .25em 0;
+      line-height: 1.4em;
+      text-align: left;
     }
-    ul + p{
-      margin: 1.5rem 0 .75rem;
+
+    .wrapper {
+      max-width: 940px;
+      margin: 0px;
+      display: grid;
+      padding: 0;
+      grid-gap: 10px;
+      grid-column: auto;
     }
-  }
-</style>
+
+    /* no grid support? */
+
+    .wrapper {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .wrapper {
+      display: grid;
+      margin: 0 auto;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-auto-rows: minmax(180px, auto);
+    }
+
+    .card {
+      /* needed for the flex layout*/
+      margin-left: 5px;
+      margin-right: 5px;
+      flex: 1 1 200px;
+      box-shadow: 0 14px 26px rgba(0,0,0,0.04);
+      transition: all 0.3s ease-out;
+    }
+
+    .card:hover {
+      transform: translateY(-5px) translateZ(0);
+      box-shadow: 0 24px 36px rgba(0,0,0,0.11),
+      0 24px 46px rgba(0,0,0,0.04);
+    }
+
+    .header,
+    .footer {
+      margin-left: 5px;
+      margin-right: 5px;
+      flex: 0 1 100%;
+      grid-column: 1 / -1;
+    }
+
+    .wrapper > * {
+      border: .5px solid #444;
+      border-radius: 5px;
+      padding: 20px;
+      margin-bottom: 10px;
+      align-content: space-evenly;
+    }
+
+    .wrapper > .header{
+      border: none;
+    }
+
+    /* We need to set the margin used on flex items to 0 as we have gaps in grid.  */
+
+    @supports (display: grid) {
+      .wrapper > * {
+        margin: 0;
+      }
+    }
+
+
+    a[href="charts.html"]::after{
+      content: ' 📊';
+      text-decoration: none;
+      display: inline-block;
+    }
+    a[href="mac-miller.html"]::after{
+      content: ' 💙';
+      text-decoration: none;
+      display: inline-block;
+    }
+    a[href="article.html"]::after{
+      content: ' 👋';
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    a[href*="simpson"]{
+      background-color: #fac5cb;
+    }
+
+    @media screen and (max-width: 680px) {
+      main, header{
+        margin-left: 0;
+        margin-top: 16px;
+      }
+      header h1{
+        font-size: calc(30px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+      }
+    }
+
+    @media screen and (max-width: 900px) {
+      header, main{
+        margin-left: 1em;
+        margin-top: 32px;
+      }
+      header h1{
+        font-size: calc(36px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+      }
+    }
+  </style>
 </head>
 <nav class="nav">
   <div class="nav__list">
@@ -154,70 +177,65 @@
 </header>
 
 <main>
-  <h3>Data visualizations</h3>
-  <ul>    
-    <li><a href="OpenAI.html">OpenAI Timeline</a></li>
-    <li><a href="popcorn.html">Steph Curry's Popcorn Problem</a></li>
-    <li><a href="gun-laws.html">Gun Regulation Index</a></li>
-    <li><a href="Darwin.html">The Voyage of the HMS Beagle</a></li>
-    <li><a href="Walmart.html">The Diffusion of Wal-Mart</a></li>
-    <li><a href="rise-and-fall.html">The Decline and Fall of the Roman Empire</a></li>
-    <li><a href="corruption.html">Corrosive Corruption</a></li>
-    <li><a href="inequality.html">Inequality in America, 1980 - 2015</a></li>
-    <li><a href="global-warming.html">Global Temperature Trends</a></li>
-    <li><a href="crossword.html">Crossword Puzzle Stats</a></li>
-    <li><a href="caffeine.html">Caffeine Data Visualization</a></li>
-    <li><a href="oldest.html">World's Oldest Person Titleholders</a></li>
-    <li><a href="charts.html">Charts & Graphs</a></li>
-    <li><a href="equations.html">Equations that Changed the World</a></li>
-    <li><a href="Anscombe.html">Anscombe's Quartet</a></li>
-    <li><a href="wework.html">WeWork Valuation</a></li>
-    <li><a href="simpsons.html">The Simpsons</a></li>
-    <li><a href="primes.html">Prime numbers</a></li>
-    <li><a href="ShotSpotter.html">ShotSpotter (WiP ⚠️)</a></li>
-  </ul>
-  <h3>Layout and design</h3>
-  <ul>
-    <li><a href="UI-details.html">Practical UI details</a></li>    
-    <li><a href="Mondrian.html">Piet Mondrian in CSS Grid</a></li>    
-    <li><a href="distancing.html">Wondering about social distancing?</a></li>
-    <li><a href="typography.html">Fundamentals of Typography</a></li>
-    <li><a href="solar-system.html">The Solar System</a></li>
-    <li><a href="illusions.html">Impossible objects</a></li>
-    <li><a href="dating.html">Honest dating advice</a></li>
-    <li><a href="rhcp.html">Red Hot Chili Peppers Tribute</a></li>
-    <li><a href="mac-miller.html">Mac Miller Tribute</a></li>
-  </ul>
-  <h3>Written word</h3>
-  <ul>
-    <li><a href="black-sea-fleet.html">Black Sea Fleet Losses</a></li>
-    <li><a href="lethal-passage.html">Lethal Passage</a></li>
-    <li><a href="8m46s.html">8 minutes, 46 seconds</a></li>
-    <li><a href="css-selectors.html">CSS selectors</a></li>
-    <li><a href="glossary.html">Data Visualization Glossary</a></li>
-    <li><a href="css-101.html">Cascading Style Sheets</a></li>    
-    <li><a href="off-white.html">Off-White</a></li>
-    <!-- <li><a href="alien-article.html">Aliens</a></li> -->
-    <li><a href="article.html">Hello world</a></li>  
-  </ul>
-  <h3>Just for fun</h3>
-  <ul>
-    <li><a href="arthur.html">Arthur's Fist</a></li>
-    <li><a href="bingo.html">Conference Call Bingo</a></li>
-    <li><a href="xkcd.html">Security Tips</a></li>
-    <li><a href="windows-xp.html">Windows XP</a></li>
-    <li><a href="rings.html">Spinning Rings Illusion</a></li>
-    <li><a href="to-don't.html">To-Don't List</a></li>
-    <li><a href="nuggs.html">Chicken Nuggets</a></li>
-    <li><a href="inf-hoe-graphic.html">Where rapper Ludacris claims hoes</a></li>
-    <li><a href="word-avalanches.html">Word avalanches</a></li>
-    <li><a href="alphabet.html">Phonetic alphabet</a></li>
-  </ul>
-  <h3>Processes and Frameworks</h3>
-  <ul>
-    <li><a href="csat.html">Customer Satisfaction (CSAT)</a></li>
-    <li><a href="nps.html">Net Promoter Score (NPS)</a></li>
-  </ul>
+
+  <div class="wrapper">
+    <h3 class="header">Posts</h3>
+    <a class="card" href="OpenAI.html"><img src="imgs/OpenAI_Logo.svg" loading="lazy" />OpenAI Timeline</a>
+    <a class="card" href="popcorn.html"><img src="imgs/cover/popcorn_cover.png" loading="lazy" />Steph Curry's Popcorn Problem</a>
+    <a class="card" href="gun-laws.html"><img src="imgs/cover/gunreg_cover.png" loading="lazy" />Gun Regulation Index</a>
+    <a class="card" href="Darwin.html"><img src="imgs/cover/Darwin_cover.png" loading="lazy" />The Voyage of the HMS Beagle</a>
+    <a class="card" href="Walmart.html"><img src="imgs/cover/Walmart_cover.png" loading="lazy" />The Diffusion of Wal-Mart</a>
+    <a class="card" href="rise-and-fall.html"><img src="imgs/cover/roman_cover.png" loading="lazy" />The Decline and Fall of the Roman Empire</a>
+    <a class="card" href="corruption.html"><img src="imgs/cover/corruption_cover.png" loading="lazy" />Corrosive Corruption</a>
+    <a class="card" href="inequality.html"><img src="imgs/cover/inequality_cover.png" loading="lazy" />Inequality in America, 1980 - 2015</a>
+    <a class="card" href="global-warming.html"><img src="imgs/cover/temps_cover.png" loading="lazy" />Global Temperature Trends</a>
+    <a class="card" href="crossword.html"><img src="imgs/cover/crossword_cover.png" loading="lazy" />Crossword Puzzle Stats</a>
+    <a class="card" href="caffeine.html"><img src="imgs/cover/caffeine_cover.png" loading="lazy" />Caffeine Data Visualization</a>
+    <a class="card" href="oldest.html"><img src="imgs/cover/oldest_cover.png" loading="lazy" />World's Oldest Person Titleholders</a>
+    <a class="card" href="charts.html"><img src="imgs/cover/charts_cover.png" loading="lazy" />Charts & Graphs</a>
+    <a class="card" href="equations.html"><img src="imgs/cover/equations_cover.png" loading="lazy" />Equations that Changed the World</a>
+    <a class="card" href="Anscombe.html"><img src="imgs/cover/anscombe_cover.png" loading="lazy" />Anscombe's Quartet</a>
+    <a class="card" href="wework.html"><img src="imgs/cover/wework_cover.png" loading="lazy" />WeWork Valuation</a>
+    <a class="card" href="simpsons.html"><img src="imgs/cover/simpsons_cover.png" loading="lazy" />The Simpsons</a>
+    <a class="card" href="primes.html"><img src="imgs/cover/primes_cover.png" loading="lazy" />Prime numbers</a>
+    <a class="card" href="ShotSpotter.html">ShotSpotter (WiP ⚠️)</a>
+    <h3 class="header">Layout and design</h3>
+    <a class="card" href="UI-details.html"><img src="imgs/details.svg" loading="lazy" />Practical UI details</a>
+    <a class="card" href="Mondrain.html"><img src="imgs/cover/Mondrian_cover.png" loading="lazy" />Piet Mondrain in CSS Grid</a>
+    <a class="card" href="distancing.html"><img src="imgs/walking.svg" loading="lazy" />Wondering about social distancing?</a>
+    <a class="card" href="typography.html"><img src="imgs/typography.svg" loading="lazy" />Fundamentals of Typography</a>
+    <a class="card" href="solar-system.html"><img src="imgs/cover/solar_cover.png" loading="lazy" />The Solar System</a>
+    <a class="card" href="feeling-wheel.html"><img src="imgs/cover/feelwheel_cover.png" loading="lazy" />Feeling Wheel</a>
+    <a class="card" href="illusions.html"><img src="imgs/cover/impossible_cover.png" loading="lazy" />Impossible objects</a>
+    <a class="card" href="dating.html"><img src="imgs/purelove.svg" loading="lazy" />Honest dating advice</a>
+    <a class="card" href="rhcp.html"><img src="imgs/RHCP_Logo.svg" loading="lazy" />Red Hot Chili Peppers Tribute</a>
+    <a class="card" href="mac-miller.html"><img src="imgs/cover/mac_cover.png" loading="lazy" />Mac Miller Tribute</a>
+    <h3 class="header">Written word</h3>
+    <a class="card" href="black-sea-fleet.html">Black Sea Fleet Losses</a>
+    <a class="card" href="lethal-passage.html"><img src="" loading="lazy" />Lethal Passage</a>
+    <a class="card" href="8m46s.html"><img src="" loading="lazy" />8 minutes, 46 seconds</a>
+    <a class="card" href="css-selectors.html">CSS selectors</a>
+    <a class="card" href="glossary.html">Data Visualization Glossary</a>
+    <a class="card" href="css-101.html">Cascading Style Sheets</a>
+    <a class="card" href="off-white.html"><img src="imgs/cover/offwhite_cover.png" loading="lazy" />Off-White</a>
+    <!-- <a class="card" href="alien-article.html">Aliens</a> -->
+    <a class="card" href="article.html">Hello world</a>
+    <h3 class="header">Just for fun</h3>
+    <a class="card" href="arthur.html">Arthur's Fist</a>
+    <a class="card" href="bingo.html">Conference Call Bingo</a>
+    <a class="card" href="xkcd.html">Security Tips</a>
+    <a class="card" href="windows-xp.html">Windows XP</a>
+    <a class="card" href="rings.html">Spinning Rings Illusion</a>
+    <a class="card" href="to-don't.html">To-Don't List</a>
+    <a class="card" href="nuggs.html">Chicken Nuggets</a>
+    <a class="card" href="inf-hoe-graphic.html">Where rapper Ludacris claims hoes</a>
+    <a class="card" href="word-avalanches.html">Word avalanches</a>
+    <a class="card" href="alphabet.html">Phonetic alphabet</a>
+    <h3 class="header">Processes and Frameworks</h3>
+    <a class="card" href="csat.html">Customer Satisfaction (CSAT)</a>
+    <a class="card" href="nps.html">Net Promoter Score (NPS)</a>
+  </div>
+
 </main>
 <footer>
   <div>
@@ -231,14 +249,14 @@
    * We're avoiding putting our email in the href to prevent harvesting for
    * spam. This tip from Lokesh Dhakar.
    */
-   [...document.getElementsByClassName('js-email-link')].forEach(link => {
-    link.addEventListener('click', event => {
-      const a = "Justin.richard.hill@";
-      const b = "gmail.com";
-      window.open(`mailto:${a}${b}`, 'email');
-      return false;
-    });
+ [...document.getElementsByClassName('js-email-link')].forEach(link => {
+  link.addEventListener('click', event => {
+    const a = "Justin.richard.hill@";
+    const b = "gmail.com";
+    window.open(`mailto:${a}${b}`, 'email');
+    return false;
   });
+});
 </script>
 </body>
 </html>

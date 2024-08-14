@@ -100,6 +100,11 @@
 
     var gibbons = {
       title: "Gibbon's Decline and Fall of the Roman Empire",
+      width: width,
+      marginTop: 40,
+      marginLeft: width/33,
+      marginRight: width/100,
+      style:{marginTop: 10},
       x: {
         grid: true,
         label: "Start page  ",
@@ -110,12 +115,12 @@
       },
       y:{
         label: "Year",
-        labelAnchor: "Center",
-        labelOffset: 60,
+        // tickFormat: "%Y",
         nice: true,
         clamp: true,
       },
       marks: [
+        Plot.axisY({anchor: "left", labelAnchor: "top"}),
         Plot.barY(gibbonsData, {
           y1: "startDate",
           y2: "endDate",
@@ -207,7 +212,8 @@
     var deaths = {
       width: width,
       marginBottom: 50,
-      marginLeft: 10,
+      marginLeft: width/33,
+      marginRight: width/100,
       style:{fontSize: size},
       title: "Causes of death",
       color: {
@@ -226,6 +232,7 @@
         label: null,
       },
       marks: [
+        Plot.axisY({anchor: "left", labelAnchor: "center", ticks: 6}),
         Plot.barY(emperors, Plot.groupX({y: "count"}, {x: "cause", tip: true, fill: "cause", fillOpacity: .8, stroke: "#ccc", strokeWidth: .125})),
         ]
     };

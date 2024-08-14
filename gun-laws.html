@@ -80,7 +80,10 @@
     var regression = {
       width: width,
       height: 500,
-      style:{fontSize: size},
+      marginTop: 40,
+      marginLeft: width/33,
+      marginRight: width/100,
+      style:{fontSize: size, marginTop: 10},
       y: {
         grid: true,
         nice: true,
@@ -99,7 +102,7 @@
         // ticks: 4,
         tickSize: 0,
         zero: true,
-        domain: [-5, 22] 
+        domain: [-5, 22]
       },
       color: {
         scheme: "BuRd",
@@ -109,8 +112,8 @@
         label: "Deaths per capita (100k)"
       },
       marks: [
-        Plot.frame({ anchor: "bottom" }),
         Plot.ruleX([0], {opacity: .5, strokeDasharray: 7}),
+        Plot.axisY({anchor: "left", labelAnchor: "top"}),
         Plot.linearRegressionY(data, {
           x: "gun_regulation_index",
           y: "deaths_per_100K",
@@ -121,16 +124,16 @@
           x: "gun_regulation_index",
           y: "deaths_per_100K",
           fill: "deaths_per_100K",
+          stroke: "hsl(209, 61%, 16%)",
+          strokeWidth: .5,
           r: 6,
           opacity: .85,
-          // tip: true,
           tip: {
             opacity: 0.85,
             r: 5,
             textPadding: 4
           },
         }),
-        // Plot.frame({ anchor: "left" })
         ]
     };
 
