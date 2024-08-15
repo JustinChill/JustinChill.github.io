@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>The Sopranos Data Visualizations</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js"></script>  <script src="script.js"></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A tribute to the Sopranos, by the data.">
+  <meta name="author" content="Justin Chill">
+
+  <style type="text/css">
+
+  </style>
+
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+      <a href="fun.html" class="nav__item">Fun</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+
+  <main role="main">
+    <article>
+      <div class="article-hero">
+        <h2 class="article-category"></h2>
+        <h1 class="article-title">The Sopranis by the Data</h1>
+        <h2 class="article-subtitle">For Alec & Matt</h2>
+      </div> 
+      
+      <article>
+
+        <figure id="simpsonsRatings"></figure>
+        <figcaption>Data: <a href="https://www.imdb.com/title/tt0096697/">IMDB</a></figcaption>
+        <p><em>You Only Move Twice</em> aired <time datetime="1996-11-03">Nov 3, 1996</time> and remains the highest scoring episode with an IMDB score of <strong>9.3</strong>. Ratings decline steadily after season 10 but the decline has largely tapered off. The lowest scoring episode to date came in season 23 with <em>Lisa Goes Gaga</em> (<strong>3.9</strong>).</p>
+
+        <img src="https://i.redd.it/y8q4sfq0vkb21.png" loading="lazy" />
+
+        <p>Although The Simpsons is loved by many, it is evident that the show has seen its better days. As Matt Groening, the creator of The Simpsons once said<a href="#finalquote" aria-describedby="footnote-label" id="finalquote-ref"></a>: "The problem with doing a sitcom which has lasted more than 300 episodes is you're trying not to repeat yourself, you're trying to surprise the audience, and you're trying to keep everybody who works on the show surprised. As a result, the show has gone off in some very peculiar directions."</p>
+
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Sopranos_%28DiMeo%29_Crime_Family_Hierarchy.jpg/1200px-Sopranos_%28DiMeo%29_Crime_Family_Hierarchy.jpg" loading="lazy" />
+
+        <img src="https://i.redd.it/eqsj4zq8v28c1.png"  loading="lazy" />
+
+      </article>
+    </main>
+    <footer>
+      <h2 id="footnote-label">Footnotes</h2>
+      <ol>
+        <li id="finalquote">Matt Groening quoted by <a href="https://www.npr.org/2014/08/20/341884238/prepare-for-the-simpsons-marathon-with-interviews-from-the-fresh-air-archives">NPR</a>.<a href="#finalquote-ref" aria-label="Back to content">↩</a></li>
+      </ol>
+      <div>
+        <p>Justin Chill © 2024. Thanks for reading!</p>
+        <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="icon">Source code and feedback</a></span>    
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/d3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+    <script type="text/javascript">
+    var promises = [d3.csv("data/caffeine.csv",d3.autoType)];
+    var element = d3.select('figure').node();
+    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+    var size = 12;
+    var scheme = "tableau10";
+
+    // You can request mutliple srcs in a promise
+    myDataPromises = Promise.all(promises);
+
+    // After data is successfully fetched, generate viz
+    myDataPromises.then(function(data) {
+
+      // Define the data
+      var simpsons_imdb = data[0];
+
+      // Line chart ratings over time
+      var simpsonsRatings = {
+        width: width,
+        inset: 1,
+        style: "background: none;",
+        marginLeft: 10,
+        marginRight: 0,
+        marginTop: 10,
+        marginBottom: 20,
+        // color: {type: "diverging", scheme: "rdylgn"},
+        x: {
+          label: null,
+          ticks: null,
+        },
+        y: {
+          label: "IMDB Rating",
+          labelAnchor: "center",
+          labelOffset: 35,
+        },
+        color: {
+          scheme: "PiYG",
+          legend: true,
+        },
+        marks: [
+        // Plot.frame(),
+        ]
+      };
+
+        document.getElementById("simpsonsRatings").appendChild(Plot.plot(simpsonsRatings));
+      })
+
+myDataPromises.catch(function() {
+  console.log('🚨 Something has gone wrong fetching data.')
+})
+
+</script>
+</body>
+</html>

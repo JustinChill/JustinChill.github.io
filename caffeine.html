@@ -120,14 +120,14 @@
   100%{ background-position:-20px -25px, -5px -25px, 0px -25px, 0px -25px; opacity:0;}
 }
 
-@keyframes animateCubes {
+/*@keyframes animateCubes {
   0% {
     transform: translateY(-2px) rotate(45deg);
   }
   100% {
     transform: translateY(2px) rotate(45deg);
   }
-}
+}*/
 /*
 .mug, .container {
   display: flex;
@@ -432,27 +432,27 @@
     var caffeine_bar = {
       width: width,
       style:{fontSize: size},
-      marginLeft: 140,
-      marginRight: 10,
-      marginBottom: 40,
+      marginLeft: width/33,
+      marginRight: width/100,
       x: {
         labelOffset: 40,
         grid: true,
         nice: true,
+        labelAnchor: "center",
       },
       color: {
         type: "categorical",
         scheme: scheme,
       },
       y: {
-        // grid: true,
         label: null,
         reverse: true,
         domain: d3.sort(caffeine, d => -d["Caffeine (mg)"]).map(d => d.Item),
         tickSize: 0,
       },
       marks: [
-      Plot.barX(caffeine, { x: "Caffeine (mg)", y: "Item", fill:"Class", title: (d) =>
+        Plot.axisY({anchor: "left", labelAnchor: "top", lineWidth: 10, tickSize: 0}),
+      Plot.barX(caffeine, { x: "Caffeine (mg)", inset: 1, y: "Item", fill:"Class", title: (d) =>
         `${d.Item} \nCaffeine: ${d["Caffeine (mg)"]}\nClass: ${d.Class}`,}),
       Plot.text(caffeine, {x: "Caffeine (mg)", y: "Item", text: (d) =>
         `${d["Caffeine (mg)"]} mg`, textAnchor: "start", dx: 5})
@@ -463,13 +463,13 @@
     var caffeine_box = {
       width: width,
       style:{fontSize: size},
-      marginTop: 20,
-      marginBottom: 40,
-      marginLeft: 20,
-      marginRight: 0,
+      marginLeft: width/33,
+      marginRight: width/100,
       y: {
         grid: true,
         inset: 6,
+        anchor: "left",
+        labelAnchor: "top",
       },
       x:{ 
         label: width > 450 ? "Class" : "", 
@@ -500,10 +500,13 @@
         tickRotate: -35,
         tickSize: 0,
         label: null,
+        lineWidth: 8,
       },
       y: {
         grid: true,
         tickSize: 0,
+        anchor: "left",
+        labelAnchor: "top",
       },
       marks: [
       Plot.barY(caffeine.filter(d => (d.Class === "Hot Drink")), {x: "Item", y: "Caffeine (mg)", fill: "Class", title: (d) => `${d.Item} \n${d["Caffeine (mg)"]}mg of caffeine`})

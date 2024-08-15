@@ -24,7 +24,7 @@
       font-weight: 100;
       color: hsl(211, 10%, 53%);
     }
-    figcaption, figcaption a{
+    figcaption{
       text-align: right;
       font-size:  calc(10px + (22 - 16) * ((100vw - 320px) / (1300 - 320)))
     }
@@ -130,7 +130,6 @@
       },
       marks: [
         Plot.ruleY([0], {stroke:"rgba(0,0,0,.3)", strokeOpacity: .75}),
-      // Plot.linearRegressionY(hadcrut, {x: "date", y: "value", stroke: "hsl(356, 75%, 53%)", ci: 0.95}),
         Plot.dot(hadcrut, {x: "date", y: "value", r: width < 500 ? 1 : 3, strokeWidth: 1, strokeOpacity: .85, stroke: "value", fill: "value", title: (d) =>
           `${d3.timeFormat("%B %d, %Y")(d["date"])} \nTemp: ${d3.format("+.2f")(d["value"])}℃`,
   channels: {name: "name", sport: "sport"},
@@ -183,18 +182,8 @@
         ]
     };
 
-
-    // Create the legend separately, using the color scale from the temps plot 
-    // var temps_color = Plot.plot(temps).scale("color");
-    // var temps_legend = {
-    //   label: "Temperature Change (°C) →",
-    //   color: temps_color,
-    //   tickFormat: "+f",
-    // };
-
     document.getElementById("temps").appendChild(Plot.plot(temps));
     document.getElementById("stripes").appendChild(Plot.plot(stripes));
-    // document.getElementById("temps_legend").appendChild(Plot.legend(temps_legend));
   });
 </script>
 </body>
