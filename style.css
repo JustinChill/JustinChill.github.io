@@ -6,38 +6,17 @@
 /* Variables! */
 :root {
   --bg-color: #f9f9f9;
-  --recessed-bg-color: #e3e3e3;
-  --hover-bg-color: #e9e9e9;
-
-  --color: #444; /* body text */
   --color-bold: #000; /* headings and bold text */
-
   --primary-color: #3783ff;
   --muted-color: #999;
-  --link-color: var(--primary-color);
-  --link-bg-color: transparent;
-  --link-hover-color: var(--primary-color);
-  --link-hover-bg-color: var(--hover-bg-color);
-  --ui-color: var(--color-bold); /* For buttons and other non-link controls */
+  --link-color: #3783ff;
 
   /* Misc colors */
   --green: #58df82;
-  --yellow: #f6dc58; /* FDF5CF*/
   --orange: #fca469;
   --red: #fc6969;
 
-  /* Body text line height */
-  --line-height: 1.55em;
-  --line-height-heading: 1.25em;
-
-  /* Borders and corners */
-  --border-color: #999;
-  --border-color-light: #d5d5d5; /* Used for inline content  */
-
-  --radius-sm: 4px; /* Small tags */
   --radius: 4px;    /* Form controls */
-  --radius-lg: 4px; /* Media */
-  --radius-xl: 4px; /* Large media */
 
   /* Typography */
   --font: Inter, sans-serif;
@@ -47,11 +26,6 @@
   --font-mono: Menlo, Consolas, Monaco, Lucida Console, monospace;
   --weight-regular: 400;
   --weight-bold: 700;
-  --weight-x-bold: 900;
-
-  /* Forms */
-  --form-control-height-xs: 2.5em;
-  --form-control-height: 2.5em;
 
   /*
     Layout. All px estimates of rem values assume 16px font-size.
@@ -179,7 +153,6 @@ h3{
   font-weight: 700;
   padding: 0;
   text-align: left;
-  /*  line-height: 15.5px;*/
   letter-spacing: -0.45px;
   margin: 2rem 0 0.4em 0; 
   text-wrap: balance;
@@ -191,7 +164,6 @@ h4{
   font-weight: 700;
   padding: 0;
   text-align: left;
-  /*line-height: 15.5px;*/
   letter-spacing: -0.45px;
   margin: 2rem 0 0.4em 0; 
 }
@@ -312,7 +284,6 @@ article > p:first-of-type:first-letter {
 
 .article-subtitle {
   font-family: 'IBM Plex Sans', 'Playfair Display SC', serif;
-  /*font-family: 'Libre Franklin',"Lato", sans-serif;*/
   color: rgba(0, 0, 0, 0.54);
   font-size: calc(20px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
   margin: auto;
@@ -330,14 +301,10 @@ article > p:first-of-type:first-letter {
 
 .nav__list {
   display: flex;
-/*  margin-bottom: var(--gutter);
-  margin-right: var(--gutter);*/
 }
 
 a.nav__item {
   display: inline-block;
-  /*line-height: 1.58;*/
-  /*padding: 0.65em 0.35em;*/
   margin-right: 0.5em;
   color: var(--muted-color);
   border-radius: var(--radius);
@@ -411,7 +378,6 @@ tbody tr{
 article > ul,
 article > ol{
   margin: 0;
-  padding: 0;
 }
 
 article > p + ul,
@@ -432,22 +398,22 @@ html, input, textarea {
 }
 
 article > aside {
-  margin: 30px 20px;
+  margin: 1.5rem auto;
+  padding: 0 1rem;
   color: #666;
   font-size: calc(12px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
   grid-column: 5 / -1;
 }
 
-article > aside > i,
-article > aside > code{
-  font-size: calc(12px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
-}
-
-article img.mid-size{
+.mid-size{
   grid-column: 2 / -2;
-  margin: 20px 0;
+  margin: 1rem auto;
 }
-
+.full-bleed{
+  width: 100%;
+  grid-column: 1 / -1;
+  z-index: 1;  /* Hides the nav menu */
+}
 article > img {
   width: 100%;
 }
@@ -991,19 +957,14 @@ a[href^="#"] {
 
       article > aside {
         margin: 30px 20px;
-        color: #666;
         grid-column: 2 / -1;
       }
-
+/*
       article > aside > i{
         font-size: 0.8rem;
         font-size: calc(16px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
-      }
+      }*/
 
-      article img.mid-size{
-        grid-column: 2 / -2;
-        margin: 20px 0;
-      }
       svg[class*="plot"]{
         font-size: calc(10px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
       }
@@ -1019,9 +980,8 @@ a[href^="#"] {
 
     @media screen and (max-width: 1000px) {
       article > aside {
-        margin: 10px 0px;
-        color: #666;
-        grid-column: 4;
+        margin: 0 auto;
+        grid-column: 2/-2;
       }
       article > * {
         font-size: calc(18px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
