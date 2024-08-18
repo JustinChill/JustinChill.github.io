@@ -152,10 +152,10 @@
         label: "Surface temperature change (°C)", 
       },
       x: { axis: null },
-      marginRight: 5,
+      marginRight: 0,
       marginLeft: 0,
-      marginBottom: 8,
-      height: width/5,
+      marginBottom: 10,
+      marginTop: 20,
       marks: [
         Plot.barX(hadcrut, {
           x: "date",
@@ -167,6 +167,12 @@
         Plot.tickX(hadcrut, {
           opacity: .8,
           x: "date",
+          title: (d) => `${d3.timeFormat("%B %d, %Y")(d["date"])}\n${d3.format("+.0")(d["value"])} ℃`,
+          tip: {
+            opacity: 0.85,
+            r: 5,
+            textPadding: 4
+          },
           filter: (d) => d["date"].getFullYear() % 10 === 0 && d["date"].getMonth() == 1
         }),
         Plot.text(hadcrut, {
@@ -176,7 +182,7 @@
           text: (d) =>
           [1880, 1900, 2000].includes(d["date"].getFullYear()) ? `${d["date"].getFullYear()}` : `’${d["date"].getFullYear() % 100}`,
           textAnchor: "start",
-          dx: 3
+          dx: 3, dy: -4,
         })
         ]
     };

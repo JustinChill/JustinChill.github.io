@@ -10,7 +10,7 @@
   <meta name="author" content="Justin Chill">
 
   <style type="text/css">
-    @import url("https://fonts.googleapis.com/css?family=Roboto+Condensed");
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
     svg text{
       font-family: "Roboto Condensed", sans-serif;
@@ -91,10 +91,11 @@
 
     var heatmap = {
       width: width,
-      height: width * 2.1,
-      marginLeft: 120,
+      marginLeft: width/5,
+      marginRight: width/100,
       marginTop: 80,
       marginBottom: 80,
+      aspectRatio: 2.5,
       padding: 0,
       x: {
         axis: "both", 
@@ -104,24 +105,19 @@
       },
       y: {
         domain: popcorn.map(d => d.Team), 
-        label: null, 
+        label: null,
         tickSize: 0,
-        tickFormat: d => {
-          if (d.length > 60) {
-            return d.substring(0, 57) + " ...";
-          } else {
-            return d;
-          }
-        }
+        axis: null,
       },
       color: {legend: true, scheme: "oranges", zero: true,},
       marks: [
         Plot.frame({stroke: "#ccc", anchor: "top"}),
-        Plot.cell(popcorn.filter(d => (d.Criteria != "Total Score")), {y: "Team", x: "Criteria", fill: "Score", inset: .85, tip: true,}),
+        Plot.text(popcorn, {y: "Team",dx: -10, dy: -4, text: (d) => `${d.Team}`, frameAnchor: "left",textAnchor: "end", lineAnchor: "bottom", fontWeight: 500, fontSize: 16, fontFamily: "Roboto"}),
+        Plot.text(popcorn, {y: "Team",dx: -10, dy: 4, text: (d) => `${d.Arena}`, frameAnchor: "left", textAnchor: "end", lineAnchor: "top",fontWeight: 300,fontFamily: "Roboto"}),
+        Plot.cell(popcorn.filter(d => (d.Criteria != "Total Score")), {y: "Team", x: "Criteria", fill: "Score", inset: .85, channels: {Arena: "Arena",},tip: true,}),
         Plot.cell(popcorn.filter(d => (d.Criteria == "Total Score")), {y: "Team", x: "Criteria", fill: "white", inset: .85,}),
-        Plot.text(popcorn, {y: "Team", lineAnchor: "bottom", dx: -310, dy: 20, textAnchor: "end", text: "Arena"}), // Todo: Seems hacky to add Arena this way
-        Plot.text(popcorn.filter(d => (d.Criteria != "Total Score")), {y: "Team", x: "Criteria", text: "Score", fill: "white", fontSize: 18}),
-        Plot.text(popcorn.filter(d => (d.Criteria == "Total Score")), {y: "Team", x: "Criteria", text: "Score", fill: "black", fontSize: 18}),
+        Plot.text(popcorn.filter(d => (d.Criteria != "Total Score")), {y: "Team", x: "Criteria", text: "Score", fill: "white", fontSize: 18, fontWeight: 700}),
+        Plot.text(popcorn.filter(d => (d.Criteria == "Total Score")), {y: "Team", x: "Criteria", text: "Score", fill: "black", fontSize: 18, fontWeight: 700}),
       ]
 
     };
