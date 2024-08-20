@@ -28,7 +28,6 @@
     <div class="nav__list">
       <a href="index.html" class="nav__item">Home</a>
       <a href="blog.html" class="nav__item">Blog</a>
-      <a href="fun.html" class="nav__item">Fun</a>
     </div>
     <div class="nav__list">
       <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
@@ -88,7 +87,7 @@ var options = {
   facet: {
     data: anscombe,
     x: "series",
-    label: "Series",
+    label: null,
   },
   x: {        
     nice: true, // Nice is a convenience function that automatically rounds to the nearest whole number
@@ -102,6 +101,9 @@ var options = {
   },
   marks: [
   Plot.frame(),
+  Plot.axisFx({
+    tickFormat: d => "Series " + d,
+  }),
   Plot.linearRegressionY(anscombe, {x: "x", y: "y", stroke: "hsl(122, 73%, 35%)", ci: 0.95}),
   Plot.dot(anscombe, {x: "x", y: "y", fill: "hsl(122, 73%, 35%)", channels: {name: "x", y: "y"}, tip: true})
   ]
