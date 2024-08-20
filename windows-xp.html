@@ -404,7 +404,6 @@
     <div class="nav__list">
       <a href="index.html" class="nav__item">Home</a>
       <a href="blog.html" class="nav__item">Blog</a>
-      <a href="fun.html" class="nav__item">Fun</a>
     </div>
     <div class="nav__list">
       <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
@@ -524,7 +523,7 @@
     <p>Microsoft invested $1B in marketing<a href="#1b" aria-describedby="footnote-label" id="1b-ref"></a> when it prepared to ship Windows XP. When the operating system was released in 2001, it was many people's first experience with a home computer. Windows XP introduced a suite of features that made using a computer accessible: a standard user interface, easy software updates over the internet,  and faster app switching.</p>
     <h3>OS marketshare, 2020</h3>
     <figure id="os_marketshare"></figure>
-    <figcaption>Data: <a href="https://www.statista.com/statistics/218089/global-market-share-of-windows-7/">Statista</a></figcaption>
+    <figcaption class="right">Data: <a href="https://www.statista.com/statistics/218089/global-market-share-of-windows-7/">Statista</a></figcaption>
     <p>Around the world, 140 million computers still run Microsoft XP, including millions of ATMs. According to GlobalStat's <a href="https://gs.statcounter.com/windows-version-market-share/desktop/worldwide/#monthly-201802-202104">Stat Counter</a> as of May 2021 0.7% of Windows PCs worldwide run Windows XP (4% in Africa). Microsoft officially stopped offering support for the operating system in 2014.</p>
 
     <figure class="xp-loading">
@@ -585,17 +584,10 @@
       }
       ];
 
-      // Dismiss start menu when desktop clicked
-      // $('.screen').click(function(e){
-      //   if($(e.target).hasClass('screen')) {
-      //     $('#start-menu-active').prop('checked', false);
-      //   }
-      // });
-
       // Keep clock updated
       function updateClock() {
         var now = new Date();
-        //$('.start-button').text(now.toLocaleTimeString());
+        // d3.select('.start-button').text(now.toLocaleTimeString());
       }
       var oneMinute = 1000 * 60;
       var now = new Date();
@@ -614,15 +606,21 @@
 
       var os_marketshare = {
         width: width,
+        marginTop: 20,
+        marginLeft: 20,
+        marginRight: 0,
         x:{
           label: "Operating System",
           tickSize: 0,
           labelOffset: 40,
+          tickSize: 0,
         },
         y:{
           label: "↑ Market Share %",
           tickFormat: (d) => `${d}%`,
           grid: true,
+          nice: true,
+          anchor: "left",
         },
         color: {
           scheme: "tableau10",
