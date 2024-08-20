@@ -41,9 +41,9 @@
 
     <p>Gibbon's multi-volume history consisted of three separate sections:
       <ol>
-      <li>Roman Emperor Trajan (r. 98-117 CE) to the fall of the Western Roman Empire</li>
-      <li>Byzantine Emperor Justinian I (r. 527-565) to Holy Roman Emperor Charlemagne (r. 800-814)</li>
-      <li>9th century to 1453: the fall of Constantinople</li>
+        <li>Roman Emperor Trajan (r. 98-117 CE) to the fall of the Western Roman Empire</li>
+        <li>Byzantine Emperor Justinian I (r. 527-565) to Holy Roman Emperor Charlemagne (r. 800-814)</li>
+        <li>9th century to 1453: the fall of Constantinople</li>
       </ol>
     </p>
 
@@ -100,26 +100,25 @@
     var gibbons = {
       title: "Gibbon's Decline and Fall of the Roman Empire",
       width: width,
-      marginTop: 40,
+      marginBottom: 40,
       marginLeft: width/33,
       marginRight: width/100,
-      style:{marginTop: 10},
+      marginTop: 40,
       x: {
         grid: true,
-        label: "Start page  ",
+        label: "Start page number",
         interval: 1,
-        labelOffset: 40,
         nice: true,
         clamp: true,
       },
       y:{
         label: "Year",
-        // tickFormat: "%Y",
         nice: true,
         clamp: true,
       },
       marks: [
-        Plot.axisY({anchor: "left", labelAnchor: "top"}),
+        Plot.axisY({anchor: "left"}),
+        Plot.axisX({anchor: "bottom"}),
         Plot.barY(gibbonsData, {
           y1: "startDate",
           y2: "endDate",
@@ -168,12 +167,16 @@
           dy: -24,
           title: (d) => [d.id].join("\n\n")
         }),
-      ]
+        ]
     };
 
     var civ = {
-      title: "Roman Emperors",
-      marginLeft: 30,
+      title: "All Roman Emperors",
+      width: width,
+      marginBottom: 40,
+      marginLeft: width/33,
+      marginRight: width/100,
+      marginTop: 40,
       style:{fontSize: size},
       axis: null,
       color: {
@@ -205,7 +208,7 @@
           textAnchor: "end",
           dx: -3
         }),
-      ]
+        ]
     }
 
     var deaths = {
