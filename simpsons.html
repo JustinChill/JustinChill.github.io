@@ -11,10 +11,62 @@
   <meta name="author" content="Justin Chill">
 
   <style type="text/css">
+    .hero {
+      position: relative;
+      background: #fac5cb center/cover no-repeat;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.1); /* Black color with 10% opacity */
+      z-index: 1; /* Ensure the overlay is behind the content */
+    }
+
+    .hero-content {
+      text-align: center;
+      color: #fff;
+      background-blend-mode: multiply;
+      z-index: 2; /* Ensure the content is on top of the overlay */
+    }
+
+    .hero-title {
+      color: #fff;
+      font-size: 3em;
+      margin-bottom: 20px;
+    }
+
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-subtitle {
+      color: #fff;
+      font-size: 1.5em;
+      margin-bottom: 30px;
+    }
+    .hero-title,.hero-subtitle{
+      animation: fadeInUp 1s ease-in-out;
+    }
     body, article, footer {
-      background: #fac5cb;
-      padding-top: 2rem;
+/*      background: #fac5cb;*/
+/*      padding-top: 2rem;*/
     }
     article{
       margin-top: 1rem;
@@ -529,26 +581,26 @@
   </nav>
 
   <main role="main">
-    <article>
-      <figure class="padding2">
-        <div id="painting">
-          <div class="nail"></div>
-          <div class="plaque">Scene From Moby Dick</div>
-          <div class="background"></div>
-          <div class="boat">
-            <div class="sail-left"></div>
-            <div class="sail-right"></div>
+    <header class="hero">
+      <div class="hero-content">
+        <figure class="padding2">
+          <div id="painting">
+            <div class="nail"></div>
+            <div class="plaque">Scene From Moby Dick</div>
+            <div class="background"></div>
+            <div class="boat">
+              <div class="sail-left"></div>
+              <div class="sail-right"></div>
+            </div>
+            <div class="clouds"></div>
           </div>
-          <div class="clouds"></div>
-        </div>
-      </figure>
+        </figure>
 
-      <div class="article-hero">
-        <h2 class="article-category"></h2>
-        <h1 class="article-title">The Simpsons by the Data</h1>
-        <h2 class="article-subtitle">Insert couch gag here</h2>
-      </div> 
-      
+        <h1 class="hero-title">The Simpsons by the data</h1>
+        <p class="hero-subtitle">Insert couch gag here</p>
+      </div>
+    </header>
+    <article>      
       <article>
         <p>The Simpsons needs no introduction. At 34 seasons and counting it is the longest-running scripted series in the history of American primetime television<a href="#longrunning" aria-describedby="footnote-label" id="longrunning-ref"></a>. If Bart Simpson aged in real time with the show, <a href="https://screenrant.com/simpsons-characters-real-life-age-how-old/#:~:text=Bart%20Simpson's%20Age,years%2Dold%20as%20of%202020.">he would now be in his 40s</a>. </p> 
         <p>As a fan of the show, I present here a few short analyses about Springfield, from the show’s dialogue to its TV ratings. All code used for this post is available on <a href="https://github.com/JustinChill/JustinChill.github.io/blob/main/simpsons.html">GitHub</a>.</p>
