@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Cannabis Legality by US State</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="The voyage of Charles Darwin aboard HMS Beagle">
+  <meta name="author" content="Justin Chill">
+  <!-- OpenGraph tags -->
+  <meta name="keywords" content="marijuana, legal, state">
+  <meta name="robots" content="all">
+  <meta content="DISAGlobalSolutions" property="fb:profile_id">
+  <meta content="en_US" property="og:locale">
+  <meta content="DISA" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="https://disa.com/marijuana-legality-by-state" property="og:url"> <!-- Todo: change img -->
+  <meta content="Cannabis Legality by US State - Updated August 21, 2024" property="og:title">
+  <meta content="Interactive map on cannabis legalization, medical use, and recreational use by US state." property="og:description">
+  <meta content="https://disa.com/uploads/drug-n-alcohol/_1200x630_crop_center-center_82_none/Marijuana-legality.jpg?mtime=1677001111" property="og:image">
+  <meta content="1200" property="og:image:width">
+  <meta content="630" property="og:image:height">
+  <meta content="marijuana types" property="og:image:alt">
+  <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- <meta name="twitter:site" content="@DISAGlobal"> -->
+  <!-- <meta name="twitter:creator" content="@DISAGlobal"> -->
+  <meta name="twitter:title" content="Cannabis Legality by US State - Updated August 21, 2024">
+  <meta name="twitter:description" content="Interactive map on cannabis legalization, medical use, and recreational use by US state.">
+  <meta name="twitter:image" content="https://disa.com/uploads/drug-n-alcohol/_1200x630_crop_center-center_82_none/Marijuana-legality.jpg?mtime=1677001111"> <!-- Todo: change img -->
+  <meta name="twitter:image:width" content="800">
+  <meta name="twitter:image:height" content="418">
+  <meta name="twitter:image:alt" content="marijuana types">
+  <link type="text/plain" href="humans.txt" rel="author">
+
+  <link rel="stylesheet" href="style.css" />
+
+  <style type="text/css">
+
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+  
+  <main role="main">
+    <article>
+     <div class="article-hero">
+      <h2 class="article-category">Post</h2>
+      <h1 class="article-title">Counter Culture</h1>
+      <h2 class="article-subtitle">Cannabis laws by US state</h2>
+    </div>
+
+    <figure id="map"></figure>
+    <figcaption>Data: <a href="https://en.wikipedia.org/wiki/Legality_of_cannabis_by_U.S._jurisdiction">Wikipedia</a>.</figcaption>
+
+    <p>Marijuana is illegal under federal law, but most Americans now live in a state that has legalized the drug<a href="#pew" aria-describedby="footnote-label" id="pew-ref"></a>.</p>
+    <ul>
+    <li><strong>54% of Americans live in a state where the recreational use of marijuana is legal</strong> <strong>–</strong> just a dozen years after <a href="https://money.cnn.com/2012/11/07/news/economy/marijuana-legalization-washington-colorado/index.html">Colorado and Washington became the first states to allow the drug for recreational purposes</a>.</li>
+
+    <li><strong>74% of Americans live in a state where marijuana is legal for either recreational or medical use.</strong> <a href="https://www.latimes.com/archives/la-xpm-1996-11-06-mn-62740-story.html">California was the first state to legalize medical marijuana</a> in 1996.</li>
+
+    <li><strong>79% of Americans live in a county with at least one cannabis dispensary.</strong></li>
+
+    <li><strong>There are nearly 15,000 cannabis dispensaries in the United States.</strong> Dispensaries (businesses that sell cannabis products) are common on the West Coast and Northeast, but also in interior states like Michigan, Oklahoma and Colorado.</li>
+
+    <li><strong>California has far more dispensaries than any state:</strong> 3,659 at the time of this analysis, more than double the amount in the second-highest ranking state. A quarter of all marijuana dispensaries in the U.S. are in California, and nearly all Californians (99.5%) have a dispensary in their county. Los Angeles County alone has more dispensaries (1,481) than any state other than California itself.</li>
+
+    <li><strong>Oklahoma has the most marijuana dispensaries <em>per capita </em>of any state: </strong>36 dispensaries for every 100,000 residents.</li>
+    </ul>
+
+  </article>
+</main>
+<footer>
+  <h2 id="footnote-label">Footnotes</h2>
+  <ol>
+    <li id="pew"><a href="https://www.pewresearch.org/short-reads/2024/02/29/most-americans-now-live-in-a-legal-marijuana-state-and-most-have-at-least-one-dispensary-in-their-county/">Pew Researc Center, <i>Most Americans now live in a legal marijuana state – and most have at least one dispensary in their county</i> </a>.<a href="#pew-ref" aria-label="Back to content">↩</a></li>
+  </ol>
+
+  <div>
+    <p>Justin Chill © 2024. Thanks for reading!</p>
+    <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="icon">Source code and feedback</a></span>    
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/d3"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/topojson@3.0.2/dist/topojson.min.js"></script>
+
+<script type="text/javascript">
+  var element = d3.select('figure').node();
+  var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+  var size = 12;
+  
+  // Use Promises to async request data
+  var promises = [d3.json("data/geo/us-counties-10m.json"),d3.csv("data/state-weedlaws.csv",d3.autoType),d3.csv("data/unemployment201907.csv",d3.autoType)];
+
+  myDataPromises = Promise.all(promises);
+
+  // After data is successfully fetched, generate viz
+  myDataPromises.then(function(data) {
+    // Define the data. There's gotta be a better way to do this:
+    var us = data[0];
+    var laws = data[1];
+    var unemployment = data[2];
+
+    var states = topojson.feature(us, us.objects.states);
+    var valuemap = new Map(unemployment.map(d => [d.name, d.rate]));
+    var lawmap = new Map(laws.map(d => [d.State, d.LegalStatus]));
+
+    // console.log(valuemap);
+    // console.log(lawmap);
+
+    var map = {
+      width: width,
+      projection: "albers-usa",
+       color: {scheme: "pastel1", reverse:false, legend: true, unknown: "#ddd",},
+       marks: [
+         Plot.geo(states, Plot.centroid({
+          filter: (d) => d !== undefined, // Todo this isn't filtering out undefined values 
+            fill: d => lawmap.get(d.properties.name),
+            title: d => `${d.properties.name}\nStatus: ${lawmap.get(d.properties.name)}`,
+           tip: true
+         })),
+         Plot.geo(topojson.mesh(us, us.objects.states, (a, b) => a !== b), {stroke: "white"})
+      ]
+    };
+    document.getElementById("map").appendChild(Plot.plot(map));
+  });
+</script>
+</body>
+</html>
