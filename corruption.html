@@ -10,12 +10,9 @@
   <meta name="author" content="Justin Chill">
 
   <style type="text/css">
-  a img{
-    width: 100%;
-  }
-  figcaption{
-    text-align: right;
-  }
+    span[class*="swatch"]{
+      font-size: calc(.6rem + .25vw);
+    }
 </style>
 </head>
 <body>
@@ -39,7 +36,6 @@
       </div>
 
     <h3>Corruption and human development</h3>
-    <figcaption id="corruption_legend"></figcaption>
     <figure id="corruption"></figure>
     <figcaption>Data: <a href="https://www.economist.com/graphic-detail/2011/12/02/corrosive-corruption">The Economist</a></figcaption>
 
@@ -74,6 +70,8 @@
                "United States",  "Britain", "Barbados", "Norway", 
                "New Zealand", "Singapore","Russia","Brazil","Spain","Germany", "Japan","China","South Africa"];
 
+
+
   // Use Promises to async request data
   var promises = [d3.csv("https://raw.githubusercontent.com/alokkshukla/RGraphics/master/dataSets/EconomistData.csv",d3.autoType)];
   // var promises = [d3.csv("data/Corruption_Perceptions_Index.csv", d3.autoType)];
@@ -86,24 +84,26 @@
     var data = data[0];
 
     var corruption = {
-      inset: 10,
+      inset: 6,
       width: width,
-      // marginLeft: width/33,
-      // marginRight: width/100,
-      marginTop: 0,
+      marginLeft: width/14,
+      marginRight: width/100,
+      marginTop: 10,
+      marginBottom: 40,
       style:{fontSize: size},
       x: {
         label: "Corruption Perceptions Index, 2011 (10 = least corrupt)",
         labelAnchor: "center",
-        labelOffset: 40,
+        // labelOffset: 40,
+        anchor: "bottom",
         nice: true,
       },
       y: {
         label: "Human Development Index (1 = best)",
         tickSize: 0,
-        anchor: "left",
-        labelAnchor: "center",
-        labelOffset: 50,
+        anchor: "left", labelAnchor: "center",
+        // labelAnchor: "center",
+        // labelOffset: 10,
         grid: true,
         domain: [.2, 1],
       },
@@ -152,7 +152,7 @@
         Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Sudan"), {
           x: "CPI",
           y: "HDI",          
-          text: d => `${d.Country}⤵`,
+          text: d => `${d.Country}`,
           dy: -12,
           dx: -22,
         }),
