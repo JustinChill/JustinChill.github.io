@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Flight Paths</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Flight paths">
+  <meta name="author" content="Justin Chill">
+  <!-- OpenGraph tags -->
+  <meta name="keywords" content="flights, data viz, map">
+  <meta name="robots" content="all">
+  <meta content="DISAGlobalSolutions" property="fb:profile_id">
+  <meta content="en_US" property="og:locale">
+  <meta content="DISA" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="https://justinchill.com/flights.html" property="og:url"> 
+  <meta content="World flight paths, 2014" property="og:title">
+  <meta content="World flight paths, 2014" property="og:description">
+  <!-- Todo: change img -->
+  <!-- <meta content="https://disa.com/uploads/drug-n-alcohol/_1200x630_crop_center-center_82_none/Marijuana-legality.jpg?mtime=1677001111" property="og:image"> 
+  <meta content="1200" property="og:image:width">
+  <meta content="630" property="og:image:height">
+  <meta content="marijuana types" property="og:image:alt"> -->
+  <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- <meta name="twitter:site" content="@DISAGlobal"> -->
+  <!-- <meta name="twitter:creator" content="@DISAGlobal"> -->
+  <meta name="twitter:title" content="World flight paths, 2014">
+  <meta name="twitter:description" content="World flight paths, 2014">
+  <!-- Todo: change img -->
+<!--   <meta name="twitter:image" content="https://disa.com/uploads/drug-n-alcohol/_1200x630_crop_center-center_82_none/Marijuana-legality.jpg?mtime=1677001111"> 
+  <meta name="twitter:image:width" content="800">
+  <meta name="twitter:image:height" content="418">
+  <meta name="twitter:image:alt" content="marijuana types">
+ -->  <link type="text/plain" href="humans.txt" rel="author">
+
+  <link rel="stylesheet" href="style.css" />
+
+  <style type="text/css">
+
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+  
+  <main role="main">
+    <article>
+     <div class="article-hero">
+      <h2 class="article-category">Post</h2>
+      <h1 class="article-title">Isle seat</h1>
+      <h2 class="article-subtitle">World flight paths, 2014</h2>
+    </div>
+
+    <figure id="map"></figure>
+    <figcaption>Data: <a href="https://en.wikipedia.org/wiki/Legality_of_cannabis_by_U.S._jurisdiction">Wikipedia</a>.</figcaption>
+
+    <p>Recreation in Observable Plot of this original notebook by <a href="https://observablehq.com/@michaelbyrneau/flight-paths">Michael Byrne</a> showing all major air passenger routes as of 2014. Data sourced from OpenFlights.</p>
+
+  </article>
+</main>
+<footer>
+  <h2 id="footnote-label">Footnotes</h2>
+  <ol>
+    <li id="pew"><a href="https://www.pewresearch.org/short-reads/2024/02/29/most-americans-now-live-in-a-legal-marijuana-state-and-most-have-at-least-one-dispensary-in-their-county/">Pew Researc Center, <i>Most Americans now live in a legal marijuana state – and most have at least one dispensary in their county</i> </a>.<a href="#pew-ref" aria-label="Back to content">↩</a></li>
+  </ol>
+
+  <div>
+    <p>Justin Chill © 2024. Thanks for reading!</p>
+    <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="icon">Source code and feedback</a></span>    
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/d3"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/topojson@3.0.2/dist/topojson.min.js"></script>
+
+<script type="text/javascript">
+  var element = d3.select('figure').node();
+  var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+  var size = 12;
+
+  // From Fil - https://observablehq.com/@fil/flight-paths
+  function link(data, options) {
+      const link = Plot.link(data, options);
+      link.project = () => {}; // disable projection, we need raw coordinates for geoPath
+      link.render = function (
+        index,
+        scales,
+        { x1: X1, y1: Y1, x2: X2, y2: Y2 },
+        { width, height, marginLeft, marginRight, marginTop, marginBottom },
+        { projection }
+      ) {
+        width -= marginLeft + marginRight;
+        height -= marginTop + marginBottom;
+        const context = DOM.context2d(width, height);
+        context.translate(-marginLeft, -marginTop);
+        const path = d3.geoPath().projection(projection).context(context);
+        context.strokeStyle = this.stroke;
+        context.lineWidth = this.strokeWidth;
+        context.globalCompositeOperation = this.mixBlendMode;
+        context.globalAlpha = this.opacity;
+        for (const i of index) {
+          context.beginPath();
+          path({
+            type: "LineString",
+            coordinates: [
+              [X1[i], Y1[i]],
+              [X2[i], Y2[i]]
+            ]
+          });
+          context.stroke();
+        }
+        return d3
+          .create("svg:image")
+          .attr("width", width)
+          .attr("height", height)
+          .attr("x", marginLeft)
+          .attr("y", marginTop)
+          .attr("xlink:href", context.canvas.toDataURL())
+          .node();
+      };
+      return link;
+    };
+  
+  // Use Promises to async request data
+  var promises = [d3.csv("https://gist.githubusercontent.com/MichaelByrneAU/87383e163244055d641d4dcd58a5d24d/raw/d17299dcba8c9e18b4e1f4885f90a45618b55599/flight_paths_2014.csv", function(d) {
+      return [
+          [+d.source_longitude, +d.source_latitude],
+              [+d.destination_longitude, +d.destination_latitude]
+        ]}), d3.json("https://unpkg.com/world-atlas@1/world/110m.json")];
+
+  myDataPromises = Promise.all(promises);
+
+  // After data is successfully fetched, generate viz
+  myDataPromises.then(function(data) {
+    // Define the data. There's gotta be a better way to do this:
+    var routeData = data[0];
+    var world = data[1];
+    var land = topojson.feature(world, world.objects.land);
+
+    var map = {
+      width: width,
+      projection: "equal-earth",
+      marks: [
+        Plot.sphere({ fill: "#111" }),
+        Plot.geo(land, {fill: "#262626"}),
+        link(routeData, {
+          x1: d => d[0][0],
+          y1: d => d[0][1],
+          x2: d => d[1][0],
+          y2: d => d[1][1],
+          mixBlendMode: "screen",
+          opacity: 0.15,
+          strokeWidth: 1.25,
+          stroke: "#8014b7"
+        })
+      ]
+    };
+
+    document.getElementById("map").appendChild(Plot.plot(map));
+  });
+</script>
+</body>
+</html>

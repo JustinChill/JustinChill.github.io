@@ -41,7 +41,7 @@
       width: .375em;
       height: .375em;
       top: .6875em;
-      left: .25em;
+      left: 0em;
     }
     article > h2{
       margin-top: 3rem;
@@ -238,8 +238,8 @@
       <figcaption>Market Data: <a href="https://www.wsj.com/market-data">Wall Street Journal</a></figcaption>
       <p>A baseline chart uses a reference point, which becomes the baseline, to compare all the other categories to. In business, the success of a project or product is often measured against a <strong>baseline</strong> number for costs, sales, or other variables. A project may exceed a baseline number or fail to meet it.</p>
       <h2>Beeswarm </h2>
-      <!-- <figure id="beeswarm"></figure> -->
-      <img src="https://flowingdata.com/wp-content/uploads/2021/06/hospital-billing-1536x1127.png" loading="lazy">
+      <figure id="beeswarm"></figure>
+      <!-- <img src="https://flowingdata.com/wp-content/uploads/2021/06/hospital-billing-1536x1127.png" loading="lazy"> -->
       <p>Beeswarm plots are a fun, visually pleasing alternative to histograms that can be used when data is sufficiently small and you want to plot every point. A beeswarm chart is a one-dimensional chart that shows all the information on a single-axis (usually the X axis). It is similar to a strip plot, except that would-be overlapping points are separated such that each is visible. </p>
       <h2>Box plot</h2>
       <h3>Michaelson-Morley Speed of Light Data</h3>
@@ -807,6 +807,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
     style:{
       fontSize: size,
       backgroundColor: backgroundColor,
+      padding: 10,
     },
     color: {
       range: ["#969696", "#4e79a7"]
@@ -1235,29 +1236,37 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
 
     var beeswarm = {
       width: width,
+      marginTop: 20,
+      marginLeft: width/33,
+      marginRight: width/100,
+      marginBottom: 10,
       style:{
         fontSize: size,
         backgroundColor: 'rgba(242,245,248,1)',
+        padding: 10
       },
-      height: 300,
       color: {
-        legend: true,
+        legend: false,
       },
       x: {
+        zero: true,
+        tickSize: 0,
+        label: null,
+      },
+      y: {
+        anchor: "left",
+        label: "mpg",
+        grid: true,
         round: true,
         nice: true,
-        zero: true,
-        grid: true,
-        ticks: 6,
-        tickSize: 0,
-        labelOffset: -10,
-        label: "Highway mileage"
+        ticks: 4,
       },
       marks: [
-        Plot.dot(mpg, Plot.dodgeY("middle", {
-          x: "hwy",
-          fill: d => d.manufacturer.replace(/^[a-z]/i, str => str.toUpperCase()), // Capitalize string: https://stackoverflow.com/a/53203953
-          tip: true,
+        Plot.dot(mpg, Plot.dodgeX("middle", {
+          fx: "class", 
+          y: "hwy", 
+          fill: d => d.manufacturer.replace(/^[a-z]/i, str => str.toUpperCase()),
+          tip: true
         })),
         ],
     };
@@ -1370,7 +1379,8 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
       marginRight: width/100,
       x: {
         round: true,
-        nice: true,
+        ticks: 4
+        // nice: true,
       },
       color: {
         type: "diverging",
@@ -1390,7 +1400,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
 
     var stocks_baseline = {
       width: width,
-      style:{fontSize: size, backgroundColor: backgroundColor},
+      style:{fontSize: size, backgroundColor: backgroundColor, padding: 10},
       margin: 40,
       inset: 5,
       color: {
@@ -1658,9 +1668,9 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
           x: "longitude", 
           y: "latitude", 
           r: 4, fill: (d) => d.date.getUTCFullYear(),
-          opacity: .85,
+          opacity: .55,
           tip: {
-            opacity: 0.8,
+            opacity: 0.85,
             textPadding: 10,
           },
         }),
@@ -2311,7 +2321,7 @@ var drug_scatter = {
 
 
     // From Fil: https://observablehq.com/@fil/waffle-chart
-      var waffle = {
+      var waffle = { // Todo replace with waffle mark 
         width: width,
         style:{fontSize: size},
         marginLeft: 0,
@@ -2392,7 +2402,7 @@ var drug_scatter = {
       document.getElementById("anomaly_legend").appendChild(Plot.legend(anomaly_legend));
       document.getElementById("anomaly_legend1").appendChild(Plot.legend(anomaly_legend));
       document.getElementById("apple_area").appendChild(Plot.plot (apple_area));
-      // document.getElementById("beeswarm").appendChild(Plot.plot (beeswarm));
+      document.getElementById("beeswarm").appendChild(Plot.plot (beeswarm));
       document.getElementById("bls_bar").appendChild(Plot.plot (bls_bar));
       document.getElementById("bls_line").appendChild(Plot.plot (bls_line));
       document.getElementById("bls_stacked").appendChild(Plot.plot (bls_stacked));
