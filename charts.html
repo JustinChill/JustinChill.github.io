@@ -337,7 +337,7 @@
   <p>Glyph charts are a common form of visual design where a data set is depicted by a collection of visual objects referred to as <em>glyphs</em>. The design of glyphs can make use of many different visual channels such as shape, colour, texture, size, orientation, aspect ratio or curvature<a href="#glyph" aria-describedby="footnote-label" id="glyph-ref"></a>. This enables the depiction of multi-dimensional data attributes, such as time series data. Meanwhile, glyphs are normally recognisable individually, offering a means of visual fusion in multi-field visualization. 🤓</p>
   <h2>Grid map</h2>
   <h3>Percent change in population from 2010 to 2019</h3>
-      <figure id="gridmap"></figure>
+  <figure id="gridmap"></figure>
   <!-- <img src="imgs/gridmap.png" loading="lazy"> -->
   <figcaption></figcaption> <!-- Recreation: https://observablehq.com/@zanarmstrong/us-grid-map-and-observable-plot -->
   <p>Instead of using geographic boundaries, same-size cells are used to represent areas to provide equal visual attention to all.</p>
@@ -1858,12 +1858,12 @@ var horizon_chart = {
     d3.range(bands).map((i) => Plot.areaY(industries, {x: "date", y: (d) => d.unemployed - i * step, fill: i, clip: true})),
     Plot.text(industries, Plot.selectFirst({text: "industry", frameAnchor: "top-left", dx: 6, dy: 6})),
     Plot.frame()
-  ]
+    ]
 };
 
 var bls_line = {
   width: width,
-  marginLeft: width/100,
+  marginLeft: width/33,
   marginRight: width/10,
   marginTop: 20,
   style:{fontSize: size},
@@ -1871,11 +1871,11 @@ var bls_line = {
     label: "Unemployed (thousands)",
     nice: true,
     clamp: true,
-    ticks: 8,
-    anchor: "left"
+    ticks: 4,
+    anchor: "left",    
   },
   x: {
-    nice: true,
+    nice: false,
     clamp: true,
   },
   marks: [
@@ -1951,28 +1951,25 @@ var bls_bar = {
     ]
 };
 
-  var statemap = new Map(stategrid.map(d => [d.name, d]));
-  var states = statepop
-  .filter((d) => statemap.has(d.State))
-  .map((d) => ({ ...d, ...statemap.get(d.State) }));
-  // function formatChange = ((f) => (d) => f(change(d) - 1))(d3.format("+.0%"));
+var statemap = new Map(stategrid.map(d => [d.name, d]));
+var states = statepop.filter((d) => statemap.has(d.State)).map((d) => ({ ...d, ...statemap.get(d.State) }));
 
-  change = new function(d){
-    return d => (d["2019"] / d["2010"])
-  };
-  formatChange = new function(d){
-    return ((f) => (d) => f(change(d) - 1))(d3.format("+.0%"));
-  };
-  colorContrast = ({ luminance = 60, ...options }) =>
-  Plot.initializer(options, (data, facets, channels, scales) => {
-    const contrast = (color) =>
-    d3.hcl(color).l > luminance ? "black" : "white";
-    return {
-      channels: {
-        fill: {
-          ...channels.fill,
-          scale: undefined,
-          value:
+change = new function(d){
+  return d => (d["2019"] / d["2010"])
+};
+formatChange = new function(d){
+  return ((f) => (d) => f(change(d) - 1))(d3.format("+.0%"));
+};
+colorContrast = ({ luminance = 60, ...options }) =>
+Plot.initializer(options, (data, facets, channels, scales) => {
+  const contrast = (color) =>
+  d3.hcl(color).l > luminance ? "black" : "white";
+  return {
+    channels: {
+      fill: {
+        ...channels.fill,
+        scale: undefined,
+        value:
               channels.fill == null // when options.fill is a constant color such as "red"
               || scales.color == null // when the scale isn't yet available (e.g. hexbin below)
               ? Array.from(data).fill(contrast(options.fill))
@@ -1982,12 +1979,12 @@ var bls_bar = {
         };
       })
 
-  var gridmap = {
-    width: width,
-    style:{fontSize: size},
-    aspectRatio: 1,
-    axis: null,
-    color: {
+var gridmap = {
+  width: width,
+  style:{fontSize: size},
+  aspectRatio: 1,
+  axis: null,
+  color: {
       type: "diverging-log", // diverging-log scales pivot at 1 by default
       scheme: "piyg",
     },
@@ -2019,17 +2016,17 @@ var bls_bar = {
           fontSize: 12
         })
         ),
-    ]
+      ]
   };
 
 // Drug scatter plot 
-var drug_scatter = {     
-  width: width,
-  marginLeft: width/33,
-  marginRight: width/100,
-  style:{fontSize: size},
-  grid: true,
-  y: {        
+  var drug_scatter = {     
+    width: width,
+    marginLeft: width/33,
+    marginRight: width/100,
+    style:{fontSize: size},
+    grid: true,
+    y: {        
         nice: true, // Nice is a convenience function that automatically rounds to the nearest whole number
         ticks: 4,
         tickSize: 0,

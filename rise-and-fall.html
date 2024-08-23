@@ -119,20 +119,6 @@
       marks: [
         Plot.axisY({anchor: "left"}),
         Plot.axisX({anchor: "bottom"}),
-        Plot.barY(gibbonsData, {
-          y1: "startDate",
-          y2: "endDate",
-          x: "startPage",
-          fill: "steelblue",
-          sort: {x: "x"}
-        }),
-        Plot.tip(gibbonsData, Plot.pointer({
-          y1: "startDate",
-          y2: "endDate",
-          x: "startPage",
-          channels: {id: "id", endPage: "endPage"},
-          lineWidth: 80,
-        })),
         Plot.tip(gibbonsData, {
           y1: "startDate",
           y2: "endDate",
@@ -166,6 +152,15 @@
           anchor: "bottom",
           dy: -24,
           title: (d) => [d.id].join("\n\n")
+        }),
+        Plot.barY(gibbonsData, {
+          y1: "startDate",
+          y2: "endDate",
+          x: "startPage",
+          fill: "steelblue",
+          channels: {id: "id", endPage: "endPage"},
+          tip: true,
+          sort: {x: "x"}
         }),
         ]
     };

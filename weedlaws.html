@@ -34,8 +34,13 @@
   <link type="text/plain" href="humans.txt" rel="author">
 
   <link rel="stylesheet" href="style.css" />
-
   <style type="text/css">
+    .article-subtitle{
+      margin-bottom: 1rem;
+    }
+    [class*="-swatches-wrap"]{
+      justify-content: center;
+    }
 
   </style>
 </head>
@@ -55,28 +60,25 @@
     <article>
      <div class="article-hero">
       <h2 class="article-category">Post</h2>
-      <h1 class="article-title">Counter Culture</h1>
-      <h2 class="article-subtitle">Cannabis laws by US state</h2>
+      <h1 class="article-title">Altered States</h1>
+      <h2 class="article-subtitle">United States, cannabis legality</h2>
     </div>
 
-    <figure id="map"></figure>
+    <figure id="map" class="mid-size"></figure>
     <figcaption>Data: <a href="https://en.wikipedia.org/wiki/Legality_of_cannabis_by_U.S._jurisdiction">Wikipedia</a>.</figcaption>
 
-    <p>Marijuana is illegal under federal law, but most Americans now live in a state that has legalized the drug<a href="#pew" aria-describedby="footnote-label" id="pew-ref"></a>.</p>
+    <p>Marijuana is illegal under federal law, but most Americans now live in a state that has legalized the drug<a href="#pew" aria-describedby="footnote-label" id="pew-ref"></a>. The legal cannabis industry in America — or worldwide — is barely a decade old. At the start of 2014 adults could not legally purchase weed simply to get high, rather than to ease pain, anywhere in America. Recreational use is now legal in 24 out of 50 states, home to just over half of Americans. Medical use is legal in 38. </p>
     <ul>
-    <li><strong>54% of Americans live in a state where the recreational use of marijuana is legal</strong> <strong>–</strong> just a dozen years after <a href="https://money.cnn.com/2012/11/07/news/economy/marijuana-legalization-washington-colorado/index.html">Colorado and Washington became the first states to allow the drug for recreational purposes</a>.</li>
-
-    <li><strong>74% of Americans live in a state where marijuana is legal for either recreational or medical use.</strong> <a href="https://www.latimes.com/archives/la-xpm-1996-11-06-mn-62740-story.html">California was the first state to legalize medical marijuana</a> in 1996.</li>
-
-    <li><strong>79% of Americans live in a county with at least one cannabis dispensary.</strong></li>
-
-    <li><strong>There are nearly 15,000 cannabis dispensaries in the United States.</strong> Dispensaries (businesses that sell cannabis products) are common on the West Coast and Northeast, but also in interior states like Michigan, Oklahoma and Colorado.</li>
-
-    <li><strong>California has far more dispensaries than any state:</strong> 3,659 at the time of this analysis, more than double the amount in the second-highest ranking state. A quarter of all marijuana dispensaries in the U.S. are in California, and nearly all Californians (99.5%) have a dispensary in their county. Los Angeles County alone has more dispensaries (1,481) than any state other than California itself.</li>
-
-    <li><strong>Oklahoma has the most marijuana dispensaries <em>per capita </em>of any state: </strong>36 dispensaries for every 100,000 residents.</li>
+      <li><strong>54% of Americans live in a state where the recreational use of marijuana is legal</strong> <strong>–</strong> just a dozen years after <a href="https://money.cnn.com/2012/11/07/news/economy/marijuana-legalization-washington-colorado/index.html">Colorado and Washington became the first states to allow the drug for recreational purposes</a>.</li>
+      <li><strong>74% of Americans live in a state where marijuana is legal for either recreational or medical use.</strong> <a href="https://www.latimes.com/archives/la-xpm-1996-11-06-mn-62740-story.html">California was the first state to legalize medical marijuana</a> in 1996.</li>
+      <li><strong>79% of Americans live in a county with at least one cannabis dispensary.</strong></li>
+      <li><strong>There are nearly 15,000 cannabis dispensaries in the United States.</strong> Dispensaries (businesses that sell cannabis products) are common on the West Coast and Northeast, but also in interior states like Michigan, Oklahoma and Colorado.</li>
+      <li><strong>California has far more dispensaries than any state:</strong> 3,659 at the time of this analysis, more than double the amount in the second-highest ranking state. A quarter of all marijuana dispensaries in the U.S. are in California, and nearly all Californians (99.5%) have a dispensary in their county. Los Angeles County alone has more dispensaries (1,481) than any state other than California itself.</li>
+      <li><strong>Oklahoma has the most marijuana dispensaries <em>per capita </em>of any state: </strong>36 dispensaries for every 100,000 residents.</li>
     </ul>
 
+    <figure id="stacks"></figure>
+    <figcaption>Data: <a href="https://en.wikipedia.org/wiki/Legality_of_cannabis_by_U.S._jurisdiction">Wikipedia</a>.</figcaption>
   </article>
 </main>
 <footer>
@@ -98,9 +100,11 @@
   var element = d3.select('figure').node();
   var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
   var size = 12;
+  var scheme = "pastel1";
   
   // Use Promises to async request data
-  var promises = [d3.json("data/geo/us-counties-10m.json"),d3.csv("data/state-weedlaws.csv",d3.autoType),d3.csv("data/unemployment201907.csv",d3.autoType)];
+  // Todo remove "State laws" from .csv
+  var promises = [d3.json("data/geo/us-counties-10m.json"),d3.csv("data/state-weedlaws.csv",d3.autoType),d3.csv("data/geo/us-state-grid.csv",d3.autoType)];
 
   myDataPromises = Promise.all(promises);
 
@@ -109,30 +113,56 @@
     // Define the data. There's gotta be a better way to do this:
     var us = data[0];
     var laws = data[1];
-    var unemployment = data[2];
+    var stategrid = data[2];
 
     var states = topojson.feature(us, us.objects.states);
-    var valuemap = new Map(unemployment.map(d => [d.name, d.rate]));
     var lawmap = new Map(laws.map(d => [d.State, d.LegalStatus]));
-
-    // console.log(valuemap);
-    // console.log(lawmap);
+    var stateabbr = new Map(stategrid.map(d => [d.name, d.key]));
 
     var map = {
       width: width,
       projection: "albers-usa",
-       color: {scheme: "pastel1", reverse:false, legend: true, unknown: "#ddd",},
-       marks: [
-         Plot.geo(states, Plot.centroid({
-          filter: (d) => d !== undefined, // Todo this isn't filtering out undefined  
-            fill: d => lawmap.get(d.properties.name),
-            title: d => `${d.properties.name}\nStatus: ${lawmap.get(d.properties.name)}`,
-           tip: true
-         })),
-         Plot.geo(topojson.mesh(us, us.objects.states, (a, b) => a !== b), {stroke: "white"})
-      ]
+      color: {scheme: scheme, reverse:false, legend: true, },
+      marks: [
+       Plot.geo(states, Plot.centroid({
+        // Todo this isn't filtering out undefined  
+        // filter: d => laws.find((h) => h == d.properties.State) !== undefined,
+        // filter: d => lawmap.get(d.properties.name) !== undefined, 
+        fill: d => lawmap.get(d.properties.name),
+        title: d => `${d.properties.name}\nStatus: ${lawmap.get(d.properties.name)}`,
+        tip: true
+      })),
+       Plot.geo(topojson.mesh(us, us.objects.states, (a, b) => a !== b), {stroke: "white"}),
+       Plot.text(
+         states.features,
+         Plot.centroid({
+           text: (d) => stateabbr.get(d.properties.name),
+           textAnchor: "middle",
+           stroke: "white",
+           fill: "black"
+         })
+         ),
+       ]
     };
+
+    var stacks = {
+      width: width,
+      style:{fontSize: size},
+      marginLeft: 60,
+      marginTop: 20,
+      aspectRatio: 30,
+      x: {label: null},
+      y: {label: null, axis: null},
+      color: {legend: true, scheme: scheme},
+      marks: [
+        Plot.ruleY([0], {stroke: "#ccc", strokeLinecap: "round", strokeWidth: 2}),
+        Plot.waffleY(laws, Plot.groupX({y: "count"}, {x: "LegalStatus", fill: "LegalStatus"})),
+        Plot.axisX({anchor: "bottom", lineWidth: 10, tickSize: 0, fontSize: 20}),
+        ]
+    };
+
     document.getElementById("map").appendChild(Plot.plot(map));
+    document.getElementById("stacks").appendChild(Plot.plot(stacks));
   });
 </script>
 </body>
