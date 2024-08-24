@@ -84,7 +84,7 @@
 <footer>
   <h2 id="footnote-label">Footnotes</h2>
   <ol>
-    <li id="pew"><a href="https://www.pewresearch.org/short-reads/2024/02/29/most-americans-now-live-in-a-legal-marijuana-state-and-most-have-at-least-one-dispensary-in-their-county/">Pew Researc Center, <i>Most Americans now live in a legal marijuana state – and most have at least one dispensary in their county</i> </a>.<a href="#pew-ref" aria-label="Back to content">↩</a></li>
+    <li id="pew"><a href="https://www.pewresearch.org/short-reads/2024/02/29/most-americans-now-live-in-a-legal-marijuana-state-and-most-have-at-least-one-dispensary-in-their-county/">Pew Research Center, <i>Most Americans now live in a legal marijuana state – and most have at least one dispensary in their county</i> </a>.<a href="#pew-ref" aria-label="Back to content">↩</a></li>
   </ol>
 
   <div>
@@ -126,9 +126,9 @@
       marks: [
        Plot.geo(states, Plot.centroid({
         // Todo this isn't filtering out undefined  
-        // filter: d => laws.find((h) => h == d.properties.State) !== undefined,
+        // filter: (d) => lawmap.get(d.properties.name),
         // filter: d => lawmap.get(d.properties.name) !== undefined, 
-        fill: d => lawmap.get(d.properties.name),
+        fill: d => lawmap.get(d.properties.name) != undefined ? lawmap.get(d.properties.name) : "Mixed", // This is a hack to "hide" undefined values
         title: d => `${d.properties.name}\nStatus: ${lawmap.get(d.properties.name)}`,
         tip: true
       })),
@@ -148,8 +148,9 @@
     var stacks = {
       width: width,
       style:{fontSize: size},
-      marginLeft: 60,
-      marginTop: 20,
+      marginLeft: width/100,
+      marginRight: width/100,
+      marginTop: 40,
       aspectRatio: 30,
       x: {label: null},
       y: {label: null, axis: null},
