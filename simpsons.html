@@ -668,7 +668,7 @@
 
         <h2>Simpsons no-nos</h2>
         <figure class="mid-size">
-          <img src="http://i.imgur.com/d7FqN8Z.jpg" alt="Simpsons no-nos" loading="lazy">
+          <img src="https://i.imgur.com/d7FqN8Z.jpg" alt="Simpsons no-nos" loading="lazy">
         </figure>
         <p>In the book <a href="https://www.slideshare.net/DGIREDeportes/matt-groening-cartooning-with-the-simpsons?related=1">Cartooning with the Simpsons</a> the authors include this full page graphic on what specifically to avoid when drawing the head of a Simpson. It is a great example of the effect that every detail can have on an observer!</p>      
 
@@ -3692,8 +3692,8 @@
       // Line chart ratings over time
       var simpsonsRatings = {
         width: width,
+        style: {fontSize: size, background: "none",},
         inset: 1,
-        style: "background: none;",
         marginLeft: 10,
         marginRight: 0,
         marginTop: 10,
@@ -3716,18 +3716,18 @@
         },
         color: {
           scheme: "PiYG",
-          legend: true,
         },
         marks: [
         // Plot.frame(),
-        Plot.ruleX(simpsons_imdb.filter(d => d.episode_no == "1" && d.episode_no_abs > 1 && d.season_no % 5 == 0), {
-          x: "episode_no_abs",
-          inset: 5,
-          strokeDasharray: [2, 2], 
-          strokeWidth: 0.5,
-          stroke: "rgba(0, 0, 0, .75)",
-          opacity: .85,
-        }),
+          // Todo: add ruleX "under" each season 5 label
+        // Plot.ruleX(simpsons_imdb.filter(d => d.episode_no == "1" && d.episode_no_abs > 1 && d.season_no % 5 == 0), {
+        //   x: "episode_no_abs",
+        //   inset: 5,
+        //   strokeDasharray: [2, 2], 
+        //   strokeWidth: 0.5,
+        //   stroke: "rgba(0, 0, 0, .75)",
+        //   opacity: .85,
+        // }),
         Plot.line(simpsons_imdb, {
           x: "episode_no_abs", 
           y: "episode_score", 
@@ -3751,7 +3751,7 @@
           y: "episode_score",
           fill: "hsl(42, 87%, 55%)",
           r: 2,
-          title: (d) => `${d.episode_name}\nS${d.season_no} E${d.episode_no}\n${d.episode_score} IMDB rating`, 
+          title: (d) => `${d.episode_name}\nS${d.season_no} E${d.episode_no}\n${d.episode_score} IMDB rating`,           
         })),
         Plot.text(simpsons_imdb, Plot.selectMinY({
           x: "episode_no_abs",
@@ -3779,8 +3779,6 @@
           dx: 10, 
           rotate: 270,
         }),
-        // TODO: Add an input to toggle regression
-        // Plot.linearRegressionY(simpsons_imdb, {x: "episode_no_abs", y: "episode_score", opacity: .55, stroke: "hsl(356, 75%, 53%)", ci: 0.95}),
         ]
       };
 
@@ -3807,15 +3805,15 @@
 
       // Matrix cell chart episodes by season, episode no.
       var simpsonsEpisodes = {      
-        // height: width*.85,
         width: width,
-        style: "background: none; cursor: default;",
-        marginLeft: 0,
-        marginRight: 0,
-        marginTop: 10,
-        marginBottom: 0,
+        style: {fontSize: size, background: "none", cursor: "default"},
+        marginLeft: width/100,
+        marginRight: width/100,
+        marginTop: 20,
+        marginBottom: 20,
         grid: true,
         padding: 0.05,
+        aspectRatio: .55,
         x: {
           axis: "top",
           label: "Season  →",
@@ -3824,7 +3822,7 @@
         },
         y: {
           label: "←  Episode number",
-          labelOffset: 35,
+          labelOffset: 40,
           tickSize: 0,
         },
         color: {
@@ -3836,6 +3834,7 @@
           clamp: true,
           nice: true,
           tickSize: 0,
+          style: {fontSize: size},
           domain: [1,10], // show nicer scale
           range: [.25,1], // clamping the color scheme gives tighter control over the color range
         },
@@ -3846,6 +3845,7 @@
           y: "episode_no",
           title: (d) => `${d.episode_name}\nS${d.season_no} E${d.episode_no}\n${d.episode_score} IMDB rating`, 
           fill: "episode_score",
+          tip: true,
         }),
         Plot.text(simpsons_imdb, colorContrast({
           x: "season_no",
@@ -3853,6 +3853,7 @@
           text: d => d.episode_score?.toFixed(1),
           title: (d) => `${d.episode_name}\nS${d.season_no} E${d.episode_no}\n${d.episode_score} IMDB rating`, 
           fill: "episode_score",
+          fontSize: 10,
         })
         )
         ]
@@ -3862,11 +3863,11 @@
       var simpsonsSeasons = {      
         width: width,
         // inset: 1,
-        style: "background: none;",
-        marginLeft: 10,
-        marginRight: 10,
-        marginTop: 10,
-        marginBottom: 10,
+        style: {fontSize: size, background: "none",},
+        marginLeft: width/100,
+        marginRight: width/100,
+        marginTop: 20,
+        marginBottom: 20,
         grid: true,
         x: {
           label: "Season",
@@ -3894,15 +3895,11 @@
           clamp: true,
           nice: true,
           tickSize: 0,
+          style: {fontSize: size},
           domain: [1,10], // show nicer scale
           range: [.25,1], // clamping the color scheme gives tighter control over the color range
         },        
         marks: [
-          // Plot.boxY(simpsons_imdb, {
-          //   x: "season_no", 
-          //   y: "episode_score", 
-          //   title: (d) => `${d.episode_name}\nS${d.season_no} E${d.episode_no}\n${d.episode_score} IMDB rating`, 
-          // })
           Plot.ruleX(simpsons_imdb, 
             Plot.groupX({y1: "min", y2: "max"}, {
               x: "season_no", 
@@ -3922,6 +3919,7 @@
             y: "episode_score",
             fill: "episode_score",
             title: (d) => `${d.episode_name}\nS${d.season_no} E${d.episode_no}\n${d.episode_score} IMDB rating`, 
+            tip: true,
           }),
           Plot.text(simpsons_imdb, Plot.selectMinY({
             x: "season_no",
