@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Ideas</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Ideas for articles and blog posts.">
+  <meta name="author" content="Justin Chill">
+
+  <style type="text/css">
+
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+  
+  <main role="main">
+    <article>
+     <div class="article-hero">
+      <h2 class="article-category">Post</h2>
+      <h1 class="article-title">Ideas</h1>
+      <h2 class="article-subtitle"></h2>
+    </div>
+
+    <h3>Turnstile data</h3>
+    <p>https://blocks.roadtolarissa.com/1wheel/5d693c66f5aad2214c3af8d1f389c853</p>
+
+    <h3>Adam Pearce</h3>
+    <p>https://roadtolarissa.com</p>
+
+    <p>This map shows the voyage of the HMS Beagle (1831-1836), on which Charles Darwin began to develop the theory of evolution through natural selection. Darwin found the Beagle “most beautiful” and elegantly fitted out with mahogany<a href="#Selsam" aria-describedby="footnote-label" id="Selsam-ref"></a>. She was a three-masted square-rigger, armed with a cannon. Built to carry seventy-four people, including a squad of marines, an artist, a missionary for Tierra del Fuego, Darwin as naturalist, and three Fuegians whom <a href="https://en.wikipedia.org/wiki/Robert_FitzRoy">Captain Fitzroy</a> had seized as hostages on a previous trip and was now returning home. As the Beagle was only one hundred feet long and had to carry enormous supplies for its planned three-year voyage, everyone was cramped for space. Darwin, however, was given a very small cabin under the forecastle for the specimens he was expected to collect.</p> 
+
+
+  </article>
+</main>
+<footer>
+  <h2 id="footnote-label">Footnotes</h2>
+  <ol>
+    <li id="Selsam"><a href="https://mathcs.holycross.edu/~little/Mont201516/VoyageBeagle.pdf">Millicent E. Selsam, 1959</a>.<a href="#Selsam-ref" aria-label="Back to content">↩</a></li>    
+  </ol>
+
+  <div>
+    <p>Justin Chill © 2024. Thanks for reading!</p>
+    <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="icon">Source code and feedback</a></span>    
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/d3"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+
+<script type="text/javascript">
+  var element = d3.select('figure').node();
+  var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+  var size = 12;
+  
+  // Use Promises to async request data
+  var promises = [d3.json("data/geo/land.json"),d3.json("data/geo/beagle.json")];
+
+  // You can request multiple srcs in a promise
+  myDataPromises = Promise.all(promises);
+
+  // After data is successfully fetched, generate viz
+  myDataPromises.then(function(data) {
+    // Define the data. There's gotta be a better way to do this:
+    var land = data[0];
+    var beagle = data[1];
+
+    var london = {"type":"Point","coordinates":[-0.13,51.5]};
+    var Galápagos = {"type":"Point","coordinates":[-92.41,1.38]};
+
+    var map = {
+      width: width,
+      projection: "equal-earth",
+      marks: [
+        Plot.graticule(),
+        Plot.sphere(),
+        Plot.geo(land, {fill: "#ccc"}),
+        Plot.line(beagle.coordinates, {stroke: (d, i) => i, z: null, strokeWidth: 2}),
+        Plot.geo(london, {fill: "red", r: 5}),
+        // Plot.geo(Galápagos, {fill: "red", r: 5,  tip: true}),
+        Plot.tip([`HMS Beagle left London in 1831, returning 1836.`], {x: -0.13, y: 51.5, dy: -3, anchor: "bottom"}),
+        Plot.tip([`The large number of endemic species in the Galápagos Islands inspired Darwin's theory of evolution via natural selection. `], {x: -92.41, y: 1.38, dy: -3, anchor: "bottom"}),
+        Plot.tip([`The Falkland Islands.`], {x: -62.88, y: -53.3, dy: -3, anchor: "left"}),
+        // Plot.dot(beagle.coordinates, {r: 5, fill: "none", tip: true}),
+        ],
+    };
+    // document.getElementById("map").appendChild(Plot.plot(map));
+  });
+</script>
+</body>
+</html>
