@@ -92,8 +92,8 @@
     var heatmap = {
       style: {fontSize: size},
       width: width,
-      marginLeft: width/5,
-      marginRight: width/100,
+      marginLeft: width/3,
+      marginRight: width/40,
       marginTop: 80,
       marginBottom: 80,
       aspectRatio: 2.5,
@@ -113,8 +113,8 @@
       color: {legend: true, scheme: "oranges", zero: true,style: {fontSize: size},},
       marks: [
         Plot.frame({stroke: "#ccc", anchor: "top"}),
-        Plot.text(popcorn, {y: "Team",dx: -10, dy: -4, text: (d) => `${d.Team}`, frameAnchor: "left",textAnchor: "end", lineAnchor: "bottom", fontWeight: "bold", fontSize: 16}), // Team name
-        Plot.text(popcorn, {y: "Team",dx: -10, dy: 4, text: (d) => `${d.Arena}`, frameAnchor: "left", textAnchor: "end", lineAnchor: "top",fontWeight: "normal"}), // Arena name
+        Plot.text(popcorn, {y: "Team",dx: -10, dy: width > 450 ? -4 : -2, text: (d) => `${d.Team}`, frameAnchor: "left",textAnchor: "end", lineAnchor: "bottom", fontWeight: "bold", fontSize: width > 450 ? 16 : ".5rem"}), // Team name
+        Plot.text(popcorn, {y: "Team",dx: -10, dy: width > 450 ? 4 : 2, text: (d) => `${d.Arena}`, frameAnchor: "left", textAnchor: "end", lineAnchor: "top",fontWeight: "normal", fontSize: width > 450 ? 16 : ".4rem"}), // Arena name
         Plot.cell(popcorn.filter(d => (d.Criteria != "Total Score")), {y: "Team", x: "Criteria", fill: "Score", inset: .85, channels: {Arena: "Arena",},tip: true,}),
         Plot.cell(popcorn.filter(d => (d.Criteria == "Total Score")), {y: "Team", x: "Criteria", fill: "white", inset: .85,}),
         Plot.text(popcorn.filter(d => (d.Criteria != "Total Score")), {y: "Team", x: "Criteria", text: "Score", fill: "white", fontSize: 18, fontWeight: "bold"}),

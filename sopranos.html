@@ -459,17 +459,21 @@
 
       var sopranosGrid = {
         width: width,
+        style:{fontSize: size},
         padding: 0,
+        marginLeft: width/33,
+        marginRight: width/100,
         grid: true,
         aspectRatio: .8,
         x: { label: null, axis: "top", labelAnchor: "center", anchor: "top"},
-        y: { label: "Season", anchor: "left", labelAnchor: "center" },
+        y: { label: "Season", anchor: "left", labelAnchor: "center", labelOffset: 40 },
         color: {
           type: "linear",
           scheme: "RdYlGn",
           legend: true,
           domain: [0, 10],
-          unknown: "#ddd"
+          unknown: "#ddd",
+          style:{fontSize: size},
         },
         marks: [
           Plot.cell(sopranos_imdb, {
@@ -496,27 +500,30 @@
               text: (d) => (d.Rating == null ? "-" : d.Rating.toFixed(1)),
               title: (d) => `${d.EpisodeName}\nS${d.Season} E${d.Episode}\n${d.Rating} IMDB rating`, 
               tip: true,
+              fontSize: width > 450 ? size : ".5rem",
+              fontWeight: "bold",
             })
             )
           ]
       };
       var sopranosBar = {
         width: width,
-        marginLeft: 0,
-        marginRight: 0,
+        marginLeft: width/33,
+        marginRight: width/100,
         marginTop: 10,
+        marginBottom: 30,
         x: { label: null},
         y: { grid: true, neat: true, clamp: true, ticks: 4, label: null},
         color: {scheme: "Reds"},
         marks: [
-          Plot.axisX({lineWidth: 6, tickSize: 0, textAnchor: "middle", fontSize: 10}),
+          Plot.axisX({lineWidth: 6, tickSize: 0, textAnchor: "middle", fontSize: width > 450 ? 10 : ".5rem",tickRotate: width > 500 ? 0 : -30, insetBottom: width > 500 ? 0 : -10,}),
           Plot.barY(sopranos_murders, {
             x: "Main Character",
             y: "Kill Count",
             fill: "Main Character",
             sort: {x: "-y"}
           }),
-          Plot.text(sopranos_murders, {filter: (d) => d["Kill Count"] > 20, x: "Main Character", y: "Kill Count", text: (d) => d["Kill Count"] + " kills", dy: -6, lineAnchor: "bottom", fontSize: 18, fontWeight: 500, textAnchor: "middle"}),
+          Plot.text(sopranos_murders, {filter: (d) => d["Kill Count"] > 20, x: "Main Character", y: "Kill Count", text: (d) => d["Kill Count"] + " kills", dy: -6, lineAnchor: "bottom", fontSize: 18, fontWeight: 500, textAnchor: "middle",}),
           Plot.text(sopranos_murders, {filter: (d) => d["Kill Count"] < 20, x: "Main Character", y: "Kill Count", text: "Kill Count", dy: -6, lineAnchor: "bottom", fontSize: 18, fontWeight: 500}),
           ]
       };

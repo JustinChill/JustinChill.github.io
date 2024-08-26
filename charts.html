@@ -83,7 +83,6 @@
       overflow: auto;
       padding: 0;
       margin: 0;
-      grid-column: 4;
     }
     article > figcaption{
       margin: 1rem 0;
@@ -291,6 +290,10 @@
       <figure id="bls_line"></figure>
       <figcaption>Data: <a href="https://www.bls.gov/cew/downloadable-data-files.htm">U.S. Bureau of Labor Statistics</a></figcaption>
       <p>A density plot visualizes the distribution of data over a continuous interval or time period. This chart is a variation of a histogram that uses kernel smoothing to plot values, allowing for smoother distributions by smoothing out the noise. The peaks of a density plot help display where values are concentrated over the interval.</p>
+      <h3>Diverging bar chart</h3>
+      <figure id="diverging"></figure>
+      <figcaption></figcaption>
+      <p>About diverging bar charts...</p>
       <h2>Donut chart 🍩</h2>
       <!-- TODO -->
       <h3>United States Population, 2015</h3>
@@ -804,8 +807,8 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
 
   var country_emissions = {
     width: width,
-    marginLeft: width > 400 ? 180 : 60,
-    marginRight: width > 400 ? 100 : 20,
+    marginLeft: width > 450 ? 180 : 90,
+    marginRight: width > 450 ? 100 : 20,
     marginBottom: 0,
     style:{
       fontSize: size,
@@ -819,7 +822,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
       axis: "top",
       ticks: 0,
       label: "Metric Tonne Carbon Dioxide Equivalent (MtCO₂) annually",
-      labelOffset: 15
+      labelOffset: 15,
     },
     y: {
       domain: d3.sort(top20, d => -d.value).map(d => d.country),
@@ -850,20 +853,19 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
     width: width,
     style: {textTransform: "capitalize", fontSize: size},
     height: 380,
-    marginLeft: 60,
-    marginRight: 100,
+    marginLeft: width/10,
+    marginRight: width/5,
     marginTop: 30,
     y: {label: null, tickSize: 0, tickFormat: d => d + ":",},
     fy: {paddingInner: 0.27, label: null},
     marks: [
       Plot.text(animals, {
         frameAnchor: "left",
-        fontSize: 40,
+        fontSize: width > 450 ? 40 : 20,
         text: (d) => `${emoji[d.animal]} `.repeat(Math.round(d.count / 1e6)),
         dx: 20,
         y: "animal",
         fy: "country",
-        tip: true,
       }),
       Plot.axisFy({ fontSize: 18, frameAnchor: "top", dy: -18 })
       ],
@@ -872,11 +874,11 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
   var slope = {
     width: width,
     marginLeft: width/10,
-    marginRight: width/10,
+    marginRight: width/5,
     height: 380,
-    marginTop: 20,
+    marginTop: 30,
     marginBottom: 20, 
-    insetLeft: width > 450 ? -120 : 0,
+    insetLeft: width > 500 ? -100 : -90,
     style:{fontSize: size},
     x: {
       tickFormat: "",
@@ -889,7 +891,8 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
       ticks: 6,
       label: "Billion BTUs", 
       labelAnchor: "top",
-      labelOffset: 100,
+      // labelOffset: 100,
+      anchor: "left",
       grid: true,
     },
     marks: [
@@ -904,7 +907,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
           x: "year",
           y: "value",
           z: "source",
-          fontSize: 12,
+          fontSize: width > 450 ? 12 : 9,
           text: d => `${d.source} (${d3.format(",")(d.value)} Billion BTUs)`,textAnchor: "start", dx: 10
         })
         ),
@@ -986,8 +989,8 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
   var example_line = {
     width: width,
     style:{fontSize: size},
-    marginLeft: width/100,
-    marginRight: width/100,
+    marginLeft: width/24,
+    marginRight: width/33,
     marginTop: 20,
     marginBottom: 10,
     y: {
@@ -995,7 +998,8 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
       nice: true,
       domain: [0, 100],
       label: "↑ Excitement level",
-      anchor: "left"
+      anchor: "left",
+      tickSize: 0,
     },
     x:{
       domain: d3.sort(ex_lvls, d => -d.Phrase).map(d => d.Phrase),
@@ -1131,8 +1135,8 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
     var popcorn = {
       style:{fontSize: size},
       width: width,
-      marginLeft: width/5,
-      marginRight: width/100,
+      marginLeft: width/4,
+      marginRight: width/40,
       marginTop: 80,
       marginBottom: 80,
       aspectRatio: 2.5,
@@ -1153,20 +1157,20 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
       color: {legend: true, scheme: "oranges", zero: true,style:{fontSize: size},}, // Need to pass style{} twice, once for X axis, once for legend axis
       marks: [
         Plot.frame({stroke: "#ccc", anchor: "top"}),
-        Plot.text(sortedData, {y: "Team",dx: -10, dy: -4, text: (d) => `${d.Team}`, frameAnchor: "left",textAnchor: "end", lineAnchor: "bottom", fontWeight: "bold", fontSize: 16,}), // Team name
-        Plot.text(sortedData, {y: "Team",dx: -10, dy: 4, text: (d) => `${d.Arena}`, frameAnchor: "left", textAnchor: "end", lineAnchor: "top", fontSize: 14, fontWeight: "normal"}), // Arena name
+        Plot.text(sortedData, {y: "Team",dx: -10, dy: width > 450 ? -2 : -2, text: (d) => `${d.Team}`, frameAnchor: "left",textAnchor: "end", lineAnchor: "bottom", fontWeight: "bold", fontSize: width > 450 ? 16 : ".5rem",}), // Team name
+        Plot.text(sortedData, {y: "Team",dx: -10, dy: width > 450 ? 4 : 2, text: (d) => `${d.Arena}`, frameAnchor: "left", textAnchor: "end", lineAnchor: "top", fontSize: width > 450 ? 14 : ".5rem", fontWeight: "normal"}), // Arena name
         Plot.cell(sortedData.filter(d => (d.Criteria != "Total Score")), {y: "Team", x: "Criteria", fill: "Score", inset: .85, channels: {Arena: "Arena",},tip: true,}), 
         Plot.cell(sortedData.filter(d => (d.Criteria == "Total Score")), {y: "Team", x: "Criteria", fill: "white", inset: .85,}),
-        Plot.text(sortedData.filter(d => (d.Criteria != "Total Score")), {y: "Team", x: "Criteria", text: "Score", fill: "white", fontSize: 18, fontWeight: "bold"}),
-        Plot.text(sortedData.filter(d => (d.Criteria == "Total Score")), {y: "Team", x: "Criteria", text: "Score", fill: "black", fontSize: 18, fontWeight: "bold"}),
+        Plot.text(sortedData.filter(d => (d.Criteria != "Total Score")), {y: "Team", x: "Criteria", text: "Score", fill: "white", fontSize: width > 450 ? 18 : ".8rem", fontWeight: "bold"}),
+        Plot.text(sortedData.filter(d => (d.Criteria == "Total Score")), {y: "Team", x: "Criteria", text: "Score", fill: "black", fontSize: width > 450 ? 18 : ".8rem", fontWeight: "bold"}),
         ]
 
     };
 
     var electricity = {
       width: width,
-      marginLeft: width/33,
-      marginRight: width/100,
+      marginLeft: width/20,
+      marginRight: width > 450 ? width/8 : width/5,
       style:{fontSize: size, textTransform: "capitalize"},
       color: {
         scheme: "BuRd"
@@ -1423,7 +1427,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
     var stocks_baseline = {
       width: width,
       style:{fontSize: size, backgroundColor: backgroundColor, padding: 10},
-      margin: 40,
+      margin: width > 450 ? 40 : 30,
       inset: 5,
       color: {
         scheme: "BuRd"
@@ -1457,7 +1461,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
           fill: "Symbol",
           text: "Symbol",
           textAnchor: "start",
-          fontSize: 14,
+          fontSize: width > 450 ? 14 : 12,
           fontWeight: 700,
           dx: 3
         })))
@@ -1511,7 +1515,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
 
     var google_ridgeline = {
       width: width,
-      marginRight: 0,
+      marginRight: width/100,
       x: {
         axis: "top",
         label: null,
@@ -1529,7 +1533,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
       facet: {
         data: google,
         y: "search",
-        marginLeft: width > 450 ? 100 : 75,
+        marginLeft: width > 450 ? width/10 : width/3,
       },
       color: {
         scheme: "tableau10",
@@ -1548,11 +1552,10 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
     var morley = {
       width: width,
       style:{fontSize: size},
-      marginLeft: width/33,
+      marginLeft: width/20,
       marginRight: width/100,
       marginBottom: 20,
       marginTop: 20,
-      inset: 10,
       y: {
         nice: true,
         clamp: true,
@@ -1860,8 +1863,8 @@ var horizon_chart = {
 
 var bls_line = {
   width: width,
-  marginLeft: width/33,
-  marginRight: width/10,
+  marginLeft: width/20,
+  marginRight: width > 450 ? width/10 : width/5,
   marginTop: 40,
   style:{fontSize: size},
   y: {
@@ -1891,8 +1894,8 @@ var bls_line = {
 
 var bls_stacked = {
   width: width,
-  marginLeft: width/33,
-  marginRight: width/33,
+  marginLeft: width/20,
+  marginRight: width/10,
   marginTop: 20,
   marginBottom: 20,
   style:{fontSize: size},
@@ -1921,15 +1924,15 @@ var bls_stacked = {
     }),
     Plot.areaY(bls, Plot.stackY({x: "date", y: "unemployed", fill: "industry", tip: true,})),
     Plot.text(bls, Plot.selectLast(Plot.stackY({filter: d => d.industry !== "Mining and Extraction",
-      x: "date", y: "unemployed", z: "industry", text: "industry", textAnchor: "start", fontSize: 12, fontWeight: 700, dx: 3,fill: "industry", rotate: width > 450 ? 0 : 30}))),
+      x: "date", y: "unemployed", z: "industry", text: "industry", textAnchor: "start", fontSize: width > 450 ? 12 : 10, fontWeight: 700, dx: 3,fill: "industry", rotate: width > 450 ? 0 : 30}))),
     Plot.ruleY([0], {strokeOpacity: 0.2})
     ]
 };
 
 var bls_bar = {
   width: width,
-  marginLeft: width/33,
-  marginRight: width/100,
+  marginLeft: width/10,
+  marginRight: width/33,
   marginTop: 40,
   marginBottom: 30,
   style:{fontSize: size},
@@ -1964,6 +1967,8 @@ var bls_bar = {
 
 var statemap = new Map(stategrid.map(d => [d.name, d]));
 var states = statepop.filter((d) => statemap.has(d.State)).map((d) => ({ ...d, ...statemap.get(d.State) }));
+var popchange = new Map(statepop.map(d => ({d, value: (d[2019] - d[2010]) / d[2010]})));
+console.log(popchange);
 
 change = new function(d){
   return d => (d["2019"] / d["2010"])
@@ -2012,7 +2017,7 @@ var gridmap = {
           text: "key", // state abbr
           dy: -6,
           fill: change,
-          fontSize: 14,
+          fontSize: width > 450 ? 14 : 12,
           fontWeight: "bold"
         })
         ),
@@ -2023,12 +2028,54 @@ var gridmap = {
           x: "x",
           y: "y",
           text: formatChange, 
-          dy: 10,
+          dy: width > 450 ? 10 : 6,
           fill: change,
-          fontSize: 12
+          fontSize: width > 450 ? 12 : 10
         })
         ),
       ]
+  };
+
+  var diverging ={
+    label: null,
+    x: {
+      axis: "top",
+      label: "← decrease · Change in population, 2010–2019 (%) · increase →",
+      labelAnchor: "center",
+      tickFormat: "+",
+      percent: true
+    },
+    color: {
+      scheme: "PiYG",
+      type: "ordinal"
+    },
+    marks: [
+      Plot.barX(popchange, {
+        x: "value",
+        y: "State",
+        fill: (d) => d.value > 0,
+        sort: { y: "x" }
+      }),
+      Plot.gridX({ stroke: "white", strokeOpacity: 0.5 }),
+      d3
+        .groups(popchange, (d) => d.value > 0)
+        .map(([growth, states]) => [
+          Plot.axisY({
+            x: 0,
+            ticks: states.map((d) => d.State),
+            tickSize: 0,
+            anchor: growth ? "left" : "right"
+          }),
+          Plot.textX(states, {
+            x: "value",
+            y: "State",
+            text: ((f) => (d) => f(d.value))(d3.format("+.1%")),
+            textAnchor: growth ? "start" : "end",
+            dx: growth ? 4 : -4,
+          })
+        ]),
+      Plot.ruleX([0])
+    ]
   };
 
 // Drug scatter plot 
@@ -2234,8 +2281,8 @@ var gridmap = {
 
       var streamgraph = {
         width: width,
-        marginLeft: width/33,
-        marginRight: width/12,
+        marginLeft: width/20,
+        marginRight: width/9,
         marginTop: 30,
         marginBottom: 10,
         style:{fontSize: size},
@@ -2276,7 +2323,7 @@ var gridmap = {
       var qatar_pyramid = {
         width: width,
         aspectRatio: .05,
-        marginLeft: width/33,
+        marginLeft: width/15,
         marginRight: width/100,
         style:{fontSize: size},
         color: {
@@ -2351,16 +2398,17 @@ var gridmap = {
 
       var mosaic = {
         width: width,
-      // style:{fontSize: size},
-        // width: 960,
+        style:{fontSize: size},
         height: 640,
+        marginLeft: width/16,
+        marginRight: width/33,
         label: null,
         x: {percent: true, ticks: 10, tickSize: 2, tickFormat: (d) => d === 100 ? `100%` : d},
         y: {percent: true, ticks: 10, tickSize: 2, tickFormat: (d) => d === 100 ? `100%` : d},
         marks: [
-          Plot.frame(),
+          Plot.frame({stroke: "#ccc"}),
           Plot.rect(sales, xy({fill: "segment", fillOpacity: 0.5})),
-          Plot.text(sales, xy({text: d => [d.value.toLocaleString("en"), d.segment, d.market].join("\n"), fontSize: d => d.value > 1000 ? 18 : 10 })),
+          Plot.text(sales, xy({text: d => [d.value.toLocaleString("en"), d.segment, d.market].join("\n"), fontSize: d => d.value > 1000 ? 12 : 8 })),
           Plot.text(sales, Plot.selectMaxX(xy({z: "segment", text: "segment", anchor: "right", textAnchor: "middle", lineAnchor: "bottom", rotate: 90, dx: 6, size: 4,}))),
           Plot.text(sales, Plot.selectMaxY(xy({z: "market", text: "market", anchor: "top", lineAnchor: "bottom", dy: -6, size: 4,})))
           ]
@@ -2440,10 +2488,13 @@ var gridmap = {
     // From Fil: https://observablehq.com/@fil/waffle-chart
       var waffle = { // Todo replace with waffle mark 
         width: width,
-        marginLeft: 0,
-        marginRight: 0,
+        marginLeft: width/100,
+        marginRight: width/100,
         marginTop: 0,
         marginBottom: 0, 
+        x: { axis: null },
+        y: { axis: null },
+        color: { scheme: "Pastel2" },
         marks: [
           Plot.cell(
             units,
@@ -2458,13 +2509,10 @@ var gridmap = {
             Plot.stackX({
               y: (_, i) => i % 5,
               text: "label",
-              fontSize: 12
+              fontSize: width > 450 ? 10 : 8
             })
             )
           ],
-        x: { axis: null },
-        y: { axis: null },
-        color: { scheme: "Pastel2" }
       };
 
       var irregular = {
@@ -2544,6 +2592,7 @@ var gridmap = {
       document.getElementById("streamgraph").appendChild(Plot.plot (streamgraph));
       document.getElementById("waffle").appendChild(Plot.plot (waffle));
       document.getElementById("horizon_chart").appendChild(Plot.plot (horizon_chart));
+      document.getElementById("diverging").appendChild(Plot.plot (diverging));
     });
 
 myDataPromises.catch(function() {
