@@ -290,15 +290,15 @@
       <figure id="bls_line"></figure>
       <figcaption>Data: <a href="https://www.bls.gov/cew/downloadable-data-files.htm">U.S. Bureau of Labor Statistics</a></figcaption>
       <p>A density plot visualizes the distribution of data over a continuous interval or time period. This chart is a variation of a histogram that uses kernel smoothing to plot values, allowing for smoother distributions by smoothing out the noise. The peaks of a density plot help display where values are concentrated over the interval.</p>
-      <h3>Diverging bar chart</h3>
-      <figure id="diverging"></figure>
-      <figcaption></figcaption>
+      <!-- <h3>Diverging bar chart</h3> -->
+      <!-- <figure id="diverging"></figure> -->
+      <!-- <figcaption></figcaption> -->
       <!-- <p> Todo: About diverging bar charts...</p> -->
-      <h3>Difference chart</h3>
+      <!-- <h3>Difference chart</h3> -->
       <!-- Todo: https://observablehq.com/@observablehq/plot-difference-chart -->
-      <figure id="difference"></figure>
-      <figcaption></figcaption>
-      <p> A difference chart highlights the difference between two values, typically entries vs exits. The amount is encoded as height, and the sign (surplus vs. deficit) as a solid color. </p>
+      <!-- <figure id="difference"></figure> -->
+      <!-- <figcaption></figcaption> -->
+      <!-- <p> A difference chart highlights the difference between two values, typically entries vs exits. The amount is encoded as height, and the sign (surplus vs. deficit) as a solid color. </p> -->
       <h2>Donut chart 🍩</h2>
       <!-- TODO -->
       <h3>United States Population, 2015</h3>
@@ -1106,7 +1106,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
   const formatTime = d3.timeFormat("%Y");
 
   // Use Promises to async request data
-  var promises = [d3.json("data/drugs.json"), d3.csv("data/aapl.csv",d3.autoType),d3.csv("data/global-temps.csv",d3.autoType), d3.csv("https://gist.githubusercontent.com/JesseCHowe/099f4b8e1a029c0b4af35b1edc1989f7/raw/8c18ed9a0940c734d423c3f2699ee063279533ec/morley.csv",d3.autoType), d3.csv("data/stocks.csv",d3.autoType),d3.csv("data/units.csv",d3.autoType),d3.json("data/qatar.json"),d3.csv("https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv",d3.autoType),d3.csv("data/driving.csv",d3.autoType),d3.csv("data/bls.csv",d3.autoType),d3.csv("data/caltrain.csv"),d3.csv("data/mpg.csv",d3.autoType), d3.csv("data/electricity.csv",d3.autoType),d3.json("data/dogdata.json"), d3.csv("data/google-trends-2020.csv",d3.autoType),d3.csv("data/covid.csv", d3.autoType),d3.csv("data/commute.csv", d3.autoType),d3.csv("data/world-airports.csv", d3.autoType),d3.json("data/geo/land.json"),d3.json("data/geo/statemesh.json"),d3.json("data/geo/nation.json"),d3.csv("data/walmarts.csv",d3.autoType), d3.csv("data/popcornCriteria.csv",d3.autoType),d3.csv("data/state-population-2010-to-2019.csv",d3.autoType),d3.csv("data/geo/us-state-grid.csv",d3.autoType),d3.csv("data/bls_industries.csv",d3.autoType)];
+  var promises = [d3.json("data/drugs.json"), d3.csv("data/aapl.csv",d3.autoType),d3.csv("data/global-temps.csv",d3.autoType), d3.csv("https://gist.githubusercontent.com/JesseCHowe/099f4b8e1a029c0b4af35b1edc1989f7/raw/8c18ed9a0940c734d423c3f2699ee063279533ec/morley.csv",d3.autoType), d3.csv("data/stocks.csv",d3.autoType),d3.csv("data/units.csv",d3.autoType),d3.json("data/qatar.json"),d3.csv("https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv",d3.autoType),d3.csv("data/driving.csv",d3.autoType),d3.csv("data/bls.csv",d3.autoType),d3.csv("data/caltrain.csv"),d3.csv("data/mpg.csv",d3.autoType), d3.csv("data/electricity.csv",d3.autoType),d3.json("data/dogdata.json"), d3.csv("data/google-trends-2020.csv",d3.autoType),d3.csv("data/covid.csv", d3.autoType),d3.csv("data/commute.csv", d3.autoType),d3.csv("data/world-airports.csv", d3.autoType),d3.json("data/geo/land.json"),d3.json("data/geo/statemesh.json"),d3.json("data/geo/nation.json"),d3.csv("data/walmarts.csv",d3.autoType), d3.csv("data/popcornCriteria.csv",d3.autoType),d3.csv("data/state-population-2010-to-2019.csv",d3.autoType),d3.csv("data/geo/us-state-grid.csv",d3.autoType),d3.csv("data/bls_industries.csv",d3.autoType),d3.json("data/statepop-2010-2019.json")];
 
   // You can request multiple srcs in a promise
   myDataPromises = Promise.all(promises);
@@ -1140,6 +1140,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
     var statepop = data[23];
     var stategrid = data[24];
     var industries = data[25];
+    var statepop2019 = data[26];
     var sortedData = popcorndata.filter(function(d,i){
        return i < 30; // Top 5 teams
      });
@@ -1980,7 +1981,7 @@ var bls_bar = {
 
 var statemap = new Map(stategrid.map(d => [d.name, d]));
 var states = statepop.filter((d) => statemap.has(d.State)).map((d) => ({ ...d, ...statemap.get(d.State) }));
-var popchange = new Map(statepop.map(d => ({d, value: (d[2019] - d[2010]) / d[2010]})));
+var popchange = new Map(statepop2019.map(d => [d, (d[2019] - d[2010]) / d[2010]]));
 console.log(popchange);
 
 change = new function(d){
@@ -2049,6 +2050,7 @@ var gridmap = {
       ]
   };
 
+  // https://observablehq.com/@observablehq/plot-state-population-change
   var diverging ={
     label: null,
     x: {
