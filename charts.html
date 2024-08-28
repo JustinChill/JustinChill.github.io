@@ -290,15 +290,15 @@
       <figure id="bls_line"></figure>
       <figcaption>Data: <a href="https://www.bls.gov/cew/downloadable-data-files.htm">U.S. Bureau of Labor Statistics</a></figcaption>
       <p>A density plot visualizes the distribution of data over a continuous interval or time period. This chart is a variation of a histogram that uses kernel smoothing to plot values, allowing for smoother distributions by smoothing out the noise. The peaks of a density plot help display where values are concentrated over the interval.</p>
-      <!-- <h3>Diverging bar chart</h3> -->
-      <!-- <figure id="diverging"></figure> -->
-      <!-- <figcaption></figcaption> -->
-      <!-- <p> Todo: About diverging bar charts...</p> -->
-      <!-- <h3>Difference chart</h3> -->
-      <!-- Todo: https://observablehq.com/@observablehq/plot-difference-chart -->
-      <!-- <figure id="difference"></figure> -->
-      <!-- <figcaption></figcaption> -->
-      <!-- <p> A difference chart highlights the difference between two values, typically entries vs exits. The amount is encoded as height, and the sign (surplus vs. deficit) as a solid color. </p> -->
+      <h3>Diverging bar chart</h3>
+      <figure id="diverging"></figure>
+      <figcaption>Data: <a href="https://www.census.gov/data/tables/time-series/demo/popest/2010s-state-total.html">Census.gov</a></figcaption>
+      <p>A diverging bar chart is a bar chart that has the marks for some dimension members pointing up or right, and the marks for other dimension members pointing in the opposite direction (down or left, respectively). What’s unique about a diverging bar chart is the marks flowing down or left do not necessarily represent negative values. The divergent line can represent zero, but it can also be used to simply separate the marks for two dimension members, to represent a goal, or – as often seen with survey data – to show the break between desired and undesired responses.</p>
+      <p>A drawback to using diverging bar charts is that it’s not as easy to compare the values across dimension members as it is with a grouped bar chart. If, on the other hand, your primary objective is to compare the trend of each individual dimension member, a divergent bar chart is a good option.</p>
+      <h3>Difference chart</h3>
+      <figure id="difference"></figure>
+      <figcaption>Data: NOAA</figcaption>
+      <p> A difference chart highlights the difference between two values, typically entries vs exits. The amount is encoded as height, and the sign (surplus vs. deficit) as a solid color. In the chart above, we compare the temperatures on the same day; days when San Francisco was warmer are <span style="border-bottom: 2px solid orange;">orange</span>, and colder days are <span style="border-bottom: 2px solid steelblue;">blue</span>.</p>
       <h2>Donut chart 🍩</h2>
       <!-- TODO -->
       <h3>United States Population, 2015</h3>
@@ -669,20 +669,20 @@
       <h2>Word clouds</h2>
       <p>A word cloud, or tag cloud, is a visual representation of text data in which the size of the word is proportional to its frequency. The more often a specific word appears in a dataset, the larger it appears in the visualization. In addition to size, words often appear bolder or follow a specific color scheme depending on their frequency.</p>
       <img src="https://images.datacamp.com/image/upload/v1692817285/image9_3a0ec1443d.png" loading="lazy">
-  </article>
-</main>
+    </article>
+  </main>
 
-<!-- Todo: find better way to define SVG gradient, as in https://observablehq.com/@observablehq/plot-area-chart-with-gradient -->
-<svg
-version="1.1"
-xmlns="http://www.w3.org/2000/svg"
-xmlns:xlink="http://www.w3.org/1999/xlink">
-<defs>
-  <linearGradient id="gradient" gradientTransform="rotate(90)">
-    <stop offset="20%" stop-color="rgba(0, 0, 0, .75)" stop-opacity="0.5" />
-    <stop offset="100%" stop-color="LightSkyBlue" stop-opacity="0" />
-  </linearGradient>
-</defs>
+  <!-- Todo: find better way to define SVG gradient, as in https://observablehq.com/@observablehq/plot-area-chart-with-gradient -->
+  <svg
+  version="1.1"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="gradient" gradientTransform="rotate(90)">
+      <stop offset="20%" stop-color="rgba(0, 0, 0, .75)" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="LightSkyBlue" stop-opacity="0" />
+    </linearGradient>
+  </defs>
 </svg>
 
 <footer>
@@ -773,7 +773,6 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
     x: {
       axis: "both",
       grid: true,
-      // nice: true,
       clamp: true,
       tickFormat: formatYear
     },
@@ -793,9 +792,13 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
         insetTop: 2,
         insetBottom: 2, // Makes the bars slightly thinner
         fill: "region",
-        tip: true,
+        tip: {
+          opacity: 0.9,
+          textPadding: 10,
+          lineHeight: 1.65,
+        },
         title: (d) =>
-          `${d.civilization} \nStart: ${d.start}\nEnd: ${d.end}\nRegion: ${d.region}`, // \n makes a new line
+          `${d.civilization}\nStart: ${formatYear(d.start)}\nEnd: ${formatYear(d.end)}\nRegion: ${d.region}`,
           y: "civilization"
         }),
       Plot.text(civilizations.filter(d => (d.civilization == "Mesopotamian civilization" || d.civilization == "Egyptian civilization")), {
@@ -871,7 +874,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
     marks: [
       Plot.text(animals, {
         frameAnchor: "left",
-        fontSize: width > 450 ? 40 : 20,
+        fontSize: width > 450 ? 30 : 15,
         text: (d) => `${emoji[d.animal]} `.repeat(Math.round(d.count / 1e6)),
         dx: 20,
         y: "animal",
@@ -1104,9 +1107,10 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
   }; 
 
   const formatTime = d3.timeFormat("%Y");
+  const formatDate = d3.timeFormat("%B %d, %Y");
 
   // Use Promises to async request data
-  var promises = [d3.json("data/drugs.json"), d3.csv("data/aapl.csv",d3.autoType),d3.csv("data/global-temps.csv",d3.autoType), d3.csv("https://gist.githubusercontent.com/JesseCHowe/099f4b8e1a029c0b4af35b1edc1989f7/raw/8c18ed9a0940c734d423c3f2699ee063279533ec/morley.csv",d3.autoType), d3.csv("data/stocks.csv",d3.autoType),d3.csv("data/units.csv",d3.autoType),d3.json("data/qatar.json"),d3.csv("https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv",d3.autoType),d3.csv("data/driving.csv",d3.autoType),d3.csv("data/bls.csv",d3.autoType),d3.csv("data/caltrain.csv"),d3.csv("data/mpg.csv",d3.autoType), d3.csv("data/electricity.csv",d3.autoType),d3.json("data/dogdata.json"), d3.csv("data/google-trends-2020.csv",d3.autoType),d3.csv("data/covid.csv", d3.autoType),d3.csv("data/commute.csv", d3.autoType),d3.csv("data/world-airports.csv", d3.autoType),d3.json("data/geo/land.json"),d3.json("data/geo/statemesh.json"),d3.json("data/geo/nation.json"),d3.csv("data/walmarts.csv",d3.autoType), d3.csv("data/popcornCriteria.csv",d3.autoType),d3.csv("data/state-population-2010-to-2019.csv",d3.autoType),d3.csv("data/geo/us-state-grid.csv",d3.autoType),d3.csv("data/bls_industries.csv",d3.autoType),d3.json("data/statepop-2010-2019.json")];
+  var promises = [d3.json("data/drugs.json"), d3.csv("data/aapl.csv",d3.autoType),d3.csv("data/global-temps.csv",d3.autoType), d3.csv("https://gist.githubusercontent.com/JesseCHowe/099f4b8e1a029c0b4af35b1edc1989f7/raw/8c18ed9a0940c734d423c3f2699ee063279533ec/morley.csv",d3.autoType), d3.csv("data/stocks.csv",d3.autoType),d3.csv("data/units.csv",d3.autoType),d3.json("data/qatar.json"),d3.csv("https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv",d3.autoType),d3.csv("data/driving.csv",d3.autoType),d3.csv("data/bls.csv",d3.autoType),d3.csv("data/caltrain.csv"),d3.csv("data/mpg.csv",d3.autoType), d3.csv("data/electricity.csv",d3.autoType),d3.json("data/dogdata.json"), d3.csv("data/google-trends-2020.csv",d3.autoType),d3.csv("data/covid.csv", d3.autoType),d3.csv("data/commute.csv", d3.autoType),d3.csv("data/world-airports.csv", d3.autoType),d3.json("data/geo/land.json"),d3.json("data/geo/statemesh.json"),d3.json("data/geo/nation.json"),d3.csv("data/walmarts.csv",d3.autoType), d3.csv("data/popcornCriteria.csv",d3.autoType),d3.csv("data/state-population-2010-to-2019.csv",d3.autoType),d3.csv("data/geo/us-state-grid.csv",d3.autoType),d3.csv("data/bls_industries.csv",d3.autoType), d3.csv("data/weather.csv",d3.autoType), ];
 
   // You can request multiple srcs in a promise
   myDataPromises = Promise.all(promises);
@@ -1140,7 +1144,8 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
     var statepop = data[23];
     var stategrid = data[24];
     var industries = data[25];
-    var statepop2019 = data[26];
+    var weather = data[26];
+
     var sortedData = popcorndata.filter(function(d,i){
        return i < 30; // Top 5 teams
      });
@@ -1172,7 +1177,11 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
         Plot.frame({stroke: "#ccc", anchor: "top"}),
         Plot.text(sortedData, {y: "Team",dx: -10, dy: width > 450 ? -2 : -2, text: (d) => `${d.Team}`, frameAnchor: "left",textAnchor: "end", lineAnchor: "bottom", fontWeight: "bold", fontSize: width > 450 ? 16 : ".5rem",}), // Team name
         Plot.text(sortedData, {y: "Team",dx: -10, dy: width > 450 ? 4 : 2, text: (d) => `${d.Arena}`, frameAnchor: "left", textAnchor: "end", lineAnchor: "top", fontSize: width > 450 ? 14 : ".5rem", fontWeight: "normal"}), // Arena name
-        Plot.cell(sortedData.filter(d => (d.Criteria != "Total Score")), {y: "Team", x: "Criteria", fill: "Score", inset: .85, channels: {Arena: "Arena",},tip: true,}), 
+        Plot.cell(sortedData.filter(d => (d.Criteria != "Total Score")), {y: "Team", x: "Criteria", fill: "Score", inset: .85, channels: {Arena: "Arena",}, tip: {
+            opacity: 0.9,
+            textPadding: 10,
+            lineHeight: 1.5,
+          },}), 
         Plot.cell(sortedData.filter(d => (d.Criteria == "Total Score")), {y: "Team", x: "Criteria", fill: "white", inset: .85,}),
         Plot.text(sortedData.filter(d => (d.Criteria != "Total Score")), {y: "Team", x: "Criteria", text: "Score", fill: "white", fontSize: width > 450 ? 18 : ".8rem", fontWeight: "bold"}),
         Plot.text(sortedData.filter(d => (d.Criteria == "Total Score")), {y: "Team", x: "Criteria", text: "Score", fill: "black", fontSize: width > 450 ? 18 : ".8rem", fontWeight: "bold"}),
@@ -1215,7 +1224,10 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
               y: (d) => formatPercent(d),
               x: (d) => formatTime(d),
               stroke: false
-            }
+            },
+            opacity: 0.9,
+            textPadding: 10,
+            lineHeight: 1.65,
           },
           opacity: .85,
           order: ['Coal', 'Gas', 'Oil', 'Nuclear', 'Hydroelectric', 'Wind', 'Solar', 'Other renewables'],
@@ -1300,7 +1312,11 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
         Plot.dot(mpg, Plot.dodgeX("middle", {
           fx: "class", 
           y: "hwy", 
-          tip: true,
+          tip: {
+            opacity: 0.9,
+            textPadding: 10,
+            lineHeight: 1.65,
+          },
           fill: "manufacturer"
         })),
         ],
@@ -1379,7 +1395,11 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
       },
       marks: [
       // Transform data example, ternary operator example for style
-        Plot.barY(alphabet, {x: "letter", y: d => d.frequency, fill: d => d.frequency >.08 ? "frequent" : "not", title: d => "Letter "+(d.letter) + "\n" + formatPercent(d.frequency), tip: true}),
+        Plot.barY(alphabet, {x: "letter", y: d => d.frequency, fill: d => d.frequency >.08 ? "frequent" : "not", title: d => "Letter "+(d.letter) + "\n" + formatPercent(d.frequency), tip: {
+          opacity: 0.9,
+          textPadding: 10,
+          lineHeight: 1.5,
+        },}),
         Plot.ruleY([0], {stroke: "hsl(0, 0%, 88%)"})
         ]
     };
@@ -1430,9 +1450,13 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
           x1: d => d.date, // start of current year
           x2: d => d3.utcYear.offset(d.date), // start of next year
           fill: "value",
-          tip: true,
+          tip: {
+            opacity: 0.9,
+            textPadding: 10,
+            lineHeight: 1.5,
+          },
           title: (d) =>
-          `${d3.timeFormat("%B %d, %Y")(d["date"])} \nAnomaly: ${d3.format("+.3f")(d["value"])}`,
+          `${d3.timeFormat("%B %d, %Y")(d["date"])} \nAnomaly: ${d3.format("+.3f")(d["value"])}℃`,
         }),
         ],
     };
@@ -1464,7 +1488,10 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
             format: {
               x: (d) => formatTime(d),
               y: (d) => formatPercent(d),
-            }
+            },
+            opacity: 0.9,
+            textPadding: 10,
+            lineHeight: 1.5,
           }
         })),
         Plot.text(stocks, Plot.selectLast(Plot.normalizeY({
@@ -1484,14 +1511,15 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
     var anomaly_dot = {
       width: width,
       style: {fontSize: size},
-      marginLeft: width/33,
+      marginLeft: width/20,
       marginRight: width/100,
       marginTop: 30,
       marginBottom: 20,
       grid: true,
+      inset: 4,
       y: {
         nice: true,
-        tickFormat: "+f",
+        tickFormat: d => d3.format("+.1f")(d) + " ℃",
         label: null,
         tickSize: 0,
         ticks: 4
@@ -1519,7 +1547,11 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
           opacity: .9, 
           stroke: "value",
           fill: "value", 
-          tip: true,
+          tip: {
+            opacity: 0.9,
+            textPadding: 10,
+            lineHeight: 1.5,
+          },
           title: (d) => `${d3.timeFormat("%B %d, %Y")(d["date"])} \nTemp: ${d3.format("+.2f")(d["value"])}℃`, 
         }),
         Plot.lineY(hadcrut, Plot.windowY(12, {x: "date", y: "value", stroke: "currentColor"}))
@@ -1557,6 +1589,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
         Plot.line(google, {x: "week", y: "interest", stroke: "white", title: (d) => `${d.search}\n${d3.timeFormat("%B %d, %Y")(d["week"])} \nRanking: ${d.interest}`, strokeWidth: 1, tip: {
           opacity: 0.8,
           textPadding: 10,
+          lineHeight: 1.5,
         },}),
         Plot.ruleY([0],{stroke:"rgba(204,204,204,.8)"}),
         ]
@@ -1584,7 +1617,7 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
 
     var gapminder = { 
       width: width,           
-      style:{fontSize: size},
+      style:{fontSize: size, textTransform: "capitalize"},
       inset: 2,
       marginLeft: width/33,
       marginRight: width/100,
@@ -1610,69 +1643,83 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
           x: "gdpPercap", 
           y: "lifeExp", 
           r: "pop", 
-          fill: "continent", 
+          fill: "continent",
+          channels: {
+            country: "country",
+          }, 
           tip: {
             format: {
               y: (d) => d + ` years`,
               x: "$~s",
-            }
+            },
+            opacity: 0.9,
+            textPadding: 10,
+            lineHeight: 1.65,
           }}),
         Plot.ruleY([40],{stroke:"rgba(204,204,204,.8)"}),
         Plot.ruleX([250],{stroke:"rgba(204,204,204,.8)"}),
         ]
     };
 
-    // Todo: replace with https://observablehq.com/@observablehq/plot-bullet-graph ? 
+    // https://observablehq.com/@observablehq/plot-bullet-graph
     var bullet = {
       width: width,
-      height: 85,
-      style:{fontSize: size},
-      marginLeft: 0,
-      marginRight: 0,
+      marginLeft: width/100,
+      marginRight: width/100,
+      marginTop: 30,
+      marginBottom: 30,
+      style:{fontSize: size-2, textTransform: "capitalize"},
       x: {
-        axis: "bottom",
+        axis: "top",
         grid: true,
-        // ticks: d3.range(0, 51, 10),
+        ticks: d3.range(0, 51, 10),
         tickFormat: (d) => (d === 50 ? `${d}%` : `${d}`),
-        tickSize: 0,
-        nice: true,
-        clamp: true,
+        tickSize: 0
       },
-      y: { label: null, reverse: true, domain: ["all"], axis: null },
-      color: { scheme: "dark2" },
+      y: {
+        label: null,
+        domain: ["80+", "65-79", "50-64", "35-49", "18-34", "0-17" ]
+      },
       facet: {
         data: covid,
         x: "race",
-        label: null,
+        label:
+          "Proportion of COVID-19 cases (color) vs. share of population (gray), by race and age"
       },
+      color: { scheme: "dark2" },
       marks: [
         Plot.barX(covid, {
           x: "population_percent",
           y: "age",
           fill: "#ddd",
-          title: d => `${d.race} are ${d.population_percent}% of the population\nand make up ${d.cases_percent}% of COVID-19 cases`,
           insetTop: 2,
           insetBottom: 2
         }),
-        Plot.frame({stroke: "#ccc"}),
         Plot.barX(covid, {
           x: "cases_percent",
           y: "age",
           fill: "race",
-          title: d => `${d.race} are ${d.population_percent}% of the population\nand make up ${d.cases_percent}% of COVID-19 cases`,
           sort: { fx: "x", reverse: true },
           insetTop: 6,
-          insetBottom: 6
+          insetBottom: 6,
+          tip: {
+            format: {
+              // y: (d) => d + ` years`,
+              x: ".2%",
+            },
+            opacity: 0.9,
+            textPadding: 10,
+            lineHeight: 1.65,
+          }
         })
-        ],
+      ]
     };
 
     var dotdensity = {
       width: width,
       marginLeft: width/33,
       marginRight: width/100,
-      style: "background: none; cursor: default; minWidth: 350px; minHeight: 500px;",      
-      marginRight: 10,
+      style:{fontSize: size, background: 'none', textTransform: 'capitalize'},   
       padding: 0.05,
       projection: "albers",
       color: {
@@ -1691,16 +1738,20 @@ xmlns:xlink="http://www.w3.org/1999/xlink">
         Plot.density(walmarts, {
           x: "longitude",
           y: "latitude",
-          bandwidth: 10,
+          bandwidth: 3,
           fill: (d) => d.date.getUTCFullYear(),
           opacity: .15
         }),
         Plot.dot(walmarts, {
           x: "longitude", 
           y: "latitude", 
-          r: 4, fill: (d) => d.date.getUTCFullYear(),
+          r: 2, 
+          fill: (d) => d.date.getUTCFullYear(),
           opacity: .55,
           tip: {
+            format: {
+              fill: formatTime,
+            },
             opacity: 0.85,
             textPadding: 10,
           },
@@ -1880,7 +1931,7 @@ var bls_line = {
   marginLeft: width/20,
   marginRight: width > 450 ? width/10 : width/5,
   marginTop: 40,
-  style:{fontSize: size},
+  style:{fontSize: size, textTransform: "capitalize"},
   y: {
     label: "Unemployed (thousands)",
     nice: true,
@@ -1901,7 +1952,13 @@ var bls_line = {
       lineAnchor: "bottom", // draw labels above grid lines
     }),
     Plot.areaY(bls, {x: "date", y2: "unemployed", z: "industry", fillOpacity: 0.1}),
-    Plot.lineY(bls, {x: "date", y: "unemployed", z: "industry", strokeWidth: 1, tip: true}),
+    Plot.lineY(bls, {x: "date", y: "unemployed", z: "industry", strokeWidth: 1, tip: {
+      format: {
+        x: (d) => formatDate(d),
+      },
+      opacity: 0.85,
+      textPadding: 10,
+    },}),
     Plot.text(bls, Plot.selectLast({filter: d => d.industry !== "Agriculture", x: "date", y: "unemployed", z: "industry", text: "industry", textAnchor: "start", rotate: width > 450 ? 0 : 45, dx: 3, fontSize: width > 450 ? 12 : 8}))
     ]
 };
@@ -1912,7 +1969,7 @@ var bls_stacked = {
   marginRight: width/10,
   marginTop: 20,
   marginBottom: 20,
-  style:{fontSize: size},
+  style:{fontSize: size, textTransform: "capitalize"},
   y: {
     grid: true,
     label: "Unemployed (thousands)",
@@ -1936,7 +1993,12 @@ var bls_stacked = {
       dy: -4, // offset up
       lineAnchor: "bottom", // draw labels above grid lines
     }),
-    Plot.areaY(bls, Plot.stackY({x: "date", y: "unemployed", fill: "industry", tip: true,})),
+    Plot.areaY(bls, Plot.stackY({x: "date", y: "unemployed", fill: "industry", tip: {
+      format: {x: formatDate},
+          opacity: 0.8,
+          textPadding: 10,
+          lineHeight: 1.5,
+        },})),
     Plot.text(bls, Plot.selectLast(Plot.stackY({filter: d => d.industry !== "Mining and Extraction",
       x: "date", y: "unemployed", z: "industry", text: "industry", textAnchor: "start", fontSize: width > 450 ? 12 : 10, fontWeight: 700, dx: 3,fill: "industry", rotate: width > 450 ? 0 : 30}))),
     Plot.ruleY([0], {strokeOpacity: 0.2})
@@ -1949,7 +2011,7 @@ var bls_bar = {
   marginRight: width/33,
   marginTop: 40,
   marginBottom: 30,
-  style:{fontSize: size},
+  style:{fontSize: size, textTransform: "capitalize"},
   x: {
     tickFormat: "%Y",
     tickSize: 0,
@@ -1975,14 +2037,17 @@ var bls_bar = {
       dy: -4, // offset up
       lineAnchor: "bottom", // draw labels above grid lines
     }),
-    Plot.rectY(bls, Plot.binX({y: "sum"}, {x: "date", y: "unemployed", fill: "industry", tip: true}))
+    Plot.rectY(bls, Plot.binX({y: "sum"}, {x: "date", y: "unemployed", fill: "industry", tip: {
+      format: {x: formatTime},
+          opacity: 0.8,
+          textPadding: 10,
+          lineHeight: 1.5,
+        },}))
     ]
 };
 
 var statemap = new Map(stategrid.map(d => [d.name, d]));
 var states = statepop.filter((d) => statemap.has(d.State)).map((d) => ({ ...d, ...statemap.get(d.State) }));
-var popchange = new Map(statepop2019.map(d => [d, (d[2019] - d[2010]) / d[2010]]));
-console.log(popchange);
 
 change = new function(d){
   return d => (d["2019"] / d["2010"])
@@ -2052,45 +2117,97 @@ var gridmap = {
 
   // https://observablehq.com/@observablehq/plot-state-population-change
   var diverging ={
+    width: width,
+    style:{fontSize: size-2},
+    marginRight: width/33,
+    marginLeft: width/33,
     label: null,
     x: {
       axis: "top",
-      label: "← decrease · Change in population, 2010–2019 (%) · increase →",
+      label: "← decrease  ·  Change in population, 2010–2019 (%)  ·  increase →",
       labelAnchor: "center",
       tickFormat: "+",
-      percent: true
+      percent: true,
     },
     color: {
-      scheme: "PiYG",
+      scheme: "PiYg",
       type: "ordinal"
     },
     marks: [
-      Plot.barX(popchange, {
-        x: "value",
-        y: "State",
-        fill: (d) => d.value > 0,
-        sort: { y: "x" }
-      }),
-      Plot.gridX({ stroke: "white", strokeOpacity: 0.5 }),
-      d3
-        .groups(popchange, (d) => d.value > 0)
-        .map(([growth, states]) => [
-          Plot.axisY({
-            x: 0,
-            ticks: states.map((d) => d.State),
-            tickSize: 0,
-            anchor: growth ? "left" : "right"
-          }),
-          Plot.textX(states, {
-            x: "value",
-            y: "State",
-            text: ((f) => (d) => f(d.value))(d3.format("+.1%")),
-            textAnchor: growth ? "start" : "end",
-            dx: growth ? 4 : -4,
-          })
-        ]),
+      Plot.barX(statepop, {y: "State", x: (d) => (d[2019] - d[2010]) / d[2010], fill: (d) => Math.sign(d[2019] - d[2010]), sort: {y: "x"}}),
+      Plot.gridX({stroke: "white", strokeOpacity: 0.5}),
+      Plot.axisY({x: 0}),
       Plot.ruleX([0])
     ]
+  };
+
+  // https://observablehq.com/@observablehq/plot-difference-chart
+  var difference ={
+    width: width,
+    style:{fontSize: size, textTransform: "capitalize"},
+    marginRight: width/33,
+    marginLeft: width/33,
+    x: { inset: 4},
+    y: { grid: true, label: "Temperature (°F)", tickSize: 0},
+    color: { scheme: "RdYlBu", label: "colder" },
+    marks: [
+      Plot.differenceY(weather, {
+        x: "date",
+        y1: "New York",
+        y2: "San Francisco",
+        curve: "step-after",
+        positiveFill: () => "NY",
+        negativeFill: () => "SF",
+        tip: {
+          format: {x: formatDate, y: "f"},
+          lineHeight: 1.5,
+          padding: 10,
+          opacity: .9,
+        },
+      }),
+      Plot.text(
+        weather,
+        Plot.selectMaxY({
+          x: "date",
+          y: "New York",
+          text: () => "New York",
+          dy: -6,
+          fontSize: 10,
+        })
+      ),
+      Plot.text(weather, {
+        ...Plot.selectMaxY({
+          x: "date",
+          y: "New York"
+        }),
+        y: "San Francisco",
+        text: () => "San Francisco",
+        dy: 13,
+        fontSize: 10,
+      }),
+      Plot.text(
+        weather,
+        Plot.selectMinY({
+          x: "date",
+          y: "New York",
+          text: () => "New York",
+          textAnchor: "start",
+          dy: -10,
+          dx: 6,
+          fontSize: 10,
+        })
+      ),
+      Plot.text(weather, {
+        ...Plot.selectMinY({
+          x: "date",
+          y: "New York",
+          text: () => "San Francisco"
+        }),
+        y: "San Francisco",
+        dy: -40,
+        fontSize: 10,
+      })
+      ]
   };
 
 // Drug scatter plot 
@@ -2117,9 +2234,12 @@ var gridmap = {
       marks: [
         Plot.frame(),
       // Draw a dot for each drug in drugs
-        Plot.dot(drugs, {x: "Mean Social harm", y: "Mean_Physical_harm",r: "Pleasure", fill: "Drug", tip: true,}),
+        Plot.dot(drugs, {x: "Mean Social harm", y: "Mean_Physical_harm",r: "Pleasure", fill: "Drug", tip: {
+            opacity: 0.9,
+            textPadding: 10,
+            lineHeight: 1.5,
+          },}),
       // Add a text label above the dot
-        // Plot.text(drugs, {filter: d => d.Drug !== "Methylphenidate" && d.Drug !=="Benzodiazepines" && d.Drug !=="Barbiturates" && d.Drug !=="Amphetamine", x: "Mean Social harm", y: "Mean_Physical_harm", text: d => d.Drug === "Solvents" ? "" : d.Drug, dy: -12}),
         Plot.text(drugs, {filter: d => d.Mean_Physical_harm >2.3 || d.Mean_Physical_harm < 1.3, x: "Mean Social harm", y: "Mean_Physical_harm", text: d => d.Drug === "Solvents" ? "" : d.Drug, dy: -12}),
         Plot.ruleX([0], {strokeOpacity: 0}),
         Plot.ruleY([0], {strokeOpacity: 0}),
@@ -2180,8 +2300,8 @@ var gridmap = {
 
     var proportion_plot = {
       width: width,
-      marginLeft: width/100,
-      marginRight: width/100,
+      marginLeft: width/10,
+      marginRight: width/10,
       marginTop: 20,
       marginBottom: 10,
       style:{fontSize: size},
@@ -2201,8 +2321,6 @@ var gridmap = {
           scheme: "prgn",
           reverse: true
         },
-        marginLeft: 50,
-        marginRight: 60,
         marks: [
           Plot.areaY(
             proportion_data_flat,
@@ -2300,7 +2418,7 @@ var gridmap = {
         marginRight: width/9,
         marginTop: 30,
         marginBottom: 10,
-        style:{fontSize: size},
+        style:{fontSize: size, textTransform: "capitalize"},
         x: {
           tickSize: 0,
           grid: true,
@@ -2319,7 +2437,12 @@ var gridmap = {
             x: "date",
             y: "unemployed",
             fill: "industry",
-            tip: true,
+            tip: {
+              format: {x: formatDate},
+              lineHeight: 1.5,
+              padding: 10,
+              opacity: .9,
+            },
             offset: "wiggle"
           })),
           Plot.text(bls, Plot.selectLast(Plot.stackY({
@@ -2365,7 +2488,7 @@ var gridmap = {
           Plot.barX(qatar, {
             x: d => d["population"] * (1 - 2 * (d["sex"] === "male")),
             y: "age",
-            fill: d => d.sex === "male" ? "male" : "female",
+            fill: d => d.sex === "male" ? "male" : "female",            
           }),
           Plot.barX(qatar, {
             x: d => d["population"] * (1 - 2 * (d["sex"] === "male")),
@@ -2458,7 +2581,10 @@ var gridmap = {
                 cty: true,
                 fx: false,
                 stroke: true,
-              }
+              },
+                opacity: 0.9,
+                textPadding: 10,
+                lineHeight: 1.5,
             }}),
           [Plot.frame()]
           ]
@@ -2473,10 +2599,10 @@ var gridmap = {
     // https://observablehq.com/@observablehq/plot-percentogram
       var percentogram = {
         width: width,
-        style:{fontSize: size},
+        style:{fontSize: size, textTransform: "capitalize"},
         marginLeft: width/100,
         marginRight: width/100,
-        marginTop: 20,
+        marginTop: 30,
         color: {
           legend: true,
           type: "quantize",
@@ -2489,7 +2615,11 @@ var gridmap = {
         marks: [
           Plot.rectY(numbers, {
             fill: (d, i) => i,
-            tip: true,
+            tip: {
+              lineHeight: 1.5,
+              padding: 10,
+              opacity: .9,
+            },
             ...Plot.binX({
               y: (bin, {x1, x2}) => 1 / (x2 - x1),
               thresholds: percentiles
@@ -2608,6 +2738,7 @@ var gridmap = {
       document.getElementById("waffle").appendChild(Plot.plot (waffle));
       document.getElementById("horizon_chart").appendChild(Plot.plot (horizon_chart));
       document.getElementById("diverging").appendChild(Plot.plot (diverging));
+      document.getElementById("difference").appendChild(Plot.plot (difference));
     });
 
 myDataPromises.catch(function() {
