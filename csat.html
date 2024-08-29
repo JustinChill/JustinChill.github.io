@@ -367,7 +367,8 @@
   });
 
   // Plot things
-  var width = 720;
+  var element = d3.select('figure').node();
+  var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
   var size = 12;
 
   // Use Promises to async request data
@@ -387,6 +388,8 @@
       width: width,
       style:{fontSize: size},
       marginTop: 40,
+      marginLeft: width/20,
+      marginRight: width/33,
       x: {
         margin: 0,
       },
@@ -394,6 +397,7 @@
         grid: true,
         label: "CSAT Score",
         domain: [0,100],
+        tickSize: 0,
       },
       marks: [
       Plot.areaY(tinyapple, {x: "Date", y: "Close", fill: "hsl(122, 42%, 75%)", fillOpacity:.8}),
