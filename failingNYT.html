@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="The 'failing' New York Times">
+  <meta name="author" content="Justin Chill">
+  <!-- OpenGraph tags -->
+  <meta name="keywords" content="data viz, NYT, chart, satire">
+  <meta name="robots" content="all">
+  <meta content="en_US" property="og:locale">
+  <meta content="JustinChill" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="https://justinchill.com/failingNYT.html" property="og:url"> 
+  <meta content="The 'failing' New York Times" property="og:title">
+  <meta content="The 'failing' New York Times" property="og:description">
+  <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The 'failing' New York Times">
+  <meta name="twitter:description" content="The 'failing' New York Times">
+
+  <link type="text/plain" href="humans.txt" rel="author">
+  <link rel="stylesheet" href="style.css" />
+<style type="text/css">
+  @font-face {
+      font-family: Chomsky;
+      src: url("fonts/Chomsky.otf") format("opentype");
+  }
+  .article-title, .article-title span{
+    font-family: Chomsky;
+    font-size: 6rem;
+  }
+  .article-title span{
+    color: red;
+    font-size: inherit;
+  }
+
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+  
+  <main role="main">
+    <article>
+     <div class="article-hero mid-size">
+      <h2 class="article-category">Post</h2>
+      <h1 class="article-title">The <span>failing</span> New York Times</h1>
+      <h2 class="article-subtitle"></h2>
+    </div>
+
+    <figure id="lineChart" class="mid-size"></figure>
+    <figcaption class="right mid-size">Data: <a href="https://www.google.com/finance/quote/NYT:NYSE">Google Finance</a></figcaption>
+    <p>Donald Trump regularly refers to The New York Times as "The Failing New York Times." However, in addition to the Times' growing subscription numbers, stock prices have also soared. Interact with the viz to see how stock prices have grown since election day.</p>
+  </article>
+</main>
+  <!-- Todo: find better way to define SVG gradient, as in https://observablehq.com/@observablehq/plot-area-chart-with-gradient -->
+  <svg
+  version="1.1"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="gradient" gradientTransform="rotate(90)">
+      <stop offset="20%" stop-color="rgba(0, 0, 0, .75)" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="LightSkyBlue" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+</svg>
+<footer>
+  <h2 id="footnote-label">Footnotes</h2>
+  <ol>
+    <li id="Chayka"><a href="https://www.nytimes.com/2017/08/19/opinion/trump-nazism-republican-party-failing.html">Illustration</a> by Doug Chayka.</li>
+    <li id="font"><a href="https://github.com/ctrlcctrlv/chomsky">Chomsky</a>: A font in the style of the New York Times masthead</li>
+  </ol>
+
+  <div>
+    <p>Justin Chill © 2024. Thanks for reading!</p>
+    <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="icon">Source code and feedback</a></span>    
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/d3"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+
+<script type="text/javascript">
+  var element = d3.select('figure').node();
+  var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+  var size = 12;
+  const formatDate = d3.timeFormat("%B %d, %Y");
+  const formatPercent = d3.format(".0%");
+
+  // Use Promises to async request data
+var promises = [d3.csv("data/NYTStock_Full Data_data.csv",function(d) {
+      return { // Accessor function to convert strings to numbers, dates
+          Date: new Date(d.Date), // convert column to Date
+          Close: +d.Close,
+          Growth: +d.Growth,
+        }}
+      )];
+
+myDataPromises = Promise.all(promises);
+
+  // After data is successfully fetched, generate viz
+myDataPromises.then(function(data) {
+    // Define the data. There's gotta be a better way to do this:
+  var stocks = data[0];
+  console.log(stocks);
+
+  var lineChart = {
+    width: width,
+    x: {tickSize: 0,},
+    y: {tickSize: 0, tickFormat: "$"},
+    marks: [
+      Plot.areaY(stocks, {x: "Date", y: "Close", fill: "url(#gradient)"}),
+      Plot.line(stocks, {
+        x: "Date", 
+        y: "Close",
+        tip: {
+            opacity: 0.9,
+            textPadding: 10,
+            lineHeight: 1.65,
+        },
+        curve: "catmull-rom", 
+        strokeWidth: 4, 
+        sort: "Date",
+        title: d => `${formatDate(d.Date)}\nClose: ${d.Close}\nGrowth: ${formatPercent(d.Growth)}`,
+      }),
+      Plot.text(stocks, Plot.selectFirst({text: d => `Election day, 2016\nClose: $${d.Close}`, frameAnchor: "bottom-left", fontSize: 14, lineHeight: 1.5, dx: 6, dy: -30})),
+      Plot.text(stocks, Plot.selectLast({text: d => `Close: $${d.Close}`, frameAnchor: "right", fontSize: 14, dx: -6, dy: -10})),
+    ]
+  };
+
+  document.getElementById("lineChart").appendChild(Plot.plot(lineChart));
+});
+</script>
+</body>
+</html>

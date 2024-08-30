@@ -51,6 +51,8 @@
     <figure id="lineChart" class="mid-size"></figure>
     <figcaption>Data: <a href="https://en.wikipedia.org/wiki/History_of_aviation">Wikipedia</a></figcaption>
     <p>While the story of Icarus appears as early as the 1st century, it wasn't until 1903 that the Wright brothers' aircraft took off into the air. In just a little more than 40 years Chuck Yeager became the first person to travel faster than the speed of sound. In 1976, the Lockheed SR-71 Blackbird set the record for the fastest air-breathing manned aircraft, which it still holds today.</p>
+    <img src="https://eclecticlight.co/wp-content/uploads/2016/04/gowyicarus.jpg?w=1024" loading="lazy">
+    <figcaption>Jacob Peter Gowy (c 1615-1661), The Fall of Icarus (1635-7), oil on canvas, 195 x 180 cm, Museo del Prado, Madrid. Wikimedia Commons.</figcaption>
   </article>
 </main>
 <footer>
@@ -80,7 +82,6 @@ var promises = [d3.csv("data/flightData.csv",function(d) {
           Aircraft: d.Aircraft,
           Color: d.Color,
           KMH:  +d.KMH,
-          // episode_description: d.episode_description,
         }}
       )];
 
@@ -90,6 +91,7 @@ myDataPromises = Promise.all(promises);
 myDataPromises.then(function(data) {
     // Define the data. There's gotta be a better way to do this:
   var flights = data[0];
+  var mach1 = 1234.8;
   console.log(flights);
 
   // https://observablehq.com/@anbnyc/major-league-cities
@@ -97,12 +99,26 @@ myDataPromises.then(function(data) {
     width: width,
     x: {tickSize: 0,},
     y: {tickSize: 0,},
+    color: {scheme: "GnBu", unknown: "#efefef",},
     marks: [
-      Plot.ruleY([1234.8], {stroke:"rgba(0,0,0,.6)"}),
-      // Plot.text([1400], {text: "Mach 1", }),
+      Plot.ruleY([mach1], {stroke:"rgba(0,0,0,.6)", strokeLinecap: "round", strokeWidth: 1, strokeDasharray: "5 1.5", strokeOpacity: .8}),
+      Plot.text(["Mach 1 (Speed of sound)"], {frameAnchor: "right", dy: 40}),
       Plot.text(flights, Plot.selectFirst({text: "Aircraft", frameAnchor: "bottom-left", dx: 6, dy: -10})),
-      Plot.text(flights, Plot.selectLast({text: "Aircraft", frameAnchor: "top-right", dx: -160, dy: 0})),
-      Plot.line(flights, {x: "Date", y: "KMH", tip: true, channels: {Aircraft: "Aircraft"}, curve: "catmull-rom", stroke:"rgba(0,0,0,.6)", strokeWidth: 4,}),
+      Plot.text(flights, Plot.selectLast({text: "Aircraft", frameAnchor: "top-right", dx: 0, dy: -20})),
+      Plot.line(flights, {
+        x: "Date", 
+        y: "KMH",
+        tip: {
+            opacity: 0.9,
+            textPadding: 10,
+            lineHeight: 1.65,
+        },
+        channels: {Aircraft: "Aircraft"}, 
+        curve: "catmull-rom", 
+        stroke: (d, i) => d.KMH > mach1 ? i : 0, z: null, 
+        strokeWidth: 4, 
+        sort: "Date", 
+        title: d => `${formatDate(d.Date)}\n${d.Aircraft}\n${d.KMH} km/h`}),
     ]
   };
 
