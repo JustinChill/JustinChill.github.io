@@ -9,7 +9,6 @@
   <!-- OpenGraph tags -->
   <meta name="keywords" content="flight, plane, human, machine">
   <meta name="robots" content="all">
-  <meta content="DISAGlobalSolutions" property="fb:profile_id">
   <meta content="en_US" property="og:locale">
   <meta content="JustinChill" property="og:site_name">
   <meta content="website" property="og:type">
@@ -42,14 +41,14 @@
   
   <main role="main">
     <article>
-     <div class="article-hero">
+     <div class="article-hero mid-size">
       <h2 class="article-category">Post</h2>
       <h1 class="article-title">The evolution of human flight</h1>
       <h2 class="article-subtitle"></h2>
     </div>
 
     <figure id="lineChart" class="mid-size"></figure>
-    <figcaption>Data: <a href="https://en.wikipedia.org/wiki/History_of_aviation">Wikipedia</a></figcaption>
+    <figcaption>Data: <a href="https://en.wikipedia.org/wiki/History_of_aviation" class="right">Wikipedia</a></figcaption>
     <p>While the story of Icarus appears as early as the 1st century, it wasn't until 1903 that the Wright brothers' aircraft took off into the air. In just a little more than 40 years Chuck Yeager became the first person to travel faster than the speed of sound. In 1976, the Lockheed SR-71 Blackbird set the record for the fastest air-breathing manned aircraft, which it still holds today.</p>
     <img src="https://eclecticlight.co/wp-content/uploads/2016/04/gowyicarus.jpg?w=1024" loading="lazy">
     <figcaption>Jacob Peter Gowy (c 1615-1661), The Fall of Icarus (1635-7), oil on canvas, 195 x 180 cm, Museo del Prado, Madrid. Wikimedia Commons.</figcaption>
@@ -99,9 +98,9 @@ myDataPromises.then(function(data) {
     width: width,
     x: {tickSize: 0,},
     y: {tickSize: 0,},
-    color: {scheme: "GnBu", unknown: "#efefef",},
+    color: {scheme: "GnBu", unknown: "#efefef",range: [.15,1]},
     marks: [
-      Plot.ruleY([mach1], {stroke:"rgba(0,0,0,.6)", strokeLinecap: "round", strokeWidth: 1, strokeDasharray: "5 1.5", strokeOpacity: .8}),
+      Plot.ruleY([mach1], {stroke:"rgba(0,0,0,.6)", strokeLinecap: "round", strokeWidth: 1, strokeDasharray: "5 1.5", strokeOpacity: .6}),
       Plot.text(["Mach 1 (Speed of sound)"], {frameAnchor: "right", dy: 40}),
       Plot.text(flights, Plot.selectFirst({text: "Aircraft", frameAnchor: "bottom-left", dx: 6, dy: -10})),
       Plot.text(flights, Plot.selectLast({text: "Aircraft", frameAnchor: "top-right", dx: 0, dy: -20})),
@@ -115,8 +114,10 @@ myDataPromises.then(function(data) {
         },
         channels: {Aircraft: "Aircraft"}, 
         curve: "catmull-rom", 
-        stroke: (d, i) => d.KMH > mach1 ? i : 0, z: null, 
+        stroke: (d, i) => i, z: null, 
+        // stroke: "url(#gradient)",
         strokeWidth: 4, 
+        strokeOpacity: .9,
         sort: "Date", 
         title: d => `${formatDate(d.Date)}\n${d.Aircraft}\n${d.KMH} km/h`}),
     ]
