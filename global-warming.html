@@ -10,24 +10,6 @@
   <meta name="author" content="Justin Chill">
 
   <style type="text/css">
-    figure, figcaption{
-      grid-column: 2 / -2;
-    }
-    figcaption#temps_legend{
-      margin-bottom: 0;
-      grid-column: 4;
-      display: flex;
-      flex-direction: row-reverse;
-    }
-
-    #temps_legend *{
-      font-weight: 100;
-      color: hsl(211, 10%, 53%);
-    }
-    figcaption{
-      text-align: right;
-      font-size:  calc(10px + (22 - 16) * ((100vw - 320px) / (1300 - 320)))
-    }
 
   </style>
 </head>
@@ -51,8 +33,8 @@
       <h2 class="article-subtitle">How 2016 became Earth's hottest year on record</h2>
     </div>
 
-    <figcaption id="temps_legend"></figcaption>
-    <figure id="temps"></figure>
+    <!-- <figcaption id="temps_legend"></figcaption> -->
+    <figure id="temps" class="mid-size"></figure>
     <figcaption>Data: <a href="https://data.giss.nasa.gov/gistemp/">NASA's Goddard Institute for Space Studies</a></figcaption>
 
     <p>Of the 17 hottest years ever recorded, 16 have now occurred since 2000. The chart above is my recreation of a wonderful graphic from <a href="https://nyti.ms/3x89ywY">the New York Times</a>, featured in the article, "How 2016 Became Earth’s Hottest Year on Record". Thanks to publically available data<a href="#NOAA" aria-describedby="footnote-label" id="NOAA-ref"></a> from NASA we can plot recorded temperatures by data going back to 1880. Once visualized we can clearly see temperatures climbing and increasingly rapidly in the past 2 decades.</p>
@@ -60,6 +42,10 @@
     <h3>Warming stripes</h3>
     <figure id="stripes"></figure>
     <p>Reduced to just one dimension, the warming trend becomes more obvious. Each stripe here represents the average temperature for a year. You’ll notice that the stripes take a sharp turn toward the yellows, and then reds, starting in the late 1970s, reflecting the significant rise in global average temperatures. Last year was a dark red. How dark the stripes get by the end of this century depends on whether the world as a whole keeps pumping more greenhouse gas emissions into the atmosphere.</p>
+
+    <h3>Paris</h3>
+    <figure id="paris"></figure>
+    <p>Replacing fossil fuels is becoming easier. But temperatures are still likely to rise too far. Global CO2 emissions need to be halved by 2030 to limit global average temperatures to 1.5°C above pre-industrial levels<a href="#paris" aria-describedby="footnote-label" id="paris-ref"></a>.</p>
 
     <h3>Original graphic from the New York Times</h3>
     <a href="https://www.nytimes.com/interactive/2017/01/18/science/earth/2016-hottest-year-on-record.html"><img src="imgs/nyt-global-temps.png" alt="The New York Times original graphic, visualizing global temperatures since 1880." loading="lazy" title="The New York Times original graphic, visualizing global temperatures since 1880."></a>
@@ -71,6 +57,7 @@
   <h2 id="footnote-label">Footnotes</h2>
   <ol>
     <li id="NOAA">NOAA National Centers for Environmental information, Climate at a Glance: Global Mapping, published July 2022, retrieved on July 14, 2022 from <a href="https://www.ncei.noaa.gov/cag/">https://www.ncei.noaa.gov/cag/</a><a href="#NOAA-ref" aria-label="Back to content">↩</a></li>
+    <li id="paris"><a href="https://unfccc.int/most-requested/key-aspects-of-the-paris-agreement">United Nations</a>, <i>Key aspects of the Paris Agreement</i> <a href="#paris-ref" aria-label="Back to content">↩</a></li>
   </ol>
   <div>
     <p>Justin Chill © 2024. Thanks for reading!</p>
@@ -81,12 +68,15 @@
 <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 
 <script type="text/javascript">
-  var element = d3.select('figure').node();
-  var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+  var elementMid = d3.select('figure.mid-size').node();
+  var widthMid = elementMid.getBoundingClientRect().width; // get width of figure.mid-size so graphic is responsive
+  var element = d3.select('figure:last-of-type').node();
+  var width = element.getBoundingClientRect().width; // get width of figure so graphic is responsive. Todo / hacky
   var size = 12;
+  const formatDate = d3.timeFormat("%B %d, %Y");
 
   // Use Promises to async request data
-  var promises = [d3.csv("data/global-temps.csv", d3.autoType)];
+  var promises = [d3.csv("data/global-temps.csv", d3.autoType), d3.csv("data/emission_pathways_2100.csv", d3.autoType)];
   myDataPromises = Promise.all(promises);
 
   // After data is successfully fetched, generate viz
@@ -94,9 +84,10 @@
 
     // Define the data
     var hadcrut = data[0];
+    var emissions = data[1];
 
     var temps = {
-      width: width,
+      width: widthMid,
       inset: 0,
       marginLeft: 20,
       marginRight: 0,
@@ -191,8 +182,46 @@
         ]
     };
 
+    var paris = {
+      width: width,
+      style: {fontSize: size},
+      marginLeft: width/33,
+      marginRight: width/10,
+      marginTop: 30,
+      marginBottom: 20,
+      x: {
+        tickSize: 0,
+        tickPadding: 10,
+        label: null,
+      },
+      y: {
+        domain: [-20, 60],
+        nice: true,
+        grid: true,
+        tickSize: 0,
+        anchor: "left",
+        tickPadding: 3,
+        label: "↑ Global greenhouse gas emissions (GtCO₂e/year)"
+      },
+      marks: [
+        Plot.ruleY([0], {stroke: "#000000", strokeWidth: 2}),
+        Plot.areaY(emissions, {x: "year", y1: "current_policy_lower",  y2: "current_policy_higher", fill: "#87C5DF", fillOpacity: 0.6}),
+        Plot.areaY(emissions, {x: "year", y1: "pledges_lower",  y2: "pledges_higher", fill: "#4C8BB3", fillOpacity: 0.6}),
+        Plot.areaY(emissions, {x: "year", y1: "paris_lower",  y2: "paris_higher", fill: "#99d8c9", fillOpacity: 0.6}),
+        Plot.line(emissions, {x: "year", y: "paris", stroke: "#238b45", strokeDasharray: "2"}),
+        Plot.line(emissions, {x: "year", y: "historical", stroke: "#636363", strokeWidth: 2, tip: true,}),
+        Plot.text(emissions, {x: [new Date(1990, 1, 1)], y: 53, text: () => "Historical emissions", textAnchor: "start", dx: 3, fill: "#636363"}),
+        Plot.text(emissions, Plot.selectLast({x: "year", y: "current_policy_lower", text: () => "Current policies (2.9°C)", textAnchor: "start", dx: 3, dy: -25, fill: "#87C5DF", fontSize: size+2})),
+        Plot.text(emissions, Plot.selectLast({x: "year", y: "pledges_lower", text: () => "Pledges and targets (2.4°C)", textAnchor: "start", dx: 3, dy: -10, fill: "#4C8BB3", fontSize: size+2})),
+        Plot.text(emissions, Plot.selectLast({x: "year", y: "paris", text: () => "Below 1.5°C", textAnchor: "start", dx: 3, fill: "#238b45", fontSize: size+2})),
+        Plot.text(emissions, {x: [new Date(1992, 1, 1)], y: 25.9, text: () => "Emissions must halve by 2030 →", textAnchor: "start", dx: -3, fill: "#238b45", fontWeight: "bold"}),
+      ],
+      caption: "Source: Climate Action Tracker, May 2021",
+    };
+
     document.getElementById("temps").appendChild(Plot.plot(temps));
     document.getElementById("stripes").appendChild(Plot.plot(stripes));
+    document.getElementById("paris").appendChild(Plot.plot(paris));
   });
 </script>
 </body>

@@ -73,6 +73,7 @@
   var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
   var size = 12;
   const formatDate = d3.timeFormat("%B %d, %Y");
+  const formatNumb = d3.format(",");
 
   // Use Promises to async request data
 var promises = [d3.csv("data/flightData.csv",function(d) {
@@ -96,14 +97,34 @@ myDataPromises.then(function(data) {
   // https://observablehq.com/@anbnyc/major-league-cities
   var lineChart = {
     width: width,
-    x: {tickSize: 0,},
-    y: {tickSize: 0,},
-    color: {scheme: "GnBu", unknown: "#efefef",range: [.15,1]},
+    marginLeft: width/8,
+    marginRight: width/33,
+    marginTop: 30,
+    marginBottom: 20,
+    x: {tickSize: 0, nice: true},
+    y: {tickSize: 5, tickFormat: (d, i, _) => (i === _.length - 1 ? `${formatNumb(d)} KM/H` : `${formatNumb(d)}`), label: null},
+    color: {scheme: "GnBu", unknown: "#efefef",range: [.4,1]},
     marks: [
-      Plot.ruleY([mach1], {stroke:"rgba(0,0,0,.6)", strokeLinecap: "round", strokeWidth: 1, strokeDasharray: "5 1.5", strokeOpacity: .6}),
-      Plot.text(["Mach 1 (Speed of sound)"], {frameAnchor: "right", dy: 40}),
-      Plot.text(flights, Plot.selectFirst({text: "Aircraft", frameAnchor: "bottom-left", dx: 6, dy: -10})),
+      Plot.ruleY([mach1], {stroke:"rgba(0,0,0,.6)", strokeLinecap: "round", strokeWidth: 1, strokeDasharray: "5 9.5", strokeOpacity: .6}),
+      Plot.text(["Mach 1 (Speed of sound)"], {frameAnchor: "right", dy: width > 450 ? 40 : 70}),
+      Plot.text(flights, Plot.selectFirst({text: "Aircraft", frameAnchor: "bottom-left", dx: 6, dy: width > 450 ? -30 : -40})),
       Plot.text(flights, Plot.selectLast({text: "Aircraft", frameAnchor: "top-right", dx: 0, dy: -20})),
+      Plot.arrow(flights, Plot.selectFirst({
+        x1: "Date",
+        y1: d => d.KMH+250,
+        x2: "Date",
+        y2: d => d.KMH+50,
+        bend: true,
+        stroke: "#aaa"
+      })),
+      Plot.arrow(flights, Plot.selectLast({
+        x1: "Date",
+        y1: d => d.KMH+350,
+        x2: "Date",
+        y2: d => d.KMH+75,
+        bend: true,
+        stroke: "#aaa"
+      })),
       Plot.line(flights, {
         x: "Date", 
         y: "KMH",
@@ -114,8 +135,7 @@ myDataPromises.then(function(data) {
         },
         channels: {Aircraft: "Aircraft"}, 
         curve: "catmull-rom", 
-        stroke: (d, i) => i, z: null, 
-        // stroke: "url(#gradient)",
+        stroke: (d, i) => d.KMH > mach1 ? i : null, z: null, 
         strokeWidth: 4, 
         strokeOpacity: .9,
         sort: "Date", 

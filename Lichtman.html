@@ -23,21 +23,22 @@
 
   <link type="text/plain" href="humans.txt" rel="author">
   <link rel="stylesheet" href="style.css" />
-<style type="text/css">
-.candidates{
-  display: flex;
-  justify-content: space-between;
-  text-align: center;
-}
-.candidates img{
-  max-width: 120px;
-  border-radius: 50%;
-  border: 2px solid #666;
-}
-.candidates img:last-child{
-  filter: grayscale();
-}
-</style>
+  <style type="text/css">
+    .candidates{
+      display: flex;
+      justify-content: space-between;
+      text-align: center;
+      margin: 1rem 0;
+    }
+    .candidates img{
+      max-width: 120px;
+      border-radius: 50%;
+      border: 2px solid #666;
+    }
+    .candidates img:last-child{
+      filter: grayscale();
+    }
+  </style>
 </head>
 <body>
   <nav class="nav">
@@ -74,8 +75,8 @@
     <div class="candidates">
       <img src="https://akns-images.eonline.com/eol_images/Entire_Site/2020107/rs_1200x1200-201107114351-1200-kamala-harris.cm.11720.jpg?fit=around%7C1080:1080&output-quality=90&crop=1080:1080;center,top" loading="lazy">
       <span>
-      <h3>Current prediction:</h3>
-      <p>Harris wins!</p>
+        <h3>Current prediction:</h3>
+        <p>Harris wins!</p>
       </span>
       <img src="https://global.ariseplay.com/amg/www.arise.tv/uploads/2022/04/Donald-Trump.webp" loading="lazy">
     </div>
@@ -104,78 +105,77 @@
   var scheme = "YlGnBu";
 
   // Use Promises to async request data
-var promises = [d3.csv("data/Lichtman.csv",d3.autoType)];
+  var promises = [d3.csv("data/Lichtman.csv",d3.autoType)];
 
-myDataPromises = Promise.all(promises);
+  myDataPromises = Promise.all(promises);
 
   // After data is successfully fetched, generate viz
-myDataPromises.then(function(data) {
+  myDataPromises.then(function(data) {
     // Define the data. There's gotta be a better way to do this:
-  var data = data[0];
-  console.log(data)
+    var data = data[0];
+    console.log(data)
 
-  var keys = {
-    width: width,
-    height: 120,
-    marginBottom: 0,
-    marginTop: 0,
-    marginLeft: width/100,
-    marginRight: width/100,
-    style:{fontSize: size},
-    title: "The Keys to the White House",
-    color: { scheme: "Reds", legend: true},
-    x: {
-      label: null,
-      axis: null,
-    },
-    y: {
-      label: null,
-      axis: null,
-    },
-    marks: [
-      Plot.image(data, {x: "ID", y: 0, src: "https://www.svgrepo.com/show/47405/key.svg", title: "Key", tip: true, width: 60, height: 60}),
-      ]
-  };
+    var keys = {
+      width: width,
+      height: 120,
+      marginBottom: 0,
+      marginTop: 0,
+      marginLeft: width/100,
+      marginRight: width/100,
+      style:{fontSize: size},
+      title: "The Keys to the White House",
+      color: { scheme: "Reds", legend: true},
+      x: {
+        label: null,
+        axis: null,
+      },
+      y: {
+        label: null,
+        axis: null,
+      },
+      marks: [
+        Plot.image(data, {x: "ID", y: 0, src: "https://www.svgrepo.com/show/47405/key.svg", title: "Key", tip: true, width: width > 450 ? 60 : 30}),
+        ]
+    };
 
-  var keys2024 = {
-    width: width,
-    height: 120,
-    marginBottom: 0,
-    marginTop: 0,
-    marginLeft: width/100,
-    marginRight: width/100,
-    style:{fontSize: size},
-    color: {scheme: scheme, legend: true},
+    var keys2024 = {
+      width: width,
+      height: 120,
+      marginBottom: 0,
+      marginTop: 0,
+      marginLeft: width/100,
+      marginRight: width/100,
+      style:{fontSize: size},
+      color: {scheme: scheme, legend: true},
     // x: {type: "point"},
     // domain: ["Certainly True", "Likely True", "Leans False", "Likely False", "Certainly False"]
-    marks: [
-      // Plot.image(data, {x: "ID", y: 0, src: "https://www.svgrepo.com/show/47405/key.svg", title: "Key", channels: {Guess: "Guess"}, tip: true, width: 60, height: 60}),
-      Plot.barX(data, Plot.groupZ({ x: "count" }, { fill: "Guess", tip: true,  })),
-      Plot.ruleX([8]),
+      marks: [
+        Plot.barX(data, Plot.groupZ({ x: "count" }, { fill: "Guess", tip: true,  })),
+        Plot.ruleX([8]),
       // Plot.text([8], {text: "Keys needed to win"})
-      ]
-  };
+        ]
+    };
 
-  var units = {
-    width: width,
-    marginBottom: 0,
-    marginTop: 0,
-    marginLeft: width/33,
-    marginRight: width/100,
-    style:{fontSize: size*2},
-    x: {label: null, tickSize: 0, axis: null},
-    y: {label: null},
-    color: {legend: true, scheme: scheme},
-    marks: [
-      Plot.barX(data, {y: "Guess", x: 1, inset: 0.5, fill: "Guess", sort: "Key",channels: {Key: "Key"}, tip: true}),
-      Plot.ruleX([0])
-    ]
-  };
+    var units = {
+    // width: width,
+      marginBottom: 0,
+      marginTop: 0,
+      marginLeft: width > 450 ? width/33 : width/6,
+      marginRight: width/33,
+      style:{fontSize: size},
+      x: {label: null, tickSize: 0, axis: null},
+      y: {label: null},
+      color: {legend: true, scheme: scheme},
+      marks: [
+        Plot.barX(data, {y: "Guess", x: 1, inset: 0.5, fill: "Guess", sort: "Key",channels: {Key: "Key"}, tip: true}),
+        Plot.ruleX([0])
+        ]
+    };
 
-  document.getElementById("keys").appendChild(Plot.plot(keys));
-  document.getElementById("keys2024").appendChild(Plot.plot(keys2024));
-  document.getElementById("units").appendChild(Plot.plot(units));
-});
+    document.getElementById("keys").appendChild(Plot.plot(keys));
+    document.getElementById("keys2024").appendChild(Plot.plot(keys2024));
+    document.getElementById("units").appendChild(Plot.plot(units));
+  });
 </script>
 </body>
 </html>
