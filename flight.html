@@ -92,7 +92,6 @@ myDataPromises.then(function(data) {
     // Define the data. There's gotta be a better way to do this:
   var flights = data[0];
   var mach1 = 1234.8;
-  console.log(flights);
 
   // https://observablehq.com/@anbnyc/major-league-cities
   var lineChart = {
@@ -101,12 +100,13 @@ myDataPromises.then(function(data) {
     marginRight: width/33,
     marginTop: 30,
     marginBottom: 20,
+    inset: 2,
     x: {tickSize: 0, nice: true},
-    y: {tickSize: 5, tickFormat: (d, i, _) => (i === _.length - 1 ? `${formatNumb(d)} KM/H` : `${formatNumb(d)}`), label: null},
+    y: {tickSize: 5, tickFormat: (d, i, _) => (i === _.length - 1 ? `${formatNumb(d)} (KM/H)` : `${formatNumb(d)}`), label: null},
     color: {scheme: "GnBu", unknown: "#efefef",range: [.4,1]},
     marks: [
       Plot.ruleY([mach1], {stroke:"rgba(0,0,0,.6)", strokeLinecap: "round", strokeWidth: 1, strokeDasharray: "5 9.5", strokeOpacity: .6}),
-      Plot.text(["Mach 1 (Speed of sound)"], {frameAnchor: "right", dy: width > 450 ? 40 : 70}),
+      Plot.text(["Mach 1 (Speed of sound)"], {frameAnchor: "right", dy: width > 450 ? 50 : 70, fontSize: size+4, fontWeight: 500}),
       Plot.text(flights, Plot.selectFirst({text: "Aircraft", frameAnchor: "bottom-left", dx: 6, dy: width > 450 ? -30 : -40})),
       Plot.text(flights, Plot.selectLast({text: "Aircraft", frameAnchor: "top-right", dx: 0, dy: -20})),
       Plot.arrow(flights, Plot.selectFirst({
@@ -135,7 +135,7 @@ myDataPromises.then(function(data) {
         },
         channels: {Aircraft: "Aircraft"}, 
         curve: "catmull-rom", 
-        stroke: (d, i) => d.KMH > mach1 ? i : null, z: null, 
+        stroke: (d, i) => i > 64 ? i : null, z: null, 
         strokeWidth: 4, 
         strokeOpacity: .9,
         sort: "Date", 

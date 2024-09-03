@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="The Carrie Bradshaw index: Where Americans can afford to live solo">
+  <meta name="author" content="Justin Chill">
+  <!-- OpenGraph tags -->
+  <meta name="keywords" content="Carrie Brawshaw, Economist, chart, graph">
+  <meta name="robots" content="all">
+  <meta content="en_US" property="og:locale">
+  <meta content="JustinChill" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="https://justinchill.com/Carrie-Bradshaw-index.html" property="og:url"> 
+  <meta content="The Carrie Bradshaw index" property="og:title">
+  <meta content="Data visualization of where Americans can afford to live solo" property="og:description">
+  <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Carrie Bradshaw index">
+  <meta name="twitter:description" content="Data visualization of where Americans can afford to live solo">
+
+  <link type="text/plain" href="humans.txt" rel="author">
+  <link rel="stylesheet" href="style.css" />
+<style type="text/css">
+
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+  
+  <main role="main">
+    <article>
+     <div class="article-hero mid-size">
+      <h2 class="article-category">Post</h2>
+      <h1 class="article-title">The Carrie Bradshaw index</h1>
+      <h2 class="article-subtitle">In many cities even the most basic apartments are unaffordable</h2>
+    </div>
+
+    <figure id="economist_plot" class="mid-size"></figure>
+    <figcaption>*Where rental costs make up 30% of annual wage. Based on median studio rental prices, July 2023. Sources: Bureau of Labor Statistics; Zumper.</figcaption>
+    <p>Over the past 20 years rising rents have outpaced wage growth in America. According to Moody’s, a financial-services company, the average share of household income spent on rent hit 30% in 2022, its highest proportion in at least 25 years. That means the average American household is now classed as “rent-burdened” (defined as paying more than 30% of gross salary on rent). For city dwellers, particularly those who wish to live alone—as Carrie Bradshaw, the protagonist of “Sex and the City”, did in New York—finding affordable housing is particularly challenging. By our calculations, in some cities even the humble studio apartment is well beyond the means of the average worker.</p>
+    <p>Using data on median rent prices from Zumper, an online property platform, <em>The Economist</em>  calculated the salary needed to afford to rent a studio apartment in 100 of the largest cities in America. Unsurprisingly, New York tops the list: on average, tenants should probably earn at least $140,000 to comfortably afford a room of their own. Big cities in California, as well as Boston, Miami, Jersey City and Washington, DC make up the top ten, with renters having to earn well above the national median wage of $46,000 if they want to live alone. Fully 57 of the 100 cities, including Atlanta, Charleston and Orlando, require gross salaries higher than the national average. </p>
+  </article>
+</main>
+<footer>
+  <h2 id="footnote-label">Footnotes</h2>
+  <ol>
+    <li id="pivert"><a href="https://observablehq.com/@kpivert/the-economists-new-carrie-bradshaw-index">Kurtis Pivert's</a> rough draft on Observable inspired this.<a href="#pivert-ref" aria-label="Back to content">↩</a></li>
+  </ol>
+
+  <div>
+    <p>Justin Chill © 2024. Thanks for reading!</p>
+    <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="icon">Source code and feedback</a></span>    
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/d3"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+
+<script type="text/javascript">
+  var element = d3.select('figure').node();
+  var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+  var size = 12;
+
+  // Use Promises to async request data
+var promises = [d3.json("data/affordable_rent_wages.json")];
+
+myDataPromises = Promise.all(promises);
+
+  // After data is successfully fetched, generate viz
+myDataPromises.then(function(data) {
+    // Define the data. There's gotta be a better way to do this:
+  var data = data[0];
+  var data_updated = data.map((d, index) => ({
+  ...d,
+  median_wage: d.affordable_rent_wage - d.diff,
+  more_less: d.diff > 0 ? "more" : "less",
+  index
+}));
+
+  console.log(data_updated);
+
+  // https://observablehq.com/@anbnyc/major-league-cities
+  var economist_plot = {
+    width: width,
+    marginLeft: width/8,
+    marginRight: width/33,
+    marginTop: 30,
+    marginBottom: 20,
+    // height: 1000 * 0.618,
+      y: {
+        axis: "right",
+        ticks: 4,
+        tickFormat: "$,.0s",
+        tickSize: 0,
+      },
+      x: { axis: null },
+      margin: 80,
+      color: { legend: true },
+      marks: [
+        Plot.ruleY([0, 50000, 100000, 150000], { stroke: "#cccccc", strokeOpacity: .75, strokeLinecap: "round"}),
+        Plot.dot(data_updated, {
+          x: "index",
+          y: "affordable_rent_wage",
+          fill: "#e2130c",
+          r: 4
+          // tip: true
+        }),
+        Plot.dot(data_updated, {
+          x: "index",
+          y: "median_wage",
+          fill: "#1c2b73",
+          r: 4
+          // tip: true
+        }),
+        Plot.text(data_updated, Plot.selectFirst({text: "city", x: "index", y: "affordable_rent_wage", dy: -12, dx: 35})),
+        Plot.text(data_updated.filter(d => (d.city === "Miami, FL")), {text: "city", x: "index", y: "affordable_rent_wage", dy: -12, dx: 35}),
+        Plot.text(data_updated.filter(d => (d.city === "Charleston, SC")), {text: "city", x: "index", y: "affordable_rent_wage", dy: 90, dx: 0}),
+        Plot.text(data_updated.filter(d => (d.city === "Seattle, WA")), {text: "city", x: "index", y: "affordable_rent_wage", dy: -22, dx: 20}),
+        Plot.text(data_updated.filter(d => (d.city === "El Paso, TX")), {text: "city", x: "index", y: "affordable_rent_wage", dy: 20, dx: 0}),
+        Plot.text(data_updated.filter(d => (d.city === "Los Angeles, CA")), {text: d => 'Los Angeles and Chicago are among the cities where the affordable-studio wage is higher than the median wage.', x: "index", y: "affordable_rent_wage", dy: -60, dx: 30, lineWidth: 10, fill: "currentColor",}),
+        Plot.arrow(data_updated.filter(d => (d.city === "Los Angeles, CA")),{
+          x1: d => d.index,
+          y1: d => d.affordable_rent_wage,         
+          x2: d => d.index,
+          y2: d => d.affordable_rent_wage+5000,
+          bend: false,
+          strokeLinejoin: "miter",
+          headLength: 0,
+          stroke: "#aaa"
+        }),
+        Plot.arrow(data_updated.filter(d => (d.city === "Chicago, IL")),{
+          x1: d => d.index,
+          y1: d => d.affordable_rent_wage,         
+          x2: d => d.index,
+          y2: d => d.affordable_rent_wage+10000,
+          bend: false,
+          strokeLinejoin: "miter",
+          headLength: 0,
+          stroke: "#aaa"
+        }),
+        Plot.ruleX(data_updated, {
+          x: "index",
+          y1: "affordable_rent_wage",
+          y2: "median_wage",
+          tip: {
+              opacity: 0.9,
+              textPadding: 10,
+              lineHeight: 1.65,
+          },
+          title: (d) =>
+            `${
+              d.city
+            }\nThe affordable rent wage is \$${d.affordable_rent_wage.toLocaleString()},\nwhich is \$${Math.abs(
+              d.diff
+            ).toLocaleString()} ${d.more_less} than the median wage`
+        })
+      ]
+  };
+
+  document.getElementById("economist_plot").appendChild(Plot.plot(economist_plot));
+});
+</script>
+</body>
+</html>

@@ -119,22 +119,12 @@
       },
       marks: [
         Plot.linearRegressionY(data, {x: "CPI", y: "HDI", stroke: "crimson", ci: 0.95}),
-        Plot.dot(data, {
-          x: "CPI",
-          y: "HDI",
-          symbol: "circle",
-          stroke: "Region",
-          r: 5,
-          title: d => `${d.Country}\nCPI: ${d.CPI}\nHDI: ${d.HDI}`,
-          channels: {name: "Country", HDI: "HDI"},
-          tip: true,
-        }),
         Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Venezuela"), {
           x: "CPI",
           y: "HDI",          
           text: "Country",
-          dy: 0,
-          dx: -40,
+          dy: -4,
+          dx: -35,
         }),
         Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Iraq"), {
           x: "CPI",
@@ -221,19 +211,29 @@
           text: "Country",
           dx: 32,
         }),
+        Plot.arrow(data.filter(d => labels.includes(d.Country) & d.Country == "France"),{
+          x1: d => d.CPI-.07,
+          y1: d => d.HDI+.012,         
+          x2: d => d.CPI-.25,
+          y2: d => d.HDI+.05,
+          bend: false,
+          strokeLinejoin: "miter",
+          headLength: 0,
+          stroke: "#aaa"
+        }),
         Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "France"), {
           x: "CPI",
           y: "HDI",          
           text: "Country",
-          dy: 0,
-          dx: -27,
+          dy: -26,
+          dx: -34,
         }),
         Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "United States"), {
           x: "CPI",
           y: "HDI",          
-          text: "Country",
-          dy: -12,
-          dx: -2,
+          text: d => "Country" == "United States" ? null : "US",
+          dy: -14,
+          dx: 0,
         }),
         Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Britain"), {
           x: "CPI",
@@ -272,8 +272,16 @@
           x: "CPI",
           y: "HDI",          
           text: "Country",
-          dy: -12,
-          dx: -2,
+          dy: -20,
+          dx: -60,
+        }),
+        Plot.arrow(data.filter(d => labels.includes(d.Country) & d.Country == "Russia"),{
+          x2: d => d.CPI-.05,
+          y2: d => d.HDI+.0005,
+          x1: d => d.CPI-.65,
+          y1: d => d.HDI+.0375,
+          bend: true,
+          stroke: "#aaa"
         }),
         Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Brazil"), {
           x: "CPI",
@@ -282,19 +290,39 @@
           dy: -11,
           dx: -2,
         }),
+        Plot.arrow(data.filter(d => labels.includes(d.Country) & d.Country == "Spain"),{
+          x1: d => d.CPI-.07,
+          y1: d => d.HDI+.012,         
+          x2: d => d.CPI-.25,
+          y2: d => d.HDI+.05,
+          bend: false,
+          strokeLinejoin: "miter",
+          headLength: 0,
+          stroke: "#aaa"
+        }),
         Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Spain"), {
           x: "CPI",
           y: "HDI",          
           text: "Country",
-          dy: -14,
-          dx: -2,
+          dy: -26,
+          dx: -34,
+        }),
+        Plot.arrow(data.filter(d => labels.includes(d.Country) & d.Country == "Germany"),{
+          x1: d => d.CPI,
+          y1: d => d.HDI+.01,         
+          x2: d => d.CPI,
+          y2: d => d.HDI+.03,
+          bend: false,
+          strokeLinejoin: "miter",
+          headLength: 0,
+          stroke: "#aaa"
         }),
         Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Germany"), {
           x: "CPI",
           y: "HDI",          
           text: "Country",
-          dy: -12,
-          dx: 4
+          dy: -20,
+          dx: -2
         }),
         Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Japan"), {
           x: "CPI",
@@ -310,11 +338,33 @@
           dy: 12,
           dx: 4,
         }),
+        Plot.arrow(data.filter(d => labels.includes(d.Country) & d.Country == "South Africa"),{
+          x1: d => d.CPI-.007,
+          y1: d => d.HDI-.012,         
+          x2: d => d.CPI+.11,
+          y2: d => d.HDI-.035,
+          bend: false,
+          strokeLinejoin: "miter",
+          headLength: 0,
+          stroke: "#aaa"
+        }),
         Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "South Africa"), {
           x: "CPI",
           y: "HDI",          
           text: d => `${d.Country}`,
-          dy: 12,
+          dy: 24,
+          dx: 24,
+          lineWidth: 4,
+        }),
+        Plot.dot(data, {
+          x: "CPI",
+          y: "HDI",
+          symbol: "circle",
+          stroke: "Region",
+          r: 5,
+          title: d => `${d.Country}\nCPI: ${d.CPI}\nHDI: ${d.HDI}`,
+          channels: {name: "Country", HDI: "HDI"},
+          tip: true,
         }),
       ]
     };
