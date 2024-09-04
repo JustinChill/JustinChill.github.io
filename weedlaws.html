@@ -42,7 +42,11 @@
       justify-content: center;
     }
 
-  </style>
+    g[aria-label*="tip"] tspan:first-of-type {{
+      font-weight: 700;
+    }
+
+</style>
 </head>
 <body>
   <nav class="nav">
@@ -117,7 +121,13 @@
 
     var states = topojson.feature(us, us.objects.states);
     var lawmap = new Map(laws.map(d => [d.State, d.LegalStatus]));
+    var medmap = new Map(laws.map(d => [d.State, d.Medicinal]));
+    var crimmap = new Map(laws.map(d => [d.State, d.Decriminalized]));
     var stateabbr = new Map(stategrid.map(d => [d.name, d.key]));
+
+    const formatDate = d3.timeFormat("%B %d, %Y");
+
+    // console.log(medmap);
 
     var map = {
       width: width,
@@ -129,8 +139,13 @@
         // filter: (d) => lawmap.get(d.properties.name),
         // filter: d => lawmap.get(d.properties.name) !== undefined, 
         fill: d => lawmap.get(d.properties.name) != undefined ? lawmap.get(d.properties.name) : "Mixed", // This is a hack to "hide" undefined values
-        title: d => `${d.properties.name}\nStatus: ${lawmap.get(d.properties.name)}`,
-        tip: true
+        title: d => `${d.properties.name}\nStatus: ${lawmap.get(d.properties.name)}\nMedicinal? ${medmap.get(d.properties.name)}\nDecriminalized? ${crimmap.get(d.properties.name)}`,
+        tip: {
+          opacity: 0.9,
+          textPadding: 10,
+          lineHeight: 1.65,
+          fontSize: size
+        },
       })),
        Plot.geo(topojson.mesh(us, us.objects.states, (a, b) => a !== b), {stroke: "white"}),
        Plot.text(

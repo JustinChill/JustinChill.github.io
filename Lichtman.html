@@ -102,7 +102,7 @@
   var element = d3.select('figure').node();
   var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
   var size = 12;
-  var scheme = "YlGnBu";
+  var scheme = "BuRd";
 
   // Use Promises to async request data
   var promises = [d3.csv("data/Lichtman.csv",d3.autoType)];
@@ -146,13 +146,13 @@
       marginLeft: width/100,
       marginRight: width/100,
       style:{fontSize: size},
-      color: {scheme: scheme, legend: true},
-    // x: {type: "point"},
-    // domain: ["Certainly True", "Likely True", "Leans False", "Likely False", "Certainly False"]
+      color: {scheme: scheme, legend: true, reverse: false},
+      // domain: ["Certainly True", "Likely True", "Leans False", "Likely False", "Certainly False"],
+      x: {labelArrow: "none", label: null},
       marks: [
-        Plot.barX(data, Plot.groupZ({ x: "count" }, { fill: "Guess", tip: true,  })),
+        Plot.barX(data, Plot.groupZ({ x: "count" }, { fill: "Guess", tip: true,  reverse: false})),
         Plot.ruleX([8]),
-      // Plot.text([8], {text: "Keys needed to win"})
+        Plot.text(data, Plot.groupZ({ x: "count" }, { text: d => "Keys needed to win", dx:-(width/2)+120, rotate: 270, frameAnchor: "middle"})),
         ]
     };
 
@@ -167,7 +167,8 @@
       y: {label: null},
       color: {legend: true, scheme: scheme},
       marks: [
-        Plot.barX(data, {y: "Guess", x: 1, inset: 0.5, fill: "Guess", sort: "Key",channels: {Key: "Key"}, tip: true}),
+        Plot.frame({stroke: "#ccc", strokeOpacity: .6}),
+        Plot.barX(data, {y: "Guess", x: 1, inset: 0.5, fill: "Guess", sort: "Key",channels: {Key: "Key"}, tip: true, inset: 2,}),
         Plot.ruleX([0])
         ]
     };
