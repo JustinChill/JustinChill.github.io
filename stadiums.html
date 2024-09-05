@@ -49,27 +49,40 @@
 
     <figure id="worldmap" class="mid-size"></figure>
     <figcaption>Data: <a href="https://gist.githubusercontent.com/davidelsche/b25f9373135bf9c3ab14e526626423b4/raw/779156c1145bcf09a1356c7ef6f4fa5daa635aa6/world_of_stadiums.csv">Figures CC</a></figcaption>
-    <p>No matter where you go, you can see the profound impact sports have had on each nation. Both rich and poor, big and small, every country and city on Earth has its own stadium where its favorite game is played. Sports are much more than a simple game, of course; in many instances, they are major cultural events that have the undivided attention of millions of individuals. Sometimes, people's entire ethos and identity are formed around their most beloved sports team and organization. Every team and event needs a venue. While some of these stadiums are quaint and humble, others are astronomical in size. Costing hundreds of millions of dollars to make and often taking years to construct. The biggest stadiums in the world serve as shrines to the cultural phenomena that are sport and live entertainment.</p>
+    <p>No matter where you go, you can see the profound impact sports have had on each nation. Rich or poor, big or small, every country on Earth has its own stadium where its favorite game is played. Sports are much more than a simple game, of course; in many instances, they are major cultural events that have the undivided attention of millions of individuals. Sometimes, people's entire identity are formed around their most beloved sports team and organization.</p>
+    <p>Every team and event needs a venue. While some of these stadiums are quaint and humble, others are astronomical in size. Costing hundreds of millions of dollars to make and often taking years to construct. The biggest stadiums in the world serve as shrines to the cultural phenomena that are sport and live entertainment.</p>
+    <p>This dataset contains information on 10,000+ sports stadiums around the world. </p>
 
-    <h2>Largest stadium</h2>
+    <h3>Most stadiums in the world are football (soccer ⚽) stadiums</h3>
+    <figure id="worldbars" class=""></figure>
+
+    <h2>The United States</h2>
     <figure id="indiana" class=""></figure>
     <figcaption>Data: <a href="https://gist.githubusercontent.com/davidelsche/b25f9373135bf9c3ab14e526626423b4/raw/779156c1145bcf09a1356c7ef6f4fa5daa635aa6/world_of_stadiums.csv">Figures CC</a></figcaption>
     <p>The largest stadium with 257,325 seats is the Indianapolis Speedway in Indiana, USA.</p>
 
-    <h2>Regional preferences</h2>
+    <h3>Stadiums in the USA</h3>
+    <figure id="usabars" class=""></figure>
+
+    <h3>Stadiums in India</h3>
     <figure id="india" class=""></figure>
     <figcaption>Data: <a href="https://gist.githubusercontent.com/davidelsche/b25f9373135bf9c3ab14e526626423b4/raw/779156c1145bcf09a1356c7ef6f4fa5daa635aa6/world_of_stadiums.csv">Figures CC</a></figcaption>    
-    <p>The dominance of the blue color tells you that soccer stadiums are the most popular type and can be found all over the world. But some sports are only preferred in certain regions. Take Cricket, for example. It is the most popular sport in India since it was imported by the British East India Company.</p>
+    <figure id="indbars" class=""></figure>
 
     <h2>South Korea</h2>
     <figure id="korea" class=""></figure>
     <figcaption>Data: <a href="https://gist.githubusercontent.com/davidelsche/b25f9373135bf9c3ab14e526626423b4/raw/779156c1145bcf09a1356c7ef6f4fa5daa635aa6/world_of_stadiums.csv">Figures CC</a></figcaption>
-    <p>In South Korea, multipurpose halls are the most frequent. eSports events are held in here.</p>
+    <p>In South Korea, multipurpose halls are the most common type. eSports events are held here.</p>
+    <h3>Stadiums in South Korea</h3>
+    <figure id="koreabars" class=""></figure>
 
     <h2>Ireland</h2>
     <figure id="ireland" class=""></figure>
     <figcaption>Data: <a href="https://gist.githubusercontent.com/davidelsche/b25f9373135bf9c3ab14e526626423b4/raw/779156c1145bcf09a1356c7ef6f4fa5daa635aa6/world_of_stadiums.csv">Figures CC</a></figcaption>
     <p>Gaelic football is a mixture of football and rugby and is predominantly played in Ireland.</p>
+
+    <h3>Stadiums in Ireland</h3>
+    <figure id="irebars" class=""></figure>
 </article>
 </main>
 <footer>
@@ -113,33 +126,62 @@
     var koreaD = d3.geoCircle().center([127.967892, 36.310854]).radius(4).precision(2)();
     var irelandD = d3.geoCircle().center([-7.795428, 53.4]).radius(4).precision(2)();
     var indiaD = d3.geoCircle().center([79.4, 22.1]).radius(16).precision(2)();
+    const formatYear = d3.timeFormat("%Y");
 
-    console.log(countries50m);
+    var stadiumsUSA = stadiumDataRaw.filter(function(d,i){
+       return d.country === "USA";
+     });
+
+    var stadiumsKOR = stadiumDataRaw.filter(function(d,i){
+       return d.country === "KOR";
+     });
+
+    var stadiumsIRL = stadiumDataRaw.filter(function(d,i){
+       return d.country === "IRL";
+     });
+
+    var stadiumsIND = stadiumDataRaw.filter(function(d,i){
+       return d.country === "IND";
+     });
+
+    console.log(stadiumsUSA);
 
     var worldmap = {
       width: widthMid,
       projection: "equal-earth",
+      style:{fontSize: size, textTransform: "capitalize"},
       color: { legend: true, scheme: scheme},
       marks: [
         Plot.graticule(),
         Plot.sphere(),
         Plot.geo(land, {fill: "#ccc"}),
         Plot.geo(countries50m, {stroke: "white"}),
-        Plot.dot(stadiumDataRaw, {r: 2, fill: "kind", tip: true, x: "long", tip: {
-            opacity: 0.9,
-            textPadding: 10,
-            lineHeight: 1.65,
-            fontSize: size
-          },
-          y: "lat", fillOpacity: .9, title: (d) =>
-            `${d.name}\n${d.city}, ${d.country}\nType: ${d.kind}`}),
+        Plot.dot(stadiumDataRaw, {r: 2, fill: "kind", x: "long", y: "lat", fillOpacity: .65, reverse: true}),
         Plot.density(stadiumDataRaw, {fill: "kind", x: "long", y: "lat", fillOpacity: .05}),
-
+        Plot.tip(stadiumDataRaw, Plot.pointer({
+          x: "long",
+          y: "lat",
+          opacity: 0.9,
+          textPadding: 10,
+          lineHeight: 1.65,
+          fontSize: size,
+          stroke: "kind",
+          channels: {seats: "seats", name: "name", city: "city", country: "country", built: {
+            value: d => d.built >1 ? formatYear(d.built) : d.built,
+            label: "built"
+          },},
+          format: {
+            y: false,
+            x: false,
+            stroke: true
+          }
+        })),
         ],
     };
 
     var indiana = {
       width: width,
+      style:{fontSize: size, textTransform: "capitalize"},
       projection: {
         type: "albers",
         inset: 10
@@ -150,20 +192,32 @@
         Plot.sphere(),
         Plot.geo(land, {fill: "#ccc"}),
         Plot.geo(states, {stroke: "white"}),
-        Plot.dot(stadiumDataRaw, {r: "seats", fill: "kind", tip: true, x: "long", tip: {
-            opacity: 0.9,
-            textPadding: 10,
-            lineHeight: 1.65,
-            fontSize: size
-          },
-          y: "lat", fillOpacity: .9, title: (d) =>
-            `${d.name}\n${d.city}, ${d.country}\nType: ${d.kind}`}),
-        Plot.density(stadiumDataRaw, {fill: "kind", x: "long", y: "lat", fillOpacity: .05}),
+        Plot.dot(stadiumsUSA, {r: "seats", fill: "kind", x: "long", y: "lat", fillOpacity: .65, reverse: false}),
+        Plot.density(stadiumsUSA, {fill: "kind", x: "long", y: "lat", fillOpacity: .05}),
+        Plot.tip(stadiumsUSA, Plot.pointer({
+          x: "long",
+          y: "lat",
+          opacity: 0.9,
+          textPadding: 10,
+          lineHeight: 1.65,
+          fontSize: size,
+          stroke: "kind",
+          channels: {seats: "seats", name: "name", city: "city", country: "country", built: {
+            value: d => d.built >1 ? formatYear(d.built) : d.built,
+            label: "built"
+          },},
+          format: {
+            y: false,
+            x: false,
+            stroke: true
+          }
+        })),
         ],
     };
 
     var korea = {
       width: width,
+      style:{fontSize: size, textTransform: "capitalize"},
       projection: {
         type: "mercator",
         inset: 10,
@@ -175,20 +229,32 @@
         Plot.sphere(),
         Plot.geo(land, {fill: "#ccc"}),
         Plot.geo(countries50m, {stroke: "white"}),
-        Plot.dot(stadiumDataRaw, {r: 2, fill: "kind", tip: true, x: "long", tip: {
-            opacity: 0.9,
-            textPadding: 10,
-            lineHeight: 1.65,
-            fontSize: size
-          },
-          y: "lat", fillOpacity: .9, title: (d) =>
-            `${d.name}\n${d.city}, ${d.country}\nType: ${d.kind}`}),
-        Plot.density(stadiumDataRaw, {fill: "kind", x: "long", y: "lat", fillOpacity: .05}),
+        Plot.dot(stadiumsKOR, {r: "seats", fill: "kind", x: "long", y: "lat", fillOpacity: .65, reverse: false}),
+        Plot.density(stadiumsKOR, {fill: "kind", x: "long", y: "lat", fillOpacity: .05}),
+        Plot.tip(stadiumsKOR, Plot.pointer({
+          x: "long",
+          y: "lat",
+          opacity: 0.9,
+          textPadding: 10,
+          lineHeight: 1.65,
+          fontSize: size,
+          stroke: "kind",
+          channels: {seats: "seats", name: "name", city: "city", country: "country", built: {
+            value: d => d.built >1 ? formatYear(d.built) : d.built,
+            label: "built"
+          },},
+          format: {
+            y: false,
+            x: false,
+            stroke: true
+          }
+        })),
         ],
     };
 
     var india = {
       width: width,
+      style:{fontSize: size, textTransform: "capitalize"},
       projection: {
         type: "mercator",
         inset: 10,
@@ -200,20 +266,32 @@
         Plot.sphere(),
         Plot.geo(land, {fill: "#ccc"}),
         Plot.geo(countries50m, {stroke: "white"}),
-        Plot.dot(stadiumDataRaw, {r: 2, fill: "kind", tip: true, x: "long", tip: {
-            opacity: 0.9,
-            textPadding: 10,
-            lineHeight: 1.65,
-            fontSize: size
-          },
-          y: "lat", fillOpacity: .9, title: (d) =>
-            `${d.name}\n${d.city}, ${d.country}\nType: ${d.kind}`}),
-        Plot.density(stadiumDataRaw, {fill: "kind", x: "long", y: "lat", fillOpacity: .05}),
+        Plot.dot(stadiumsIND, {r: "seats", fill: "kind", x: "long", y: "lat", fillOpacity: .65, reverse: true}),
+        Plot.density(stadiumsIND, {fill: "kind", x: "long", y: "lat", fillOpacity: .05}),
+        Plot.tip(stadiumsIND, Plot.pointer({
+          x: "long",
+          y: "lat",
+          opacity: 0.9,
+          textPadding: 10,
+          lineHeight: 1.65,
+          fontSize: size,
+          stroke: "kind",
+          channels: {seats: "seats", name: "name", city: "city", country: "country", built: {
+            value: d => d.built >1 ? formatYear(d.built) : d.built,
+            label: "built"
+          },},
+          format: {
+            y: false,
+            x: false,
+            stroke: true
+          }
+        })),
         ],
     };
 
     var ireland = {
       width: width,
+      style:{fontSize: size, textTransform: "capitalize"},
       projection: {
         type: "mercator",
         inset: 10,
@@ -225,16 +303,223 @@
         Plot.sphere(),
         Plot.geo(land, {fill: "#ccc"}),
         Plot.geo(countries50m, {stroke: "white"}),
-        Plot.dot(stadiumDataRaw, {r: 2, fill: "kind", tip: true, x: "long", tip: {
-            opacity: 0.9,
-            textPadding: 10,
-            lineHeight: 1.65,
-            fontSize: size
-          },
-          y: "lat", fillOpacity: .9, title: (d) =>
-            `${d.name}\n${d.city}, ${d.country}\nType: ${d.kind}`}),
-        Plot.density(stadiumDataRaw, {fill: "kind", x: "long", y: "lat", fillOpacity: .05}),
+        Plot.dot(stadiumsIRL, {r: "seats", fill: "kind", x: "long", y: "lat", fillOpacity: .65, reverse: false}),
+        Plot.density(stadiumsIRL, {fill: "kind", x: "long", y: "lat", fillOpacity: .05}),
+        Plot.tip(stadiumsIRL, Plot.pointer({
+          x: "long",
+          y: "lat",
+          opacity: 0.9,
+          textPadding: 10,
+          lineHeight: 1.65,
+          fontSize: size,
+          stroke: "kind",
+          channels: {seats: "seats", name: "name", city: "city", country: "country", built: {
+            value: d => d.built >1 ? formatYear(d.built) : d.built,
+            label: "built"
+          },},
+          format: {
+            y: false,
+            x: false,
+            stroke: true
+          }
+        })),
         ],
+    };
+
+    var worldbars ={
+      width: width,
+      style:{fontSize: size, textTransform: "capitalize"},
+      height: 100,
+      marginLeft: width/100,
+      marginRight: width/100,
+      marginTop: 10,
+      marginBottom: 10,
+      color: { legend: false, scheme: scheme},
+      x: {percent: true, labelAnchor: "right", labelOffset: 30},
+      marks: [
+        Plot.barX(
+          stadiumDataRaw,
+          Plot.stackX(
+            {order: "x", reverse: true},
+            Plot.groupZ(
+              {x: "proportion"},
+              {z: "kind", fill: "kind", fillOpacity: 0.72, inset: 0.5, tip: {
+                  opacity: 0.9,
+                  textPadding: 10,
+                  lineHeight: 1.65,
+                  fontSize: size,
+                },
+              }
+            )
+          )
+        ),
+        Plot.text(
+          stadiumDataRaw,
+          Plot.filter(
+            (D) => D.length > 200,
+            Plot.stackX(
+              {order: "x", reverse: true},
+              Plot.groupZ(
+                {x: "proportion", text: "first"},
+                {z: "kind", text: "kind", rotate: (D) => D.length >= 1000 ? 0 : 90, fontSize: (D) => D.length >= 1000 ? size : size-2}
+              )
+            )
+          )
+        ),
+        Plot.ruleX([0, 1])
+      ]
+    };
+
+    var usabars ={
+      width: width,
+      style:{fontSize: size, textTransform: "capitalize"},
+      height: 100,
+      marginLeft: width/100,
+      marginRight: width/100,
+      marginTop: 10,
+      marginBottom: 10,
+      color: { legend: false, scheme: scheme},
+      x: {percent: true, ticks: null, tickSize: 0, axis: null},
+      marks: [
+        Plot.barX(
+          stadiumsUSA,
+          Plot.stackX(
+            {order: "x", reverse: true},
+            Plot.groupZ(
+              {x: "proportion"},
+              {z: "kind", fill: "kind", fillOpacity: 0.72, inset: 0.5, tip: true}
+            )
+          )
+        ),
+        Plot.text(
+          stadiumDataRaw.filter(d => (d.country === "USA")),
+          Plot.filter(
+            (D) => D.length > 20,
+            Plot.stackX(
+              {order: "x", reverse: true},
+              Plot.groupZ(
+                {x: "proportion", text: "first"},
+                {z: "kind", text: "kind", rotate: (D) => D.length >= 60 ? 0 : 90}
+              )
+            )
+          )
+        ),
+        Plot.ruleX([0, 1])
+      ]
+    };
+
+    var koreabars ={
+      width: width,
+      style:{fontSize: size, textTransform: "capitalize"},
+      height: 100,
+      marginLeft: width/100,
+      marginRight: width/100,
+      marginTop: 10,
+      marginBottom: 10,
+      color: { legend: false, scheme: scheme},
+      x: {percent: true, ticks: null, tickSize: 0, axis: null},
+      marks: [
+        Plot.barX(
+          stadiumsKOR,
+          Plot.stackX(
+            {order: "x", reverse: true},
+            Plot.groupZ(
+              {x: "proportion"},
+              {z: "kind", fill: "kind", fillOpacity: 0.72, inset: 0.5, tip: true}
+            )
+          )
+        ),
+        Plot.text(
+          stadiumsKOR,
+          Plot.filter(
+            (D) => D.length > 10,
+            Plot.stackX(
+              {order: "x", reverse: true},
+              Plot.groupZ(
+                {x: "proportion", text: "first"},
+                {z: "kind", text: "kind", rotate: (D) => D.length >= 20 ? 0 : 90}
+              )
+            )
+          )
+        ),
+        Plot.ruleX([0, 1])
+      ]
+    };
+
+    var indbars ={
+      width: width,
+      style:{fontSize: size, textTransform: "capitalize"},
+      height: 100,
+      marginLeft: width/100,
+      marginRight: width/100,
+      marginTop: 10,
+      marginBottom: 10,
+      color: { legend: false, scheme: scheme},
+      x: {percent: true, ticks: null, tickSize: 0, axis: null},
+      marks: [
+        Plot.barX(
+          stadiumsIND,
+          Plot.stackX(
+            {order: "x", reverse: true},
+            Plot.groupZ(
+              {x: "proportion"},
+              {z: "kind", fill: "kind", fillOpacity: 0.72, inset: 0.5, tip: true}
+            )
+          )
+        ),
+        Plot.text(
+          stadiumsIND,
+          Plot.filter(
+            (D) => D.length > 10,
+            Plot.stackX(
+              {order: "x", reverse: true},
+              Plot.groupZ(
+                {x: "proportion", text: "first"},
+                {z: "kind", text: "kind", rotate: (D) => D.length >= 20 ? 0 : 90}
+              )
+            )
+          )
+        ),
+        Plot.ruleX([0, 1])
+      ]
+    };
+
+    var irebars ={
+      width: width,
+      style:{fontSize: size, textTransform: "capitalize"},
+      height: 100,
+      marginLeft: width/100,
+      marginRight: width/100,
+      marginTop: 10,
+      marginBottom: 10,
+      color: { legend: false, scheme: scheme},
+      x: {percent: true, ticks: null, tickSize: 0, axis: null},
+      marks: [
+        Plot.barX(
+          stadiumsIRL,
+          Plot.stackX(
+            {order: "x", reverse: true},
+            Plot.groupZ(
+              {x: "proportion"},
+              {z: "kind", fill: "kind", fillOpacity: 0.72, inset: 0.5, tip: true}
+            )
+          )
+        ),
+        Plot.text(
+          stadiumsIRL,
+          Plot.filter(
+            (D) => D.length > 10,
+            Plot.stackX(
+              {order: "x", reverse: true},
+              Plot.groupZ(
+                {x: "proportion", text: "first"},
+                {z: "kind", text: "kind", rotate: (D) => D.length >= 10 ? 0 : 90}
+              )
+            )
+          )
+        ),
+        Plot.ruleX([0, 1])
+      ]
     };
 
     document.getElementById("worldmap").appendChild(Plot.plot(worldmap));
@@ -242,6 +527,11 @@
     document.getElementById("korea").appendChild(Plot.plot(korea));
     document.getElementById("ireland").appendChild(Plot.plot(ireland));
     document.getElementById("india").appendChild(Plot.plot(india));
+    document.getElementById("worldbars").appendChild(Plot.plot(worldbars));
+    document.getElementById("usabars").appendChild(Plot.plot(usabars));
+    document.getElementById("koreabars").appendChild(Plot.plot(koreabars));
+    document.getElementById("irebars").appendChild(Plot.plot(irebars));
+    document.getElementById("indbars").appendChild(Plot.plot(indbars));
   });
 </script>
 </body>
