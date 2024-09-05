@@ -99,6 +99,45 @@
   const formatDate = d3.timeFormat("%B %d, %Y");
   const formatNumb = d3.format(",");
 
+  // Trying to copy WaPo legend: https://observablehq.com/@observablehq/us-energy-mix-bubble-map-recreation
+  function legendBubble(values) {
+    return (index, { r }) =>
+      Plot.plot({
+        axis: null,
+        marginTop: 550,
+        // marginBottom: 1000,
+        // marginLeft: 1000,
+        width: widthMid/12,
+        inset: 20,
+        marks: [
+          // Plot.frame(),
+          Plot.text([1], {
+            text: ["Fatalities"],
+            frameAnchor: "top",
+            textAnchor: "center",
+            fontSize: size,
+            fontWeight: "bold",
+            // dx: 35
+          }), // Title
+          values.map((v, i) => [
+            Plot.dot(
+              [v],
+              Plot.dodgeY({
+                anchor: "top",
+                x: 5 * (i+2) ** 2,
+                dy: 28, 
+                // dx: -25,
+                r: r(v),
+                strokeWidth: 0.7,
+                stroke: "gray"
+              })
+            ),
+            Plot.text([v], { frameAnchor: "top", x: 5 * (i+2) ** 2, dy: 18}) // #s
+          ])
+        ]
+      });
+  }
+
   // Use Promises to async request data
 var promises = [d3.csv("data/mother_jones_mass_shootingsJuly2024.csv",d3.autoType),d3.json("data/geo/land.json"),d3.json("data/geo/us-counties-10m.json"),];
 
@@ -125,10 +164,12 @@ myDataPromises.then(function(data) {
     marks: [
       Plot.graticule(),
       Plot.sphere(),
-      Plot.geo(land, {fill: "#ccc"}),
+      Plot.geo(land, {fill: "#DFDFDF"}),
       Plot.geo(states, {stroke: "white"}),
       Plot.dot(shootings, {r: "fatalities", fill: "location", x: "longitude", y: "latitude", fillOpacity: 1, reverse: true}),
       // Plot.density(shootings, {fill: "location", x: "longitude", y: "latitude", fillOpacity: .05}),
+      // legendBubble(d3.extent(shootings, d => d.fatalities)), // Adding radius legend
+      legendBubble([5, 25, 50]),
       Plot.tip(shootings, Plot.pointer({
         x: "longitude",
         y: "latitude",
