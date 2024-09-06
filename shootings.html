@@ -78,7 +78,7 @@
     <figcaption>Data: <a href="https://www.motherjones.com/politics/2012/12/mass-shootings-mother-jones-full-data/" class="right">Mother Jones</a></figcaption>
     <p>Mass shooters skew young.</p>
 
-    <h2>Mass Shootings in the United States</h2>
+    <h2>Mass shootings by location and race</h2>
     <figure id="trellis" class=""></figure>
     <figcaption>Data: <a href="https://www.motherjones.com/politics/2012/12/mass-shootings-mother-jones-full-data/" class="right">Mother Jones</a></figcaption>
 
@@ -259,7 +259,7 @@
           lineHeight: 1.65,
           fontSize: size,
           stroke: "location",
-          channels: {case: "case", city: "city", fatalities: "fatalities", injured: "injured", age: "age_of_shooter", gender: "gender", summary: "summary"},
+          channels: {case: "case", city: "city", date: d => formatDate(d.date), fatalities: "fatalities", injured: "injured", age: "age_of_shooter", gender: "gender", summary: "summary"},
           format: {
             y: false,
             x: false,
@@ -276,9 +276,9 @@
       y: {label: null, ticks: 4, grid: true, tickSize: 0, nice: true},
       color: {legend: true},
       marks: [
-        Plot.waffleY(
+        Plot.barY(
           shootings,
-          Plot.groupX(
+          Plot.binY(
             { y: "count"},
             {
               x: "year",
@@ -286,6 +286,7 @@
               tip: true,
               title: (d) => [d.case, d.summary].join("\n\n")
           })),
+        // Plot.barY(shootings, Plot.binY({ y: "count"}, Plot.pointer({x: "year", fill: "red", tip: true, title: (d) => [d.case, d.summary].join("\n\n")}))),
         Plot.ruleY([0])
         ]
     };
@@ -304,6 +305,10 @@
               y: "weapons_obtained_legally",
               fill: "weapons_obtained_legally",
               tip: true,
+              // format: {y: {
+              //   value: "weapons_obtained_legally",
+              //   label: "Weapons obtained legally?"
+              // },}, // This doesn't work :(
               sort: {y: "x"},
             }
             )
@@ -321,7 +326,7 @@
       marks: [
         Plot.density(shootings, {x: "age_of_shooter", stroke: "steelblue", strokeWidth: 0.25, bandwidth: 10}),
         Plot.density(shootings, {x: "age_of_shooter", stroke: "steelblue", thresholds: 4, bandwidth: 10}),
-        Plot.dot(shootings, {x: "age_of_shooter", fill: "currentColor", r: 1.5})
+        Plot.dot(shootings, {x: "age_of_shooter", fill: "currentColor", r: 1.5, tip: true, })
       ]
     };
 

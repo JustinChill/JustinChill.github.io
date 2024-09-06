@@ -364,12 +364,10 @@
       <!-- <img src="https://flowingdata.com/wp-content/uploads/2015/06/cost-horizon-reversed.png" loading="lazy"> -->
       <p>A horizon chart is like a combination area chart and heatmap. Shrink the area chart by slicing it horizontally, and then shift the slices to a baseline of zero.</p>
       <h2>Line chart</h2>
-      <h3>My excitement levels as my girlfriend says...</h3>
+      <h3>Historical Debt Outstanding</h3>
       <figure id="example_line"></figure>
-      <p>Typically used to show trends over time, the slope of the line between two points shows patterns of change. Line Graphs are drawn by first plotting data points on a Cartesian coordinate grid, then connecting a line between all of these points. Typically, the y-axis has a quantitative value, while the x-axis is a timescale or a sequence of intervals. Negative values can be displayed below the x-axis.</p>
-      <p>The direction of the lines on the graph works as a nice metaphor for the data: an upward slope indicates where values have increased and a downward slope indicates where values have decreased. The line's journey across the graph can create patterns that reveal trends in a dataset.
-
-      When grouped with other lines (other data series), individual lines can be compared to one another. However, avoid using more than 3-4 lines per graph, as this makes the chart more cluttered and harder to read. A solution to this is to divide the chart into smaller multiples (have a small Line Graph for each data series).</p>
+      <figcaption>Data: <a href="https://fiscaldata.treasury.gov/datasets/historical-debt-outstanding/historical-debt-outstanding">US Treasury</a></figcaption>
+      <p>A line chart, also referred to as a line graph or a line plot, connects a series of data points using a line. This chart type presents sequential values to help you identify trends. Most of the time, the x-axis (horizontal axis) represents a sequential progression of values. The y-axis (vertical axis) then tells you the values for a selected metric across that progression. This is a common chart and is great to use when you want to show data over time. One use case could be tracking the interest of consumers in a type of product or service throughout the year to make predictions for the year ahead.</p>
       <h2>Mosaic plot</h2>
       <figure id="mosaic"></figure>
       <figcaption>Data: <a href="https://observablehq.com/@observablehq/plot-marimekko">Fictional sales</a></figcaption>
@@ -1366,34 +1364,6 @@
       ]
   };
 
-  var example_line = {
-    width: width,
-    style:{fontSize: size},
-    marginLeft: width/24,
-    marginRight: width/33,
-    marginTop: 20,
-    marginBottom: 10,
-    y: {
-      grid: true,
-      nice: true,
-      domain: [0, 100],
-      label: "↑ Excitement level",
-      anchor: "left",
-      tickSize: 0,
-    },
-    x:{
-      domain: d3.sort(ex_lvls, d => -d.Phrase).map(d => d.Phrase),
-      axis: null,
-    },
-    marks: [
-      Plot.line(ex_lvls, {x: "Phrase", y: "level", stroke: "hsl(22, 82%, 39%)", strokeWidth: 2.5}),
-      Plot.dot(ex_lvls, {x: "Phrase", y: "level", fill: "hsl(22, 82%, 39%)"}),
-      Plot.text(ex_lvls.filter(d => (d.level <= 70)), {x: "Phrase", y: "level", text: "Phrase", dy: 18, dx: 14, fontSize: size*1.2}),
-      Plot.text(ex_lvls.filter(d => (d.level >= 70)), {x: "Phrase", y: "level", text: "Phrase", dy: -12, dx: 2,fontSize: size*1.2}),
-          // Plot.ruleY([0,100]),  
-      ]
-  };
-
   // Draw the plot (data local on page)
   document.getElementById("civilizations").appendChild(Plot.plot(civ_options));
   document.getElementById("wework").appendChild(Plot.plot(wework));  
@@ -1401,7 +1371,6 @@
   document.getElementById("example_dot").appendChild(Plot.plot(example_dot));
   document.getElementById("network").appendChild(Plot.plot(network));
   document.getElementById("country_emissions").appendChild(Plot.plot(country_emissions));
-  document.getElementById("example_line").appendChild(Plot.plot(example_line));
   document.getElementById("ternary").appendChild(Plot.plot(ternary));
   document.getElementById("gantt").appendChild(Plot.plot(gantt));
 
@@ -1474,9 +1443,16 @@
 
   const formatTime = d3.timeFormat("%Y");
   const formatDate = d3.timeFormat("%B %d, %Y");
+  var formatUS = new Intl.NumberFormat("en-US", {
+    notation: "compact",
+    compactDisplay: "short",
+    style: "currency",
+    currency: "USD"
+  }).format;
+
 
   // Use Promises to async request data
-  var promises = [d3.json("data/drugs.json"), d3.csv("data/aapl.csv",d3.autoType),d3.csv("data/global-temps.csv",d3.autoType), d3.csv("https://gist.githubusercontent.com/JesseCHowe/099f4b8e1a029c0b4af35b1edc1989f7/raw/8c18ed9a0940c734d423c3f2699ee063279533ec/morley.csv",d3.autoType), d3.csv("data/stocks.csv",d3.autoType),d3.csv("data/units.csv",d3.autoType),d3.json("data/qatar.json"),d3.csv("https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv",d3.autoType),d3.csv("data/driving.csv",d3.autoType),d3.csv("data/bls.csv",d3.autoType),d3.csv("data/caltrain.csv"),d3.csv("data/mpg.csv",d3.autoType), d3.csv("data/electricity.csv",d3.autoType),d3.json("data/dogdata.json"), d3.csv("data/google-trends-2020.csv",d3.autoType),d3.csv("data/covid.csv", d3.autoType),d3.csv("data/commute.csv", d3.autoType),d3.csv("data/world-airports.csv", d3.autoType),d3.json("data/geo/land.json"),d3.json("data/geo/statemesh.json"),d3.json("data/geo/nation.json"),d3.csv("data/walmarts.csv",d3.autoType), d3.csv("data/popcornCriteria.csv",d3.autoType),d3.csv("data/state-population-2010-to-2019.csv",d3.autoType),d3.csv("data/geo/us-state-grid.csv",d3.autoType),d3.csv("data/bls_industries.csv",d3.autoType), d3.csv("data/weather.csv",d3.autoType), d3.csv("data/receipts.csv",d3.autoType), d3.csv("data/cancer.csv",d3.autoType), d3.csv("data/us-population-county-2016.csv",d3.autoType)];
+  var promises = [d3.json("data/drugs.json"), d3.csv("data/aapl.csv",d3.autoType),d3.csv("data/global-temps.csv",d3.autoType), d3.csv("https://gist.githubusercontent.com/JesseCHowe/099f4b8e1a029c0b4af35b1edc1989f7/raw/8c18ed9a0940c734d423c3f2699ee063279533ec/morley.csv",d3.autoType), d3.csv("data/stocks.csv",d3.autoType),d3.csv("data/units.csv",d3.autoType),d3.json("data/qatar.json"),d3.csv("https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv",d3.autoType),d3.csv("data/driving.csv",d3.autoType),d3.csv("data/bls.csv",d3.autoType),d3.csv("data/caltrain.csv"),d3.csv("data/mpg.csv",d3.autoType), d3.csv("data/electricity.csv",d3.autoType),d3.json("data/dogdata.json"), d3.csv("data/google-trends-2020.csv",d3.autoType),d3.csv("data/covid.csv", d3.autoType),d3.csv("data/commute.csv", d3.autoType),d3.csv("data/world-airports.csv", d3.autoType),d3.json("data/geo/land.json"),d3.json("data/geo/statemesh.json"),d3.json("data/geo/nation.json"),d3.csv("data/walmarts.csv",d3.autoType), d3.csv("data/popcornCriteria.csv",d3.autoType),d3.csv("data/state-population-2010-to-2019.csv",d3.autoType),d3.csv("data/geo/us-state-grid.csv",d3.autoType),d3.csv("data/bls_industries.csv",d3.autoType), d3.csv("data/weather.csv",d3.autoType), d3.csv("data/receipts.csv",d3.autoType), d3.csv("data/cancer.csv",d3.autoType), d3.csv("data/us-population-county-2016.csv",d3.autoType), d3.csv("data/hstdebt.csv",d3.autoType)];
 
   // You can request multiple srcs in a promise
   myDataPromises = Promise.all(promises);
@@ -1514,6 +1490,7 @@
     var receipts = data[27];
     var cancer = data[28];
     var countypop = data[29];
+    var hstdebt = data[30];
 
     var sortedData = popcorndata.filter(function(d,i){
        return i < 30; // Top 5 teams
@@ -2384,6 +2361,24 @@ var horizon_chart = {
     Plot.text(industries, Plot.selectFirst({text: "industry", frameAnchor: "top-left", dx: 6, dy: 6})),
     Plot.frame()
     ]
+};
+
+var example_line = {
+  width: width,
+  style:{fontSize: size},
+  marginLeft: width/33,
+  marginRight: width/33,
+  y: {
+    tickFormat: formatUS,
+    type: "log",
+    tickSpacing: 40,
+    grid: true,
+    axis: "right"
+  },
+  x: {label: null,},
+  marks: [
+    Plot.lineY(hstdebt, { x: "Record Date", y: "Debt Outstanding Amount" })
+  ]
 };
 
 var bls_line = {
@@ -3296,6 +3291,7 @@ var gridmap = {
       document.getElementById("slope").appendChild(Plot.plot(slope));
       document.getElementById("intslope").appendChild(Plot.plot(intslope));
       document.getElementById("irregular_bar").appendChild(Plot.plot(irregular_bar));
+      document.getElementById("example_line").appendChild(Plot.plot(example_line));
     });
 
 myDataPromises.catch(function() {
