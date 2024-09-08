@@ -59,6 +59,7 @@
     <p>Over the past 20 years rising rents have outpaced wage growth in America. According to Moody’s, a financial-services company, the average share of household income spent on rent hit 30% in 2022, its highest proportion in at least 25 years. That means the average American household is now classed as “rent-burdened” (defined as paying more than 30% of gross salary on rent). For city dwellers, particularly those who wish to live alone—as Carrie Bradshaw, the protagonist of “Sex and the City”, did in New York—finding affordable housing is particularly challenging. By our calculations, in some cities even the humble studio apartment is well beyond the means of the average worker.</p>
     <p>Using data on median rent prices from Zumper, an online property platform, <em><a href="https://www.economist.com/graphic-detail/2023/08/04/our-carrie-bradshaw-index-where-americans-can-afford-to-live-solo">The Economist</a></em> calculated the salary needed to afford to rent a studio apartment in 100 of the largest cities in America. Unsurprisingly, New York tops the list: on average, tenants should probably earn at least $140,000 to comfortably afford a room of their own. Big cities in California, as well as Boston, Miami, Jersey City and Washington, DC make up the top ten, with renters having to earn well above the national median wage of $46,000 if they want to live alone. Fully 57 of the 100 cities, including Atlanta, Charleston and Orlando, require gross salaries higher than the national average. </p>
     <p>Using pay data from the American Bureau of Labour Statistics <em>The Economist</em> calculated the ratio of the median salary in each city to the salary needed to afford rent on a studio apartment. In some places the Bradshaw index is greater than 1, meaning living alone is affordable for most workers. Take Seattle, where the $57,000 annual wage that is required to comfortably afford a studio is less than the real median wage of around $62,000. This gives Seattle a Carrie Bradshaw score of 1.1. In Miami however, the median salary of $44,000 is well below the required $89,000, giving it a score of 0.49. A value below 1 means a typical studio is unaffordable for a typical worker.</p>
+    <img src="https://productplacementblog.com/wp-content/uploads/2021/06/Apple-Powerbook-Laptop-Used-by-Sarah-Jessica-Parker-as-Carrie-Bradshaw-in-Sex-and-the-City-S03E05-No-Ifs-Ands-or-Butts-2000.jpg" loading="lazy">
   </article>
 </main>
 <footer>
@@ -79,6 +80,8 @@
   var element = d3.select('figure').node();
   var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
   var size = 12;
+  var red = "#e2130c";
+  var blue = "#1c2b73";
 
   // Use Promises to async request data
 var promises = [d3.json("data/affordable_rent_wages.json")];
@@ -168,21 +171,19 @@ myDataPromises.then(function(data) {
           title: (d) =>
             `${d.city}\nThe affordable rent wage is \$${d.affordable_rent_wage.toLocaleString()},\nwhich is \$${Math.abs(d.diff).toLocaleString()} ${d.more_less} than the median wage.`
         }),
-        Plot.dot(data_updated, Plot.pointer({x: "index", y: "affordable_rent_wage", fill: "#e2130c", r: 6, stroke: "#000", strokeWidth: .75})),
+        Plot.dot(data_updated, Plot.pointerX({x: "index", y: "affordable_rent_wage", fill: red, r: 6, stroke: "#000", strokeWidth: .75})),
         Plot.dot(data_updated, {
           x: "index",
           y: "affordable_rent_wage",
-          fill: "#e2130c",
+          fill: red,
           r: 4
-          // tip: true
         }),
-        Plot.dot(data_updated, Plot.pointer({x: "index", y: "median_wage", fill: "#1c2b73", r: 6, stroke: "#000", strokeWidth: .75})),
+        Plot.dot(data_updated, Plot.pointerX({x: "index", y: "median_wage", fill: blue, r: 6, stroke: "#000", strokeWidth: .75})),
         Plot.dot(data_updated, {
           x: "index",
           y: "median_wage",
-          fill: "#1c2b73",
+          fill: blue,
           r: 4
-          // tip: true
         }),
       ]
   };

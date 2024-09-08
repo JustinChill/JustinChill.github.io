@@ -131,15 +131,13 @@
 
     var map = {
       width: width,
+      style:{textTransform: 'capitalize'},
       projection: "albers-usa",
       color: {scheme: scheme, reverse:false, legend: true, },
       marks: [
        Plot.geo(states, Plot.centroid({
-        // Todo this isn't filtering out undefined  
-        // filter: (d) => lawmap.get(d.properties.name),
-        // filter: d => lawmap.get(d.properties.name) !== undefined, 
         fill: d => lawmap.get(d.properties.name) != undefined ? lawmap.get(d.properties.name) : "Mixed", // This is a hack to "hide" undefined values
-        title: d => `${d.properties.name}\nStatus: ${lawmap.get(d.properties.name)}\nMedicinal? ${medmap.get(d.properties.name)}\nDecriminalized? ${crimmap.get(d.properties.name)}`,
+        channels: {name: "name", medicinal: d=> medmap.get(d.properties.name), Decriminalized: d=> crimmap.get(d.properties.name), status: d =>lawmap.get(d.properties.name)},
         tip: {
           opacity: 0.9,
           textPadding: 10,
