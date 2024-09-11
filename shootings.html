@@ -70,7 +70,7 @@
     <figcaption>Data: <a href="https://www.motherjones.com/politics/2012/12/mass-shootings-mother-jones-full-data/" class="right">Mother Jones</a></figcaption>
     <p>If it feels like mass shootings have become more frequent, <a href="https://www.themarshallproject.org/2022/07/06/what-you-need-to-know-about-the-rise-in-u-s-mass-shootings">that intuition is correct</a>, according to a narrow definition of mass shootings used by the Congressional Research Service and data about such incidents<a href="#vi" aria-describedby="footnote-label" id="vi-ref"></a> collected by <a href="https://www.theviolenceproject.org/mass-shooter-database/">The Violence Project</a> and Mother Jones.</p>
 
-    <h2>Killer obtained weapons legally?</h2>
+    <h2>Killer obtained their weapons legally?</h2>
     <figure id="legal" class=""></figure>
     <figcaption>Data: <a href="https://www.motherjones.com/politics/2012/12/mass-shootings-mother-jones-full-data/" class="right">Mother Jones</a></figcaption>
     <p>In the aftermath of a mass shooting, a recurring question arises: How did the shooter get their gun?</p>
@@ -252,6 +252,7 @@
     var us = data[2];
     var dummy = data[3];
     var states = topojson.feature(us, us.objects.states);
+    // var statemesh = topojson.mesh(us, us.objects.states, (a, b) => a !== b);
 
     console.log(shootings);
 
@@ -264,10 +265,10 @@
       },
       color: {legend: true},
       marks: [
-        Plot.sphere({fill: "#a5e5e1", fillOpacity: .3}),
+        Plot.sphere({fill: "#a5e5e1", fillOpacity: .25}),
         Plot.graticule(),
       // Plot.sphere(),
-        Plot.geo(land, {fill: "#F7F2E8", fillOpacity: .85}),
+        Plot.geo(land, {fill: "rgba(236,233,224,255)", fillOpacity: .85}),
         Plot.geo(states, {stroke: "#ccc", strokeWidth: .6, strokeOpacity: .75}),
         Plot.dot(shootings, Plot.pointer({r: "fatalities", x: "longitude", fill: "black", y: "latitude", stroke: "black", strokeWidth: .4, strokeOpacity: .85})),
         Plot.dot(shootings, {r: "fatalities", fill: "location", x: "longitude", y: "latitude", fillOpacity: .85}),
