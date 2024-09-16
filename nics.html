@@ -114,6 +114,12 @@
   var width = element.getBoundingClientRect().width; // get width of figure so graphic is responsive. Todo / hacky
   var size = 12;
 
+  var dates = [
+    { date: new Date(2021, 1, 6), label: "January 6th"},
+    { date: new Date(2015, 12, 2), label: "San Bernadino attack"},
+    { date: new Date(2012, 12, 14), label: "Sandy Hook"},
+    ];
+
   // Use Promises to async request data
   var promises = [d3.csv("https://raw.githubusercontent.com/BuzzFeedNews/nics-firearm-background-checks/master/data/nics-firearm-background-checks.csv",d3.autoType)];
   myDataPromises = Promise.all(promises);
@@ -123,7 +129,8 @@
     
     // Define the data
     var data = data[0];
-    console.log(data);
+
+    console.log(dates);
     var extent = d3.extent(
       data.map((o) => o.month)
     );
@@ -225,6 +232,7 @@
           lineAnchor: "bottom", // draw labels above grid lines
           tickFormat: (n,i) => (i > 0 ? `${d3.format("0.1f")(n / 10 ** 6)}M` : n), // Don't show on zero
         }),
+        Plot.ruleX(dates, {stroke:"rgba(0,0,0,.6)", x: "date", strokeLinecap: "round", strokeWidth: 1, strokeDasharray: "5 9.5", strokeOpacity: .44}),
         Plot.rectY(rollup, Plot.pointerX({x: "month", y: "total", fill: "black", stroke: "black", interval: d3.utcMonth,})),
         Plot.rectY(rollup, {
           x: "month",
@@ -241,9 +249,7 @@
               d.total
             )} background checks`
         }),
-        Plot.text(rollup.filter(d => (d.month == "Mon Dec 31 2012 19:00:00 GMT-0500 (Eastern Standard Time)")), {text: d => 'Sandy Hook', x: "month", y: "total", dy: -45, dx: -10, frameAnchor: "right", lineWidth: 20, fill: "currentColor", fontSize: size+1, stroke: "white", strokeWidth: .95, strokeOpacity: .75, lineHeight: 1.4}),
-        Plot.text(rollup.filter(d => (d.month == "Thu Dec 31 2015 19:00:00 GMT-0500 (Eastern Standard Time)")), {text: d => 'San Bernadino attack', x: "month", y: "total", dy: -65, dx: -10, frameAnchor: "right", lineWidth: 20, fill: "currentColor", fontSize: size+1, stroke: "white", strokeWidth: .95, strokeOpacity: .75, lineHeight: 1.4}),
-        Plot.text(rollup.filter(d => (d.month == "Thu Dec 31 2020 19:00:00 GMT-0500 (Eastern Standard Time)")), {text: d => 'January 6th', x: "month", y: "total", dy: -4, dx: -10, frameAnchor: "right", lineWidth: 20, fill: "currentColor", fontSize: size+1, stroke: "white", strokeWidth: .95, strokeOpacity: .75, lineHeight: 1.4}),
+        Plot.text(dates, {text: "label", dy: 0, dx: 5, x: "date", frameAnchor: "top", lineWidth: 20, fill: "currentColor", fontSize: size+1, stroke: "white", strokeWidth: .95, strokeOpacity: .75, lineHeight: 1.4, textAnchor: "start"}),
       ]
     };
 
@@ -283,7 +289,6 @@
       ]
     };
 
-    console.log(rollup);
     // https://archive.is/LgTjK
     var line = {
       width: width,
@@ -310,7 +315,7 @@
           textPadding: 10,
           lineHeight: 1.5,
         }})),
-        Plot.text(rollup, Plot.selectLast({text: d => 'Seasonally adjusted', x: "month", y: "total", dy: -100, dx: 40, frameAnchor: "left", lineWidth: 20, fill: "darkblue", fontSize: size+1, stroke: "white", strokeWidth: .95, strokeOpacity: .75, lineHeight: 1.4})),
+        Plot.text(rollup, Plot.selectFirst({text: d => 'Seasonally adjusted', x: "month", y: "total", dy: 20, dx: 10, frameAnchor: "right", lineWidth: 20, fill: "darkblue", fontSize: size+1, stroke: "white", strokeWidth: .95, strokeOpacity: .75, lineHeight: 1.4})),
       ]
     };
 

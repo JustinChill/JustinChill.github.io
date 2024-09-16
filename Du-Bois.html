@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Digital recreations of data visualizations made for W.E.B. Du Bois’ presentation at the “Paris Exposition Universelle” in 1900.">
+  <meta name="author" content="Justin Chill">
+  <!-- OpenGraph tags -->
+  <meta name="keywords" content="Du Bois, W.E.B. Du Bois, chart, graph">
+  <meta name="robots" content="all">
+  <meta content="en_US" property="og:locale">
+  <meta content="JustinChill" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="https://justinchill.com/Du-Bois.html" property="og:url"> 
+  <meta content="W.E.B. Du Bois" property="og:title">
+  <meta content="Digital recreations of data visualizations made for W.E.B. Du Bois’ presentation at the “Paris Exposition Universelle” in 1900." property="og:description">
+  <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="W.E.B. Du Bois">
+  <meta name="twitter:description" content="Digital recreations of data visualizations made for W.E.B. Du Bois’ presentation at the “Paris Exposition Universelle” in 1900.">
+
+  <link type="text/plain" href="humans.txt" rel="author">
+  <link rel="stylesheet" href="style.css" />
+<style type="text/css">
+
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+  
+  <main role="main">
+    <article>
+     <div class="article-hero mid-size">
+      <h2 class="article-category">Post</h2>
+      <h1 class="article-title">W.E.B. Du Bois</h1>
+      <h2 class="article-subtitle">Rereating data visualizations from the Paris Exposition Universelle</h2>
+    </div>
+
+    <p>W.E.B. Du Bois was an American sociologist, historian, professor, and civil rights activist—and pioneer in the use of data visualization. He and his team at Atlanta University created over 60 data visualizations for the World’s Fair held in 1900 in Paris, France. The exhibit consisted of the mentioned visuals plus photographs and portraits of everyday African Americans as well as their intellectual or political leaders. The aim of the exhibition was to show the progress made by African Americans in the United States despite many barriers.</p>
+
+    <img src="https://cdn.loc.gov/service/pnp/ppmsca/33900/33923v.jpg" loading="lazy">
+    <h2>“American Negro newspapers and periodicals”</h2>
+    <p><a href="https://www.loc.gov/pictures/collection/anedub/item/2014645377/">The original plate</a> was drawn with ink and watercolors. It is archived, along with dozens more data visualizations from the Paris show, at <a href="https://www.loc.gov/pictures/search/?q=LOT%2011931&amp;fi=number&amp;op=PHRASE&amp;va=exact&amp;co!=coll&amp;sg=true&amp;st=gallery">the Library of Congress</a>.</p>
+    <p>To learn more about the landmark exhibition, consult <a href="https://www.amazon.com/gp/product/1616897066/ref=oh_aui_detailpage_o01_s00?ie=UTF8&amp;psc=1">Whitney Battle-Baptiste and Britt Rusert's</a> book "W. E. B. Du Bois's Data Portraits: Visualizing Black America."</p>
+    <img src="https://cdn.loc.gov/service/pnp/ppmsca/33900/33915v.jpg" loading="lazy">
+    <h2>“Conjugal condition of American Negroes according to age periods”</h2>
+    <img src="https://cdn.loc.gov/service/pnp/ppmsca/33900/33913v.jpg" loading="lazy">
+    <h2>“Proportion of Freemen and Slaves Among American Negros”</h2>
+    <figure id="proportion"></figure>
+    <figcaption>Data: </figcaption>
+
+</article>
+</main>
+<footer>
+  <h2 id="footnote-label">Footnotes</h2>
+  <ol>
+    <li id="welsh"><a href="https://observablehq.com/collection/@palewire/w-e-b-du-bois">Ben Welsh</a> inspired these recreations after posting on Observable<a href="#welsh-ref" aria-label="Back to content">↩</a></li>
+  </ol>
+
+  <div>
+    <p>Justin Chill © 2024. Thanks for reading!</p>
+    <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="icon">Source code and feedback</a></span>    
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/d3"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+
+<script type="text/javascript">
+  var element = d3.select('figure').node();
+  var width = element.getBoundingClientRect().width; // get width of figure so graphic is responsive. Todo / hacky
+  var size = 12;
+  
+  // Use Promises to async request data
+  var promises = [d3.json("data/geo/land.json"),];
+
+  // You can request multiple srcs in a promise
+  myDataPromises = Promise.all(promises);
+
+  // After data is successfully fetched, generate viz
+  myDataPromises.then(function(data) {
+    // Define the data. There's gotta be a better way to do this:
+    var pyramid_data = [
+  {type: 'Magazines', count: 3},
+  {type: 'Daily Papers', count: 3},
+  {type: 'School Papers', count: 11},
+  {type: 'Weekly Papers Total', count: 136},
+  {type: 'Grand Total', count: 153}
+];
+    var pyramid_colors = ({
+  "Magazines": "#00277c",
+  "Daily Papers": "#a6001c",
+  "School Papers": "#efab00",
+  "Weekly Papers Total": "#00277c",
+  "Grand Total": "#5c371c",
+});
+
+    var proportion_csv = `year,free,slaves
+1790,8,92
+1800,11,89
+1810,13.5,86.5
+1820,13,87
+1830,14,86
+1840,13,87
+1850,12,88
+1860,11,89
+1870,100,0`
+
+  var lineData = [
+  {year: 1792, value: 92, label: 8},
+  {year: 1800, value: 89, label: 11},
+  {year: 1810, value: 86.5, label: 13.5},
+  {year: 1820, value: 87, label: 13},
+  {year: 1830, value: 86, label: 14},
+  {year: 1840, value: 87, label: 13},
+  {year: 1850, value: 88, label: 12},
+  {year: 1860, value: 89, label: 11},
+  {year: 1868, value: 89, label: 100}
+];
+
+    var proportion ={
+      width: width,
+      style:{fontSize: size, textTransform: "capitalize"},
+      height: 100,
+      marginLeft: width/100,
+      marginRight: width/100,
+      marginTop: 10,
+      marginBottom: 10,
+      percent: true,
+      x: {nice: true, axis: "top"},
+      y: {nice: true},
+      marks: [
+        Plot.areaY(lineData, {x: "year", y: "value", fill: "#409060"}),
+      ]
+    };
+
+    document.getElementById("proportion").appendChild(Plot.plot(proportion));
+  });
+</script>
+</body>
+</html>
