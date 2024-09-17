@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Basketball stats</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Basketball stats visualized">
+  <meta name="author" content="Justin Chill">
+  <!-- OpenGraph tags -->
+  <meta name="keywords" content="Basketball, stats, chart, data viz">
+  <meta name="robots" content="all">
+  <!-- <meta content="DISAGlobalSolutions" property="fb:profile_id"> -->
+  <meta content="en_US" property="og:locale">
+  <meta content="JustinChill" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="Basketball stats" property="og:title">
+  <meta content="Data visualizations by Justin Chill" property="og:description">
+<!--   <meta content="https://disa.com/uploads/drug-n-alcohol/_1200x630_crop_center-center_82_none/Marijuana-legality.jpg?mtime=1677001111" property="og:image">
+  <meta content="1200" property="og:image:width">
+  <meta content="630" property="og:image:height">
+  <meta content="marijuana types" property="og:image:alt"> -->
+  <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- <meta name="twitter:site" content="@DISAGlobal"> -->
+  <!-- <meta name="twitter:creator" content="@DISAGlobal"> -->
+  <meta name="twitter:title" content="Basketball stats">
+  <meta name="twitter:description" content="Data visualizations by Justin Chill">
+  <link type="text/plain" href="humans.txt" rel="author">
+
+  <link rel="stylesheet" href="style.css" />
+  <style type="text/css">
+
+
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+  
+  <main role="main">
+    <article>
+     <div class="article-hero">
+      <h2 class="article-category">Post</h2>
+      <h1 class="article-title">Basketball stats</h1>
+      <h2 class="article-subtitle"></h2>
+    </div>
+    <h2>Top 100 Point scorers, all time</h2>
+    <figure id="points"></figure>
+    <figcaption>Data: <a href="https://observablehq.com/d/ebb5e479f1f54444#data">January 2023</a>.</figcaption>
+
+    <h2>Games played</h2>
+    <figure id="games"></figure>
+    <figcaption>Data: <a href="https://observablehq.com/d/ebb5e479f1f54444#data">January 2023</a>.</figcaption>
+
+    <h2>Points per Game (PPG)</h2>
+    <figure id="ppg"></figure>
+    <figcaption>Data: <a href="https://observablehq.com/d/ebb5e479f1f54444#data">January 2023</a>.</figcaption>
+
+    <h2>Heatmap</h2>
+    <figure id="heatmap"></figure>
+    <figcaption>Data: <a href="https://observablehq.com/d/ebb5e479f1f54444#data">January 2023</a>.</figcaption>
+  </article>
+</main>
+<footer>
+  <h2 id="footnote-label">Footnotes</h2>
+  <ol>
+    <li id="ort">Inspired by <a href="https://observablehq.com/@nor">Nicholas Ortenzio</a>.<a href="#ort-ref" aria-label="Back to content">↩</a></li>
+  </ol>
+
+  <div>
+    <p>Justin Chill © 2024. Thanks for reading!</p>
+    <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="icon">Source code and feedback</a></span>    
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/d3"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+
+<script type="text/javascript">
+  var element = d3.select('figure').node();
+  var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+  var size = 12;
+  
+  // Use Promises to async request data
+  // Todo remove "State laws" from .csv
+  var promises = [d3.json("data/basketball-data.json")];
+
+  myDataPromises = Promise.all(promises);
+
+  // After data is successfully fetched, generate viz
+  myDataPromises.then(function(data) {
+    // Define the data. There's gotta be a better way to do this:
+    var data = data[0];
+
+    var points = {
+      width: width,
+      style:{textTransform: 'capitalize'},
+      marginTop: 10,
+      inset: 8,
+      round: true,
+      nice: true,
+      x: {ticks: 5, tickSize: 0},
+      y: {ticks: 5, tickSize: 0, label: "Games played"},
+      grid: true,
+      color: {
+        scheme: "YlOrRd",
+        legend: true,
+        label: "Points Per Game"
+      },
+      marks: [
+        Plot.dot(data.slice(0,100), {x: "points", y: "games", stroke: "ppg", tip: true, channels: {name: "name"}, }),
+        Plot.text(data.slice(0,100), {x: "points", y: "games", text: "name", fill: "#000", stroke:"#ffffffaa", dy: -9, filter: (d,i)=>d.active || i<10 }),
+      ]
+    };
+
+    var games = {
+      width: width,
+      style:{textTransform: 'capitalize'},
+      marginTop: 10,
+      inset: 8,
+      round: true,
+      nice: true,
+      x: {ticks: 5, tickSize: 0},
+      y: {ticks: 5, tickSize: 0, label: "PPG"},
+      grid: true,
+      color: {
+        scheme: "YlOrRd",
+        legend: true,
+        label: "Games Played"
+      },
+      r: {
+        domain: [800,1600],
+        range: [1,4],
+        legend: true
+      },
+      marks: [
+        Plot.dot(data.slice(0,200), {x: "points", y: "ppg", r: "games", fill:"games", tip: true, channels: {name: "name"}, }),
+        Plot.text(data.slice(0,100), {x: "points", y: "ppg", text: "name", fill: "#000", stroke:"#ffffff33", dy: -9, filter: (d,i)=>d.active||d.rank<5}),
+      ]
+    };
+
+    var ppg = {
+      width: width,
+      style:{textTransform: 'capitalize'},
+      marginTop: 10,
+      inset: 8,
+      round: true,
+      nice: true,
+      x: {tickSize: 0},
+      y: {ticks: 5, tickSize: 0, label: "Games played"},
+      grid: true,
+      color: {
+        scheme: "YlOrRd",
+        legend: true,
+        label: "Points Scored"
+      },
+      marks: [
+        Plot.dot(data.slice(0,100), {x: "ppg", y: "games", stroke: "points", tip: true, channels: {name: "name"}, }),
+        Plot.text(data.slice(0,100), {x: "ppg", y: "games", text: "name", fill: "#000", stroke:"#ffffff33", dy: -9, filter: (d,i)=>d.active || i<10 }),
+      ]
+    };
+
+    var heatmap = {
+      width: width,
+      style:{textTransform: 'capitalize'},
+      round: true,
+      nice: true,
+      x: {ticks: 5, tickSize: 0},
+      y: {ticks: 5, tickSize: 0, label: "Games played"},
+      inset: 8,
+      grid: true,
+      color: {
+        legend: true,
+        type: "symlog",
+        reverse: true
+      },
+      channels: {name: "name"},
+      marks: [
+        Plot.rect(data, Plot.bin({fill: "count"}, {x: "points", y: "games", thresholds: 200, inset: 0,tip: true, })),
+        Plot.text(data.slice(0,100), {x: "points", y: "games", text: "name", fill: "#000", stroke:"#ffffffaa", dy: -9, filter: (d,i)=>d.active || i<10 }),
+      ]
+    };
+
+    document.getElementById("points").appendChild(Plot.plot(points));
+    document.getElementById("games").appendChild(Plot.plot(games));
+    document.getElementById("ppg").appendChild(Plot.plot(ppg));
+    document.getElementById("heatmap").appendChild(Plot.plot(heatmap));
+  });
+</script>
+</body>
+</html>
