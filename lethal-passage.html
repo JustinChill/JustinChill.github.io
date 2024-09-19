@@ -116,7 +116,7 @@
     </section>
 
     <article>
-    <p>Buying a firearm should be among the most difficult purchases a consumer in America can make, instead of one of the easiest. Toughening the process of acquiring a firearm in the United States will not harm legitimate gun owners. Reducing the firepower of military style weapons will not penalize responsible gun owners. The right laws can reduce the incidence of impulsive teenage suicides. The right laws can limit the firepower of street guns and save the lives of innocent bystanders. The right laws can demonstrate society's conviction that owning a gun imparts a huge responsibility to the owner.</p>
+    <p>Buying a firearm should be among the most difficult purchases a consumer in America can make, instead of one of the easiest. Toughening the process of acquiring a firearm in the United States will not harm legitimate gun owners. Reducing the firepower of military style weapons will not penalize responsible gun owners. The right laws can reduce the frequency of impulsive teenage suicides. The right laws can limit the firepower of street guns and save the lives of innocent bystanders. The right laws can demonstrate society's conviction that owning a gun imparts a huge responsibility to the owner.</p>
     <h3>A uniquely American problem</h3>
     <span class="subtitle">The number of guns is a strong predictor of firearm related deaths</span>
     <figure id="gunDeaths"></figure>
@@ -196,7 +196,7 @@
 
     var gunDeaths = {
       grid: true,
-      inset: 10,
+      // inset: 10,
       width: width,
       marginBottom: 40,
       style:{fontSize: size, background: "hsla(209, 23%, 98%, 1)"},
@@ -204,17 +204,22 @@
         label: "Firearm deaths per 100k people →",
         labelAnchor: "center",
         labelOffset: 35,
-        tickSize: 0,        
+        tickSize: 0,    
+        ticks: 4,
+        nice: true,    
       },
       x: {
         label: "Guns per 100k people",
         labelAnchor: "center",
         tickSize: 0,
+        ticks: 4,
+        nice: true,
       },
       color: {
         scheme: "BuRd"
       },
       marks: [
+        Plot.frame({stroke: "#ccc", strokeWidth: .2}),
       Plot.linearRegressionY(data, {x: "Guns_per_100", y: "Total_Firearm_Deaths_per_100000", stroke: "crimson", ci: 0.95, opacity: .35}),
         Plot.dot(data, {
           x: "Guns_per_100",
