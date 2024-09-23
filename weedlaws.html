@@ -99,7 +99,7 @@
 <svg>
   <filter id="coastalGlow">
     <feGaussianBlur stdDeviation="10" in="SourceAlpha" result="shadow"></feGaussianBlur>
-    <feflood flood-color="#9fd8e0" flood-opacity="1" result="color" />
+    <feflood flood-color="#9fd8e0" result="color" />
     <feComposite operator="in" in="color" in2="shadow" />
   </filter>
 </svg>
@@ -142,15 +142,17 @@
 
     var map = {
       width: width,
+      inset: 4,
       style:{textTransform: 'capitalize'},
       projection: "albers-usa",
       color: {scheme: scheme, reverse:false, legend: true, },
       marks: [
-        Plot.sphere({fill: waterColor, fillOpacity: .95}),
-        Plot.geo(topojson.mesh(us, us.objects.states, (a, b) => a == b), {filter: coastalGlow}),
+        Plot.sphere({fill: waterColor, fillOpacity: .65}),
+        // Plot.geo(topojson.mesh(us, us.objects.states, (a, b) => a == b)),
        Plot.geo(states, Plot.centroid({
-        fill: d => lawmap.get(d.properties.name) != undefined ? lawmap.get(d.properties.name) : "Mixed", // This is a hack to "hide" undefined values
-        fill: landColor,
+        fill: d => lawmap.get(d.properties.name) != undefined ? lawmap.get(d.properties.name) : "Mixed", // This is a hack to "hide" undefined values. TODO fix 
+        // fill: landColor,
+        stroke: null,
         channels: {name: "name", medicinal: d=> medmap.get(d.properties.name), Decriminalized: d=> crimmap.get(d.properties.name), status: d =>lawmap.get(d.properties.name)},
         tip: {
           opacity: 0.9,
@@ -159,7 +161,7 @@
           fontSize: size,
         },
       })),
-       Plot.geo(topojson.mesh(us, us.objects.states, (a, b) => a !== b), {stroke: "#ccc", strokeWidth: .4}),
+       Plot.geo(topojson.mesh(us, us.objects.states, (a, b) => a !== b), {stroke: "#ccc", strokeWidth: .33}),
        Plot.text(
          states.features,
          Plot.centroid({
@@ -183,7 +185,7 @@
       aspectRatio: 30,
       x: {label: null},
       y: {label: null, axis: null},
-      color: {legend: true, scheme: scheme},
+      color: {legend: false, scheme: scheme},
       marks: [
         Plot.ruleY([0], {stroke: "#ccc", strokeLinecap: "round", strokeWidth: 2}),
         Plot.waffleY(laws, Plot.groupX({y: "count"}, {x: "LegalStatus", fill: "LegalStatus"})),

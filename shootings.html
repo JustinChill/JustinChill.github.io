@@ -116,6 +116,13 @@
     <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="icon">Source code and feedback</a></span>    
   </div>
 </footer>
+<svg>
+  <filter id="coastalGlow">
+    <feGaussianBlur stdDeviation="10" in="SourceAlpha" result="shadow" />
+    <feflood flood-color="#9fd8e0" result="color" />
+    <feComposite operator="in" in="color" in2="shadow" />
+  </filter>
+</svg>
 <script src="https://cdn.jsdelivr.net/npm/d3"></script>
 <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/topojson@3.0.2/dist/topojson.min.js"></script>
@@ -128,6 +135,9 @@
   var size = 12;
   const formatDate = d3.timeFormat("%B %d, %Y");
   const formatNumb = d3.format(",");
+  var waterColor = "#EAF1F2";
+  var waterGlowColor = "#9fd8e0";
+  var landColor = "#fff6e6";
 
   function normalizeGender(input) {
     const maleIdentifiers = ['male', 'm', 'man', 'boy', 'guy', 'mr', 'sir', 'he', 'his', 'him'];
@@ -216,6 +226,7 @@
     });
   }
 
+
   // Use Promises to async request data
   var promises = [d3.csv("data/mother_jones_mass_shootingsJuly2024.csv",function(d) {
       return { // Accessor function to convert strings to numbers, dates
@@ -240,7 +251,7 @@
           x: +d.year,
           year: +d.year
         }}
-      ),d3.json("data/geo/land.json"),d3.json("data/geo/us-counties-10m.json"),d3.json("data/test-data-circles.json")];
+      ),d3.json("data/geo/land.json"),d3.json("data/geo/us-counties-10m.json"),d3.json("data/test-data-circles.json"),d3.csv("data/geo/us-state-grid.csv",d3.autoType)];
 
   myDataPromises = Promise.all(promises);
 
@@ -251,10 +262,49 @@
     var land = data[1];
     var us = data[2];
     var dummy = data[3];
+    var stategrid = data[4];
     var states = topojson.feature(us, us.objects.states);
     // var statemesh = topojson.mesh(us, us.objects.states, (a, b) => a !== b);
+    var stateabbr = new Map(stategrid.map(d => [d.name, d.key]));
 
-    console.log(shootings);
+    // Coastal glow from https://observablehq.com/@awoodruff/svg-cartography-nacis-2019-part-one
+    function coastalGlow(values) {
+      const svg = d3.select();
+      
+      // append the <defs> element where filters, etc. are defined
+      const defs = svg.append('defs');
+      
+      // create/append the filter
+      const filter = defs.append('filter')
+        .attr('id', 'coastal-glow');
+      
+      // the glow filter needs three parts: a blur, a color, and a composite of the two as its final result
+      filter.append('feGaussianBlur')
+        .attr('in', 'SourceAlpha')
+        .attr('stdDeviation', 10)
+        .attr('result', 'shadow');
+      filter.append('feFlood')
+        .attr('flood-color', waterGlowColor)
+        .attr('result', 'color');
+      filter.append('feComposite')
+        .attr('in', 'color')
+        .attr('in2', 'shadow')
+        .attr('operator', 'in');
+
+      return () =>
+      Plot.plot({
+        axis: null,
+        width: widthMid,
+        projection: {
+          type: "albers",
+          inset: 10
+        },
+        marks: [
+          Plot.sphere({fill: waterColor, fillOpacity: .9, className: "water-layer"}), 
+          Plot.geo(states, {fill: landColor, stroke: "#ccc", strokeWidth: .6, strokeOpacity: .75, className: "land-layer",})
+          ]
+      });
+    }
 
     var map = {
       width: widthMid,
@@ -265,11 +315,19 @@
       },
       color: {legend: true},
       marks: [
-        Plot.sphere({fill: "rgba(228,245,253,255)", fillOpacity: .35}), 
-        Plot.graticule(),
-      // Plot.sphere(),
-        Plot.geo(land, {fill: "rgba(236,233,224,255)", fillOpacity: .85}),
-        Plot.geo(states, {stroke: "#ccc", strokeWidth: .6, strokeOpacity: .75}),
+        coastalGlow(),
+        Plot.text(
+          states.features,
+          Plot.centroid({
+            text: (d) => stateabbr.get(d.properties.name),
+            textAnchor: "middle",
+            stroke: "white",
+            strokeWidth: 2,
+            fill: "black",
+            fontSize: width > 450 ? size : size - 4,
+            opacity: .35,
+          })
+          ),
         Plot.dot(shootings, Plot.pointer({r: "fatalities", x: "longitude", fill: "black", y: "latitude", stroke: "black", strokeWidth: .4, strokeOpacity: .85})),
         Plot.dot(shootings, {r: "fatalities", fill: "location", x: "longitude", y: "latitude", fillOpacity: .85}),
       // Plot.density(shootings, {fill: "location", x: "longitude", y: "latitude", fillOpacity: .05}),
@@ -292,7 +350,6 @@
         })),
         ],
     };
-
 
     var histogram = {
       width: width,
@@ -486,7 +543,7 @@
         grid: true,
         x: {nice: true},
         y: {inset: 5},
-        color: {legend: true, scheme: "tableau10", reverse: true},
+        color: {legend: false, scheme: "tableau10", reverse: true},
         marks: [
           Plot.frame(),
           Plot.dot(shootings, {
