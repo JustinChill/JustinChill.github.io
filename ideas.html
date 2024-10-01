@@ -45,66 +45,24 @@
     <p><a href="https://observablehq.com/@kpivert/the-economists-new-carrie-bradshaw-index">The Economist's Karrie Bradshaw Index</a></p>
 
     <h3>Did smartphones kill Bigfoot?</h3>
-    <p><a href="https://observablehq.com/d/c02d49ec518a0d91">https://observablehq.com/d/c02d49ec518a0d91</p>
+    <p><a href="https://observablehq.com/d/c02d49ec518a0d91">https://observablehq.com/d/c02d49ec518a0d91</a></p>
 
-      <h3>NASA centers</h3>
-      <p><a href="https://observablehq.com/d/78ff921215111679">https://observablehq.com/d/78ff921215111679</p>
-
+    <h3>NASA centers</h3>
+    <p><a href="https://observablehq.com/d/78ff921215111679">https://observablehq.com/d/78ff921215111679</a></p>
+      
+    <h3>Food Availability</h3>
+    <p>It's estimated that around 381 million people around the world cannot afford an energy sufficient diet. With around 735 million people suffering from undernutrition in 2023 it can be interesting to think about what it could possibly take to end issues such as undernutrition and obesity.</p>
+    <p><a href="https://observablehq.com/d/95f1d3c2e86b2d99">https://observablehq.com/d/95f1d3c2e86b2d99</a></p>
 
   </article>
 </main>
 <footer>
-  <h2 id="footnote-label">Footnotes</h2>
-  <ol>
-    <!-- <li id="Selsam"><a href="https://mathcs.holycross.edu/~little/Mont201516/VoyageBeagle.pdf">Millicent E. Selsam, 1959</a>.<a href="#Selsam-ref" aria-label="Back to content">↩</a></li>     -->
-  </ol>
 
   <div>
     <p>Justin Chill © 2024. Thanks for reading!</p>
     <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="icon">Source code and feedback</a></span>    
   </div>
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/d3"></script>
-<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 
-<script type="text/javascript">
-  var element = d3.select('figure').node();
-  var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
-  var size = 12;
-  
-  // Use Promises to async request data
-  var promises = [d3.json("data/geo/land.json"),d3.json("data/geo/beagle.json")];
-
-  // You can request multiple srcs in a promise
-  myDataPromises = Promise.all(promises);
-
-  // After data is successfully fetched, generate viz
-  myDataPromises.then(function(data) {
-    // Define the data. There's gotta be a better way to do this:
-    var land = data[0];
-    var beagle = data[1];
-
-    var london = {"type":"Point","coordinates":[-0.13,51.5]};
-    var Galápagos = {"type":"Point","coordinates":[-92.41,1.38]};
-
-    var map = {
-      width: width,
-      projection: "equal-earth",
-      marks: [
-        Plot.graticule(),
-        Plot.sphere(),
-        Plot.geo(land, {fill: "#ccc"}),
-        Plot.line(beagle.coordinates, {stroke: (d, i) => i, z: null, strokeWidth: 2}),
-        Plot.geo(london, {fill: "red", r: 5}),
-        // Plot.geo(Galápagos, {fill: "red", r: 5,  tip: true}),
-        Plot.tip([`HMS Beagle left London in 1831, returning 1836.`], {x: -0.13, y: 51.5, dy: -3, anchor: "bottom"}),
-        Plot.tip([`The large number of endemic species in the Galápagos Islands inspired Darwin's theory of evolution via natural selection. `], {x: -92.41, y: 1.38, dy: -3, anchor: "bottom"}),
-        Plot.tip([`The Falkland Islands.`], {x: -62.88, y: -53.3, dy: -3, anchor: "left"}),
-        // Plot.dot(beagle.coordinates, {r: 5, fill: "none", tip: true}),
-        ],
-    };
-    // document.getElementById("map").appendChild(Plot.plot(map));
-  });
-</script>
 </body>
 </html>
