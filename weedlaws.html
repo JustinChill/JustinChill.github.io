@@ -31,6 +31,8 @@
   <link type="text/plain" href="humans.txt" rel="author">
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="/favicon.ico">
+  <!-- <link rel="icon" href="/imgs/Cannabis_leaf.svg"> -->
+  <!-- <link rel=”mask-icon” href=”/imgs/Cannabis_leaf.svg color="#000000"> -->
   <meta name="theme-color" content="#4C63B6">
   
   <script type="module">
@@ -69,13 +71,13 @@
      <div class="article-hero">
       <h2 class="article-category">Post</h2>
       <h1 class="article-title">Altered States</h1>
-      <h2 class="article-subtitle">United States, cannabis legality</h2>
+      <h2 class="article-subtitle">Cannabis legality in the USA</h2>
     </div>
 
     <figure id="map" class="mid-size"></figure>
     <figcaption>Data: <a href="https://en.wikipedia.org/wiki/Legality_of_cannabis_by_U.S._jurisdiction">Wikipedia</a>.</figcaption>
 
-    <p>Marijuana is illegal under federal law, but most Americans now live in a state that has legalized the drug<a href="#pew" aria-describedby="footnote-label" id="pew-ref"></a>. The legal cannabis industry in America — or worldwide — is barely a decade old. At the start of 2014 adults could not legally purchase weed simply to get high, rather than to ease pain, anywhere in America. Recreational use is now legal in 24 out of 50 states, home to just over half of Americans. Medical use is legal in 38. </p>
+    <p>Marijuana is illegal under federal law, but most Americans now live in a state that has legalized the drug<a href="#pew" aria-describedby="footnote-label" id="pew-ref"></a>. The legal cannabis industry in America is barely a decade old. At the start of 2014 adults could not legally purchase weed simply to get high, rather than to ease pain, anywhere in America. Recreational use is now legal in 24 out of 50 states, home to just over half of Americans. Medical use is legal in 38. </p>
     <ul>
       <li><strong>54% of Americans live in a state where the recreational use of marijuana is legal</strong> <strong>–</strong> just a dozen years after <a href="https://money.cnn.com/2012/11/07/news/economy/marijuana-legalization-washington-colorado/index.html">Colorado and Washington became the first states to allow the drug for recreational purposes</a>.</li>
       <li><strong>74% of Americans live in a state where marijuana is legal for either recreational or medical use.</strong> <a href="https://www.latimes.com/archives/la-xpm-1996-11-06-mn-62740-story.html">California was the first state to legalize medical marijuana</a> in 1996.</li>
@@ -100,7 +102,7 @@
     <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="icon">Source code and feedback</a></span>    
   </div>
 </footer>
-<svg>
+<svg style="display: none;">
   <filter id="coastalGlow">
     <feGaussianBlur stdDeviation="10" in="SourceAlpha" result="shadow"></feGaussianBlur>
     <feflood flood-color="#9fd8e0" result="color" />
@@ -151,7 +153,7 @@
       projection: "albers-usa",
       color: {scheme: scheme, reverse:false, legend: true, },
       marks: [
-        Plot.sphere({fill: waterColor, fillOpacity: .65}),
+        // Plot.sphere({fill: waterColor, fillOpacity: .65}),
         // Plot.geo(topojson.mesh(us, us.objects.states, (a, b) => a == b)),
        Plot.geo(states, Plot.centroid({
         fill: d => lawmap.get(d.properties.name) != undefined ? lawmap.get(d.properties.name) : "Mixed", // This is a hack to "hide" undefined values. TODO fix 
@@ -165,7 +167,7 @@
           fontSize: size,
         },
       })),
-       Plot.geo(topojson.mesh(us, us.objects.states, (a, b) => a !== b), {stroke: "#ccc", strokeWidth: .33}),
+       Plot.geo(topojson.mesh(us, us.objects.states, (a, b) => a !== b), {stroke: "darkgray", strokeWidth: .33, strokeOpacity: .95, strokeLinecap: "round" }),
        Plot.text(
          states.features,
          Plot.centroid({
