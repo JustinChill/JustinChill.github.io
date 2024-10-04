@@ -180,11 +180,16 @@
     <figure id="heatmap"></figure>
     <figcaption>Data: <a href="https://observablehq.com/d/ebb5e479f1f54444#data">January 2023</a>.</figcaption>
     
+    <h2>Points per minute (PPM)</h2>
     <section class="split">
     <figure id="ppm"></figure>
     <!-- <figcaption>Data: <a href="https://observablehq.com/d/ebb5e479f1f54444#data">January 2023</a>.</figcaption> -->
     <figure id="ppmall"></figure>
     </section>
+
+    <h2>NBA Power Rankings</h2>
+    <p>A visualization of <a href="https://www.nba.com/news/category/power-rankings">John Schuhmann's NBA Power Rankings</a> for each week of the <span style="white-space: nowrap;">2021-22</span> Regular Season. </p>
+    <figure id="powerRankings" class="mid-size"></figure>
     <img src="https://cdn.vox-cdn.com/thumbor/-tp5kwpq553Do_ZxRNTCS-mVw88=/0x0:1944x2409/1400x1400/filters:focal(413x745:723x1055):format(jpeg)/cdn.vox-cdn.com/uploads/chorus_image/image/54508765/steph_cover.0.jpg" loading="lazy" class="full-bleed">
   </article>
 </main>
@@ -224,7 +229,7 @@
   var size = 16;
   
   // Use Promises to async request data
-  var promises = [d3.json("data/basketball-data.json"), d3.csv("data/nba_teams_color_codes.csv", d3.autoType)];
+  var promises = [d3.json("data/basketball-data.json"), d3.csv("data/nba_teams_color_codes.csv", d3.autoType),d3.json("data/powerRankings.json")];
 
   myDataPromises = Promise.all(promises);
 
@@ -233,6 +238,8 @@
     // Define the data
     var nba_stats = data[0];
     var nba_teams = data[1];
+    var nba_ranks = data[2];
+    var weeks = [...new Set(nba_ranks.map((d) => d.week))].sort((a, b) => a - b);
 
     var points = {
       width: width,
@@ -263,7 +270,7 @@
       inset: 8,
       round: true,
       nice: true,
-      x: {ticks: 5, tickSize: 0, labelAnchor: "right"},
+      x: {ticks: 5, tickSize: 0,  labelAnchor: "center", frameAnchor: "bottom", labelOffset: 0},
       y: {ticks: 5, tickSize: 0, label: "PPG"},
       grid: true,
       color: {
@@ -286,10 +293,11 @@
       width: width,
       style:{fontSize: size, textTransform: "capitalize"},
       marginTop: 10,
+      marginBottom: 20,
       inset: 8,
       round: true,
       nice: true,
-      x: {tickSize: 0, labelAnchor: "right"},
+      x: {tickSize: 0, labelAnchor: "center", label: "Points per game (ppg)", frameAnchor: "bottom", labelOffset: 0},
       y: {ticks: 5, tickSize: 0, label: "Games played"},
       grid: true,
       color: {
@@ -308,7 +316,7 @@
       style:{fontSize: size, textTransform: "capitalize"},
       round: true,
       nice: true,
-      x: {ticks: 5, tickSize: 0, labelAnchor: "right"},
+      x: {ticks: 5, tickSize: 0,  labelAnchor: "center", frameAnchor: "bottom", labelOffset: 0},
       y: {ticks: 5, tickSize: 0, label: "Games played"},
       inset: 8,
       grid: true,
@@ -380,6 +388,100 @@
         ]
     };
 
+    // Inspired by https://observablehq.com/@nor/nba-power-rankings?collection=@nor/nba
+    function bumpMarks(data, { r = 3, curve = "bump-x", ...options }) {
+      options = Plot.stackY2(options);
+      
+      return [
+        
+        Plot.line(data, { 
+          ...options, 
+          stroke: options.z, 
+          curve, 
+          strokeOpacity: .1,
+          fill: null 
+        }),
+        
+        Plot.image(data, { 
+          ...options, 
+          src: 'logoSrc', 
+          title: 'teamName', 
+          width: 30, 
+          opacity: 4,
+        }),
+        
+        // Plot.text(data, Plot.selectLast({ 
+        //   // fill: options.z, 
+        //   ...options, 
+        //   fontSize: 12, 
+        //   strokeWidth: 3, 
+        //   fontWeight: 600, 
+        //   text: options.y, 
+        //   stroke: "white", 
+        //   fill: "black" 
+        // })),
+        
+        // Plot.text(
+        //   data,
+        //   Plot.selectFirst({
+        //     ...options,
+        //     text: options.z,
+        //     dx: 15,
+        //     textAnchor: "start",
+        //     fill: "currentColor",
+        //   }),
+        
+        // Plot.text(
+        //   data,
+        //   Plot.selectLast({
+        //     ...options,
+        //     text: options.z,
+        //     dx: -15,
+        //     textAnchor: "end",
+        //     fill: "currentColor"
+        //   }) 
+        // ))        
+      ];
+    }
+    var powerRankings = {
+      width: width,
+      height: 500,
+      style:{fontSize: size, textTransform: "capitalize"},
+      marginTop: 20,
+      marginBottom: 60,
+      marginLeft: 0,
+      marginRight: 15,
+      insetBottom: 20,
+      width: width,
+      x: {
+        domain: weeks,
+        label: 'Week',
+      },
+      y: {
+        ticks: 0,
+        label: "Rank →",
+        labelAnchor: "center",
+        domain: [15, 1],
+      },
+      color: {
+        domain: d3.groupSort(nba_ranks, v => v[0].rank, d => d.teamAbbr),
+        range: d3.groupSort(nba_ranks, v => v[0].rank, d => d.color),
+      },
+      marks: [
+        bumpMarks(nba_ranks, {
+          x: "week",
+          z: "teamAbbr",
+          order: "rank",
+          r: 15,
+          dy: "2em",
+          fill: "white",
+          strokeWidth: 1,
+          strokeLinejoin: "round",
+          strokeLinecap: "round",
+        })
+      ]
+    };
+
     document.getElementById("points").appendChild(Plot.plot(points));
     document.getElementById("games").appendChild(Plot.plot(games));
     document.getElementById("ppg").appendChild(Plot.plot(ppg));
@@ -387,6 +489,7 @@
     document.getElementById("teams").appendChild(Plot.plot(teams));
     document.getElementById("ppm").appendChild(Plot.plot(ppm));
     document.getElementById("ppmall").appendChild(Plot.plot(ppmall));
+    document.getElementById("powerRankings").appendChild(Plot.plot(powerRankings));
   });
 </script>
 </body>
