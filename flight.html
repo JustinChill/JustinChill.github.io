@@ -79,7 +79,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 
 <script type="text/javascript">
-  var element = d3.select('figure').node();
+  var element = d3.select('figure:last-of-type').node();
   var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
   var size = 12;
   const formatDate = d3.timeFormat("%B %d, %Y");
@@ -116,7 +116,7 @@ myDataPromises.then(function(data) {
     color: {scheme: "GnBu", unknown: "#efefef",range: [.4,1]},
     marks: [
       Plot.ruleY([mach1], {stroke:"rgba(0,0,0,.6)", strokeLinecap: "round", strokeWidth: 1, strokeDasharray: "5 9.5", strokeOpacity: .6}),
-      Plot.text(["Mach 1 (Speed of sound)"], {frameAnchor: "right", dy: width > 450 ? 50 : 70, fontSize: size+4, fontWeight: 500}),
+      Plot.text(["Mach 1 (Speed of sound)"], {frameAnchor: "right", dy: width > 450 ? 50 : 70, dx: width > 450 ? 0 : 26, fontSize: width > 500 ? size+2 : size-3, fontWeight: 500}),
       Plot.text(flights, Plot.selectFirst({text: "Aircraft", frameAnchor: "bottom-left", dx: 6, dy: width > 450 ? -30 : -40})),
       Plot.text(flights, Plot.selectLast({text: "Aircraft", frameAnchor: "top-right", dx: 0, dy: -20})),
       Plot.arrow(flights, Plot.selectFirst({
