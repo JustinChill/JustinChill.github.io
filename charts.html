@@ -962,10 +962,6 @@
   var civ_options = {
     width: width,
     style:{fontSize: size, textTransform: "capitalize"},
-    marginLeft: 10,
-    marginRight: 5,
-    marginTop: 30,
-    marginBottom: 20,
     x: {
       axis: "both",
       grid: true,
@@ -1016,13 +1012,12 @@
 
   var country_emissions = {
     width: width,
-    marginLeft: width > 450 ? 180 : 90,
-    marginRight: width > 450 ? 100 : 20,
-    marginBottom: 0,
     style:{
       fontSize: size,
       backgroundColor: backgroundColor,
-      padding: 10,
+      paddingTop: 10,
+      paddingLeft: 40,
+      paddingRight: 20,
     },
     color: {
       range: ["#969696", "#4e79a7"]
@@ -1036,7 +1031,7 @@
     y: {
       domain: d3.sort(top20, d => -d.value).map(d => d.country),
       tickSize: 0,
-      label: null
+      label: null,
     },
     marks: [
       Plot.barX(top20, {
@@ -1062,9 +1057,6 @@
     width: width,
     style: {textTransform: "capitalize", fontSize: size},
     height: 380,
-    marginLeft: width/10,
-    marginRight: width/5,
-    marginTop: 30,
     y: {label: null, tickSize: 0, tickFormat: d => d + ":",},
     fy: {paddingInner: 0.27, label: null},
     marks: [
@@ -1091,11 +1083,10 @@
   };
 
   var network = {
+    width: 300,
+    height: 220,
     inset: 10,
-    marginLeft: 10,
-    marginRight: 10,
-    marginTop: 10,
-    marginBottom: 10,
+    style:{fontSize: size+2, paddingLeft: 10, paddingRight: 10},
     x: {axis: null},
     y: {axis: null},
     marks: [
@@ -1104,18 +1095,12 @@
       }),
       Plot.dot(nodes, {x: "x", y: "y", fill: "black"}),
       Plot.text(nodes, {x: "x", y: "y", text: "id", dy: 16, dx: -12})
-      ],
-    width: 300,
-    height: 220
+    ],
   };
 
   var wework = {
     width: width,
     style:{fontSize: size},
-    marginLeft: width/33,
-    marginRight: width/100,
-    marginTop: 30,
-    marginBottom: 20,
     y: {
       grid: true,
       tickFormat: d=> `$${d}B`,
@@ -1141,7 +1126,6 @@
   var example_dot = {
     width: width,
     style: {fontSize: size},
-    marginTop: 20,
     marginLeft: 0,
     marginRight: 0,
     x: {
@@ -1170,9 +1154,7 @@
 
   var gantt = {
     width: width,
-    height: width/1.25,
-    marginLeft: width/100,
-    marginRight: width/100,
+    // height: width/1.25,
     x: { grid: true },
     y: {
       domain: domainByDate,
@@ -1519,12 +1501,8 @@
      });
 
     var popcorn = {
-      style:{fontSize: size},
+      style:{fontSize: size, paddingLeft: 40},
       width: width,
-      marginLeft: width/4,
-      marginRight: width/40,
-      marginTop: 80,
-      marginBottom: 80,
       aspectRatio: 2.5,
       padding: 0,
       x: {
@@ -1560,8 +1538,6 @@
     // https://observablehq.com/@observablehq/plot-slope-chart ? 
     var slope = {
       width: width,
-      marginLeft: width/10,
-      marginRight: width/10,
       height: 540,
       x: {axis: "top", type: "ordinal", tickFormat: "", inset: 90, label: null},
       y: {axis: null, inset: 20},
@@ -1586,9 +1562,7 @@
     // https://observablehq.com/@observablehq/plot-cancer-survival-rates as second slop example 
     var intslope = {
       width: width,
-      marginLeft: width/10,
-      marginRight: width/10,
-      style:{fontSize: size, textTransform: "capitalize"},
+      style:{fontSize: size, textTransform: "capitalize", paddingLeft: 20, paddingRight: 20},
       height: 700,
       x: {
         axis: "top",
@@ -1634,9 +1608,7 @@
 
     var electricity = {
       width: width,
-      marginLeft: width/20,
-      marginRight: width > 450 ? width/8 : width/5,
-      style:{fontSize: size, textTransform: "capitalize"},
+      style:{fontSize: size, textTransform: "capitalize", paddingRight: 60},
       color: {
         scheme: "BuRd"
       },
@@ -1693,10 +1665,7 @@
 
     var apple_area = {
       width: width,
-      style:{fontSize: size},
-      marginLeft: width/33,
-      marginRight: width/100,
-      marginTop: 20,
+      style:{fontSize: size, paddingTop: 10},
       y: {
         grid: true,
         anchor: "left"
@@ -1720,14 +1689,11 @@
 
     var beeswarm = {
       width: width,
-      marginTop: 20,
-      marginLeft: width/33,
-      marginRight: width/33,
-      marginBottom: 30,
       style:{
         fontSize: size,
         backgroundColor: 'rgba(242,245,248,1)',
-        padding: 10,
+        paddingTop: 10,
+        paddingBottom: 10,
         textTransform: "capitalize",
       },
       color: {
@@ -1767,11 +1733,7 @@
 
     var candlestick = {
       width: width,
-      marginLeft: width/33,
-      marginRight: width/100,
-      marginBottom: 10,
-      marginTop: 30,
-      style:{fontSize: size},
+      style:{fontSize: size,paddingTop: 10, paddingBottom: 10},
       grid: true,
       inset: 4,
       y: {
@@ -1832,8 +1794,6 @@
     var freq_letters = {
       width: width,
       style:{fontSize: size},
-      marginLeft: width/33,
-      marginRight: width/100,
       x: {
         label: null,
         tickSize: 0,
@@ -1888,10 +1848,6 @@
     var anomaly_barcode = { 
       width: width,
       style:{fontSize: size},
-      marginBottom: 20,
-      marginTop: 30,
-      marginLeft: width/100,
-      marginRight: width/100,
       x: {
         round: true,
       },
@@ -1922,8 +1878,7 @@
 
     var stocks_baseline = {
       width: width,
-      style:{fontSize: size, backgroundColor: backgroundColor, padding: 10},
-      margin: width > 450 ? 40 : 30,
+      style:{fontSize: size, backgroundColor: backgroundColor, padding: 10, paddingRight: 30,},
       inset: 5,
       color: {
         scheme: "BuRd"
@@ -1969,11 +1924,7 @@
 
     var anomaly_dot = {
       width: width,
-      style: {fontSize: size},
-      marginLeft: width/20,
-      marginRight: width/100,
-      marginTop: 30,
-      marginBottom: 20,
+      style: {fontSize: size, paddingTop: 10, paddingBottom: 10},
       grid: true,
       inset: 4,
       y: {
@@ -2020,7 +1971,6 @@
     var google_ridgeline = {
       width: width,
       style: {fontSize: size},
-      marginRight: width/100,
       x: {
         axis: "top",
         label: null,
@@ -2056,11 +2006,7 @@
 
     var morley = {
       width: width,
-      style:{fontSize: size},
-      marginLeft: width/20,
-      marginRight: width/100,
-      marginBottom: 20,
-      marginTop: 20,
+      style:{fontSize: size, paddingTop: 10, paddingBottom: 10},
       y: {
         nice: true,
         clamp: true,
@@ -2076,12 +2022,8 @@
 
     var gapminder = { 
       width: width,           
-      style:{fontSize: size, textTransform: "capitalize"},
+      style:{fontSize: size, textTransform: "capitalize",paddingTop: 10, paddingBottom: 10},
       inset: 2,
-      marginLeft: width/33,
-      marginRight: width/100,
-      marginTop: 20,
-      marginBottom: 20,
       y: {
         // grid: true,
         label: "Life Expectency",        
@@ -2123,11 +2065,7 @@
     // https://observablehq.com/@observablehq/plot-bullet-graph
     var bullet = {
       width: width,
-      marginLeft: width/100,
-      marginRight: width/100,
-      marginTop: 30,
-      marginBottom: 30,
-      style:{fontSize: size-2, textTransform: "capitalize"},
+      style:{fontSize: size-2, textTransform: "capitalize",paddingTop: 10, paddingBottom: 10},
       x: {
         grid: true,
         ticks: d3.range(0, 51, 10),
@@ -2176,9 +2114,7 @@
 
     var dotdensity = {
       width: width,
-      marginLeft: width/33,
-      marginRight: width/100,
-      style:{fontSize: size, background: 'none', textTransform: 'capitalize'},   
+      style:{fontSize: size, background: 'none', textTransform: 'capitalize',paddingTop: 10, paddingBottom: 10},   
       padding: 0.05,
       projection: "albers",
       color: {
@@ -2221,9 +2157,7 @@
     var dotmap = {
       width: width,
       aspectRatio: 1,
-      style:{fontSize: size},
-      marginLeft: 0,
-      marginRight: 0,
+      style:{fontSize: size,paddingTop: 10, paddingBottom: 10},
       projection: "equal-earth",
       marks: [
         Plot.graticule(),
@@ -2239,10 +2173,6 @@
       width: width,
       height: 500,
       inset: 10,
-      marginLeft: 20,
-      marginRight: 10,
-      marginTop: 10,
-      marginBottom: 10,
       grid: true,
       x: {
         label: "Miles driven per capita each year →",
@@ -2388,8 +2318,6 @@ var horizon_chart = {
 var example_line = {
   width: width,
   style:{fontSize: size},
-  marginLeft: width/33,
-  marginRight: width/33,
   y: {
     tickFormat: formatUS,
     type: "log",
@@ -2405,10 +2333,7 @@ var example_line = {
 
 var bls_line = {
   width: width,
-  marginLeft: width/20,
-  marginRight: width > 450 ? width/10 : width/5,
-  marginTop: 40,
-  style:{fontSize: size, textTransform: "capitalize"},
+  style:{fontSize: size, textTransform: "capitalize", paddingTop: 20},
   y: {
     label: "Unemployed (thousands)",
     nice: true,
@@ -2442,11 +2367,7 @@ var bls_line = {
 
 var bls_stacked = {
   width: width,
-  marginLeft: width/20,
-  marginRight: width/10,
-  marginTop: 20,
-  marginBottom: 20,
-  style:{fontSize: size, textTransform: "capitalize"},
+  style:{fontSize: size, textTransform: "capitalize",paddingTop: 10, paddingBottom: 10},
   y: {
     grid: true,
     label: "Unemployed (thousands)",
@@ -2484,11 +2405,7 @@ var bls_stacked = {
 
 var bls_bar = {
   width: width,
-  marginLeft: width/10,
-  marginRight: width/33,
-  marginTop: 40,
-  marginBottom: 30,
-  style:{fontSize: size, textTransform: "capitalize"},
+  style:{fontSize: size, textTransform: "capitalize",paddingTop: 10, paddingBottom: 10},
   x: {
     tickFormat: "%Y",
     tickSize: 0,
@@ -2578,9 +2495,6 @@ var gridmap = {
   var diverging ={
     width: width,
     style:{fontSize: size-2},
-    marginRight: width/33,
-    marginLeft: width/33,
-    marginBottom: 0,
     aspectRatio: 1,
     label: null,
     x: {
@@ -2605,10 +2519,7 @@ var gridmap = {
   // https://observablehq.com/@observablehq/plot-difference-chart
   var difference ={
     width: width,
-    style:{fontSize: size, textTransform: "capitalize"},
-    marginRight: width/33,
-    marginLeft: width/33,
-    marginTop: 24,
+    style:{fontSize: size, textTransform: "capitalize",paddingTop: 10, paddingBottom: 10},
     x: { inset: 4, nice: true,},
     y: { grid: true, label: "Temperature (°F)", tickSize: 0, nice: true, anchor: "top"},
     color: { scheme: "RdYlBu", label: "colder" },
@@ -2678,8 +2589,6 @@ var gridmap = {
 // Drug scatter plot 
   var drug_scatter = {     
     width: width,
-    marginLeft: width/33,
-    marginRight: width/100,
     style:{fontSize: size},
     grid: true,
     y: {        
@@ -2713,11 +2622,7 @@ var gridmap = {
 
     var example_histogram = {
       width: width,
-      style:{fontSize: size},
-      marginLeft: width/33,
-      marginRight: width/100,
-      marginTop: 20,
-      marginBottom: 40,
+      style:{fontSize: size,paddingTop: 10, paddingBottom: 10},
       color: {
         type: "diverging",
         scheme: "Sinebow"
@@ -2765,11 +2670,7 @@ var gridmap = {
 
     var proportion_plot = {
       width: width,
-      marginLeft: width/10,
-      marginRight: width/10,
-      marginTop: 20,
-      marginBottom: 10,
-      style:{fontSize: size},
+      style:{fontSize: size,paddingTop: 10, paddingBottom: 10},
       x: {
         domain: columns,
         axis: "top",
@@ -2829,9 +2730,7 @@ var gridmap = {
 
       var stem_plot = {
         width: width,
-        marginLeft: width/4,
-        marginRight: width/4,
-        style:{fontSize: size, margin: "auto"},
+        style:{fontSize: size, margin: "auto", paddingLeft: 10, paddingRight: 10},
         axis: null,
         y: {
           domain: d3.range(4, 25).map(String)
@@ -2881,11 +2780,7 @@ var gridmap = {
 
       var streamgraph = {
         width: width,
-        marginLeft: width/20,
-        marginRight: width/9,
-        marginTop: 30,
-        marginBottom: 10,
-        style:{fontSize: size, textTransform: "capitalize"},
+        style:{fontSize: size, textTransform: "capitalize", paddingRight: 20},
         x: {
           tickSize: 0,
           grid: true,
@@ -2928,8 +2823,6 @@ var gridmap = {
       var qatar_pyramid = {
         width: width,
         aspectRatio: .05,
-        marginLeft: width/15,
-        marginRight: width/100,
         style:{fontSize: size},
         color: {
           domain: ["male","female"],
@@ -3005,8 +2898,6 @@ var gridmap = {
         width: width,
         style:{fontSize: size},
         height: 640,
-        marginLeft: width/16,
-        marginRight: width/33,
         label: null,
         x: {percent: true, ticks: 10, tickSize: 2, tickFormat: (d) => d === 100 ? `100%` : d},
         y: {percent: true, ticks: 10, tickSize: 2, tickFormat: (d) => d === 100 ? `100%` : d},
@@ -3022,10 +2913,6 @@ var gridmap = {
       var mpg = {
         width: width,
         style: {textTransform: "capitalize",fontSize: size},
-        marginLeft: width/33,
-        marginRight: width/100,
-        marginBottom: 40,
-        marginTop: 20,
         x: {label: "City mpg", ticks: 2, labelOffset: 50},
         y: {label: "Highway mpg", ticks: 6, labelOffset: 50, labelAnchor: "center"},
         inset: 4,
@@ -3067,9 +2954,6 @@ var gridmap = {
       var percentogram = {
         width: width,
         style:{fontSize: size, textTransform: "capitalize"},
-        marginLeft: width/100,
-        marginRight: width/100,
-        marginTop: 30,
         color: {
           legend: true,
           type: "quantize",
@@ -3100,10 +2984,6 @@ var gridmap = {
     // From Fil: https://observablehq.com/@fil/waffle-chart
       var waffle = { // Todo replace with waffle mark 
         width: width,
-        marginLeft: width/100,
-        marginRight: width/100,
-        marginTop: 0,
-        marginBottom: 0, 
         x: { axis: null },
         y: { axis: null },
         color: { scheme: "Pastel2" },
@@ -3177,10 +3057,6 @@ var gridmap = {
       var irregular_bar = {
         width: width,
         style:{fontSize: size},
-        marginLeft: width/100,
-        marginRight: width/100,
-        marginTop: 20,
-        marginBottom: 40, 
         x: {
           label: "Population (millions) →",
           transform: (d) => d * 1e-6,
@@ -3195,8 +3071,6 @@ var gridmap = {
           domain: ["all", "one", "full"],
           range: ["#ddd", "lightblue", "steelblue"]
         },
-
-        // this chart is a big pile of marks…
         marks: [
           // gray bars, all of the same height (total population by age group)
           Plot.rectY(vaxdata, {
@@ -3232,7 +3106,7 @@ var gridmap = {
             fill: "black",
             text: "Age group",
             dy: 11,
-            fontSize: 14,
+            fontSize: width > 450 ? 14 : 12,
           }),
 
           // age group size
@@ -3242,7 +3116,7 @@ var gridmap = {
             fill: "black",
             text: (d) => `${+(d.population * 1e-6).toFixed(1)}M`,
             dy: 23,
-            fontSize: 12
+            fontSize: width > 450 ? 12 : 10,
           }),
 
           // percentage labels for "one", below
