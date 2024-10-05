@@ -231,7 +231,7 @@
       <figure id="sopranosBar"></figure>
       <figcaption>Data: <a href="https://sopranos.fandom.com/wiki/List_of_deaths_attributed_to_main_characters#Sopranos">Fandom</a></figcaption>
 
-      <blockquote><p>I always wanted the audience to feel that the episode they were seeing was happening now.</p><figcaption>David Chase</figcaption></blockquote>
+      <blockquote><p>I always wanted the audience to feel that the episode they were seeing was happening now.</p><figcaption><p>David Chase</p></figcaption></blockquote>
       <p></p>
 
       <a href="https://www.youtube.com/watch?v=kR0OPOMea1Y"><img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.ytimg.com%2Fvi%2FD3-GD0ovKfQ%2Fmaxresdefault.jpg%3Fsqp%3D-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGHIgXig8MA8%3D%26rs%3DAOn4CLC7wMfxXexk3Y32-fQX3i1Oy8wLrQ&f=1&nofb=1&ipt=61ca237f9723f4f6657068ddc87612a4d6ace684210a48bb5512b040b7ddb064&ipo=images" loading="lazy"></a>
@@ -398,9 +398,10 @@
 
       var sopranosRatings = {
         width: width,
+        marginLeft: 0,
+        marginRight: 0,
         aspectRatio: .05,
-        marginLeft: width/33,
-        marginRight: width/100,
+        style:{paddingLeft: 10},
         x: {
           label: "Episode",
           labelAnchor: "center",
@@ -410,14 +411,10 @@
           clamp: true,
         },
         y: {
-          label: "IMDB Rating",
-          labelAnchor: "center",
-          anchor: "left",
-          labelOffset: 40,
+          // label: null,
+          labelAnchor: "bottom",
           nice: true,
           clamp: true,
-          ticks: 2,
-          // domain: [8,10],
           grid: true,
         },
         color: {
@@ -465,14 +462,12 @@
       var sopranosGrid = {
         width: width,
         height: 720,
-        style:{fontSize: size},
+        style:{fontSize: size, paddingTop: 10},
         padding: 0,
-        marginLeft: width/33,
-        marginRight: width/100,
         grid: true,
         aspectRatio: .8,
-        x: { label: null, axis: "top", labelAnchor: "center", anchor: "top"},
-        y: { label: "Season", anchor: "left", labelAnchor: "center", labelOffset: 40 },
+        x: { axis: "top", labelAnchor: "center", anchor: "top"},
+        y: { anchor: "left", labelAnchor: "center", labelOffset: 40 },
         color: {
           type: "linear",
           scheme: "RdYlGn",
@@ -514,10 +509,6 @@
       };
       var sopranosBar = {
         width: width,
-        marginLeft: width/33,
-        marginRight: width/100,
-        marginTop: 10,
-        marginBottom: 30,
         x: { label: null},
         y: { grid: true, neat: true, clamp: true, ticks: 4, label: null},
         color: {scheme: "Reds"},
@@ -529,8 +520,8 @@
             fill: "Main Character",
             sort: {x: "-y"}
           }),
-          Plot.text(sopranos_murders, {filter: (d) => d["Kill Count"] > 20, x: "Main Character", y: "Kill Count", text: (d) => d["Kill Count"] + " kills", dy: -6, lineAnchor: "bottom", fontSize: 18, fontWeight: 500, textAnchor: "middle",}),
-          Plot.text(sopranos_murders, {filter: (d) => d["Kill Count"] < 20, x: "Main Character", y: "Kill Count", text: "Kill Count", dy: -6, lineAnchor: "bottom", fontSize: 18, fontWeight: 500}),
+          Plot.text(sopranos_murders, {filter: (d) => d["Kill Count"] > 20, x: "Main Character", y: "Kill Count", text: (d) => d["Kill Count"] + " kills", dy: -6, lineAnchor: "bottom", fontSize: width > 450 ? 18 : 14, fontWeight: 500, textAnchor: "middle",}),
+          Plot.text(sopranos_murders, {filter: (d) => d["Kill Count"] < 20, x: "Main Character", y: "Kill Count", text: "Kill Count", dy: -6, lineAnchor: "bottom", fontSize: width > 450 ? 18 : 14, fontWeight: 500}),
           ]
       };
 

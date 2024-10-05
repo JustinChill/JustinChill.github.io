@@ -39,10 +39,6 @@
       font-weight:bold;
     }
 
-    p {
-      max-width:none;
-    }
-
     p img{
       float: left;
       border-radius: 4px;
@@ -92,7 +88,6 @@
       font-size:25px;
     }
 
-
     .player-team{
       color:grey;
       font-size:20px;
@@ -101,7 +96,6 @@
     .team-title{
       width:300px;
     }
-
 
     .team-title, .player-stats{
       display:block;
@@ -116,7 +110,11 @@
     section.split{
       display: flex;
     }
-
+    @media screen and (max-width: 680px) {
+    section.split{
+      display: block;
+    }
+    }
   </style>
 </head>
 <body>
@@ -244,8 +242,6 @@
     var points = {
       width: width,
       style:{fontSize: size, textTransform: "capitalize"},
-      marginTop: 10,
-      marginBottom: 10,
       inset: 8,
       round: true,
       nice: true,
@@ -266,7 +262,6 @@
     var games = {
       width: width,
       style:{fontSize: size, textTransform: "capitalize"},
-      marginTop: 10,
       inset: 8,
       round: true,
       nice: true,
@@ -292,8 +287,6 @@
     var ppg = {
       width: width,
       style:{fontSize: size, textTransform: "capitalize"},
-      marginTop: 10,
-      marginBottom: 20,
       inset: 8,
       round: true,
       nice: true,
@@ -335,9 +328,10 @@
     // Inspired by https://observablehq.com/@jonfroehlich/nba-team-colors
     var teams = {
       width: width,
-      marginTop: 40,
-      marginBottom: 100,
-      style:{fontSize: size-2, textTransform: "capitalize"},
+      // height: 200,
+      style:{fontSize: size-2, textTransform: "capitalize",paddingTop: 10, paddingBottom:40, paddingLeft:20},
+      // marginLeft: 0,
+      marginRight:0,
       inset: 20,
       x: {tickRotate: -30, label: null},
       marks: [
@@ -355,10 +349,8 @@
     };
     
     var ppm = {
-      width: width/2,
-      marginLeft: 20,
-      marginRight: 50,
-      style:{fontSize: size, textTransform: "capitalize"},
+      width: width > 680 ? width/2 : width,
+      style:{fontSize: size, textTransform: "capitalize",paddingLeft:60},
       y: {label: null,},
       x: {grid: true, axis: "both",nice: true},
       title: "Top 50 ppm (Active players)",
@@ -372,10 +364,8 @@
     };
     
     var ppmall = {
-      width: width/2,
-      marginLeft: 50,
-      marginRight: 20,
-      style:{fontSize: size, textTransform: "capitalize"},
+      width: width > 680 ? width/2 : width,
+      style:{fontSize: size, textTransform: "capitalize",paddingLeft:60},
       y: {label: null,},
       x: {grid: true, axis: "both", },
       title: "Top 50 ppm (All time)",
@@ -446,11 +436,8 @@
     var powerRankings = {
       width: width,
       height: 500,
-      style:{fontSize: size, textTransform: "capitalize"},
-      marginTop: 20,
-      marginBottom: 60,
+      style:{fontSize: size, textTransform: "capitalize", paddingBottom: 10},
       marginLeft: 0,
-      marginRight: 15,
       insetBottom: 20,
       width: width,
       x: {
