@@ -201,7 +201,7 @@
     <p>Justin Chill © 2024. Thanks for reading!</p>
     <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="icon">Source code and feedback</a></span>    
   </div>
-  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" enable-background="new 0 0 100 100" xml:space="preserve" style="display: none;">
+  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" enable-background="new 0 0 100 100" xml:space="preserve" class="visually-hidden">
     <defs>
       <symbol id="basketball" viewBox="0 0 100 100">
         <title>Basketball</title>
@@ -225,6 +225,7 @@
   var element = d3.select('figure').node();
   var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
   var size = 16;
+  var offset = 40;
   
   // Use Promises to async request data
   var promises = [d3.json("data/basketball-data.json"), d3.csv("data/nba_teams_color_codes.csv", d3.autoType),d3.json("data/powerRankings.json")];
@@ -238,15 +239,38 @@
     var nba_teams = data[1];
     var nba_ranks = data[2];
     var weeks = [...new Set(nba_ranks.map((d) => d.week))].sort((a, b) => a - b);
+    
+    // Inspired by https://observablehq.com/@jonfroehlich/nba-team-colors
+    var teams = {
+      width: width,
+      height: width > 450 ? 80 : 200,
+      style:{fontSize: size-2, textTransform: "capitalize",paddingTop: 10, paddingBottom:40, paddingLeft:20},
+      // marginLeft: 0,
+      marginRight:0,
+      inset: 20,
+      x: {tickRotate: -30, label: null},
+      marks: [
+        Plot.image(
+          nba_teams,
+          Plot.dodgeY({
+            x: "Team",
+            r: 20, // clip to a circle
+            preserveAspectRatio: "xMidYMin slice", // try not to clip heads
+            src: "LogoSvgUrl",
+            title: "Team"
+          })
+          )
+        ]
+    };
 
     var points = {
       width: width,
-      style:{fontSize: size, textTransform: "capitalize"},
+      style:{fontSize: size, textTransform: "capitalize", paddingRight: width > 450? 0 : 20},
       inset: 8,
       round: true,
       nice: true,
-      x: {ticks: 5, tickSize: 0, labelAnchor: "right"},
-      y: {ticks: 5, tickSize: 0, label: "Games played"},
+      x: {ticks: 5, tickSize: 0, labelAnchor: "right", labelOffset: offset, tickFormat: d => d3.format("~s")(Math.abs(d)),},
+      y: {ticks: 5, tickSize: 0, label: "Games played",},
       grid: true,
       color: {
         scheme: "YlOrRd",
@@ -261,11 +285,11 @@
 
     var games = {
       width: width,
-      style:{fontSize: size, textTransform: "capitalize"},
+      style:{fontSize: size, textTransform: "capitalize", paddingRight: width > 450? 0 : 20},
       inset: 8,
       round: true,
       nice: true,
-      x: {ticks: 5, tickSize: 0,  labelAnchor: "center", frameAnchor: "bottom", labelOffset: 0},
+      x: {ticks: 5, tickSize: 0,  labelAnchor: "right", labelOffset: offset, tickFormat: d => d3.format("~s")(Math.abs(d)),},
       y: {ticks: 5, tickSize: 0, label: "PPG"},
       grid: true,
       color: {
@@ -290,7 +314,7 @@
       inset: 8,
       round: true,
       nice: true,
-      x: {tickSize: 0, labelAnchor: "center", label: "Points per game (ppg)", frameAnchor: "bottom", labelOffset: 0},
+      x: {tickSize: 0, labelAnchor: "right", label: "Points per game (ppg)", labelOffset: offset},
       y: {ticks: 5, tickSize: 0, label: "Games played"},
       grid: true,
       color: {
@@ -306,10 +330,10 @@
 
     var heatmap = {
       width: width,
-      style:{fontSize: size, textTransform: "capitalize"},
+      style:{fontSize: size, textTransform: "capitalize", paddingRight: width > 450? 0 : 20},
       round: true,
       nice: true,
-      x: {ticks: 5, tickSize: 0,  labelAnchor: "center", frameAnchor: "bottom", labelOffset: 0},
+      x: {ticks: 5, tickSize: 0,  labelAnchor: "right", labelOffset: offset, tickFormat: d => d3.format("~s")(Math.abs(d)),},
       y: {ticks: 5, tickSize: 0, label: "Games played"},
       inset: 8,
       grid: true,
@@ -324,33 +348,10 @@
         Plot.text(nba_stats.slice(0,100), {x: "points", y: "games", text: "name", fill: "#000", stroke:"#ffffffaa", dy: -10, filter: (d,i)=>d.active || i<10 }),
         ]
     };
-
-    // Inspired by https://observablehq.com/@jonfroehlich/nba-team-colors
-    var teams = {
-      width: width,
-      // height: 200,
-      style:{fontSize: size-2, textTransform: "capitalize",paddingTop: 10, paddingBottom:40, paddingLeft:20},
-      // marginLeft: 0,
-      marginRight:0,
-      inset: 20,
-      x: {tickRotate: -30, label: null},
-      marks: [
-        Plot.image(
-          nba_teams,
-          Plot.dodgeY({
-            x: "Team",
-            r: 20, // clip to a circle
-            preserveAspectRatio: "xMidYMin slice", // try not to clip heads
-            src: "LogoSvgUrl",
-            title: "Team"
-          })
-          )
-        ]
-    };
     
     var ppm = {
       width: width > 680 ? width/2 : width,
-      style:{fontSize: size, textTransform: "capitalize",paddingLeft:60},
+      style:{fontSize: size, textTransform: "capitalize",paddingLeft:width > 450? 20 : 100},
       y: {label: null,},
       x: {grid: true, axis: "both",nice: true},
       title: "Top 50 ppm (Active players)",
@@ -365,7 +366,7 @@
     
     var ppmall = {
       width: width > 680 ? width/2 : width,
-      style:{fontSize: size, textTransform: "capitalize",paddingLeft:60},
+      style:{fontSize: size, textTransform: "capitalize",paddingLeft:width > 450? 20 : 100},
       y: {label: null,},
       x: {grid: true, axis: "both", },
       title: "Top 50 ppm (All time)",
@@ -381,9 +382,7 @@
     // Inspired by https://observablehq.com/@nor/nba-power-rankings?collection=@nor/nba
     function bumpMarks(data, { r = 3, curve = "bump-x", ...options }) {
       options = Plot.stackY2(options);
-      
       return [
-        
         Plot.line(data, { 
           ...options, 
           stroke: options.z, 
@@ -391,7 +390,7 @@
           strokeOpacity: .1,
           fill: null 
         }),
-        
+      
         Plot.image(data, { 
           ...options, 
           src: 'logoSrc', 
@@ -399,7 +398,7 @@
           width: 30, 
           opacity: 4,
         }),
-        
+        // Uncomment for options 
         // Plot.text(data, Plot.selectLast({ 
         //   // fill: options.z, 
         //   ...options, 
@@ -443,6 +442,7 @@
       x: {
         domain: weeks,
         label: 'Week',
+        labelOffset: offset,
       },
       y: {
         ticks: 0,
