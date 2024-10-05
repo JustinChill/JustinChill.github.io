@@ -10,9 +10,9 @@
   --primary-color: #3783ff;
   --muted-color: #999;
   --link-color: #3783ff;
-  --green: #58df82;
+  --green: hsl(123, 57%, 45%);
   --orange: #fca469;
-  --red: #fc6969;
+  --red: hsl(360, 83%, 62%);
 
   /* Typography */
   --font-ui: Inter, sans-serif;
@@ -28,6 +28,10 @@
   --spacer-2: 16px;
   --spacer-3: 24px;
   --spacer-4: 36px;
+  --spacer-5: 48px;
+  --spacer-6: 60px;
+  --spacer-7: 92px;
+  --spacer-8: 136px
 }
 /* Box sizing rules. Reset from: 'https://codepen.io/andybelldesign/pen/Ygmwym.css' */
 * {
@@ -118,7 +122,7 @@ table caption,
 footer h2 {
   font-family: Inter, Lato, sans-serif;
 }
-p,i,a,time,span,footer,ul,ol  {
+p,i,a,time,span,ul,ol  {
   font-family: "Lora", sans-serif, serif;
   font-family: 'IBM Plex Sans', sans-serif;
   font-size: calc(1rem + .25vw);
@@ -200,6 +204,7 @@ article > blockquote{
 article > blockquote figcaption p{
   font-size: small;
   font-style: normal;
+  text-align: right;
 }
 
 article > blockquote::before{
@@ -254,19 +259,19 @@ mark, .highlighted {
 }
 
 article > div.article-hero:first-of-type{
-  margin: 1rem auto;
+  margin: var(--spacer-7) 0 var(--spacer-4);
 }
 
-article > div.article-hero + p:first-of-type{
+/* article > div.article-hero + p:first-of-type{
   margin-top: 6rem;
-}
+} */
 
 article > p:first-of-type:first-letter {
   overflow-wrap: break-word;
   font-family: 'IBM Plex Sans', 'Playfair Display SC', serif;
   font-weight: 300;
   font-size: calc(4.2rem + .25vw);
-  line-height: calc(.8em + .2vw);
+  line-height: calc(.65em + .25vw);
   display: block;
   position: relative;
   float: left;
@@ -279,10 +284,13 @@ article > p:first-of-type:first-letter {
 .article-category{
   color: hsl(225, 57%, 67%);
   margin: 0 0 1rem;
+  font-size: calc(.6875rem + .25vw);
+  text-transform: uppercase;
 }
 .article-title{
   font-family: 'IBM Plex Sans', 'Playfair Display SC', serif;
   margin: 0;
+  font-size: calc(1.75rem + .25vw);
 }
 
 .article-subtitle {
@@ -384,7 +392,7 @@ article > p + ol,{
 article > h2{
   font-size: calc(1.4rem + .25vw);
 }
-article > h3{
+article > h3, li > h3{
   font-size: calc(1.1rem + .25vw);
 }
 
@@ -598,22 +606,14 @@ figcaption, figcaption a{
     --s: .5;
   }
 }
-footer{
-  font-size: calc(.8rem + .25vw);
-}
 
 footer div:not([class]){
-  grid-column: 1/-1;
-  margin: var(--gutter);
-  margin-top: calc(var(--gutter)*4);
-  margin-bottom: calc(var(--gutter));
+  /* grid-column: 1/-1; */
+  margin: var(--gutter) 0;
   display: flex;
   justify-content: space-between;
 }
 
-footer div p:not([class]){
-  padding: 0 .5em;
-}
 footer p a:not([class]){
   display: flex;
   align-items: center;
@@ -961,7 +961,6 @@ a[href^="#"] {
   footer {
     margin-top: .5em;
     grid-template-columns: 2rem 1fr 2rem;
-    margin-bottom: .5em;
   }
 }
 
@@ -994,38 +993,17 @@ a[href^="#"] {
     width: 100%;
     line-height: 1.4;
   }
-
-  ul > ul{
-    margin-top: .75em;
-    margin-bottom: .75em;
-  }
-  li{
-    margin-top: .5em;
-    margin-bottom: .5em;
-    margin-left: .9em;
-  }
-
   article > aside {
     margin: 30px 20px;
     grid-column: 2 / -1;
   }
-/*
-      article > aside > i{
-        font-size: 0.8rem;
-        font-size: calc(16px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
-      }*/
-
-      svg[class*="plot"]{
-/*        font-size: calc(10px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));*/
-}
-footer {
-  margin-top: 1em;
-  padding: 0 1em;
-  grid-template-columns: 10px 1fr 10px;
-}
-footer ol li{
-  margin-left: 1em;
-}
+  footer {
+    margin-top: 1em;
+    grid-template-columns: 1em 1fr 1fr 1fr 1fr 1fr 1em;
+  }
+  footer ol li{
+    margin-left: 1em;
+  }
 }
 
 @media screen and (max-width: 1000px) {
@@ -1033,14 +1011,9 @@ footer ol li{
     margin: 0 auto;
     grid-column: 2/-2;
   }
-  article > * {
-    font-size: calc(18px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
-  }
-
   article figcaption, article figcaption *{
-    font-size: calc(12px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+    font-size: calc(.75rem + .25vw);
   }
-
   .columns .column {
     margin-bottom: 5px;
     flex-basis: 40%;
@@ -1064,19 +1037,17 @@ footer ol li{
   .nav *{
     font-size: 1.3rem;
   }
-
   .nav__list {
     display: block;
     margin-right: 0;
     margin-bottom: var(--gutter);
     border: none;
   }
-
   a.nav__item {
     display: block;
     border-radius: var(--radius);
   }
-  article{
+  /* article{
     margin-top: 64px;
-  }
+  } */
 }
