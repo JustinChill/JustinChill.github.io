@@ -145,7 +145,7 @@
     var waterColor = "#EAF1F2";
     var waterGlowColor = "#9fd8e0";
     var landColor = "#fff6e6";
-
+    console.log(states);
     var map = {
       width: width,
       inset: 4,
@@ -169,7 +169,7 @@
       })),
        Plot.geo(topojson.mesh(us, us.objects.states, (a, b) => a !== b), {stroke: "darkgray", strokeWidth: .33, strokeOpacity: .95, strokeLinecap: "round" }),
        Plot.text(
-         states.features,
+         states.features.filter(d => (d.properties.name != "Rhode Island" && d.properties.name != "District of Columbia")),
          Plot.centroid({
            text: (d) => stateabbr.get(d.properties.name),
            textAnchor: "middle",
@@ -179,6 +179,20 @@
            fontSize: width > 450 ? size : size - 4,
          })
          ),
+         Plot.text(
+          states.features.filter(d => (d.properties.name == "Rhode Island" || d.properties.name == "District of Columbia")),
+          Plot.centroid({
+            text: (d) => stateabbr.get(d.properties.name),
+            textAnchor: "middle",
+            stroke: "white",
+            strokeWidth: 2,
+            fill: "black",
+            fontSize: width > 450 ? size : size - 4,
+            dx: width > 450 ? 0 : 7,
+            dy: width > 450 ? 0 : 7,
+            // dx: d => d.properties.name == "Maryland" ? 20 : 10,
+          })
+          ),
        ]
     };
 
