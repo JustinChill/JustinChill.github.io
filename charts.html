@@ -510,7 +510,7 @@
               <th scope="col">Sunshine (hours)</th>
               <th scope="col">Rainfall (mm)</th>
               <th scope="col">Days of rainfall ≥1&nbsp;mm (days)</th>
-              <th scope="col">Monthly mean wind speed at 10&nbsp;m (knots)</th>
+              <th scope="col">Monthly mean wind speed (knots)</th>
             </tr>
           </thead>
           <tbody>
@@ -705,7 +705,7 @@
     <li id="interpolation"><b>Interpolation</b> is the process of calculating an approximate value based on values that are already known. Learn more <a href="https://www.merriam-webster.com/dictionary/interpolation">here</a>.<a href="#interpolation-ref" aria-label="Back to content">↩</a></li>
   </ol>
   <div>
-    <p>Justin Chill © 2024. Thanks for reading!</p>
+    <p>Justin Chill © 2024. Thanks&nbsp;for&nbsp;reading!</p>
     <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="icon">Source code and feedback</a></span>    
   </div>
 </footer>
@@ -1003,12 +1003,12 @@
 
   var country_emissions = {
     width: width,
-    // marginLeft: 0,
+    marginLeft: 10,
     style:{
       fontSize: size,
       backgroundColor: backgroundColor,
       paddingTop: 10,
-      paddingLeft: "4rem",
+      paddingLeft: width > 450 ? "6rem" : "4rem",
       paddingRight: "1.5rem",
     },
     color: {
@@ -1502,7 +1502,7 @@
       style:{fontSize: size, paddingLeft: 20, paddingBottom: 35, paddingTop: 35,},
       width: width,
       marginLeft: width/4,
-      aspectRatio: 2.5,
+      aspectRatio: 2,
       padding: 0,
       x: {
         axis: "both", 
@@ -1799,8 +1799,9 @@
 
     var freq_letters = {
       width: width,
-      style:{fontSize: size, paddingLeft: 20},
+      style:{fontSize: size, paddingLeft: 20, paddingRight: 10,},
       marginLeft: 0,
+      marginRight: 0,
       x: {
         label: null,
         tickSize: 0,
@@ -2394,7 +2395,7 @@ var bls_bar = {
   width: width,
   marginLeft: 0,
   marginRight: 0,
-  style:{fontSize: size, textTransform: "capitalize",paddingTop: 10, paddingBottom: 10, paddingRight: 10, paddingLeft: 30},
+  style:{fontSize: size, textTransform: "capitalize",paddingTop: 20, paddingBottom: 10, paddingRight: 10, paddingLeft: 30},
   x: {
     tickFormat: "%Y",
     tickSize: 0,
@@ -2405,7 +2406,6 @@ var bls_bar = {
     grid: true,
     label: "↑ Unemployed (thousands)",
     nice: true,
-    anchor: "left",
     tickSize: 0,
   },
   color: {
@@ -2583,7 +2583,8 @@ var gridmap = {
   var drug_scatter = {     
     width: width,
     marginLeft: 0,
-    style:{fontSize: size, paddingLeft: 20},
+    marginRight: 0,
+    style:{fontSize: size, paddingLeft: 20, paddingBottom: 20, paddingRight: 10},
     grid: true,
     y: {        
         nice: true, // Nice is a convenience function that automatically rounds to the nearest whole number
@@ -2776,7 +2777,8 @@ var gridmap = {
 
       var streamgraph = {
         width: width,
-        style:{fontSize: size, textTransform: "capitalize", paddingRight: 30},
+        marginLeft: 0,
+        style:{fontSize: size, textTransform: "capitalize", paddingRight: 30, paddingLeft: 24},
         x: {
           tickSize: 0,
           grid: true,
@@ -2901,13 +2903,12 @@ var gridmap = {
         y: {percent: true, ticks: 10, tickSize: 2, tickFormat: (d) => d === 100 ? `100%` : d},
         marks: [
           Plot.frame({stroke: "#DFDFDF"}),
-          Plot.rect(sales, xy({fill: "segment", fillOpacity: 0.5})),
-          Plot.text(sales, xy({text: d => [d.value.toLocaleString("en"), d.segment, d.market].join("\n"), fontSize: width > 450 ? 12 : 10 })),
+          Plot.rect(sales, xy({fill: "segment", fillOpacity: 0.5, tip: true,})),
+          Plot.text(sales, xy({text: d => [d.value.toLocaleString("en"), d.segment, d.market].join("\n"), fontSize: width > 450 ? 12 : 10, rotate: d => d.value > 1000 || d.market == "Auburn, AL"|| d.market == "Birmingham, AL" ? 0 : 90 })),
           Plot.text(sales, Plot.selectMaxX(xy({z: "segment", text: "segment", anchor: "right", textAnchor: "middle", lineAnchor: "bottom", rotate: 90, dx: 6, size: 6,}))),
           Plot.text(sales, Plot.selectMaxY(xy({z: "market", text: "market", anchor: "top", lineAnchor: "bottom", dy: -6, size: 6,})))
           ]
       };
-      console.log(sales);
 
       var mpg = {
         width: width,

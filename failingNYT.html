@@ -39,6 +39,10 @@
     color: red;
     font-size: inherit;
   }
+  
+  article > figure#lineChart{
+    margin-top: 0;
+  }
 
 </style>
 </head>
@@ -87,7 +91,7 @@
   </ol>
 
   <div>
-    <p>Justin Chill © 2024. Thanks for reading!</p>
+    <p>Justin Chill © 2024. Thanks&nbsp;for&nbsp;reading!</p>
     <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="icon">Source code and feedback</a></span>
   </div>
 </footer>
@@ -120,8 +124,15 @@ myDataPromises.then(function(data) {
 
   var lineChart = {
     width: width,
+    marginLeft: 0,
+    marginRight: 0,
+    style:{fontSize: size, paddingLeft: 24, paddingRight: 10, paddingBottom: 10},
     x: {tickSize: 0,},
-    y: {tickSize: 0, tickFormat: "$", grid: true},
+    y: {
+      tickSize: 0, 
+      tickFormat: (d, i, _) => (i === _.length - 1 ? `$${d}` : `${d}`), // Show $ on first tick only
+      grid: true
+    },
     marks: [
       Plot.areaY(stocks, {x: "Date", y: "Close", fill: "url(#gradient)"}),
       Plot.line(stocks, {
@@ -133,12 +144,12 @@ myDataPromises.then(function(data) {
             lineHeight: 1.65,
         },
         curve: "catmull-rom",
-        strokeWidth: 4,
+        strokeWidth: 3,
         sort: "Date",
         title: d => `${formatDate(d.Date)}\nClose: ${d.Close}\nGrowth: ${formatPercent(d.Growth)}`,
       }),
       Plot.text(stocks, Plot.selectFirst({text: d => `Election day, 2016\nClose: $${d.Close}`, frameAnchor: "bottom-left", fontSize: 14, lineHeight: 1.5, dx: 6, dy: -30})),
-      Plot.text(stocks, Plot.selectLast({text: d => `Close: $${d.Close}`, frameAnchor: "right", fontSize: 14, dx: -6, dy: -10})),
+      Plot.text(stocks, Plot.selectLast({text: d => `Close: $${d.Close}`, frameAnchor: "right", fontSize: 14, dx: -6, dy: -20})),
     ]
   };
 
