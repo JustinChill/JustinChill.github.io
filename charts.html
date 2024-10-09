@@ -60,8 +60,8 @@
       top: .6875em;
       left: 0em;
     }
-    article > h2{
-      margin-top: 3rem;
+    article > figcaption{
+      margin-right: .25rem;
     }
     article > h3{
       padding-top: 0;
@@ -110,7 +110,7 @@
       margin: 0;
     }
     article > figcaption{
-      margin: 1rem 0;
+      /* margin: 1rem 0; */
       text-align: right;
     }
 
@@ -119,16 +119,9 @@
     }
 
     @media screen and (max-width: 680px) {
-      article > h2{
-        margin-top: 1.2rem;
-      }
-      article > h3{
-        margin-left: 0;
-        margin-right: 0;
-      }
       .plot text {
         /*font-size: calc(6px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));*/
-        padding: 1rem;
+        /* padding: 1rem; */
       }
       article > figure {
         grid-column: 2/7;
@@ -139,17 +132,15 @@
       }
       .logogrid {
         display: grid;
+        margin: var(--spacer-2) 0;
         grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
       }
     }
 
     @media screen and (max-width: 1024px){
-      article > h2{
-        margin-top: 2rem;
-      }
       .logogrid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
       }
     }
   </style>
@@ -168,7 +159,12 @@
 
   <main role="main">
     <article>
-
+      <div class="article-hero">
+        <h2 class="article-category">Post</h2>
+        <h1 class="article-title">Common charts and graphs</h1>
+        <h2 class="article-subtitle"></h2>
+      </div>
+      
       <section class="logogrid">
         <div class="logogrid__item"><img loading="lazy" src="imgs/graph-1.svg" class="logogrid__img" alt="Illustration of a graph"></div>
         <div class="logogrid__item"><img loading="lazy" src="imgs/graph-2.svg" class="logogrid__img" alt="Illustration of a graph"></div>
@@ -207,12 +203,6 @@
         <div class="logogrid__item"><img loading="lazy" src="imgs/graph-36.svg" class="logogrid__img" alt="Illustration of a graph"></div>
         <div class="logogrid__item"><img loading="lazy" src="imgs/graph-4.svg" class="logogrid__img" alt="Illustration of a graph"></div>
       </section>
-
-      <div class="article-hero">
-        <h2 class="article-category">Post</h2>
-        <h1 class="article-title">Common charts and graphs</h1>
-        <h2 class="article-subtitle"></h2>
-      </div>
 
       <p>Presenting data in the form of a chart or graph makes identifying patterns and understanding difficult concepts easier. Visualizations of data can bring out insights to someone looking at the data for the first time, as well as convey findings to others who won’t see, or take the time to parse, the raw data.</p>
 
@@ -699,7 +689,7 @@
   <svg
   version="1.1"
   xmlns="http://www.w3.org/2000/svg"
-  xmlns:xlink="http://www.w3.org/1999/xlink">
+  xmlns:xlink="http://www.w3.org/1999/xlink" class="visually-hidden">
   <defs>
     <linearGradient id="gradient" gradientTransform="rotate(90)">
       <stop offset="20%" stop-color="rgba(0, 0, 0, .75)" stop-opacity="0.5" />
@@ -961,7 +951,8 @@
 
   var civ_options = {
     width: width,
-    style:{fontSize: size, textTransform: "capitalize"},
+    marginRight: 0,
+    style:{fontSize: size, textTransform: "capitalize", paddingLeft: 20, paddingRight: 10},
     x: {
       axis: "both",
       grid: true,
@@ -1012,12 +1003,13 @@
 
   var country_emissions = {
     width: width,
+    // marginLeft: 0,
     style:{
       fontSize: size,
       backgroundColor: backgroundColor,
       paddingTop: 10,
-      paddingLeft: 80,
-      paddingRight: 24,
+      paddingLeft: "4rem",
+      paddingRight: "1.5rem",
     },
     color: {
       range: ["#969696", "#4e79a7"]
@@ -1069,7 +1061,7 @@
         y: "animal",
         fy: "country",
       }),
-      Plot.axisFy({ fontSize: 18, frameAnchor: "top", dy: -18 })
+      Plot.axisFy({ fontSize: width > 450 ? 18 : 14, frameAnchor: "top", dy: -18 })
       ],
   };
 
@@ -1101,7 +1093,9 @@
 
   var wework = {
     width: width,
-    style:{fontSize: size},
+    marginLeft: 0,
+    marginRight: 0,
+    style:{fontSize: size, paddingLeft: 20, paddingRight: 10,},
     y: {
       grid: true,
       tickFormat: d=> `$${d}B`,
@@ -1155,7 +1149,8 @@
 
   var gantt = {
     width: width,
-    // height: width/1.25,
+    style: {fontSize: size, paddingRight: 20, paddingLeft: 20},
+    marginLeft: 0,
     x: { grid: true },
     y: {
       domain: domainByDate,
@@ -1180,7 +1175,7 @@
         x: (d) => parser(d.startDate),
         text: (d) => d.task,
         textAnchor: "start",
-        fontSize: 14,
+        fontSize: width > 450 ? 14 : 12,
         stroke: "white",
         fill: "dimgray",
         fontWeight: 500
@@ -1317,9 +1312,11 @@
   var group = Object.assign((d) => d3.greatest(ternaryAxes, (k) => d[k]), { label: "group" });
   var ternary = {
     width: width,
-    style: {fontSize: size, textTransform: "capitalize"},
-    height: 420,
-    inset: 45,
+    marginLeft: 0,
+    marginRight: 0,
+    style: {fontSize: size, textTransform: "capitalize", paddingBottom: 10},
+    // height: 420,
+    inset: 25,
     color: { legend: true, style: {textTransform: "capitalize"}, },
     projection: ternary.ternaryprojection,
     marks: [
@@ -1502,8 +1499,9 @@
      });
 
     var popcorn = {
-      style:{fontSize: size, paddingLeft: 40},
+      style:{fontSize: size, paddingLeft: 20, paddingBottom: 35, paddingTop: 35,},
       width: width,
+      marginLeft: width/4,
       aspectRatio: 2.5,
       padding: 0,
       x: {
@@ -1523,7 +1521,7 @@
       marks: [
         Plot.frame({stroke: "#DFDFDF", anchor: "top"}),
         Plot.text(sortedData, {y: "Team",dx: -10, dy: width > 450 ? -2 : -2, text: (d) => `${d.Team}`, frameAnchor: "left",textAnchor: "end", lineAnchor: "bottom", fontWeight: "bold", fontSize: width > 450 ? 16 : ".5rem",}), // Team name
-        Plot.text(sortedData, {y: "Team",dx: -10, dy: width > 450 ? 4 : 2, text: (d) => `${d.Arena}`, frameAnchor: "left", textAnchor: "end", lineAnchor: "top", fontSize: width > 450 ? 14 : ".5rem", fontWeight: "normal"}), // Arena name
+        Plot.text(sortedData, {y: "Team",dx: -10, dy: width > 450 ? 4 : 2, text: (d) => `${d.Arena}`, frameAnchor: "left", textAnchor: "end", lineAnchor: "top", fontSize: width > 450 ? 14 : ".45rem", fontWeight: "normal"}), // Arena name
         Plot.cell(sortedData.filter(d => (d.Criteria != "Total Score")), {y: "Team", x: "Criteria", fill: "Score", inset: .85, channels: {Arena: "Arena",}, tip: {
           opacity: 0.9,
           textPadding: 10,
@@ -1539,7 +1537,10 @@
     // https://observablehq.com/@observablehq/plot-slope-chart ? 
     var slope = {
       width: width,
+      style:{fontSize: size+2, paddingLeft: 10, paddingRight: 10},
       height: 540,
+      marginLeft: 0,
+      marginRight: 0,
       x: {axis: "top", type: "ordinal", tickFormat: "", inset: 90, label: null},
       y: {axis: null, inset: 20},
       marks: [
@@ -1563,7 +1564,7 @@
     // https://observablehq.com/@observablehq/plot-cancer-survival-rates as second slop example 
     var intslope = {
       width: width,
-      style:{fontSize: size, textTransform: "capitalize", paddingLeft: 20, paddingRight: 20},
+      style:{fontSize: size, textTransform: "capitalize", paddingLeft: 30, paddingRight: 30},
       height: 700,
       x: {
         axis: "top",
@@ -1609,7 +1610,8 @@
 
     var electricity = {
       width: width,
-      style:{fontSize: size, textTransform: "capitalize", paddingRight: 60},
+      style:{fontSize: size, textTransform: "capitalize", paddingRight: 60, paddingLeft: 20},
+      marginLeft: 0,
       color: {
         scheme: "BuRd"
       },
@@ -1666,7 +1668,8 @@
 
     var apple_area = {
       width: width,
-      style:{fontSize: size, paddingTop: 10},
+      style:{fontSize: size, paddingTop: 10, paddingLeft: 24},      
+      marginLeft: 0,
       y: {
         grid: true,
         anchor: "left"
@@ -1735,7 +1738,8 @@
 
     var candlestick = {
       width: width,
-      style:{fontSize: size,paddingTop: 20, paddingBottom: 10},
+      style:{fontSize: size,paddingTop: 20, paddingBottom: 10, paddingLeft: 24},
+      marginLeft: 0,
       grid: true,
       inset: 4,
       y: {
@@ -1795,7 +1799,8 @@
 
     var freq_letters = {
       width: width,
-      style:{fontSize: size},
+      style:{fontSize: size, paddingLeft: 20},
+      marginLeft: 0,
       x: {
         label: null,
         tickSize: 0,
@@ -1881,7 +1886,7 @@
 
     var stocks_baseline = {
       width: width,
-      style:{fontSize: size, backgroundColor: backgroundColor, padding: 10, paddingRight: 30,},
+      style:{fontSize: size, backgroundColor: backgroundColor, padding: "10", paddingRight: 30},
       inset: 5,
       color: {
         scheme: "BuRd"
@@ -1927,7 +1932,9 @@
 
     var anomaly_dot = {
       width: width,
-      style: {fontSize: size, paddingTop: 10, paddingBottom: 10},
+      style: {fontSize: size, paddingTop: 10, paddingBottom: 10, paddingLeft: 24, paddingRight: 10},
+      marginLeft: 0,
+      marginRight: 0,
       grid: true,
       inset: 4,
       y: {
@@ -1973,7 +1980,8 @@
 
     var google_ridgeline = {
       width: width,
-      style: {fontSize: size},
+      style: {fontSize: size, paddingLeft: 40, paddingRight: 10},
+      marginRight: 0,
       x: {
         axis: "top",
         label: null,
@@ -1990,7 +1998,7 @@
       facet: {
         data: google,
         y: "search",
-        marginLeft: width > 450 ? width/8 : width/3,
+        marginLeft: width > 450 ? width/8 : width/4,
       },
       color: {
         scheme: "tableau10",
@@ -2017,7 +2025,7 @@
         tickSize: 0,
         anchor: "left"
       },
-      x:{ label:"Experiment", labelOffset: 40, labelAnchor: "center"},
+      x:{ label:"Experiment", labelOffset: 40, labelAnchor: "center",},
       marks: [
         boxY(morley, {x: "Expt", y: "Speed", fill:"hsl(43, 89%, 70%)"})
         ]
@@ -2025,7 +2033,8 @@
 
     var gapminder = { 
       width: width,           
-      style:{fontSize: size, textTransform: "capitalize",paddingTop: 10, paddingBottom: 10},
+      style:{fontSize: size, textTransform: "capitalize",paddingTop: 10, paddingBottom: 10, paddingLeft: 24},
+      marginLeft: 0,
       inset: 2,
       y: {
         // grid: true,
@@ -2069,6 +2078,7 @@
     var bullet = {
       width: width,
       style:{fontSize: size-2, textTransform: "capitalize",paddingTop: 10, paddingBottom: 10},
+      marginRight: 0,
       x: {
         grid: true,
         ticks: d3.range(0, 51, 10),
@@ -2117,8 +2127,10 @@
 
     var dotdensity = {
       width: width,
+      marginLeft: 0,
+      marginRight: 0,
       style:{fontSize: size, background: 'none', textTransform: 'capitalize',paddingTop: 10, paddingBottom: 10},   
-      padding: 0.05,
+      // padding: 0.05,
       projection: "albers",
       color: {
         type: "quantize",
@@ -2167,14 +2179,15 @@
         Plot.sphere(),
         Plot.geo(land, {fill: "#DFDFDF"}),
         Plot.delaunayMesh(airports, {x: "longitude", y: "latitude", opacity: 0.4, stroke: "black"}),
-        Plot.dot(airports, {fill: "steelblue", opacity:.85, r: 2, x: "longitude", y: "latitude", title: "name", tip: true}),
+        Plot.dot(airports, {fill: "steelblue", opacity:.75, r: 2, x: "longitude", y: "latitude", title: "name", tip: true}),
         ],
     };
 
     var driving_line = {
-      style:{fontSize: size},
       width: width,
       height: 500,
+      style:{fontSize: width > 450 ? size : size -2, paddingRight: 24},
+      marginRight: 0,
       inset: 10,
       grid: true,
       x: {
@@ -2189,115 +2202,72 @@
       },
       marks: [
         Plot.line(driving, {x: "miles", y: "gas", curve: "catmull-rom", strokeWidth: 2}),
-        Plot.dot(driving, {x: "miles", y: "gas", fill: "white", stroke: "black",title: (d) =>
-          `${d3.timeFormat("%B %d, %Y")(d["year"])} \nGas price: ${d3.format("$.2f")(d["gas"])} \nMiles: ${d3.format(",.2r")(d["miles"])}`,}),
-        Plot.text(driving.filter(d => (d.year == 1956)), {x: "miles", y: "gas", text: width > 400 ? d => "Annual\naverage" : "", dx: -24, dy: 18, fontSize: 10, fontWeight: 900}),
-        Plot.text(driving.filter(d => (d.year == 1956)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: -18, dy: 0, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+1)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 16, dy: -2, fontSize: 10}),      
-        Plot.text(driving.filter(d => (d.year == 1956+2)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: -4, dy: 10, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+3)), {x: "miles", y: "gas",  text: width > 400 ? d => (d.year).toFixed(0) : "", dx: 0, dy: -10, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+3)), {x: "miles", y: "gas", dx: 12, dy: 90, fontSize: 12, fontWeight: 900, text: d => "↑ Price of\na gallon\nof gasoline"}),
-        Plot.text(driving.filter(d => (d.year == 1956+3)), {x: "miles", y: "gas", dx: 12, dy: 130, fontStyle: "italic", textAlign: "left", fontSize: 10, fontWeight: 300, lineHeight: 1.3, text: d => "Annual average for\nregular grade gas,\nadjusted for inflation."}),
-        Plot.text(driving.filter(d => (d.year == 1956+4)), {x: "miles", y: "gas",  text: d => (d.year).toFixed(0), dx: 16, 
-          dy: -4, fontSize: 10}),
+        Plot.dot(driving, {x: "miles", y: "gas", fill: "white", stroke: "black",title: (d) => `${d3.timeFormat("%B %d, %Y")(d["year"])} \nGas price: ${d3.format("$.2f")(d["gas"])} \nMiles: ${d3.format(",.2r")(d["miles"])}`,}),
+        Plot.text(driving.filter(d => (d.year == 1956)), {x: "miles", y: "gas", text: width > 400 ? d => "Annual\naverage" : "", dx: -24, dy: 18, fontSize: width > 450 ? 10 : 8, fontWeight: 900}),
+        Plot.text(driving.filter(d => (d.year == 1956)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: -18, dy: 0, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+1)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 16, dy: -2, fontSize: width > 450 ? 10 : 8}),      
+        Plot.text(driving.filter(d => (d.year == 1956+2)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: -4, dy: 10, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+3)), {x: "miles", y: "gas",  text: width > 400 ? d => (d.year).toFixed(0) : "", dx: 0, dy: -10, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+3)), {x: "miles", y: "gas", dx: 12, dy: 90, fontSize: width > 450 ? 12 : 10, fontWeight: 900, text: d => "↑ Price of\na gallon\nof gasoline"}),
+        Plot.text(driving.filter(d => (d.year == 1956+3)), {x: "miles", y: "gas", dx: 12, dy: 130, fontStyle: "italic", textAlign: "left", fontSize: width > 450 ? 10 : 8, fontWeight: 300, lineHeight: 1.3, text: d => "Annual average for\nregular grade gas,\nadjusted for inflation."}),
+        Plot.text(driving.filter(d => (d.year == 1956+4)), {x: "miles", y: "gas",  text: d => (d.year).toFixed(0), dx: 16, dy: -4, fontSize: width > 450 ? 10 : 8}),
       // Plot.text(driving.filter(d => (d.year == 1956+5)), {x: "miles", y: "gas", text: d => "'61", dx: -2, 
       //   dy: 10, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+6)), {x: "miles", y: "gas",  text: d => (d.year).toFixed(0), dx: 16, 
-          dy: 0, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+7)), {x: "miles", y: "gas", text: width > 400 ? d => (d.year).toFixed(0) : "", dx: -4, 
-          dy: 9, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+8)), {x: "miles", y: "gas",  text: d => (d.year).toFixed(0), dx: 2, 
-          dy: 10, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+9)), {x: "miles", y: "gas", text: d => "'65", dx: 0, 
-          dy: 10, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+9)), {x: "miles", y: "gas", text: width > 400 ? d => "Cheap gas,\nlonger commutes" : "", dx: 40, dy: -50, fontSize: 12, fontWeight: 900}),
-        Plot.text(driving.filter(d => (d.year == 1956+10)), {x: "miles", y: "gas",  text: width > 400 ? d => (d.year).toFixed(0) : "", dx: 0, 
-          dy: -9, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+11)), {x: "miles", y: "gas", text: width > 400 ? d => (d.year).toFixed(0) : "", dx: 0, 
-          dy: 12, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+12)), {x: "miles", y: "gas",  text: d => (d.year).toFixed(0), dx: 18, 
-          dy: 0, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+13)), {x: "miles", y: "gas", text: width > 400 ? d => (d.year).toFixed(0) : "", dx: 18, 
-          dy: 0, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+14)), {x: "miles", y: "gas",  text: d => (d.year).toFixed(0), dx: 18, 
-          dy: 0, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+15)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 0, 
-          dy: 12, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+16)), {x: "miles", y: "gas",  text: width > 400 ? d => (d.year).toFixed(0) : "", dx: 0, 
-          dy: 12, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+16)), {x: "miles", y: "gas", text: width > 400 ? d => "The Arab\noil embargo" : "", dx: 60, dy: -50, fontSize: 12, fontWeight: 900}),
-        Plot.text(driving.filter(d => (d.year == 1956+17)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 16, 
-          dy: 0, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+18)), {x: "miles", y: "gas",  text: width > 400 ? d => (d.year).toFixed(0) : "", dx: -18,
-          dy: 0, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+19)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 0, 
-          dy: 12, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+20)), {x: "miles", y: "gas",  text: d => (d.year).toFixed(0), dx: 0, 
-          dy: 12, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+21)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 0, 
-          dy: -10, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+22)), {x: "miles", y: "gas",  text: width > 400 ? d => (d.year).toFixed(0) : "", dx: 16, 
-          dy: 0, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+23)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: -18, dy: 0, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+24)), {x: "miles", y: "gas",  text: d => (d.year).toFixed(0), dx: -18, dy: 0, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+25)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 16, 
-          dy: 0, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+26)), {x: "miles", y: "gas",  text: width > 400 ? d => (d.year).toFixed(0) : "", dx: 16, 
-          dy: 0, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+26)), {x: "miles", y: "gas", text: d => "Energy crisis", dx: width > 400 ?40 : 60, dy: -50, fontSize: 12, fontWeight: 900}),
-        Plot.text(driving.filter(d => (d.year == 1956+27)), {x: "miles", y: "gas",  text: d => (d.year).toFixed(0), dx: 16, 
-          dy: 0, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+28)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 16, 
-          dy: 0, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+29)), {x: "miles", y: "gas",  text: width > 400 ? d => (d.year).toFixed(0) : "", dx: 16, 
-          dy: 0, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+30)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 0, 
-          dy: 12, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+31)), {x: "miles", y: "gas",  text: width > 400 ? d => (d.year).toFixed(0) : "", dx: 0, 
-          dy: -10, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+32)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 0, 
-          dy: 12, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+33)), {x: "miles", y: "gas",  text: width > 400 ? d => (d.year).toFixed(0) : "", dx: -16, dy: 0, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+34)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 0, 
-          dy: -12, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+35)), {x: "miles", y: "gas",  text: width > 400 ? d => (d.year).toFixed(0) : "", dx: 16, 
-          dy: 0, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+36)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 16, 
-          dy: 0, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+37)), {x: "miles", y: "gas",  text: width > 400 ? d => (d.year).toFixed(0) : "", dx: -18, dy: 1, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+40)), {x: "miles", y: "gas", text: width > 400 ? d => "Record low prices" : "", dx: -6, dy: -80, fontSize: 12, fontWeight: 900}),
-        Plot.text(driving.filter(d => (d.year == 1956+38)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 0, 
-          dy: 12, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+39)), {x: "miles", y: "gas", text: width > 400 ? d => (d.year).toFixed(0) : "", dx: 0, dy: 12, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+40)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 0, 
-          dy: -10, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+41)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 16, 
-          dy: 0, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+42)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 0, 
-          dy: 12, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+43)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 16, 
-          dy: 0, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+44)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: -2, 
-          dy: -10, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+45)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: -18, dy: 0, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+46)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 4, 
-          dy: 10, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+47)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 18, 
-          dy: 0, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+48)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 16, 
-          dy: 0, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+49)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 16, 
-          dy: 0, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+50)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 16, 
-          dy: 0, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+51)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 16, 
-          dy: 0, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+52)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: -18, dy: 0, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+53)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 0, 
-          dy: 12, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+54)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: -18, dy: 0, fontSize: 10}),
-        Plot.text(driving.filter(d => (d.year == 1956+54)), {x: "miles", y: "gas", text: d => "The swing backwards", dx: width > 400 ? -80 : -60, dy: -95, fontSize: 12, fontWeight: 900, style: {background:"white"}}),
-        Plot.text(driving.filter(d => (d.year == 1956+54)), {x: "miles", y: "gas", dx: width > 400 ? -80 : -60, dy: -55, fontSize: 10, lineHeight: 1.3, fontWeight: 300, text: d => "The average number of\nmiles that Americans\ndrive annually begins to\nfall, so the chart appear\nto turn around."}),
+        Plot.text(driving.filter(d => (d.year == 1956+6)), {x: "miles", y: "gas",  text: d => (d.year).toFixed(0), dx: 16, dy: 0, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+7)), {x: "miles", y: "gas", text: width > 400 ? d => (d.year).toFixed(0) : "", dx: -4, dy: 9, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+8)), {x: "miles", y: "gas",  text: d => (d.year).toFixed(0), dx: 2, dy: 10, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+9)), {x: "miles", y: "gas", text: d => "'65", dx: 0, dy: 10, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+9)), {x: "miles", y: "gas", text: width > 400 ? d => "Cheap gas,\nlonger commutes" : "", dx: 40, dy: -50, fontSize: width > 450 ? 12 : 10, fontWeight: 900}),
+        Plot.text(driving.filter(d => (d.year == 1956+10)), {x: "miles", y: "gas",  text: width > 400 ? d => (d.year).toFixed(0) : "", dx: 0, dy: -9, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+11)), {x: "miles", y: "gas", text: width > 400 ? d => (d.year).toFixed(0) : "", dx: 0, dy: 12, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+12)), {x: "miles", y: "gas",  text: d => (d.year).toFixed(0), dx: 18, dy: 0, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+13)), {x: "miles", y: "gas", text: width > 400 ? d => (d.year).toFixed(0) : "", dx: 18, dy: 0, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+14)), {x: "miles", y: "gas",  text: d => (d.year).toFixed(0), dx: 18, dy: 0, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+15)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 0, dy: 12, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+16)), {x: "miles", y: "gas",  text: width > 400 ? d => (d.year).toFixed(0) : "", dx: 0, dy: 12, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+16)), {x: "miles", y: "gas", text: width > 400 ? d => "The Arab\noil embargo" : "", dx: 60, dy: -50, fontSize: width > 450 ? 12 : 10, fontWeight: 900}),
+        Plot.text(driving.filter(d => (d.year == 1956+17)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 16, dy: 0, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+18)), {x: "miles", y: "gas",  text: width > 400 ? d => (d.year).toFixed(0) : "", dx: -18, dy: 0, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+19)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 0, dy: 12, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+20)), {x: "miles", y: "gas",  text: d => (d.year).toFixed(0), dx: 0, dy: 12, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+21)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 0, dy: -10, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+22)), {x: "miles", y: "gas",  text: width > 400 ? d => (d.year).toFixed(0) : "", dx: 16, dy: 0, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+23)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: -18, dy: 0, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+24)), {x: "miles", y: "gas",  text: d => (d.year).toFixed(0), dx: -18, dy: 0, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+25)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 16, dy: 0, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+26)), {x: "miles", y: "gas",  text: width > 400 ? d => (d.year).toFixed(0) : "", dx: 16, dy: 0, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+26)), {x: "miles", y: "gas", text: d => "Energy crisis", dx: width > 400 ?40 : 60, dy: -50, fontSize: width > 450 ? 12 : 10, fontWeight: 900}),
+        Plot.text(driving.filter(d => (d.year == 1956+27)), {x: "miles", y: "gas",  text: d => (d.year).toFixed(0), dx: 16, dy: 0, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+28)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 16, dy: 0, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+29)), {x: "miles", y: "gas",  text: width > 400 ? d => (d.year).toFixed(0) : "", dx: 16, dy: 0, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+30)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 0, dy: 12, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+31)), {x: "miles", y: "gas",  text: width > 400 ? d => (d.year).toFixed(0) : "", dx: 0, dy: -10, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+32)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 0, dy: 12, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+33)), {x: "miles", y: "gas",  text: width > 400 ? d => (d.year).toFixed(0) : "", dx: -16, dy: 0, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+34)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 0, dy: -12, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+35)), {x: "miles", y: "gas",  text: width > 400 ? d => (d.year).toFixed(0) : "", dx: 16, dy: 0, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+36)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 16, dy: 0, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+37)), {x: "miles", y: "gas",  text: width > 400 ? d => (d.year).toFixed(0) : "", dx: -18, dy: 1, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+40)), {x: "miles", y: "gas", text: width > 400 ? d => "Record low prices" : "", dx: -6, dy: -80, fontSize: width > 450 ? 12 : 10, fontWeight: 900}),
+        Plot.text(driving.filter(d => (d.year == 1956+38)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 0, dy: 12, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+39)), {x: "miles", y: "gas", text: width > 400 ? d => (d.year).toFixed(0) : "", dx: 0, dy: 12, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+40)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 0, dy: -10, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+41)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 16, dy: 0, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+42)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 0, dy: 12, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+43)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 16, dy: 0, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+44)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: -2, dy: -10, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+45)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: -18, dy: 0, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+46)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 4, dy: 10, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+47)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 18, dy: 0, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+48)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 16, dy: 0, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+49)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 16, dy: 0, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+50)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 16, dy: 0, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+51)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 16, dy: 0, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+52)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: -18, dy: 0, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+53)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: 0, dy: 12, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+54)), {x: "miles", y: "gas", text: d => (d.year).toFixed(0), dx: -18, dy: 0, fontSize: width > 450 ? 10 : 8}),
+        Plot.text(driving.filter(d => (d.year == 1956+54)), {x: "miles", y: "gas", text: d => "The swing backwards", dx: width > 400 ? -80 : -60, dy: -95, fontSize: width > 450 ? 12 : 10, fontWeight: 900, style: {background:"white"}}),
+        Plot.text(driving.filter(d => (d.year == 1956+54)), {x: "miles", y: "gas", dx: width > 400 ? -80 : -60, dy: -55, fontSize: width > 450 ? 10 : 8, lineHeight: 1.3, fontWeight: 300, text: d => "The average number of\nmiles that Americans\ndrive annually begins to\nfall, so the chart appear\nto turn around."}),
         ]
 };
 
@@ -2306,7 +2276,7 @@ step = d3.max(industries, (d) => d.unemployed) / bands;
 
 var horizon_chart = {
   width: width,
-  height: width,
+  height: width+100,
   axis: null,
   y: {domain: [0, step]},
   color: {scheme: "YlGnBu", legend: true, label: "Unemployement rate"},
@@ -2320,7 +2290,8 @@ var horizon_chart = {
 
 var example_line = {
   width: width,
-  style:{fontSize: size},
+  style:{fontSize: size, paddingLeft: 10},
+  marginLeft: 0,
   y: {
     tickFormat: formatUS,
     type: "log",
@@ -2336,7 +2307,8 @@ var example_line = {
 
 var bls_line = {
   width: width,
-  style:{fontSize: size, textTransform: "capitalize", paddingTop: 20},
+  style:{fontSize: size, textTransform: "capitalize", padding: 20, paddingRight: 40, paddingTop: 0},
+  marginLeft: 0,
   y: {
     label: "Unemployed (thousands)",
     nice: true,
@@ -2370,7 +2342,8 @@ var bls_line = {
 
 var bls_stacked = {
   width: width,
-  style:{fontSize: size, textTransform: "capitalize",paddingTop: 10, paddingBottom: 10},
+  marginLeft: 0,
+  style:{fontSize: size, textTransform: "capitalize",paddingTop: 10, paddingBottom: 10, paddingRight: 40, paddingLeft: 20},
   y: {
     grid: true,
     label: "Unemployed (thousands)",
@@ -2401,14 +2374,27 @@ var bls_stacked = {
       lineHeight: 1.5,
     },})),
     Plot.text(bls, occlusionY(Plot.selectLast(Plot.stackY({filter: d => d.industry !== "Mining and Extraction",
-      x: "date", y: "unemployed", z: "industry", text: "industry", textAnchor: "start", fontSize: width > 450 ? 12 : 10, fontWeight: 700, dx: 3,fill: "industry", rotate: width > 450 ? 0 : 30})))),
+      x: "date", 
+      y: "unemployed", 
+      z: "industry", 
+      text: "industry", 
+      textAnchor: "start", 
+      fontSize: width > 450 ? 12 : 10, 
+      fontWeight: 700, 
+      dx: 3,
+      fill: "industry", 
+      lineWidth: 8, 
+      rotate: width > 450 ? 0 : 30
+    })))),
     Plot.ruleY([0], {strokeOpacity: 0.2})
     ]
 };
 
 var bls_bar = {
   width: width,
-  style:{fontSize: size, textTransform: "capitalize",paddingTop: 10, paddingBottom: 10},
+  marginLeft: 0,
+  marginRight: 0,
+  style:{fontSize: size, textTransform: "capitalize",paddingTop: 10, paddingBottom: 10, paddingRight: 10, paddingLeft: 30},
   x: {
     tickFormat: "%Y",
     tickSize: 0,
@@ -2475,7 +2461,7 @@ var gridmap = {
           text: "key", // state abbr
           dy: -6,
           fill: change,
-          fontSize: width > 450 ? 14 : 12,
+          fontSize: width > 450 ? 14 : 10,
           fontWeight: "bold"
         })
         ),
@@ -2488,7 +2474,7 @@ var gridmap = {
           text: formatChange, 
           dy: width > 450 ? 10 : 6,
           fill: change,
-          fontSize: width > 450 ? 12 : 10
+          fontSize: width > 450 ? 12 : 8
         })
         ),
       ]
@@ -2497,7 +2483,9 @@ var gridmap = {
   // https://observablehq.com/@observablehq/plot-state-population-change
   var diverging ={
     width: width,
-    style:{fontSize: size-2},
+    style:{fontSize: size-2, padding: 10},
+    marginLeft: 0,
+    marginRight: 0,
     aspectRatio: 1,
     label: null,
     x: {
@@ -2522,7 +2510,9 @@ var gridmap = {
   // https://observablehq.com/@observablehq/plot-difference-chart
   var difference ={
     width: width,
-    style:{fontSize: size, textTransform: "capitalize",paddingTop: 10, paddingBottom: 10},
+    style:{fontSize: size, textTransform: "capitalize", padding: 10, paddingLeft: 24},
+    marginLeft: 0,
+    marginRight: 0,
     x: { inset: 4, nice: true,},
     y: { grid: true, label: "Temperature (°F)", tickSize: 0, nice: true, anchor: "top"},
     color: { scheme: "RdYlBu", label: "colder" },
@@ -2592,7 +2582,8 @@ var gridmap = {
 // Drug scatter plot 
   var drug_scatter = {     
     width: width,
-    style:{fontSize: size},
+    marginLeft: 0,
+    style:{fontSize: size, paddingLeft: 20},
     grid: true,
     y: {        
         nice: true, // Nice is a convenience function that automatically rounds to the nearest whole number
@@ -2601,6 +2592,7 @@ var gridmap = {
         tickFormat: formatWhole,
         label: "Physical harm",
       },
+      inset: 2,
       x:{ 
         nice: true, // Nice is a convenience function that automatically rounds to the nearest whole number
         tickSize: 0, 
@@ -2625,7 +2617,8 @@ var gridmap = {
 
     var example_histogram = {
       width: width,
-      style:{fontSize: size,paddingTop: 10, paddingBottom: 10},
+      style:{fontSize: size,paddingTop: 10, paddingBottom: 10, paddingLeft: 20},
+      marginLeft: 0,
       color: {
         type: "diverging",
         scheme: "Sinebow"
@@ -2673,7 +2666,7 @@ var gridmap = {
 
     var proportion_plot = {
       width: width,
-      style:{fontSize: size,paddingTop: 10, paddingBottom: 10},
+      style:{fontSize: size,paddingTop: 10, paddingBottom: 10, paddingLeft: 10},
       x: {
         domain: columns,
         axis: "top",
@@ -2733,7 +2726,7 @@ var gridmap = {
 
       var stem_plot = {
         width: width,
-        style:{fontSize: size, margin: "auto", paddingLeft: 10, paddingRight: 10},
+        style:{fontSize: size, margin: "auto", paddingLeft: 20, paddingRight: 20},
         axis: null,
         y: {
           domain: d3.range(4, 25).map(String)
@@ -2783,7 +2776,7 @@ var gridmap = {
 
       var streamgraph = {
         width: width,
-        style:{fontSize: size, textTransform: "capitalize", paddingRight: 20},
+        style:{fontSize: size, textTransform: "capitalize", paddingRight: 30},
         x: {
           tickSize: 0,
           grid: true,
@@ -2814,6 +2807,7 @@ var gridmap = {
             x: "date", 
             y: "unemployed", 
             z: "industry", 
+            lineWidth: 8,
             text: "industry",
             offset: "wiggle", 
             textAnchor: "start",
@@ -2825,8 +2819,8 @@ var gridmap = {
 
       var qatar_pyramid = {
         width: width,
-        aspectRatio: .05,
-        style:{fontSize: size},
+        aspectRatio: .025,
+        style:{fontSize: size, maxHeight: 840, paddingBottom: 10},
         color: {
           domain: ["male","female"],
           range: ["steelblue", "#EE7989"]
@@ -2899,7 +2893,8 @@ var gridmap = {
 
       var mosaic = {
         width: width,
-        style:{fontSize: size},
+        style:{fontSize: size, paddingLeft: 20,},
+        marginLeft: 0,
         height: 640,
         label: null,
         x: {percent: true, ticks: 10, tickSize: 2, tickFormat: (d) => d === 100 ? `100%` : d},
@@ -2907,15 +2902,17 @@ var gridmap = {
         marks: [
           Plot.frame({stroke: "#DFDFDF"}),
           Plot.rect(sales, xy({fill: "segment", fillOpacity: 0.5})),
-          Plot.text(sales, xy({text: d => [d.value.toLocaleString("en"), d.segment, d.market].join("\n"), fontSize: d => d.value > 1000 ? 14 : 10 })),
+          Plot.text(sales, xy({text: d => [d.value.toLocaleString("en"), d.segment, d.market].join("\n"), fontSize: width > 450 ? 12 : 10 })),
           Plot.text(sales, Plot.selectMaxX(xy({z: "segment", text: "segment", anchor: "right", textAnchor: "middle", lineAnchor: "bottom", rotate: 90, dx: 6, size: 6,}))),
           Plot.text(sales, Plot.selectMaxY(xy({z: "market", text: "market", anchor: "top", lineAnchor: "bottom", dy: -6, size: 6,})))
           ]
       };
+      console.log(sales);
 
       var mpg = {
         width: width,
-        style: {textTransform: "capitalize",fontSize: size},
+        style: {textTransform: "capitalize",fontSize: size, paddingRight: 10, paddingBottom: 20},
+        marginRight: 0,
         x: {label: "City mpg", ticks: 2, labelOffset: 50},
         y: {label: "Highway mpg", ticks: 6, labelOffset: 50, labelAnchor: "center"},
         inset: 4,
@@ -2956,7 +2953,8 @@ var gridmap = {
     // https://observablehq.com/@observablehq/plot-percentogram
       var percentogram = {
         width: width,
-        style:{fontSize: size, textTransform: "capitalize"},
+        style:{fontSize: size, textTransform: "capitalize", paddingLeft: 20},
+        marginLeft: 0,
         color: {
           legend: true,
           type: "quantize",
@@ -2983,10 +2981,12 @@ var gridmap = {
           ]
       };
 
-
     // From Fil: https://observablehq.com/@fil/waffle-chart
       var waffle = { // Todo replace with waffle mark 
         width: width,
+        height: 160,
+        marginLeft: 0,
+        marginRight: 0,
         x: { axis: null },
         y: { axis: null },
         color: { scheme: "Pastel2" },
@@ -3004,7 +3004,7 @@ var gridmap = {
             Plot.stackX({
               y: (_, i) => i % 5,
               text: "label",
-              fontSize: width > 450 ? 10 : 8
+              fontSize: width > 450 ? 10 : 7
             })
             )
           ],
@@ -3012,7 +3012,9 @@ var gridmap = {
 
       var irregular = {
         width: width,
-        style:{fontSize: size},
+        marginLeft: 0,
+        marginRight: 0,
+        style:{fontSize: size, paddingLeft: 20, paddingBottom: 20},
         x: {
           label: "Commute time (minutes) →",
           ticks: 20,
@@ -3059,7 +3061,9 @@ var gridmap = {
 
       var irregular_bar = {
         width: width,
-        style:{fontSize: size},
+        marginLeft: 0,
+        marginRight: 0,
+        style:{fontSize: size, paddingLeft: 20, paddingBottom: 20},
         x: {
           label: "Population (millions) →",
           transform: (d) => d * 1e-6,
@@ -3109,7 +3113,7 @@ var gridmap = {
             fill: "black",
             text: "Age group",
             dy: 11,
-            fontSize: width > 450 ? 14 : 12,
+            fontSize: width > 450 ? 14 : 11,
           }),
 
           // age group size
@@ -3119,7 +3123,7 @@ var gridmap = {
             fill: "black",
             text: (d) => `${+(d.population * 1e-6).toFixed(1)}M`,
             dy: 23,
-            fontSize: width > 450 ? 12 : 10,
+            fontSize: width > 450 ? 12 : 9,
           }),
 
           // percentage labels for "one", below

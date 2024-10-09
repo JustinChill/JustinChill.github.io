@@ -196,10 +196,11 @@
     list-style: none;
     counter-reset: my-awesome-counter;
     padding: 1.25em 0;
+    margin: 0;
   }
   .scale li {
     counter-increment: my-awesome-counter;
-    margin: 0.25rem;
+    /* margin: 0.25rem; */
   }
   .scale li::before {
     content: counter(my-awesome-counter);
@@ -391,15 +392,14 @@
 
     var csat = {
       width: width,
-      style:{fontSize: size},
-      x: {
-        margin: 0,
-      },
+      style:{fontSize: size,},
       y: {
         grid: true,
-        label: "CSAT Score",
-        domain: [0,100],
+        nice: true,
+        label: null,
         tickSize: 0,
+        tickFormat: d=> d+"%",
+        tickFormat: (d, i, _) => (i === _.length - 1 ? `${d}%` : `${d}`) // Show % on first tick only
       },
       marks: [
       Plot.areaY(tinyapple, {x: "Date", y: "Close", fill: "hsl(122, 42%, 75%)", fillOpacity:.8}),
