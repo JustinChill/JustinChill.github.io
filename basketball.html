@@ -186,7 +186,7 @@
     </section>
 
     <h2>NBA Power Rankings</h2>
-    <p>A visualization of <a href="https://www.nba.com/news/category/power-rankings">John Schuhmann's NBA Power Rankings</a> for each week of the <span style="white-space: nowrap;">2021-22</span> Regular Season. </p>
+    <p>A visualization of <a href="https://www.nba.com/news/category/power-rankings">John Schuhmann's NBA Power Rankings</a> for each week of the <span style="white-space: nowrap; font-weight: bold">2021-22</span> Regular Season. </p>
     <figure id="powerRankings" class="mid-size"></figure>
     <img src="https://cdn.vox-cdn.com/thumbor/-tp5kwpq553Do_ZxRNTCS-mVw88=/0x0:1944x2409/1400x1400/filters:focal(413x745:723x1055):format(jpeg)/cdn.vox-cdn.com/uploads/chorus_image/image/54508765/steph_cover.0.jpg" loading="lazy" class="full-bleed">
   </article>
@@ -198,7 +198,7 @@
   </ol>
 
   <div>
-    <p>Justin Chill © 2024. Thanks for reading!</p>
+    <p>Justin Chill © 2024. Thanks&nbsp;for&nbsp;reading!</p>
     <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="icon">Source code and feedback</a></span>    
   </div>
   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" enable-background="new 0 0 100 100" xml:space="preserve" class="visually-hidden">
@@ -262,15 +262,38 @@
           )
         ]
     };
+    
+    // Show teams vertically on small screens
+    var teams_ver = {
+      width: width,
+      marginTop: 0,
+      style:{fontSize: size, textTransform: "capitalize",paddingTop: 0, paddingBottom:10, paddingLeft:120},
+      inset: 10,
+      y: {label: null},
+      marks: [
+        Plot.image(
+          nba_teams,
+          Plot.dodgeX({
+            y: "Team",
+            r: 20, // clip to a circle
+            preserveAspectRatio: "xMidYMin slice", // try not to clip heads
+            src: "LogoSvgUrl",
+            title: "Team"
+          })
+          )
+        ]
+    };
 
     var points = {
       width: width,
-      style:{fontSize: size, textTransform: "capitalize", paddingRight: width > 450? 0 : 20},
+      marginLeft: 0,
+      marginRight: 0,
+      style:{fontSize: size, textTransform: "capitalize", paddingRight: width > 450? 0 : 30, paddingLeft: 24},
       inset: 8,
       round: true,
       nice: true,
       x: {ticks: 5, tickSize: 0, labelAnchor: "right", labelOffset: offset, tickFormat: d => d3.format("~s")(Math.abs(d)),},
-      y: {ticks: 5, tickSize: 0, label: "Games played",},
+      y: {ticks: 5, tickSize: 0, label: "Games played", tickFormat: d => d3.format("~s")(Math.abs(d))},
       grid: true,
       color: {
         scheme: "YlOrRd",
@@ -310,7 +333,9 @@
 
     var ppg = {
       width: width,
-      style:{fontSize: size, textTransform: "capitalize"},
+      marginLeft: 0,
+      marginRight: 0,
+      style:{fontSize: size, textTransform: "capitalize", paddingRight: width > 450? 0 : 10, paddingLeft: 30},
       inset: 8,
       round: true,
       nice: true,
@@ -330,11 +355,13 @@
 
     var heatmap = {
       width: width,
-      style:{fontSize: size, textTransform: "capitalize", paddingRight: width > 450? 0 : 20},
+      marginLeft: 0,
+      marginRight: 0,
+      style:{fontSize: size, textTransform: "capitalize", paddingRight: width > 450? 0 : 40, paddingLeft: 24},
       round: true,
       nice: true,
       x: {ticks: 5, tickSize: 0,  labelAnchor: "right", labelOffset: offset, tickFormat: d => d3.format("~s")(Math.abs(d)),},
-      y: {ticks: 5, tickSize: 0, label: "Games played"},
+      y: {ticks: 5, tickSize: 0, label: "Games played", tickFormat: d => d3.format("~s")(Math.abs(d))},
       inset: 8,
       grid: true,
       color: {
@@ -473,7 +500,7 @@
     document.getElementById("games").appendChild(Plot.plot(games));
     document.getElementById("ppg").appendChild(Plot.plot(ppg));
     document.getElementById("heatmap").appendChild(Plot.plot(heatmap));
-    document.getElementById("teams").appendChild(Plot.plot(teams));
+    document.getElementById("teams").appendChild( width > 450  ? Plot.plot(teams) : Plot.plot(teams_ver));
     document.getElementById("ppm").appendChild(Plot.plot(ppm));
     document.getElementById("ppmall").appendChild(Plot.plot(ppmall));
     document.getElementById("powerRankings").appendChild(Plot.plot(powerRankings));

@@ -114,7 +114,7 @@
   </ol>
 
   <div>
-    <p>Justin Chill © 2024. Thanks for reading!</p>
+    <p>Justin Chill © 2024. Thanks&nbsp;for&nbsp;reading!</p>
     <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="icon">Source code and feedback</a></span>    
   </div>
 </footer>
@@ -162,7 +162,7 @@
 
     var map = {
       width: width,
-      style: "background: none; cursor: default; minWidth: 350px; minHeight: 500px;",      
+      style:{fontSize: size, background: "none", cursor: "default"},
       padding: 0.05,
       marginRight: 0,
       marginLeft: 0,
@@ -201,7 +201,14 @@
     };
 
     var bars = {
+      style:{fontSize: size, textTransform: "capitalize"},
       width:  width,
+      x: {
+        interval: "year",
+        label: null,
+        tickSize: 0,
+      },
+      y: {grid: true, ticks: 4, nice: true},
       marks: [
         Plot.ruleY([0], { stroke: '#555' }),
         Plot.dot(
@@ -211,12 +218,6 @@
           })
         )
       ],
-      x: {
-        interval: "year",
-        label: null,
-        tickSize: 0,
-      },
-      y: {grid: true, ticks: 4, nice: true},
     };
 
     document.getElementById("minimap").appendChild(Plot.plot(minimap));

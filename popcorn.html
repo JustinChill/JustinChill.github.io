@@ -89,7 +89,7 @@
   </ol>
 
   <div>
-    <p>Justin Chill © 2024. Thanks for reading!</p>
+    <p>Justin Chill © 2024. Thanks&nbsp;for&nbsp;reading!</p>
     <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" class="icon">Source code and feedback</a></span>    
   </div>
 </footer>
@@ -114,13 +114,10 @@
     var size = 16;
 
     var heatmap = {
-      style: {fontSize: size, cursor: "default"},
+      style:{fontSize: size, paddingLeft: 40, paddingBottom: 40, paddingTop: 40,},
       width: width,
       marginLeft: width/4,
-      // marginRight: width/40,
-      marginTop: 80,
-      marginBottom: 80,
-      aspectRatio: 2.5,
+      aspectRatio: 2,
       padding: 0,
       x: {
         axis: "both", 
@@ -137,12 +134,12 @@
       color: {legend: true, scheme: "oranges", zero: true,style: {fontSize: size},},
       marks: [
         Plot.frame({stroke: "#ccc", anchor: "top"}),
-        Plot.text(popcorn, {y: "Team",dx: -10, dy: width > 450 ? -4 : -2, text: (d) => `${d.Team}`, frameAnchor: "left",textAnchor: "end", lineAnchor: "bottom", fontWeight: "bold", fontSize: width > 450 ? 16 : ".5rem"}), // Team name
-        Plot.text(popcorn, {y: "Team",dx: -10, dy: width > 450 ? 4 : 2, text: (d) => `${d.Arena}`, frameAnchor: "left", textAnchor: "end", lineAnchor: "top",fontWeight: "normal", fontSize: width > 450 ? 16 : ".4rem"}), // Arena name
+        Plot.text(popcorn, {y: "Team",dx: -10, dy: width > 450 ? -4 : -2, text: (d) => `${d.Team}`, frameAnchor: "left",textAnchor: "end", lineAnchor: "bottom", fontWeight: "bold", fontSize: width > 450 ? 16 : 12}), // Team name
+        Plot.text(popcorn, {y: "Team",dx: -10, dy: width > 450 ? 4 : 0, text: (d) => `${d.Arena}`, frameAnchor: "left", textAnchor: "end", lineAnchor: "top",fontWeight: "light", fontSize: width > 450 ? 16 : 10}), // Arena name
         Plot.cell(popcorn.filter(d => (d.Criteria != "Total Score")), {y: "Team", x: "Criteria", fill: "Score", inset: .85, channels: {Arena: "Arena",},tip: true,}),
         Plot.cell(popcorn.filter(d => (d.Criteria == "Total Score")), {y: "Team", x: "Criteria", fill: "white", inset: .85,}),
-        Plot.text(popcorn.filter(d => (d.Criteria != "Total Score")), {y: "Team", x: "Criteria", text: "Score", fill: "white", fontSize: 18, fontWeight: "bold"}),
-        Plot.text(popcorn.filter(d => (d.Criteria == "Total Score")), {y: "Team", x: "Criteria", text: "Score", fill: "black", fontSize: 18, fontWeight: "bold"}),
+        Plot.text(popcorn.filter(d => (d.Criteria != "Total Score")), {y: "Team", x: "Criteria", text: "Score", fill: "white", fontSize: width > 450 ? 18 : 12, fontWeight: "bold"}),
+        Plot.text(popcorn.filter(d => (d.Criteria == "Total Score")), {y: "Team", x: "Criteria", text: "Score", fill: "black", fontSize: width > 450 ? 18 : 12, fontWeight: "bold"}),
       ]
 
     };
