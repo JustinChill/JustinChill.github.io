@@ -33,7 +33,6 @@
   </script>
 
   <style type="text/css">
-
     .plot text {
       color: #656568;
     }
@@ -403,9 +402,9 @@
       <figcaption>Data: <a href="https://www.nytimes.com/2020/12/05/health/covid-vaccine-first.html">New York Times</a></figcaption>
       <p>Circle size represents data like with a bubble chart, but there is typically no x-y axis. Instead, bubble position often represents grouping or is used to maximize space.</p>
       <h2>Parallel coordinates</h2>
-      <!-- <h3>Cars from the 70s & 80s</h3> -->
-      <!-- <img src="https://datavizcatalogue.com/methods/images/top_images/SVG/parallel_coordinates.svg" loading="lazy"> -->
-      <figure id="parallel"></figure>
+       <h3>Cars from the 70s & 80s</h3>
+       <img src="https://datavizcatalogue.com/methods/images/top_images/SVG/parallel_coordinates.svg" loading="lazy">
+      <!-- <figure id="parallel"></figure> -->
       <p>Parallel Coordinates Plots are ideal for comparing many variables together and seeing the relationships between them. In the above example, models of cars produced in the 1970s and '80s are compared across multiple variables. Chris Evans created a <a href="http://www.columbia.edu/~cme2126/datavisuals/bigdata_parallelcoordinates.html">more elaborate example</a> using the same data set.</p>
       <p>In a parallel coordinates plot, each variable is given its own axis and all the axes are placed in parallel to each other. Each axis can have a different scale, as each variable works off a different unit of measurement, or all the axes can be normalized to keep all the scales uniform. Values are plotted as a series of lines that connected across all the axes. This means that each line is a collection of points placed on each axis, that have all been connected together.</p>
       <h2>Parallel sets</h2>
@@ -750,11 +749,11 @@
     [10, '01/05/2015', 'E'],
     [15, '01/06/2015', 'F'],
     [21, '01/08/2017', 'G'],
-  [47, '01/08/2019', '‘The epic SoftBank round’'], // https://www.businesswire.com/news/home/20190108005751/en/WeWork-Closes-6-Billion-Investment-SoftBank
-  [7.3, '12/31/2019'],
-  [2.9, '05/20/2020'],
-  [2.9, new Date()]
-  ].map(([val, d, label]) => ({ value: val, date: new Date(d), label }));
+    [47, '01/08/2019', '‘The epic SoftBank round’'], // https://www.businesswire.com/news/home/20190108005751/en/WeWork-Closes-6-Billion-Investment-SoftBank
+    [7.3, '12/31/2019'],
+    [2.9, '05/20/2020'],
+    [2.9, new Date()]
+    ].map(([val, d, label]) => ({ value: val, date: new Date(d), label }));
 
   var animals = [
     { animal: "pigs", country: "Great Britain", count: 1354979 },
@@ -1734,12 +1733,14 @@
         Plot.dot(mpg, Plot.dodgeX("middle", {
           fx: "class", 
           y: "hwy", 
+          fill: "manufacturer",
+          r: 2.5,
+          padding: .85,
           tip: {
             opacity: 0.9,
             textPadding: 10,
             lineHeight: 1.65,
           },
-          fill: "manufacturer"
         })),
         ],
     };
@@ -2747,8 +2748,8 @@ var gridmap = {
       };
 
       var stem_plot = {
-        width: width,
-        style:{fontSize: size, margin: "auto", paddingLeft: 20, paddingRight: 20},
+        width: width > 450 ? width/2 : width,
+        style:{fontSize: width > 450 ? size : size+2, margin: "auto", paddingLeft: 20, paddingRight: 20},
         axis: null,
         y: {
           domain: d3.range(4, 25).map(String)
@@ -2933,8 +2934,9 @@ var gridmap = {
 
       var mpg = {
         width: width,
-        style: {textTransform: "capitalize",fontSize: size, paddingRight: 10, paddingBottom: 20},
+        style: {textTransform: "capitalize",fontSize: size, paddingRight: 10,paddingLeft: 30, paddingBottom: 20},
         marginRight: 0,
+        marginLeft: 0,
         x: {label: "City mpg", ticks: 2, labelOffset: 50},
         y: {label: "Highway mpg", ticks: 6, labelOffset: 50, labelAnchor: "center"},
         inset: 4,
@@ -3178,34 +3180,6 @@ var gridmap = {
         ],
       };
       
-      var dimensions = mpg.columns.slice(1);
-      var parallel = {
-        marginLeft: 104,
-        marginRight: 20,
-        x: { axis: null },
-        y: { padding: 0.1, domain: dimensions, label: null, tickPadding: 9 },
-        color: { scheme: "BrBG", type: "linear", reverse: true, legend: true },
-        marks: [
-          Plot.ruleY(dimensions),
-          Plot.lineX(points, {
-            x: ({dimension, value}) => scales.get(dimension)(value),
-            y: "dimension",
-            z: "index",
-            stroke: ({index}) => cars[index][color],
-            strokeWidth: 0.5,
-            strokeOpacity: 0.5
-          }),
-          Plot.text(ticks, {
-            x: ({dimension, value}) => scales.get(dimension)(value),
-            y: "dimension",
-            text: "value",
-            fill: "black",
-            stroke: "white",
-            strokeWidth: 3
-          })
-        ]
-      };
-
     // Draw the plots (data fetched)
       document.getElementById("popcorn").appendChild(Plot.plot(popcorn));
       document.getElementById("anomaly_barcode").appendChild(Plot.plot (anomaly_barcode));
@@ -3246,7 +3220,6 @@ var gridmap = {
       document.getElementById("irregular_bar").appendChild(Plot.plot(irregular_bar));
       document.getElementById("example_line").appendChild(Plot.plot(example_line));
       document.getElementById("lollipop").appendChild(Plot.plot(lollipop));
-      document.getElementById("parallel").appendChild(Plot.plot(parallel));
     });
 
 myDataPromises.catch(function() {
