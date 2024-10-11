@@ -105,8 +105,10 @@
 <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 
 <script type="text/javascript">
-  var element = d3.select('figure').node();
-  var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+  var elementMid = d3.select('figure.mid-size').node();
+  var widthMid = elementMid.getBoundingClientRect().width; // get width of figure.mid-size so graphic is responsive
+  var element = d3.select('figure:last-of-type').node();
+  var width = element.getBoundingClientRect().width; // get width of figure so graphic is responsive. Todo / hacky
   var size = 12;
   var scheme = "BuRd";
 
@@ -122,7 +124,7 @@
     console.log(data)
 
     var keys = {
-      width: width,
+      width: widthMid,
       height: 120,
       style:{fontSize: size},
       title: "The Keys to the White House",
@@ -141,7 +143,7 @@
     };
 
     var keys2024 = {
-      width: width,
+      width: widthMid,
       height: 120,
       marginLeft: 0,
       marginRight: 0,
@@ -151,8 +153,8 @@
       x: {labelArrow: "none", label: null},
       marks: [
         Plot.barX(data, Plot.groupZ({ x: "count" }, { fill: "Guess", tip: true,  reverse: false})),
-        Plot.ruleX([8]),
-        Plot.text(data, Plot.groupZ({ x: "count" }, { text: d => "Keys needed to win", dx:-(width/2)+120, rotate: 270, frameAnchor: "middle"})),
+        Plot.ruleX([8], {strokeDasharray: [1, 1], strokeWidth: 0.5,stroke: "rgba(0, 0, 0, .75)"}),
+        Plot.text([8], { text: d => "Keys needed to win", rotate: 270, frameAnchor: "middle", dx: 30, fontSize: size-3, fill: "white", stroke: "white", strokeWidth: .4}),
         ]
     };
 
@@ -164,7 +166,7 @@
       color: {legend: true, scheme: scheme},
       marks: [
         Plot.frame({stroke: "#ccc", strokeOpacity: .6}),
-        Plot.barX(data, {y: "Guess", x: 1, inset: 0.5, fill: "Guess", sort: "Key",channels: {Key: "Key"}, tip: true, inset: 2,}),
+        Plot.barX(data, {y: "Guess", x: 1, inset: 0.5, fill: "Guess", sort: "Key",channels: {Key: "Key"}, format: {x: false,}, tip: true, inset: 2,}),
         Plot.ruleX([0])
         ]
     };
