@@ -272,9 +272,9 @@
       <p>A bullet graph is a variation of a bar graph that can act as an alternative to dashboard gauges to represent performance data. The main use for a bullet graph is to inform the viewer of how a business is performing in comparison to benchmarks that are in place for key business metrics.</p>
       <p>In a bullet graph, the darker horizontal bar in the middle of the chart represents the actual value, while the vertical line represents a comparative value, or target. If the horizontal bar passes the vertical line, the target for that metric has been surpassed. Additionally, the segmented colored sections behind the horizontal bar represent range scores, such as “poor,” “fair,” or “good.”</p>
       <h2>Bump chart</h2>
-      <h3>Changes in state population, 1920 - 2020</h3>
-      <img src="https://flowingdata.com/wp-content/uploads/2021/05/population-shift-1536x1084.png" loading="lazy">
-      <figcaption>Image: <a href="https://www.washingtonpost.com/nation/interactive/2021/census-population-changes/">Washington Post</a></figcaption>
+      <h3>Petrostate</h3>
+      <figure id="bumpGas"></figure>
+      <figcaption>Data: International Institute for Sustainable Development (IISD) and IEA</a></figcaption>
       <p>A bump chart is a chart that helps you identify the change in the performance rankings over time rather than the magnitude of the values of the elements (categories).</p>
       <h2>Cartogram</h2>
       <h3>Who can vote by mail?</h3>
@@ -789,6 +789,93 @@
 
   var sales = [{"market":"Auburn, AL","segment":"Almond lovers","value":3840},{"market":"Auburn, AL","segment":"Berry buyers","value":1920},{"market":"Auburn, AL","segment":"Carrots-n-more","value":960},{"market":"Auburn, AL","segment":"Delicious-n-new","value":400},{"market":"Birmingham, AL","segment":"Almond lovers","value":1600},{"market":"Birmingham, AL","segment":"Berry buyers","value":1440},{"market":"Birmingham, AL","segment":"Carrots-n-more","value":960},{"market":"Birmingham, AL","segment":"Delicious-n-new","value":400},{"market":"Gainesville, FL","segment":"Almond lovers","value":640},{"market":"Gainesville, FL","segment":"Berry buyers","value":960},{"market":"Gainesville, FL","segment":"Carrots-n-more","value":640},{"market":"Gainesville, FL","segment":"Delicious-n-new","value":400},{"market":"Durham, NC","segment":"Almond lovers","value":320},{"market":"Durham, NC","segment":"Berry buyers","value":480},{"market":"Durham, NC","segment":"Carrots-n-more","value":640},{"market":"Durham, NC","segment":"Delicious-n-new","value":400}];
 
+  var gasExports = [
+  {
+    country: "United States",
+    "2013": 44526,
+    "2014": 42878,
+    "2015": 50503,
+    "2016": 66133,
+    "2017": 89704,
+    "2018": 102150,
+    "2019": 131852,
+    "2020": 149615,
+    "2021": 188381,
+    "2022": 195376,
+    "2023": 215509
+  },
+  {
+    country: "Russia",
+    "2013": 211867,
+    "2014": 189572,
+    "2015": 200747,
+    "2016": 213094,
+    "2017": 228226,
+    "2018": 245114,
+    "2019": 259849,
+    "2020": 238783,
+    "2021": 242437,
+    "2022": 167281,
+    "2023": 137767
+  },
+  {
+    country: "Qatar",
+    "2013": 122630,
+    "2014": 121090,
+    "2015": 123890,
+    "2016": 127430,
+    "2017": 123740,
+    "2018": 122810,
+    "2019": 124680,
+    "2020": 124110,
+    "2021": 123820,
+    "2022": 124880,
+    "2023": 124968
+  },
+  {
+    country: "Norway",
+    "2013": 107192,
+    "2014": 106679,
+    "2015": 114696,
+    "2016": 114644,
+    "2017": 123233,
+    "2018": 120086,
+    "2019": 113582,
+    "2020": 110922,
+    "2021": 113450,
+    "2022": 121101,
+    "2023": 116914
+  },
+  {
+    country: "Australia",
+    "2013": 29972,
+    "2014": 29646,
+    "2015": 32226,
+    "2016": 50364,
+    "2017": 70240,
+    "2018": 82561,
+    "2019": 99592,
+    "2020": 105443,
+    "2021": 103354,
+    "2022": 112970,
+    "2023": 110474
+  },
+  {
+    country: "Canada",
+    "2013": 82465,
+    "2014": 77996,
+    "2015": 78267,
+    "2016": 84270,
+    "2017": 85125,
+    "2018": 79635,
+    "2019": 76628,
+    "2020": 70931,
+    "2021": 79558,
+    "2022": 86046,
+    "2023": 82380
+  }
+];
+
   var vaxdata = d3.csvParse(`Age group,population,one,full
   75+,21848000,15075704,10322963
   65-74,32455000,20169927,11505303
@@ -1138,6 +1225,92 @@
       ]
   };
 
+  function makeFlat(data) {
+    let final = [];
+    let countries = data.map((d) => d.country);
+    let years = Object.keys(data[0]).slice(0, Object.keys(data[0]).length - 1);
+
+    countries.forEach((country) => {
+      let match = data.find((f) => f.country == country);
+      years.forEach((year) => {
+        let obj = {
+          country,
+          year,
+          val: match[`${year}`]
+        };
+        final.push(obj);
+      });
+    });
+
+    return final;
+  };
+
+  function bumpMarks(data, { r = 3, curve = "bump-x", tip, ...options }) {
+    options = Plot.stackY2(options);
+    return Plot.marks(
+      Plot.line(data, { ...options, tip, stroke: options.z, curve, fill: null }),
+      Plot.dot(data, { ...options, fill: options.z, r }),
+      Plot.text(data, { fill: options.z, dy: -12, ...options, text: options.y }),
+      Plot.text(
+        data,
+        Plot.selectFirst({
+          ...options,
+          text: options.z,
+          dx: -(5 + (r || options.strokeWidth / 2)),
+          textAnchor: "end",
+          fill: "currentColor"
+        })
+      ),
+      Plot.text(
+        data,
+        Plot.selectLast({
+          ...options,
+          text: options.z,
+          dx: 5 + (r || options.strokeWidth / 2),
+          textAnchor: "start",
+          fill: "currentColor"
+        })
+      )
+    );
+  }
+
+  var flatGasExports = makeFlat(gasExports);
+
+  console.log(flatGasExports);
+
+  var bumpGas = {
+    width: width,
+    style: {fontSize: size, paddingTop: 24, paddingBottom: 10, paddingLeft: 10, paddingRight: 10},
+    x: {
+      domain: Object.keys(gasExports[0]).slice(
+        0,
+        Object.keys(gasExports[0]).length - 1
+      ),
+      label: null
+    },
+    y: {
+      axis: null,
+      domain: [6, 1]
+    },
+    color: {
+      domain: d3
+        .groupSort(
+          flatGasExports,
+          (v) => v[0].val,
+          (d) => d.country
+        )
+        .reverse()
+    },
+    marks: [
+      bumpMarks(flatGasExports, {
+        x: "year",
+        z: "country",
+        order: "val",
+        reverse: true
+      })
+    ]
+  };
+
   var myColors = [
     { group: "Frodo, Sam, Merry, Pippin", color: "gold" },
     { group: "Frodo, Sam, Merry, Pippin, Strider", color: "orange" },
@@ -1382,6 +1555,7 @@
   document.getElementById("country_emissions").appendChild(Plot.plot(country_emissions));
   document.getElementById("ternary").appendChild(Plot.plot(ternary));
   document.getElementById("gantt").appendChild(Plot.plot(gantt));
+  document.getElementById("bumpGas").appendChild(Plot.plot(bumpGas));
 
   var boxY = function boxY(data, {
     x = null,
