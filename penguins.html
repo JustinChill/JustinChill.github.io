@@ -75,6 +75,10 @@
     <aside>Fun fact! The <a href="https://wiki.gentoo.org/wiki/FAQ">Gentoo</a> Linux distribution is named after this penguin species &#129299;</aside>
     <p>These data were collected from 2007 - 2009 by Dr.&nbsp;Kristen Gorman with the <a href="https://pal.lternet.edu/" class="external-link">Palmer Station Long Term Ecological Research Program</a>, part of the <a href="https://lternet.edu/" class="external-link">US Long Term Ecological Research Network</a>. The data were imported directly from the <a href="https://environmentaldatainitiative.org/" class="external-link">Environmental Data Initiative</a> (EDI) Data Portal, and are available for use by CC0 license (“No Rights Reserved”) in accordance with the <a href="https://pal.lternet.edu/data/policies" class="external-link">Palmer Station Data Policy</a>.<img src="imgs/penguin-bill.jpg" loading="lazy" class="float-right"></p>
     <p>At the Palmer Station, three species of Penguins were measured on various structural aspects like body mass, bill Length, bill depth and flipper length. PAL scientists have documented an 85 percent reduction in Adélie penguin populations along the western Antarctic Peninsula since 1974.</p>
+    <h2>Penguins by Island</h2>
+    <figure id="islands"></figure>
+    <figcaption>Source: <a href="https://environmentaldatainitiative.org/">Environmental Data Initiative</a></figcaption>
+    <p>The penguins were studied on three islands: Biscoe, Dream, and Torgersen.</p>
 
     <h2>Bill Length vs. Body Mass</h2>
     <figure id="facets" class=""></figure>
@@ -82,7 +86,6 @@
     <h2>Bill Length vs. Bill Depth</h2>
     <figure id="scatter" class=""></figure>
     <figcaption>Source: Structural size measurements and isotopic signatures</figcaption>
-
 
     <div class="videoContainer">
       <video controls="" height="360" id="sunVideo" poster="https://antarcticsun.usap.gov/science/images8/lteranniversary-banner.jpg" preload="none" width="640"><source src="/science/images8/lteranniversary.mp4" type="video/mp4"> <source src="https://antarcticsun.usap.gov/science/images8/lteranniversary.mp4" type="video/webm"></video>
@@ -99,6 +102,12 @@
     <h2>Simpson's Paradox</h2>
     <figure id="regression"></figure>
     <p>If you measure the relationship between culmen depth and length in a mixed population of penguins, it is <a href="https://observablehq.com/plot/marks/linear-regression">positively correlated</a> in each of the three species (bigger penguins with the longer culmens also tend to have the deeper ones); however, the Gentoo population has a smaller aspect ratio of depth against length, and the overall correlation across the three species is negative. This is called <a href="https://en.wikipedia.org/wiki/Simpson%27s_paradox">Simpson’s paradox</a>, and it applies to any data that contains underlying populations with different properties or outcomes.</p>
+
+    <h2></h2>
+    <figure id="weightBars"></figure>
+    <figcaption>Source: <a href="https://environmentaldatainitiative.org/">Environmental Data Initiative</a></figcaption>
+    <p></p>
+
     <img src="https://impact.economist.com/ocean/images/more-penguins?f=auto&w=1920" loading="lazy" alt="More penguins">
     <h2>References</h2>
     <p>Individual data can be accessed directly via the <a href="https://environmentaldatainitiative.org/">Environmental Data Initiative</a>:</p>
@@ -232,7 +241,7 @@
     var waffle = {
       width: width,
       style:{fontSize: size, paddingTop: 20},
-      y: {nice: true, anchor: "left"},
+      y: {nice: true, anchor: "left", insetTop: 10},
       marks: [
         Plot.waffleY(
           penguins,
@@ -242,7 +251,7 @@
               x: "species",
               fill: "species",
               unit: 8,
-              sort: { x: "y", reverse: true }
+              sort: {x: "y"}
             }
           )
         ),
@@ -264,6 +273,46 @@
       ]
     };
 
+    var islands = {
+      width: width,
+      style:{fontSize: size, textTransform: "capitalize",},
+
+      symbol: {legend: true},
+      facet: {data: penguins, x: "island"},
+      // color: {legend: true}, // Legend is redundant if already covered by symbol legend!
+      
+      x: {label: "Flipper length (mm)"},
+      y: {label: "Body mass (g)"},
+
+      grid: true,
+      marks: [
+          Plot.dot(penguins,
+             {x: "flipper_length_mm",
+              y: "body_mass_g",
+              fill: "species",
+              symbol: "species",
+              opacity: 0.7,
+              r: 4
+              })
+          ],
+    };
+
+    var weightBars = {
+      width: width,
+      style:{fontSize: size, textTransform: "capitalize",},
+      color: {legend: true, },
+      x: {label: "Penguin body mass (grams)"},
+      y: {label: "Count"},
+      marks: [
+        Plot.rectY(penguins, 
+                   Plot.binX(  
+                     {y: "count"}, 
+                     {x: "body_mass_g",
+                     thresholds: 30, // Updates bin number for histogram
+                     fill: "species"}))
+        ]  
+    };
+
     // Nice scatter plot to recreate: https://observablehq.com/d/7e3742f5f8e13db9
 
     document.getElementById("scatter").appendChild(Plot.plot(scatter));
@@ -271,6 +320,8 @@
     document.getElementById("waffle").appendChild(Plot.plot(waffle));
     document.getElementById("density").appendChild(Plot.plot(density));
     document.getElementById("regression").appendChild(Plot.plot(regression));
+    document.getElementById("islands").appendChild(Plot.plot(islands));
+    document.getElementById("weightBars").appendChild(Plot.plot(weightBars));
   });
 </script>
 </body>
