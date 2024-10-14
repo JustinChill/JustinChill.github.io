@@ -291,7 +291,9 @@
       <figcaption>Created by <a href="https://lotr.visualcinnamon.com">Nadieh Bremer</a></figcaption>
       <p>This type of diagram visualizes the inter-relationships between entities. The connections between entities are used to display that they share something in common. This makes Chord Diagrams ideal for comparing the similarities within a dataset or between different groups of data.</p>
       <h2>Choropleth map</h2>
+<picture>
       <img src="imgs/ZIP3_zones.svg" loading="lazy">
+    </picture>
       <figcaption>ZIP codes explained <a href="inf-hoe-graphic.html">here</a></figcaption>
       <p>A choropleth map is simply a shaded map. Specifically, it's a map that uses measured differences in shading or color or the placing of symbols inside defined areas on the map in order to indicate the average values of some property or quantity in those areas. Be careful with your color choices, as they can quickly change what the map shows.</p>
       <h2>Connected scatter plot</h2>
@@ -466,6 +468,9 @@
       <h2>Spiral chart</h2>
       <img src="https://datavizcatalogue.com/methods/images/top_images/PNG/spiral_plot.png" loading="lazy">
       <p>This type of visualisation plots time-based data along an <a href="https://en.wikipedia.org/wiki/Archimedean_spiral">Archimedean spiral</a>. The graph begins at the centre of a spiral and then progresses outwards. Spiral Plots are versatile and can use bars, lines or points to be displayed along the spiral path.</p>
+      <!-- <h2>Spike chart</h2> -->
+      <!-- <figure id="spikeMap"></figure> -->
+      <!-- <p></p> -->
       <h2>Square pie chart</h2>
       <figure id="waffle"></figure>
       <p>Square charts, also called waffle charts, are a form of pie charts that use squares instead of circles to represent percentages. Similar to basic circular pie charts, square pie charts take each percentage out of a total 100%. They are often 10 by 10 grids, where each cell represents 1%. Despite the name, circles, pictograms (such as of people), and other shapes may be used instead of squares. One major benefit to square charts is that smaller percentages, difficult to see on traditional pie charts, can be easily depicted.</p>
@@ -1635,7 +1640,7 @@
 
 
   // Use Promises to async request data
-  var promises = [d3.json("data/drugs.json"), d3.csv("data/aapl.csv",d3.autoType),d3.csv("data/global-temps.csv",d3.autoType), d3.csv("https://gist.githubusercontent.com/JesseCHowe/099f4b8e1a029c0b4af35b1edc1989f7/raw/8c18ed9a0940c734d423c3f2699ee063279533ec/morley.csv",d3.autoType), d3.csv("data/stocks.csv",d3.autoType),d3.csv("data/units.csv",d3.autoType),d3.json("data/qatar.json"),d3.csv("https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv",d3.autoType),d3.csv("data/driving.csv",d3.autoType),d3.csv("data/bls.csv",d3.autoType),d3.csv("data/caltrain.csv"),d3.csv("data/mpg.csv",d3.autoType), d3.csv("data/electricity.csv",d3.autoType),d3.json("data/dogdata.json"), d3.csv("data/google-trends-2020.csv",d3.autoType),d3.csv("data/covid.csv", d3.autoType),d3.csv("data/commute.csv", d3.autoType),d3.csv("data/world-airports.csv", d3.autoType),d3.json("data/geo/land.json"),d3.json("data/geo/statemesh.json"),d3.json("data/geo/nation.json"),d3.csv("data/walmarts.csv",d3.autoType), d3.csv("data/popcornCriteria.csv",d3.autoType),d3.csv("data/state-population-2010-to-2019.csv",d3.autoType),d3.csv("data/geo/us-state-grid.csv",d3.autoType),d3.csv("data/bls_industries.csv",d3.autoType), d3.csv("data/weather.csv",d3.autoType), d3.csv("data/receipts.csv",d3.autoType), d3.csv("data/cancer.csv",d3.autoType), d3.csv("data/us-population-county-2016.csv",d3.autoType), d3.csv("data/hstdebt.csv",d3.autoType)];
+  var promises = [d3.json("data/drugs.json"), d3.csv("data/aapl.csv",d3.autoType),d3.csv("data/global-temps.csv",d3.autoType), d3.csv("https://gist.githubusercontent.com/JesseCHowe/099f4b8e1a029c0b4af35b1edc1989f7/raw/8c18ed9a0940c734d423c3f2699ee063279533ec/morley.csv",d3.autoType), d3.csv("data/stocks.csv",d3.autoType),d3.csv("data/units.csv",d3.autoType),d3.json("data/qatar.json"),d3.csv("https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv",d3.autoType),d3.csv("data/driving.csv",d3.autoType),d3.csv("data/bls.csv",d3.autoType),d3.csv("data/caltrain.csv"),d3.csv("data/mpg.csv",d3.autoType), d3.csv("data/electricity.csv",d3.autoType),d3.json("data/dogdata.json"), d3.csv("data/google-trends-2020.csv",d3.autoType),d3.csv("data/covid.csv", d3.autoType),d3.csv("data/commute.csv", d3.autoType),d3.csv("data/world-airports.csv", d3.autoType),d3.json("data/geo/land.json"),d3.json("data/geo/statemesh.json"),d3.json("data/geo/nation.json"),d3.csv("data/walmarts.csv",d3.autoType), d3.csv("data/popcornCriteria.csv",d3.autoType),d3.csv("data/state-population-2010-to-2019.csv",d3.autoType),d3.csv("data/geo/us-state-grid.csv",d3.autoType),d3.csv("data/bls_industries.csv",d3.autoType), d3.csv("data/weather.csv",d3.autoType), d3.csv("data/receipts.csv",d3.autoType), d3.csv("data/cancer.csv",d3.autoType), d3.csv("data/us-population-county-2016.csv",d3.autoType), d3.csv("data/hstdebt.csv",d3.autoType),d3.json("data/geo/us-counties-10m.json"),];
 
   // You can request multiple srcs in a promise
   myDataPromises = Promise.all(promises);
@@ -1674,6 +1679,7 @@
     var cancer = data[28];
     var countypop = data[29];
     var hstdebt = data[30];
+    var counties = data[31];
 
     var sortedData = popcorndata.filter(function(d,i){
        return i < 30; // Top 5 teams
@@ -2367,6 +2373,19 @@
         ],
     };
 
+    var spikeMap = {
+      width: width,
+      // aspectRatio: 1,
+      style:{fontSize: size,paddingTop: 10, paddingBottom: 10},
+      projection: "albers-usa",
+      length: {range: [0, 200]},
+      marks: [
+        Plot.geo(statemesh, {strokeOpacity: 0.5}),
+        Plot.geo(nation),
+        Plot.spike(counties, Plot.geoCentroid({length: (d) => d.properties.population, stroke: "green"}))
+      ]
+    };
+
     var driving_line = {
       width: width,
       height: 500,
@@ -2503,7 +2522,7 @@ var lollipop = {
 
 var bls_line = {
   width: width,
-  style:{fontSize: size, textTransform: "capitalize", padding: 20, paddingRight: 40, paddingTop: 0},
+  style:{fontSize: size, textTransform: "capitalize", paddingRight: 40, paddingTop: 0},
   marginLeft: 0,
   y: {
     label: "Unemployed (thousands)",
@@ -2678,16 +2697,17 @@ var gridmap = {
   // https://observablehq.com/@observablehq/plot-state-population-change
   var diverging ={
     width: width,
-    style:{fontSize: size-2, padding: 10},
+    style:{fontSize: size, padding: 10, paddingTop: 20},
     marginLeft: 0,
     marginRight: 0,
     marginBottom: 0,
-    aspectRatio: 1,
+    aspectRatio: 1.25,
     label: null,
     x: {
       axis: "top",
       label: "← decrease  ·  Change in population, 2010–2019 (%)  ·  increase →",
       labelAnchor: "center",
+      labelOffset: 44,
       tickFormat: "+",
       percent: true,
     },
@@ -3017,7 +3037,7 @@ var gridmap = {
 
       var qatar_pyramid = {
         width: width,
-        aspectRatio: .025,
+        aspectRatio: .065,
         style:{fontSize: size, maxHeight: 840, paddingBottom: 10},
         color: {
           domain: ["male","female"],
@@ -3394,6 +3414,7 @@ var gridmap = {
       document.getElementById("irregular_bar").appendChild(Plot.plot(irregular_bar));
       document.getElementById("example_line").appendChild(Plot.plot(example_line));
       document.getElementById("lollipop").appendChild(Plot.plot(lollipop));
+      // document.getElementById("spikeMap").appendChild(Plot.plot(spikeMap));
     });
 
 myDataPromises.catch(function() {
