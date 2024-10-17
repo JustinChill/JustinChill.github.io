@@ -316,9 +316,9 @@
       <figcaption>Data: NOAA</figcaption>
       <p> A difference chart highlights the difference between two values, typically entries vs exits. The amount is encoded as height, and the sign (surplus vs. deficit) as a solid color. In the chart above, we compare the temperatures on the same day; days when San Francisco was warmer are <span style="border-bottom: 2px solid orange;">orange</span>, and colder days are <span style="border-bottom: 2px solid steelblue;">blue</span>.</p>
       <h2>Donut chart 🍩</h2>
-      <!-- TODO -->
       <h3>United States Population, 2015</h3>
-      <img src="imgs/donut_chart.svg" loading="lazy">
+      <!-- <img src="imgs/donut_chart.svg" loading="lazy"> -->
+      <figure id="donut_emissions"></figure>
       <figcaption>Data: <a href="https://www.census.gov/data.html">U.S. Census</a></figcaption>
       <p>A donut chart is a pie chart with an area of the center cut out. It looks like a donut. That’s why it’s called a donut chart.</p>
       <p>Pie Charts are sometimes criticized for focusing readers on the proportional areas of the slices to one another and to the chart as a whole. This makes it tricky to see the differences between slices, especially when you try to compare multiple Pie Charts together. A Donut Chart somewhat remedies this problem by de-emphasizing the use of the area. Instead, readers focus more on reading the length of the arcs, rather than comparing the proportions between slices.</p>
@@ -1315,7 +1315,61 @@
       })
     ]
   };
-
+    
+    donut_emissions = new function() {  
+      // d3 donut chart: https://observablehq.com/@d3/donut-chart/2
+    const height = Math.min(width, 500);
+    const radius = Math.min(width, height) / 2;
+    
+    const arc = d3.arc()
+        .innerRadius(radius * 0.67)
+        .outerRadius(radius - 1);
+    
+    const pie = d3.pie()
+        .padAngle(1 / radius)
+        .sort(null)
+        .value(d => d.value);
+    
+    const color = d3.scaleOrdinal()
+        .domain(d3.sort(top20, d => -d.value).map(d => d.country))
+        .range(d3.quantize(t => d3.interpolateSpectral(t * 0.8 + 0.1), top20.length).reverse());
+        console.log(color);
+    
+    const svg = d3.select("#donut_emissions").append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .attr("viewBox", [-width / 2, -height / 2, width, height])
+        .attr("style", "max-width: 100%; height: auto;");
+    
+    svg.append("g")
+      .selectAll()
+      .data(pie(top20))
+      .join("path")
+        .attr("fill", d => color(d.country))
+        .attr("d", arc)
+      .append("title")
+        .text(d => `${d.country}: ${d.value}`);
+    
+    svg.append("g")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", 12)
+        .attr("text-anchor", "middle")
+      .selectAll()
+      .data(pie(top20))
+      .join("text")
+        .attr("transform", d => `translate(${arc.centroid(d)})`)
+        .call(text => text.append("tspan")
+            .attr("y", "-0.4em")
+            .attr("font-weight", "bold")
+            .text(d => d.country))
+        .call(text => text.filter(d => (d.endAngle - d.startAngle) > 0.25).append("tspan")
+            .attr("x", 0)
+            .attr("y", "0.7em")
+            .attr("fill-opacity", 0.7)
+            .text(d => d3.format(",.0f")(d.value)));
+    return svg.node();
+  };
+  
   var myColors = [
     { group: "Frodo, Sam, Merry, Pippin", color: "gold" },
     { group: "Frodo, Sam, Merry, Pippin, Strider", color: "orange" },
