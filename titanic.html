@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+  <title>The Titanic Survival Analysis</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Data visualizations of the RMS Titanic disaster.">
+  <meta name="author" content="Justin Chill">
+  <!-- OpenGraph tags -->
+  <meta name="keywords" content="titanic, RMS, data visualization, disaster, chart, graphic detail, graph,">
+  <meta name="robots" content="all">
+  <meta content="en_US" property="og:locale">
+  <meta content="JustinChill" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="https://justinchill.com/titanic.html" property="og:url">
+  <meta content="The Titanic Survival Analysis." property="og:title">
+  <meta content="Data visualizations of the RMS Titanic disaster." property="og:description">
+  <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
+  <link rel="canonical" href="https://www.justinchill.com/titanic.html">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Titanic Survival Analysis.">
+  <meta name="twitter:description" content="Data visualizations of the RMS Titanic disaster.">
+
+  <link type="text/plain" href="humans.txt" rel="author">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="/favicon.ico">
+
+  <meta name="theme-color" content="#4C63B6">
+
+  <script type="module">
+    document.documentElement.classList.remove('no-js');
+    document.documentElement.classList.add('js');
+  </script>
+
+  <style>
+
+  </style>
+</head>
+
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+
+  <main>
+    <article>
+      <div class="article-hero mid-size">
+        <h2 class="article-category">Bottoms up</h2>
+        <h1 class="article-title">Titanic Survival Analysis</h1>
+      </div>
+
+      <figure id="synthetic"></figure>
+      <figcaption>Data: <a href="https://cran.r-project.org/web/packages/titanic/readme/README.html">R project</a></figcaption>
+      <p>The RMS Titanic, one of the most iconic and tragic maritime disasters in history, continues to captivate the world's imagination over a century after its sinking. Launched as the epitome of luxury and engineering prowess, the Titanic was hailed as "unsinkable" before its maiden voyage in 1912. Fate had other plans, however. On the fateful night of April 14th, the ship collided with an iceberg in the North Atlantic, leading to its catastrophic demise. The sinking of the Titanic resulted in the loss of over 1,500 lives and exposed the hubris of human endeavors against the forces of nature. Yet, amidst the tragedy, the story of the Titanic remains a testament to human courage, sacrifice, and the enduring lessons learned from its untimely end.</p>
+      <p>The dataset used for this article highlights the passengers aboard the RMS Titanic. These are the columns or variables in the data and what they represent:</p>
+      <ul>
+        <li><strong>PassengerId</strong>: A unique identifier for each passenger.</li>
+        <li><strong>Survived</strong>: Indicates whether the passenger survived (1) or not (0) – categorical</li>
+        <li><strong>Pclass</strong>: Ticket class of the passenger (1st, 2nd, or 3rd) – categorical </li>
+        <li><strong>Name</strong>: Name of the passenger.</li>
+        <li><strong>Sex</strong>: Gender of the passenger (male or female) - categorical.</li>
+        <li><strong>Age</strong>: Age of the passenger.</li>
+        <li><strong>SibSp</strong>: Number of siblings/spouses aboard the Titanic.</li>
+        <li><strong>Parch</strong>: Number of parents/children aboard the Titanic.</li>
+        <li><strong>Ticket</strong>: Ticket number.</li>
+        <li><strong>Fare</strong>: Fare paid by the passenger.</li>
+        <li><strong>Embarked</strong>: Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton) - categorical.</li>
+      </ul>
+
+      <h2>Stacked bar chart</h2>
+      <figure id="stacked"></figure>
+      <figcaption>Data: <a href="https://cran.r-project.org/web/packages/titanic/readme/README.html">R project</a></figcaption>
+    </article>
+  </main>
+  <footer>
+    <!--   <h2 id="footnote-label">Footnotes</h2>
+  <ol>
+    <li id="pew"><a href="https://www.pewresearch.org/short-reads/2024/02/29/most-americans-now-live-in-a-legal-marijuana-state-and-most-have-at-least-one-dispensary-in-their-county/">Pew Researc Center, <i>Most Americans now live in a legal marijuana state – and most have at least one dispensary in their county</i> </a>.<a href="#pew-ref" aria-label="Back to content">↩</a></li>
+  </ol> -->
+
+    <div>
+      <p>Justin Chill © 2024. Thanks&nbsp;for&nbsp;reading!</p>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code and feedback</a></span>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+
+  <script type="text/javascript">
+    var element = d3.select('figure:last-of-type').node();
+    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+    var size = 12;
+
+    var tb5 = d3.csvParse(`Sex,Age,p_sex,x1,x2,y1,y2,Class_c,Class,value,_x1,_x2,X1,X2
+  Female,Adult,0.210336,0,0.210336,0,0.883156,1,First Class,144,0,0.338824,0,0.071267
+  Female,Adult,0.210336,0,0.210336,0,0.883156,2,Second Class,93,0.338824,0.557647,0.071267,0.117293
+  Female,Adult,0.210336,0,0.210336,0,0.883156,3,Third Class,165,0.557647,0.945882,0.117293,0.198953
+  Female,Adult,0.210336,0,0.210336,0,0.883156,C,Crew,23,0.945882,1,0.198953,0.210336
+  Female,Child,0.210336,0,0.210336,0.906489,1,1,First Class,1,0,0.022222,0,0.004674
+  Female,Child,0.210336,0,0.210336,0.906489,1,2,Second Class,13,0.022222,0.311111,0.004674,0.065438
+  Female,Child,0.210336,0,0.210336,0.906489,1,3,Third Class,31,0.311111,1,0.065438,0.210336
+  Male,Adult,0.774664,0.225336,1,0,0.940557,1,First Class,175,0,0.104979,0.225336,0.30666
+  Male,Adult,0.774664,0.225336,1,0,0.940557,2,Second Class,168,0.104979,0.205759,0.30666,0.38473
+  Male,Adult,0.774664,0.225336,1,0,0.940557,3,Third Class,462,0.205759,0.482903,0.38473,0.599424
+  Male,Adult,0.774664,0.225336,1,0,0.940557,C,Crew,862,0.482903,1,0.599424,1
+  Male,Child,0.774664,0.225336,1,0.96389,1,1,First Class,5,0,0.078125,0.225336,0.285857
+  Male,Child,0.774664,0.225336,1,0.96389,1,2,Second Class,11,0.078125,0.25,0.285857,0.419002
+  Male,Child,0.774664,0.225336,1,0.96389,1,3,Third Class,48,0.25,1,0.419002,1`, d3.autoType);
+
+    var tb6 = d3.csvParse(`Sex,Age,Class,survived,Class_c,p_fate,p_sex,x1,x2,y1,y2,value,_x1,_x2,X1,X2,Y1,Y2
+  Male,Adult,Crew,192,C,0.222738,0.774664,0.225336,1,0,0.940557,862,0.482903,1,0.599424,1,0,0.209498
+  Male,Adult,Third Class,75,3,0.162338,0.774664,0.225336,1,0,0.940557,462,0.205759,0.482903,0.38473,0.599424,0,0.152688
+  Male,Adult,Second Class,14,2,0.083333,0.774664,0.225336,1,0,0.940557,168,0.104979,0.205759,0.30666,0.38473,0,0.07838
+  Male,Adult,First Class,57,1,0.325714,0.774664,0.225336,1,0,0.940557,175,0,0.104979,0.225336,0.30666,0,0.306353
+  Male,Child,Third Class,13,3,0.270833,0.774664,0.225336,1,0.96389,1,48,0.25,1,0.419002,1,0.96389,0.97367
+  Male,Child,Second Class,11,2,1,0.774664,0.225336,1,0.96389,1,11,0.078125,0.25,0.285857,0.419002,0.96389,1
+  Male,Child,First Class,5,1,1,0.774664,0.225336,1,0.96389,1,5,0,0.078125,0.225336,0.285857,0.96389,1
+  Female,Adult,Crew,20,C,0.869565,0.210336,0,0.210336,0,0.883156,23,0.945882,1,0.198953,0.210336,0,0.767962
+  Female,Adult,Third Class,76,3,0.460606,0.210336,0,0.210336,0,0.883156,165,0.557647,0.945882,0.117293,0.198953,0,0.406787
+  Female,Adult,Second Class,80,2,0.860215,0.210336,0,0.210336,0,0.883156,93,0.338824,0.557647,0.071267,0.117293,0,0.759704
+  Female,Adult,First Class,140,1,0.972222,0.210336,0,0.210336,0,0.883156,144,0,0.338824,0,0.071267,0,0.858624
+  Female,Child,Third Class,14,3,0.451613,0.210336,0,0.210336,0.906489,1,31,0.311111,1,0.065438,0.210336,0.906489,0.94872
+  Female,Child,Second Class,13,2,1,0.210336,0,0.210336,0.906489,1,13,0.022222,0.311111,0.004674,0.065438,0.906489,1
+  Female,Child,First Class,1,1,1,0.210336,0,0.210336,0.906489,1,1,0,0.022222,0,0.004674,0.906489,1`, d3.autoType);
+
+    // Use Promises to async request data
+    var promises = [d3.csv("data/titanic_data.csv", function(d) {
+      return { // Accessor function to convert strings to numbers, dates
+        // Date: new Date(d.Date), // convert column to Date
+        // Aircraft: d.Aircraft,
+        // Color: d.Color,
+        // KMH:  +d.KMH,
+      }
+    })];
+
+    myDataPromises = Promise.all(promises);
+
+    // After data is successfully fetched, generate viz
+    myDataPromises.then(function(data) {
+      // Define the data. There's gotta be a better way to do this:
+      var titanic = data[0];
+
+      var synthetic = {
+        width: width,
+        style: {
+          fontSize: size,
+          paddingLeft: 30
+        },
+        x: {
+          axis: null,
+        },
+        y: {
+          axis: null,
+        },
+        marks: [
+          Plot.rect(tb5, {
+            x1: "X1",
+            x2: "X2",
+            y1: "y1",
+            y2: "y2",
+            fill: '#eee',
+            title: d => `${d.Age}\n${d.Sex}\n${d.Class}\nTotal: ${d.value}`
+          }),
+
+          Plot.rect(tb6, {
+            x1: "X1",
+            x2: "X2",
+            y1: "Y1",
+            y2: "Y2",
+            fill: '#1E9B9E',
+            title: d => `${d.Age}\n${d.Sex}\n${d.Class}\nSurvived: ${d.survived}`
+          }),
+
+          Plot.rect(tb5, {
+            stroke: '#ccc',
+            x1: "X1",
+            x2: "X2",
+            y1: "y1",
+            y2: "y2",
+          }),
+
+          Plot.text([{
+            l: 'Adults',
+            y: 0.45
+          }, {
+            l: 'Children',
+            y: 0.95
+          }], {
+            x: 0,
+            dx: -10,
+            y: d => d.y,
+            fontWeight: "bold",
+            text: d => d.l,
+            textAnchor: "end",
+          }),
+
+          Plot.text([{
+            l: 'Females',
+            x: 0.1
+          }, {
+            l: 'Males',
+            x: 0.6
+          }], {
+            y: 1,
+            dy: -10,
+            x: d => d.x,
+            fontWeight: "bold",
+            text: d => d.l,
+            textAnchor: "middle",
+          }),
+
+          Plot.text([{
+                l: '1st',
+                x: 0.035
+              }, {
+                l: '2nd',
+                x: 0.09
+              }, {
+                l: '3rd',
+                x: 0.15
+              }, {
+                l: 'C',
+                x: 0.203
+              },
+              {
+                l: '1st',
+                x: 0.27
+              }, {
+                l: '2nd',
+                x: 0.35
+              }, {
+                l: '3rd',
+                x: 0.49
+              }, {
+                l: 'Crew',
+                x: 0.8
+              }
+            ], //todo: derive from tb5
+            {
+              y: 0,
+              dy: 10,
+              x: d => d.x,
+              fontWeight: "bold",
+              text: d => d.l,
+              textAnchor: "middle",
+            })
+        ],
+      };
+
+      var stacked = {
+        width: width,
+        marginLeft: 0,
+        marginRight: 0,
+        style: {
+          fontSize: size,
+          textTransform: "capitalize",
+          paddingTop: 20,
+          paddingBottom: 10,
+          paddingRight: 10,
+          paddingLeft: 30
+        },
+        x: {
+          // tickFormat: "%Y",
+          tickSize: 0,
+          tickRotate: 35,
+          nice: true,
+        },
+        y: {
+          grid: true,
+          // label: "↑ Unemployed (thousands)",
+          nice: true,
+          tickSize: 0,
+        },
+        color: {
+          type: "ordinal",
+          scheme: "Set2",
+          reverse: true,
+        },
+        marks: [
+          Plot.axisY({
+            tickSize: 0, // don’t draw ticks
+            dx: 2, // offset right
+            dy: -4, // offset up
+            lineAnchor: "bottom", // draw labels above grid lines
+          }),
+          Plot.rectY(titanic, Plot.binX({
+            y: "sum"
+          }, {
+            x: "class",
+            y: "unemployed",
+            fill: "industry",
+            tip: {
+              opacity: 0.8,
+              textPadding: 10,
+              lineHeight: 1.5,
+            },
+          }))
+        ]
+      };
+
+      document.getElementById("synthetic").appendChild(Plot.plot(synthetic));
+      document.getElementById("stacked").appendChild(Plot.plot(stacked));
+    });
+  </script>
+</body>
+
+</html>
