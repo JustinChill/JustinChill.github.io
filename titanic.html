@@ -76,8 +76,14 @@
         <li><strong>Embarked</strong>: Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton) - categorical.</li>
       </ul>
 
+      <h2>Lifeboats on the Titanic</h2>
       <h2>Stacked bar chart</h2>
-      <figure id="stacked"></figure>
+      <figure id="lifeboat_bars"></figure>
+      <figcaption>Data: <a href="https://cran.r-project.org/web/packages/titanic/readme/README.html">R project</a></figcaption>
+      <p>A basic stacked bar graph looking at the distribution of passengers by lifeboat. This chart clearly shows the distribution of passengers in each boat but fails to capture how many lifeboats were underutilized.</p>
+      
+      <h2>Diverging bar chart</h2>
+      <figure id="lifeboat_diverging"></figure>
       <figcaption>Data: <a href="https://cran.r-project.org/web/packages/titanic/readme/README.html">R project</a></figcaption>
     </article>
   </main>
@@ -133,14 +139,7 @@
   Female,Child,First Class,1,1,1,0.210336,0,0.210336,0.906489,1,1,0,0.022222,0,0.004674,0.906489,1`, d3.autoType);
 
     // Use Promises to async request data
-    var promises = [d3.csv("data/titanic_data.csv", function(d) {
-      return { // Accessor function to convert strings to numbers, dates
-        // Date: new Date(d.Date), // convert column to Date
-        // Aircraft: d.Aircraft,
-        // Color: d.Color,
-        // KMH:  +d.KMH,
-      }
-    })];
+    var promises = [d3.csv("data/titanic_data.csv", d3.autoType), d3.csv("data/titanic_lifeboats.csv", d3.autoType)];
 
     myDataPromises = Promise.all(promises);
 
@@ -148,12 +147,13 @@
     myDataPromises.then(function(data) {
       // Define the data. There's gotta be a better way to do this:
       var titanic = data[0];
+      var lifeboats = data[1];
 
       var synthetic = {
         width: width,
         style: {
           fontSize: size,
-          paddingLeft: 30
+          paddingLeft: 50
         },
         x: {
           axis: null,
@@ -167,7 +167,7 @@
             x2: "X2",
             y1: "y1",
             y2: "y2",
-            fill: '#eee',
+            fill: 'hsl(210, 36%, 96%)',
             title: d => `${d.Age}\n${d.Sex}\n${d.Class}\nTotal: ${d.value}`
           }),
 
@@ -176,7 +176,7 @@
             x2: "X2",
             y1: "Y1",
             y2: "Y2",
-            fill: '#1E9B9E',
+            fill: 'hsl(211, 39%, 23%)',
             title: d => `${d.Age}\n${d.Sex}\n${d.Class}\nSurvived: ${d.survived}`
           }),
 
@@ -201,6 +201,7 @@
             fontWeight: "bold",
             text: d => d.l,
             textAnchor: "end",
+            fill: "hsl(211, 39%, 23%)",
           }),
 
           Plot.text([{
@@ -216,6 +217,7 @@
             fontWeight: "bold",
             text: d => d.l,
             textAnchor: "middle",
+            fill: "hsl(211, 39%, 23%)",
           }),
 
           Plot.text([{
@@ -252,63 +254,64 @@
               fontWeight: "bold",
               text: d => d.l,
               textAnchor: "middle",
+              fill: "hsl(211, 39%, 23%)",
             })
         ],
       };
-
-      var stacked = {
+      console.log(lifeboats);
+      var lifeboat_bars = {
         width: width,
         marginLeft: 0,
         marginRight: 0,
         style: {
           fontSize: size,
           textTransform: "capitalize",
-          paddingTop: 20,
           paddingBottom: 10,
           paddingRight: 10,
-          paddingLeft: 30
+          paddingLeft: 40
         },
-        x: {
-          // tickFormat: "%Y",
-          tickSize: 0,
-          tickRotate: 35,
-          nice: true,
-        },
-        y: {
-          grid: true,
-          // label: "↑ Unemployed (thousands)",
-          nice: true,
-          tickSize: 0,
-        },
-        color: {
-          type: "ordinal",
-          scheme: "Set2",
-          reverse: true,
-        },
+        x: {tickFormat: Math.abs},
+        color: {domain: lifeboats.attribute, scheme: "RdBu", legend: true},
         marks: [
-          Plot.axisY({
-            tickSize: 0, // don’t draw ticks
-            dx: 2, // offset right
-            dy: -4, // offset up
-            lineAnchor: "bottom", // draw labels above grid lines
-          }),
-          Plot.rectY(titanic, Plot.binX({
-            y: "sum"
-          }, {
-            x: "class",
-            y: "unemployed",
-            fill: "industry",
-            tip: {
-              opacity: 0.8,
-              textPadding: 10,
-              lineHeight: 1.5,
-            },
-          }))
+          Plot.barX(
+            lifeboats,
+            Plot.groupZ({x: "count"}, {fy: "boat", fill: "attribute", tip:true, ...lifeboats})
+          ),
+          Plot.ruleX([0])
+        ]
+      };
+      
+      var lifeboat_diverging = {
+        width: width,
+        marginLeft: 0,
+        marginRight: 0,
+        style: {
+          fontSize: size,
+          textTransform: "capitalize",
+          paddingBottom: 10,
+          paddingRight: 10,
+          paddingLeft: 40
+        },
+        x: {tickFormat: Math.abs},
+        fy: {domain: d3.groupSort(lifeboats, D => d3.sum(D, d => -Math.min(0, d.value)), d => d.boat), label: null},
+        color: {domain: lifeboats.attribute, scheme: "RdBu", legend: true},
+        marks: [
+          Plot.barX(
+            lifeboats,
+            Plot.groupZ({x: "proportion-facet"}, {fy: "boat", 
+            fill: "attribute",
+            x: "value",
+            stroke: "#777",
+            strokeWidth: 0.5,
+          tip: true })
+          ),
+          Plot.ruleX([0])
         ]
       };
 
       document.getElementById("synthetic").appendChild(Plot.plot(synthetic));
-      document.getElementById("stacked").appendChild(Plot.plot(stacked));
+      document.getElementById("lifeboat_bars").appendChild(Plot.plot(lifeboat_bars));
+      document.getElementById("lifeboat_diverging").appendChild(Plot.plot(lifeboat_diverging));
     });
   </script>
 </body>
