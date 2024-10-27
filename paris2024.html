@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Paris 2024 Olympic Medals</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Paris 2024 Olympic medal count and data visualizations.">
+  <meta name="author" content="Justin Chill">
+  <!-- OpenGraph tags -->
+  <meta name="keywords" content="Olympics, data vis, chart, graph, Paris 2024">
+  <meta name="robots" content="all">
+  <meta content="en_US" property="og:locale">
+  <meta content="JustinChill" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="https://justinchill.com/paris2024.html" property="og:url">
+  <meta content="Paris 2024 Olympic Medals" property="og:title">
+  <meta content="Paris 2024 Olympic medal count and data visualizations." property="og:description">
+  <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
+  <link rel="canonical" href="https://www.justinchill.com/paris2024.html">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Paris 2024 Olympic Medals">
+  <meta name="twitter:description" content="Paris 2024 Olympic medal count and data visualizations.">
+
+  <link type="text/plain" href="humans.txt" rel="author">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="/favicon.ico">
+  <meta name="theme-color" content="#4C63B6">
+
+  <script type="module">
+    document.documentElement.classList.remove('no-js');
+    document.documentElement.classList.add('js');
+  </script>
+
+  <style type="text/css">
+
+  </style>
+</head>
+
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+
+  <main role="main">
+    <article>
+      <div class="article-hero mid-size">
+        <h2 class="article-category">Post</h2>
+        <h1 class="article-title">Paris 2024 Olympic Medals</h1>
+        <h2 class="article-subtitle">The U.S. leads overall with 126 medals, China came in second with 91.</h2>
+      </div>
+
+      <figure id="medals" aria-label=""></figure>
+      <p>The U.S. and China share the title for most golds at the 2024 Olympics; the U.S. leads overall with 126 medals, China came in second with 91.</p>
+
+    </article>
+  </main>
+  <footer>
+    <h2 id="footnote-label">Footnotes</h2>
+    <ol>
+      <li id="pivert"><a href="https://observablehq.com/@kpivert/the-economists-new-carrie-bradshaw-index">Kurtis Pivert's</a> rough draft on Observable inspired this.<a href="#pivert-ref" aria-label="Back to content">↩</a></li>
+    </ol>
+
+    <div>
+      <p>Justin Chill © 2024. Thanks&nbsp;for&nbsp;reading!</p>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code and feedback</a></span>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+
+  <script type="text/javascript">
+    var element = d3.select('figure').node();
+    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+    var size = 12;
+
+    // Use Promises to async request data
+    var promises = [d3.json("data/paris_olympic_medals.json")];
+
+    myDataPromises = Promise.all(promises);
+
+    // After data is successfully fetched, generate viz
+    myDataPromises.then(function(data) {
+
+      var medals = data[0];
+      const medalsCount = d3.rollup(medals, (D) => D.length, (d) => d.nocISO3);
+
+      console.log(medalsCount);
+      var maxTotalMedals = 126;
+      var dy = width < 480 ? 25 : 20;
+      const flagWidth = 20;
+      var sortTotalYDomain = medals.filter((d) => d.rankTotal <= 10)
+
+      var medals = {
+        width: width,
+        style: {
+          fontSize: size,
+        },
+        margin: 0,
+        className: "plot",
+        axis: null,
+        label: null,
+        x: {
+          domain: [0, maxTotalMedals],
+          insetLeft: 180,
+        },
+        y: {
+          padding: 0.2
+        },
+        color: {
+          legend: true,
+          domain: ["gold", "silver", "bronze"],
+          range: ["#f9cf12", "#b6b7b9", "#e5812c"]
+        },
+        marks: [
+          // NOC flags
+          Plot.image(
+            medals,
+            Plot.selectFirst({
+              src: "flagURL",
+              frameAnchor: "left",
+              y: "noc",
+              z: "noc",
+              width: flagWidth,
+              dx: 10,
+              className: "noc-flag"
+            })
+          ),
+          // Y-axis
+          Plot.axisY({
+            tickFormat: (y) => (y === "Great Britain" ? "Britain" : y),
+            tickSize: 0,
+            dx: flagWidth + 120,
+            className: "y-axis"
+          }),
+          // Waffle marks
+          Plot.waffleX(medals, {
+            x: "medals",
+            y: "noc",
+            fill: "medalType",
+            fillOpacity: 0.8,
+            stroke: "medalType",
+            strokeWidth: 2,
+            gap: 3,
+            rx: "100%"
+          }),
+          // Y-axis gridlines
+          Plot.gridY({
+            dy: dy
+          }),
+        ]
+      };
+
+      document.getElementById("medals").appendChild(Plot.plot(medals));
+    });
+  </script>
+</body>
+
+</html>
