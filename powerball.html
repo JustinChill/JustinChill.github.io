@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Play Powerball</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Play Powerball">
+  <meta name="author" content="Justin Chill">
+  <!-- OpenGraph tags -->
+  <meta name="keywords" content="game, powerball, lottery, fun">
+  <meta name="robots" content="all">
+  <meta content="en_US" property="og:locale">
+  <meta content="JustinChill" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="https://justinchill.com/powerball.html" property="og:url">
+  <meta content="Play Powerball" property="og:title">
+  <meta content="Play Powerball" property="og:description">
+  <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
+  <link rel="canonical" href="https://www.justinchill.com/powerball.html">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Play Powerball">
+  <meta name="twitter:description" content="Play Powerball">
+
+  <link type="text/plain" href="humans.txt" rel="author">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="/favicon.ico">
+  <meta name="theme-color" content="#4C63B6">
+
+  <style type="text/css">
+    .numbers{
+      margin-bottom: var(--spacer-4);
+    }
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .ball {
+      margin: 1px;
+      float: left;
+      height: 50px;
+      width: 50px;
+      background: white;
+      border-radius: 30px;
+      border: 1px solid black;
+      position: relative;
+      text-align: center;
+      font-size: 2em;
+      font-weight: bold;
+      line-height: calc(2.35rem + .25vw);
+    }
+
+    .ball:before {
+      content: "";
+      position: absolute;
+      top: 1%;
+      left: 5%;
+      width: 90%;
+      height: 90%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 0px, #ffffff, rgba(255, 255, 255, 0) 58%);
+      -webkit-filter: blur(5px);
+      z-index: 2;
+    }
+
+    .ball:after {
+      content: "";
+      position: absolute;
+      border-radius: 100%;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background: radial-gradient(circle at 50% 30%, rgba(245, 237, 48, 0), rgba(200, 190, 20, 0.2) 50%, #575300 100%);
+    }
+
+    #num6 {
+      background: red;
+      color: white;
+    }
+    p img {
+      float: left;
+      margin-right: var(--spacer-1);
+      max-width: 40%;
+      border-radius: 12px;
+    }
+    
+    /* For the button */
+    .pushable {
+      position: relative;
+      border: none;
+      background: transparent;
+      padding: 0;
+      cursor: pointer;
+      outline-offset: 4px;
+      transition: filter 250ms;
+      margin: var(--spacer-2) auto;
+      outline: none;
+    }
+    
+    .shadow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      background: hsl(0deg 0% 0% / 0.25);
+      will-change: transform;
+      transform: translateY(2px);
+      transition:
+        transform 600ms cubic-bezier(.3, .7, .4, 1);
+    }
+    
+    .edge {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      background: linear-gradient(to left,
+          hsl(262, 36%, 96%) 0%,
+          hsl(260, 4%, 67%) 8%,
+          hsl(260, 4%, 67%) 92%,
+          hsl(262, 36%, 96%) 100%);
+    }
+    
+    .front {
+      display: block;
+      position: relative;
+      padding: 12px 42px;
+      border-radius: 12px;
+      font-size: 1.25rem;
+      color: #3C3B3D;
+      background: hsl(266, 10%, 86%);
+      will-change: transform;
+      transform: translateY(-4px);
+      transition:
+        transform 600ms cubic-bezier(.3, .7, .4, 1);
+    }
+    
+    .pushable:hover {
+      filter: brightness(110%);
+    }
+    
+    .pushable:hover .front {
+      transform: translateY(-6px);
+      transition:
+        transform 250ms cubic-bezier(.3, .7, .4, 1.5);
+    }
+    
+    .pushable:active .front {
+      transform: translateY(-2px);
+      transition: transform 34ms;
+    }
+    
+    .pushable:hover .shadow {
+      transform: translateY(4px);
+      transition:
+        transform 250ms cubic-bezier(.3, .7, .4, 1.5);
+    }
+    
+    .pushable:active .shadow {
+      transform: translateY(1px);
+      transition: transform 34ms;
+    }
+    
+    .pushable:focus:not(:focus-visible) {
+      outline: none;
+    }
+  </style>
+
+</head>
+
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+  <main role="main">
+    <article>
+      <div class="article-hero">
+        <h2 class="article-category">Fun</h2>
+        <h1 class="article-title">Powerball</h1>
+        <h2 class="article-subtitle">Feeling lucky?</h2>
+      </div>
+      <p>The odds of winning the Powerball jackpot are 1 in 292,201,338. But someone has to win, right? To play Powerball, the rules are simple. Choose 5 numbers between 1 and 59, and then choose another number between 1 and 35 (the "Powerball").</p>
+
+      <section class="numbers">
+        <div class="row">
+          <div id="num1" class="ball"><span id="one"></span></div>
+          <div id="num2" class="ball"><span id="two"></span></div>
+          <div id="num3" class="ball"><span id="three"></span></div>
+          <div id="num4" class="ball"><span id="four"></span></div>
+          <div id="num5" class="ball"><span id="five"></span></div>
+          <div id="num6" class="ball"><span id="six"></span></div>
+        </div>
+        <div class="row">
+        <button id="powerball" class="pushable" id="start" onclick="start()">
+          <span class="shadow"></span>
+          <span class="edge"></span>
+          <span class="front">
+            Generate numbers
+          </span>
+        </button>
+        </div>
+      </section>
+      
+      <h2>Randomness in JavaScript</h2>
+      <p>In a game of chance it's crucial to generate random numbers.</p>      
+      <p><img src="https://uploads.sitepoint.com/wp-content/uploads/2022/09/1663565358random-numbers-js-768x435.jpg" loading="lazy"/>Unfortunately, it’s actually very hard to create a truly random value (unless you have access to some <a href="https://www.bbc.co.uk/bitesize/guides/zcynv9q/revision/7" rel="nofollow">radioactive material</a>, or a <a href="https://en.wikipedia.org/wiki/Infinite_monkey_theorem" rel="nofollow">monkey with a keyboard</a>, or even <a href="https://www.cloudflare.com/learning/ssl/lava-lamp-encryption/">a bunch of lava lamps</a>). To get around this, programming languages use deterministic methods to produce <strong>pseudo-random numbers</strong>. These are numbers that <em>appear</em> to be random, but are actually generated by functions that accept <em>seed values</em> based on events such as the time or position of the mouse pointer.</p>
+      <p>JavaScript has the <code>random</code> function, which is a method of the built-in <code>Math</code> object. The ECMAScript standard doesn’t specify how this function should generate a random number, so it’s left up to the browser vendors to implement. At the time of writing, all the major browsers currently use the <a href="https://en.wikipedia.org/wiki/Xoroshiro128%2B" rel="nofollow">xorshift128+</a> algorithm in the background to generate a pseudo-random number.</p>
+
+      <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.mlive.com%2Fresizer%2FZsVXkhOHvjLPcgRcYvrP_xla850%3D%2F1280x0%2Fsmart%2Fcloudfront-us-east-1.images.arcpublishing.com%2Fadvancelocal%2FWY277CP2M5BHNAJ4MXEHWJ6OKQ.png&f=1&nofb=1&ipt=8c7ca7bc658602e6b10a3e2883062c8e45af988936d65fe7d8ea90fae29b9c89&ipo=images" alt="The Powerball logo" />
+    </article>
+    <script>
+      var min = 1;
+      var max = 59;
+      const counters = document.querySelectorAll('.value');
+      const speed = 200;
+      window.addEventListener("load", random); // Show random numbers on page load
+      document.getElementById("powerball").addEventListener("click", random); // Generate new numbers when the page loads
+
+      function getLotteryNumbers(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min
+      }
+
+      function random() {
+        // Select each circle on the page
+        var one = document.getElementById('one');
+        var two = document.getElementById('two');
+        var three = document.getElementById('three');
+        var four = document.getElementById('four');
+        var five = document.getElementById('five');
+        var six = document.getElementById('six');
+
+        // Create a random number for each ball
+        var a = getLotteryNumbers(1, 59);
+        var b = getLotteryNumbers(1, 59);
+        var c = getLotteryNumbers(1, 59);
+        var d = getLotteryNumbers(1, 59);
+        var e = getLotteryNumbers(1, 59);
+        var f = getLotteryNumbers(1, 35);
+
+        // Add random numbers to each circle on the page
+        one.innerHTML = a;
+        two.innerHTML = b;
+        three.innerHTML = c;
+        four.innerHTML = d;
+        five.innerHTML = e;
+
+        // The Sixth number is the Powerball 
+        six.innerHTML = f;
+      }
+    </script>
+  </main>
+</body>
+
+</html>
