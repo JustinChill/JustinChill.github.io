@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Frontend Fundamentals: HTML</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Understanding Hypertext Markup Language.">
+  <meta name="author" content="Justin Chill">
+  <!-- OpenGraph tags -->
+  <meta name="keywords" content="data viz, web, developer, resources, help, tutorial">
+  <meta name="robots" content="all">
+  <meta content="en_US" property="og:locale">
+  <meta content="JustinChill" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="https://justinchill.com/HTML.html" property="og:url">
+  <meta content="Frontend Fundamentals: HTML" property="og:title">
+  <meta content="Understanding Hypertext Markup Language." property="og:description">
+  <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
+  <link rel="canonical" href="https://www.justinchill.com/HTML.html">
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Frontend Fundamentals: HTML">
+  <meta name="twitter:description" content="Understanding Hypertext Markup Language.">
+
+  <link type="text/plain" href="humans.txt" rel="author">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="/favicon.ico">
+  <meta name="theme-color" content="#4C63B6">
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet">
+
+  <script type="module">
+    document.documentElement.classList.remove('no-js');
+    document.documentElement.classList.add('js');
+  </script>
+
+  <style type="text/css">
+    pre {
+      width: auto;
+      border-radius: inherit;
+    }
+
+    pre:before {
+      content: none;
+    }
+
+    pre span {
+      font-family: inherit;
+      font-size: inherit;
+      letter-spacing: inherit;
+      line-height: inherit;
+    }
+    
+    p img {
+      float: left;
+      border-radius: 4px;
+      padding: var(--spacer-1);
+      width: 50%;
+    }
+
+    /**
+   * Coldark Theme for Prism.js
+   * Theme variation: Dark
+   * Tested with HTML, CSS, JS, JSON, PHP, YAML, Bash script
+   * @author Armand Philippot <contact@armandphilippot.com>
+   * @homepage https://github.com/ArmandPhilippot/coldark-prism
+   * @license MIT
+   */
+    code[class*="language-"],
+    pre[class*="language-"] {
+      color: #e3eaf2;
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.4);
+      background: none;
+      font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+      text-align: left;
+      white-space: pre;
+      word-spacing: normal;
+      word-break: normal;
+      word-wrap: normal;
+      line-height: 1.5;
+      -moz-tab-size: 4;
+      -o-tab-size: 4;
+      tab-size: 4;
+      -webkit-hyphens: none;
+      -moz-hyphens: none;
+      -ms-hyphens: none;
+      hyphens: none;
+    }
+
+    pre[class*="language-"]::-moz-selection,
+    pre[class*="language-"] ::-moz-selection,
+    code[class*="language-"]::-moz-selection,
+    code[class*="language-"] ::-moz-selection {
+      background: #3c526d;
+    }
+
+    pre[class*="language-"]::selection,
+    pre[class*="language-"] ::selection,
+    code[class*="language-"]::selection,
+    code[class*="language-"] ::selection {
+      background: #3c526d;
+    }
+
+    /* Code blocks */
+    pre[class*="language-"] {
+      line-height: 1.4;
+      padding: 1.25rem 1.5rem;
+      margin: .85rem 0;
+      border-radius: 6px;
+      overflow: auto;
+    }
+
+    :not(pre)>code[class*="language-"],
+    pre[class*="language-"] {
+      background: #111b27;
+    }
+
+    /* Inline code */
+    :not(pre)>code[class*="language-"] {
+      padding: 0.1em 0.3em;
+      border-radius: 0.3em;
+      white-space: normal;
+    }
+
+    .token.comment,
+    .token.prolog,
+    .token.doctype,
+    .token.cdata {
+      color: #8da1b9;
+    }
+
+    .token.punctuation {
+      color: #e3eaf2;
+    }
+
+    .token.delimiter.important,
+    .token.selector .parent,
+    .token.tag,
+    .token.tag .token.punctuation {
+      color: #66cccc;
+    }
+
+    .token.attr-name,
+    .token.boolean,
+    .token.boolean.important,
+    .token.number,
+    .token.constant,
+    .token.selector .token.attribute {
+      color: #e6d37a;
+    }
+
+    .token.class-name,
+    .token.key,
+    .token.parameter,
+    .token.property,
+    .token.property-access,
+    .token.variable {
+      color: #6cb8e6;
+    }
+
+    .token.attr-value,
+    .token.inserted,
+    .token.color,
+    .token.selector .token.value,
+    .token.string,
+    .token.string .token.url-link {
+      color: #91d076;
+    }
+
+    .token.builtin,
+    .token.keyword-array,
+    .token.package,
+    .token.regex {
+      color: #f4adf4;
+    }
+
+    .token.function,
+    .token.selector .token.class,
+    .token.selector .token.id {
+      color: #c699e3;
+    }
+
+    .token.atrule .token.rule,
+    .token.combinator,
+    .token.keyword,
+    .token.operator,
+    .token.pseudo-class,
+    .token.pseudo-element,
+    .token.selector,
+    .token.unit {
+      color: #e9ae7e;
+    }
+
+    .token.deleted,
+    .token.important {
+      color: #cd6660;
+    }
+
+    .token.keyword-this,
+    .token.this {
+      color: #6cb8e6;
+    }
+
+    .token.important,
+    .token.keyword-this,
+    .token.this,
+    .token.bold {
+      font-weight: bold;
+    }
+
+    .token.delimiter.important {
+      font-weight: inherit;
+    }
+
+    .token.italic {
+      font-style: italic;
+    }
+
+    .token.entity {
+      cursor: help;
+    }
+
+    .language-markdown .token.title,
+    .language-markdown .token.title .token.punctuation {
+      color: #6cb8e6;
+      font-weight: bold;
+    }
+
+    .language-markdown .token.blockquote.punctuation {
+      color: #f4adf4;
+    }
+
+    .language-markdown .token.code {
+      color: #66cccc;
+    }
+
+    .language-markdown .token.hr.punctuation {
+      color: #6cb8e6;
+    }
+
+    .language-markdown .token.url .token.content {
+      color: #91d076;
+    }
+
+    .language-markdown .token.url-link {
+      color: #e6d37a;
+    }
+
+    .language-markdown .token.list.punctuation {
+      color: #f4adf4;
+    }
+
+    .language-markdown .token.table-header {
+      color: #e3eaf2;
+    }
+
+    .language-json .token.operator {
+      color: #e3eaf2;
+    }
+
+    .language-scss .token.variable {
+      color: #66cccc;
+    }
+
+    /* overrides color-values for the Show Invisibles plugin
+   * https://prismjs.com/plugins/show-invisibles/
+   */
+    .token.token.tab:not(:empty):before,
+    .token.token.cr:before,
+    .token.token.lf:before,
+    .token.token.space:before {
+      color: #8da1b9;
+    }
+
+    /* overrides color-values for the Toolbar plugin
+   * https://prismjs.com/plugins/toolbar/
+   */
+    div.code-toolbar>.toolbar.toolbar>.toolbar-item>a,
+    div.code-toolbar>.toolbar.toolbar>.toolbar-item>button {
+      color: #111b27;
+      background: #6cb8e6;
+    }
+
+    div.code-toolbar>.toolbar.toolbar>.toolbar-item>a:hover,
+    div.code-toolbar>.toolbar.toolbar>.toolbar-item>a:focus,
+    div.code-toolbar>.toolbar.toolbar>.toolbar-item>button:hover,
+    div.code-toolbar>.toolbar.toolbar>.toolbar-item>button:focus {
+      color: #111b27;
+      background: #6cb8e6da;
+      text-decoration: none;
+    }
+
+    div.code-toolbar>.toolbar.toolbar>.toolbar-item>span,
+    div.code-toolbar>.toolbar.toolbar>.toolbar-item>span:hover,
+    div.code-toolbar>.toolbar.toolbar>.toolbar-item>span:focus {
+      color: #111b27;
+      background: #8da1b9;
+    }
+
+    /* overrides color-values for the Line Highlight plugin
+   * http://prismjs.com/plugins/line-highlight/
+   */
+    .line-highlight.line-highlight {
+      background: #3c526d5f;
+      background: linear-gradient(to right, #3c526d5f 70%, #3c526d55);
+    }
+
+    .line-highlight.line-highlight:before,
+    .line-highlight.line-highlight[data-end]:after {
+      background-color: #8da1b9;
+      color: #111b27;
+      box-shadow: 0 1px #3c526d;
+    }
+
+    pre[id].linkable-line-numbers.linkable-line-numbers span.line-numbers-rows>span:hover:before {
+      background-color: #8da1b918;
+    }
+
+    /* overrides color-values for the Line Numbers plugin
+   * http://prismjs.com/plugins/line-numbers/
+   */
+    .line-numbers.line-numbers .line-numbers-rows {
+      border-right: 1px solid #0b121b;
+      background: #0b121b7a;
+    }
+
+    .line-numbers .line-numbers-rows>span:before {
+      color: #8da1b9da;
+    }
+
+    /* overrides color-values for the Match Braces plugin
+   * https://prismjs.com/plugins/match-braces/
+   */
+    .rainbow-braces .token.token.punctuation.brace-level-1,
+    .rainbow-braces .token.token.punctuation.brace-level-5,
+    .rainbow-braces .token.token.punctuation.brace-level-9 {
+      color: #e6d37a;
+    }
+
+    .rainbow-braces .token.token.punctuation.brace-level-2,
+    .rainbow-braces .token.token.punctuation.brace-level-6,
+    .rainbow-braces .token.token.punctuation.brace-level-10 {
+      color: #f4adf4;
+    }
+
+    .rainbow-braces .token.token.punctuation.brace-level-3,
+    .rainbow-braces .token.token.punctuation.brace-level-7,
+    .rainbow-braces .token.token.punctuation.brace-level-11 {
+      color: #6cb8e6;
+    }
+
+    .rainbow-braces .token.token.punctuation.brace-level-4,
+    .rainbow-braces .token.token.punctuation.brace-level-8,
+    .rainbow-braces .token.token.punctuation.brace-level-12 {
+      color: #c699e3;
+    }
+
+    /* overrides color-values for the Diff Highlight plugin
+   * https://prismjs.com/plugins/diff-highlight/
+   */
+    pre.diff-highlight>code .token.token.deleted:not(.prefix),
+    pre>code.diff-highlight .token.token.deleted:not(.prefix) {
+      background-color: #cd66601f;
+    }
+
+    pre.diff-highlight>code .token.token.inserted:not(.prefix),
+    pre>code.diff-highlight .token.token.inserted:not(.prefix) {
+      background-color: #91d0761f;
+    }
+
+    /* overrides color-values for the Command Line plugin
+   * https://prismjs.com/plugins/command-line/
+   */
+    .command-line .command-line-prompt {
+      border-right: 1px solid #0b121b;
+    }
+
+    .command-line .command-line-prompt>span:before {
+      color: #8da1b9da;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+
+  <main role="main">
+    <article>
+      <div class="article-hero">
+        <h2 class="article-category">Frontend Fundamentals</h2>
+        <h1 class="article-title">Hypertext Markup Language</h1>
+        <h2 class="article-subtitle">Understanding HTML and the web</h2>
+      </div>
+      <p>Tim Berners-Lee, a British scientist, invented the World Wide Web (WWW) in 1989, while working at CERN. The web was originally conceived and developed to meet the demand for automated information-sharing between scientists in universities and institutes around the world.</p>
+      <p>Let's get one thing straight before we go any further: the Web and the <a href="internet.html">Internet</a> are two totally different things:</p>
+      <p><strong>The Internet</strong> is a worldwide network of <a href="howcomputerswork.html">computers</a>, linked mostly by <a href="telephone.html">telephone</a> lines; the Web is just one of many things (called applications) that can run on the Internet. When you send an email, you're using the Internet: the Net sends the words you write over telephone lines to your friends. When you chat to someone online, you're most likely using the Internet too—because it's the Net that swaps your messages back and forth. But when you update a blog or Google for information to help you write a report, you're using the Web <em>over</em> the Net. </p>
+      <p><strong>The Web</strong> is the worldwide collection of text pages, <a href="digitalcameras.html">digital photographs</a>, <a href="how-mp3players-work.html">music files</a>, videos, and animations you can access over the Internet. What makes the Web so special (and, indeed, gives it its name) is the way all this information is connected together. The basic building blocks of the Web are pages of text, like this one—<strong>Web pages</strong> as we call them. A collection of Web pages on the same computer is called a <strong>website</strong>. Every web page (including this one!) has highlighted phrases called <strong>links</strong> (or hypertext links) all over it. Clicking one of these takes you to another page on this website or another website entirely. So far, so simple!</p>
+      <h2>The Client-Server model</h2>      
+      <p><img src="https://cdn-images-1.medium.com/v2/resize:fit:1080/1*qzK0Z9vfDT4fVQu3G9OGPg.png" alt="The Client-Server model">The client-server model is a network architecture that describes how servers share resources and interact with network devices. For modern enterprises and <a href="https://www.serverwatch.com/servers/colocation-providers/" target="_blank" rel="noopener">data centers</a>, many servers facilitate processes like email, <a href="https://www.serverwatch.com/guides/print-server/" target="_blank" rel="noopener">printing</a>, internet connections, <a href="https://www.serverwatch.com/guides/application-server/" target="_blank" rel="noopener">application hosting</a>, and more.</p>
+      <p>The client-server model describes how network devices like workstations, laptops, and IoT devices — known as clients — make requests to network machines or software capable of completing the request, known as servers.</p>
+      <p>Though servers historically have been physical appliances like rack servers, data center trends show administrators increasingly deploy virtual servers for a range of workloads.</p>
+      <p>Most Internet services are of this client-server type. The action of visiting a website requires client-server architecture, since the web server (such as Wikipedia) serves the web pages to the browser (client). The user's computer and web browser would be considered a client. The computers, databases, and the uses that make up Wikipedia would be considered the server. When the user's web browser requests a particular Wikipedia article, the Wikipedia server collects all the information to be displayed in the Wikipedia database, articulates it on a web page, and sends it on to the client's web browser.</p>
+      <img src="https://assets.serverwatch.com/uploads/2021/07/The-Client-Server-Model-1024x571.png" alt="A diagram showing the client-server model" loading="lazy" />
+      <h2>URLs</h2>
+      <p>There was one more clever thing Berners-Lee thought of—and that was a way for any computer to locate information stored on any other computer. He suggested each web page should have something like a zip code, which he called a <strong>URL</strong> (a Universal or Uniform Resource Locator). The URL is the page address you see in the long bar at the top of your Web browser.</p>
+      <p>The address or URL of this page is:
+      <pre>https://www.JustinChill.com/HTML.html</pre>
+      </p>
+      <h3>URL scheme</h3>
+      <p>A URL is classified by its schema, which generally indicates the network protocol used to retrieve, through the network, the information of the identified resource. A URL begins with the name of its schema, followed by a colon, followed by a specific part of the schema. You'll recognize <strong>HTTP/s</strong>, but there are many different schemas available.</p>
+      <p>Some examples of URL schemes:</p>
+      <ul>
+        <li><strong>http </strong>- Hypertext Transfer Protocol (HTTP) resources.</li>
+        <li><strong>https </strong>- HTTP over Secure Sockets Layer (SSL).</li>
+        <li><strong>ftp </strong>- the File Transfer Protocol.</li>
+        <li><strong>mailto </strong>- email addresses.</li>
+        <li><strong>ldap </strong>- searches the Lightweight Directory Access Protocol (LDAP).</li>
+        <li><strong>file </strong>- resources available on the local system or on a local network.</li>
+        <li><strong>news </strong>- Usenet news groups (newsgroup).</li>
+        <li><strong>telnet </strong>- the Telnet protocol.</li>
+        <li><strong>data </strong>- the schema to insert small pieces of content into a document's data URI scheme</li>
+      </ul>
+      <h2>Web Servers</h2>
+      <p>A web server is software and hardware that uses&nbsp;<a href="https://www.techtarget.com/whatis/definition/HTTP-Hypertext-Transfer-Protocol">HTTP</a>&nbsp;(Hypertext Transfer Protocol) and other protocols to respond to <a href="https://www.techtarget.com/searchenterprisedesktop/definition/client">client</a> requests made over the World Wide Web. The main job of a web server is to display website content through storing, processing and delivering webpages to users. Besides HTTP, web servers also support <a href="https://www.techtarget.com/whatis/definition/SMTP-Simple-Mail-Transfer-Protocol">SMTP</a> (Simple Mail Transfer Protocol) and FTP (File Transfer Protocol), used for email, file transfer and storage.</p>
+      <p>Web server <em>hardware</em> is connected to the internet and allows data to be exchanged with other connected devices, while web server <em>software</em> controls how a user accesses hosted files. The web server process is an example of the&nbsp;<a href="https://www.techtarget.com/searchnetworking/definition/client-server">client/server</a>&nbsp;model. All computers that host websites must have web server software.</p>
+
+      <h2>The Frontend</h2>
+      <p>The front end is what you see on the screen — menus, graphics, and other features. You’ll also see the front end called the client-side because that’s who is interacting with it. Front-end developers are primarily responsible for the site’s appearance.</p>
+      <p>A front-end developer uses code that affects how a website looks and how a user interacts with its webpages. That includes simple elements such as buttons that take a visitor to different places within the website, as well as input methods, like a contact form. The programming languages that a front-end developer uses can create a static webpage or a dynamic one. Programming languages they use include:</p>
+      <ul>
+        <li>
+          <p><code>HTML</code> - hypertext markup language, tags are used that structure and organize the content of the web.</p>
+        </li>
+        <li>
+          <p><code>CSS</code> - cascading style sheets, responsible for the format and visual design of the web pages (written in html).</p>
+        </li>
+        <li>
+          <p><code>Javascript</code> - a programming language that can add dynamism to a website.</p>
+        </li>
+      </ul>
+      <aside>
+        <p>Note: HTML and CSS are markup and style languages. Javascript is a programming language.</p>
+      </aside>
+
+      <h2>What is HTML?</h2>
+      <p>HTML is the standard markup language for creating web pages.</p>
+      <ul>
+        <li>HTML stands for Hyper Text Markup Language</li>
+        <li>HTML is the standard markup language for creating web pages.</li>
+        <li>HTML describes the structure of a web page.</li>
+        <li>HTML consists of a series of elements, like <code>tables</code> and <code>images</code>.</li>
+        <li>HTML elements tell the browser how to display content.</li>
+      </ul>
+      <h3>A simple HTML document</h3>
+      <div class="language-html">
+        <pre class="language-html"><code><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">&gt;</span></span>Page Title<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">&gt;</span></span>
+      
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">&gt;</span></span>My First Heading<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span>My first paragraph.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+      
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">&gt;</span></span>
+      </code></pre>
+      </div>
+      <h3>Example explained</h3>
+      <ul>
+        <li>The <strong><code>&lt;!DOCTYPE html&gt;</code></strong> declaration defines this document is an HTML5 document.</li>
+        <li>The <strong><code>&lt;html&gt;</code></strong> element is the root, or first, element of an HTML page.</li>
+        <li>The <strong><code>&lt;head&gt;</code></strong> element contains meta information about the HTML page.</li>
+        <li>The <strong><code>&lt;title&gt;</code></strong> element specifies a title for the HTML page (which is displayed in the title bar of the browser or the page tab)</li>
+        <li>The <strong><code>&lt;body&gt;</code></strong> element defines the body of the document and is generally the container for all visible elements.</li>
+        <li>The <strong><code>&lt;h1&gt;</code></strong> element defines a header level one (1).</li>
+        <li>The <strong><code>&lt;p&gt;</code></strong> element defines a paragraph element.</li>
+      </ul>
+      <h2>What is an HTML element?</h2>
+      <p>An HTML element is defined by a start tag, some content, and an end tag. They may include attributes to offer additional information about their content.</p>
+      <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.tutorialrepublic.com%2Flib%2Fimages%2Fhtml-element.png&f=1&nofb=1&ipt=b8372f282aacd7b0257392ef3ada5a60e2da064e8f3ee671005bbfe2eb890344&ipo=images" loading="lazy" alt="An example HTML element" />
+      <h3>Structure</h3>
+      <p>To create a site or a web application, the first thing we must do is write the HTML code that defines the structure of each page.</p>
+      <p>All HTML documents must start with a document type declaration: <code>&lt;!DOCTYPE html&gt;</code>.</p>
+      <p>The HTML document itself begins with <code>&lt;html&gt;</code> and ends with <code>&lt;/html&gt;</code>.</p>
+      <h2>Text and formatting</h2>
+      <h3>Headlines</h3>
+      <p>HTML headers are titles or subtitles that you want to display on a web page.</p>
+      <div class="language-html">
+        <pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">&gt;</span></span>Heading 1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span><span class="token punctuation">&gt;</span></span>Heading 2<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span><span class="token punctuation">&gt;</span></span>Heading 3<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h3</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h4</span><span class="token punctuation">&gt;</span></span>Heading 4<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h4</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h5</span><span class="token punctuation">&gt;</span></span>Heading 5<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h5</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h6</span><span class="token punctuation">&gt;</span></span>Heading 6<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h6</span><span class="token punctuation">&gt;</span></span>
+      </code></pre>
+      </div>
+      <p>Titles are important because search engines use titles to index the structure and content of their web pages.</p>
+      <p>Users often flip through a page for their titles. It is important to use titles to show the structure of the document.</p>
+      <h3>Paragraphs</h3>
+      <div class="language-html">
+        <pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span>This is a paragraph.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span>This is another paragraph.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+      </code></pre>
+      </div>
+      <h3>Span</h3>
+      <p>An HTML tag without any specific meaning. Commonly used together with the attributes <code>class</code> or <code>id</code> to help target elements and add unique characteristics.</p>
+      <div class="language-html">
+        <pre class="language-html"><code>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span> This is a paragraph, blah, blah, blah. <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span> This is another paragraph, <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">&gt;</span></span>blah, blah, blah.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+      </code></pre>
+      </div>
+      <h3>Horizontal rules</h3>
+      <p>The <code>&lt;hr&gt;</code> element is used to separate content (or define a change) in an HTML page</p>
+      <div class="language-html">
+        <pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">&gt;</span></span>This is heading 1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span>This is some text.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hr</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span><span class="token punctuation">&gt;</span></span>This is heading 2<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span>This is some other text.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hr</span><span class="token punctuation">&gt;</span></span>
+      </code></pre>
+      </div>
+      <h3>Line breaks</h3>
+      <p>The <code>&lt;br&gt;</code> HTML element defines a line break. Use <code>&lt;br&gt;</code> if you want a line break (a new line) without starting a new paragraph.</p>
+      <div class="language-html">
+        <pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span>This is<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>br</span><span class="token punctuation">&gt;</span></span>a paragraph<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>br</span><span class="token punctuation">&gt;</span></span>with line breaks.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+      </code></pre>
+      </div>
+      <h3>Pre-formatted text</h3>
+      <p>The <code>&lt;pre&gt;</code> HTML element defines pre-formatted text. The text within a <code>&lt;pre&gt;</code> element is displayed in a fixed-width font (usually Courier), and it preserves both spaces and line breaks.</p>
+      <div class="language-html">
+        <pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>pre</span><span class="token punctuation">&gt;</span></span>
+        My Bonnie lies over the ocean.
+      
+        My Bonnie lies over the sea.
+      
+        My Bonnie lies over the ocean.
+      
+        Oh, bring back my Bonnie to me.
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>pre</span><span class="token punctuation">&gt;</span></span>
+      </code></pre>
+      </div>
+      <h3>Formatting</h3>
+      <p>The formatting elements were designed to display special types of text:</p>
+      <ul>
+        <li><strong><code>&lt;b&gt;</code></strong> - The Bring Attention To element. Should not be used for styling text or signifying importance (<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/b">MDN</a>)</li>
+        <li><strong><code>&lt;strong&gt;</code></strong> - important text</li>
+        <li><strong><code>&lt;i&gt;</code></strong> - The Idiomatic Text element. Should not be used for italics (<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/i">MDN</a>).</li>
+        <li><strong><code>&lt;em&gt;</code></strong> - Text emphasized</li>
+        <li><strong><code>&lt;mark&gt;</code></strong> - Marked text</li>
+        <li><strong><code>&lt;small&gt;</code></strong> - Smaller text</li>
+        <li><strong><code>&lt;del&gt;</code></strong> - deleted text</li>
+        <li><strong><code>&lt;ins&gt;</code></strong> - inserted text</li>
+        <li><strong><code>&lt;sub&gt;</code></strong> - Subscript text</li>
+        <li><strong><code>&lt;sup&gt;</code></strong> - Superscript text</li>
+      </ul>
+      <div class="language-html">
+        <pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>b</span><span class="token punctuation">&gt;</span></span>This text is bold<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>b</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>strong</span><span class="token punctuation">&gt;</span></span>This text is strong<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>strong</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>i</span><span class="token punctuation">&gt;</span></span>This text is italic<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>i</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>em</span><span class="token punctuation">&gt;</span></span>This text is emphasized<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>em</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>small</span><span class="token punctuation">&gt;</span></span>This is some smaller text.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>small</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span>This is<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>sub</span><span class="token punctuation">&gt;</span></span> subscript<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>sub</span><span class="token punctuation">&gt;</span></span> and <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>sup</span><span class="token punctuation">&gt;</span></span>superscript<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>sup</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span>My favorite color is <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>del</span><span class="token punctuation">&gt;</span></span>blue<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>del</span><span class="token punctuation">&gt;</span></span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ins</span><span class="token punctuation">&gt;</span></span>red<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ins</span><span class="token punctuation">&gt;</span></span>.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+      </code></pre>
+      </div>
+      <h2>Lists</h2>
+      <p>HTML lists allow web developers to group a set of related items into lists.</p>
+      <h3>Unordered Lists</h3>
+      <p>An unordered list starts with the <code>&lt;ul&gt;</code> tag. Each list item starts with the <code>&lt;li&gt;</code> tag.</p>
+      <p>Items in the list will be marked with bullets (small black circles) by default.</p>
+      <div class="language-html">
+        <pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">&gt;</span></span>Coffee<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">&gt;</span></span>Tea<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">&gt;</span></span>Milk<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">&gt;</span></span>
+      </code></pre>
+      </div>
+      <h3>Ordered Lists</h3>
+      <p>An ordered list starts with the <code>&lt;ol&gt;</code> tag. Each list item starts with the <code>&lt;li&gt;</code> tag.</p>
+      <p>Items in the list will be marked with numbers by default:</p>
+      <div class="language-html">
+        <pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ol</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">&gt;</span></span>Coffee<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">&gt;</span></span>Tea<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">&gt;</span></span>Milk<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ol</span><span class="token punctuation">&gt;</span></span>
+      </code></pre>
+      </div>
+      <h3>Description lists</h3>
+      <p>A description list is a list of terms, with a description of each term. The <code>&lt;dl&gt;</code> tag defines the description list, the <code>&lt;dt&gt;</code> tag defines the term (name), and the <code>&lt;dd&gt;</code> tag describes each term.</p>
+      <div class="language-html">
+        <pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dl</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dt</span><span class="token punctuation">&gt;</span></span>Coffee<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dt</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dd</span><span class="token punctuation">&gt;</span></span>- black hot drink<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dd</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dt</span><span class="token punctuation">&gt;</span></span>Milk<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dt</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dd</span><span class="token punctuation">&gt;</span></span>- white cold drink<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dd</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dl</span><span class="token punctuation">&gt;</span></span>
+      </code></pre>
+      </div>
+      <h2>Hyperlinks</h2>
+      <p>Links are found on almost all web pages. Links allow users to click to travel from one page to another.</p>
+      <p>A link does not have to be text. A link can be an image or any other HTML element!</p>
+      <h3>Syntax</h3>
+      <div class="language-html">
+        <pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>url<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>link text<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+      </code></pre>
+      </div>
+      <p>This example shows how to create a link to JustinChill.com:</p>
+      <div class="language-html">
+        <pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://www.JustinChill.com/<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Visit JustinChill.com!<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+      </code></pre>
+      </div>
+      <h3>Destination attribute</h3>
+      <p>By default, the linked page will be displayed in the current browser window. To change this, you must specify another destination for the link.</p>
+      <ul>
+        <li><strong><code>_self</code></strong> Open the document in the same window or tab that was clicked. Default option.</li>
+        <li><strong><code>_blank</code></strong> Open the document in a new window or tab.</li>
+        <li><strong><code>_parent</code></strong> Open the document in the main frame.</li>
+        <li><strong><code>_top</code></strong> Open the document throughout the window.</li>
+      </ul>
+      <div class="language-html">
+        <pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://www.w3schools.com/<span class="token punctuation">"</span></span> <span class="token attr-name">target</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>_blank<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Visit W3Schools!<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+      </code></pre>
+      </div>
+      <h3>Link titles</h3>
+      <p>The title attribute adds extra information about an element. The information is displayed when the mouse moves over the link.</p>
+      <div class="language-html">
+        <pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://www.w3schools.com/html/<span class="token punctuation">"</span></span> <span class="token attr-name">title</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Go to W3Schools HTML section<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Visit our HTML Tutorial<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+      </code></pre>
+      </div>
+      <h3>Absolute URLs versus relative URLs</h3>
+      <p>Both of the above examples use an absolute URL (a complete web address) in the href attribute.</p>
+      <p>A local link (a link to a page within the same website) is specified with a relative URL (without the part "https: // www")</p>
+      <div class="language-html">
+        <pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span><span class="token punctuation">&gt;</span></span>Absolute URLs<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://www.w3.org/<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>W3C<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://www.google.com/<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Google<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+      
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h2</span><span class="token punctuation">&gt;</span></span>Relative URLs<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h2</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>html_images.asp<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>HTML Images<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/css/default.asp<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>CSS Tutorial<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+      </code></pre>
+      </div>
+      <h3>An image as link</h3>
+      <p>To use an image as a link, simply place an <code>&lt;img&gt;</code> tag within a <code>&lt;a&gt;</code> tag.</p>
+      <div class="language-html">
+        <pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>default.asp<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>smiley.gif<span class="token punctuation">"</span></span> <span class="token attr-name">alt</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>HTML tutorial<span class="token punctuation">"</span></span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">width</span><span class="token punctuation">:</span>42px<span class="token punctuation">;</span><span class="token property">height</span><span class="token punctuation">:</span>42px<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+      </code></pre>
+      </div>
+      <h3>Link to an email address</h3>
+      <p>Use <code>mailto:</code> within the attribute <code>href</code> to create a link that will open user's default e-mail program and compose a new email.</p>
+      <div class="language-html">
+        <pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>mailto:BarackObama@Whitehouse.gov<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Send thanks<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+      </code></pre>
+      </div>
+      <h3>Button as a link</h3>
+      <p>To use an HTML button as a link, you must add some JavaScript code.</p>
+      <p>JavaScript allows you to specify what happens in certain events, such as when a button is pressed.</p>
+      <div class="language-html">
+        <pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token special-attr"><span class="token attr-name">onclick</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value javascript language-javascript">document<span class="token punctuation">.</span>location<span class="token operator">=</span><span class="token string">'default.asp'</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">&gt;</span></span>HTML Tutorial<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span>
+      </code></pre>
+      </div>
+      <h2>Images</h2>
+      <p>Images can improve the design and appearance of a web page.</p>
+      <div class="language-html">
+        <pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>monalisa.jpg<span class="token punctuation">"</span></span> <span class="token attr-name">alt</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Mona Lisa<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      </code></pre>
+      </div>
+      <h3>Syntax</h3>
+      <p>The <code>&lt;img&gt;</code> tag is used to embed an image in a web page. The images are not technically inserted in a web page; rather, the images are linked to web pages. The label <code>&lt;img&gt;</code> creates a space on the page waiting for the reference image.</p>
+      <p>Unlike other HTML elements, the <code>&lt;img&gt;</code> tag is self-closing, and does not have a <code>&lt;/img&gt;</code> closing tag.</p>
+
+      <h3>Images saved in a folder</h3>
+      <p>If you have your images in a subfolder, you must include the folder name in the <strong><code>src</code></strong> attribute.</p>
+      <div class="language-html">
+        <pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/images/html5.gif<span class="token punctuation">"</span></span> <span class="token attr-name">alt</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>HTML5 Icon<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      </code></pre>
+      </div>
+      <h3>Images on another server / website</h3>
+      <p>To point to an image on another server, you must specify an absolute (full) URL in the<strong><code>src</code></strong> attribute.</p>
+      <div class="language-html">
+        <pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://www.w3schools.com/images/w3schools_green.jpg<span class="token punctuation">"</span></span> <span class="token attr-name">alt</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>W3Schools.com<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      </code></pre>
+      </div>
+      <h3>Common image formats</h3>
+      <p>These are the most common image file types, which are compatible with all browsers:</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Abbreviation</th>
+            <th>File format</th>
+            <th>File extension</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>GIF</td>
+            <td>Graphics Interchange Format</td>
+            <td>.gif</td>
+          </tr>
+          <tr>
+            <td>ICO</td>
+            <td>Microsoft Icon</td>
+            <td>.ico, .cur</td>
+          </tr>
+          <tr>
+            <td>JPEG</td>
+            <td>Joint Photographic Expert Group image</td>
+            <td>.jpg, .jpeg, .jfif, .pjpeg, .pjp</td>
+          </tr>
+          <tr>
+            <td>PNG</td>
+            <td>Portable Network Graphics</td>
+            <td>.png</td>
+          </tr>
+          <tr>
+            <td>SVG</td>
+            <td>Scalable Vector Graphics</td>
+            <td>.svg</td>
+          </tr>
+          <tr>
+            <td>WebP</td>
+            <td>WebP, developed by <a href="https://en.wikipedia.org/wiki/WebP">Google</a></td>
+            <td>.webp</td>
+          </tr>
+        </tbody>
+      </table>
+      <h2>Tables</h2>
+      <p>Tables allow web developers to organize data into rows and columns.</p>
+      <p>An HTML table consists of table cells within rows and columns. Each cell of the table is defined by a <code>&lt;td&gt;</code>, or table data, tag. Each row of the table start with a <code>&lt;tr&gt;</code> tag.</p>
+      <div class="language-html">
+        <pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>table</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">&gt;</span></span>Company<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">&gt;</span></span>Contact<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">&gt;</span></span>Country<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">&gt;</span></span>Alfreds Futterkiste<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">&gt;</span></span>Maria Anders<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">&gt;</span></span>Germany<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">&gt;</span></span>Centro comercial Moctezuma<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">&gt;</span></span>Francisco Chang<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">&gt;</span></span>Mexico<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>table</span><span class="token punctuation">&gt;</span></span>
+      </code></pre>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Tag</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong><code>&lt;table&gt;</code></strong></td>
+            <td>Define a new table</td>
+          </tr>
+          <tr>
+            <td><strong><code>&lt;th&gt;</code></strong></td>
+            <td>Defines a header cell in a table</td>
+          </tr>
+          <tr>
+            <td><strong><code>&lt;tr&gt;</code></strong></td>
+            <td>Define a row in a table</td>
+          </tr>
+          <tr>
+            <td><strong><code>&lt;td&gt;</code></strong></td>
+            <td>Define a cell in a table</td>
+          </tr>
+          <tr>
+            <td><strong><code>&lt;caption&gt;</code></strong></td>
+            <td>Define a table caption</td>
+          </tr>
+          <tr>
+            <td><strong><code>&lt;colgroup&gt;</code></strong></td>
+            <td>Specifies a group of one or more columns for formatting</td>
+          </tr>
+          <tr>
+            <td><strong><code>&lt;col&gt;</code></strong></td>
+            <td>Specifies column properties for each column within a <strong><code>&lt;colgroup&gt;</code></strong> element</td>
+          </tr>
+          <tr>
+            <td><strong><code>&lt;thead&gt;</code></strong></td>
+            <td>Groups the header content in a table</td>
+          </tr>
+          <tr>
+            <td><strong><code>&lt;tbody&gt;</code></strong></td>
+            <td>Groups the body content in a table</td>
+          </tr>
+          <tr>
+            <td><strong><code>&lt;tfoot&gt;</code></strong></td>
+            <td>Groups the footer content in a table</td>
+          </tr>
+        </tbody>
+      </table>
+      <h2>Forms</h2>
+      <p>Web forms are one of the main points of interaction between a user and a website or application. Forms allow users to enter data, which is usually sent to a web server for processing and storage.</p>
+      <p>The <code>form</code> tag defines the container for the form. It supports some specific attributes to configure the way the form behaves. All its attributes are optional, but it is best  practice to always establish at least the action and method attributes:</p>
+      <div class="language-html">
+        <pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span> <span class="token attr-name">action</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span> <span class="token attr-name">method</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">&gt;</span></span>
+      </code></pre>
+      </div>
+      <h3>The &lt;input&gt; Element</h3>
+      <p>The HTML <code>&lt;input&gt;</code> element is the most used form element. </p>
+      <p>An <code>&lt;input&gt;</code> element can be displayed in many ways, depending on the <code>type</code> attribute.</p>
+      <ul>
+        <li><code>type</code> data that the input will receive.</li>
+        <li><code>placeholder</code> help text for the user.</li>
+        <li><code>id</code> a unique identifier.</li>
+        <li><code>name</code> the name of the input. Each input field must have a <code>name</code> attribute to be submitted.</li>
+      </ul>
+      <div class="language-html">
+        <pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>course<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Name your class<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>course<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      </code></pre>
+      </div>
+      <h3>Label</h3>
+      <p>Additional text that describes the input is why it has the for attribute where we enter the input id.</p>
+      <div class="language-html">
+        <pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>course<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Course: <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">&gt;</span></span>
+      </code></pre>
+      </div>
+      <h3>Button</h3>
+      <p>A button to process our form that is why it has the attribute submit</p>
+      <div class="language-html">
+        <pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>submit<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Submit<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span>
+      </code></pre>
+      </div>
+      <h3>A complete form</h3>
+      <div class="language-html">
+        <pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span> <span class="token attr-name">action</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>receive.html<span class="token punctuation">"</span></span> <span class="token attr-name">method</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>GET<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>course<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Curso: <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>course<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Enter your course<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>course<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>submit<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Submit<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">&gt;</span></span>
+      </code></pre>
+      </div>
+      <h2>Semantic HTML</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Tag</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong><code>&lt;header&gt;</code></strong></td>
+            <td>It represents a group of introductory or navigation aids.</td>
+          </tr>
+          <tr>
+            <td><strong><code>&lt;nav&gt;</code></strong></td>
+            <td>Section of a page that links to other pages or parts of it.</td>
+          </tr>
+          <tr>
+            <td><strong><code>&lt;aside&gt;</code></strong></td>
+            <td>Section of a page that contains content related tangentially to that around it.</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>They are usually used as side bars.</td>
+          </tr>
+          <tr>
+            <td><strong><code>&lt;main&gt;</code></strong></td>
+            <td>It represents the predominant content of the page.</td>
+          </tr>
+          <tr>
+            <td><strong><code>&lt;article&gt;</code></strong></td>
+            <td>It represents a section of content that can be distributed independently.</td>
+          </tr>
+          <tr>
+            <td><strong><code>&lt;section&gt;</code></strong></td>
+            <td>Represents a generic section of a page. It groups content that has a thematic relationship with each other.</td>
+          </tr>
+          <tr>
+            <td><strong><code>&lt;footer&gt;</code></strong></td>
+            <td>Represents a footer for the item that contains it. Usually contains information about who wrote it, links to related documents, copyright data or similar</td>
+          </tr>
+        </tbody>
+      </table>
+      <h2>The DOM</h2>
+      <p>The Document Object Model, or <strong>DOM</strong>, is how a web browser represents a web page internally. The DOM determines what content should be on a page and how each element of the content relates to the other elements. Let’s look at each word of the acronym.</p>
+      <h3>Document</h3>
+      <p>We can think of a document as a way to structure information, including articles, books, and scientific papers. For Web Developers, a document is a name for a web page, and they consider the DOM as a model for all the stuff on the web page. The DOM calls this stuff objects.</p>
+      <h3>Object</h3>
+      <p>The “stuff” on web pages are objects and are sometimes called elements or nodes. Here are some objects you may run into on a web page:</p>
+      <ul>
+      <li><strong>Content.</strong> The most obvious objects on a web page are the content. These can include words, videos, images, and more.</li>
+      <li><strong>Structural elements.</strong> These include divs, containers, and sections. You may not see these elements, but you see how they affect the visible elements because they organize those elements on the web page.</li>
+      <li><strong>Attributes.</strong> Every element on a web page has attributes. These include classes, styles, and sizes, for example. These are objects in the DOM, but they’re not elements like the content and structural elements.</li>
+      </ul>
+      <h3>Model</h3>
+      <p>A model is a representation of something, and it helps us understand how something is put together. There are models for many things that need to be universally understood, analyzed, and used.</p>
+      <p>One example of a model being used is for instructions. Blueprints, floor plans, and IKEA directions are all examples of this kind of model. They show the object being modeled with enough detail that it can be recreated.<a href="#DOM" aria-describedby="footnote-label" id="DOM-ref"></a></p>
+      <p>Another example of a model is a description. This type of model is used to simplify big ideas or complex systems so they can be understood more easily. These types of models help us to understand things like our galaxy.</p>
+      <p>The <strong>DOM</strong> is a model for web pages. It acts as a set of instructions for web browsers.</p>
+      <img src="https://media.geeksforgeeks.org/wp-content/uploads/20210908120846/DOM.png" alt="Document Object Model">
+    </article>
+  </main>
+  <footer>
+    <h2 id="footnote-label">Footnotes</h2>
+    <ol>
+      <li id="DOM">Reference: <a href="https://www.codecademy.com/resources/blog/what-is-dom/">Stephen Miller, <em>What Is DOM?</em></a> <a href="#DOM-ref" aria-label="Back to content">↩</a></li>
+    </ol>
+
+    <div>
+      <p>Justin Chill © 2024. Thanks&nbsp;for&nbsp;reading!</p>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code and feedback</a></span>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+
+</html>

@@ -60,6 +60,36 @@
       width: 100%;
     }
 
+    #product-container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    #product-container .product-card {
+      max-width: 30%;
+      border: 1px solid gray;
+      border-radius: 4px;
+      padding: 4px;
+      margin-right: var(--spacer-1);
+    }
+
+    .product-card h4 {
+      font-size: 1.5rem;
+    }
+
+    .product-card .rating {
+      display: inline-block;
+    }
+
+    .product-card .price:before {
+      content: "$";
+    }
+
+    .product-card .price {
+      font-weight: bold;
+      font-size: 1rem;
+    }
+
     /* Responsive layout - makes a two column-layout instead of four columns */
     @media screen and (max-width: 800px) {
       .column {
@@ -79,7 +109,7 @@
 
 </head>
 
-<body>
+<body onload="loadCards()">
   <nav class="nav">
     <div class="nav__list">
       <a href="index.html" class="nav__item">Home</a>
@@ -106,14 +136,11 @@
       <h2>Words you may have heard</h2>
       <h3>Endpoint</h3>
       <p>Endpoints mean the different kinds of urls in your api ends with. They are associated with the GET, POST, PUT, DELETE methods of your APIs.</p>
-      <img src="https://public-apis.io/static/948da6cf2aed90ec9e7ad54d7174b924/01267/endpoint.png" alt="endpoint" loading="lazy">
       <h3>Routes</h3>
       <p>These mean the paths of your API endpoint.</p>
-      <img src="https://public-apis.io/static/2b81ca9902929dc794adefc18a9afb04/02cd5/routes.png" alt="endpoint" loading="lazy">
 
       <h3>Query Params</h3>
       <p>The parameters that are appended to your endpoint with a ? in the url. Its a way to send simple data to your api. In this example, <b>sort</b> is the query parameter and it&#39;s <b>value</b> is name:</p>
-      <img src="https://public-apis.io/static/5f0f1bf30a256e6a9a53490e072edaf2/ad12c/queryparam.png" alt="endpoint" loading="lazy">
 
       <h3>REST</h3>
       <p>Stands for Representational State Transfer. The modern standard for making APIs. Most people confuse this as a technology, but actually this is more of a concept, a standard set of best practices to make APIs.</p>
@@ -132,41 +159,24 @@
       <h3>Delete method</h3>
       <p>Used for deleting something in your database. Pretty self explanatory, this one. NOTE: It is not strictly necessary to use PUT to update and DELETE to delete something from your sever. However, using PUT and DELETE is more readable and semantic way of using methods. This is the D in CRUD.</p>
 
-      <div class="container">
-        <div class="row text-center">
-          <div class="col-md-10 offset-md-1">
-            <p id="dogInfo"></p>
-            <div class="alert alert-danger" role="alert"></div>
-            <div id="randomImageContainer"></div>
-            <p class="dogInfo h5">Random image of a...</p>
-            <button class="btn btn-primary random">Random Doggo!</button>
-          </div>
+      <h3>Fake store</h3>
+      <p>The FakeStoreAPI is a free, public API that provides simulated e-commerce data. It offers endpoints for fetching product information, categories, user data, and more. As a mock API, it allows developers to test and develop e-commerce applications without relying on real-world backend systems.</p>
+      <h4>Benefits of Using the FakeStoreAPI</h4>
+      <ol>
+        <li><strong>Realistic Simulation</strong>: The FakeStoreAPI provides realistic product data, including images, descriptions, prices, and categories. It allows you to create a compelling user experience by populating your app with diverse and engaging products.</li>
+        <li><strong>Ease of Use</strong>: The API is straightforward to work with, as it follows RESTful principles. You can easily make HTTP requests to fetch data using popular Flutter packages like http or dio.</li>
+        <li><strong>No Backend Setup</strong>: Since the FakeStoreAPI is already set up and publicly accessible, you don’t need to spend time creating your own backend or managing databases. This streamlines the development process, allowing you to focus on building the frontend of your e-commerce app.</li>
+      </ol>
+
+      <h2>Example products</h2>
+      <button onclick="sortAscending()">Sort By Price Ascending</button>
+      <button onclick="sortDescending()">Sort By Price Descending</button>
+      <section>
+        <div id="product-container">
+          <div class="product-card"></div>
+          <span id="rating"></span>
         </div>
-      </div>
-
-
-      <div class="container-fluid">
-        <div class="container">
-          <div class="row text-center">
-            <div class="col-md-10 offset-md-1">
-              <div class="form-group">
-                <select name="doggosDropdown" id="doggoDropDown" class="form-control"></select>
-              </div>
-              <div id="listImageContainer"></div>
-              <button class="btn btn-primary list">More from this breed please!</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-      <div class="row">
-        <div class="column">
-          <div class="card-deck mb-3 text-center"> </div>
-          <button class="btn btn-primary grid">Refresh Grid</button>
-        </div>
-      </div>
-
+      </section>
     </article>
   </main>
 
@@ -182,198 +192,95 @@
     </div>
   </footer>
 
-  <!-- CDN -->
-  <!-- <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"></script> -->
-
-  <!-- Custom Code -->
-  <!-- <script>
-  fetch('https://api.publicapis.org/entries?category=animals&cors=yes')
-  .then(response => response.json())
-  .then(data => {
-    if (!data.length) {
-      return
-    }
-
-    let table = new simpleDatatables.DataTable(".table", {
-      data: {
-        headings: Object.keys(data[0]),
-        data: data.map(item => Object.values(item))
-      },
-    })
-  })
-</script> -->
 
   <script>
-    // Fetch + dog API  
-    //GLOBAL VARIABLES
-    const randomButton = document.querySelector('.random');
-    const dogList = document.getElementById('doggoDropDown');
-    const listButton = document.querySelector('.list');
-    const refreshButton = document.querySelector('.grid');
+    var cardsHolder = document.getElementById('product-container');
 
+    function loadCard(item) {
 
-    //EVENT LISTENERS
-    // window load
-    window.addEventListener('load', populateList);
-    // window.addEventListener('load', getDogTerm);
-    window.addEventListener('load', createImageGrid);
-    //click and change
-    randomButton.addEventListener('click', getRandomDoggo);
-    dogList.addEventListener('change', getBreedImage);
-    listButton.addEventListener('click', getBreedImage);
-    refreshButton.addEventListener('click', createImageGrid);
-
-    //FETCH CALLS
-    //wikipedia dog term serach
-    // function getDogTerm() {
-    //   fetch('https://en.wikipedia.org/w/api.php?action=opensearch&origin=*&search=dog&formatversion=2').
-    //   then(checkStatus).
-    //   then(response => response.json()).
-    //   then(data => displayDogInfo(data)).
-    //   catch(error => notifyUser(error));
-    // }
-
-    //random dog image
-    function getRandomDoggo() {
-      fetch('https://dog.ceo/api/breeds/image/random').
-      then(checkStatus).
-      then(response => response.json()).
-      then(data => handleData(data)).
-      catch(error => notifyUser(error));
-    }
-
-    //populate List
-    function populateList() {
-      fetch('https://dog.ceo/api/breeds/list/all').
-      then(checkStatus).
-      then(response => response.json()).
-      then(data => createListItems(data.message)).
-      catch(error => notifyUser(error));
-    }
-
-    //getBreedImage
-    function getBreedImage() {
-      //get list value
-      let selectedBreed = dogList.options[dogList.selectedIndex].value;
-      //build url
-      let url = `https://dog.ceo/api/breed/${selectedBreed}/images`;
-      //fetch call
-      fetch(url).
-      then(checkStatus).
-      then(response => response.json()).
-      then(data => getImageURL(data.message)).
-      catch(error => console.log(error));
-    }
-
-    function createImageGrid() {
-      fetch('https://dog.ceo/api/breeds/image/random/3').
-      then(checkStatus).
-      then(response => response.json()).
-      then(data => createGrid(data.message)).
-      catch(error => notifyUser(error));
-    }
-
-    //HELPER FUNCTIONS
-    //checkStatus
-    function checkStatus(response) {
-      if (response.ok) {
-        return Promise.resolve(response);
-      } else {
-        return Promise.reject(new Error(response.statusText));
-      }
-    }
-
-    //display Dog Info
-    // function displayDogInfo(data) {
-    //   //populate paragraph
-    //   document.getElementById('dogInfo').innerHTML = `<strong>${capitalize(data[0])}:</strong> ${data[2][0]} <a href="${data[3][0]}" alt="read more on wikipedia"> Read more on wikipedia</a>`;
-    // }
-
-
-    //handleData
-    function handleData(data) {
-      let url = data.message;
-      console.log(url);
-      let regex = /https:\/\/images\.dog\.ceo\/breeds\/(\w+\-?\w+)\/.+/g;
-      let breedName = regex.exec(url);
-      document.getElementById('randomImageContainer').innerHTML = `<img alt="random image of a ${fixBreed(breedName[1])}" src='${url}'/>`;
-      document.querySelector('.dogInfo').innerHTML = `<p class="h5">Random image of a ${fixBreed(breedName[1])}</p>`;
-    }
-
-    //getImageURL
-    function getImageURL(data) {
-      //get random number
-      let randomNumberURL = data[Math.floor(Math.random() * data.length) + 1];
-      listImageContainer.innerHTML = `<img src="${randomNumberURL}" alt="${extractBreedName(data)}"/>`;
-    }
-
-    //createListItems
-    function createListItems(data) {
-      let output = '';
-      Object.keys(data).forEach(key => output += `<option value="${key}">${fixBreed(key)}</option>`);
-      document.getElementById('doggoDropDown').innerHTML = output;
-    }
-
-    //notifyUser
-    // function notifyUser(error) {
-    //   const errorContainer = document.querySelector('.alert');
-    //   errorContainer.innerHTML = `There was an error with the server request (${error}). <br> Click the button again.`;
-    //   errorContainer.style.display = 'block';
-    //   setTimeout(() => {
-    //     errorContainer.innerHTML = '';
-    //     errorContainer.style.display = 'none';
-    //   }, 4000);
-    // }
-
-    //fixBreed
-    function fixBreed(breedName) {
-      if (breedName === 'germanshepherd') {
-        return 'German Shepherd';
-      } else if (breedName === 'mexicanhairless') {
-        return 'Mexican Hairless';
-      } else if (breedName === 'stbernard') {
-        return 'St. Bernard';
-      } else if (breedName === "african") {
-        return 'African Wild Dog';
-      } else if (breedName === 'bullterrier') {
-        return 'Bull Terier';
-      }
-      return capitalize(breedName);
-    }
-
-    //capitalize breed name
-    function capitalize(breedName) {
-      return breedName.replace(/\-/g, ' ').
-      split(" ").
-      map(word => word.charAt(0).toUpperCase() + word.slice(1)).
-      join(" ");
-    }
-
-    //extract breed name
-    function extractBreedName(data) {
-      let regex = /https:\/\/images\.dog\.ceo\/breeds\/(\w+-?\w+)\/\w+\.\w+/g;
-      let match = regex.exec(data);
-      return fixBreed(match[1]);
-    }
-
-    //createGrid
-    function createGrid(data) {
-      let output = '';
-      const container = document.querySelector('.card-deck');
-      data.map(item => {
-        output +=
-          `
-      <div class="card mb-4 box-shadow">
-      <div class="card-header">
-      <h4 class="my-0 font-weight-normal">${extractBreedName(item)}</h4>
-      </div>
-      <div class="card-body">
-      <img src="${item}" class="img-fluid" alt="${extractBreedName(item)}"/>
-      </div>
-      </div>    
-      `;
+      // var section = document.createElement('div'); // Just a reference to something in the DOM
+      // section..setAttribute('class', 'card'); // Now "section" exists
+      var section = Object.assign(document.createElement('div'), {
+        className: 'card'
       });
-      container.innerHTML = output;
+
+      var title = document.createElement('h4');
+      title.textContent = item.title;
+
+      var image = document.createElement('img');
+      image.setAttribute('src', item.image);
+
+      var price = document.createElement('p');
+      price.setAttribute('class', 'price');
+
+      var description = document.createElement('p');
+      description.textContent = item.description;
+
+      var category = document.createElement('p');
+      category.textContent = item.category;
+
+      var rate = document.createElement('p');
+      rate.setAttribute('class', 'rating');
+      rate.textContent = item.rating.rate;
+
+      var count = document.createElement('p');
+      count.setAttribute('class', 'rating');
+      count.textContent = item.rating.count;
+      price.textContent = item.price;
+
+      // Append elements
+      section.appendChild(title);
+      section.appendChild(category);
+      section.appendChild(image);
+      section.appendChild(price);
+      section.appendChild(description);
+      section.appendChild(rate);
+      section.appendChild(count);
+      cardsHolder.appendChild(section);
+    }
+
+    function loadCards() {
+      fetch('https://fakestoreapi.com/products')
+        .then((response) => response.json())
+        .then((data) => {
+          itemList = data;
+          for (let i = 0; i < itemList.length; i++) {
+            loadCard(itemList[i]);
+          }
+        });
+    }
+
+    function ascending(a, b) {
+      return a.price - b.price;
+    }
+    function descending(b, a) {
+      return a.price - b.price;
+    }
+
+    function sortAscending() {
+      //sort the list
+      itemList.sort(ascending);
+
+      // clear the part of the DOM that is holding the current list
+      cardsHolder.replaceChildren();
+
+      // load cards for the new list
+      for (let i = 0; i < itemList.length; i++) {
+        loadCard(itemList[i]);
+      }
+    }
+    
+    function sortDescending() {
+      //sort the list
+      itemList.sort(descending);
+    
+      // clear the part of the DOM that is holding the current list
+      cardsHolder.replaceChildren();
+    
+      // load cards for the new list
+      for (let i = 0; i < itemList.length; i++) {
+        loadCard(itemList[i]);
+      }
     }
   </script>
 </body>
