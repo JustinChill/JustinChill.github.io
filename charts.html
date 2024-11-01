@@ -2511,57 +2511,61 @@
         })
       ]
     };
+         
 
     donut_emissions = new function() {
       // d3 donut chart: https://observablehq.com/@d3/donut-chart/2
+      var data = [{"name":"<5","value":19912018},{"name":"5-9","value":20501982},{"name":"10-14","value":20679786},{"name":"15-19","value":21354481},{"name":"20-24","value":22604232},{"name":"25-29","value":21698010},{"name":"30-34","value":21183639},{"name":"35-39","value":19855782},{"name":"40-44","value":20796128},{"name":"45-49","value":21370368},{"name":"50-54","value":22525490},{"name":"55-59","value":21001947},{"name":"60-64","value":18415681},{"name":"65-69","value":14547446},{"name":"70-74","value":10587721},{"name":"75-79","value":7730129},{"name":"80-84","value":5811429},{"name":"≥85","value":5938752}];
+            
       const height = Math.min(width, 500);
       const radius = Math.min(width, height) / 2;
-
+      
       const arc = d3.arc()
-        .innerRadius(radius * 0.67)
-        .outerRadius(radius - 1);
-
+          .innerRadius(radius * 0.67)
+          .outerRadius(radius - 1);
+      
       const pie = d3.pie()
-        .padAngle(1 / radius)
-        .sort(null)
-        .value(d => d.value);
-
+          .padAngle(1 / radius)
+          .sort(null)
+          .value(d => d.value);
+      
       const color = d3.scaleOrdinal()
-        .domain(top20.map(d => d.country))
-        .range(d3.quantize(t => d3.interpolateSpectral(t * 0.8 + 0.1), top20.length).reverse());
-
+          .domain(data.map(d => d.name))
+          .range(d3.quantize(t => d3.interpolateSpectral(t * 0.8 + 0.1), data.length).reverse());
+      
       const svg = d3.select("#donut_emissions").append("svg")
-        .attr("width", width)
-        .attr("height", height)
-        .attr("viewBox", [-width / 2, -height / 2, width, height])
-        .attr("style", "max-width: 100%; height: auto;");
-
+          .attr("width", width)
+          .attr("height", height)
+          .attr("viewBox", [-width / 2, -height / 2, width, height])
+          .attr("style", "max-width: 100%; height: auto;");
+      
       svg.append("g")
         .selectAll()
-        .data(pie(top20))
+        .data(pie(data))
         .join("path")
-        .attr("fill", d => color(d.country))
-        .attr("d", arc)
+          .attr("fill", d => color(d.data.name))
+          .attr("d", arc)
         .append("title")
-        .text(d => `${d.country}: ${d.value.toLocaleString()}`);
-
+          .text(d => `${d.data.name}: ${d.data.value.toLocaleString()}`);
+      
       svg.append("g")
-        .attr("font-family", "sans-serif")
-        .attr("font-size", 12)
-        .attr("text-anchor", "middle")
+          .attr("font-family", "sans-serif")
+          .attr("font-size", 12)
+          .attr("text-anchor", "middle")
         .selectAll()
-        .data(pie(top20))
+        .data(pie(data))
         .join("text")
-        .attr("transform", d => `translate(${arc.centroid(d)})`)
-        .call(text => text.append("tspan")
-          .attr("y", "-0.4em")
-          .attr("font-weight", "bold")
-          .text(d => d.country))
-        .call(text => text.filter(d => (d.endAngle - d.startAngle) > 0.25).append("tspan")
-          .attr("x", 0)
-          .attr("y", "0.7em")
-          .attr("fill-opacity", 0.7)
-          .text(d => d3.format(",.0f")(d.value)));
+          .attr("transform", d => `translate(${arc.centroid(d)})`)
+          .call(text => text.append("tspan")
+              .attr("y", "-0.4em")
+              .attr("font-weight", "bold")
+              .text(d => d.data.name))
+          .call(text => text.filter(d => (d.endAngle - d.startAngle) > 0.25).append("tspan")
+              .attr("x", 0)
+              .attr("y", "0.7em")
+              .attr("fill-opacity", 0.7)
+              .text(d => d.data.value.toLocaleString("en-US")));
+      
       return svg.node();
     };
 
@@ -2988,7 +2992,7 @@
 
 
     // Use Promises to async request data
-    var promises = [d3.json("data/drugs.json"), d3.csv("data/aapl.csv", d3.autoType), d3.csv("data/global-temps.csv", d3.autoType), d3.csv("https://gist.githubusercontent.com/JesseCHowe/099f4b8e1a029c0b4af35b1edc1989f7/raw/8c18ed9a0940c734d423c3f2699ee063279533ec/morley.csv", d3.autoType), d3.csv("data/stocks.csv", d3.autoType), d3.csv("data/units.csv", d3.autoType), d3.json("data/qatar.json"), d3.csv("https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv", d3.autoType), d3.csv("data/driving.csv", d3.autoType), d3.csv("data/bls.csv", d3.autoType), d3.csv("data/caltrain.csv"), d3.csv("data/mpg.csv", d3.autoType), d3.csv("data/electricity.csv", d3.autoType), d3.json("data/dogdata.json"), d3.csv("data/google-trends-2020.csv", d3.autoType), d3.csv("data/covid.csv", d3.autoType), d3.csv("data/commute.csv", d3.autoType), d3.csv("data/world-airports.csv", d3.autoType), d3.json("data/geo/land.json"), d3.json("data/geo/statemesh.json"), d3.json("data/geo/nation.json"), d3.csv("data/walmarts.csv", d3.autoType), d3.csv("data/popcornCriteria.csv", d3.autoType), d3.csv("data/state-population-2010-to-2019.csv", d3.autoType), d3.csv("data/geo/us-state-grid.csv", d3.autoType), d3.csv("data/bls_industries.csv", d3.autoType), d3.csv("data/weather.csv", d3.autoType), d3.csv("data/receipts.csv", d3.autoType), d3.csv("data/cancer.csv", d3.autoType), d3.csv("data/us-population-county-2016.csv", d3.autoType), d3.csv("data/hstdebt.csv", d3.autoType), d3.json("data/geo/us-counties-10m.json"), ];
+    var promises = [d3.json("data/drugs.json"), d3.csv("data/aapl.csv", d3.autoType), d3.csv("data/global-temps.csv", d3.autoType), d3.csv("https://gist.githubusercontent.com/JesseCHowe/099f4b8e1a029c0b4af35b1edc1989f7/raw/8c18ed9a0940c734d423c3f2699ee063279533ec/morley.csv", d3.autoType), d3.csv("data/stocks.csv", d3.autoType), d3.csv("data/units.csv", d3.autoType), d3.json("data/qatar.json"), d3.csv("https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv", d3.autoType), d3.csv("data/driving.csv", d3.autoType), d3.csv("data/bls.csv", d3.autoType), d3.csv("data/caltrain.csv"), d3.csv("data/mpg.csv", d3.autoType), d3.csv("data/electricity.csv", d3.autoType), d3.json("data/dogdata.json"), d3.csv("data/google-trends-2020.csv", d3.autoType), d3.csv("data/covid.csv", d3.autoType), d3.csv("data/commute.csv", d3.autoType), d3.csv("data/world-airports.csv", d3.autoType), d3.json("data/geo/land.json"), d3.json("data/geo/statemesh.json"), d3.json("data/geo/nation.json"), d3.csv("data/walmarts.csv", d3.autoType), d3.csv("data/popcornCriteria.csv", d3.autoType), d3.csv("data/state-population-2010-to-2019.csv", d3.autoType), d3.csv("data/geo/us-state-grid.csv", d3.autoType), d3.csv("data/bls_industries.csv", d3.autoType), d3.csv("data/weather.csv", d3.autoType), d3.csv("data/receipts.csv", d3.autoType), d3.csv("data/cancer.csv", d3.autoType), d3.csv("data/us-population-county-2016.csv", d3.autoType), d3.csv("data/hstdebt.csv", d3.autoType), d3.json("data/geo/us-counties-10m.json"), d3.csv("data/us-president-favorability@2.csv", d3.autoType), ];
 
     // You can request multiple srcs in a promise
     myDataPromises = Promise.all(promises);
@@ -3028,6 +3032,7 @@
       var countypop = data[29];
       var hstdebt = data[30];
       var counties = data[31];
+      var presidents = data[32];
 
       var sortedData = popcorndata.filter(function(d, i) {
         return i < 30; // Top 5 teams
@@ -3346,45 +3351,21 @@
 
       var beeswarm = {
         width: width,
-        height: 200,
-        margin: 0,
-        style: {
-          fontSize: size,
-          backgroundColor: 'rgba(242,245,248,1)',
-          padding: 30,
-          textTransform: "capitalize",
-        },
-        color: {
-          legend: false,
-        },
-        y: {
-          zero: true,
-          tickSize: 0,
-          label: null,
-          lineWidth: 8,
-        },
-        x: {
-          anchor: "left",
-          label: "mpg",
-          grid: true,
-          round: true,
-          nice: true,
-          ticks: 4,
-          tickSize: 0,
-        },
+        inset: 20,
+        height: 280,
         marks: [
-          Plot.dot(mpg, Plot.dodgeY("middle", {
-            x: "hwy",
-            fill: "manufacturer",
-            r: 2.5,
-            padding: .85,
-            tip: {
-              opacity: 0.9,
-              textPadding: 10,
-              lineHeight: 1.65,
-            },
-          })),
-        ],
+          Plot.image(
+            presidents,
+            Plot.dodgeY({
+              x: "First Inauguration Date",
+              r: 20, // clip to a circle
+              preserveAspectRatio: "xMidYMin slice", // try not to clip heads
+              src: "Portrait URL",
+              title: "Name",
+              tip: true,
+            })
+          )
+        ]
       };
 
       const tinyapple = aapl.slice(-90);
@@ -3505,7 +3486,19 @@
           Plot.ruleY([0], {
             stroke: "hsl(0, 0%, 88%)"
           }),
-          Plot.axisY({textAnchor: "start", dx: -2, dy: -10, tickSize: 0, ticks: 6, nice: true, clamp: true, grid: true, tickFormat: "%", anchor: "right",labelOffset: 10,})
+          Plot.axisY({
+            textAnchor: "start",
+            dx: -2,
+            dy: -10,
+            tickSize: 0,
+            ticks: 6,
+            nice: true,
+            clamp: true,
+            grid: true,
+            tickFormat: "%",
+            anchor: "right",
+            labelOffset: 10,
+          })
         ]
       };
 
@@ -4053,10 +4046,9 @@
             x: "miles",
             y: "gas",
             text: width > 400 ? d => "Annual\naverage" : "",
-            dx: -24,
+            dx: -30,
             dy: 18,
-            fontSize: width > 450 ? 10 : 8,
-            fontWeight: 900
+            fontWeight: 700
           }),
           Plot.text(driving.filter(d => (d.year == 1956)), {
             x: "miles",
@@ -4106,7 +4098,7 @@
             dy: 130,
             fontStyle: "italic",
             textAlign: "left",
-            fontSize: width > 450 ? 10 : 8,
+            fontSize: width > 450 ? 12 : 10,
             fontWeight: 300,
             lineHeight: 1.3,
             text: d => "Annual average for\nregular grade gas,\nadjusted for inflation."
@@ -4158,9 +4150,8 @@
             y: "gas",
             text: width > 400 ? d => "Cheap gas,\nlonger commutes" : "",
             dx: 40,
-            dy: -50,
-            fontSize: width > 450 ? 12 : 10,
-            fontWeight: 900
+            dy: -84,
+            fontWeight: 700
           }),
           Plot.text(driving.filter(d => (d.year == 1956 + 10)), {
             x: "miles",
@@ -4222,10 +4213,9 @@
             x: "miles",
             y: "gas",
             text: width > 400 ? d => "The Arab\noil embargo" : "",
-            dx: 60,
+            dx: 70,
             dy: -50,
-            fontSize: width > 450 ? 12 : 10,
-            fontWeight: 900
+            fontWeight: 700
           }),
           Plot.text(driving.filter(d => (d.year == 1956 + 17)), {
             x: "miles",
@@ -4311,10 +4301,9 @@
             x: "miles",
             y: "gas",
             text: d => "Energy crisis",
-            dx: width > 400 ? 40 : 60,
+            dx: width > 400 ? 50 : 70,
             dy: -50,
-            fontSize: width > 450 ? 12 : 10,
-            fontWeight: 900
+            fontWeight: 700
           }),
           Plot.text(driving.filter(d => (d.year == 1956 + 27)), {
             x: "miles",
@@ -4410,8 +4399,7 @@
             text: width > 400 ? d => "Record low prices" : "",
             dx: -6,
             dy: -80,
-            fontSize: width > 450 ? 12 : 10,
-            fontWeight: 900
+            fontWeight: 700
           }),
           Plot.text(driving.filter(d => (d.year == 1956 + 38)), {
             x: "miles",
@@ -4481,7 +4469,7 @@
             x: "miles",
             y: "gas",
             text: d => (d.year).toFixed(0),
-            dx: 4,
+            dx: 6,
             dy: 10,
             fontSize: width > 450 ? 10 : 8
           }),
@@ -4497,7 +4485,7 @@
             x: "miles",
             y: "gas",
             text: d => (d.year).toFixed(0),
-            dx: 16,
+            dx: 18,
             dy: 0,
             fontSize: width > 450 ? 10 : 8
           }),
@@ -4505,7 +4493,7 @@
             x: "miles",
             y: "gas",
             text: d => (d.year).toFixed(0),
-            dx: 16,
+            dx: 18,
             dy: 0,
             fontSize: width > 450 ? 10 : 8
           }),
@@ -4513,7 +4501,7 @@
             x: "miles",
             y: "gas",
             text: d => (d.year).toFixed(0),
-            dx: 16,
+            dx: 18,
             dy: 0,
             fontSize: width > 450 ? 10 : 8
           }),
@@ -4521,7 +4509,7 @@
             x: "miles",
             y: "gas",
             text: d => (d.year).toFixed(0),
-            dx: 16,
+            dx: 18,
             dy: 0,
             fontSize: width > 450 ? 10 : 8
           }),
@@ -4554,9 +4542,8 @@
             y: "gas",
             text: d => "The swing backwards",
             dx: width > 400 ? -80 : -60,
-            dy: -95,
-            fontSize: width > 450 ? 12 : 10,
-            fontWeight: 900,
+            dy: -96,
+            fontWeight: 700,
             style: {
               background: "white"
             }
@@ -4565,8 +4552,8 @@
             x: "miles",
             y: "gas",
             dx: width > 400 ? -80 : -60,
-            dy: -55,
-            fontSize: width > 450 ? 10 : 8,
+            dy: -50,
+            fontSize: width > 450 ? 12 : 10,
             lineHeight: 1.3,
             fontWeight: 300,
             text: d => "The average number of\nmiles that Americans\ndrive annually begins to\nfall, so the chart appears\nto turn around."
