@@ -103,8 +103,8 @@ picture svg {
       <figure id="synthetic"></figure>
       <figcaption>Data: <a href="https://cran.r-project.org/web/packages/titanic/readme/README.html">R project</a></figcaption>
       <p>The RMS Titanic, one of the most iconic and tragic maritime disasters in history, continues to captivate the world's imagination over a century after its sinking. Launched as the epitome of luxury and engineering prowess, the Titanic was hailed as "unsinkable" before its maiden voyage in 1912. Fate had other plans, however. On the fateful night of April 14th, the ship collided with an iceberg in the North Atlantic, leading to its catastrophic demise. The sinking of the Titanic resulted in the loss of over 1,500 lives and exposed the hubris of human endeavors against the forces of nature. Yet, amidst the tragedy, the story of the Titanic remains a testament to human courage, sacrifice, and the enduring lessons learned from its untimely end.</p>
-      <p>The dataset used for this article highlights the passengers aboard the RMS Titanic. These are the columns or variables in the data and what they represent:</p>
-      <ul>
+      <!-- <p>The dataset used for this article highlights the passengers aboard the RMS Titanic. These are the columns or variables in the data and what they represent:</p> -->
+      <!-- <ul>
         <li><strong>PassengerId</strong>: A unique identifier for each passenger.</li>
         <li><strong>Survived</strong>: Indicates whether the passenger survived (1) or not (0) – categorical</li>
         <li><strong>Pclass</strong>: Ticket class of the passenger (1st, 2nd, or 3rd) – categorical </li>
@@ -116,10 +116,9 @@ picture svg {
         <li><strong>Ticket</strong>: Ticket number.</li>
         <li><strong>Fare</strong>: Fare paid by the passenger.</li>
         <li><strong>Embarked</strong>: Port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton) - categorical.</li>
-      </ul>
+      </ul> -->
 
       <table>
-
         <thead>
           <th></th>
           <th>Number on Board</th>
@@ -128,8 +127,7 @@ picture svg {
           <th>Male</th>
           <th>Female</th>
           <th>Child</th>
-          </tr>
-          </head>
+          </thead>
         <tbody>
           <tr>
             <td>First Class</td>
@@ -177,7 +175,17 @@ picture svg {
             <td><b>109</b></td>
           </tr>
       </table>
-
+      <h2>Age Distribution by Sex</h2>
+      <figure id="agesFacet"></figure>
+      <p>Looking at passengers by age shows a pretty typical distribution. There appears to be a roughly equal amount of young and old people but about double the number of males ages 20 - 30 years old. Since the crew is included in our data that would make sense for a steamship in 1912.</p>
+      <h2>What is the relationship between passenger age and survival rate?</h2>
+      <figure id="agesline"></figure>
+      <p>Understanding the relationship between age and survival rate can provide insights into the prioritization and rescue operations during the Titanic disaster. I hypothesized that younger passengers, especially children, might have had higher survival rates due to evacuation priorities. To visualize this, we can use a histogram to represent the age distribution of passengers along with their survival status. The x-axis represents the age groups, while the y-axis shows the count of passengers. Different colors are used to differentiate between those who survived and those who perished. The histogram reveals that children had higher survival rates, supporting our hypothesis that younger passengers were more likely to be rescued.</p>
+      <h2>How does the fare paid relate to survival rates across different classes?</h2>
+      <figure id="classScatter"></figure>
+      <p>The fare paid by passengers can be an indicator of their socioeconomic status and access to resources. I hypothesized that passengers who paid higher fares, particularly those in first class, had higher survival rates.</p>
+      <p>To investigate this, we can use a strip plot to visualize the distribution of fares across different passenger classes and survival statuses. The x-axis represents the passenger class, while the y-axis shows the fare amount. Colors indicate survival status. This box plot clearly illustrates that higher fares are associated with higher survival rates, especially in the first class. This suggests that wealthier passengers had better access to lifeboats and safety measures.
+</p>
       <h2>Lifeboats on the Titanic</h2>
       <h2>Stacked bar chart</h2>
       <figure id="lifeboat_bars"></figure>
@@ -407,7 +415,96 @@ picture svg {
             })
         ],
       };
-      console.log(lifeboats);
+
+      var agesFacet = {
+        width: width,
+        style: {
+          fontSize: size,
+          paddingLeft: 0,
+          paddingRight: 10,
+          paddingBottom: 10,
+          textTransform: "capitalize"
+        },
+        color: {
+          scheme: "RdBu",
+          legend: false
+        },
+        x:{
+          labelOffset: 40
+        },
+        facet: {
+          data: titanic,
+          x: "Sex",
+          label: null,
+        },
+        marks: [
+          Plot.rectY(titanic, Plot.binX({y: "count"}, {x: "Age", thresholds: 10, fill: "Sex", tip:true})),
+          Plot.ruleY([0])
+        ]
+      };
+      
+      var agesline = {
+        width: width,
+        style: {
+          fontSize: size,
+          paddingLeft: 0,
+          paddingRight: 10,
+          paddingBottom: 10,
+          textTransform: "capitalize"
+        },
+        color: {
+          scheme: "RdBu",
+          legend: true
+        },
+        x:{
+          labelOffset: 40
+        },
+        // fx: {interval: 10},
+        marks: [
+    Plot.rectY(
+            titanic,
+            Plot.sort(
+              {channel: "y2", order: "descending"}, // prevent occlusion 🌶️
+              Plot.binX(
+                {y2: "count"}, // opt-out of stacking
+                {x: "Age", fill: "Sex", thresholds: 10}
+              )
+            )
+          ),
+          Plot.ruleY([0])
+        ]
+      };
+
+      var classScatter = {
+          width: width,
+          style: {
+            fontSize: size,
+            paddingLeft: 0,
+            paddingRight: 10,
+            paddingBottom: 10,
+            textTransform: "capitalize"
+          },
+          color: {
+            scheme: "RdBu",
+            legend: true,
+            type: "categorical",
+            domain: [0,1],
+          },
+          x:{
+            labelOffset: 40,
+            label: "Passenger class",
+            domain: [1,2,3],
+          },
+          y:{
+            tickFormat: (d, i, _) => (i === _.length - 1 ? `$${d}` : d), // Show $ on first tick only
+            nice: true,
+            labelOffset: -10,
+          },
+          marks: [
+            Plot.dot(titanic, {x: "Pclass", y: "Fare", stroke: "Survived", tip: true,}),
+          ]
+        };
+
       var lifeboat_bars = {
         width: width,
         marginLeft: 0,
@@ -485,6 +582,9 @@ picture svg {
       };
 
       document.getElementById("synthetic").appendChild(Plot.plot(synthetic));
+      document.getElementById("agesFacet").appendChild(Plot.plot(agesFacet));
+      document.getElementById("agesline").appendChild(Plot.plot(agesline));
+      document.getElementById("classScatter").appendChild(Plot.plot(classScatter));
       document.getElementById("lifeboat_bars").appendChild(Plot.plot(lifeboat_bars));
       document.getElementById("lifeboat_diverging").appendChild(Plot.plot(lifeboat_diverging));
     });
