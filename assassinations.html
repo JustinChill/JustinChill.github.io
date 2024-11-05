@@ -61,13 +61,62 @@
       <figure class="mid-size" id="line" aria-label="A line graph showing..."></figure>
       <p>Based on the Wikipedia article, “<a href="https://en.wikipedia.org/wiki/List_of_United_States_presidential_assassination_attempts_and_plots">List of United States presidential assassination attempts and plots</a>”.</p>
       <p>Note that this plots the date of shooting, not necessarily the date of death attributed to the shooting. Lincoln for example was shot April 14, 1865 and died the 15th. Garfield was shot July 2, 1881 and died September 19. McKinley was shot September 6, 1901 and died the 14th. Kennedy was shot and killed November 22, 1963.</p>
+      <p style="text-align: left; display: block;">Reflecting <span style="color:#003566">Democratic</span>, <span style="color:#c1121f">Republican</span>, and <span style="color:#ffb703">Progressive</span> Party Leadership.</p>
+      <figure id="imgs" aria-label="A line graph showing..."></figure>
+      <p>Four U.S. presidents have been assassinated while in office. Here are their names and the years they were assassinated:</p>
+      <ol>
+        <li>Abraham Lincoln - 1865</li>
+        <li>James A. Garfield - 1881</li>
+        <li>William McKinley - 1901</li>
+        <li>John F. Kennedy - 1963</li>
+      </ol>
+      <p>These assassinations had significant impacts on American history and led to changes in presidential security measures over time. Each of the assassinated presidents belonged to one of the two major political parties of their time. Here's a breakdown:</p>
+      <ol>
+        <li>Abraham Lincoln (1865) - Republican Party</li>
+        <li>James A. Garfield (1881) - Republican Party</li>
+        <li>William McKinley (1901) - Republican Party</li>
+        <li>John F. Kennedy (1963) - Democratic Party</li>
+      </ol>
+      <p>It's worth noting that the Republican Party of Lincoln's era was quite different from the modern Republican Party in many of its policies and positions. The parties have evolved significantly over time, with major shifts in their platforms and constituencies occurring especially during the 20th century.</p>
+      <p>Kennedy was the only Democrat among the four assassinated presidents. His assassination came during a time of significant social and political change in the United States.</p>
+      <p>There have been several attempted assassinations of U.S. presidents that were unsuccessful. Here's a list of some notable attempts:</p>
+      <ol>
+        <li>
+          <p>Andrew Jackson (1835) - The first known attempt on a sitting U.S. president. The would-be assassin's gun misfired twice.</p>
+        </li>
+        <li>
+          <p>Theodore Roosevelt (1912) - Shot while campaigning for a third term, but survived. The bullet was slowed by a folded speech and glasses case in his pocket!</p>
+        </li>
+        <li>
+          <p>Franklin D. Roosevelt (1933) - An attempt was made before he took office. The assassin missed FDR but killed Chicago Mayor Anton Cermak.</p>
+        </li>
+        <li>
+          <p>Harry S. Truman (1950) - Two Puerto Rican nationalists attempted to storm Blair House, where Truman was staying during White House renovations.</p>
+        </li>
+        <li>
+          <p>Gerald Ford (1975) - Two separate attempts within 17 days. Both failed.</p>
+        </li>
+        <li>
+          <p>Ronald Reagan (1981) - Shot and seriously wounded, but survived. This is often considered the closest a president has come to death by assassination since Kennedy.</p>
+        </li>
+        <li>
+          <p>Bill Clinton (1994) - A man fired shots at the White House from outside the fence, but Clinton was not harmed.</p>
+        </li>
+        <li>
+          <p>George W. Bush (2005) - A grenade thrown at Bush during a speech in Georgia (the country) failed to detonate.</p>
+        </li>
+        <li>
+          <p>Barack Obama - Several plots were uncovered during his presidency, but none resulted in attempts that came close to fruition.</p>
+        </li>
+      </ol>
+      <p>It's important to note that security measures for presidents have continually evolved and increased in response to these attempts and successful assassinations. The Secret Service, which is now well-known for protecting presidents, only began this role full-time after McKinley's assassination in 1901.</p>
     </article>
   </main>
   <footer>
     <h2 id="footnote-label">Footnotes</h2>
-  <ol>
-    <li id="toph">Adapted from Code by Mike Bostock and <a href="https://observablehq.com/@tophtucker">Toph Tucker</a>. <a href="#molony-ref" aria-label="Back to content">↩</a></li>
-  </ol>
+    <ol>
+      <li id="toph">Adapted from Code by Mike Bostock and <a href="https://observablehq.com/@tophtucker">Toph Tucker</a>. <a href="#molony-ref" aria-label="Back to content">↩</a></li>
+    </ol>
     <div>
       <p>Justin Chill © 2024. Thanks&nbsp;for&nbsp;reading!</p>
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code and feedback</a></span>
@@ -78,9 +127,30 @@
 
   <script type="text/javascript">
     var size = 12;
-    var element = d3.select('figure').node();
-    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
-
+    var elementMid = d3.select('figure.mid-size').node();
+    var widthMid = elementMid.getBoundingClientRect().width; // get width of figure.mid-size so graphic is responsive
+    var element = d3.select('figure:last-of-type').node();
+    var width = element.getBoundingClientRect().width; // get width of figure so graphic is responsive. Todo / hacky
+    var data = d3.csvParse(`President,Year,Party,Outcome,Won_Election_After,image
+      Abraham Lincoln,1865,Republican,Assassinated,N/A,https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Abraham_Lincoln_O-77_matte_collodion_print.jpg/800px-Abraham_Lincoln_O-77_matte_collodion_print.jpg
+      James A. Garfield,1881,Republican,Assassinated,N/A,https://www.whitehouse.gov/wp-content/uploads/2021/01/20_james_garfield.jpg
+      William McKinley,1901,Republican,Assassinated,N/A,https://www.whitehouse.gov/wp-content/uploads/2021/01/25_william_mckinley.jpg
+      John F. Kennedy,1963,Democratic,Assassinated,N/A,https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/John_F._Kennedy%2C_White_House_color_photo_portrait.jpg/1200px-John_F._Kennedy%2C_White_House_color_photo_portrait.jpg
+      Andrew Jackson,1835,Democratic,Survived,No (Term limited),https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Andrew_Jackson_Daguerrotype_%28flipped_image%29.jpg/220px-Andrew_Jackson_Daguerrotype_%28flipped_image%29.jpg
+      Theodore Roosevelt,1912,Progressive,Survived,No,https://upload.wikimedia.org/wikipedia/commons/5/5b/Theodore_Roosevelt_by_the_Pach_Bros.jpg
+      Franklin D. Roosevelt,1933,Democratic,Survived,Yes,https://cdn.britannica.com/30/126430-050-277A9553/Franklin-D-Roosevelt-1933.jpg
+      Harry S. Truman,1950,Democratic,Survived,No (Did not run),https://www.whitehouse.gov/wp-content/uploads/2021/01/33_harry_s_truman.jpg
+      Gerald Ford,1975,Republican,Survived,No (Lost election),https://upload.wikimedia.org/wikipedia/commons/3/36/Gerald_Ford_presidential_portrait_%28cropped%29.jpg
+      Ronald Reagan,1981,Republican,Survived,Yes,https://www.whitehouse.gov/wp-content/uploads/2021/01/40_ronald_reagan.jpg
+      Bill Clinton,1994,Democratic,Survived,Yes,https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Bill_Clinton.jpg/640px-Bill_Clinton.jpg
+      George W. Bush,2005,Republican,Survived,No (Term limited),https://upload.wikimedia.org/wikipedia/commons/d/d4/George-W-Bush.jpeg
+      Barack Obama,2011,Democratic,Survived,Yes,https://upload.wikimedia.org/wikipedia/commons/8/8d/President_Barack_Obama.jpg`, d3.autoType);
+    var xy = ({
+      x1: -100,
+      y1: 200,
+      x2: 200,
+      y2: -300
+    });
     var shootings = [
         ["Abraham Lincoln", new Date(1865, 3, 14), true, true],
         ["James A. Garfield", new Date(1881, 6, 2), true, true],
@@ -118,7 +188,7 @@
     }));
 
     var line = {
-      width: width,
+      width: widthMid,
       style: {
         fontSize: size,
         paddingBottom: 0,
@@ -131,7 +201,7 @@
       },
       x: {
         tickSize: 0,
-        nice: true,        
+        nice: true,
       },
       color: {
         legend: true,
@@ -180,7 +250,119 @@
       ]
     };
 
+    var imgs = {
+      width: width,
+      style: {
+        fontSize: size,
+        paddingBottom: 0,
+        paddingLeft: 20,
+        textTransform: "capitalize",
+      },
+      y: {
+        type: "point",
+        domain: data.map((d) => d.President),
+        label: null,
+        tickSize: 0,
+        paddingOuter: 5
+      },
+      x: {
+        type: "linear",
+        domain: d3.extent(data, (d) => d.Year),
+        label: "Year",
+        tickFormat: d3.format("d"),
+        tickSize: 0,
+        paddingOuter: 1,
+        inset: 12,
+      },
+      color: {
+        legend: true,
+        type: "categorical",
+        domain: ["Republican", "Democratic", "Progressive"],
+        range: ["#c1121f", "#003566", "#ffb703"]
+      },
+      marks: [
+        Plot.ruleY(data, {
+          y: "President",
+          stroke: "#ced4da"
+        }), // Set the line color to gray
+        Plot.dot(data, {
+          x: "Year",
+          y: "President",
+          fill: "Party",
+          strokeWidth: 2,
+          r: 15
+        }),
+        Plot.image(data, {
+          x: "Year",
+          y: "President",
+          src: "image", // Assuming 'image' is the column name in your dataset
+          r: 13,
+          tip: true,
+          title: (d) => `${d.President}\nYear: ${d.Year}\nParty: ${d.Party}\nOutcome: ${d.Outcome}`
+        }),
+        Plot.text(data, {
+          x: (d) => d.Year + 2,
+          y: "President",
+          text: "President",
+          dx: 5,
+          dy: -6,
+          textAnchor: "start",
+        }),
+        Plot.text(
+          data.filter((d) => d.Outcome === "Assassinated"), {
+            x: "Year",
+            y: "President",
+            text: () => "Assassinated",
+            dy: 24, // Adjust this value to position the text above the dot
+            fill: "red",
+          }
+        ),
+        Plot.text(
+          [{
+            Year: 1837,
+            President: "Andrew Jackson",
+            text: "The first known attempt on a sitting U.S. president. The would-be assassin's gun misfired twice."
+          }], {
+            x: "Year",
+            y: "President",
+            dx: 15,
+            dy: 30, // Adjust this value to position the text below the dot
+            text: "text",
+            textAnchor: "start",
+            lineAnchor: "middle",
+            lineWidth: 15,
+          }
+        ),
+        Plot.text(
+          [{
+            Year: 1982,
+            President: "John F. Kennedy",
+            text: "Kennedy was the only Democrat among the four assassinated presidents. His assassination came during a time of significant social and political change in the United States."
+          }], {
+            x: "Year",
+            y: "President",
+            dx: -35,
+            dy: -40, // Adjust this value to position the text below the dot
+            text: "text",
+            textAnchor: "start",
+            lineAnchor: "middle",
+            lineWidth: 15,
+            fontSize: 12
+          }
+        ),
+        Plot.link({
+          length: 1
+        }, {
+          markerStart: "dot",
+          markerEnd: "arrow",
+          strokeWidth: 1.5,
+          ...xy
+        })
+      ]
+    };
+
     document.getElementById("line").appendChild(Plot.plot(line));
+    document.getElementById("imgs").appendChild(Plot.plot(imgs));
   </script>
 </body>
 
