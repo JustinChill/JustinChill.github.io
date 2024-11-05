@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+  <title>U.S. Union Membership Rate, 1964-2018</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Exploring U.S. Union Membership Rate, 1964-2018.">
+  <meta name="author" content="Justin Chill">
+  <!-- OpenGraph tags -->
+  <meta name="keywords" content="stats, chart, data viz, record, historical, USA, membership, union, unions">
+  <meta name="robots" content="all">
+  <meta content="en_US" property="og:locale">
+  <meta content="JustinChill" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="https://justinchill.com/union-membership.html" property="og:url">
+  <meta content="U.S. Union Membership Rate, 1964-2018" property="og:title">
+  <meta content="Exploring U.S. Union Membership Rate, 1964-2018." property="og:description">
+  <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
+  <link rel="canonical" href="https://www.justinchill.com/union-membership.html">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="U.S. Union Membership Rate, 1964-2018">
+  <meta name="twitter:description" content="Exploring U.S. Union Membership Rate, 1964-2018.">
+
+  <link type="text/plain" href="humans.txt" rel="author">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="/favicon.ico">
+  <meta name="theme-color" content="#4C63B6">
+
+  <script type="module">
+    document.documentElement.classList.remove('no-js');
+    document.documentElement.classList.add('js');
+  </script>
+
+  <style type="text/css">
+    @media screen and (max-width: 680px) {}
+  </style>
+</head>
+
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+
+  <main role="main">
+    <article>
+      <div class="article-hero">
+        <h2 class="article-category">Post</h2>
+        <h1 class="article-title">U.S. Union Membership Rate, 1964-2018</h1>
+        <h2 class="article-subtitle"></h2>
+      </div>
+
+      <figure id="line" aria-label="A line graph showing..."></figure>
+      <figcaption><a href="http://unionstats.gsu.edu/MonthlyLaborReviewArticle.htm">Data</a>: Barry T. Hirsch, David A. Macpherson, and Wayne G. Vroman, “Estimates of Union Density by State,” Monthly Labor Review, Vol. 124, No. 7, July 2001, pp. 51-55.</figcaption>
+      <p>Even before the Supreme Court piled on, American unions were in a bad way. In their heyday in the mid-1950s, more than 30% of workers were members. Today just 10.5% are. With only a toehold in the private sector—where they cover a mere 7% of workers—unions have become increasingly reliant on faithful public-sector employees, 34% of whom are members, to stay financially afloat and politically relevant. The Supreme Court’s ruling in the case of <em>Janus v AFSCME</em> at the end of June will shrink the rump of union members even further. What will the consequences of even lower union membership be?</p>
+      <p>The union membership rate—the percent of wage and salary workers who were members of unions—was 10.5 percent in 2018, down by 0.2 percentage point from 2017. The number of wage and salary workers belonging to unions, 14.7 million in 2018, was about the same as in 2017. In 1983, the first year for which comparable union data are available, the union membership rate was 20.1 percent and there were 17.7 million union workers.</p>
+      <p>In 2018, the union membership rate continued to be higher for men (11.1 percent) than for women (9.9 percent). The gap between their rates has narrowed considerably since 1983, when the rate for men was 24.7 percent and the rate for women was 14.6 percent.</p>
+      <picture>
+        <img src="https://www.economist.com/cdn-cgi/image/width=834,quality=80,format=auto/sites/default/files/images/print-edition/20180721_USP001_0.jpg" />
+      </picture>
+      <figcaption>Photo: <a href="https://www.economist.com/united-states/2018/07/19/how-the-decline-of-unions-will-change-america">The Economist</a></figcaption>
+    </article>
+  </main>
+  <footer>
+    <h2 class="visually-hidden" id="footnote-label">Footnotes</h2>
+    <ol>
+
+    </ol>
+    <div>
+      <p>Justin Chill © 2024. Thanks&nbsp;for&nbsp;reading!</p>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code and feedback</a></span>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+
+  <script type="text/javascript">
+    var size = 12;
+    var element = d3.select('figure').node();
+    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+
+    // Use Promises to async request data
+    var promises = [d3.csv("data/union_membership.csv", d3.autoType)];
+    myDataPromises = Promise.all(promises);
+
+    // After data is successfully fetched, generate viz
+    myDataPromises.then(function(data) {
+
+      // Define the data
+      var data = data[0];
+      var tips = [
+        {
+          x1: 1983,
+          x2: 1981.3,
+          y1: 24,
+          y2: 21.9,
+          text_x: 1982,
+          text_y: 27.3,
+          value: 21.7,
+          title: "1981: PATCO Strike",
+          text: "President Reagan fires federal air traffic controllers in major setback to U.S. labor movement"
+        },
+        {
+          x1: 1973,
+          x2: 1970.5,
+          y1: 28.6,
+          y2: 27.9,
+          text_x: 1972,
+          text_y: 31.4,
+          value: 27.8,
+          title: "1970: Postal Worker Strike",
+          text: "210,000 USPS workers walk off in largest wildcat strike in U.S. history"
+        },
+        {
+          x1: 1991,
+          x2: 1992.5,
+          y1: 13,
+          y2: 15.5,
+          text_x: 1989,
+          text_y: 13,
+          value: 16,
+          title: "1993: NAFTA",
+          text: "President Clinton signs the North American Free Trade Agreement, weakening U.S. union power"
+        },
+        {
+          x1: 2016,
+          x2: 2017.5,
+          y1: 13.5,
+          y2: 12,
+          text_x: 2008,
+          text_y: 17,
+          value: 10.6,
+          title: "2018: Janus v. AFSCME",
+          text: "Landmark supreme court case restricts ability of unions to collect dues from non-members"
+        }
+      ];
+      const years = [1964, 1981, 2018, 1970, 1993];
+
+      var line = {
+        grid: true,
+        aspectRatio: .65,
+        inset: 10,
+        width: width,
+        style: {
+          fontSize: size,
+          paddingBottom: 0,
+          textTransform: "capitalize",
+        },
+        y: {
+          tickSize: 0,
+          nice: true,
+          tickFormat: d => d + "%",
+          ticks: 4,
+        },
+        x: {
+          tickSize: 0,
+          nice: true,
+          labelAnchor: "center",
+          tickFormat: "f",
+        },
+        marks: [
+          Plot.arrow(tips, {
+            x1: "x1",
+            y1: "y1",
+            x2: "x2",
+            y2: "y2",
+            bend: true,
+            stroke: "#aaa"
+          }),
+          Plot.line(data, {
+            x: "year",
+            y: "value",
+            stroke: "lightgrey",
+          }),
+          Plot.dot(data, {
+            filter: (d) => years.indexOf(d.year) >= 0,
+            x: "year",
+            y: "value",
+            fill: "grey",
+            strokeWidth: 1,
+            r: 2,
+          }),
+          Plot.text(data, {
+            filter: (d) => years.indexOf(d.year) >= 0,
+            x: "year",
+            y: "value",
+            fill: "grey",
+            text: d => d.value + "%",
+            dy: -10,
+            stroke: "white",
+            strokeWidth: 1.5,
+          }),
+          Plot.text(tips, {
+            filter: (d,i) => i !== 2,
+            x: "x2",
+            y: "y1",
+            fill: "grey",
+            text: "title",
+            dy: -10,
+            dx: 2,
+            fontWeight: 700,
+            textAnchor: "start",
+          }),
+          Plot.text(tips, {
+            filter: (d,i) => i !== 2,
+            x: "x1",
+            y: "y2",
+            fill: "grey",
+            text: "text",
+            lineWidth: 18,
+            dy: 0,
+            dx: 40,
+            textAnchor: "start",
+          }),
+          Plot.text(tips, {
+            filter: (d,i) => i == 2,
+            x: "x1",
+            y: "y1",
+            fill: "grey",
+            text: "title",
+            dy: -5,
+            dx: -10,
+            fontWeight: 700,
+            textAnchor: "end",
+          }),
+          Plot.text(tips, {
+            filter: (d,i) => i == 2,
+            x: "x1",
+            y: "y1",
+            fill: "grey",
+            text: "text",
+            lineWidth: 18,
+            dy: 20,
+            dx: -10,
+            textAnchor: "end",
+          }),
+        ]
+      };
+
+      document.getElementById("line").appendChild(Plot.plot(line));
+    });
+  </script>
+</body>
+
+</html>
