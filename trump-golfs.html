@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js">
+
 <head>
   <title>Trump Golf Count</title>
   <meta charset="UTF-8">
@@ -12,45 +13,51 @@
   <meta content="en_US" property="og:locale">
   <meta content="JustinChill" property="og:site_name">
   <meta content="website" property="og:type">
-  <meta content="https://justinchill.com/trump-golfs.html" property="og:url"> 
+  <meta content="https://justinchill.com/trump-golfs.html" property="og:url">
   <meta content="Trump Golf Count" property="og:title">
   <meta content="President Trump's Golf Outings (daytime visits to golf clubs since inauguration)" property="og:description">
   <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
   <link rel="canonical" href="https://www.justinchill.com/trump-golfs.html">
-  
+
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Trump Golf Count">
   <meta name="twitter:description" content="President Trump's Golf Outings (daytime visits to golf clubs since inauguration)">
-  
+
   <link type="text/plain" href="humans.txt" rel="author">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="/favicon.ico">
   <meta name="theme-color" content="#4C63B6">
-  
+
   <script type="module">
     document.documentElement.classList.remove('no-js');
     document.documentElement.classList.add('js');
   </script>
-  
+
   <title>Trump Golf Count</title>
   <meta name="description" content="President Trump's Golf Outings (daytime visits to golf clubs since inauguration).">
   <style type="text/css">
-  article > figure,
-  article > figcaption{
-    grid-column: 2/7;
-  }
-  figcaption{
-    margin-bottom: 0;
-    font-size: calc(8px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
-    text-align: right;
-  }
-  figcaption#cal_legend{
-    display: flex;
-    flex-direction: row-reverse;
-  }
-  .plot text { pointer-events: none }
-</style>
+    article>figure,
+    article>figcaption {
+      grid-column: 2/7;
+    }
+
+    figcaption {
+      margin-bottom: 0;
+      font-size: calc(8px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+      text-align: right;
+    }
+
+    figcaption#cal_legend {
+      display: flex;
+      flex-direction: row-reverse;
+    }
+
+    .plot text {
+      pointer-events: none
+    }
+  </style>
 </head>
+
 <body>
   <nav class="nav">
     <div class="nav__list">
@@ -62,327 +69,347 @@
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
-  
+
   <main role="main">
     <article>
-     <div class="article-hero">
-      <h2 class="article-category">Post</h2>
-      <h1 class="article-title">Trump Golf Count</h1>
-      <h2 class="article-subtitle">150+ outings since inauguration</h2>
+      <div class="article-hero">
+        <h2 class="article-category">Post</h2>
+        <h1 class="article-title">Trump Golf Count</h1>
+        <h2 class="article-subtitle">150+ outings since inauguration</h2>
+      </div>
+
+      <figcaption id="cal_legend"></figcaption>
+      <figure id="golf_cal"></figure>
+      <figcaption>Data: <a href="https://trumpgolfcount.com">Trump Golf Count</a></figcaption>
+
+      <p>According to the website <a href="https://trumpgolfcount.com/displayoutings">Trump Golf Count</a>, President Trump has played 298 rounds of golf during his four years as president. Estimated cost to taxpayers: $149,000,000<a href="#est" aria-describedby="footnote-label" id="est-ref"></a>.</p>
+      <p>"<i>I'm going to be working for you. I'm not going to have time to go play golf.</i>" --Donald J. Trump, August, 2016</p>
+
+    </article>
+  </main>
+  <footer>
+    <h2 id="footnote-label">Footnotes</h2>
+    <ol>
+      <li id="est">Cost model for calculating the estimated cost to US tax payers <a href="https://trumpgolfcount.com/displaygaoreportcomment">here</a>.<a href="#est-ref" aria-label="Back to content">↩</a></li>
+
+    </ol>
+    <div>
+      <p>Justin Chill © 2024. Thanks&nbsp;for&nbsp;reading!</p>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code and feedback</a></span>
     </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 
-    <figcaption id="cal_legend"></figcaption>
-    <figure id="golf_cal"></figure>
-    <figcaption>Data: <a href="https://trumpgolfcount.com">Trump Golf Count</a></figcaption>
+  <script type="text/javascript">
+    // Use Promises to async request data
+    var promises = [d3.csv("data/trumpgolfcountoutings_100821.csv", d3.autoType)];
+    var element = d3.select('figure').node();
+    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
 
-    <p>According to the website <a href="https://trumpgolfcount.com/displayoutings">Trump Golf Count</a>, President Trump has played 298 rounds of golf during his four years as president. Estimated cost to taxpayers: $149,000,000<a href="#est" aria-describedby="footnote-label" id="est-ref"></a>.</p>
-    <p>"<i>I'm going to be working for you. I'm not going to have time to go play golf.</i>" --Donald J. Trump, August, 2016</p>
+    // You can request multiple srcs in a promise
+    myDataPromises = Promise.all(promises);
 
-  </article>
-</main>
-<footer>
-  <h2 id="footnote-label">Footnotes</h2>
-  <ol>
-    <li id="est">Cost model for calculating the estimated cost to US tax payers <a href="https://trumpgolfcount.com/displaygaoreportcomment">here</a>.<a href="#est-ref" aria-label="Back to content">↩</a></li>
+    // Calendar component
+    Calendar = new function() {
+      // default accessors
+      function valueAccessor(d) {
+        return typeof d === "object" && ("value" in d ? d.value : d[1]);
+      }
 
-  </ol>
-  <div>
-    <p>Justin Chill © 2024. Thanks&nbsp;for&nbsp;reading!</p>
-    <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code and feedback</a></span>    
-  </div>
-</footer>
-<script src="https://cdn.jsdelivr.net/npm/d3"></script>
-<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+      function dateAccessor(d) {
+        return typeof d === "object" && ("date" in d ? d.date : d[0]);
+      }
 
-<script type="text/javascript">
-  // Use Promises to async request data
-  var promises = [d3.csv("data/trumpgolfcountoutings_100821.csv",d3.autoType)];
-  var element = d3.select('figure').node();
-  var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
-
-  // You can request multiple srcs in a promise
-  myDataPromises = Promise.all(promises);
-
-  // Calendar component
-  Calendar = new function(){
-    // default accessors
-    function valueAccessor(d) {
-      return typeof d === "object" && ("value" in d ? d.value : d[1]);
-    }
-
-    function dateAccessor(d) {
-      return typeof d === "object" && ("date" in d ? d.date : d[0]);
-    }
-
-    // https://github.com/d3/d3-time/blob/main/src/utcWeek.js#L4-L13
-    function utcWeekday(i) {
-      return d3.timeInterval(
-        (date) => {
-          date.setUTCDate(date.getUTCDate() - ((date.getUTCDay() + 7 - i) % 7));
-          date.setUTCHours(0, 0, 0, 0);
-        },
-        (date, step) => date.setUTCDate(date.getUTCDate() + step * 7),
-        (start, end) => (end - start) / 604800000 // durationWeek;
+      // https://github.com/d3/d3-time/blob/main/src/utcWeek.js#L4-L13
+      function utcWeekday(i) {
+        return d3.timeInterval(
+          (date) => {
+            date.setUTCDate(date.getUTCDate() - ((date.getUTCDay() + 7 - i) % 7));
+            date.setUTCHours(0, 0, 0, 0);
+          },
+          (date, step) => date.setUTCDate(date.getUTCDate() + step * 7),
+          (start, end) => (end - start) / 604800000 // durationWeek;
         );
-    }
+      }
 
-    return function (
-      data = [],
-      {
-        date = dateAccessor,
-        value = valueAccessor,
-        reduce = (d) => d[0],
-        width = 726,
-        gap = 0.15,
-        color,
-        fill = value || "steelblue",
-        textFill = "white",
-        title,
-        colors = {
-          base: "#eee",
-          today: "red"
-        },
-        weekStart = 0, // 1 for Monday-based weeks.
-        daysToShow = d3.range(7).map((d) => (d + +weekStart) % 7),
-        weekNumber,
-        locale = "en-US",
-        weekNumberFormat = +weekStart === 0 ? "%U" : "%W",
-        dayFormat = (d) =>
-        d.toLocaleString(locale, { weekday: "narrow", timeZone: "UTC" }),
-        monthFormat = (d) =>
-        d.toLocaleString(locale, { month: "short", timeZone: "UTC" }),
-        yearFormat =  (d) =>
-        d.toLocaleString(locale, { year: "numeric", timeZone: "UTC" }),
-      } = {}
+      return function(
+        data = [], {
+          date = dateAccessor,
+          value = valueAccessor,
+          reduce = (d) => d[0],
+          width = 726,
+          gap = 0.15,
+          color,
+          fill = value || "steelblue",
+          textFill = "white",
+          title,
+          colors = {
+            base: "#eee",
+            today: "red"
+          },
+          weekStart = 0, // 1 for Monday-based weeks.
+          daysToShow = d3.range(7).map((d) => (d + +weekStart) % 7),
+          weekNumber,
+          locale = "en-US",
+          weekNumberFormat = +weekStart === 0 ? "%U" : "%W",
+          dayFormat = (d) =>
+          d.toLocaleString(locale, {
+            weekday: "narrow",
+            timeZone: "UTC"
+          }),
+          monthFormat = (d) =>
+          d.toLocaleString(locale, {
+            month: "short",
+            timeZone: "UTC"
+          }),
+          yearFormat = (d) =>
+          d.toLocaleString(locale, {
+            year: "numeric",
+            timeZone: "UTC"
+          }),
+        } = {}
       ) {
-      // rollup the data into days
-      data = Array.from(data, (d) => (typeof d === "string" ? [d, ""] : d));
-      const dates = Plot.valueof(data, date);
-      const marked = d3.rollup(data, reduce, (d, i) =>
-        dates[i] instanceof Date ? dates[i] : d3.isoParse(dates[i])
+        // rollup the data into days
+        data = Array.from(data, (d) => (typeof d === "string" ? [d, ""] : d));
+        const dates = Plot.valueof(data, date);
+        const marked = d3.rollup(data, reduce, (d, i) =>
+          dates[i] instanceof Date ? dates[i] : d3.isoParse(dates[i])
         );
-      const days = [...marked.keys()].filter((d) => !isNaN(d.getTime())); // filter out invalid dates
-      if (days.length === 0) days.push(new Date());
-      const e = d3.extent(days);
+        const days = [...marked.keys()].filter((d) => !isNaN(d.getTime())); // filter out invalid dates
+        if (days.length === 0) days.push(new Date());
+        const e = d3.extent(days);
 
-      // responsive
-      const W = width < 726 ? "H" : "Y";
+        // responsive
+        const W = width < 726 ? "H" : "Y";
 
-      // sort all days, with days containing information put at the beginning of the
-      // array (so we can pass channels as arrays, e.g. fill: [1, 2, 3] for three events)
-      let fullExtent = [d3.utcYear.floor(e[0]), d3.utcYear.ceil(e[1])];
-      // filter out empty semesters
-      if (W === "H") {
-        if (e[0].getUTCMonth() >= 6)
-          fullExtent[0] = d3.utcMonth.offset(fullExtent[0], 6);
-        if (e[1].getUTCMonth() < 6)
-          fullExtent[1] = d3.utcMonth.offset(fullExtent[1], -6);
-      }
-      const alldays = new Set([...days, ...d3.utcDays(...fullExtent)]);
+        // sort all days, with days containing information put at the beginning of the
+        // array (so we can pass channels as arrays, e.g. fill: [1, 2, 3] for three events)
+        let fullExtent = [d3.utcYear.floor(e[0]), d3.utcYear.ceil(e[1])];
+        // filter out empty semesters
+        if (W === "H") {
+          if (e[0].getUTCMonth() >= 6)
+            fullExtent[0] = d3.utcMonth.offset(fullExtent[0], 6);
+          if (e[1].getUTCMonth() < 6)
+            fullExtent[1] = d3.utcMonth.offset(fullExtent[1], -6);
+        }
+        const alldays = new Set([...days, ...d3.utcDays(...fullExtent)]);
 
-      // copy the rolled-up data into the days array
-      data = Array.from(alldays, (date) => ({
-        date,
-        ...(marked.has(date)
-          ? { ...marked.get(date), date, foreground: true }
-          : { background: true })
-      }));
+        // copy the rolled-up data into the days array
+        data = Array.from(alldays, (date) => ({
+          date,
+          ...(marked.has(date) ?
+            {
+              ...marked.get(date),
+              date,
+              foreground: true
+            } :
+            {
+              background: true
+            })
+        }));
 
-      // weekStart and weekNumber
-      const utcWeek = utcWeekday((weekStart = +weekStart));
-      if (typeof weekNumberFormat === "string")
-        weekNumberFormat = d3.utcFormat(weekNumberFormat);
-      if (![0, 1].includes(weekStart))
-        throw new Error("unsupported weekStart value");
+        // weekStart and weekNumber
+        const utcWeek = utcWeekday((weekStart = +weekStart));
+        if (typeof weekNumberFormat === "string")
+          weekNumberFormat = d3.utcFormat(weekNumberFormat);
+        if (![0, 1].includes(weekStart))
+          throw new Error("unsupported weekStart value");
 
-      const weekX =
-      W === "H"
-      ? (d) =>
-      +utcWeek.count(d3.utcYear(d), d) -
-      26.2 * (d.getUTCMonth() >= 6) +
-      gap * d.getUTCMonth()
-      : (d) => +utcWeek.count(d3.utcYear(d), d) + gap * +d.getUTCMonth();
-      const height =
-      (d3.utcMonths(...d3.extent(alldays)).length / 12) *
-      (daysToShow.length + 2) *
-      17 *
-      (W === "H" ? 2 : 1);
+        const weekX =
+          W === "H" ?
+          (d) =>
+          +utcWeek.count(d3.utcYear(d), d) -
+          26.2 * (d.getUTCMonth() >= 6) +
+          gap * d.getUTCMonth() :
+          (d) => +utcWeek.count(d3.utcYear(d), d) + gap * +d.getUTCMonth();
+        const height =
+          (d3.utcMonths(...d3.extent(alldays)).length / 12) *
+          (daysToShow.length + 2) *
+          17 *
+          (W === "H" ? 2 : 1);
 
-      // We want the UTC date that corresponds to our local calendar date
-      const now = new Date();
-      const today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+        // We want the UTC date that corresponds to our local calendar date
+        const now = new Date();
+        const today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
 
-      // formats
-      if (typeof dayFormat !== "function") dayFormat = d3.utcFormat(dayFormat);
-      if (typeof monthFormat !== "function")
-        monthFormat = d3.utcFormat(monthFormat);
+        // formats
+        if (typeof dayFormat !== "function") dayFormat = d3.utcFormat(dayFormat);
+        if (typeof monthFormat !== "function")
+          monthFormat = d3.utcFormat(monthFormat);
 
-      // positions
-      const barOptions = {
-        x1: (d) => -0.45 + weekX(d.date),
-        x2: (d) => 0.5 + weekX(d.date),
-        y: (d) => d.date.getUTCDay(),
-        insetBottom: 1
-      };
-      const textOptions = {
-        x: (d) => weekX(d.date),
-        y: (d) => d.date.getUTCDay(),
-        text: (d) => d.date.getUTCDate(),
-        fontSize: 8
-      };
+        // positions
+        const barOptions = {
+          x1: (d) => -0.45 + weekX(d.date),
+          x2: (d) => 0.5 + weekX(d.date),
+          y: (d) => d.date.getUTCDay(),
+          insetBottom: 1
+        };
+        const textOptions = {
+          x: (d) => weekX(d.date),
+          y: (d) => d.date.getUTCDay(),
+          text: (d) => d.date.getUTCDate(),
+          fontSize: 8
+        };
 
-      // default title
-      if (title === undefined) {
-        const values = Plot.valueof(data, value);
-        const format = d3.format("~f");
-        const formatValue = (d) => (typeof d === "number" ? format(d) : d);
-        title = Plot.valueof(data, (d, i) =>
-          d.foreground
-          ? `${new Intl.DateTimeFormat(locale, { timeZone: "UTC" }).format(
+        // default title
+        if (title === undefined) {
+          const values = Plot.valueof(data, value);
+          const format = d3.format("~f");
+          const formatValue = (d) => (typeof d === "number" ? format(d) : d);
+          title = Plot.valueof(data, (d, i) =>
+            d.foreground ?
+            `${new Intl.DateTimeFormat(locale, { timeZone: "UTC" }).format(
             d.date
-            )}: ${formatValue(values[i])}`
-          : undefined
+            )}: ${formatValue(values[i])}` :
+            undefined
           );
-      }
+        }
 
-      const p = Plot.plot({
-        width,
-        marginTop: 0,
-        marginBottom: 0,
-        marginLeft: W === "H" ? 70 : 40,
-        height,
-        facet: {
-          data,
-          y:
-          W === "H"
-          ? (d) =>
-          `${d.date.getUTCFullYear()} H${
+        const p = Plot.plot({
+          width,
+          marginTop: 0,
+          marginBottom: 0,
+          marginLeft: W === "H" ? 70 : 40,
+          height,
+          facet: {
+            data,
+            y: W === "H" ?
+              (d) =>
+              `${d.date.getUTCFullYear()} H${
             d.date.getUTCMonth() < 6 ? "1" : "2"
-          }`
-          : (d) => d.date.getUTCFullYear()
-        },
-        y: {
-          // -2/-1 is for the legend/week number, 0=Sun, 1=Mon… 6=Sat
-          domain: weekNumber ? [-2, -1, ...daysToShow] : [-1, ...daysToShow],
-          tickFormat: (day) =>
-          day < 0 ? "" : dayFormat(d3.isoParse(`2000-02-2${day}`)),
-          tickSize: 0
-        },
-        x: { axis: null },
-        fy: { reverse: true, axis: null },
-        color,
-        marks: [
-          // cells
-          [
-          colors.base &&
-          Plot.barX(data, {
-            filter: "background",
-            ...barOptions,
-            fill: colors.base
-          }),
-          Plot.barX(data, {
-            filter: "foreground",
-            ...barOptions,
-            fill,
-            title
-          }),
-          colors.today &&
-          Plot.barX(data, {
-            filter: (d) => +d.date === +today,
-            ...barOptions,
-            fill: "none",
-            stroke: colors.today
-          })
-          ],
+          }` :
+              (d) => d.date.getUTCFullYear()
+          },
+          y: {
+            // -2/-1 is for the legend/week number, 0=Sun, 1=Mon… 6=Sat
+            domain: weekNumber ? [-2, -1, ...daysToShow] : [-1, ...daysToShow],
+            tickFormat: (day) =>
+              day < 0 ? "" : dayFormat(d3.isoParse(`2000-02-2${day}`)),
+            tickSize: 0
+          },
+          x: {
+            axis: null
+          },
+          fy: {
+            reverse: true,
+            axis: null
+          },
+          color,
+          marks: [
+            // cells
+            [
+              colors.base &&
+              Plot.barX(data, {
+                filter: "background",
+                ...barOptions,
+                fill: colors.base
+              }),
+              Plot.barX(data, {
+                filter: "foreground",
+                ...barOptions,
+                fill,
+                title
+              }),
+              colors.today &&
+              Plot.barX(data, {
+                filter: (d) => +d.date === +today,
+                ...barOptions,
+                fill: "none",
+                stroke: colors.today
+              })
+            ],
 
-          // labels
-          [
-          Plot.text(data, {
-            filter: "background",
-            ...textOptions,
-            fill: "black"
-          }),
-          Plot.text(data, {
-            filter: "foreground",
-            ...textOptions,
-            fill: textFill
-          })
-          ],
+            // labels
+            [
+              Plot.text(data, {
+                filter: "background",
+                ...textOptions,
+                fill: "black"
+              }),
+              Plot.text(data, {
+                filter: "foreground",
+                ...textOptions,
+                fill: textFill
+              })
+            ],
 
-          // years and months
-          [
-          Plot.text(
-            data,
-            Plot.selectFirst({
-              filter: (d) => d.date.getUTCDay() === weekStart,
-              x: (d) => weekX(d.date),
-              y: weekNumber ? -2 : -1,
-              text: (d) => monthFormat(d.date),
-              z: (d) => d.date.getUTCMonth()
-            })
-            ),
-          Plot.text(
-            data,
-            Plot.selectFirst({
-              sort: "date",
-              x: 0,
-              y: weekNumber ? -2 : -1,
-              text:
-              W === "H" ? (d) => d.date.getUTCFullYear() + (d.date.getUTCMonth() < 6 ? 
-                " H1" : "H2") : (d) => d.date.getUTCFullYear(),
-              textAnchor: "end",
-              fontWeight: "bold",
-              dx: -14
-            })
-            )
-          ],
+            // years and months
+            [
+              Plot.text(
+                data,
+                Plot.selectFirst({
+                  filter: (d) => d.date.getUTCDay() === weekStart,
+                  x: (d) => weekX(d.date),
+                  y: weekNumber ? -2 : -1,
+                  text: (d) => monthFormat(d.date),
+                  z: (d) => d.date.getUTCMonth()
+                })
+              ),
+              Plot.text(
+                data,
+                Plot.selectFirst({
+                  sort: "date",
+                  x: 0,
+                  y: weekNumber ? -2 : -1,
+                  text: W === "H" ? (d) => d.date.getUTCFullYear() + (d.date.getUTCMonth() < 6 ?
+                    " H1" : "H2") : (d) => d.date.getUTCFullYear(),
+                  textAnchor: "end",
+                  fontWeight: "bold",
+                  dx: -14
+                })
+              )
+            ],
 
-          // week numbers
-          weekNumber
-          ? Plot.text(
-            data,
-            Plot.selectFirst({
-              filter: (d) => d.date.getUTCDay() === (weekStart + 6) % 7,
-              x: (d) => weekX(d.date),
-              y: -1,
-              text: (d) => weekNumberFormat(d.date),
-              fontSize: 7,
-              fill: "grey",
-              z: (d) => weekNumberFormat(d.date)
-            })
-            )
-          : null
+            // week numbers
+            weekNumber ?
+            Plot.text(
+              data,
+              Plot.selectFirst({
+                filter: (d) => d.date.getUTCDay() === (weekStart + 6) % 7,
+                x: (d) => weekX(d.date),
+                y: -1,
+                text: (d) => weekNumberFormat(d.date),
+                fontSize: 7,
+                fill: "grey",
+                z: (d) => weekNumberFormat(d.date)
+              })
+            ) :
+            null
           ]
         });
 
-      // p.appendChild(html`<style>.plot text { pointer-events: none }`);
-      return p;
-    };
-  };
-
-  // After data is successfully fetched, generate viz
-  myDataPromises.then(function(data) {
-    // Define the data
-    var golf = data[0];
-
-    var cal = {
-      width,
-      gap: .5,
-      dayFormat: "",
-      date: "Date",
-      fill: "Played",
-      color: {
-        scheme: "Greens",
-        domain: ["Probably Not", "Maybe", "Likely", "Yes"],
-        legend: true
-      },
-      colors: { base: "#eee" }, // no mark for "today"
-      title: (d) => `${d3.timeFormat("%a, %B %d")(d.Date)}\nPlayed? ${d.Played}\n${d.Club}`,
+        // p.appendChild(html`<style>.plot text { pointer-events: none }`);
+        return p;
+      };
     };
 
-    document.getElementById("golf_cal").appendChild(Calendar(golf, cal));
-    // document.getElementById("cal_legend").appendChild(legend("#cal_legend", cal_legend));
-  });
-</script>
+    // After data is successfully fetched, generate viz
+    myDataPromises.then(function(data) {
+      // Define the data
+      var golf = data[0];
+
+      var cal = {
+        width,
+        gap: .5,
+        dayFormat: "",
+        date: "Date",
+        fill: "Played",
+        color: {
+          scheme: "Greens",
+          domain: ["Probably Not", "Maybe", "Likely", "Yes"],
+          legend: true
+        },
+        colors: {
+          base: "#eee"
+        }, // no mark for "today"
+        title: (d) => `${d3.timeFormat("%a, %B %d")(d.Date)}\nPlayed? ${d.Played}\n${d.Club}`,
+      };
+
+      document.getElementById("golf_cal").appendChild(Calendar(golf, cal));
+      // document.getElementById("cal_legend").appendChild(legend("#cal_legend", cal_legend));
+    });
+  </script>
 </body>
+
 </html>

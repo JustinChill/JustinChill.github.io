@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+  <title>Days since a U.S. President was last shot</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Days since a U.S. President was last shot">
+  <meta name="author" content="Justin Chill">
+  <!-- OpenGraph tags -->
+  <meta name="keywords" content="stats, chart, data viz, record, historical, USA, US, presidents, assassinations, shot,">
+  <meta name="robots" content="all">
+  <meta content="en_US" property="og:locale">
+  <meta content="JustinChill" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="https://justinchill.com/assassinations.html" property="og:url">
+  <meta content="Days since a U.S. President was last shot" property="og:title">
+  <meta content="Days since a U.S. President was last shot" property="og:description">
+  <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
+  <link rel="canonical" href="https://www.justinchill.com/assassinations.html">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Days since a U.S. President was last shot">
+  <meta name="twitter:description" content="Days since a U.S. President was last shot.">
+
+  <link type="text/plain" href="humans.txt" rel="author">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="/favicon.ico">
+  <meta name="theme-color" content="#4C63B6">
+
+  <script type="module">
+    document.documentElement.classList.remove('no-js');
+    document.documentElement.classList.add('js');
+  </script>
+
+  <style type="text/css">
+    @media screen and (max-width: 680px) {}
+  </style>
+</head>
+
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+
+  <main role="main">
+    <article>
+      <div class="article-hero">
+        <h2 class="article-category">Post</h2>
+        <h1 class="article-title">Days since a U.S. President was last shot</h1>
+        <h2 class="article-subtitle"></h2>
+      </div>
+
+      <figure class="mid-size" id="line" aria-label="A line graph showing..."></figure>
+      <p>Based on the Wikipedia article, “<a href="https://en.wikipedia.org/wiki/List_of_United_States_presidential_assassination_attempts_and_plots">List of United States presidential assassination attempts and plots</a>”.</p>
+      <p>Note that this plots the date of shooting, not necessarily the date of death attributed to the shooting. Lincoln for example was shot April 14, 1865 and died the 15th. Garfield was shot July 2, 1881 and died September 19. McKinley was shot September 6, 1901 and died the 14th. Kennedy was shot and killed November 22, 1963.</p>
+    </article>
+  </main>
+  <footer>
+    <h2 id="footnote-label">Footnotes</h2>
+  <ol>
+    <li id="toph">Adapted from Code by Mike Bostock and <a href="https://observablehq.com/@tophtucker">Toph Tucker</a>. <a href="#molony-ref" aria-label="Back to content">↩</a></li>
+  </ol>
+    <div>
+      <p>Justin Chill © 2024. Thanks&nbsp;for&nbsp;reading!</p>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code and feedback</a></span>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+
+  <script type="text/javascript">
+    var size = 12;
+    var element = d3.select('figure').node();
+    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+
+    var shootings = [
+        ["Abraham Lincoln", new Date(1865, 3, 14), true, true],
+        ["James A. Garfield", new Date(1881, 6, 2), true, true],
+        ["William McKinley", new Date(1901, 8, 6), true, true],
+        ["John F. Kennedy", new Date(1963, 10, 22), true, true],
+        ["Theodore Roosevelt", new Date(1912, 9, 14), false, false],
+        ["Ronald Reagan", new Date(1981, 2, 30), false, true],
+        ["Donald Trump", new Date(2024, 6, 13), false, false]
+      ]
+      .map(([name, date, killed, inOffice]) => ({
+        name,
+        date,
+        killed,
+        inOffice
+      }))
+      .sort((a, b) => d3.ascending(a.date, b.date));
+
+    // Define the data
+    var origin = new Date(1789, 3, 30);
+    var daysSinceOrigin = d3.timeDay.count(origin, shootings[0].date); // April 30, 1789: George Washington became 1st President
+    var originalSin = [shootings[0].date, daysSinceOrigin];
+    var // TODO clean this up…
+      daysSince = [
+        originalSin,
+        [shootings[0].date, 0],
+        ...d3.pairs(shootings.map((d) => d.date)).flatMap(([a, b]) => [
+          [b, d3.timeDay.count(a, b)],
+          [b, 0]
+        ]),
+        (date => [date, d3.timeDay.count(shootings.at(-1).date, date)])(new Date())
+      ];
+    var shootingsAnnotated = shootings.map((d) => ({
+      ...d,
+      daysSince: daysSince.find((e) => +e[0] === +d.date)[1]
+    }));
+
+    var line = {
+      width: width,
+      style: {
+        fontSize: size,
+        paddingBottom: 0,
+        textTransform: "capitalize",
+      },
+      y: {
+        tickSize: 0,
+        tickFormat: d => d.toLocaleString("en"),
+        nice: true,
+      },
+      x: {
+        tickSize: 0,
+        nice: true,        
+      },
+      color: {
+        legend: true,
+      },
+      marks: [
+        Plot.ruleY([0]),
+        Plot.lineY([
+          [origin, 0], originalSin
+        ], {
+          x: "0",
+          y: "1",
+          strokeDasharray: "2,4"
+        }),
+        Plot.lineY(daysSince, {
+          x: "0",
+          y: "1"
+        }),
+        Plot.dot(shootingsAnnotated, {
+          x: "date",
+          y: "daysSince",
+          fill: (d) => (d.killed ? "black" : "white"),
+          stroke: "black"
+        }),
+        Plot.text(shootingsAnnotated, {
+          x: "date",
+          y: "daysSince",
+          text: (d) => `${d.name}${d.killed ? "\nkilled" : "\ninjured"}${d.inOffice ? " in office" : ""}`,
+          fill: "black",
+          stroke: "white",
+          dy: -16
+        }),
+        Plot.text(
+          [{
+            date: origin,
+            daysSince: 0,
+            text: "The first\ninauguration"
+          }], {
+            x: "date",
+            y: "daysSince",
+            text: "text",
+            dy: -16,
+            fill: "black",
+            stroke: "white"
+          }
+        )
+      ]
+    };
+
+    document.getElementById("line").appendChild(Plot.plot(line));
+  </script>
+</body>
+
+</html>
