@@ -136,6 +136,9 @@
         { label: '← District is smaller than average', x: d3.min(sortedDistrictData.filter(d => d.reps > 0), d => d.popDiff), textAnchor: 'start' },
         { label: 'District is larger than average →', x: d3.max(sortedDistrictData.filter(d => d.reps > 0), d => d.popDiff), textAnchor: 'end' },
       ];
+      var lineAnnotations = [
+        { label: 'The District of Columbia has more people than almost 20 districts, but has no voting representatives.', x: 400, textAnchor: 'start' },
+      ];
 
       var states = {
         grid: true,
@@ -146,6 +149,7 @@
         },
         color: {
           legend: "ramp",
+          label: "Party",
           domain: [...new Set(partiesByState.values()), 'none'],
           range: [
             'purple', // DR
@@ -177,6 +181,13 @@
           Plot.ruleY([0.5, 0.75], {
             stroke: '#aeaeae'
           }),
+          Plot.arrow(annotations, {
+            x: d => d.cumulativeSen + 1,
+            y1: d => d.cumulativePopPct - 0.2,
+            y2: 'cumulativePopPct',
+            bend: true,
+            stroke: 'lightgrey'
+          }),
           Plot.textY(sortedData.filter((_, i) => i > 27 && i % 2 === 1), {
             x: d => d.cumulativeSen - 1,
             y: 'cumulativePopPct',
@@ -205,13 +216,6 @@
             fill: "black",
             stroke: "white",
           }),
-          Plot.arrow(annotations, {
-            x: d => d.cumulativeSen - 1,
-            y1: d => d.cumulativePopPct - 0.2,
-            y2: 'cumulativePopPct',
-            bend: true,
-            stroke: 'lightgrey'
-          }),
         ]
       };
 
@@ -221,7 +225,6 @@
         style: {
           fontSize: size,
           paddingBottom: 0,
-          textTransform: "capitalize",
         },
         y: {
           tickSize: 0,
@@ -245,6 +248,22 @@
           Plot.ruleY([0.5], {
             stroke: 'lightgrey'
           }),
+          Plot.text(lineAnnotations, {
+            x: 'x',
+            text: 'label',
+            dx: -14,
+            dy: -5,
+            frameAnchor: "top",
+            textAnchor: 'end',
+            lineWidth: 18,
+          }),
+          // Plot.arrow(lineAnnotations, {
+          //   x: x,
+          //   y1: "cumulativePopPct",
+          //   y2: 'cumulativePopPct',
+          //   bend: true,
+          //   stroke: 'lightgrey'
+          // }),
         ]
       };
       
@@ -286,7 +305,8 @@
           textAnchor: 'start',
           rotate: -45,
           x: 'popDiff',
-          dy: -45,
+          dy: -20,
+          frameAnchor: "bottom",
           text: 'state',
         }),
         Plot.text(districtAnnotations, {

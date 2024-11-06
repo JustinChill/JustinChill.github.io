@@ -73,6 +73,7 @@
       <p>In the following years, when news broke of scandals involving executive power and privilege, Watergate's name was often invoked. Whether it was the Iran-Contra affair during Ronald Reagan's presidency, Bill Clinton's sex scandal or Donald Trump's various controversies, many journalists and politicos alike would draw parallels between Nixon's actions and those of the sitting president.</p>
       <p>And still, the aftermath of Watergate did not end with Nixon's resignation, or even his death in 1994. Gerald Ford was widely disliked for pardoning Nixon, which became a lynchpin in the 1976 election between him and Jimmy Carter, and is likely the reason he lost the race. Key informant Mark Felt didn't reveal his identity as 'Deep Throat' until 2005, fearing that death would come for him like it did for so many of the other Watergate figures in the early 2000s.</p>
       <h3>Most common words in headlines</h3>
+      <figure id="headlines" aria-label="A line graph showing..."></figure>
     </article>
   </main>
   <footer>
@@ -100,15 +101,21 @@
     formatDate = d3.timeFormat("%b %Y");
     
     // Use Promises to async request data
-    var promises = [d3.csv("data/watergate.csv", d3.autoType)];
+    var promises = [d3.csv("data/watergate_count_data.csv", d3.autoType),d3.csv("data/watergate_word_data.csv", d3.autoType)];
     myDataPromises = Promise.all(promises);
 
     // After data is successfully fetched, generate viz
     myDataPromises.then(function(data) {
 
       // Define the data
-      var data = data[0];    
+      var data = data[0];
+      var word_data = data[1];    
       console.log(data);
+      var sumstat = d3.group(data, (d) => d.month_year) // Group, formally nest, function allows to group the calculation per level of a factor
+        // .key(function(d) { return d.month_year;})
+        // .rollup(function(leaves) { return leaves.length; })
+        // .entries(data); 
+      console.log(sumstat);
       
       var alltime = {
         grid: true,
@@ -116,15 +123,13 @@
         width: width,
         style: {
           fontSize: size,
-          // background: "hsla(209, 23%, 98%, 1)",
         },
         y: {
-          // label: "↑ Age",
-          // labelOffset: 30,
           tickSize: 0,
         },
         x: {
           tickSize: 0,
+          label: null,
         },
         color: {
         },
@@ -134,9 +139,8 @@
           // y: "episode_score", 
           stroke: "hsl(42, 87%, 55%)",
           strokeWidth: 1.5,
-          curve: "basis",
+          // curve: "basis",
         })),
-        // Plot.rectY(titanic, Plot.binX({y: "count"}, {x: "Age", thresholds: 10, fill: "Sex", tip:true})),
         ]
       };
       
@@ -170,8 +174,68 @@
         ]
       };
 
+      var headlines = {
+        width: width,
+        style: {
+          fontSize: size,
+          paddingLeft: 50,
+          paddingRight: 10
+        },
+        margin: 0,
+        x: {
+          axis: "top",
+          label: null,
+          // tickFormat: "%B",
+          nice: true,
+        },
+        y: {
+          axis: null,
+        },
+        fy: {
+          round: true,
+          label: null,
+        },
+        facet: {
+          data: word_data,
+          y: "headline",
+          marginLeft: width > 450 ? width / 8 : width / 4,
+        },
+        color: {
+          scheme: "tableau10",
+          reverse: true,
+        },
+        marks: [
+          Plot.areaY(word_data, {
+            x: "week",
+            y: "interest",
+            fill: "search",
+            fillOpacity: 0.42,
+            sort: {
+              fy: "y",
+              reduce: "max-index"
+            }
+          }),
+          Plot.line(word_data, {
+            x: "week",
+            y: "interest",
+            stroke: "white",
+            title: (d) => `${d.search}\n${d3.timeFormat("%B %d, %Y")(d["week"])} \nRanking: ${d.interest}`,
+            strokeWidth: 1,
+            tip: {
+              opacity: 0.8,
+              textPadding: 10,
+              lineHeight: 1.5,
+            },
+          }),
+          Plot.ruleY([0], {
+            stroke: "rgba(204,204,204,.8)"
+          }),
+        ]
+      };
+
       document.getElementById("alltime").appendChild(Plot.plot(alltime));
       document.getElementById("postNixon").appendChild(Plot.plot(postNixon));
+      document.getElementById("headlines").appendChild(Plot.plot(headlines));
     });
   </script>
 </body>

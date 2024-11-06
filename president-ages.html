@@ -34,11 +34,7 @@
   </script>
 
   <style type="text/css">
-    table {
-      /* width: max(65rem, 100%); */
-      /* width: 100%; */
-      table-layout: fixed;
-    }
+
     @media screen and (max-width: 680px) {}
   </style>
 </head>
@@ -67,6 +63,7 @@
       <p>The presidency of the United States stands as one of the most influential and scrutinized roles in global leadership, with each president shaping the course of American history and impacting the world beyond. Since George Washington took office as the first president in 1789, the U.S. has seen 46 individuals serve as its head of state, each bringing unique backgrounds, philosophies, and policies to the role. </p>
       <p>This list of U.S. presidents provides a chronological journey through American history, capturing how each leader responded to the challenges of their era. Spanning over two centuries, these presidencies reflect the changing priorities of the nation—from expansion and industrialisation in the 19th century to global leadership and digital transformation in the 21st. </p>
       <p>Each administration has faced its own struggles, from civil conflict and economic crises to evolving civil rights issues and complex foreign policies.</p>
+      <h4>Age at inauguration</h4>
       <figure id="bars" aria-label="A bar graph showing..."></figure>
       <h3>Complete List of US Presidents</h3>
       <table>
@@ -1255,7 +1252,6 @@
       };
 
       var bars = {
-        grid: true,
         width: width,
         style: {
           fontSize: size,
@@ -1264,11 +1260,14 @@
         },
         y: {
           tickSize: 0,
+          grid: true,
         },
         x: {
           tickSize: 0,
           nice: true,
-          axis: null,
+          ticks: null,
+          // axis: null,
+          tickFormat: null,
         },
         color: {
           legend: true,
@@ -1286,6 +1285,7 @@
             strokeWidth: 1,
             fill: "age",
             tip: "x",
+            channels: {president: "president"},
             opacity: .85,
           }),
           Plot.text(data, Plot.selectFirst({
