@@ -33,83 +33,138 @@
   </script>
 
 	<style type="text/css">
-		@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap');
-
-		.faq-drawer {
-			margin-bottom: 30px;
+		.transition, ul li i:before, ul li i:after, p {
+		  transition: all 0.25s ease-in-out;
 		}
 
-		.container{
-			margin: 2rem 0;
+		.flipIn, ul li, h1 {
+		  animation: flipdown 0.5s ease both;
 		}
 
-		.faq-drawer + p{
-			margin: 6rem 0 2rem;
-			padding: 1rem 0;
+		.no-select, h2 {
+		  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+		  -webkit-touch-callout: none;
+		  -webkit-user-select: none;
+		  -khtml-user-select: none;
+		  -moz-user-select: none;
+		  -ms-user-select: none;
+		  user-select: none;
 		}
 
-		.faq-drawer__content-wrapper {
-			line-height: 1.4em;
-			max-height: 0px;
-			overflow: hidden;
-			transition: 0.25s ease-in-out;			
+		html {
+		  width: 100%;
+		  height: 100%;
+		  perspective: 900;
+		  overflow-y: scroll;
 		}
 
-		.faq-drawer__title,
-		input[type=checkbox] + label {
-			font-family: 'Montserrat', sans-serif;
-			cursor: pointer;
-			display: block;
-			font-size: calc(16px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
-			color: hsl(205, 65%, 55%);
-			font-weight: 700;
-			padding-top: var(--spacer-3);
-			position: relative;
-			margin-bottom: 0;
-			transition: all 0.25s ease-out;
+		.details h3{
+			margin: var(--spacer-2) 0 var(--spacer-1) 0
 		}
 
-		.faq-drawer__content p{
-			color: #373539;			
-			font-family: 'Montserrat', sans-serif;
+		.details p {
+		  color: rgba(48, 69, 92, 0.8);
+		  font-size: 17px;
+		  line-height: 26px;
+		  letter-spacing: 1px;
+		  position: relative;
+		  overflow: hidden;
+		  max-height: 800px;
+		  opacity: 1;
+		  transform: translate(0, 0);
+		  margin-top: 14px;
+		  z-index: 2;
 		}
 
-		.faq-drawer__title::after {
-			border-style: solid;
-			border-width: 1px 1px 0 0;
-			content: " ";
-			display: inline-block;
-			float: right;
-			height: 10px;
-			left: 2px;
-			position: relative;
-			right: 20px;
-			top: 2px;
-			transform: rotate(135deg);
-			transition: 0.35s ease-in-out;
-			vertical-align: top;
-			width: 10px;
+		ul.details  {
+		  list-style: none;
+		  perspective: 900;
+		  padding: 0;
+		  margin: 0;
+		}
+		ul.details  li {
+		  position: relative;
+		  padding: 0;
+		  margin: 0;
+		  padding-bottom: 4px;
+		  padding-top: 18px;
+		  border-top: 1px dotted #dce7eb;
+		  box-shadow: 0 2px 0 0 #ff6873 inset;
+		}
+		ul.details li:nth-of-type(1) {
+		  animation-delay: 0.5s;
+		}
+		ul.details li:nth-of-type(2) {
+		  animation-delay: 0.75s;
+		}
+		ul.details li:nth-of-type(3) {
+		  animation-delay: 1s;
+		}
+		ul.details li:last-of-type {
+		  padding-bottom: 0;
+		}
+		ul.details li i {
+		  position: absolute;
+		  transform: translate(-6px, 0);
+		  margin-top: 1rem;
+		  right: 0;
+		}
+		ul.details li i:before, ul.details li i:after {
+		  content: "";
+		  position: absolute;
+		  background-color: #ff6873;
+		  width: 3px;
+		  height: 9px;
+		}
+		ul.details li i:before {
+		  transform: translate(-2px, 0) rotate(45deg);
+		}
+		ul.details li i:after {
+		  transform: translate(2px, 0) rotate(-45deg);
+		}
+		ul.details li input[type=checkbox] {
+		  position: absolute;
+		  cursor: pointer;
+		  width: 100%;
+		  height: 100%;
+		  z-index: 1;
+		  opacity: 0;
+		}
+		ul.details li input[type=checkbox]:checked ~ p {
+		  margin-top: 0;
+		  max-height: 0;
+		  opacity: 0;
+		  transform: translate(0, 50%);
+		}
+		ul.details li input[type=checkbox]:checked ~ i:before {
+		  transform: translate(2px, 0) rotate(45deg);
+		}
+		ul.details li input[type=checkbox]:checked ~ i:after {
+		  transform: translate(-2px, 0) rotate(-45deg);
 		}
 
-		/* OPTIONAL HOVER STATE */
-		.faq-drawer__title:hover { 
-			color: #4E4B52  ;
-		}
-
-		.faq-drawer__trigger:checked
-		+ .faq-drawer__title
-		+ .faq-drawer__content-wrapper {
-			max-height: 350px;
-			padding: .5rem 0;
-		}
-
-		.faq-drawer__trigger:checked + .faq-drawer__title::after {
-			transform: rotate(-45deg);
-			transition: 0.25s ease-in-out;
-		}
-
-		input[type="checkbox"] {
-			display: none;
+		@keyframes flipdown {
+		  0% {
+		    opacity: 0;
+		    transform-origin: top center;
+		    transform: rotateX(-90deg);
+		  }
+		  5% {
+		    opacity: 1;
+		  }
+		  80% {
+		    transform: rotateX(8deg);
+		  }
+		  83% {
+		    transform: rotateX(6deg);
+		  }
+		  92% {
+		    transform: rotateX(-3deg);
+		  }
+		  100% {
+		    transform-origin: top center;
+		    transform: rotateX(0deg);
+		  }
 		}
 	</style>
 </head>
@@ -129,171 +184,110 @@
 			<div class="article-hero">
 				<h2 class="article-category">Puns</h2>
 				<h1 class="article-title">Word avalanches</h1>
-				<h2 class="article-subtitle">Incredibly contrived setups for homophonic punchlines</h2>
+				<h2 class="article-subtitle">Incredibly contrived setups for homophonic punchlines</h3>
 			</div>
 			<p>A word avalanche is a highly-contrived sentence, where many syllable sounds are repeated via the use of wordplay and/or puns. They can be pretty straightforward, like this:</p>
-			<div class="container">
-
-				<div class="faq-drawer">
-					<input class="faq-drawer__trigger" id="faq-drawer-10" type="checkbox" /><label class="faq-drawer__title" for="faq-drawer-10">Julie Andrews' delightful visits</label>
-					<div class="faq-drawer__content-wrapper">
-						<div class="faq-drawer__content">
-							<p>
-								Mary Poppins' merry pop-ins.
-							</p>
-						</div>
-					</div>
-				</div>
-
-
-				<div class="faq-drawer">
-					<input class="faq-drawer__trigger" id="faq-drawer-2" type="checkbox" /><label class="faq-drawer__title" for="faq-drawer-2">Visualize a pop rock band in women's clothing</label>
-					<div class="faq-drawer__content-wrapper">
-						<div class="faq-drawer__content">
-							<p>
-								Imagine drag on Imagine Dragons.
-							</p>
-						</div>
-					</div>
-				</div>
-
+			<ul class="details">
+			  <li>
+			    <input type="checkbox">
+			    <i></i>
+			    <h3>Julie Andrews' delightful visits</h3>
+			    <p>Mary Poppins' merry pop-ins.</p>
+			  </li>
+			  <li>
+			    <input type="checkbox" checked>
+			    <i></i>
+			    <h3>Visualize a pop rock band in women's clothing</h3>
+			    <p>Imagine drag on Imagine Dragons.</p>
+			  </li>
+			</ul>
 				<p>Each word avalanche has a rhyming pattern. Try sounding out the next avalanche:</p>
 
-				<div class="faq-drawer">
-					<input class="faq-drawer__trigger" id="faq-drawer-3" type="checkbox" /><label class="faq-drawer__title" for="faq-drawer-3">Watching a crab fishing boat in the cold north be like</label>
-					<div class="faq-drawer__content-wrapper">
-						<div class="faq-drawer__content">
-							<p>
-								Ice sea captain I see capped in icy cab tin.
-							</p>
-						</div>
-					</div>
-				</div>
+			<ul class="details">
+			  <li>
+			    <input type="checkbox" checked>
+			    <i></i>
+			    <h3>Watching a crab fishing boat in the cold north be like</h3>
+			    <p>Ice sea captain I see capped in icy cab tin.</p>
+			  </li>
+			  <li>
+			    <input type="checkbox" checked>
+			    <i></i>
+			    <h3>Visualize a pop rock band in women's clothing</h3>
+			    <p>Imagine drag on Imagine Dragons.</p>
+			  </li>
+			</ul>
 
-				<p>All credit to <a href="https://www.reddit.com/r/WordAvalanches/">people</a> much more clever than I! I'm awed by people's creative word play on Reddit. Here are a bunch more of my favorites:</p></p>
+				<p>All credit to <a href="https://www.reddit.com/r/WordAvalanches/">people</a> much more clever than I! Here are a bunch more of my favorites:</p>
 
-				<div class="faq-drawer">
-					<input class="faq-drawer__trigger" id="faq-drawer" type="checkbox" /><label class="faq-drawer__title" for="faq-drawer">Did you know that a KKK member once invented a clam chowder recipe that can help you sleep better?</label>
-					<div class="faq-drawer__content-wrapper">
-						<div class="faq-drawer__content">
-							<p>
-								White supremacist white soup REM assist!
-							</p>
-						</div>
-					</div>
-				</div>
-
-				<div class="faq-drawer">
-					<input class="faq-drawer__trigger" id="faq-drawer-4" type="checkbox" /><label class="faq-drawer__title" for="faq-drawer-4">A queue consisting of cats who need to pay their expenses</label>
-					<div class="faq-drawer__content-wrapper">
-						<div class="faq-drawer__content">
-							<p>
-								Feline fee line. 🐈
-							</p>
-						</div>
-					</div>
-				</div>
-
-				<div class="faq-drawer">
-					<input class="faq-drawer__trigger" id="faq-drawer-5" type="checkbox" /><label class="faq-drawer__title" for="faq-drawer-5">A flower’s female reproductive organ’s firearm will be upset unless the ground is cultivated with urine</label>
-					<div class="faq-drawer__content-wrapper">
-						<div class="faq-drawer__content">
-							<p>
-								Pistil’s pistol pissed till piss tilled.
-							</p>
-						</div>
-					</div>
-				</div>
-
-				<div class="faq-drawer">
-					<input class="faq-drawer__trigger" id="faq-drawer-6" type="checkbox" /><label class="faq-drawer__title" for="faq-drawer-6">“Pay no attention to their idiocy,” advised the manservant, “for they know not what they do.”</label>
-					<div class="faq-drawer__content-wrapper">
-						<div class="faq-drawer__content">
-							<p>
-								“Ignore rants,” says a footman, “ignorance is afoot, man.”
-							</p>
-						</div>
-					</div>
-				</div>
-
-				<div class="faq-drawer">
-					<input class="faq-drawer__trigger" id="faq-drawer-7" type="checkbox" /><label class="faq-drawer__title" for="faq-drawer-7">Me and a K-Pop star would poison Aryans</label>
-					<div class="faq-drawer__content-wrapper">
-						<div class="faq-drawer__content">
-							<p>
-								Psy n' I'd cyanide cyan-eyed.
-							</p>
-						</div>
-					</div>
-				</div>
-
-				<div class="faq-drawer">
-					<input class="faq-drawer__trigger" id="faq-drawer-8" type="checkbox" /><label class="faq-drawer__title" for="faq-drawer-8">Lowest ranked, self proclaimed smart guys are intellectually declining, but they do not accept this, and bring up astrophysics instead</label>
-					<div class="faq-drawer__content-wrapper">
-						<div class="faq-drawer__content">
-							<p>
-								Ensign MENSA men shun dementia and mention immense dimensions.
-							</p>
-						</div>
-					</div>
-				</div>
-
-				<div class="faq-drawer">
-					<input class="faq-drawer__trigger" id="faq-drawer-9" type="checkbox" /><label class="faq-drawer__title" for="faq-drawer-9">Ay friend, this wind is really annoying that frisbee. Can we talk about it?</label>
-					<div class="faq-drawer__content-wrapper">
-						<div class="faq-drawer__content">
-							<p>
-								Augustus, dis gust disgusts dis discus, discuss!
-							</p>
-						</div>
-					</div>
-				</div>
-
-				<div class="faq-drawer">
-					<input class="faq-drawer__trigger" id="faq-drawer-0" type="checkbox" /><label class="faq-drawer__title" for="faq-drawer-0">A nuclear woman forgot to include some items, so...</label>
-					<div class="faq-drawer__content-wrapper">
-						<div class="faq-drawer__content">
-							<p>
-								Atom Madam had 'em add 'em.
-							</p>
-						</div>
-					</div>
-				</div>
-
-				<div class="faq-drawer">
-					<input class="faq-drawer__trigger" id="faq-drawer-11" type="checkbox" /><label class="faq-drawer__title" for="faq-drawer-11">Flying dog's clone makes the all rights reserved claim of a poem in a strange font</label>
-					<div class="faq-drawer__content-wrapper">
-						<div class="faq-drawer__content">
-							<p>
-								Winged dingo copy writes Wingding ode copyrights.
-							</p>
-						</div>
-					</div>
-				</div>
-
-				<div class="faq-drawer">
-					<input class="faq-drawer__trigger" id="faq-drawer-12" type="checkbox" /><label class="faq-drawer__title" for="faq-drawer-12">A Mexican man takes anxiety medication</label>
-					<div class="faq-drawer__content-wrapper">
-						<div class="faq-drawer__content">
-							<p>
-								Hispanic attacks his panic attacks.
-							</p>
-						</div>
-					</div>
-				</div>
-
-				<div class="faq-drawer">
-					<input class="faq-drawer__trigger" id="faq-drawer-13" type="checkbox" /><label class="faq-drawer__title" for="faq-drawer-13">We built a device that catapults insects. Obviously it’s a scam, Theodore.</label>
-					<div class="faq-drawer__content-wrapper">
-						<div class="faq-drawer__content">
-							<p>
-								Anthropologically constructed ant throw pole. Logically con-struck, Ted.
-							</p>
-						</div>
-					</div>
-				</div>
-
-			</div>
+				<ul class="details">
+				  <li>
+				    <input type="checkbox" checked>
+				    <i></i>
+				    <h3>Did you know that a KKK member once invented a clam chowder recipe that can help you sleep better?</h3>
+				    <p>White supremacist white soup REM assist!</p>
+				  </li>
+				  <li>
+				    <input type="checkbox" checked>
+				    <i></i>
+				    <h3>A queue consisting of cats who need to pay their expenses</h3>
+				    <p>Feline fee line. 🐈</p>
+				  </li>
+				  <li>
+				    <input type="checkbox" checked>
+				    <i></i>
+				    <h3>A flower’s female reproductive organ’s firearm will be upset unless the ground is cultivated with urine</h3>
+				    <p>Pistil’s pistol pissed till piss tilled.</p>
+				  </li>
+				  <li>
+				    <input type="checkbox" checked>
+				    <i></i>
+				    <h3>“Pay no attention to their idiocy,” advised the manservant, “for they know not what they do.”</h3>
+				    <p>“Ignore rants,” says a footman, “ignorance is afoot, man.”</p>
+				  </li>
+				  <li>
+				    <input type="checkbox" checked>
+				    <i></i>
+				    <h3>Me and a K-Pop star would poison Aryans</h3>
+				    <p>Psy n' I'd cyanide cyan-eyed.</p>
+				  </li>
+				  <li>
+				    <input type="checkbox" checked>
+				    <i></i>
+				    <h3>Lowest ranked, self proclaimed smart guys are intellectually declining, but they do not accept this, and bring up astrophysics instead</h3>
+				    <p>Ensign MENSA men shun dementia and mention immense dimensions.</p>
+				  </li>
+				  <li>
+				    <input type="checkbox" checked>
+				    <i></i>
+				    <h3>Ay friend, this wind is really annoying that frisbee. Can we talk about it?</h3>
+				    <p>Augustus, dis gust disgusts dis discus, discuss!</p>
+				  </li>
+				  <li>
+				    <input type="checkbox" checked>
+				    <i></i>
+				    <h3>A nuclear woman forgot to include some items, so...</h3>
+				    <p>Atom Madam had 'em add 'em. ⚛</p>
+				  </li>
+				  <li>
+				    <input type="checkbox" checked>
+				    <i></i>
+				    <h3>Flying dog's clone makes the all rights reserved claim of a poem in a strange font</h3>
+				    <p>Winged dingo copy writes Wingding ode copyrights.</p>
+				  </li>
+				  <li>
+				    <input type="checkbox" checked>
+				    <i></i>
+				    <h3>A Mexican man takes anxiety medication</h3>
+				    <p>Hispanic attacks his panic attacks.</p>
+				  </li>
+				  <li>
+				    <input type="checkbox" checked>
+				    <i></i>
+				    <h3>We built a device that catapults insects. Obviously it’s a scam, Theodore.</h3>
+				    <p>Anthropologically constructed ant throw pole. Logically con-struck, Ted.</p>
+				  </li>
+				</ul>
 
 		</article>
 	</main>
