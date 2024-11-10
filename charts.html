@@ -1129,6 +1129,11 @@
       <h2>Radar chart</h2>
       <img src="https://datavizcatalogue.com/methods/images/top_images/radar_chart.png" alt="Two side-by-side radar charts: the left chart is red with five uneven points, and the right chart is yellow with five symmetrical points, resembling a star. Both charts have scales from 0 to 10." loading="lazy">
       <p>Radar charts, also known as as spider chart, web chart, polar chart, or star plots, are a way of comparing multiple quantitative variables. This makes them useful for seeing which variables have similar values or if there are any outliers among each variable. Radar Charts are also useful for seeing which variables are scoring high or low within a dataset, making them ideal for displaying performance.</p>
+      <h2>Renko chart</h2>
+      <figure id="renko"></figure>
+      <p>Renko charts capture relevant periods of activity of a time series by adding a “brick” of a fixed horizontal and vertical size each time the value ventures too far away from the current brick. The time axis is compressed during periods of minor change, and conversely expanded during more active periods, allowing the user to focus on actual change.</p>
+      <p>Renko charts seem to be used mainly (or solely?) in <small>FOREX</small> trading, a domain that is definitely foreign to me. For comparison, here is the same plot on the traditional linear time scale:</p>
+      <figure id="renko_comparison"></figure>
       <h2>Sankey diagram</h2>
       <img src="https://flowingdata.com/wp-content/uploads/2018/03/Black-boys-dropping-income-levels-1090x582.png" alt="Flow chart showing the adult income outcomes of 5,393 boys raised in wealthy families, categorized by wealth and race. Many white boys stay rich, whereas fewer Black boys maintain wealth, with disparities evident at all income levels." loading="lazy">
       <figcaption>Data: <a href="https://www.nytimes.com/interactive/2018/03/19/upshot/race-class-white-and-black-men.html">New York Times</a></figcaption>
@@ -1139,6 +1144,11 @@
       <figcaption class="alignLeft">Data: David Nutt for <a href="https://www.drugscience.org.uk">Drug Science</a></figcaption>
       <p>Also known as a scatter graph, point graph, X-Y plot, scatter chart or scattergram. A scatter plot displays data for two variables as represented by points plotted against the horizontal and vertical axis. This type of data visualization is useful in illustrating the relationships that exist between variables and can be used to identify trends or correlations in data.</p>
       <p>Scatter plots are most effective for fairly large data sets, since it’s often easier to identify trends when there are more data points present. Additionally, the closer the data points are grouped together, the stronger the correlation or trend tends to be.</p>
+      <h2>Shockwave chart</h2>
+      <figure id="shockwave"></figure>
+      <figcaption></figcaption>
+      <p>The shockwave created by the explosion of the <a href="https://en.wikipedia.org/wiki/2021%E2%80%9322_Hunga_Tonga%E2%80%93Hunga_Ha%CA%BBapai_eruption_and_tsunami">Hunga Tonga–Hunga Haʻapai volcano</a> on January 15, 2022, shown as a series of <a href="https://github.com/d3/d3-geo/blob/main/README.md#geoCircle">geodesic circles</a> of increasing radius; see the <a href="https://observablehq.com/plot/marks/geo">geo mark</a>.</p>
+      <p>When the speed of a source equals the speed of sound (<code><i>v</i>&nbsp;=&nbsp;<i>c</i></code>) the wave fronts cannot escape the source. The resulting pile of waves forms a large amplitude "sound barrier" that makes sustained flight at this speed difficult and risky.</p>
       <h2>Slope chart</h2>
       <h3>Government spending as a percentage of gross domestic product</h3>
       <figure id="slope"></figure>
@@ -6059,6 +6069,35 @@
         ]
       };
 
+      var shockwave = {
+        width: width,
+        style: {
+          fontSize: size,
+          margin: "auto",
+          paddingLeft: 20,
+          paddingRight: 20
+        },
+        projection: {
+          type: "equal-earth",
+          rotate: [90, 0]
+        },
+        color: {
+          legend: true,
+          label: "Distance from Tonga (km)",
+          transform: (d) => 111.2 * d, // degrees to km
+          zero: true
+        },
+        marks: [
+          Plot.geo(land),
+          Plot.geo([0.5, 179.5].concat(d3.range(10, 171, 10)), {
+            geometry: d3.geoCircle().center([-175.38, -20.57]).radius((r) => r),
+            stroke: (r) => r,
+            strokeWidth: 2
+          }),
+          Plot.sphere()
+        ]
+      };      
+
       var streamgraph = {
         width: width,
         marginLeft: 0,
@@ -6426,6 +6465,161 @@
         ],
       };
 
+      function renko(data, { x = "date", y = "value", brick_size = 10.0 } = {}) {
+        const dates = Plot.valueof(data, x);
+        const values = Plot.valueof(data, y);
+        const B = brick_size;
+        const bricks = [];
+        let i = 0;
+        let rank = 0;
+        const v = values[i];
+        let brick = {
+          rank,
+          start: i,
+          x1: dates[i],
+          v1: v,
+          v: (0.5 + Math.floor(v / B)) * B,
+          floor: Math.floor(v / B) * B,
+          ceil: (1 + Math.floor(v / B)) * B
+        };
+        let j = i;
+        for (; i < values.length; ++i) {
+          const v = values[i];
+          if (Math.abs(v - brick.v) < 0.5 * B) {
+            j = i;
+          }
+          while (Math.abs(v - brick.v) >= 1.5 * B) {
+            brick.v2 = values[j];
+            brick.x2 = dates[j];
+            brick.end = j;
+            const direction = Math.sign(v - brick.v);
+            if (rank === 0) brick.direction = direction;
+            bricks.push(brick);
+
+            brick = {
+              rank: ++rank,
+              direction,
+              start: j,
+              x1: dates[j],
+              v1: values[j],
+              v: brick.v + direction * B,
+              floor: brick.floor + direction * B,
+              ceil: brick.ceil + direction * B
+            };
+            j = i;
+          }
+        }
+        brick.end = i - 1;
+        brick.x2 = dates[i - 1];
+        brick.v2 = values[i - 1];
+        bricks.push(brick);
+
+        return bricks;
+      } // From Liangwei: https://observablehq.com/d/e77c63439fb36146
+      var brick_size = 5;
+      var renko_data = renko(aapl, { x: "Date", y: "Close", brick_size });
+      var renko_months = d3.utcMonths(...d3.extent(renko_data, (d) => d.x1));
+      var renko_position = d3.scaleLinear(
+        renko_data.map((d) => +d.x1).concat([+renko_data[renko_data.length - 1].x2]),
+        d3.range(renko_data.length + 1)
+      );
+      var renko_years = d3.utcYears(...d3.extent(renko_data, (d) => d.x1));
+
+      var renko = { 
+        width: width,
+        height: 350,
+        marginLeft: 0,
+        marginRight: 0,
+        color: {
+          domain: [1, -1],
+          range: ["white", "black"]
+        },
+        x: {
+          label: "time →",
+          ticks: 10,
+          tickFormat: (rank) =>
+            renko_data[rank] ? d3.timeFormat("%d %b")(renko_data[rank].x1) : ""
+        },
+        y: {
+          grid: true
+        },
+        marks: [
+          Plot.ruleY([d3.min(renko_data, (d) => d.v) - 2 * brick_size]),
+          Plot.ruleX(renko_months, { strokeWidth: 0.06, x: renko_position }),
+          Plot.ruleX(renko_years, { strokeWidth: 0.5, x: renko_position }),
+          Plot.textX(renko_years, {
+            strokeWidth: 0.5,
+            x: renko_position,
+            text: (d) => `${d.getFullYear()}`,
+            textAnchor: "start",
+            dx: 3,
+            dy: -155
+          }),
+          Plot.rect(renko_data, {
+            x1: (d) => d.rank,
+            x2: (d) => d.rank + 1,
+            y1: "floor",
+            y2: "ceil",
+            fill: "direction",
+            stroke: "black"
+          }),
+        //   showDots
+        //     ? Plot.dot(aapl, {
+        //         x: (d) => position(d.Date),
+        //         y: "Close",
+        //         fill: "red",
+        //         r: 1
+        //       })
+        //     : []
+        ],
+      };
+      var renko_comparison = { 
+        width: width,
+        height: 350,
+        marginLeft: 0,
+        marginRight: 0,
+        color: {
+          domain: [1, -1],
+          range: ["white", "black"]
+        },
+        x: {
+          label: "time →",
+          ticks: []
+        },
+        y: {
+          grid: true
+        },
+        marks: [
+          Plot.ruleY([d3.min(renko_data, (d) => d.v) - 2 * brick_size]),
+          Plot.ruleX(renko_months, { strokeWidth: 0.06, x: (d) => d }),
+          Plot.ruleX(renko_years, { strokeWidth: 0.5, x: (d) => d }),
+          Plot.textX(renko_years, {
+            strokeWidth: 0.5,
+            x: (d) => d,
+            text: (d) => `${d.getFullYear()}`,
+            textAnchor: "start",
+            dx: 3,
+            dy: -155
+          }),
+          Plot.rect(renko_data, {
+            x1: "x1",
+            x2: "x2",
+            y1: "floor",
+            y2: "ceil",
+            fill: "direction",
+            stroke: "black"
+          }),
+          // showDots
+          //   ? Plot.dot(aapl, {
+          //       x: (d) => d.Date,
+          //       y: "Close",
+          //       fill: "red",
+          //       r: 1
+          //     })
+          //   : []
+        ],
+      };
+
       var irregular = {
         width: width,
         marginLeft: 0,
@@ -6645,6 +6839,9 @@
       document.getElementById("irregular_bar").appendChild(Plot.plot(irregular_bar));
       document.getElementById("example_line").appendChild(Plot.plot(example_line));
       document.getElementById("lollipop").appendChild(Plot.plot(lollipop));
+      document.getElementById("shockwave").appendChild(Plot.plot(shockwave));
+      document.getElementById("renko").appendChild(Plot.plot(renko));
+      document.getElementById("renko_comparison").appendChild(Plot.plot(renko_comparison));
       // document.getElementById("spikeMap").appendChild(Plot.plot(spikeMap));
     });
 
