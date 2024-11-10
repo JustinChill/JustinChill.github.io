@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js">
+
 <head>
   <title>Mass shootings in the US</title>
   <meta charset="UTF-8">
@@ -12,7 +13,7 @@
   <meta content="en_US" property="og:locale">
   <meta content="JustinChill" property="og:site_name">
   <meta content="website" property="og:type">
-  <meta content="https://justinchill.com/shootings.html" property="og:url"> 
+  <meta content="https://justinchill.com/shootings.html" property="og:url">
   <meta content="Mass shootings in the US" property="og:title">
   <meta content="Data visualization of mass shootings in the US." property="og:description">
   <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
@@ -26,28 +27,37 @@
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="/favicon.ico">
   <meta name="theme-color" content="#4C63B6">
-  
+
   <script type="module">
     document.documentElement.classList.remove('no-js');
     document.documentElement.classList.add('js');
   </script>
 
   <style type="text/css">
-    #map [class*="-swatches-wrap"] span{
+    #map [class*="-swatches-wrap"] span {
       text-transform: capitalize;
     }
-    .circle_legend{
-       display: block;
-     } 
-    #beeswarm svg text { transition: fill-opacity 0.25s ease-out; } svg:hover text { fill-opacity: 1; }
-    
+
+    .circle_legend {
+      display: block;
+    }
+
+    #beeswarm svg text {
+      transition: fill-opacity 0.25s ease-out;
+    }
+
+    svg:hover text {
+      fill-opacity: 1;
+    }
+
     @media screen and (max-width: 450px) {
-      .circle_legend{
-         display: none;
-       } 
+      .circle_legend {
+        display: none;
+      }
     }
   </style>
 </head>
+
 <body>
   <nav class="nav">
     <div class="nav__list">
@@ -59,533 +69,755 @@
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
-  
+
   <main role="main">
     <article>
-     <div class="article-hero mid-size">
-      <h2 class="article-category">Post</h2>
-      <h1 class="article-title">Thoughts & Prayers</h1>
-      <h2 class="article-subtitle">Mass shootings in the US</h2>
+      <div class="article-hero mid-size">
+        <h2 class="article-category">Post</h2>
+        <h1 class="article-title">Thoughts & Prayers</h1>
+        <h2 class="article-subtitle">Mass shootings in the US</h2>
+      </div>
+
+      <figure id="map" class="mid-size"></figure>
+      <figcaption>Data: <a href="https://www.motherjones.com/politics/2012/12/mass-shootings-mother-jones-full-data/" class="right">Mother Jones</a></figcaption>
+      <p>According to Mother Jones' data<a href="#mj" aria-describedby="footnote-label" id="mj-ref"></a>, there were 150 mass shootings with a total of 1153 fatalities between 1982 and 2024.</p>
+      <p>Under one of the most conservative definitions of “mass shootings,” in which a gunman slaughters four or more strangers in a public place, the number of these crimes has indeed been climbing in the last few years — and they have higher death tolls, as well.</p>
+      <p>Mass shootings account for just a fraction of the daily toll of firearm deaths in the U.S., where <a href="https://www.cdc.gov/violenceprevention/firearms/fastfact.html">about 124 people die</a> every day in other acts of gun violence.</p>
+
+      <p>Here is a description of the criteria Mother Jones uses to define a mass shooting:</p>
+      <ul>
+        <li><strong>The perpetrator took the lives of at least four people</strong>. A 2008&nbsp;<a href="http://www.fbi.gov/stats-services/publications/serial-murder/serial-murder-1#two" target="_blank" rel="noopener noreferrer">FBI report</a> identifies an individual as a mass murderer—versus a <a href="http://en.wikipedia.org/wiki/Spree_killer" target="_blank" rel="noopener noreferrer">spree killer</a> or a <a href="http://en.wikipedia.org/wiki/Serial_killer" target="_blank" rel="noopener noreferrer">serial killer</a>—if he kills four or more people in a single incident (not including himself), typically in a single location. (*In 2013, the US government’s fatality baseline was revised down to three; our database reflects this change beginning from Jan. 2013, as detailed above.)</li>
+        <li><strong>The killings were carried out by a lone shooter</strong>. (Except in the case of the Columbine massacre and the Westside Middle School killings, which involved two shooters.)</li>
+        <li><strong>The shootings occurred in a public place. </strong>(Except in the case of a party on private property in Crandon, Wisconsin, and another in Seattle, where crowds of strangers had gathered, essentially constituting a public crowd.) Crimes primarily related to gang activity or armed robbery are not included, nor are mass killings that took place in private homes (often stemming from <a href="https://www.motherjones.com/crime-justice/2019/06/domestic-violence-misogyny-incels-mass-shootings/">domestic violence</a>).</li>
+        <li><strong>Perpetrators who died or were wounded </strong>during the attack are not included in the victim tallies.</li>
+        <li><strong>We included a handful of cases also known as “spree killings</strong><strong>“</strong>—cases in which the killings occurred in more than one location, but still over a short period of time, that otherwise fit the above criteria.</li>
+      </ul>
+      <p>There is no national, legal definition of a “mass shooting.” Several organizations track mass shootings, but use different yardsticks: Some count only incidents in which three or more people are killed; others measure incidents with at least four people killed or injured.</p>
+      <h2>Mass shootings are increasing</h2>
+      <figure id="histogram"></figure>
+      <figcaption>Data: <a href="https://www.motherjones.com/politics/2012/12/mass-shootings-mother-jones-full-data/" class="right">Mother Jones</a></figcaption>
+      <p>If it feels like mass shootings have become more frequent, <a href="https://www.themarshallproject.org/2022/07/06/what-you-need-to-know-about-the-rise-in-u-s-mass-shootings">that intuition is correct</a>, according to a narrow definition of mass shootings used by the Congressional Research Service and data about such incidents<a href="#vi" aria-describedby="footnote-label" id="vi-ref"></a> collected by <a href="https://www.theviolenceproject.org/mass-shooter-database/">The Violence Project</a> and Mother Jones.</p>
+
+      <h2>Killer obtained their weapons legally?</h2>
+      <figure id="legal" class=""></figure>
+      <figcaption>Data: <a href="https://www.motherjones.com/politics/2012/12/mass-shootings-mother-jones-full-data/" class="right">Mother Jones</a></figcaption>
+      <p>In the aftermath of a mass shooting, a recurring question arises: How did the shooter get their gun?</p>
+      <p>In the majority of cases, the perpetrator legally bought the firearms in question. Of the 114 mass shootings committed in the U.S. since 1982, 85 (or 74%) involved firearms obtained by legal means.</p>
+      <h3>Where did the rest of the guns come from?</h3>
+      <p>Seventeen of the guns used in mass shootings in the last 36 years — roughly 15% — were obtained in other ways:</p>
+      <ul>
+        <li>In <strong>eight cases</strong> shooters took their guns from family members</li>
+        <li>In <strong>four cases</strong> they were purchased illegally</li>
+        <li>In <strong>three cases</strong> they were stolen</li>
+        <li>In <strong>one case</strong> the shooter illegally kept his gun after loosing his state firearms license, which required him to surrender his firearm</li>
+        <li>And in <strong>one case</strong> the shooter illegally built their own firearms</li>
+      </ul>
+
+      <figure id="beeswarm" class="mid-size"></figure>
+
+      <h2>Ages of Mass Shooters</h2>
+      <figure id="ages" class=""></figure>
+      <figcaption>Data: <a href="https://www.motherjones.com/politics/2012/12/mass-shootings-mother-jones-full-data/" class="right">Mother Jones</a></figcaption>
+      <p>Mass shooters skew young. Grouping mass shootings by the age of the perpetrator show a cluster around early twenties and again towards mid-to-late forties.</p>
+
+      <h2>Mass shootings by location and legal status</h2>
+      <figure id="trellis"></figure>
+      <figcaption>Data: <a href="https://www.motherjones.com/politics/2012/12/mass-shootings-mother-jones-full-data/" class="right">Mother Jones</a></figcaption>
+      <p>The majority of mass shootings relied on weapons obtained <strong>legally</strong>. They occurred in places familiar to every American: places of worship, schools, workplaces, etc.</p>
+
+      <h2>Weapons of war</h2>
+      <figure id="weapons"></figure>
+      <figcaption>Data: <a href="https://www.motherjones.com/politics/2012/12/mass-shootings-mother-jones-full-data/" class="right">Mother Jones</a></figcaption>
+      <p>Grouping the weapons used in mass shootings into categories highlights a grisly trend - the growing popularity of semiautomatic rifles with high-capacity magazines. Such weapons, designed for the battlefield, allow an unskilled marksman to fire dozens of shots in seconds with deadly ease.</p>
+
+      <h2>Illustration</h2>
+      <p>The image caption for this article is the aptly titled "<a href="https://humanitou.com/thoughts-prayers/">Thoughts & Prayers</a>" by Adam Williams. I encourage you to check out the powerful essay he wrote about the artwork as a father.</p>
+      <img src="https://d1n0c1ufntxbvh.cloudfront.net/photo/581ed561/76883/2000x/" class="full-bleed" loading="lazy" alt="Three people embrace while observing the scene of a mass shooting at a July 4th parade in downtown Highland Park, Ill., on July 5, 2022">
+      <figcaption>Three people embrace while observing the scene of a mass shooting at a July 4th parade in downtown Highland Park, Ill., on July 5, 2022. Max Herman/AFP, via The Marshall Project</figcaption>
+
+    </article>
+  </main>
+  <footer>
+    <h2 id="footnote-label">Footnotes</h2>
+    <ol>
+      <li id="mj"><a href="https://www.motherjones.com/politics/2012/12/mass-shootings-mother-jones-full-data/">Mother Jones <i>US Mass Shootings, 1982–2024: Data From Mother Jones’ Investigation</i> </a>.<a href="#mj-ref" aria-label="Back to content">↩</a></li>
+      <li id="vi"><a href="https://www.theviolenceproject.org/mass-shooter-database/">The Violence Prevention Project <i>Mass Shooter Database
+          </i> </a>.<a href="#vi-ref" aria-label="Back to content">↩</a></li>
+    </ol>
+
+    <div>
+      <p>Justin Chill © 2024. Thanks&nbsp;for&nbsp;reading!</p>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code and feedback</a></span>
     </div>
+  </footer>
+  <svg style="display: none">
+    <filter id="coastalGlow">
+      <feGaussianBlur stdDeviation="10" in="SourceAlpha" result="shadow" />
+      <feflood flood-color="#9fd8e0" result="color" />
+      <feComposite operator="in" in="color" in2="shadow" />
+    </filter>
+  </svg>
+  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/topojson@3.0.2/dist/topojson.min.js"></script>
 
-    <figure id="map" class="mid-size"></figure>
-    <figcaption>Data: <a href="https://www.motherjones.com/politics/2012/12/mass-shootings-mother-jones-full-data/" class="right">Mother Jones</a></figcaption>
-    <p>According to Mother Jones' data<a href="#mj" aria-describedby="footnote-label" id="mj-ref"></a>, there were 150 mass shootings with a total of 1153 fatalities between 1982 and 2024.</p>
-    <p>Under one of the most conservative definitions of “mass shootings,” in which a gunman slaughters four or more strangers in a public place, the number of these crimes has indeed been climbing in the last few years — and they have higher death tolls, as well.</p>
-    <p>Mass shootings account for just a fraction of the daily toll of firearm deaths in the U.S., where <a href="https://www.cdc.gov/violenceprevention/firearms/fastfact.html">about 124 people die</a> every day in other acts of gun violence.</p>
+  <script type="text/javascript">
+    var elementMid = d3.select('figure.mid-size').node();
+    var widthMid = elementMid.getBoundingClientRect().width; // get width of figure.mid-size so graphic is responsive
+    var element = d3.select('figure:last-of-type').node();
+    var width = element.getBoundingClientRect().width; // get width of figure so graphic is responsive. Todo / hacky
+    var size = 12;
+    const formatDate = d3.timeFormat("%B %d, %Y");
+    const formatNumb = d3.format(",");
+    var waterColor = "#EAF1F2";
+    var waterGlowColor = "#9fd8e0";
+    var landColor = "#fff6e6";
 
-    <p>Here is a description of the criteria Mother Jones uses to define a mass shooting:</p>
-    <ul>
-      <li><strong>The perpetrator took the lives of at least four people</strong>. A 2008&nbsp;<a href="http://www.fbi.gov/stats-services/publications/serial-murder/serial-murder-1#two" target="_blank" rel="noopener noreferrer">FBI report</a> identifies an individual as a mass murderer—versus a <a href="http://en.wikipedia.org/wiki/Spree_killer" target="_blank" rel="noopener noreferrer">spree killer</a> or a <a href="http://en.wikipedia.org/wiki/Serial_killer" target="_blank" rel="noopener noreferrer">serial killer</a>—if he kills four or more people in a single incident (not including himself), typically in a single location. (*In 2013, the US government’s fatality baseline was revised down to three; our database reflects this change beginning from Jan. 2013, as detailed above.)</li>
-      <li><strong>The killings were carried out by a lone shooter</strong>. (Except in the case of the Columbine massacre and the Westside Middle School killings, which involved two shooters.)</li>
-      <li><strong>The shootings occurred in a public place. </strong>(Except in the case of a party on private property in Crandon, Wisconsin, and another in Seattle, where crowds of strangers had gathered, essentially constituting a public crowd.) Crimes primarily related to gang activity or armed robbery are not included, nor are mass killings that took place in private homes (often stemming from <a href="https://www.motherjones.com/crime-justice/2019/06/domestic-violence-misogyny-incels-mass-shootings/">domestic violence</a>).</li>
-      <li><strong>Perpetrators who died or were wounded </strong>during the attack are not included in the victim tallies.</li>
-      <li><strong>We included a handful of cases also known as “spree killings</strong><strong>“</strong>—cases in which the killings occurred in more than one location, but still over a short period of time, that otherwise fit the above criteria.</li>
-    </ul>
-    <p>There is no national, legal definition of a “mass shooting.” Several organizations track mass shootings, but use different yardsticks: Some count only incidents in which three or more people are killed; others measure incidents with at least four people killed or injured.</p>
-    <h2>Mass shootings are increasing</h2>
-    <figure id="histogram"></figure>
-    <figcaption>Data: <a href="https://www.motherjones.com/politics/2012/12/mass-shootings-mother-jones-full-data/" class="right">Mother Jones</a></figcaption>
-    <p>If it feels like mass shootings have become more frequent, <a href="https://www.themarshallproject.org/2022/07/06/what-you-need-to-know-about-the-rise-in-u-s-mass-shootings">that intuition is correct</a>, according to a narrow definition of mass shootings used by the Congressional Research Service and data about such incidents<a href="#vi" aria-describedby="footnote-label" id="vi-ref"></a> collected by <a href="https://www.theviolenceproject.org/mass-shooter-database/">The Violence Project</a> and Mother Jones.</p>
+    function normalizeGender(input) {
+      const maleIdentifiers = ['male', 'm', 'man', 'boy', 'guy', 'mr', 'sir', 'he', 'his', 'him'];
+      const femaleIdentifiers = ['female', 'f', 'woman', 'girl', 'lady', 'ms', 'mrs', 'miss', 'madam', 'she', 'her'];
+      const transIdentifiers = ['transgender" and "Audrey Hale is a biological woman who, on a social media profile, used male pronouns,” according to Nashville Metro PD officials)', 'transgender'];
 
-    <h2>Killer obtained their weapons legally?</h2>
-    <figure id="legal" class=""></figure>
-    <figcaption>Data: <a href="https://www.motherjones.com/politics/2012/12/mass-shootings-mother-jones-full-data/" class="right">Mother Jones</a></figcaption>
-    <p>In the aftermath of a mass shooting, a recurring question arises: How did the shooter get their gun?</p>
-    <p>In the majority of cases, the perpetrator legally bought the firearms in question. Of the 114 mass shootings committed in the U.S. since 1982, 85 (or 74%) involved firearms obtained by legal means.</p>
-    <h3 >Where did the rest of the guns come from?</h3>
-    <p>Seventeen of the guns used in mass shootings in the last 36 years — roughly 15% — were obtained in other ways:</p>
-    <ul> 
-     <li>In <strong>eight cases</strong> shooters took their guns from family members</li> 
-     <li>In <strong>four cases</strong> they were purchased illegally</li> 
-     <li>In <strong>three cases</strong> they were stolen</li> 
-     <li>In <strong>one case</strong> the shooter illegally kept his gun after loosing his state firearms license, which required him to surrender his firearm</li> 
-     <li>And in <strong>one case</strong> the shooter illegally built their own firearms</li> 
-    </ul>
+      const lowerInput = input.trim().toLowerCase();
 
-    <figure id="beeswarm" class="mid-size"></figure>
-
-    <h2>Ages of Mass Shooters</h2>
-    <figure id="ages" class=""></figure>
-    <figcaption>Data: <a href="https://www.motherjones.com/politics/2012/12/mass-shootings-mother-jones-full-data/" class="right">Mother Jones</a></figcaption>
-    <p>Mass shooters skew young.</p>
-
-    <h2>Mass shootings by location and legal status</h2>
-    <figure id="trellis"></figure>
-    <figcaption>Data: <a href="https://www.motherjones.com/politics/2012/12/mass-shootings-mother-jones-full-data/" class="right">Mother Jones</a></figcaption>
-
-    <h2>Illustration</h2>
-    <p>The image caption for this article is the aptly titled "<a href="https://humanitou.com/thoughts-prayers/">Thoughts & Prayers</a>" by Adam Williams. I encourage you to check out the powerful essay he wrote about the artwork as a father.</p>
-    <img src="https://d1n0c1ufntxbvh.cloudfront.net/photo/581ed561/76883/2000x/" class="full-bleed" loading="lazy" alt="Three people embrace while observing the scene of a mass shooting at a July 4th parade in downtown Highland Park, Ill., on July 5, 2022">
-    <figcaption>Three people embrace while observing the scene of a mass shooting at a July 4th parade in downtown Highland Park, Ill., on July 5, 2022. Max Herman/AFP, via The Marshall Project</figcaption>
-
-  </article>
-</main>
-<footer>
-  <h2 id="footnote-label">Footnotes</h2>
-  <ol>
-    <li id="mj"><a href="https://www.motherjones.com/politics/2012/12/mass-shootings-mother-jones-full-data/">Mother Jones <i>US Mass Shootings, 1982–2024: Data From Mother Jones’ Investigation</i> </a>.<a href="#mj-ref" aria-label="Back to content">↩</a></li>
-    <li id="vi"><a href="https://www.theviolenceproject.org/mass-shooter-database/">The Violence Prevention Project <i>Mass Shooter Database
-</i> </a>.<a href="#vi-ref" aria-label="Back to content">↩</a></li>
-  </ol>
-
-  <div>
-    <p>Justin Chill © 2024. Thanks&nbsp;for&nbsp;reading!</p>
-    <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code and feedback</a></span>    
-  </div>
-</footer>
-<svg style="display: none">
-  <filter id="coastalGlow">
-    <feGaussianBlur stdDeviation="10" in="SourceAlpha" result="shadow" />
-    <feflood flood-color="#9fd8e0" result="color" />
-    <feComposite operator="in" in="color" in2="shadow" />
-  </filter>
-</svg>
-<script src="https://cdn.jsdelivr.net/npm/d3"></script>
-<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/topojson@3.0.2/dist/topojson.min.js"></script>
-
-<script type="text/javascript">
-  var elementMid = d3.select('figure.mid-size').node();
-  var widthMid = elementMid.getBoundingClientRect().width; // get width of figure.mid-size so graphic is responsive
-  var element = d3.select('figure:last-of-type').node();
-  var width = element.getBoundingClientRect().width; // get width of figure so graphic is responsive. Todo / hacky
-  var size = 12;
-  const formatDate = d3.timeFormat("%B %d, %Y");
-  const formatNumb = d3.format(",");
-  var waterColor = "#EAF1F2";
-  var waterGlowColor = "#9fd8e0";
-  var landColor = "#fff6e6";
-
-  function normalizeGender(input) {
-    const maleIdentifiers = ['male', 'm', 'man', 'boy', 'guy', 'mr', 'sir', 'he', 'his', 'him'];
-    const femaleIdentifiers = ['female', 'f', 'woman', 'girl', 'lady', 'ms', 'mrs', 'miss', 'madam', 'she', 'her'];
-    const transIdentifiers = ['transgender" and "Audrey Hale is a biological woman who, on a social media profile, used male pronouns,” according to Nashville Metro PD officials)', 'transgender'];
-
-    const lowerInput = input.trim().toLowerCase();
-
-    if (maleIdentifiers.includes(lowerInput)) {
-      return 'Male';
-    } else if (femaleIdentifiers.includes(lowerInput)) {
-      return 'Female';
-    } else if (transIdentifiers.includes(lowerInput)) {
-      return 'Trans';
-    } else {
-      return 'Unknown';  // Handle cases where the input is ambiguous or not recognized
+      if (maleIdentifiers.includes(lowerInput)) {
+        return 'Male';
+      } else if (femaleIdentifiers.includes(lowerInput)) {
+        return 'Female';
+      } else if (transIdentifiers.includes(lowerInput)) {
+        return 'Trans';
+      } else {
+        return 'Unknown'; // Handle cases where the input is ambiguous or not recognized
+      }
     }
-  }
 
-  function normalizeYN(input) {
-    const yesIdentifiers = ['Y', 'yes', 'Yes', 'Yes ', ];
-    const noIdentifiers = ['N', 'no', 'No',];
+    function normalizeYN(input) {
+      const yesIdentifiers = ['Y', 'yes', 'Yes', 'Yes ', ];
+      const noIdentifiers = ['N', 'no', 'No', ];
 
-    const lowerInput = input.trim().toLowerCase();
+      const lowerInput = input.trim().toLowerCase();
 
-    if (yesIdentifiers.includes(lowerInput)) {
-      return 'Yes';
-    } else if (noIdentifiers.includes(lowerInput)) {
-      return 'No';
-    } else {
-      return 'Other';  // Handle cases where the input is ambiguous or not recognized
+      if (yesIdentifiers.includes(lowerInput)) {
+        return 'Yes';
+      } else if (noIdentifiers.includes(lowerInput)) {
+        return 'No';
+      } else {
+        return 'Other'; // Handle cases where the input is ambiguous or not recognized
+      }
     }
-  }
 
-  function normalizeRace(input) {
-    const lowerInput = input.trim().toLowerCase();
+    function normalizeRace(input) {
+      const lowerInput = input.trim().toLowerCase();
 
-    if (lowerInput == "white") {
-      return 'White';
-    } else if (lowerInput == "asian") {
-      return 'Asian';
-    } else if (lowerInput == "native American") {
-      return 'Native American';
-    } else if (lowerInput == "latino") {
-      return 'Latino';
-    } else if (lowerInput == "black") {
-      return 'Black';
-    } else {
-      return 'Unknown';  // Handle cases where the input is ambiguous or not recognized
+      if (lowerInput == "white") {
+        return 'White';
+      } else if (lowerInput == "asian") {
+        return 'Asian';
+      } else if (lowerInput == "native American") {
+        return 'Native American';
+      } else if (lowerInput == "latino") {
+        return 'Latino';
+      } else if (lowerInput == "black") {
+        return 'Black';
+      } else {
+        return 'Unknown'; // Handle cases where the input is ambiguous or not recognized
+      }
     }
-  }
 
-  // Trying to copy WaPo legend: https://observablehq.com/@observablehq/us-energy-mix-bubble-map-recreation
-  function legendBubble(values) {
-    return (index, { r }) =>
-    Plot.plot({
-      axis: null,
-      width: widthMid/12,
-      inset: 20,
-      className: 'circle_legend',
-      marks: [
-        Plot.frame(),
-        Plot.text([1], {
-          text: ["Fatalities"],
-          frameAnchor: "top",
-          textAnchor: "center",
-          fontSize: size,
-          fontWeight: "bold",
-          dy: 2,
-          }), // Title
-        values.map((v, i) => [
-          Plot.dot(
-            [v],
-            Plot.dodgeY({
-              anchor: "top",
-              x: 5 * (i+2) ** 2,
-              dy: 28, 
-                // dx: -25,
-              r: r(v),
-              strokeWidth: 0.7,
-              stroke: "gray"
-            })
-            ),
-            Plot.text([v], { frameAnchor: "top", x: 5 * (i+2) ** 2, dy: 18}) // #s
+    // Trying to copy WaPo legend: https://observablehq.com/@observablehq/us-energy-mix-bubble-map-recreation
+    function legendBubble(values) {
+      return (index, {
+          r
+        }) =>
+        Plot.plot({
+          axis: null,
+          width: widthMid / 12,
+          inset: 20,
+          className: 'circle_legend',
+          marks: [
+            Plot.frame(),
+            Plot.text([1], {
+              text: ["Fatalities"],
+              frameAnchor: "top",
+              textAnchor: "center",
+              fontSize: size,
+              fontWeight: "bold",
+              dy: 2,
+            }), // Title
+            values.map((v, i) => [
+              Plot.dot(
+                [v],
+                Plot.dodgeY({
+                  anchor: "top",
+                  x: 5 * (i + 2) ** 2,
+                  dy: 28,
+                  // dx: -25,
+                  r: r(v),
+                  strokeWidth: 0.7,
+                  stroke: "gray"
+                })
+              ),
+              Plot.text([v], {
+                frameAnchor: "top",
+                x: 5 * (i + 2) ** 2,
+                dy: 18
+              }) // #s
             ])
-        ]
-    });
-  }
-
-  // Use Promises to async request data
-  var promises = [d3.csv("data/mother_jones_mass_shootingsJuly2024.csv",function(d) {
-      return { // Accessor function to convert strings to numbers, dates
-          age_of_shooter: +d.age_of_shooter,
-          case: d.case,
-          city: d.city,
-          date: new Date(d.date), // convert column to Date
-          fatalities: +d.fatalities,
-          gender: normalizeGender(d.gender),
-          injured: +d.injured,
-          latitude: +d.latitude,
-          location: d.location,
-          longitude: +d.longitude,
-          r: d.fatalities,
-          race: normalizeRace(d.race),
-          summary: d.summary,
-          total_victims: +d.total_victims,
-          type: d.type,
-          weapon_details: d.weapon_details,
-          weapon_type: d.weapon_type,
-          weapons_obtained_legally: normalizeYN(d.weapons_obtained_legally),
-          x: +d.year,
-          year: +d.year
-        }}
-      ),d3.json("data/geo/land.json"),d3.json("data/geo/us-counties-10m.json"),d3.json("data/test-data-circles.json"),d3.csv("data/geo/us-state-grid.csv",d3.autoType)];
-
-  myDataPromises = Promise.all(promises);
-
-  // After data is successfully fetched, generate viz
-  myDataPromises.then(function(data) {
-    // Define the data. There's gotta be a better way to do this:
-    var shootings = data[0];
-    var land = data[1];
-    var us = data[2];
-    var dummy = data[3];
-    var stategrid = data[4];
-    var states = topojson.feature(us, us.objects.states);
-    // var statemesh = topojson.mesh(us, us.objects.states, (a, b) => a !== b);
-    var stateabbr = new Map(stategrid.map(d => [d.name, d.key]));
-
-    // Coastal glow from https://observablehq.com/@awoodruff/svg-cartography-nacis-2019-part-one
-    function coastalGlow(values) {
-      const svg = d3.select();
-      
-      // append the <defs> element where filters, etc. are defined
-      const defs = svg.append('defs');
-      
-      // create/append the filter
-      const filter = defs.append('filter')
-        .attr('id', 'coastal-glow');
-      
-      // the glow filter needs three parts: a blur, a color, and a composite of the two as its final result
-      filter.append('feGaussianBlur')
-        .attr('in', 'SourceAlpha')
-        .attr('stdDeviation', 10)
-        .attr('result', 'shadow');
-      filter.append('feFlood')
-        .attr('flood-color', waterGlowColor)
-        .attr('result', 'color');
-      filter.append('feComposite')
-        .attr('in', 'color')
-        .attr('in2', 'shadow')
-        .attr('operator', 'in');
-
-      return () =>
-      Plot.plot({
-        axis: null,
-        width: widthMid,
-        projection: {
-          type: "albers",
-          inset: 10
-        },
-        marks: [
-          Plot.sphere({fill: waterColor, fillOpacity: .9, className: "water-layer"}), 
-          Plot.geo(states, {fill: landColor, stroke: "#ccc", strokeWidth: .6, strokeOpacity: .75, className: "land-layer",})
           ]
-      });
+        });
     }
 
-    var map = {
-      width: widthMid,
-      style:{fontSize: size, textTransform: "capitalize"},
-      projection: {
-        type: "albers",
-        inset: 10
-      },
-      color: {legend: true},
-      marks: [
-        coastalGlow(),
-        Plot.text(
-          states.features,
-          Plot.centroid({
-            text: (d) => stateabbr.get(d.properties.name),
-            textAnchor: "middle",
-            stroke: "white",
-            strokeWidth: 2,
-            fill: "black",
-            fontSize: width > 450 ? size : size - 4,
-            opacity: .35,
-          })
-          ),
-        Plot.dot(shootings, Plot.pointer({r: "fatalities", x: "longitude", fill: "black", y: "latitude", stroke: "black", strokeWidth: .4, strokeOpacity: .85})),
-        Plot.dot(shootings, {r: "fatalities", fill: "location", x: "longitude", y: "latitude", fillOpacity: .85}),
-      // Plot.density(shootings, {fill: "location", x: "longitude", y: "latitude", fillOpacity: .05}),
-      // legendBubble(d3.extent(shootings, d => d.fatalities)), // Adding radius legend
-        legendBubble([5, 25, 50]),
-        Plot.tip(shootings, Plot.pointer({
-          x: "longitude",
-          y: "latitude",
-          opacity: 0.9,
-          textPadding: 10,
-          lineHeight: 1.65,
-          fontSize: size,
-          stroke: "location",
-          channels: {case: "case", city: "city", date: d => formatDate(d.date), fatalities: "fatalities", injured: "injured", age: "age_of_shooter", gender: "gender"},
-          format: {
-            y: false,
-            x: false,
-            stroke: true,
-          }
-        })),
-        ],
-    };
-
-    var histogram = {
-      width: width,
-      style:{fontSize: size, textTransform: "capitalize", paddingTop: 10},
-      x: {label: null, interval: "year", nice: true},
-      y: {grid: true, tickSize: 0, nice: true, ticks: 4},
-      color: {legend: true, },
-      marks: [
-        Plot.ruleY([0]),
-        Plot.rectY(shootings, Plot.pointerX(Plot.stackY({y: "count"}, {x: "date", y: "fatalities", fill: "black"}))),
-        Plot.rectY(shootings, Plot.stackY({y: "count"}, {x: "date", y: "fatalities", fill: "rgb(188, 57, 57)", fillOpacity: .9, stroke: "#DDD", strokeWidth: .5, strokeOpacity: .75, strokeLinecap: "round" })),
-        Plot.tip(
-          shootings,
-          Plot.pointerX(
-            Plot.stackY({
-              x: "date",
-              y: "fatalities",
-              title: (d) => [d.case, d.summary].join("\n\n"),
-            })
-          )
-        ),
-        ]
-    };
-
-    var legal = {
-      width: width,
-      inset: 40,
-      style:{fontSize: size, textTransform: "capitalize"},
-      y: {label: "Incidents", labelAnchor: "center", grid: true, tickSize: 0, nice: true, ticks: 4, labelOffset: 60},
-      fx: {label: null, interval: "year", axis: null},
-      color: {legend: true, scheme: "tableau10", reverse: true},
-      marks: [
-        Plot.ruleY([0], {stroke: "#DFDFDF", strokeWidth: .4, strokeLinecap: "round", strokeOpacity: .95}),
-        Plot.waffleY(shootings, Plot.groupZ({y: "count"}, {fill: "weapons_obtained_legally", sort: "weapons_obtained_legally", fx: "year", unit: 1, tip: {
-                opacity: 0.9,
-                textPadding: 10,
-                lineHeight: 1.65,
-                fontSize: size,
-                format: {
-                fx: false,
-                stroke: true,
-              }
-            },}))
-        ]
-    };
-
-    var ages = {
-      width: width,
-      style:{fontSize: size, textTransform: "capitalize"},
-      x: {label: "Age", labelArrow: false, labelOffset: 35, frameAnchor: "bottom", interval: 1, nice: true,},
-      height: 100,
-      inset: 10,
-      marginRight:0,
-      marginLeft: 0,
-      marks: [
-        Plot.density(shootings, {x: "age_of_shooter", stroke: "steelblue", strokeWidth: 0.25, bandwidth: 10}),
-        Plot.density(shootings, {x: "age_of_shooter", stroke: "steelblue", thresholds: 4, bandwidth: 10}),
-        Plot.dot(shootings, {x: "age_of_shooter", fill: "currentColor", r: 1.5, tip: {
-                opacity: 0.9,
-                textPadding: 10,
-                lineHeight: 1.65,
-                fontSize: size,
-                channels: {case: "case", gender: "gender",},
-                format: {
-                x: ".0f", // Format year (e.g. 2006 not 2,006)
-                stroke: true,
-              }
-            }, })
-      ]
-    };
-
-    // From Yuri: https://yuri.is/observing/building-a-better-beeswarm/#building-a-better-beeswarm
-    function swarm(data, x, r, priority, symmetric = true) {
-      let circles = data
-      .map((d, index) => ({
-        datum: d,
-        x: x(d),
-        y: Infinity,
-        r: r(d),
-        priority: priority(d),
-        index
-      }))
-      .sort((a, b) => d3.ascending(a.x, b.x));
-      let indices = d3
-      .range(0, circles.length)
-      .sort((a, b) => d3.ascending(circles[a].priority, circles[b].priority));
-      indices.forEach((index, order) => (circles[index].order = order));
-
-      for (let d of circles) {
-        if (d.x == undefined)
-          throw new Error('x is undefined for datum at index ' + d.index);
-        if (d.r == undefined)
-          throw new Error('r is undefined for datum at index ' + d.index);
-        if (d.priority == undefined)
-          throw new Error('priority is undefined for datum at index ' + d.index);
+    // Use Promises to async request data
+    var promises = [d3.csv("data/mother_jones_mass_shootingsJuly2024.csv", function(d) {
+      return { // Accessor function to convert strings to numbers, dates
+        age_of_shooter: +d.age_of_shooter,
+        case: d.case,
+        city: d.city,
+        date: new Date(d.date), // convert column to Date
+        fatalities: +d.fatalities,
+        gender: normalizeGender(d.gender),
+        injured: +d.injured,
+        latitude: +d.latitude,
+        location: d.location,
+        longitude: +d.longitude,
+        r: d.fatalities,
+        race: normalizeRace(d.race),
+        summary: d.summary,
+        total_victims: +d.total_victims,
+        type: d.type,
+        weapon_details: d.weapon_details,
+        weapon_type: d.weapon_type,
+        weapons_obtained_legally: normalizeYN(d.weapons_obtained_legally),
+        x: +d.year,
+        year: +d.year
       }
-      let { sqrt, abs, min } = Math;
-      let maxRadius = d3.max(circles, d => d.r);
-      for (let index of indices) {
-        let intervals = [];
-        let circle = circles[index];
-        // scan adjacent circles to the left and right
-        for (let step of [-1, 1])
-          for (let i = index + step; i > -1 && i < circles.length; i += step) {
-            let other = circles[i];
-            let dist = abs(circle.x - other.x);
-            let radiusSum = circle.r + other.r;
-            // stop once it becomes clear that no circle can overlap us
-            if (dist > circle.r + maxRadius) break;
-            // don't pay attention to this specific circle if
-            // it hasn't been placed yet or doesn't overlap us
-            if (other.y === Infinity || dist > radiusSum) continue;
-            // compute the distance by which one would need to offset the circle
-            // so that it just touches the other circle
-            let offset = sqrt(radiusSum * radiusSum - dist * dist);
-            // use that offset to create an interval in which this circle is forbidden
-            intervals.push([other.y - offset, other.y + offset]);
-          }
-        // We're going to find a y coordinate for this circle by finding
-        // the lowest point at the edge of any interval where it can fit.
-        // This is quadratic in the number of intervals, but runs fast in practice due to
-        // fact that we stop once the first acceptable candidate is found.
-          let y = 0;
-          if (intervals.length) {
-            let candidates = intervals
-            .flat()
-            .sort((a, b) => d3.ascending(abs(a), abs(b)));
-            for (let candidate of candidates) {
-              if (!symmetric && candidate > 0) continue;
-              if (intervals.every(([lo, hi]) => candidate <= lo || candidate >= hi)) {
-                y = candidate;
-                break;
-              }
-            }
-          }
-          circles[index].y = y;
-        }
-        return circles;
-      }
-      var chartHeight = 300;
-      var pad = 25;
-      var circles = swarm(
-        dummy,
-        // map each data point to an x position (in pixels)
-        d => d.x * (widthMid - 2 * pad),
-        // map each data point to a radius (in pixels)
-        d => 1.5 * d.r,
-        // map each data point to a priority which determines placement order (lower = earlier).
-        d => -d.r
-        );
-      var beeswarm = {
-        width: widthMid,
-        height: chartHeight,
-        style:{fontSize: size, textTransform: "capitalize"},
-        color: {
-          interpolate: t => d3.interpolatePuRd(0.15 + 0.8 * t),
-          reverse: true
-        },
-        x: { type: 'identity', axis: null },
-        y: { type: 'identity', axis: null },
-        r: { type: 'identity' },
-        marks: [
-          Plot.dot(circles, {
-            r: 'r',
-            x: d => pad + d.x,
-            y: d => d.y + chartHeight / 2,
-            fill: 'priority'
-          }),
-          Plot.text(circles, {
-            x: d => pad + d.x,
-            y: d => d.y + chartHeight / 2,
-            fontSize: 'r',
-            fill: '#fffd',
-            text: d => d.order + 1,
-            fillOpacity: 0
-          })
-          ],
-      };
+    }), d3.json("data/geo/land.json"), d3.json("data/geo/us-counties-10m.json"), d3.json("data/test-data-circles.json"), d3.csv("data/geo/us-state-grid.csv", d3.autoType)];
 
-      var trellis = {
-        width: width,
-        style:{fontSize: size, textTransform: "capitalize", paddingLeft: 20, paddingRight: 10},
-        height: 800,
-        grid: true,
-        x: {nice: true},
-        y: {inset: 5, labelAnchor: "top"},
-        fy: {label: "Weapon obtained legally?"},
-        color: {legend: false, scheme: "tableau10", reverse: true},
-        marks: [
-          Plot.frame(),
-          Plot.dot(shootings, {
-            x: "fatalities",
-            y: "location",
-            fy: "weapons_obtained_legally",
-            stroke: "weapons_obtained_legally",
-            sort: {y: "x", fy: "x", reduce: "median", reverse: true},
-              tip: {
-                opacity: 0.9,
-                textPadding: 10,
-                lineHeight: 1.65,
-                fontSize: size,
-                channels: {case: "case", city: "city", date: d => formatDate(d.date), fatalities: "fatalities", injured: "injured", age: "age_of_shooter", gender: "gender"},
-                format: {
-                x: ".0f", // Format year (e.g. 2006 not 2,006)
-                stroke: true,
-              }
+    myDataPromises = Promise.all(promises);
+
+    // After data is successfully fetched, generate viz
+    myDataPromises.then(function(data) {
+          // Define the data. There's gotta be a better way to do this:
+          var shootings = data[0];
+          var land = data[1];
+          var us = data[2];
+          var dummy = data[3];
+          var stategrid = data[4];
+          var states = topojson.feature(us, us.objects.states);
+          // var statemesh = topojson.mesh(us, us.objects.states, (a, b) => a !== b);
+          var stateabbr = new Map(stategrid.map(d => [d.name, d.key]));
+
+          // Coastal glow from https://observablehq.com/@awoodruff/svg-cartography-nacis-2019-part-one
+          function coastalGlow(values) {
+            const svg = d3.select();
+
+            // append the <defs> element where filters, etc. are defined
+            const defs = svg.append('defs');
+
+            // create/append the filter
+            const filter = defs.append('filter')
+              .attr('id', 'coastal-glow');
+
+            // the glow filter needs three parts: a blur, a color, and a composite of the two as its final result
+            filter.append('feGaussianBlur')
+              .attr('in', 'SourceAlpha')
+              .attr('stdDeviation', 10)
+              .attr('result', 'shadow');
+            filter.append('feFlood')
+              .attr('flood-color', waterGlowColor)
+              .attr('result', 'color');
+            filter.append('feComposite')
+              .attr('in', 'color')
+              .attr('in2', 'shadow')
+              .attr('operator', 'in');
+
+            return () =>
+              Plot.plot({
+                axis: null,
+                width: widthMid,
+                projection: {
+                  type: "albers",
+                  inset: 10
+                },
+                marks: [
+                  Plot.sphere({
+                    fill: waterColor,
+                    fillOpacity: .9,
+                    className: "water-layer"
+                  }),
+                  Plot.geo(states, {
+                    fill: landColor,
+                    stroke: "#ccc",
+                    strokeWidth: .6,
+                    strokeOpacity: .75,
+                    className: "land-layer",
+                  })
+                ]
+              });
+          }
+
+          var map = {
+            width: widthMid,
+            style: {
+              fontSize: size,
+              textTransform: "capitalize"
             },
-          })
-        ]
-      };
+            projection: {
+              type: "albers",
+              inset: 10
+            },
+            color: {
+              legend: true
+            },
+            marks: [
+              coastalGlow(),
+              Plot.text(
+                states.features,
+                Plot.centroid({
+                  text: (d) => stateabbr.get(d.properties.name),
+                  textAnchor: "middle",
+                  stroke: "white",
+                  strokeWidth: 2,
+                  fill: "black",
+                  fontSize: width > 450 ? size : size - 4,
+                  opacity: .35,
+                })
+              ),
+              Plot.dot(shootings, Plot.pointer({
+                r: "fatalities",
+                x: "longitude",
+                fill: "black",
+                y: "latitude",
+                stroke: "black",
+                strokeWidth: .4,
+                strokeOpacity: .85
+              })),
+              Plot.dot(shootings, {
+                r: "fatalities",
+                fill: "location",
+                x: "longitude",
+                y: "latitude",
+                fillOpacity: .85
+              }),
+              // Plot.density(shootings, {fill: "location", x: "longitude", y: "latitude", fillOpacity: .05}),
+              // legendBubble(d3.extent(shootings, d => d.fatalities)), // Adding radius legend
+              legendBubble([5, 25, 50]),
+              Plot.tip(shootings, Plot.pointer({
+                x: "longitude",
+                y: "latitude",
+                opacity: 0.9,
+                textPadding: 10,
+                lineHeight: 1.65,
+                fontSize: size,
+                stroke: "location",
+                channels: {
+                  case: "case",
+                  city: "city",
+                  date: d => formatDate(d.date),
+                  fatalities: "fatalities",
+                  injured: "injured",
+                  age: "age_of_shooter",
+                  gender: "gender"
+                },
+                format: {
+                  y: false,
+                  x: false,
+                  stroke: true,
+                }
+              })),
+            ],
+          };
 
-      document.getElementById("map").appendChild(Plot.plot(map));
-      document.getElementById("histogram").appendChild(Plot.plot(histogram));
-      document.getElementById("legal").appendChild(Plot.plot(legal));
-      document.getElementById("ages").appendChild(Plot.plot(ages));
-      // document.getElementById("beeswarm").appendChild(Plot.plot(beeswarm));
-      document.getElementById("trellis").appendChild(Plot.plot(trellis));
-    });
+          var histogram = {
+            width: width,
+            style: {
+              fontSize: size,
+              textTransform: "capitalize",
+              paddingTop: 10
+            },
+            x: {
+              label: null,
+              interval: "year",
+              nice: true
+            },
+            y: {
+              grid: true,
+              tickSize: 0,
+              nice: true,
+              ticks: 4
+            },
+            color: {
+              legend: true,
+            },
+            marks: [
+              Plot.ruleY([0]),
+              Plot.rectY(shootings, Plot.pointerX(Plot.stackY({
+                y: "count"
+              }, {
+                x: "date",
+                y: "fatalities",
+                fill: "black"
+              }))),
+              Plot.rectY(shootings, Plot.stackY({
+                y: "count"
+              }, {
+                x: "date",
+                y: "fatalities",
+                fill: "rgb(188, 57, 57)",
+                fillOpacity: .9,
+                stroke: "#DDD",
+                strokeWidth: .5,
+                strokeOpacity: .75,
+                strokeLinecap: "round"
+              })),
+              Plot.tip(
+                shootings,
+                Plot.pointerX(
+                  Plot.stackY({
+                    x: "date",
+                    y: "fatalities",
+                    title: (d) => [d.case, d.summary].join("\n\n"),
+                  })
+                )
+              ),
+            ]
+          };
+
+          var legal = {
+            width: width,
+            inset: 40,
+            style: {
+              fontSize: size,
+              textTransform: "capitalize"
+            },
+            y: {
+              label: "Incidents",
+              labelAnchor: "center",
+              grid: true,
+              tickSize: 0,
+              nice: true,
+              ticks: 4,
+              labelOffset: 60
+            },
+            fx: {
+              label: null,
+              interval: "year",
+              axis: null
+            },
+            color: {
+              legend: true,
+              scheme: "tableau10",
+              reverse: true
+            },
+            marks: [
+              Plot.ruleY([0], {
+                stroke: "#DFDFDF",
+                strokeWidth: .4,
+                strokeLinecap: "round",
+                strokeOpacity: .95
+              }),
+              Plot.waffleY(shootings, Plot.groupZ({
+                y: "count"
+              }, {
+                fill: "weapons_obtained_legally",
+                sort: "weapons_obtained_legally",
+                fx: "year",
+                unit: 1,
+                tip: {
+                  opacity: 0.9,
+                  textPadding: 10,
+                  lineHeight: 1.65,
+                  fontSize: size,
+                  format: {
+                    fx: false,
+                    stroke: true,
+                  }
+                },
+              }))
+            ]
+          };
+
+          var ages = {
+            width: width,
+            style: {
+              fontSize: size,
+              textTransform: "capitalize"
+            },
+            x: {
+              label: "Age",
+              labelArrow: false,
+              labelOffset: 35,
+              frameAnchor: "bottom",
+              interval: 1,
+              nice: true,
+            },
+            height: 100,
+            inset: 10,
+            marginRight: 0,
+            marginLeft: 0,
+            marks: [
+              Plot.density(shootings, {
+                x: "age_of_shooter",
+                stroke: "steelblue",
+                strokeWidth: 0.25,
+                bandwidth: 10
+              }),
+              Plot.density(shootings, {
+                x: "age_of_shooter",
+                stroke: "steelblue",
+                thresholds: 4,
+                bandwidth: 10
+              }),
+              Plot.dot(shootings, {
+                x: "age_of_shooter",
+                fill: "currentColor",
+                r: 1.5,
+                tip: {
+                  opacity: 0.9,
+                  textPadding: 10,
+                  lineHeight: 1.65,
+                  fontSize: size,
+                  channels: {
+                    case: "case",
+                    gender: "gender",
+                  },
+                  format: {
+                    x: ".0f", // Format year (e.g. 2006 not 2,006)
+                    stroke: true,
+                  }
+                },
+              })
+            ]
+          };
+
+          // From Yuri: https://yuri.is/observing/building-a-better-beeswarm/#building-a-better-beeswarm
+          function swarm(data, x, r, priority, symmetric = true) {
+            let circles = data
+              .map((d, index) => ({
+                datum: d,
+                x: x(d),
+                y: Infinity,
+                r: r(d),
+                priority: priority(d),
+                index
+              }))
+              .sort((a, b) => d3.ascending(a.x, b.x));
+            let indices = d3
+              .range(0, circles.length)
+              .sort((a, b) => d3.ascending(circles[a].priority, circles[b].priority));
+            indices.forEach((index, order) => (circles[index].order = order));
+
+            for (let d of circles) {
+              if (d.x == undefined)
+                throw new Error('x is undefined for datum at index ' + d.index);
+              if (d.r == undefined)
+                throw new Error('r is undefined for datum at index ' + d.index);
+              if (d.priority == undefined)
+                throw new Error('priority is undefined for datum at index ' + d.index);
+            }
+            let {
+              sqrt,
+              abs,
+              min
+            } = Math;
+            let maxRadius = d3.max(circles, d => d.r);
+            for (let index of indices) {
+              let intervals = [];
+              let circle = circles[index];
+              // scan adjacent circles to the left and right
+              for (let step of [-1, 1])
+                for (let i = index + step; i > -1 && i < circles.length; i += step) {
+                  let other = circles[i];
+                  let dist = abs(circle.x - other.x);
+                  let radiusSum = circle.r + other.r;
+                  // stop once it becomes clear that no circle can overlap us
+                  if (dist > circle.r + maxRadius) break;
+                  // don't pay attention to this specific circle if
+                  // it hasn't been placed yet or doesn't overlap us
+                  if (other.y === Infinity || dist > radiusSum) continue;
+                  // compute the distance by which one would need to offset the circle
+                  // so that it just touches the other circle
+                  let offset = sqrt(radiusSum * radiusSum - dist * dist);
+                  // use that offset to create an interval in which this circle is forbidden
+                  intervals.push([other.y - offset, other.y + offset]);
+                }
+              // We're going to find a y coordinate for this circle by finding
+              // the lowest point at the edge of any interval where it can fit.
+              // This is quadratic in the number of intervals, but runs fast in practice due to
+              // fact that we stop once the first acceptable candidate is found.
+              let y = 0;
+              if (intervals.length) {
+                let candidates = intervals
+                  .flat()
+                  .sort((a, b) => d3.ascending(abs(a), abs(b)));
+                for (let candidate of candidates) {
+                  if (!symmetric && candidate > 0) continue;
+                  if (intervals.every(([lo, hi]) => candidate <= lo || candidate >= hi)) {
+                    y = candidate;
+                    break;
+                  }
+                }
+              }
+              circles[index].y = y;
+            }
+            return circles;
+          }
+          var chartHeight = 300;
+          var pad = 25;
+          var circles = swarm(
+            dummy,
+            // map each data point to an x position (in pixels)
+            d => d.x * (widthMid - 2 * pad),
+            // map each data point to a radius (in pixels)
+            d => 1.5 * d.r,
+            // map each data point to a priority which determines placement order (lower = earlier).
+            d => -d.r
+          );
+          var beeswarm = {
+            width: widthMid,
+            height: chartHeight,
+            style: {
+              fontSize: size,
+              textTransform: "capitalize"
+            },
+            color: {
+              interpolate: t => d3.interpolatePuRd(0.15 + 0.8 * t),
+              reverse: true
+            },
+            x: {
+              type: 'identity',
+              axis: null
+            },
+            y: {
+              type: 'identity',
+              axis: null
+            },
+            r: {
+              type: 'identity'
+            },
+            marks: [
+              Plot.dot(circles, {
+                r: 'r',
+                x: d => pad + d.x,
+                y: d => d.y + chartHeight / 2,
+                fill: 'priority'
+              }),
+              Plot.text(circles, {
+                x: d => pad + d.x,
+                y: d => d.y + chartHeight / 2,
+                fontSize: 'r',
+                fill: '#fffd',
+                text: d => d.order + 1,
+                fillOpacity: 0
+              })
+            ],
+          };
+
+          var trellis = {
+            width: width,
+            style: {
+              fontSize: size,
+              textTransform: "capitalize",
+              paddingLeft: 20,
+              paddingRight: 10
+            },
+            height: 800,
+            grid: true,
+            x: {
+              nice: true
+            },
+            y: {
+              inset: 5,
+              labelAnchor: "top"
+            },
+            fy: {
+              label: "Weapon obtained legally?"
+            },
+            color: {
+              legend: false,
+              scheme: "tableau10",
+              reverse: true
+            },
+            marks: [
+              Plot.frame(),
+              Plot.dot(shootings, {
+                x: "fatalities",
+                y: "location",
+                fy: "weapons_obtained_legally",
+                stroke: "weapons_obtained_legally",
+                sort: {
+                  y: "x",
+                  fy: "x",
+                  reduce: "median",
+                  reverse: true
+                },
+                tip: {
+                  opacity: 0.9,
+                  textPadding: 10,
+                  lineHeight: 1.65,
+                  fontSize: size,
+                  channels: {
+                    case: "case",
+                    city: "city",
+                    date: d => formatDate(d.date),
+                    fatalities: "fatalities",
+                    injured: "injured",
+                    age: "age_of_shooter",
+                    gender: "gender"
+                  },
+                  format: {
+                    x: ".0f", // Format year (e.g. 2006 not 2,006)
+                    stroke: true,
+                  }
+                },
+              })
+            ]
+          };
+
+          console.log(shootings);
+          var weapons = {
+            width: width,
+            height: 500,
+            style: {
+              fontSize: size,
+              textTransform: "capitalize",
+            },
+            x: {
+              label: "Year",
+              labelAnchor: "center"
+            },
+            y: {
+              ticks: 10,
+              grid: true
+            },
+            color: {
+              legend: false
+            },
+            marks: [
+              Plot.ruleY([0]),
+              Plot.rectY(
+                shootings,
+                Plot.binX({
+                  y: "count"
+                }, {
+                  x: "date",
+                  thresholds: 10,
+                  fill: "weapon_type",
+                  title: (d) => `${d.weapon_type}`,
+                  tip: true,
+                })),
+              ]
+            };
+
+            document.getElementById("map").appendChild(Plot.plot(map));
+            document.getElementById("histogram").appendChild(Plot.plot(histogram));
+            document.getElementById("legal").appendChild(Plot.plot(legal));
+            document.getElementById("ages").appendChild(Plot.plot(ages));
+            // document.getElementById("beeswarm").appendChild(Plot.plot(beeswarm));
+            document.getElementById("trellis").appendChild(Plot.plot(trellis));
+            document.getElementById("weapons").appendChild(Plot.plot(weapons));
+          });
   </script>
 </body>
+
 </html>

@@ -221,8 +221,14 @@
       <p>JavaScript has the <code>random</code> function, which is a method of the built-in <code>Math</code> object. All the major browsers currently use the <a href="https://en.wikipedia.org/wiki/Xoroshiro128%2B" rel="nofollow">xorshift128+</a> algorithm in the background to generate a pseudo-random number.</p>
 
       <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.mlive.com%2Fresizer%2FZsVXkhOHvjLPcgRcYvrP_xla850%3D%2F1280x0%2Fsmart%2Fcloudfront-us-east-1.images.arcpublishing.com%2Fadvancelocal%2FWY277CP2M5BHNAJ4MXEHWJ6OKQ.png&f=1&nofb=1&ipt=8c7ca7bc658602e6b10a3e2883062c8e45af988936d65fe7d8ea90fae29b9c89&ipo=images" alt="The Powerball logo" />
+      <h2>Coin Flipping</h2>
+      <p>What does the result of 80,000 coin flips look like? Something like:</p>
+      <figure id="coins"></figure>
+      <figcaption>Inspired by Nate Silver, <a href="https://www.natesilver.net/p/a-random-number-generator-determined">Random numbers determined</a></figcaption>
     </article>
-    <script>
+    <script src="https://cdn.jsdelivr.net/npm/d3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+    <script type="text/javascript">
       var min = 1;
       var max = 59;
       const counters = document.querySelectorAll('.value');
@@ -261,6 +267,49 @@
         // The Sixth number is the Powerball 
         six.innerHTML = f;
       }
+      
+      // Plot things
+      var element = d3.select('figure:last-of-type').node();
+      var width = element.getBoundingClientRect().width; // get width of figure so graphic is responsive. Todo / hacky
+      var size = 12;
+      var flips = 80000;
+      
+      function coinFlipData() {
+        let data = [];
+        let sum = 0;
+        for (let n = 1 ; n <= flips; n++) {
+          let result = Math.round(Math.random()) ;
+          sum += result;
+          let mean = sum /  n;
+          data.push({
+            n, result, sum, mean
+          });
+        }
+        return data;
+      };      
+      
+      var coins = {
+        width: width,
+        height: 450,
+        style:{fontSize: size, overflow: "hidden"},
+        y: {
+          grid: true,
+          domain: [0.48,0.52],
+          tickSize: 0,
+        },
+        x: {
+          grid: true,
+          tickSize: 0,
+        },
+        // color: {legend: "true"},
+        marks: [
+          Plot.ruleY([0]),
+          Plot.lineY(coinFlipData(), {x: d=>d.n, y: d=>d.mean, stroke:"red"}),
+          Plot.lineY(coinFlipData(), {x: d=>d.n, y: d=>1-d.mean, stroke:"blue"})
+        ]
+      };
+      
+      document.getElementById("coins").appendChild(Plot.plot (coins));
     </script>
   </main>
 </body>
