@@ -104,6 +104,10 @@
     <figure id="bars"></figure>
     <figcaption>Data: Diffusion of Wal-Mart Stores (<a href="https://digital.library.unt.edu/ark:/67531/metadc68027/m2/1/high_res_d/thesis.pdf">Holmes 2011</a>)</figcaption>
 
+    <h3>Stores by decade</h3>
+    <figure id="facets"></figure>
+    <figcaption>Data: Diffusion of Wal-Mart Stores (<a href="https://digital.library.unt.edu/ark:/67531/metadc68027/m2/1/high_res_d/thesis.pdf">Holmes 2011</a>)</figcaption>
+
   </article>
 </main>
 <footer>
@@ -210,19 +214,35 @@
       },
       y: {grid: true, ticks: 4, nice: true},
       marks: [
-        Plot.ruleY([0], { stroke: '#555' }),
-        Plot.dot(
-          walmarts,
-          Plot.stackY({
-            x: "date", fill: '#4e79a7', r: 2, 
-          })
-        )
+        Plot.rectY(walmarts, Plot.binX({ y: "count" }, { x: "date", fill: "#4e79a7" })),
+        Plot.ruleY([0]),
       ],
+    };
+
+    var facets = {
+      style:{fontSize: size, textTransform: "capitalize", margin: "0 auto"},
+      width:  width/2,
+      projection: "albers-usa",
+      fy: {
+        interval: "10 years",
+        tickFormat: (d) => `${d.getUTCFullYear()}’s`
+      },
+      marks: [
+        Plot.geo(statemesh, { strokeOpacity: 0.1 }),
+        Plot.geo(nation),
+        Plot.dot(walmarts, {
+          fy: "date",
+          x: "longitude",
+          y: "latitude",
+          fill: "#4e79a7"
+        })
+      ]
     };
 
     document.getElementById("minimap").appendChild(Plot.plot(minimap));
     document.getElementById("map").appendChild(Plot.plot(map));
     document.getElementById("bars").appendChild(Plot.plot(bars));
+    document.getElementById("facets").appendChild(Plot.plot(facets));
   });
 </script>
 </body>
