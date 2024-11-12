@@ -341,7 +341,7 @@
           fontSize: size,
           paddingBottom: 0,
           paddingRight: 40,
-          textTransform: "capitalize",
+          // textTransform: "capitalize",
         },
         y: {
           grid: true,
@@ -363,8 +363,10 @@
             curve: "step-after",
             strokeWidth: 2,
             z: "category",
-            stroke: "category"
-            //strokeOpacity: (d) => (d.category == 2021 ? 1 : 0.2)
+            stroke: "category",
+            tip: "y",
+            title: d => d.y + " launches since January 1, " + d.category,
+            strokeOpacity: (d) => (d.category == [years.slice(-1)[0]] ? 1 : 0.2) // Highlight the latest year in the data
           }),
           Plot.lineY(trendlines, {
             x: "days",
@@ -384,10 +386,22 @@
             dx: 4,
             textAnchor: "start"
           }),
+          Plot.text(data, Plot.selectLast({
+            x: "x",
+            y: "y",
+            text: d => d.y + " launches so far in " + d.category,
+            fill: "black",
+            dy: 4,
+            dx: 14,
+            fontSize: size+2,
+            textAnchor: "start"
+          })),
           Plot.ruleY([0]),
           Plot.ruleX([0])
         ]
       };
+      
+      console.log(data);
 
       var boosterReuse = {
         grid: true,
