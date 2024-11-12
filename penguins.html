@@ -45,6 +45,9 @@
       border-radius: 4px;
       padding: var(--spacer-1);
     }
+    svg[class*="plot"]{
+      overflow: hidden;
+    }
   </style>
 </head>
 
@@ -67,10 +70,11 @@
         <h1 class="article-title">Palmer's Penguins</h1>
         <h2 class="article-subtitle">Penguins at the Palmer Station Antarctica Long-Term Ecological Research site</h2>
       </div>
-      <img src="https://impact.economist.com/ocean/images/macaroni-penguins-on-their-voyage?f=auto&w=1920" loading="lazy" alt="Macaroni Penguins on their voyage">
+      <!-- <img src="https://impact.economist.com/ocean/images/macaroni-penguins-on-their-voyage?f=auto&w=1920" loading="lazy" alt="Macaroni Penguins on their voyage"> -->
+      <figure id="map"></figure>
+      <figcaption class="right">Research stations in Antarctica</figcaption>
       <p>The Palmer Penguins data contains size measurements, clutch observations, and blood isotope ratios for <strong>344</strong> Penguins of <strong>3</strong> penguin species observed on three islands in the Palmer Archipelago, Antarctica over a study period of three years. The <code>palmerpenguins</code> data is commonly used when introducing students to new data science concepts.</p>
-      <p>The canonical paper from Gorman et al. presents the research in detail<a href="#gorman" aria-describedby="footnote-label" id="gorman-ref"></a>. Palmer's Penguins is an alternative to the <a href="https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/iris.html">Iris</a> sample dataset.</p>
-      <img src="https://education.rstudio.com/blog/2020/07/palmerpenguins-cran/antarctica-map.png" alt="3 study sites on a map of Antarctic Peninsula">
+      <p>The canonical paper from Gorman et al. presents the research in detail<a href="#gorman" aria-describedby="footnote-label" id="gorman-ref"></a>. Palmer's Penguins is an alternative to the <a href="https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/iris.html">Iris</a> sample dataset.</p>      
       <h2>Meet the penguins</h2>
       <img src="imgs/lter_penguins.png" alt="The Palmer Archipelago penguins. Artwork by @allison_horst.">
       <p>The data contains three penguin species and includes measurements of bill length, bill depth, flipper length and body mass.</p>
@@ -127,7 +131,7 @@
           <p>Palmer Station Antarctica LTER and K. Gorman, 2020. Structural size measurements and isotopic signatures of foraging among adult male and female Chinstrap penguin (<em>Pygoscelis antarcticus</em>) nesting along the Palmer Archipelago near Palmer Station, 2007-2009 ver 6. Environmental Data Initiative. <a href="https://doi.org/10.6073/pasta/c14dfcfada8ea13a17536e73eb6fbe9e">doi.org</a>.</p>
         </li>
       </ul>
-
+      <img src="https://education.rstudio.com/blog/2020/07/palmerpenguins-cran/antarctica-map.png" alt="3 study sites on a map of Antarctic Peninsula">
     </article>
   </main>
   <footer>
@@ -143,7 +147,8 @@
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/d3"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/topojson@3.0.2/dist/topojson.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js" integrity="sha512-iBAeBWWWFb8HqSBcrqcz98iIpuVH1la39dEYHtyQ/pGpeCQTQVvLJOWAuhv2Q7JSHp9k7hWA7sGxU3hHJe+tFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/topojson@3.0.2/dist/topojson.min.js"></script>  
 
   <script>
     var element = d3.select('figure').node();
@@ -152,7 +157,7 @@
 
     // Use Promises to async request data
     // Todo remove "State laws" from .csv
-    var promises = [d3.csv("data/penguins.csv", d3.autoType)];
+    var promises = [d3.csv("data/penguins.csv", d3.autoType), d3.json("data/geo/land.json"),];
 
     myDataPromises = Promise.all(promises);
 
@@ -160,6 +165,7 @@
     myDataPromises.then(function(data) {
       // Define the data. There's gotta be a better way to do this:
       var penguins = data[0];
+      var land = data[1];
 
       var scatter = {
         width: width,
@@ -407,6 +413,163 @@
             }))
         ]
       };
+
+      // Adapting map from https://observablehq.com/d/8b4d860e5c277bf3
+      var projection = ({width, height}) => d3.geoAzimuthalEquidistant()
+          .rotate([0, 90])
+          .translate([width / 2, height / 2])
+          .scale(width)
+          .clipAngle(40);
+      var locations = [
+        {
+          name: "Palmer Research Station",
+          lat:  -64.7700000,
+          lon:  -64.0500000,
+          comment:
+            "The Palmer Research Station is where the below penguin study took place.",
+          dx: -80,
+          dy: -20
+        },
+  {
+    name: "Great Wall Station",
+    lat: -62.21667,
+    lon: -58.96444,
+    comment:
+      "The Great Wall Station is the \n first Chinese research station\n in Antarctica and opened on\n 20 February 1985. ",
+    dx: -80,
+    dy: -20
+  },
+  {
+    name: "Zhongshan Station",
+    lat: -69.37333,
+    lon: 76.37778,
+    comment: "Zhongshan Station is the second \n Chinese research station in Antarctica \n and was opened on February 26, 1989.",
+    dx: 170,
+    dy: -80
+  },
+  {
+    name: "Kunlun Station",
+    lat: -80.25,
+    lon: 77,
+    comment: "Kunlun Station is the southernmost \n of four Chinese research stations \n in Antarctica. ",
+    dx: -50,
+    dy: -130
+  },
+  {
+    name: "Taishan Station",
+    lat: -73.85,
+    lon: 76.9667,
+    comment: "Taishan station serve as a \n relay point between Kunlun \n station and Zhongshan station.",
+    dx: 150,
+    dy: 150
+  },
+  {
+    name: "Ross Sea Station",
+    lat: -74.91667,
+    lon: 163.7,
+    comment: "The Ross Sea Station is China's \n fifth Antarctic research station, \n expected to be completed in 2024.",
+    dx: -150,
+    dy: 50
+  }
+];
+      var d3_annotation = d3.annotation();
+
+      // Takes an SVG and using d3 + d3-annotation adds an annotation to the svg
+      function doAnnotation(targetSVG, annotation, annotationType, textWrap = 120) {
+        const makeAnnotations = d3_annotation
+          .editMode(false)
+          .notePadding(4)
+          .type(annotationType ?? d3_annotation.annotationLabel)
+          .annotations([annotation]);
+
+        const renderAnnotation = () => {
+          const svg = d3.select(targetSVG).append("svg");
+          svg.attr(
+            "style",
+            "font: initial;text-anchor: initial; fill: red; font-family: Arial; font-size: 15px;"
+          );
+          svg.call(makeAnnotations);
+        };
+
+        // need to wait a tick for the dom to be rendered
+        window.requestAnimationFrame(renderAnnotation);
+      };
+
+      var map = {
+        width: width,
+        projection: projection,
+        height: 550,
+        inset: 2,
+        marks: [
+          Plot.sphere({
+            fill: "#F5FBFF",
+            stroke: "#222",
+            strokeWidth: 0.2
+          }),
+          Plot.graticule({ opacity: 0.8 }),
+          Plot.geo(land, { fill: "#fffffe", stroke: "#222", strokeWidth: 0.5 }),
+
+          Plot.dot(locations, {
+            x: "lon",
+            y: "lat",
+            r: 10,
+            fill: "#DA70D6",
+            fillOpacity: 0.6,
+            stroke: "#222",
+            strokeWidth: 1,
+            tip: true,
+            title: "comment"
+          }),
+          Plot.text(locations, Plot.selectFirst({
+            x: "lon",
+            y: "lat",
+            dx: 10,
+            dy: 0,
+            text: "name",
+            fill: "#222",
+            stroke: "white",
+            fillOpacity: 0.9,
+            fontSize: size*1.2,
+            frameAnchor: "left",
+          })),
+          Plot.text(locations, {
+            filter: d => d.name != "Palmer Research Station" && d.name != "Zhongshan Station",
+            x: "lon",
+            y: "lat",
+            dy: 12,
+            // dx: 2,
+            text: "name",
+            fill: "#222",
+            stroke: "white",
+            fillOpacity: 0.95,
+            fontSize: size*1.2,
+            frameAnchor: "top",
+          }),
+          Plot.text(locations, {
+            filter: d => d.name == "Zhongshan Station",
+            x: "lon",
+            y: "lat",
+            dy: -12,
+            // dx: 2,
+            text: "name",
+            fill: "#222",
+            stroke: "white",
+            fillOpacity: 0.95,
+            fontSize: size*1.2,
+            frameAnchor: "bottom",
+          }),
+          // Plot.arrow(locations, Plot.selectFirst({
+          //   x1: "lon",
+          //   y1: "lat",
+          //   y2: "lon",
+          //   // y2: d => d.lat+20,
+          //   bend: true,
+          //   stroke: "red",
+          //   strokeWidth: 2,
+          // })),
+        ]
+      };
+
       // Nice scatter plot to recreate: https://observablehq.com/d/7e3742f5f8e13db9
 
       document.getElementById("scatter").appendChild(Plot.plot(scatter));
@@ -416,6 +579,7 @@
       document.getElementById("regression").appendChild(Plot.plot(regression));
       document.getElementById("islands").appendChild(Plot.plot(islands));
       document.getElementById("weightBars").appendChild(Plot.plot(weightBars));
+      document.getElementById("map").appendChild(Plot.plot(map));
     });
   </script>
 </body>
