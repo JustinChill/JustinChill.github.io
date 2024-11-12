@@ -57,7 +57,7 @@
         <h1 class="article-title">Days since a U.S. President was last shot</h1>
         <h2 class="article-subtitle"></h2>
       </div>
-
+      <figcaption id="legend" aria-label="An unfilled circle (⭕) represents a sucessful landing with debris. A filled circle (⚫) represents an unsuccessful landing. "></figcaption>
       <figure class="mid-size" id="line" aria-label="A line graph showing..."></figure>
       <p>Based on the Wikipedia article, “<a href="https://en.wikipedia.org/wiki/List_of_United_States_presidential_assassination_attempts_and_plots">List of United States presidential assassination attempts and plots</a>”.</p>
       <p>Note that this plots the date of shooting, not necessarily the date of death attributed to the shooting. Lincoln for example was shot April 14, 1865 and died the 15th. Garfield was shot July 2, 1881 and died September 19. McKinley was shot September 6, 1901 and died the 14th. Kennedy was shot and killed November 22, 1963.</p>
@@ -186,8 +186,6 @@
       ...d,
       daysSince: daysSince.find((e) => +e[0] === +d.date)[1]
     }));
-
-    // Todo: Add this legend: https://observablehq.com/@chris-creditdesign/nature-lunar-crash-landings-graphic
 
     var line = {
       width: widthMid,
@@ -367,7 +365,26 @@
 
     document.getElementById("line").appendChild(Plot.plot(line));
     document.getElementById("imgs").appendChild(Plot.plot(imgs));
-    
+    // Circle legend from https://observablehq.com/@chris-creditdesign/nature-lunar-crash-landings-graphic
+      const svg_width = 16;
+      const legend = document.querySelector('#legend');
+
+      const empty_circle = `
+        <svg viewport="0 0 ${svg_width} ${svg_width}"  width="${svg_width}" height="${svg_width}">
+          <circle r="${(svg_width - 6) / 2}" cx="${svg_width / 2}" cy="${
+        svg_width / 2
+      }" stroke="#000" stroke-width="3" fill="#fff"/>
+        </svg>`;
+
+      const filled_circle = `
+        <svg viewport="0 0 ${svg_width} ${svg_width}"  width="${svg_width}" height="${svg_width}">
+          <circle r="${(svg_width - 6) / 2}" cx="${svg_width / 2}" cy="${
+        svg_width / 2
+      }" stroke="#000" stroke-width="3" fill="#000"/>
+        </svg>`;
+
+      legend.innerHTML = `<div style="font-family: sans-serif; font-size: 12px; display: flex; align-items: center; gap: 0.5em;">${empty_circle}<p>Injured</p>${filled_circle} <p>Killed</p></div>`;
+
     // Inspired by Alireza Moayerzadeh: https://observablehq.com/d/1871c666c8816883
   </script>
 </body>
