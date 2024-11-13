@@ -88,11 +88,13 @@
       <figure id="crashes" aria-label=""></figure>
       <figcaption>Data: Alexandra Witze for <a href="https://www.nature.com/articles/d41586-022-00542-4">Nature</a></figcaption>
       <p>A spent rocket booster will hit the Moon on 4 March — the first time this has happened for space junk not guided there. But it will be far from the first human-made object that has ever crashed into the lunar surface. Shown are planetary missions that have smashed into the Moon, either as a full spacecraft or as parts*.</p>
-      <h3>Launch date to crash date</h3>
-      <figure id="bar" aria-label=""></figure>
-      <figcaption>Data: Alexandra Witze for <a href="https://www.nature.com/articles/d41586-022-00542-4">Nature</a></figcaption>
+      <!-- <h3>Launch date to crash date</h3> -->
+      <!-- <figure id="bar" aria-label=""></figure> -->
+      <!-- <figcaption>Data: Alexandra Witze for <a href="https://www.nature.com/articles/d41586-022-00542-4">Nature</a></figcaption> -->
       <h3>Original graphic</h3>
-      <img src="https://images.nature.com/lw1200/magazine-assets/d41586-022-00607-4/d41586-022-00607-4_20179640.jpg">
+      <img src="https://images.nature.com/lw1200/magazine-assets/d41586-022-00607-4/d41586-022-00607-4_20179640.jpg" alt="Space waste: debris left on the moon's surface.">
+      <h3>Lunar landings</h3>
+      <img src="https://media.nature.com/lw767/magazine-assets/d41586-020-03064-z/d41586-020-03064-z_18557284.jpg" alt="Lunar landings">
     </article>
   </main>
   <footer>
@@ -120,6 +122,29 @@
       "#e5005b", // India
       "#76b82a", // China
       "#8b95a1" // Israel
+    ];
+    var tips = [
+      {
+        x1: 1959,
+        y1: 3,
+        x2: 1959,
+        y2: 1.25,
+        text: "Luna 2 is the first human made object to crash into the moon."
+      },
+      {
+        x1: 1999, 
+        y1: 2,
+        x2: 1999,
+        y2: 1.25,
+        text: "Lunar prospector crashes with human ashes onboard."
+      },
+      {
+        x1: 2019, 
+        y1: 2,
+        x2: 2019,
+        y2: 1,
+        text: "Beresheet crashes on landing, spilling tardigrades.."
+      },
     ];
 
     // Use Promises to async request data
@@ -167,10 +192,15 @@
         },
         x: {
           domain: [1950, 2030],
-          tickFormat: (d) => d
+          tickFormat: "f",
+          label: null,
+          nice: true,
         },
         marks: [
-          Plot.ruleY([0]),
+          Plot.ruleY([0], {
+            strokeWidth: 2.5,
+            stroke: "darkgray"
+          }),
           Plot.dot(data, {
             y: "y_offset",
             x: "crash_year",
@@ -181,7 +211,72 @@
             r: 4,
             title: (d) => `${d.object} - ${d.full_date}`,
             tip: true,
-          })
+          }),
+          Plot.arrow(tips, {
+            filter: (d,i) => i == 0,
+            x1: d => d.x1 - 10,
+            y1: d => d.y1 - .50,
+            x2: d => d.x2 - 1,
+            y2: d => d.y2 - .25,
+            strokeLinejoin: "miter",
+            headLength: 5,
+            stroke: "#aaa",
+            bend: "-40",
+          }),
+          Plot.text(tips, {
+            filter: (d,i) => i == 0,
+            x: "x1",
+            y: "y1",
+            lineWidth: 10,
+            fill: "grey",
+            text: "text",
+            dx: -20,
+            textAnchor: "end",
+          }),
+          Plot.arrow(tips, {
+            filter: (d,i) => i == 1,
+            x1: d => d.x1 - 2,
+            y1: d => d.y1 + .50,
+            x2: d => d.x2 + 0,
+            y2: d => d.y2 + .25,
+            strokeLinejoin: "miter",
+            headLength: 5,
+            stroke: "#aaa",
+            bend: true,
+          }),
+          Plot.text(tips, {
+            filter: (d,i) => i == 1,
+            x: "x1",
+            y: "y1",
+            lineWidth: 10,
+            fill: "grey",
+            text: "text",
+            dx: -20,
+            dy: -40,
+            textAnchor: "end",
+          }),
+          Plot.arrow(tips, {
+            filter: (d,i) => i == 2,
+            x1: d => d.x1 + 6,
+            y1: d => d.y1 - .15,
+            x2: d => d.x2 + .35,
+            y2: d => d.y2 + .20,
+            strokeLinejoin: "miter",
+            headLength: 5,
+            stroke: "#aaa",
+            bend: "-10",
+          }),
+          Plot.text(tips, {
+            filter: (d,i) => i == 2,
+            x: "x1",
+            y: "y1",
+            lineWidth: 10,
+            fill: "grey",
+            text: "text",
+            dy: -15,
+            dx: 30,
+            textAnchor: "start",
+          }),
         ]
       };
       console.log(data);
@@ -214,7 +309,7 @@
       };
 
       document.getElementById("crashes").appendChild(Plot.plot(crashes));
-      document.getElementById("bar").appendChild(Plot.plot(bar));
+      // document.getElementById("bar").appendChild(Plot.plot(bar));
 
       // Circle legend from https://observablehq.com/@chris-creditdesign/nature-lunar-crash-landings-graphic
         const svg_width = 16;
