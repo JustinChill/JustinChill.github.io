@@ -588,7 +588,7 @@
         <figure id="simpsonsSeasons"></figure> 
         <figcaption>Data: <a href="https://www.imdb.com/title/tt0096697/">IMDB</a></figcaption>
         <p>Here we look at the difference between episodes within each season. Early seasons have a tighter grouping of episodes, meaning they all score roughly the same. Starting in season 6 we start to see a greater spread of episodes. Season 23 has the greatest range of scores within a season (&plusmn; 4.4).</p>
-
+        <figure id="seasonavg"></figure>
         <!-- <p class="title">Average rating by season</p> -->
         <figure id="simpsonsFacet"></figure> 
 
@@ -724,6 +724,8 @@
     var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
     var size = 12;
 
+    var averages = [{"season":1,"average_imdb_rating":7.807692307692307},{"season":2,"average_imdb_rating":8.04090909090909},{"season":3,"average_imdb_rating":8.154166666666665},{"season":4,"average_imdb_rating":8.268181818181818},{"season":5,"average_imdb_rating":8.336363636363636},{"season":6,"average_imdb_rating":8.312},{"season":7,"average_imdb_rating":8.324},{"season":8,"average_imdb_rating":8.219999999999999},{"season":9,"average_imdb_rating":7.8439999999999985},{"season":10,"average_imdb_rating":7.569565217391306},{"season":11,"average_imdb_rating":7.290909090909093},{"season":12,"average_imdb_rating":7.361904761904761},{"season":13,"average_imdb_rating":7.140909090909091},{"season":14,"average_imdb_rating":7.077272727272727},{"season":15,"average_imdb_rating":7.045454545454546},{"season":16,"average_imdb_rating":7.042857142857143},{"season":17,"average_imdb_rating":6.863636363636362},{"season":18,"average_imdb_rating":7},{"season":19,"average_imdb_rating":6.935},{"season":20,"average_imdb_rating":6.895238095238096},{"season":21,"average_imdb_rating":6.821739130434783},{"season":22,"average_imdb_rating":6.804545454545456},{"season":23,"average_imdb_rating":6.813636363636365},{"season":24,"average_imdb_rating":6.777272727272727},{"season":25,"average_imdb_rating":6.831818181818181},{"season":26,"average_imdb_rating":6.704545454545454},{"season":27,"average_imdb_rating":6.786363636363635},{"season":28,"average_imdb_rating":6.6}];
+
     // You can request mutliple srcs in a promise
     myDataPromises = Promise.all(promises);
 
@@ -839,21 +841,19 @@
       // Matrix cell chart episodes by season, episode no.
       var simpsonsEpisodes = {      
         width: width,
-        style: {background: "none", cursor: "default"},
-        marginRight:0,
+        style: { cursor: "default",fontSize: size,},
         grid: true,
-        padding: width > 450 ? 0.05 : 0,
-        aspectRatio: .75,
+        aspectRatio: 1,
         inset: width > 450 ? 1 : 0.5,
         x: {
           axis: "top",
           label: "Episode",
-          // labelOffset: 35,
+          labelOffset: 40,
           tickSize: 0,
         },
         y: {
           label: "Season",
-          // labelOffset: 40,
+          labelOffset: 40,
           tickSize: 0,
         },
         color: {
@@ -881,12 +881,9 @@
         Plot.text(simpsons_imdb, colorContrast({
           x: "episode_no",
           y: "season_no",
-          text: d => d.episode_score?.toFixed(1),
-          title: (d) => `${d.episode_name}\nS${d.season_no} E${d.episode_no}\n${d.episode_score} IMDB rating`, 
+          text: d => d.episode_score?.toFixed(1), 
           fill: "episode_score",
-          fontSize: 10,
-        })
-        )
+        })),
         ]
       };
 
@@ -983,9 +980,45 @@
           ]
         };
 
+        var seasonavg = {
+          width: width,
+          style:{fontSize: size, textTransform: "capitalize"},
+          color: { 
+            type: "linear", 
+            legend: true, 
+            domain: [0, 10], 
+            scheme: "RdYlBu",
+            label: "Season average", 
+            domain: [1,10], // show nicer scale
+            range: [.25,1], // clamping the color scheme gives tighter control over the color range
+          },
+          y: { grid: true,label: "Season average"},
+          x: { labelAnchor: "right", },
+          marks: [
+              Plot.barY(averages, {
+                x: "season",
+                y: "average_imdb_rating",
+                fill: "average_imdb_rating"
+              }),
+              Plot.text(
+                averages,
+                colorContrast({
+                  x: "season",
+                  y: "average_imdb_rating",
+                  fill: "average_imdb_rating",
+                  dy: 8,
+                  text: (d) => d.average_imdb_rating?.toFixed(1),
+                  title: "title"
+                })
+              ),
+              Plot.ruleY([0])
+            ]
+        };
+
         document.getElementById("simpsonsRatings").appendChild(Plot.plot(simpsonsRatings));
         document.getElementById("simpsonsEpisodes").appendChild(Plot.plot(simpsonsEpisodes));
         document.getElementById("simpsonsSeasons").appendChild(Plot.plot(simpsonsSeasons));
+        document.getElementById("seasonavg").appendChild(Plot.plot(seasonavg));
         // document.getElementById("simpsonsFacet").appendChild(Plot.plot(simpsonsFacet));
       })
 
