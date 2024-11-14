@@ -112,12 +112,19 @@
       </picture>
       <figcaption>Starship returning on Oct 13th 2024. Photograph: AP</figcaption>
 
+      <h2>Starlink</h2>
+      <h3>Traffic in the sky</h3>
+      <figure id="starlink"></figure>
+      <figcaption>Data: <a href="https://planet4589.org/space/papers/space22.pdf">Jonathan McDowell</a>, <em>Space Activities in 2022<a href="#fw" aria-describedby="footnote-label" id="fw-ref"></a></em></figcaption>
+      <p>Low Earth orbit is getting crowded, in particular by SpaceX's Starlink communication satellites. There are now over 3,300 in operation, with thousands more planned to launch.</p>
+
     </article>
   </main>
   <footer>
     <h2 id="footnote-label">Footnotes</h2>
     <ol>
       <li id="STS"><a href="https://www.nasa.gov/missions/space-shuttle/sts-135/sts-135-the-final-voyage/">NASA</a>, STS-135: The Final Voyage<a href="#Detroit-ref" aria-label="Back to content">↩</a>
+        <li id="fw"><a href="https://observablehq.com/d/fd212f6b2c0f1ade">Andrew Ryan</a> has a great breakdown on extracting the space data from fixed-width text into a more useable form<a href="#fw-ref" aria-label="Back to content">↩</a>        
       </li>
     </ol>
     <div>
@@ -253,7 +260,7 @@
     ];
 
     // Use Promises to async request data
-    var promises = [d3.json("https://get2orbit-default-rtdb.europe-west1.firebasedatabase.app/v2/launches.json")];
+    var promises = [d3.json("https://get2orbit-default-rtdb.europe-west1.firebasedatabase.app/v2/launches.json"), d3.csv("data/starlink_data_tidy.csv", d3.autoType)];
     myDataPromises = Promise.all(promises);
 
     // After data is successfully fetched, generate viz
@@ -261,6 +268,7 @@
 
       // Define the data
       var rawFirebase = data[0];
+      var data_tidy = data[1];
       var launches = rawFirebase.map((d) => ({
         payload: d.payload,
         date: new Date(d.launch_time_utc),
@@ -400,8 +408,6 @@
           Plot.ruleX([0])
         ]
       };
-      
-      console.log(data);
 
       var boosterReuse = {
         grid: true,
@@ -434,10 +440,31 @@
           Plot.ruleX([0])
         ]
       };
+
+      var starlink = {
+        grid: true,
+        width: width,
+        style: {
+          fontSize: size,
+          paddingBottom: 0,
+          textTransform: "capitalize",
+        },
+        color: { legend: true, range: ["#36a9e1", "#eb5b25"] },
+        x: { domain: [2005, 2023], tickFormat: "Y", tickSize: 0, label: null},
+        y: { domain: [0, 4500], grid: true, tickSize: 0, label: "Number of objects weighing more than 100 kg in low Earth orbit", labelAnchor: "top", frameAnchor: "top", nice: true},
+        marks: [
+          Plot.areaY(
+            data_tidy.filter((d) => d.date >= 2005),
+            { x: "date", y: "value", fill: "category" }
+          ),
+          Plot.ruleY([0])
+        ]
+      };
       
       // Add launch sites, customers: https://observablehq.com/@jacobkjaersgaardhansen/spacex-launch-cadence
 
       document.getElementById("cadence").appendChild(Plot.plot(cadence));
+      document.getElementById("starlink").appendChild(Plot.plot(starlink));
       document.getElementById("boosterReuse").appendChild(Plot.plot(boosterReuse));
     });
   </script>
