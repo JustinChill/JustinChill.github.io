@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+  <title>Cartographic Visualizations - Justin Chill</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Messing with maps.">
+  <meta name="author" content="Justin Chill">
+  <!-- OpenGraph tags -->
+  <meta name="keywords" content="stats, chart, data viz, map, experiment, Cartographic Visualizations, cartography">
+  <meta name="robots" content="all">
+  <meta content="en_US" property="og:locale">
+  <meta content="JustinChill" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="https://justinchill.com/maps.html" property="og:url">
+  <meta content="Cartographic Visualizations - Justin Chill" property="og:title">
+  <meta content="Messing with maps." property="og:description">
+  <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
+  <link rel="canonical" href="https://www.justinchill.com/maps.html">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Cartographic Visualizations - Justin Chill">
+  <meta name="twitter:description" content="Messing with maps.">
+
+  <link type="text/plain" href="humans.txt" rel="author">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="/favicon.ico">
+  <meta name="theme-color" content="#4C63B6">
+
+  <script type="module">
+    document.documentElement.classList.remove('no-js');
+    document.documentElement.classList.add('js');
+  </script>
+
+  <style type="text/css">
+    @media screen and (max-width: 680px) {}
+  </style>
+</head>
+
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+
+  <main role="main">
+    <article>
+      <div class="article-hero">
+        <h2 class="article-category">Post</h2>
+        <h1 class="article-title">Cartographic Visualizations</h1>
+        <h2 class="article-subtitle">Messing around with maps</h2>
+      </div>
+
+      <figure id="basemap" aria-label="A line graph..."></figure>
+      <figcaption>Data: <a href="https://grg.org/WSRL/TableE.aspx">Gerontology Research Group</a></figcaption>
+      <p>Cartography – the study and practice of map-making – has a rich history spanning centuries of discovery and design. Cartographic visualization leverages mapping techniques to convey data containing spatial information, such as locations, routes, or trajectories on the surface of the Earth.</p>
+      <aside><img width="300px" src="https://gist.githubusercontent.com/jheer/c90d582ef5322582cf4960ec7689f6f6/raw/8dc92382a837ccc34c076f4ce7dd864e7893324a/latlon.png"></aside>
+
+      <p>Approximating the Earth as a sphere, we can denote positions using a spherical coordinate system of <em>latitude</em> (angle in degrees north or south of the <em>equator</em>) and <em>longitude</em> (angle in degrees specifying east-west position). In this system, a <em>parallel</em> is a circle of constant latitude and a <em>meridian</em> is a circle of constant longitude. The <a href="https://en.wikipedia.org/wiki/Prime_meridian"><em>prime meridian</em></a> lies at 0° longitude and by convention is defined to pass through the Royal Observatory in Greenwich, England.</p>
+      <p>To "flatten" a three-dimensional sphere on to a two-dimensional plane, we must apply a <a href="https://en.wikipedia.org/wiki/Map_projection">projection</a> that maps (<code>longitude</code>, <code>latitude</code>) pairs to (<code>x</code>, <code>y</code>) coordinates. Similar to <a href="https://observablehq.com/@uwdata/scales-axes-and-legends">scales</a>, projections map from a data domain (spatial position) to a visual range (pixel position). However, the scale mappings we've seen thus far accept a one-dimensional domain, whereas map projections are inherently two-dimensional.</p>
+      <p>In this blog post, we will introduce the basics of creating maps and visualizing spatial data with javascript, including:</p>
+      <ul>
+        <li>Data formats for representing geographic features,</li>
+        <li>Geo-visualization techniques such as point, symbol, and choropleth maps, and</li>
+        <li>A review of common cartographic projections.</li>
+      </ul>
+    </article>
+  </main>
+  <footer>
+    <h2 class="visually-hidden" id="footnote-label">Footnotes</h2>
+    <ol>
+
+    </ol>
+    <div>
+      <p>Justin Chill © 2024. Thanks&nbsp;for&nbsp;reading!</p>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code and feedback</a></span>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/topojson@3.0.2/dist/topojson.min.js"></script>
+  <script type="text/javascript">
+    var size = 12;
+    var element = d3.select('figure').node();
+    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+
+    // Use Promises to async request data
+    var promises = [d3.json("data/geo/world.json")];
+    myDataPromises = Promise.all(promises);
+
+    // After data is successfully fetched, generate viz
+    myDataPromises.then(function(data) {
+
+      // Define the data
+      var world = data[0];
+
+      var basemap = {
+        width: width,
+        projection: {
+          type: "orthographic",
+          rotate: [0, -30, 20]
+        },
+        marks: [
+          Plot.sphere({
+            fill: "#a5e5e1",
+            fillOpacity: .1,
+            stroke: "currentColor"
+          }),
+          Plot.graticule({
+            stroke: "currentColor",
+            strokeWidth: 0.4
+          }),
+          Plot.geo(world, {
+            fill: "#F7F2E8",
+            fillOpacity: .9,
+            stroke: "currentColor"
+          }),
+        ]
+      };
+
+      document.getElementById("basemap").appendChild(Plot.plot(basemap));
+    });
+  </script>
+</body>
+
+</html>
