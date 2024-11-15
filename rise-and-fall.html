@@ -120,10 +120,10 @@
     var gibbons = {
       // title: "Gibbon's Decline and Fall of the Roman Empire",
       width: width,
-      style:{fontSize: size, paddingRight: 30},
+      style:{fontSize: size, paddingRight: 30, paddingBottom: 30},
       x: {
         grid: true,
-        label: "Start page number",
+        label: "Starting page number",
         interval: 1,
         nice: true,
         clamp: true,
@@ -132,10 +132,11 @@
         label: "Year",
         nice: true,
         clamp: true,
+        grid: true
       },
       marks: [
-        Plot.axisY({anchor: "left"}),
-        Plot.axisX({anchor: "bottom"}),
+        Plot.axisY({anchor: "left", tickFormat: "y", tickSize: 0, labelArrow: null, labelOffset: 30 }),
+        Plot.axisX({anchor: "bottom", labelOffset: 40}),
         Plot.tip(gibbonsData, {
           y1: "startDate",
           y2: "endDate",
@@ -199,7 +200,7 @@
         nice: true,
         clamp: true,
         // interval: d3.utcDay,
-        tickFormat: (x) => formatYear(x)
+        tickFormat: (d) => formatYear(d)
       },
       marks: [
         Plot.barX(emperors, {
