@@ -39,15 +39,20 @@
       margin: 0;
     }
 
-    #oldest_legend {
+    #legend {
       display: flex;
       flex-direction: row-reverse;
-      background: hsla(209, 23%, 98%, 1);
       margin-bottom: 0;
     }
+    #legend div{
+      display: flex; align-items: center; gap: 0.5rem;
+    }
 
-    #oldest_legend svg {
+    #legend div[class*="swatches"] svg {
       border-radius: 50%;
+    }
+    #legend svg{
+      overflow: visible;
     }
 
     figcaption {
@@ -83,7 +88,7 @@
         <h1 class="article-title">Space Waste</h1>
         <h2 class="article-subtitle">Debris left on the moon's surface.</h2>
       </div>
-
+      <h2>Missions that have smashed into the Moon, either as a full spacecraft or as parts</h2>
       <figcaption id="legend" aria-label="An unfilled circle (⭕) represents a sucessful landing with debris. A filled circle (⚫) represents an unsuccessful landing. "></figcaption>
       <figure id="crashes" aria-label=""></figure>
       <figcaption>Data: Alexandra Witze for <a href="https://www.nature.com/articles/d41586-022-00542-4">Nature</a></figcaption>
@@ -124,24 +129,24 @@
     var tips = [
       {
         x1: 1959,
-        y1: 3,
+        y1: 13,
         x2: 1959,
         y2: 1.25,
         text: "Luna 2 is the first human made object to crash into the moon."
       },
       {
         x1: 1999, 
-        y1: 2,
+        y1: 9,
         x2: 1999,
         y2: 1.25,
         text: "Lunar prospector crashes with human ashes onboard."
       },
       {
-        x1: 2019, 
-        y1: 2,
+        x1: 2006, 
+        y1: 11,
         x2: 2019,
         y2: 1,
-        text: "Beresheet crashes on landing, spilling tardigrades.."
+        text: "Beresheet crashes on landing, spilling tardigrades."
       },
     ];
     // From Chris Ryan: https://observablehq.com/@chris-creditdesign/nature-lunar-crash-landings-graphic
@@ -151,17 +156,18 @@
 
       var crashes = {
         width: width,
+        height: 240,
         style: {
           fontSize: size,
         },
         color: {
-          legend: true,
+          legend: false, // Show legend separately 
           domain: color_scale_domain,
           range: color_scale_range
         },
         y: {
           grid: false,
-          domain: [0, 10],
+          domain: [0, 20],
           label: null,
           axis: null
         },
@@ -189,10 +195,10 @@
           }),
           Plot.arrow(tips, {
             filter: (d,i) => i == 0,
-            x1: d => d.x1 - 10,
-            y1: d => d.y1 - .50,
-            x2: d => d.x2 - 1,
-            y2: d => d.y2 - .25,
+            x1: d => d.x1 -3,
+            y1: d => d.y1 - 2,
+            x2: d => d.x2 - .75,
+            y2: d => d.y2 + .25,
             strokeLinejoin: "miter",
             headLength: 5,
             stroke: "#aaa",
@@ -206,14 +212,14 @@
             fill: "grey",
             text: "text",
             dx: -20,
-            textAnchor: "end",
+            textAnchor: "start",
           }),
           Plot.arrow(tips, {
             filter: (d,i) => i == 1,
-            x1: d => d.x1 - 2,
-            y1: d => d.y1 + .50,
-            x2: d => d.x2 + 0,
-            y2: d => d.y2 - .0125,
+            x1: d => d.x1 - 1,
+            y1: d => d.y1 + 1.50,
+            x2: d => d.x2 + .25,
+            y2: d => d.y2+.5,
             strokeLinejoin: "miter",
             headLength: 5,
             stroke: "#aaa",
@@ -226,16 +232,16 @@
             lineWidth: 10,
             fill: "grey",
             text: "text",
-            dx: -20,
+            dx: -40,
             dy: -40,
-            textAnchor: "end",
+            textAnchor: "center",
           }),
           Plot.arrow(tips, {
             filter: (d,i) => i == 2,
             x1: d => d.x1 + 6,
-            y1: d => d.y1 - .15,
-            x2: d => d.x2 + .35,
-            y2: d => d.y2 + .20,
+            y1: d => d.y1-2,
+            x2: d => d.x2 - .8,
+            y2: d => d.y2+.3,
             strokeLinejoin: "miter",
             headLength: 5,
             stroke: "#aaa",
@@ -248,14 +254,18 @@
             lineWidth: 10,
             fill: "grey",
             text: "text",
-            dy: -15,
             dx: 30,
-            textAnchor: "start",
+            textAnchor: "center",
           }),
         ]
       };
-
-      document.getElementById("crashes").appendChild(Plot.plot(crashes));
+      
+      // Create the legend separately, using the color scale from the main plot
+      var crashes_color = Plot.plot(crashes).scale("color");
+      var crashes_legend = {
+        // label: "Gender",
+        color: crashes_color,
+      };
 
       // Circle legend from https://observablehq.com/@chris-creditdesign/nature-lunar-crash-landings-graphic
         const svg_width = 16;
@@ -275,7 +285,10 @@
         }" stroke="#000" stroke-width="3" fill="#000"/>
           </svg>`;
 
-        legend.innerHTML = `<div style="font-family: sans-serif; font-size: 12px; display: flex; align-items: center; gap: 0.5em;">${empty_circle}<p>Successful landing with debris</p>${filled_circle} <p>Crash landing</p></div>`;
+        legend.innerHTML = `<div style="display: flex; flex-direction: column; align-items: baseline;"><span style="display:flex; flex-direction: row; gap: .5rem; align-items: baseline;">${empty_circle}<p>Successful&nbsp;landing</p></span><span style="display: flex; flex-direction: row; gap: .5rem; align-items: baseline;">${filled_circle} <p>Crash&nbsp;landing</p></span></div>`;
+        
+        document.getElementById("legend").appendChild(Plot.legend(crashes_legend));
+        document.getElementById("crashes").appendChild(Plot.plot(crashes));
 
   </script>
 </body>
