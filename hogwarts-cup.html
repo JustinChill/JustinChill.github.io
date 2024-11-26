@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+  <title>Hogwarts School Cup & The Gryffindor Bias - Justin Chill</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Why does Gryffindor always win?">
+  <meta name="author" content="Justin Chill">
+  <!-- OpenGraph tags -->
+  <meta name="keywords" content="stats, chart, data viz, Harry Potter, Gryffindor, school cup, Hogwarts">
+  <meta name="robots" content="all">
+  <meta content="en_US" property="og:locale">
+  <meta content="JustinChill" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="https://justinchill.com/hogwarts-cup.html" property="og:url">
+  <meta content="Hogwarts School Cup & The Gryffindor Bias - Justin Chill" property="og:title">
+  <meta content="Why does Gryffindor always win?" property="og:description">
+  <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
+  <link rel="canonical" href="https://www.justinchill.com/hogwarts-cup.html">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Hogwarts School Cup & The Gryffindor Bias - Justin Chill">
+  <meta name="twitter:description" content="Why does Gryffindor always win?">
+
+  <link type="text/plain" href="humans.txt" rel="author">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="/favicon.ico">
+  <meta name="theme-color" content="#4C63B6">
+
+  <script type="module">
+    document.documentElement.classList.remove('no-js');
+    document.documentElement.classList.add('js');
+  </script>
+
+  <style type="text/css">
+
+    @media screen and (max-width: 680px) {}
+  </style>
+</head>
+
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+
+  <main role="main">
+    <article>
+      <div class="article-hero">
+        <h2 class="article-category">Post</h2>
+        <h1 class="article-title">Hogwarts School Cup & The Gryffindor Bias</h1>
+        <h2 class="article-subtitle"></h2>
+      </div>
+
+      <h3>House points awarded for House Gryffindor</h3>
+      <figure id="gryfhousecup" aria-label="" class="mid-size"></figure>
+      <p>The House Cup was a yearly award given at Hogwarts School of Witchcraft and Wizardry. It was given at the end of the school year to the House with the most House points. Points were given to Houses by teachers and prefects throughout the year for various things including answering questions correctly and doing good deeds. The winners of school Quidditch games also received points. Points could be taken away for things such as misbehaving or rule-breaking.</p>
+      <img src="https://static.wikia.nocookie.net/harrypotter/images/f/f8/HogwartsHouseCupWU.png" alt="The House Cup, a gold trophy." />
+      <blockquote><p>"While you are at Hogwarts, your triumphs will earn you house points, while any rule-breaking will lose house points. At the end of the year, the house with the most points is awarded the house cup, a great honor"</p>
+      <figcaption><p>Professor Minerva McGonagall explaining the house point system and the House Cup</p></figcaption></blockquote>
+      <h3>House points awarded to all Houses</h3>
+      <figure id="housecup" aria-label=""></figure>
+      <p>A <a href="https://www.nytimes.com/interactive/2024/10/31/world/europe/russia-gains-ukraine-maps.html">graphic</a> in the New York Times inspired this article. I like how they presented a diverging bar chart to show change and wanted to mimic the style with happier data.</p>
+      <blockquote><p>The din was deafening. Those who could add up while yelling themselves hoarse knew that Gryffindor now had four hundred and seventy-two points—exactly the same as Slytherin. They had tied for the house cup -- if only Dumbledore had given Harry just one more point .
+        
+        Dumbledore raised his hand. The room gradually fell silent. "There are all kinds of courage," said Dumbledore, smiling.
+        
+        "It takes a great deal of bravery to stand up to our enemies, but just as much to stand up to our friends. I therefore award ten points to Mr. Neville Longbottom."</p>
+      <figcaption><p>Dumbledore in Harry Potter and the Sorcerer's Stone</p></figcaption></blockquote>      
+      
+    </article>
+  </main>
+  <footer>
+    <h2 class="visually-hidden" id="footnote-label">Footnotes</h2>
+    <ol>
+
+    </ol>
+    <div>
+      <p>Justin Chill © 2024. Thanks&nbsp;for&nbsp;reading!</p>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code and feedback</a></span>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+
+  <script type="text/javascript">
+    var size = 12;
+    var elementMid = d3.select('figure.mid-size').node();
+    var widthMid = elementMid.getBoundingClientRect().width; // get width of figure.mid-size so graphic is responsive
+    var element = d3.select('figure:last-of-type').node();
+    var width = element.getBoundingClientRect().width; // get width of figure so graphic is responsive. TODO / hacky
+
+    // Use Promises to async request data
+    var promises = [d3.csv("data/Harry Potter Points Table.csv", d3.autoType),];
+    myDataPromises = Promise.all(promises);
+    
+    // After data is successfully fetched, generate viz
+    myDataPromises.then(function(data) {
+    var data = data[0];
+    var gryffindor = data.filter(d => d.House == "Gryffindor")
+    console.log(data);
+
+    var gryfhousecup = {
+      width: widthMid,
+      style: {
+        fontSize: size,
+        textTransform: "capitalize",
+        paddingBottom: 30,
+      },
+      color: {
+        legend: true,
+      },
+      color: {
+        legend: true,
+      },
+      y: { nice: true, label: "House points"},
+      fy: { label: null },
+      marks: [
+        Plot.frame({ strokeOpacity: 0.1 }),
+        Plot.axisX({lineWidth: 7, tickSize: 0, label: null}),
+        Plot.barY(gryffindor, {
+          fy: "House",
+          x: "Movie Title",
+          y: "Points Awarded",
+          title: "Points Awarded",
+          tip: true,
+          fill: "rgba(25,153,206,255)",
+        }),
+        Plot.barY(gryffindor,
+          { fy: "House", x: "Movie Title", y: "Points Deducted", title: "Points Deducted", tip: true, fill: "rgba(232,72,66,255)" }
+        ),
+        Plot.ruleY([0])
+      ]
+    };
+    
+    var housecup = {
+      width: width,
+      style: {
+        fontSize: size,
+        textTransform: "capitalize",
+        paddingBottom: 30,
+      },
+      color: {
+        legend: true,
+      },
+      color: {
+        legend: true,
+      },
+      fy: { label: null },
+      marks: [
+        Plot.frame({ strokeOpacity: 0.1 }),
+        Plot.axisX({lineWidth: 6, tickSize: 0, label: null}),
+        Plot.barY(data, {
+          fy: "House",
+          x: "Movie Title",
+          y: "Points Awarded",
+          fill: "rgba(25,153,206,255)",
+        }),
+        Plot.barY(data,
+          { fy: "House", x: "Movie Title", y: "Points Deducted", fill: "rgba(232,72,66,255)" }
+        ),
+        Plot.ruleY([0])
+      ]
+    };
+
+    document.getElementById("housecup").appendChild(Plot.plot(housecup));
+    document.getElementById("gryfhousecup").appendChild(Plot.plot(gryfhousecup));
+    });
+  </script>
+</body>
+
+</html>
