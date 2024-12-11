@@ -268,7 +268,11 @@
 
       // Define the data
       var rawFirebase = data[0];
-      var data_tidy = data[1];
+      var data_tidy = data[1].map((d) => ({
+        date: d.date,
+        category: d.category == "Star" ? "Starlink" : d.category,
+        value: d.value,
+      }));
       var launches = rawFirebase.map((d) => ({
         payload: d.payload,
         date: new Date(d.launch_time_utc),
@@ -399,10 +403,10 @@
             y: "y",
             text: d => d.y + " launches so far in " + d.category,
             fill: "black",
-            dy: 4,
-            dx: 14,
+            dy: -16,
+            dx: 10,
             fontSize: size+2,
-            textAnchor: "start"
+            textAnchor: "end"
           })),
           Plot.ruleY([0]),
           Plot.ruleX([0])
