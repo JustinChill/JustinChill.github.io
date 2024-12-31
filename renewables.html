@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+  <title>Green Dragon: Most of the world's new renewable capacity comes from China</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Most of the world's new renewable capacity comes from China">
+  <meta name="author" content="Justin Chill">
+  <!-- OpenGraph tags -->
+  <meta name="keywords" content="data viz, China, renewable energy, renewables, ">
+  <meta name="robots" content="all">
+  <meta content="en_US" property="og:locale">
+  <meta content="JustinChill" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="https://justinchill.com/renewables.html" property="og:url">
+  <meta content="New renewable energy capacity" property="og:title">
+  <meta content="Most of the world's new renewable capacity comes from China" property="og:description">
+  <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
+  <link rel="canonical" href="https://www.justinchill.com/renewables.html">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="New renewable energy capacity">
+  <meta name="twitter:description" content="Most of the world's new renewable capacity comes from China">
+
+  <link type="text/plain" href="humans.txt" rel="author">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="/favicon.ico">
+  <meta name="theme-color" content="#4C63B6">
+
+  <script type="module">
+    document.documentElement.classList.remove('no-js');
+    document.documentElement.classList.add('js');
+  </script>
+
+  <style type="text/css">
+
+  </style>
+</head>
+
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+
+  <main role="main">
+    <article>
+      <div class="article-hero">
+        <h2 class="article-category">Post</h2>
+        <h1 class="article-title">Green Dragon</h1>
+        <h2 class="article-subtitle">Most of the world's new renewable capacity comes from China</h2>
+      </div>
+
+      <figure id="barplot" class="mid-size" aria-label="A bar graph..."></figure>
+      <figcaption class="mid-size right">Data: <a href="https://www.irena.org/-/media/Files/IRENA/Agency/Publication/2024/Jul/IRENA_Stats_extract_2024-H2.xlsx">IRENA</a></figcaption>
+
+      <p>In 2023, according to figures published by the International Renewable Energy Agency, China accounted for an extraordinary 63 per cent of global net additions in total renewable capacity — 298 gigawatts of the 473GW total. Even more extraordinary was its share of year-on-year growth in global additions of net capacity, which was 96 per cent. Exclude China and 2023’s net additions of renewable capacity were a mere 7GW higher than in 2022. Various words could be used to describe such growth, but “exponential” is not one of them.</p>
+      <p>The problem is that we need rapid growth in renewable investment everywhere, not just in China. In fact, when we break down the “global” energy transition into its component regional parts, the problem looks starker still.</p>
+      <p>Consider Africa and Asia-excluding-China. These regions have the most pressing need for investment in low-carbon energy sources. Their power sectors are among the world’s most fossil-fuel intensive and they are expected to lead global growth in electricity consumption. Yet they have only limited investment in renewable capacity. Between 2018 and 2023, annual net additions of renewable capacity grew by a compound annual rate of 10 per cent globally, but only by 5 per cent in Africa. Compare that with 16 per cent in China. The pace of progress is slowest precisely where it is needed most.</p>
+      <p>And so, several decades after governments around the world began to take measures to actively support renewables investment, greenhouse-gas emissions from electricity generation — the single largest source of anthropogenic emissions but also the one thing that we know how to easily decarbonize — continue to <a href="https://iea.blob.core.windows.net/assets/6b2fd954-2017-408e-bf08-952fdd62118a/Electricity2024-Analysisandforecastto2026.pdf">climb</a>.</p>
+      <p>Debunking the “exponential growth” narrative is important not just because it is misleading in so far as it mistakes a Chinese story for a global one. It is also important because the narrative is politically salient and dangerous.</p>
+
+      <img src="https://assets.bwbx.io/images/users/iqjWHBFdfxIU/i5BBu0fxPNzs/v0/-1x-1.webp" alt="A floating solar farm in Huainan, China" class="full-bleed" loading="lazy">
+    </article>
+  </main>
+  <footer>
+    <h2 id="footnote-label">Footnotes</h2>
+    <ol>
+      <li id="ft"><a href="https://archive.is/PTQlP">Financial Times, <i>We must not mistake China’s success on green energy for a global one</i> </a>.<a href="#ft-ref" aria-label="Back to content">↩</a></li>
+    </ol>
+
+    <div>
+      <p>Justin Chill © 2024. Thanks&nbsp;for&nbsp;reading!</p>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code and feedback</a></span>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+  <script type="text/javascript">
+    var elementMid = d3.select('figure.mid-size').node();
+    var widthMid = elementMid.getBoundingClientRect().width; // get width of figure.mid-size so graphic is responsive
+    var element = d3.select('figure:last-of-type').node();
+    var width = element.getBoundingClientRect().width; // get width of figure so graphic is responsive. Todo / hacky
+    var size = 12;
+    var parseDate = d3.timeParse("%Y");
+
+    // Use Promises to async request data
+    var promises = [d3.csv("data/irena-data.csv", d3.autoType)];
+    myDataPromises = Promise.all(promises);
+
+    // After data is successfully fetched, generate viz
+    myDataPromises.then(function(data) {
+
+      // Define the data
+      var data = data[0];
+
+      // Inspired by https://observablehq.com/d/20d13d84dd44a84e
+      var barplot = {
+        width: widthMid,
+        marginLeft: 0,
+        color: {
+          legend: true,
+          opacity: 0.9,
+          domain: [
+            "China",
+            "Europe",
+            "Americas",
+            "Asia (excl. China)",
+            "Oceania",
+            "Africa"
+          ],
+          range: ["#ef1620", "#00309a", "#972c90", "#d7477a", "#f77b68", "#ffb56b"]
+        },
+        legend: {
+          swatchHeight: 50
+        },
+        x: {
+          type: "band",
+          nice: true,
+          label: null,
+          tickFormat: "Y"
+        },
+        y: {
+          nice: true,
+          label: null,
+          domain: [0, 500],
+        },
+        marks: [
+          Plot.axisY({
+            anchor: "right",
+            label: "Net additions (GW)",
+            labelArrow: null,
+            nice: true
+          }),
+          Plot.frame({
+            anchor: "right"
+          }),
+          Plot.rectY(data, {
+            x: "year",
+            y: "value",
+            fill: "name",
+            tip: true,
+            stroke: "white",
+            order: "sum",
+            reverse: true,
+            opacity: 0.9
+          }),
+          Plot.text(
+            [
+              `"Looking at global renewables growth rates is hugely misleading. There is not one single energy transition but a series of regional transitions of widely varying form, pace and scope. The outsized materiality of one — China’s — means global figures veil more than they reveal. They currently look impressive because, and only because, China’s do."\n\n — Brett Christophers`
+            ], {
+              frameAnchor: "top-left",
+              dx: 14,
+              dy: 20,
+              fontSize: 18,
+              lineWidth: 30,
+              lineHeight: 1.3,
+              fill: "black",
+              stroke: "white",
+              strokeWidth: 3
+            }
+          ),
+        ]
+      };
+
+      document.getElementById("barplot").appendChild(Plot.plot(barplot));
+    });
+  </script>
+</body>
+
+</html>
