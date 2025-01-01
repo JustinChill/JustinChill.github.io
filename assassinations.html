@@ -63,7 +63,7 @@
       <p>Note that this plots the date of shooting, not necessarily the date of death attributed to the shooting. Lincoln for example was shot April 14, 1865 and died the 15th. Garfield was shot July 2, 1881 and died September 19. McKinley was shot September 6, 1901 and died the 14th. Kennedy was shot and killed November 22, 1963.</p>
       <p style="text-align: left; display: block;">Reflecting <span style="color:#003566">Democratic</span>, <span style="color:#c1121f">Republican</span>, and <span style="color:#ffb703">Progressive</span> Party Leadership.</p>
       <figure id="imgs" aria-label="A line graph showing..."></figure>
-      <p>Four U.S. presidents have been assassinated while in office. Here are their names and the years they were assassinated:</p>
+      <p>Four U.S. presidents have been assassinated while in office:</p>
       <ol>
         <li>Abraham Lincoln - 1865</li>
         <li>James A. Garfield - 1881</li>
@@ -106,16 +106,17 @@
           <p>George W. Bush (2005) - A grenade thrown at Bush during a speech in Georgia (the country) failed to detonate.</p>
         </li>
         <li>
-          <p>Barack Obama - Several plots were uncovered during his presidency, but none resulted in attempts that came close to fruition.</p>
+          <p>Barack Obama - Several plots were uncovered during his presidency, but none resulted in attempts that came close to fruition.<a href="#splc" aria-describedby="footnote-label" id="splc-ref"></a></p>
         </li>
       </ol>
       <p>It's important to note that security measures for presidents have continually evolved and increased in response to these attempts and successful assassinations. The Secret Service, which is now well-known for protecting presidents, only began this role full-time after McKinley's assassination in 1901.</p>
+      <p>Adapted from Code by Mike Bostock and <a href="https://observablehq.com/@tophtucker">Toph Tucker</a>.</p>
     </article>
   </main>
   <footer>
     <h2 id="footnote-label">Footnotes</h2>
     <ol>
-      <li id="toph">Adapted from Code by Mike Bostock and <a href="https://observablehq.com/@tophtucker">Toph Tucker</a>. <a href="#molony-ref" aria-label="Back to content">↩</a></li>
+      <li id="splc">The Southern Poverty Law Center, <em><a href="https://observablehq.com/@tophtucker">Authorities Smash Alleged Obama Assassination Plots</a></em>. <a href="#splc-ref" aria-label="Back to content">↩</a></li>
     </ol>
     <div>
       <p>Justin Chill © 2024. Thanks&nbsp;for&nbsp;reading!</p>
@@ -287,6 +288,8 @@
       marks: [
         Plot.ruleY(data, {
           y: "President",
+          x1: d3.min(data, (d) => d.Year),
+          x2: "Year",
           stroke: "#ced4da"
         }), // Set the line color to gray
         Plot.dot(data, {
@@ -304,20 +307,13 @@
           tip: true,
           title: (d) => `${d.President}\nYear: ${d.Year}\nParty: ${d.Party}\nOutcome: ${d.Outcome}`
         }),
-        Plot.text(data, {
-          x: (d) => d.Year + 2,
-          y: "President",
-          text: "President",
-          dx: 5,
-          dy: -6,
-          textAnchor: "start",
-        }),
         Plot.text(
           data.filter((d) => d.Outcome === "Assassinated"), {
             x: "Year",
             y: "President",
             text: () => "Assassinated",
-            dy: 24, // Adjust this value to position the text above the dot
+            dx: 54,
+            dy: -4, // Adjust this value to position the text above the dot
             fill: "red",
           }
         ),
