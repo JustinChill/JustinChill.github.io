@@ -58,13 +58,13 @@
         <h2 class="article-subtitle">An Analysis of Failed Banks In The US</h2>
       </div>
 
-      <figure id="barplot" class="mid-size" aria-label="A bar graph..."></figure>
+      <figure id="dodgeplot" class="mid-size" aria-label="A dodge chart showing bank failures in the USA as circles sized according to their assets."></figure>
       <figcaption class="mid-size right">Data: <a href="https://www.fdic.gov/resources/resolutions/bank-failures/in-brief/bfb2023.html">FDIC</a>, <a href="https://fred.stlouisfed.org/series/CPIAUCSL">FRED</a></figcaption>
 
       <p>Bank failures happen more often than we hear about: there have been <strong>569</strong> in the U.S. since January 1, 2000. That’s an average of about 25 per year.</p>
       <p>But the back-to-back collapses of Silicon Valley Bank (SVB) and Signature Bank in early 2023, followed by First Republic Bank in May, were unique in more ways than one. An analysis of the Federal Deposit Insurance Corporation’s (FDIC) database reveals what makes the recent failures stand out and offers context to compare these collapses to earlier bank failures.</p>
       <h3>Failures by total assets</h3>
-      <figure id="barcode" class="mid-size" aria-label="A bar graph..."></figure>
+      <figure id="barcode" class="mid-size" aria-label="A barcode chart showing bank failures in the USA as vertical lines shaded according to their date of failure."></figure>
       <figcaption class="mid-size right">Data: <a href="https://www.fdic.gov/resources/resolutions/bank-failures/in-brief/bfb2023.html">FDIC</a>, <a href="https://fred.stlouisfed.org/series/CPIAUCSL">FRED</a></figcaption>
 
       <p>In the wake of the Great Recession, it was typical to see dozens—if not hundreds—of bank failures each year. This slowed significantly from 2015 to 2020, when the U.S. saw an average of fewer than five bank failures per year. Zero banks failed in both 2021 and 2022.</p>
@@ -124,7 +124,7 @@
       <p>The longest? That would be June 2004 through February 2007-nearly three years without a single bank failure leading up to the Great Recession.</p>
 
       <h3>What Is the Largest Bank Failure?</h3>
-      <figure id="stackedBarBankFailures" class="mid-size" aria-label="A bar graph..."></figure>
+      <figure id="stackedBarBankFailures" class="mid-size" aria-label="A stacked bar graph of US bank failures from 2000 - 2022."></figure>
       <figcaption class="mid-size right">Data: <a href="https://www.fdic.gov/resources/resolutions/bank-failures/in-brief/bfb2023.html">FDIC</a>, <a href="https://fred.stlouisfed.org/series/CPIAUCSL">FRED</a></figcaption>
       <p>The 2008 collapse of Washington Mutual was the largest bank failure in U.S. history. Washington Mutual held $307 billion in assets when it failed. Like many other banks of the time, it fell under the weight of risky mortgage loans.</p>
       <p>First Republic Bank is the second-largest bank failure in U.S. history, with $232 billion in assets as of March 2023, followed by Silicon Valley Bank as the third-largest bank failure, with $209 billion in assets at the end of 2022. Both First Republic Bank and SVB were among the most well-known lenders for tech companies and startups and two of the top 20 largest banks in the country.</p>
@@ -239,12 +239,12 @@
       var monthly_sums = data[1];
 
       // Remove the existing plots
-      document.getElementById("barplot").innerHTML = "";
+      document.getElementById("dodgeplot").innerHTML = "";
       document.getElementById("stackedBarBankFailures").innerHTML = "";
       document.getElementById("barcode").innerHTML = "";
 
       // Inspired by https://observablehq.com/d/09375f1a53f38932
-      var barplot = {
+      var dodgeplot = {
         width: widthMid,
         height: width > 450 ? 680 : 780,
         style: {
@@ -335,7 +335,7 @@
         ]
       };
 
-      document.getElementById("barplot").appendChild(Plot.plot(barplot));
+      document.getElementById("dodgeplot").appendChild(Plot.plot(dodgeplot));
       document.getElementById("barcode").appendChild(Plot.plot(barcode));
       document.getElementById("stackedBarBankFailures").appendChild(Plot.plot(stackedBarBankFailures));
     });
