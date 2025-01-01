@@ -5,7 +5,7 @@
   <title>U.S. Congress</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="U.S. Congress">
+  <meta name="description" content="A detailed analysis of the representation in the U.S. Congress, focusing on Senate and House disparities.">
   <meta name="author" content="Justin Chill">
   <!-- OpenGraph tags -->
   <meta name="keywords" content="stats, chart, data viz, record, historical, USA, congress, senate, government, represent">
@@ -57,7 +57,7 @@
         <h1 class="article-title">How "democratic" is Congress?</h1>
         <h2 class="article-subtitle"></h2>
       </div>
-      <figure class="mid-size" id="states" aria-label="A line graph showing..."></figure>
+      <figure class="mid-size" id="states" aria-label="A line graph showing cumulative population percentages represented by U.S. senators."></figure>
       <p>The US Senate has 100 members, 2 from each of the 50 states, regardless of the population of those states. Non-state territories like Puerto Rico and the District of Columbia have no senators.</p>
       <p>If we sort the states from largest to smallest and then graph them with (cumulative) number of senators on the horizontal axis and (cumulative) population on the vertical axis, we see how unevenly the population is distributed among senate "districts" (i.e., states).</p>
       <p>The 9 largest states account for <mark>50%</mark> of the country's population. Half of the Senate represents about 83% of the population, while the other half represents another 16%. 1% has no representation whatsoever in the Senate.</p>
@@ -70,17 +70,17 @@
       <figure id="beeswarm" aria-label="A line graph showing..."></figure>
       <p>This analysis was inspired by <a href="https://www.newyorker.com/magazine/2022/08/22/american-democracy-was-never-designed-to-be-democratic-eric-holder-our-unfinished-march-nick-seabrook-one-person-one-vote-jacob-grumbach-laboratories-against-democracy">"American Democracy Was Never Designed to Be Democratic"</a>,
         by Louis Menand in <em>The New Yorker</em>.</p>
-        <h3>Data sources</h3>
-        <p>State population data source: Annual Estimates of the Resident Population for the United States, Regions, States, District of Columbia, and Puerto Rico: April 1, 2020 to July 1, 2021 (NST-EST2021-POP) (<a href="https://data.census.gov/cedsci/table?g=0100000US%240400000&amp;tid=PEPPOP2021.NST_EST2021_POP">Link</a>).</p>
-        <p>Senators data source: <a href="https://www.senate.gov/senators/index.htm">https://www.senate.gov/senators/index.htm</a></p>
-        <p>Congressional district population data source (116th Congress): 2021 American Community Survey 1-Year Estimates (DP05) (<a href="https://data.census.gov/cedsci/table?t=Population%20Total&amp;g=0100000US%245000000&amp;y=2021&amp;tid=ACSDP1Y2021.DP05&amp;moe=false&amp;tp=true">Link</a>).</p>
+      <h3>Data sources</h3>
+      <p>State population data source: Annual Estimates of the Resident Population for the United States, Regions, States, District of Columbia, and Puerto Rico: April 1, 2020 to July 1, 2021 (NST-EST2021-POP) (<a href="https://data.census.gov/cedsci/table?g=0100000US%240400000&amp;tid=PEPPOP2021.NST_EST2021_POP">Link</a>).</p>
+      <p>Senators data source: <a href="https://www.senate.gov/senators/index.htm">https://www.senate.gov/senators/index.htm</a></p>
+      <p>Congressional district population data source (116th Congress): 2021 American Community Survey 1-Year Estimates (DP05) (<a href="https://data.census.gov/cedsci/table?t=Population%20Total&amp;g=0100000US%245000000&amp;y=2021&amp;tid=ACSDP1Y2021.DP05&amp;moe=false&amp;tp=true">Link</a>).</p>
     </article>
   </main>
   <footer>
-  <h2 id="footnote-label">Footnotes</h2>
-  <ol>
-    <li id="alec">Code inspired by <a href="https://observablehq.com/@anbnyc">Alec Barrett</a>, Engineering Manager @ Datadog, faculty @ Parsons MSDV program.</li>
-  </ol>
+    <h2 id="footnote-label">Footnotes</h2>
+    <ol>
+      <li id="alec">Code inspired by <a href="https://observablehq.com/@anbnyc">Alec Barrett</a>, Engineering Manager @ Datadog, faculty @ Parsons MSDV program.</li>
+    </ol>
     <div>
       <p>Justin Chill © 2024. Thanks&nbsp;for&nbsp;reading!</p>
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code and feedback</a></span>
@@ -132,13 +132,22 @@
           }
         }),
       ];
-      var districtAnnotations = [
-        { label: '← District is smaller than average', x: d3.min(sortedDistrictData.filter(d => d.reps > 0), d => d.popDiff), textAnchor: 'start' },
-        { label: 'District is larger than average →', x: d3.max(sortedDistrictData.filter(d => d.reps > 0), d => d.popDiff), textAnchor: 'end' },
+      var districtAnnotations = [{
+          label: '← District is smaller than average',
+          x: d3.min(sortedDistrictData.filter(d => d.reps > 0), d => d.popDiff),
+          textAnchor: 'start'
+        },
+        {
+          label: 'District is larger than average →',
+          x: d3.max(sortedDistrictData.filter(d => d.reps > 0), d => d.popDiff),
+          textAnchor: 'end'
+        },
       ];
-      var lineAnnotations = [
-        { label: 'The District of Columbia has more people than almost 20 districts, but has no voting representatives.', x: 400, textAnchor: 'start' },
-      ];
+      var lineAnnotations = [{
+        label: 'The District of Columbia has more people than almost 20 districts, but has no voting representatives.',
+        x: 400,
+        textAnchor: 'start'
+      }, ];
 
       var states = {
         grid: true,
@@ -179,7 +188,8 @@
           }),
           Plot.ruleY([0]),
           Plot.ruleY([0.5, 0.75], {
-            stroke: '#aeaeae'
+            stroke: '#aeaeae',
+            opacity: .75,
           }),
           Plot.arrow(annotations, {
             x: d => d.cumulativeSen + 1,
@@ -213,12 +223,13 @@
             lineWidth: 20,
             dy: 22,
             strokeWidth: 2,
-            fill: "black",
-            stroke: "white",
+            className: 'annotation-text',
+            fill: "black", // Text color
+            stroke: "white", // Outline color for text
           }),
         ]
       };
-
+            
       var line = {
         grid: true,
         width: width,
@@ -266,7 +277,7 @@
           // }),
         ]
       };
-      
+
       var beeswarm = {
         grid: true,
         width: width,
@@ -283,48 +294,49 @@
           label: null,
         },
         marks: [
-    Plot.dot(sortedDistrictData.filter(d => d.reps > 0), Plot.dodgeY({
-          x: "popDiff", anchor: "middle",
-          fillOpacity: d => d.isAtLarge ? 1 : 0.3,
-          fill: d => d.popDiff < 0 ? 'orange' : 'green',
-          title: d => `${d.state} ${d.district}: ${d3.format(',.3s')(d.popDiff)} vs. average`,
-          tip: true,
-          // stroke: 'black',
-          // strokeWidth: d => `${d.state} - ${d.district}` === select ? 1 : 0,
-        })),
-        Plot.text(sortedDistrictData.filter(d => d.reps > 0), {
-          filter: d => d.isAtLarge && Math.abs(d.popDiff) >= 50000,
-          textAnchor: 'start',
-          rotate: -45,
-          x: 'popDiff',
-          dy: -15,
-          text: 'state',
-        }),
-        Plot.text(sortedDistrictData.filter(d => d.reps > 0), {
-          filter: d => d.isAtLarge && Math.abs(d.popDiff) < 50000,
-          textAnchor: 'start',
-          rotate: -45,
-          x: 'popDiff',
-          dy: -20,
-          frameAnchor: "bottom",
-          text: 'state',
-        }),
-        Plot.text(districtAnnotations, {
-          filter: d => d.textAnchor === 'start',
-          x: 'x',
-          text: 'label',
-          dy: 95,
-          textAnchor: 'start',
-          fill: 'orange'
-        }),
-        Plot.text(districtAnnotations, {
-          filter: d => d.textAnchor === 'end',
-          x: 'x',
-          text: 'label',
-          dy: 95,
-          textAnchor: 'end',
-          fill: 'green'
-        })
+          Plot.dot(sortedDistrictData.filter(d => d.reps > 0), Plot.dodgeY({
+            x: "popDiff",
+            anchor: "middle",
+            fillOpacity: d => d.isAtLarge ? 1 : 0.3,
+            fill: d => d.popDiff < 0 ? 'orange' : 'green',
+            title: d => `${d.state} ${d.district}: ${d3.format(',.3s')(d.popDiff)} vs. average`,
+            tip: true,
+            // stroke: 'black',
+            // strokeWidth: d => `${d.state} - ${d.district}` === select ? 1 : 0,
+          })),
+          Plot.text(sortedDistrictData.filter(d => d.reps > 0), {
+            filter: d => d.isAtLarge && Math.abs(d.popDiff) >= 50000,
+            textAnchor: 'start',
+            rotate: -45,
+            x: 'popDiff',
+            dy: -15,
+            text: 'state',
+          }),
+          Plot.text(sortedDistrictData.filter(d => d.reps > 0), {
+            filter: d => d.isAtLarge && Math.abs(d.popDiff) < 50000,
+            textAnchor: 'start',
+            rotate: -45,
+            x: 'popDiff',
+            dy: -20,
+            frameAnchor: "bottom",
+            text: 'state',
+          }),
+          Plot.text(districtAnnotations, {
+            filter: d => d.textAnchor === 'start',
+            x: 'x',
+            text: 'label',
+            dy: 95,
+            textAnchor: 'start',
+            fill: 'orange'
+          }),
+          Plot.text(districtAnnotations, {
+            filter: d => d.textAnchor === 'end',
+            x: 'x',
+            text: 'label',
+            dy: 95,
+            textAnchor: 'end',
+            fill: 'green'
+          })
         ]
       };
 
