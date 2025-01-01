@@ -26,7 +26,7 @@
   <link type="text/plain" href="humans.txt" rel="author">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="/favicon.ico">
-  <meta name="theme-color" content="#4C63B6">
+  <meta name="theme-color" content="hsl(125, 97%, 14%)">
 
   <script type="module">
     document.documentElement.classList.remove('no-js');
@@ -72,7 +72,7 @@
       <p>This took a sharp turn after the U.S. declared a recession in December 2007. From 2008 to 2012, bank failures shot up to an average of 93 per year. Of the 569 bank failures from 2000 to 2024, 465—or 82%—occurred from 2008 to 2012. Bank failures hit a peak in 2010 at 157 in one year—more than double the number of bank failures we’ve seen in the last 10 years combined.</p>
 
       <h3>Longest Periods Between U.S. Bank Failures Since 2000</h3>
-      <table style="text-align: left">
+      <table>
         <tbody>
           <tr class="thead">
             <th> Date of Bank Failure </th>
@@ -232,109 +232,111 @@
     myDataPromises = Promise.all(promises);
 
     // Function to generate the bar plot
-      myDataPromises.then(function(data) {
+    myDataPromises.then(function(data) {
 
-        // Define the data
-        var fails = data[0];
-        var monthly_sums = data[1];
+      // Define the data
+      var fails = data[0];
+      var monthly_sums = data[1];
 
-        // Remove the existing plots
-        document.getElementById("barplot").innerHTML = "";
-        document.getElementById("stackedBarBankFailures").innerHTML = "";
-        document.getElementById("barcode").innerHTML = "";
-        
-        // Inspired by https://observablehq.com/d/09375f1a53f38932
-        var barplot = {
-          width: widthMid,
-          height: 680,
-          insetLeft: 10,
-          insetRight: 60,
-          r: { range: [0, 80] },
-          marks: [
-            Plot.frame({
-              anchor: "bottom"
-            }),
-            Plot.dot(
-              fails,
-              Plot.dodgeY({
-                anchor: "bottom",
-                padding: 2,
-                x: "Date",
-                r: "Assets", // N.B. sqrt scale
-                title: (d) => `${d["Bank Name"]}\n${(d["Assets"] / 1000).toFixed(1)}B`,
-                fill: "#ddd",
-                stroke: "#000",
-                strokeWidth: 1
-              })
-            ),
-            Plot.text(
-              fails,
-              Plot.filter((d) => d.Assets > 2000, Plot.dodgeY({
-                anchor: "bottom",
-                padding: 2,
-                x: "Date",
-                lineWidth: 5,
-                r: "Assets",
-                text: (d) => d.Assets > 12900 ?
-                  `${d["Bank Name"]}\n$${(d["Assets"] / 1000).toFixed(0)}B` : `${(d["Assets"] / 1000).toFixed(1)}`,
-                pointerEvents: "none",
-                fill: "#000",
-                stroke: "#ddd"
-              }))
-            )
-          ]
-        };
+      // Remove the existing plots
+      document.getElementById("barplot").innerHTML = "";
+      document.getElementById("stackedBarBankFailures").innerHTML = "";
+      document.getElementById("barcode").innerHTML = "";
 
-        var barcode = {
-          width: widthMid,
-          insetLeft: 10,
-          insetRight: 60,
-          x: {
-            round: true,
-            label: null
-          },
-          color: {
-            scheme: "Reds"
-          },
-          marks: [
-            Plot.barX(monthly_sums, {
-              x: "month",
-              interval: "month",
-              inset: 0, // no gaps
-              fill: "failures"
-            })
-          ]
-        };
-
-        var stackedBarBankFailures = {
-          width: widthMid,
-          grid: true,
-          y: {
-            tickFormat: width < 600 ?
-              "$" // dollars, scientific notation
-              :
-              "$,.0f", // dollars, commas, 0 precision, fixed point notation,
-            nice: true,
-          },
-          marks: [
-            Plot.rectY(fails, {
-              fill: "Bank Name",
+      // Inspired by https://observablehq.com/d/09375f1a53f38932
+      var barplot = {
+        width: widthMid,
+        height: width > 450 ? 680 : 780,
+        style: {overflow: "clip"},
+        insetLeft: 10,
+        insetRight: 60,
+        r: {
+          range: width > 450 ? [0, 80] : [0, 60]
+        },
+        marks: [
+          Plot.frame({
+            anchor: "bottom"
+          }),
+          Plot.dot(
+            fails,
+            Plot.dodgeY({
+              anchor: "bottom",
+              padding: 2,
               x: "Date",
-              y: "Assets (adj.)",
-              tip: true,
-              sort: "Assets (adj.)",
-              reverse: true,
-              interval: "Half",
-              title: (d) => `${d["Bank Name"]}\nAssets: ${d3.format("$,.0f")(d["Assets"])}\nAssets (adj.): ${d3.format("$,.0f")(d["Assets (adj.)"])}\nDate: ${Plot.formatIsoDate(d["Date"])}\n${d["City, State"]}`
+              r: "Assets", // N.B. sqrt scale
+              title: (d) => `${d["Bank Name"]}\n${(d["Assets"] / 1000).toFixed(1)}B`,
+              fill: "#ddd",
+              stroke: "#000",
+              strokeWidth: 1
             })
-          ]
-        };
+          ),
+          Plot.text(
+            fails,
+            Plot.filter((d) => d.Assets > 2000, Plot.dodgeY({
+              anchor: "bottom",
+              padding: 2,
+              x: "Date",
+              lineWidth: 5,
+              r: "Assets",
+              text: (d) => d.Assets > 12900 ?
+                `${d["Bank Name"]}\n$${(d["Assets"] / 1000).toFixed(0)}B` : `${(d["Assets"] / 1000).toFixed(1)}`,
+              pointerEvents: "none",
+              fill: "#000",
+              stroke: "#ddd"
+            }))
+          )
+        ]
+      };
 
-        document.getElementById("barplot").appendChild(Plot.plot(barplot));
-        document.getElementById("barcode").appendChild(Plot.plot(barcode));
-        document.getElementById("stackedBarBankFailures").appendChild(Plot.plot(stackedBarBankFailures));
-      });
-    
+      var barcode = {
+        width: widthMid,
+        insetLeft: 10,
+        insetRight: 60,
+        x: {
+          round: true,
+          label: null
+        },
+        color: {
+          scheme: "Reds"
+        },
+        marks: [
+          Plot.barX(monthly_sums, {
+            x: "month",
+            interval: "month",
+            inset: 0, // no gaps
+            fill: "failures"
+          })
+        ]
+      };
+
+      var stackedBarBankFailures = {
+        width: widthMid,
+        grid: true,
+        y: {
+          tickFormat: width < 600 ?
+            "$" // dollars, scientific notation
+            :
+            "$,.0f", // dollars, commas, 0 precision, fixed point notation,
+          nice: true,
+        },
+        marks: [
+          Plot.rectY(fails, {
+            fill: "Bank Name",
+            x: "Date",
+            y: "Assets (adj.)",
+            tip: true,
+            sort: "Assets (adj.)",
+            reverse: true,
+            interval: "Half",
+            title: (d) => `${d["Bank Name"]}\nAssets: ${d3.format("$,.0f")(d["Assets"])}\nAssets (adj.): ${d3.format("$,.0f")(d["Assets (adj.)"])}\nDate: ${Plot.formatIsoDate(d["Date"])}\n${d["City, State"]}`
+          })
+        ]
+      };
+
+      document.getElementById("barplot").appendChild(Plot.plot(barplot));
+      document.getElementById("barcode").appendChild(Plot.plot(barcode));
+      document.getElementById("stackedBarBankFailures").appendChild(Plot.plot(stackedBarBankFailures));
+    });
   </script>
 </body>
 
