@@ -58,8 +58,10 @@
         <h2 class="article-subtitle"></h2>
       </div>
       <figure class="mid-size" id="states" aria-label="A line graph showing cumulative population percentages represented by U.S. senators."></figure>
-      <p>The US Senate has 100 members, 2 from each of the 50 states, regardless of the population of those states. Non-state territories like Puerto Rico and the District of Columbia have no senators.</p>
-      <p>If we sort the states from largest to smallest and then graph them with (cumulative) number of senators on the horizontal axis and (cumulative) population on the vertical axis, we see how unevenly the population is distributed among senate "districts" (i.e., states).</p>
+      <p>Congress is the legislative branch of the United States government, consisting of two chambers: the House of Representatives and the Senate. The House of Representatives is based on population, with each state receiving one representative for every 30,000 people, while the Senate is composed of two senators from each state, regardless of population. This bicameral structure is designed to balance the interests of both large and small states.</p>
+      <p>The US Senate thus has 100 members, two from each of the 50 states. Non-state territories like Puerto Rico and the District of Columbia have no senators.</p>
+      <p>The members of Congress are elected by the people of their respective districts or states, with the House of Representatives members serving two-year terms and the Senators serving six-year terms. This process ensures that the members of Congress are accountable to their constituents and that the government is representative of the people.</p>
+      <p>If we sort the states from largest to smallest in terms of population and then graph them with (cumulative) number of senators on the horizontal axis and (cumulative) population on the vertical axis, we see how unevenly the population is distributed among senate "districts" (i.e., states).</p>
       <p>The 9 largest states account for <mark>50%</mark> of the country's population. Half of the Senate represents about 83% of the population, while the other half represents another 16%. 1% has no representation whatsoever in the Senate.</p>
       <p>The House of Representatives is designed to be more equally representative, following the idea of "one person, one vote". If we sort the House's 435 districts by population and graph them in the same way, the result is much closer to a straight diagonal line. </p>
       <figure id="line" aria-label="A line graph showing..."></figure>
@@ -70,6 +72,8 @@
       <figure id="beeswarm" aria-label="A line graph showing..."></figure>
       <p>This analysis was inspired by <a href="https://www.newyorker.com/magazine/2022/08/22/american-democracy-was-never-designed-to-be-democratic-eric-holder-our-unfinished-march-nick-seabrook-one-person-one-vote-jacob-grumbach-laboratories-against-democracy">"American Democracy Was Never Designed to Be Democratic"</a>,
         by Louis Menand in <em>The New Yorker</em>.</p>
+        <img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*2jZ5RErVtkDOAbiZb9eWdw.jpeg" loading="lazy" />
+        <figcaption>Jonathan Ernst for REUTERS</figcaption>
       <h3>Data sources</h3>
       <p>State population data source: Annual Estimates of the Resident Population for the United States, Regions, States, District of Columbia, and Puerto Rico: April 1, 2020 to July 1, 2021 (NST-EST2021-POP) (<a href="https://data.census.gov/cedsci/table?g=0100000US%240400000&amp;tid=PEPPOP2021.NST_EST2021_POP">Link</a>).</p>
       <p>Senators data source: <a href="https://www.senate.gov/senators/index.htm">https://www.senate.gov/senators/index.htm</a></p>
@@ -173,12 +177,14 @@
           label: '% Population (cumulative)',
           ticks: 4,
           percent: true,
+          labelOffset: 2,
         },
         x: {
           label: '# of Senators (cumulative)',
           grid: true,
           ticks: 10,
           tickSize: 0,
+          labelOffset: 34,
         },
         marks: [
           Plot.ruleY(sortedData, {
@@ -222,8 +228,7 @@
             text: 'text',
             lineWidth: 20,
             dy: 22,
-            strokeWidth: 2,
-            className: 'annotation-text',
+            strokeWidth: 5,
             fill: "black", // Text color
             stroke: "white", // Outline color for text
           }),
@@ -243,11 +248,13 @@
           label: '% Population (cumulative)',
           ticks: 4,
           percent: true,
+          labelOffset: 2,
         },
         x: {
           tickSize: 0,
           labelAnchor: "center",
           label: '# of Representatives (cumulative)',
+          labelOffset: 34,
         },
         marks: [
           Plot.ruleY(sortedDistrictData, {
@@ -256,25 +263,18 @@
             y: 'cumulativePopPct'
           }),
           Plot.ruleY([0]),
-          Plot.ruleY([0.5], {
-            stroke: 'lightgrey'
-          }),
           Plot.text(lineAnnotations, {
             x: 'x',
             text: 'label',
-            dx: -14,
+            dx: -20,
             dy: -5,
             frameAnchor: "top",
             textAnchor: 'end',
             lineWidth: 18,
+            fill: "currentColor",
+            stroke: "white",
+            strokeWidth: 4,
           }),
-          // Plot.arrow(lineAnnotations, {
-          //   x: x,
-          //   y1: "cumulativePopPct",
-          //   y2: 'cumulativePopPct',
-          //   bend: true,
-          //   stroke: 'lightgrey'
-          // }),
         ]
       };
 
@@ -343,6 +343,9 @@
       document.getElementById("states").appendChild(Plot.plot(states));
       document.getElementById("line").appendChild(Plot.plot(line));
       document.getElementById("beeswarm").appendChild(Plot.plot(beeswarm));
+    })
+    .catch(error => {
+        console.error('Error loading data:', error);
     });
   </script>
 </body>
