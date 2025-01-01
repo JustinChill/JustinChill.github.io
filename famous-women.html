@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+  <title>Famous Women in History</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Famous Women in History">
+  <meta name="author" content="Justin Chill">
+  <!-- OpenGraph tags -->
+  <meta name="keywords" content="stats, chart, data viz, record, historical, women, female">
+  <meta name="robots" content="all">
+  <meta content="en_US" property="og:locale">
+  <meta content="JustinChill" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="https://justinchill.com/famous-women.html" property="og:url">
+  <meta content="Famous Women in History" property="og:title">
+  <meta content="Famous Women in History" property="og:description">
+  <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
+  <link rel="canonical" href="https://www.justinchill.com/famous-women.html">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Famous Women in History">
+  <meta name="twitter:description" content="Famous Women in History">
+
+  <link type="text/plain" href="humans.txt" rel="author">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="/favicon.ico">
+  <meta name="theme-color" content="#4C63B6">
+
+  <script type="module">
+    document.documentElement.classList.remove('no-js');
+    document.documentElement.classList.add('js');
+  </script>
+
+  <style type="text/css">
+
+  </style>
+</head>
+
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+
+  <main role="main">
+    <article>
+      <div class="article-hero">
+        <h2 class="article-category">Post</h2>
+        <h1 class="article-title">Femme Fatales</h1>
+        <h2 class="article-subtitle">Famous Women in History</h2>
+      </div>
+
+      <figure id="imgs" aria-label="100 most popular women in history, organized by subject area."></figure>
+
+    </article>
+  </main>
+  <footer>
+    <h2 id="footnote-label">Footnotes</h2>
+    <ol>
+      <li id="dk">Inspired by <a href="https://observablehq.com/d/3fabe06f08acc005">Deepali Kank</a>. <a href="#dk-ref" aria-label="Back to content">↩</a></li>
+    </ol>
+    <div>
+      <p>Justin Chill © 2024. Thanks&nbsp;for&nbsp;reading!</p>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code and feedback</a></span>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+
+  <script type="text/javascript">
+    var size = 12;
+    var element = d3.select('figure:last-of-type').node();
+    var width = element.getBoundingClientRect().width; // get width of figure so graphic is responsive. Todo / hacky
+
+
+    // Use Promises to async request data
+    var promises = [d3.csv("data/women.csv", d3.autoType)];
+
+    myDataPromises = Promise.all(promises);
+
+    // After data is successfully fetched, generate viz
+    myDataPromises.then(function(data) {
+      var women = data[0];
+      console.log(women);
+
+      // Inspired by Deepali: https://observablehq.com/d/04d1e523beb2062e
+      var imgs = {
+        width: width,
+        height: 800,
+        style: {
+          fontSize: "12pt",
+          fontFamily: "Belanosima",
+          paddingBottom: 0,
+          paddingLeft: 50,
+          paddingRight: 40,
+          textTransform: "capitalize",
+        },
+        inset: 20,
+        y: {
+          label: null,
+        },
+        marks: [
+          Plot.image(
+            women,
+            Plot.dodgeX({
+              fontSize: 15,
+              y: "Subject Area",
+              r: width > 450 ? 20 : 10, // clip to a circle
+              preserveAspectRatio: "xMidYMin slice", // try not to clip heads
+              src: "Image_links",
+              stroke: "black",
+              title: (d) => `${d.Name} \n Rank: ${d["Most searched Rank"]}`,
+              tip: true
+            })
+          )
+        ],
+      };
+
+      document.getElementById("imgs").appendChild(Plot.plot(imgs));
+    });
+  </script>
+</body>
+
+</html>
