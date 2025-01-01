@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+  <title>Domestic Extremism in America</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="What NIJ Research Tells Us About Domestic Terrorism">
+  <meta name="author" content="Justin Chill">
+  <!-- OpenGraph tags -->
+  <meta name="keywords" content="data viz, graphic, extremism, terrorism, NIJ, research">
+  <meta name="robots" content="all">
+  <meta content="en_US" property="og:locale">
+  <meta content="JustinChill" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="https://justinchill.com/domestic-extremism.html" property="og:url">
+  <meta content="Domestic Extremism in America" property="og:title">
+  <meta content="What NIJ Research Tells Us About Domestic Terrorism" property="og:description">
+  <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
+  <link rel="canonical" href="https://www.justinchill.com/domestic-extremism.html">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Domestic Extremism in America">
+  <meta name="twitter:description" content="What NIJ Research Tells Us About Domestic Terrorism">
+
+  <link type="text/plain" href="humans.txt" rel="author">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="/favicon.ico">
+  <meta name="theme-color" content="hsl(125, 97%, 14%)">
+
+  <script type="module">
+    document.documentElement.classList.remove('no-js');
+    document.documentElement.classList.add('js');
+  </script>
+
+  <style type="text/css">
+
+  </style>
+</head>
+
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+
+  <main role="main">
+    <article>
+      <div class="article-hero">
+        <h2 class="article-category">Post</h2>
+        <h1 class="article-title">The enemy within</h1>
+        <h2 class="article-subtitle">Domestic Extremism in America</h2>
+      </div>
+
+      <figure id="map" class="mid-size" aria-label="A bar graph..."></figure>
+      <figcaption class="mid-size right">Data: <a href="https://github.com/wpinvestigative/csis_domestic_terrorism">Washington Post/CSIS</a></figcaption>
+
+      <p>The occurrence of domestic terrorism has sharply increased in the United States over the past decade.</p>
+      <p>In fact, the number of far-right attacks continues to outpace all other types of terrorism and domestic violent extremism. Since 1990, far-right extremists have committed far more ideologically motivated homicides than far-left or radical Islamist extremists, including 227 events that took more than 520 lives.<a href="#celd" aria-describedby="footnote-label" id="celd-ref"></a> In this same period, far-left extremists committed 42 ideologically motivated attacks that took 78 lives.<a href="#prk" aria-describedby="footnote-label" id="prk-ref"></a></p>
+      <p>From high-profile incidents like the US Capitol attack on January 6, 2021 to racially motivated acts of violence, these events have shed light on the need to understand and address the <a href="https://www.gao.gov/assets/820/817739.pdf" rel="noopener noreferrer" target="_blank">threat of domestic terrorism</a>.</p>
+      <p>A recent threat assessment by the U.S. Department of Homeland Security concluded that domestic violent extremists are an acute threat and highlighted a probability that COVID-19 pandemic-related stressors, long-standing ideological grievances related to immigration, and narratives surrounding electoral fraud will continue to serve as a justification for violent actions.<a href="#hsd" aria-describedby="footnote-label" id="hsd-ref"></a></p>
+
+      <h3>Attacks over time</h3>
+      <figure id="barchart" aria-label="A bar graph..."></figure>
+
+      <figure id="normalized" aria-label="A bar graph..."></figure>
+
+    </article>
+  </main>
+  <footer>
+    <h2 id="footnote-label">Footnotes</h2>
+    <ol>
+      <li id="celd">Celinet Duran, “<em><a href="https://ccjls.scholasticahq.com/article/26973-far-left-versus-far-right-fatal-violence-an-empirical-assessment-of-the-prevalence-of-ideologically-motivated-homicides-in-the-united-states">Far-Left Versus Far-Right Fatal Violence: An Empirical Assessment of the Prevalence of Ideologically Motivated Homicides in the United States</a></em>"<a href="#celd-ref" aria-label="Back to content">↩</a></li>
+      <li id="prk">Parkin, Freilich, and Chermak, “<em><a href="https://theconversation.com/did-far-right-extremist-violence-really-spike-in-2017-89067">Did Far-Right Extremist Violence Really Spike in 2017?</a></em>"<a href="#prk-ref" aria-label="Back to content">↩</a></li>
+      <li id="hsd">U.S. Department of Homeland Security, “<em><a href="https://www.dhs.gov/sites/default/files/publications/2020_10_06_homeland-threat-assessment.pdf">Homeland Threat Assessment: October 2020</a></em>"<a href="#hsd-ref" aria-label="Back to content">↩</a></li>
+    </ol>
+
+    <div>
+      <p>Justin Chill © 2024. Thanks&nbsp;for&nbsp;reading!</p>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code and feedback</a></span>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/topojson@3.0.2/dist/topojson.min.js"></script>
+
+  <script type="text/javascript">
+    var elementMid = d3.select('figure.mid-size').node();
+    var widthMid = elementMid.getBoundingClientRect().width; // get width of figure.mid-size so graphic is responsive
+    var element = d3.select('figure:last-of-type').node();
+    var width = element.getBoundingClientRect().width; // get width of figure so graphic is responsive. Todo / hacky
+    var size = 12;
+
+    // Use Promises to async request data
+    var promises = [d3.csv("data/geo/us-state-grid.csv", d3.autoType), d3.json("data/geo/us-counties-10m.json"), d3.csv("https://raw.githubusercontent.com/wpinvestigative/csis_domestic_terrorism/main/data/clean_data/csis_wapo_domestic_terrorism.csv", d3.autoType)];
+    myDataPromises = Promise.all(promises);
+
+    // Function to generate the bar plot
+    myDataPromises.then(function(data) {
+
+      // Define the data
+      var us = data[1];
+      var states = topojson.feature(us, us.objects.states);
+      var data = data[2];
+
+      // Inspired by https://observablehq.com/@connorrothschild/domestic-extremism-in-america
+      var map = {
+        width: widthMid,
+        projection: "albers",
+        color: {
+          legend: true
+        },
+        marks: [
+          Plot.geo(topojson.mesh(us, us.objects.states, (a, b) => a !== b), {
+            stroke: "darkgray",
+            strokeWidth: .33,
+            strokeOpacity: .95,
+            strokeLinecap: "round"
+          }),
+          Plot.geo(topojson.mesh(us, us.objects.states, (a, b) => a == b)),
+          Plot.dot(data, {
+            r: (d) => d.vict_killed_csis + 12,
+            fill: "Orientation_csis",
+            x: "Long_csis",
+            y: "Lat_csis",
+            fillOpacity: .65,
+            reverse: false,
+            tip: false,
+          }),
+        ]
+      };
+
+      var barchart = {
+        width: width,
+        style: {
+          fontSize: size,
+          textTransform: "capitalize",
+        },
+        color: {
+          legend: true,
+        },
+        x: {
+          label: null,
+          tickFormat: "Y",
+        },
+        y: {
+          label: null
+        },
+        marks: [
+          Plot.rectY(data,
+            Plot.binX({
+              y: "count"
+            }, {
+              x: "Year_csis",
+              thresholds: 30,
+              fill: "Orientation_csis"
+            }))
+        ]
+      };
+
+      var normalized = {
+        width: width,
+        y: {tickFormat: "%", label: null},
+        x: {label: null},
+        color: {scheme: "Spectral", legend: "ramp", width: 340},
+        marks: [
+          Plot.barX(data, {
+            x: "Year_csis",
+            y: "count",
+            fill: "Orientation_csis",
+            offset: "normalize",
+            sort: {color: null, y: "-x", reduce: "first"}
+          }),
+          Plot.ruleX([0])
+        ]
+      };
+
+      document.getElementById("map").appendChild(Plot.plot(map));
+      document.getElementById("barchart").appendChild(Plot.plot(barchart));
+      // document.getElementById("normalized").appendChild(Plot.plot(normalized));
+    });
+  </script>
+</body>
+
+</html>
