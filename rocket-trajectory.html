@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+  <title>Rocket trajectories</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Rocket trajectories">
+  <meta name="author" content="Justin Chill">
+  <!-- OpenGraph tags -->
+  <meta name="keywords" content="data viz, rocket trajectories, graphic, SpaceX, engine, differential equations, math">
+  <meta name="robots" content="all">
+  <meta content="en_US" property="og:locale">
+  <meta content="JustinChill" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="https://justinchill.com/rocket-trajectory.html" property="og:url">
+  <meta content="Rocket trajectories" property="og:title">
+  <meta content="Rocket trajectories" property="og:description">
+  <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
+  <link rel="canonical" href="https://www.justinchill.com/rocket-trajectory.html">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Rocket trajectories">
+  <meta name="twitter:description" content="Rocket trajectories">
+
+  <link type="text/plain" href="humans.txt" rel="author">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="/favicon.ico">
+  <meta name="theme-color" content="#4C63B6">
+
+  <script type="module">
+    document.documentElement.classList.remove('no-js');
+    document.documentElement.classList.add('js');
+  </script>
+
+  <style type="text/css">
+
+  </style>
+</head>
+
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+
+  <main role="main">
+    <article>
+      <div class="article-hero">
+        <h2 class="article-category">Post</h2>
+        <h1 class="article-title">Rocket Science</h1>
+        <h2 class="article-subtitle">Rocket trajectory optimization</h2>
+      </div>
+      <p>This example simulates the launch of a SpaceX Falcon 9 modeled using a system of ordinary differential equations.</p>
+
+      <h3>Trajectory</h3>
+      <figure id="trajectory" aria-label="A bar graph..."></figure>
+
+    </article>
+  </main>
+  <footer>
+    <h2 id="footnote-label">Footnotes</h2>
+    <ol>
+      <li id="mathjs"><a href="https://mathjs.org/examples/browser/rocket_trajectory_optimization.html.html">mathjs, <i>Rocket Trajectory Optimization</i> </a>.<a href="#mathjs-ref" aria-label="Back to content">↩</a></li>
+    </ol>
+
+    <div>
+      <p>Justin Chill © 2024. Thanks&nbsp;for&nbsp;reading!</p>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code and feedback</a></span>
+    </div>
+  </footer>
+  <script src="https://unpkg.com/mathjs@14.0.1/lib/browser/math.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+  <script type="text/javascript">
+    // Inspired by: https: observablehq.com/@dvd101x/rocket-trajectory-optimization
+    var element = d3.select('figure').node();
+    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+    var size = 12;
+    var v0 = 1;
+    var colorOptions = ({
+      type: 'categorical',
+      domain: stageLabel,
+      legend: true
+    });
+    var stageLabel = ['Stage 1', 'Interstage', 'Stage 2', 'Unpowered 1', 'Insertion', 'Unpowered 2'];
+    var scope = new Map([
+      ["v0", math.unit(v0, "m/s")], // Initial velocity (must be non-zero because ODE is ill-conditioned)
+    ]);
+    var parsedExpressions = math.parse(expressions);
+    var results = {
+      parsedExpressions.evaluate(scope)
+      return resultNames.map(resultName => {
+        const result = scope.get(resultName)
+        return {
+          t: result.t.toArray(),
+          y: result.y.toArray()
+        }
+      })
+    }
+
+    function calc(expression) {
+      return math.evaluate(expression, scope);
+    };
+
+    function rocket() {
+      let stages = []
+      results.forEach(
+        (result, i) =>
+        result.y.forEach(
+          (y, j) =>
+          stages.push({
+            stage: stageLabel[i],
+            t: result.t[j],
+            r: y[0],
+            v: y[1],
+            m: y[2],
+            phi: y[3],
+            gamma: y[4]
+          })
+        )
+      )
+      return stages
+    };
+
+    // Use Promises to async request data
+    var promises = [];
+
+    // You can request multiple srcs in a promise
+    myDataPromises = Promise.all(promises);
+
+    // After data is successfully fetched, generate viz
+    myDataPromises.then(function(data) {
+
+      var trajectory = {
+        width: width,
+        x: {
+          label: 'surface distance travelled (in km) →'
+        },
+        y: {
+          label: '↑ height above surface (in km)'
+        },
+        color: colorOptions,
+        marks: [Plot.line(rocket, {
+          x: e => calc(`(${e.phi}-phi0)*r0/rad`).toNumber('km'),
+          y: e => calc(`${e.r}-r0`).toNumber('km'),
+          stroke: 'stage'
+        })]
+      };
+      document.getElementById("trajectory").appendChild(Plot.plot(trajectory));
+    });
+  </script>
+</body>
+
+</html>
