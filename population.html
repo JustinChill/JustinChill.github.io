@@ -252,13 +252,15 @@
         },
         y: {
           grid: true,
-          label: "% Change in Population from 2022-2100"
+          label: "% Change in Population from 2022-2100",
+          nice: true,
+          labelOffset: 2,
         },
         color: {
           legend: true
         },
         marks: [
-          Plot.dot(change_data, { x: "year2022", y: "percent_change", stroke: "rgba(0, 0, 50, 0.75)", r: 3, title: "name", stroke: "area_name", tip:true })  
+          Plot.dot(change_data, { x: "year2022", y: "percent_change", stroke: "rgba(0, 0, 50, 0.75)", r: 3, title: (d) => `${d.name} \n% Change in Pop.: ${d3.format(".2%")(d["percent_change"])}\n2022 Pop. (M): ${d3.format(".2f")(d["year2022"])}`, stroke: "area_name", tip:true })  
         ]
       };
 

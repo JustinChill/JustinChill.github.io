@@ -52,13 +52,15 @@
     <article>
      <div class="article-hero">
       <h2 class="article-category">Post</h2>
-      <h1 class="article-title">Isle seat</h1>
+      <h1 class="article-title">Top Flight</h1>
       <h2 class="article-subtitle">World flight paths, 2014</h2>
     </div>
 
-    <figure id="map"></figure>
-    <figcaption>Data: <a href="https://openflights.org">OpenFlights</a> (2014).</figcaption>
+    <figure id="map" class="mid-size"></figure>
+    <figcaption class="right">Data: <a href="https://openflights.org">OpenFlights</a> (2014).</figcaption>
 
+    <p>Global air travel is a vital part of the modern world, connecting cities, countries, and continents through a vast network of air routes. With over <strong>40,000</strong> airports globally and more than <strong>100,000</strong> daily flights, the aviation industry serves millions of passengers and transports significant cargo across the globe.</p>
+    <p>World flight routes form a vast global network. Key hubs like Atlanta Hartsfield-Jackson and Beijing Capital International Airport handle a significant volume of air traffic. The Seoul to Jeju Island route in South Korea is the world’s busiest by passenger traffic, with over 14 million passengers annually. In terms of long-haul routes, the New York to London and Los Angeles to Tokyo routes are among the busiest intercontinental flights. These routes are essential for global trade, tourism, and business, with commercial aviation contributing around <strong>3.6%</strong> of the world's GDP.</p>
     <p>Recreation in Observable Plot of this original notebook by <a href="https://observablehq.com/@michaelbyrneau/flight-paths">Michael Byrne</a> showing all major air passenger routes as of 2014. Data sourced from OpenFlights.</p>
 
   </article>
@@ -81,8 +83,8 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/topojson@3.0.2/dist/topojson.min.js"></script>
 
 <script type="text/javascript">
-  var element = d3.select('figure').node();
-  var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+    var elementMid = d3.select('figure.mid-size').node();
+var widthMid = elementMid.getBoundingClientRect().width; // get width of figure.mid-size so graphic is responsive
   var size = 12;
 
   // From Fil - https://observablehq.com/@fil/flight-paths
@@ -97,9 +99,18 @@
         { width, height, marginLeft, marginRight, marginTop, marginBottom },
         { projection }
       ) {
-        width -= marginLeft + marginRight;
+        widthMid -= marginLeft + marginRight;
         height -= marginTop + marginBottom;
-        const context = DOM.context2d(width, height);
+        // const context = DOM.context2d(width, height); - replaced with ChatGPT
+        // Create a canvas element
+        const canvas = document.createElement('canvas');
+        
+        // Set its width and height
+        canvas.width = widthMid;
+        canvas.height = height;
+        
+        // Get the 2D rendering context
+        const context = canvas.getContext('2d');
         context.translate(-marginLeft, -marginTop);
         const path = d3.geoPath().projection(projection).context(context);
         context.strokeStyle = this.stroke;
@@ -146,7 +157,7 @@
     var land = topojson.feature(world, world.objects.land);
 
     var map = {
-      width: width,
+      width: widthMid,
       projection: "equal-earth",
       marks: [
         Plot.sphere({ fill: "#111" }),
