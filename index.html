@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js">
+
 <head>
   <title>Justin's blog</title>
   <meta charset="UTF-8">
@@ -36,7 +37,7 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500&family=Ubuntu:wght@500&display=swap');
     @import "https://unpkg.com/open-props/easings.min.css";
-    
+
     /*--------------------------------------------------------------
     Accessibility
     --------------------------------------------------------------*/
@@ -67,13 +68,14 @@
       text-decoration: none;
       top: 5px;
       width: auto;
-      z-index: 100000; /* Above WP toolbar */
+      z-index: 100000;
+      /* Above WP toolbar */
     }
 
     /*--------------------------------------------------------------
     Navigation
     --------------------------------------------------------------*/
-    nav a{
+    nav a {
       font-family: "Libre Franklin", sans-serif;
       text-transform: capitalize;
       text-decoration: none;
@@ -82,137 +84,145 @@
     .menu-button {
       cursor: pointer;
     }
+
     /*--------------------------------------------------------------
     Featured posts
     --------------------------------------------------------------*/
-    h2{
+    h2 {
       margin: 0;
     }
-    
-    footer{
+
+    footer {
       display: block;
     }
-    
-    .articles{
-      perspective:500px;
+
+    .articles {
+      perspective: 500px;
     }
+
     .article {
-      display:flex;
-      flex-direction:column;
-      height:300px;
-      position:relative;
-      background-size:cover;
+      display: flex;
+      flex-direction: column;
+      height: 300px;
+      position: relative;
+      background-size: cover;
       background-position: center;
       border: none;
-      border-radius:7px;
-      overflow:hidden;
-      padding:1em;
-      cursor:pointer;
+      border-radius: 7px;
+      overflow: hidden;
+      padding: 1em;
+      cursor: pointer;
       transform: rotateX(0deg) rotateY(0deg);
-      transition: all 0.2s linear ;
+      transition: all 0.2s linear;
       will-change: transform;
     }
 
-    .article:nth-child(5n+1){
-      background-image:url("imgs/cover/inequality_cover.png");
+    .article:nth-child(5n+1) {
+      background-image: url("imgs/cover/inequality_cover.png");
       background-position: top;
     }
 
-    .article:nth-child(5n+2){
-      background-image:url("imgs/cover/feelwheel_cover.png");
-    }
-    .article:nth-child(5n+3){
-      background-image:url("imgs/cover/solar_cover.png");
+    .article:nth-child(5n+2) {
+      background-image: url("imgs/cover/feelwheel_cover.png");
     }
 
-    .article:nth-child(5n+4){
-      background-image:url("imgs/cover/8m46_cover.png");
+    .article:nth-child(5n+3) {
+      background-image: url("imgs/cover/congress_cover.webp");
     }
-    .article:nth-child(5n+5){
-      background-image:url("imgs/cover/charts_cover.png");
+
+    .article:nth-child(5n+4) {
+      background-image: url("imgs/cover/extremism_cover.webp");
     }
-    .article:nth-child(5n+6){
-      background-image:url("imgs/cover/Mondrian_cover.png");
+
+    .article:nth-child(5n+5) {
+      background-image: url("imgs/cover/charts_cover.png");
+    }
+
+    .article:nth-child(5n+6) {
+      background-image: url("imgs/cover/americansickness_cover.webp");
     }
 
     .overlay {
-      width:100%;
-      height:100%;
-      background-image:radial-gradient(circle at 50% 50%,rgba(0,0,0,0.3) 20%,rgba(0,0,0,0.4) 50%);
-      position:absolute;
-      left:0;
-      top:0;
-      z-index:1;
-    }
-    .article h1{
-      font-size:1.5em;
-      margin-top:auto;
-      cursor:pointer;
-      transition:all 0.3s;
-      position:relative;
-      z-index:2;
-      pointer-events:none;
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, 0.4) 50%);
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 1;
     }
 
-    .article h1{
-      transform:translateY(-20px)
-    }
-    .article h1 span{
-      color:#fff;
+    .title {
+      font-size: 1.5em;
+      margin-top: auto;
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      z-index: 2;
+      pointer-events: none;
+      transform: translateY(-20px);
+      color: #fff;
     }
 
     .article span.cat {
-      letter-spacing:2px;
-      font-weight:bold;
+      letter-spacing: 2px;
+      font-weight: bold;
       font-family: 'Lato', sans-serif;
-      position:relative;
-      z-index:2;
-      pointer-events:none;
-      overflow:hidden;
-      color:#fff;
+      position: relative;
+      z-index: 2;
+      pointer-events: none;
+      overflow: hidden;
+      color: #fff;
     }
 
-    @media screen and (min-width:1000px){
-      .wrap{
-        grid-template-columns:repeat(auto-fit,minmax(400px,1fr));
-        grid-gap:1.5rem;
+    @media screen and (min-width:1000px) {
+      .wrap {
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        grid-gap: 1.5rem;
         padding: 0 2rem;
       }
-      .article h1{
-        transform:translateY(0px);
+
+      .title {
+        transform: translateY(0px);
       }
-      .article:hover h1{
-        transform:translateY(-20px)
+
+      .title:hover {
+        transform: translateY(-20px)
       }
 
       .article span.cat {
-        color:transparent;
-      }
-      .article span.cat::before,.article span.cat::after{
-        content:attr(data-hover);
-        position:absolute;
-        display:inline-block;
-        left:0;
-        top:0;
-        white-space: nowrap;
-        overflow:hidden;
-        max-width:0%;
-        transition:max-width 300ms ease-out;
-      }
-      .article span.cat::before {
-        color:yellow;
-        transition-delay:100ms;
-      }
-      .article span.cat::after {
-        color:white;
+        color: transparent;
       }
 
-      .article:hover span.cat:after,.article:hover span.cat:before{
-        max-width:100%;
+      .article span.cat::before,
+      .article span.cat::after {
+        content: attr(data-hover);
+        position: absolute;
+        display: inline-block;
+        left: 0;
+        top: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        max-width: 0%;
+        transition: max-width 300ms ease-out;
+      }
+
+      .article span.cat::before {
+        color: yellow;
+        transition-delay: 100ms;
+      }
+
+      .article span.cat::after {
+        color: white;
+      }
+
+      .article:hover span.cat:after,
+      .article:hover span.cat:before {
+        max-width: 100%;
       }
 
       .article:hover span.cat:after {
-        transition-delay:300ms;
+        transition-delay: 300ms;
       }
     }
   </style>
@@ -243,16 +253,17 @@
           <!-- Social Media -->
           <div class="flex justify-center space-x-3 lg:space-x-1 visually-hidden">
             <a href="https://www.linkedin.com/in/justinrichardhill/" class="group w-8 h-8  rounded-full flex justify-center items-center hover:bg-gray-200"><svg viewBox="0 50 512 512" class="fill-current w-5 h-5" xmlns="http://www.w3.org/2000/svg">
-              <path fill="#828282" d="M150.65,100.682c0,27.992-22.508,50.683-50.273,50.683c-27.765,0-50.273-22.691-50.273-50.683
+                <path fill="#828282" d="M150.65,100.682c0,27.992-22.508,50.683-50.273,50.683c-27.765,0-50.273-22.691-50.273-50.683
               C50.104,72.691,72.612,50,100.377,50C128.143,50,150.65,72.691,150.65,100.682z M143.294,187.333H58.277V462h85.017V187.333z
               M279.195,187.333h-81.541V462h81.541c0,0,0-101.877,0-144.181c0-38.624,17.779-61.615,51.807-61.615
               c31.268,0,46.289,22.071,46.289,61.615c0,39.545,0,144.181,0,144.181h84.605c0,0,0-100.344,0-173.915
-              s-41.689-109.131-99.934-109.131s-82.768,45.369-82.768,45.369V187.333z"/>
-            </svg>
-          </a>
-          <a class="block flex items-center group w-8 h-8  rounded-full flex justify-center items-center hover:bg-gray-200" href="http://github.com/JustinChill">
-            <svg viewBox="0 0 24 24" class="fill-current w-5 h-5" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" /></svg>
+              s-41.689-109.131-99.934-109.131s-82.768,45.369-82.768,45.369V187.333z" />
+              </svg>
+            </a>
+            <a class="block flex items-center group w-8 h-8  rounded-full flex justify-center items-center hover:bg-gray-200" href="http://github.com/JustinChill">
+              <svg viewBox="0 0 24 24" class="fill-current w-5 h-5" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+              </svg>
             </a>
           </div>
         </div>
@@ -300,122 +311,120 @@
                 <line x1="5" y1="12" x2="19" y2="12"></line>
                 <polyline points="12 5 19 12 12 19"></polyline>
               </svg></a>
-            </div>
-          </div>
-          <!-- First Column -->
-
-          <div class="xl:col-span-6 lg:col-span-6 md:col-span-9 col-span-12 relative bg-no-repeat bg-center bg-cover flex sm:order-1 order-first lg:order-2" style="background-image:url('imgs/cover/rio_cover.webp')">
-            <span class="text-xs font-sans font-bold text-white absolute left-6 top-6 pb-2.5 border-b-2 border-red-500 uppercase">Rio de Janeiro</span>
-            <div class="flex flex-col flex-grow items-center justify-end text-center pt-48 flex-grow-1 px-12 pb-10 bg-cover bg-gradient-to-tl from-black rounded">
-              <h3 class="flex items-center font-sans font-bold text-xs text-red-500 mb-4">
-                <span class="w-2 h-2 rounded-full bg-red-500 flex-shrink-0 mr-2.5"></span>
-                Olympics
-              </h3>
-              <a href="rio.html" class="text-white text-3xl hover:underline leading-10">Rio: A city transformed</a>
-              <p class="text-white text-opacity-50 text-xs mt-4 font-sans">A post by <a href="#" class="text-blue-400 hover:underline text-xs">Justin Chill</a></p>
-            </div>
-          </div>
-          <div class="xl:col-span-3 lg:col-span-3 py-6 md:order-3 md:col-span-1 lg:col-span-1 hidden lg:block">
-            <div class="space-x-5 mb-8">
-              <button class="text-xs font-bold pb-5 font-sans border-b-2 border-red-500">LATEST</button>
-              <button class="text-xs font-bold pb-5 font-sans border-b-2 border-transparent text-gray-800 text-opacity-40">POPULAR</button>
-              <button class="text-xs font-bold pb-5 font-sans border-b-2 border-transparent text-gray-800 text-opacity-40">HOT TOPIC</button>
-            </div>
-            <div class="flex flex-col space-y-8">
-              <div class="flex">
-                <img src="imgs/cover/nics_cover.png" alt="A bar graph titled Monthly Background Checks from 2000 to 2023. The graph shows a general upward trend, with notable spikes around events like Sandy Hook, San Bernardino, and January 6th. Total checks peak at over 4 million." class="w-20 h-20 flex-shrink-0 mr-4 object-cover" />
-                <div class="flex-grow flex flex-col">
-                  <a href="nics.html" class="mb-0.5 text-lg hover:underline">FBI Background checks</a>
-                  <p class="text-gray-800 text-opacity-40 text-xs mt-auto font-sans">Filed under <a href="blog.html" class="text-blue-400 lg:inline block hover:underline text-xs ">data viz</a></p>
-                </div>
-              </div>
-              <div class="flex">
-                <img src="imgs/cover/weedlaws_cover.png" alt="Map of the United States showing states with same-sex marriage legality: fully legal (blue), fully illegal (red), and mixed legality (green). Data source: Wikipedia." class="w-20 h-20 flex-shrink-0 mr-4 object-cover" />
-                <div class="flex-grow flex flex-col">
-                  <a href="weedlaws.html" class="mb-0.5 text-lg hover:underline">Altered States</a>
-                  <p class="text-gray-800 text-opacity-40 text-xs mt-auto font-sans">Filed under <a href="blog.html" class="text-blue-400 lg:inline block hover:underline text-xs ">data viz</a></p>
-                </div>
-              </div>
-              <div class="flex">
-                <img src="imgs/presidents.webp" alt="Portraits of the Presidents of the United States" class="w-20 h-20 flex-shrink-0 mr-4 object-cover" loading="lazy" />
-                <div class="flex-grow flex flex-col">
-                  <a href="president-ages.html" class="mb-0.5 text-lg hover:underline">US Presidents by birth year</a>
-                  <p class="text-gray-800 text-opacity-40 text-xs mt-auto font-sans">Filed under <a href="blog.html" class="text-blue-400 lg:inline block hover:underline text-xs ">data viz</a></p>
-                </div>
-              </div>
-              <div class="flex">
-                <img src="imgs/cover/roman_cover.png" alt="A bar chart illustrating the timeline of events covered in Gibbons Decline and Fall of the Roman Empire. The events range from page 1 to 3,737, covering significant chapters like the foundation of Constantinople and ecclesiastical discord." class="w-20 h-20 flex-shrink-0 mr-4 object-cover" />
-                <div class="flex-grow flex flex-col">
-                  <a href="rise-and-fall.html" class="mb-0.5 text-lg hover:underline">The Decline & Fall of the Roman Empire</a>
-                  <p class="text-gray-800 text-opacity-40 text-xs mt-auto font-sans">Filed under <a href="blog.html" class="text-blue-400 lg:inline block hover:underline text-xs ">data viz</a></p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
+        <!-- First Column -->
 
-        <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-8 container mx-auto py-6 mb-8 articles lg:mt-4 ">
-          <button class="article" onclick="window.location.href='inequality.html';">
-            <div class="overlay"></div>
-            <div class="wrap-cat"><span class="cat" data-hover="Data viz">Data viz</span></div>
-            <h1><span>4 Decades of Inequality</span></h1>
-          </button>
-          <button class="article" onclick="window.location.href='feeling-wheel.html';">
-            <div class="overlay"></div>
-            <div class="wrap-cat"><span class="cat" data-hover="Design">Design</span></div>
-            <h1><span>The Feeling Wheel</span></h1>
-          </button>
-          <button class="article" onclick="window.location.href='solar-system.html';">
-            <div class="overlay"></div>
-            <div class="wrap-cat"><span class="cat" data-hover="Data viz">Data viz</span></div>
-            <h1><span>Our solar system</span></h1>
-          </button>
-          <button class="article bg-black"  onclick="window.location.href='8m46s.html';">
-            <div class="overlay"></div>
-            <div class="wrap-cat"><span class="cat" data-hover="An ode">An ode</span></div>
-            <h1><span>8 Minutes, 46 Seconds</span></h1>
-          </button>
-          <button class="article" onclick="window.location.href='charts.html';">
-            <div class="overlay"></div>
-            <div class="wrap-cat"><span class="cat" data-hover="Data viz">Data viz</span></div>
-            <h1><span>Charts &amp; Data Visualizations</span></h1>
-          </button>
-          <button class="article" onclick="window.location.href='Mondrian.html';">
-            <div class="overlay"></div>
-            <div class="wrap-cat"><span class="cat" data-hover="Experiment">Experiment</span></div>
-            <h1><span>Piet Mondrian in CSS</span></h1>
-          </button>
+        <div class="xl:col-span-6 lg:col-span-6 md:col-span-9 col-span-12 relative bg-no-repeat bg-center bg-cover flex sm:order-1 order-first lg:order-2" style="background-image:url('imgs/cover/rio_cover.webp')">
+          <span class="text-xs font-sans font-bold text-white absolute left-6 top-6 pb-2.5 border-b-2 border-red-500 uppercase">Rio de Janeiro</span>
+          <div class="flex flex-col flex-grow items-center justify-end text-center pt-48 flex-grow-1 px-12 pb-10 bg-cover bg-gradient-to-tl from-black rounded">
+            <h3 class="flex items-center font-sans font-bold text-xs text-red-500 mb-4">
+              <span class="w-2 h-2 rounded-full bg-red-500 flex-shrink-0 mr-2.5"></span>
+              Olympics
+            </h3>
+            <a href="rio.html" class="text-white text-3xl hover:underline leading-10">Rio: A city transformed</a>
+            <p class="text-white text-opacity-50 text-xs mt-4 font-sans">A post by <a href="#" class="text-blue-400 hover:underline text-xs">Justin Chill</a></p>
+          </div>
+        </div>
+        <div class="xl:col-span-3 lg:col-span-3 py-6 md:order-3 md:col-span-1 lg:col-span-1 hidden lg:block">
+          <div class="space-x-5 mb-8">
+            <button class="text-xs font-bold pb-5 font-sans border-b-2 border-red-500">LATEST</button>
+            <button class="text-xs font-bold pb-5 font-sans border-b-2 border-transparent text-gray-800 text-opacity-40">POPULAR</button>
+            <button class="text-xs font-bold pb-5 font-sans border-b-2 border-transparent text-gray-800 text-opacity-40">HOT TOPIC</button>
+          </div>
+          <div class="flex flex-col space-y-8">
+            <div class="flex">
+              <img src="imgs/cover/nics_cover.png" alt="A bar graph titled Monthly Background Checks from 2000 to 2023. The graph shows a general upward trend, with notable spikes around events like Sandy Hook, San Bernardino, and January 6th. Total checks peak at over 4 million." class="w-20 h-20 flex-shrink-0 mr-4 object-cover" />
+              <div class="flex-grow flex flex-col">
+                <a href="nics.html" class="mb-0.5 text-lg hover:underline">FBI Background checks</a>
+                <p class="text-gray-800 text-opacity-40 text-xs mt-auto font-sans">Filed under <a href="blog.html" class="text-blue-400 lg:inline block hover:underline text-xs ">data viz</a></p>
+              </div>
+            </div>
+            <div class="flex">
+              <img src="imgs/cover/weedlaws_cover.png" alt="Map of the United States showing states with same-sex marriage legality: fully legal (blue), fully illegal (red), and mixed legality (green). Data source: Wikipedia." class="w-20 h-20 flex-shrink-0 mr-4 object-cover" />
+              <div class="flex-grow flex flex-col">
+                <a href="weedlaws.html" class="mb-0.5 text-lg hover:underline">Altered States</a>
+                <p class="text-gray-800 text-opacity-40 text-xs mt-auto font-sans">Filed under <a href="blog.html" class="text-blue-400 lg:inline block hover:underline text-xs ">data viz</a></p>
+              </div>
+            </div>
+            <div class="flex">
+              <img src="imgs/presidents.webp" alt="Portraits of the Presidents of the United States" class="w-20 h-20 flex-shrink-0 mr-4 object-cover" loading="lazy" />
+              <div class="flex-grow flex flex-col">
+                <a href="president-ages.html" class="mb-0.5 text-lg hover:underline">US Presidents by birth year</a>
+                <p class="text-gray-800 text-opacity-40 text-xs mt-auto font-sans">Filed under <a href="blog.html" class="text-blue-400 lg:inline block hover:underline text-xs ">data viz</a></p>
+              </div>
+            </div>
+            <div class="flex">
+              <img src="imgs/cover/roman_cover.png" alt="A bar chart illustrating the timeline of events covered in Gibbons Decline and Fall of the Roman Empire. The events range from page 1 to 3,737, covering significant chapters like the foundation of Constantinople and ecclesiastical discord." class="w-20 h-20 flex-shrink-0 mr-4 object-cover" />
+              <div class="flex-grow flex flex-col">
+                <a href="rise-and-fall.html" class="mb-0.5 text-lg hover:underline">The Decline & Fall of the Roman Empire</a>
+                <p class="text-gray-800 text-opacity-40 text-xs mt-auto font-sans">Filed under <a href="blog.html" class="text-blue-400 lg:inline block hover:underline text-xs ">data viz</a></p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </main>
 
-    <footer class="bg-gray-100 pt-12 px-5">
-      <div class="container overflow-hidden flex flex-col lg:flex-row justify-between mx-auto">
-        <h2 class="text-lg font-sans block py-2 w-1/5">Justin&nbsp;Chill</h2>
-        <div class="w-full block sm:flex text-sm mt-6 lg:mt-0">
-          <ul class="text-gray-700 text-lg list-none p-0 font-thin flex flex-col text-left w-full">
-            <li class="m-0  inline-block text-lg py-2 text-gray-700 uppercase font-medium tracking-wide">Blog Posts</li>
-            <li class="m-0"><a href="women-in-stem.html" class="m-0  inline-block text-lg py-2  text-gray-500 hover:text-blue-600 no-underline">Women in STEM</a></li>
-            <li class="m-0"><a href="lethal-passage.html" class="m-0  text-lg inline-block py-2  text-gray-500 hover:text-blue-600 no-underline">Lethal Passage</a></li>
-            <li class="m-0"><a href="caffeine.html" class="m-0  text-lg inline-block py-2  text-gray-500 hover:text-blue-600 no-underline">Caffeine Data</a></li>
-          </ul>
-          <ul class="text-gray-700 text-lg list-none p-0 font-thin flex flex-col text-left w-full">
-            <li class="m-0  inline-block text-lg py-2 text-gray-700 uppercase font-medium tracking-wide">Fun</li>
-            <li class="m-0"><a href="bingo.html" class="m-0  text-lg inline-block py-2  text-gray-500 hover:text-blue-600 no-underline">Conference call bingo</a>
-            </li>
-            <li class="m-0"><a href="inf-hoe-graphic.html" class="m-0  text-lg inline-block py-2  text-gray-500 hover:text-blue-600 no-underline">Inf-hoe-graphic</a></li>
-            <li class="m-0"><a href="blank.html" class="m-0  text-lg inline-block py-2  text-gray-500 hover:text-blue-600 no-underline">Blank page</a></li>
-          </ul>
-          <ul class="text-gray-700 text-lg list-none p-0 font-thin flex flex-col text-left w-full">
-            <li class="m-0  inline-block text-lg py-2 text-gray-700 uppercase font-medium tracking-wide">Process</li>
-            <li class="m-0"><a href="csat.html" class="m-0  text-lg inline-block py-2  text-gray-500 hover:text-blue-600 no-underline">Customer Satisfaction Surveys</a></li>
-            <li class="m-0"><a href="nps.html" class="m-0  text-lg inline-block py-2  text-gray-500 hover:text-blue-600 no-underline">Net Promoter Score</a></li>
-            <li class="m-0"><a href="nps.html" class="m-0  text-lg inline-block py-2  text-gray-500 hover:text-blue-600 no-underline">Charts & Graphs</a></li>
-            
+      <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-8 container mx-auto py-6 mb-8 articles lg:mt-4 ">
+        <button class="article" onclick="window.location.href='inequality.html';">
+          <span class="overlay"></span>
+          <span class="wrap-cat"><span class="cat" data-hover="Data viz">Data viz</span></span>
+          <span class="title">4 Decades of Inequality</span>
+        </button>
+        <button class="article" onclick="window.location.href='feeling-wheel.html';">
+          <span class="overlay"></span>
+          <span class="wrap-cat"><span class="cat" data-hover="Design">Design</span></span>
+          <span class="title">The Feeling Wheel</span>
+        </button>
+        <button class="article" onclick="window.location.href='congress.html';">
+          <span class="overlay"></span>
+          <span class="wrap-cat"><span class="cat" data-hover="Data viz">Data viz</span></span>
+          <span class="title">How Democratic is Congress?</span>
+        </button>
+        <button class="article bg-black" onclick="window.location.href='domestic-extremism.html';">
+          <span class="overlay"></span>
+          <span class="wrap-cat"><span class="cat" data-hover="Data Viz">Data Viz</span></span>
+          <span class="title">Domestic Extremism in America</span>
+        </button>
+        <button class="article" onclick="window.location.href='charts.html';">
+          <span class="overlay"></span>
+          <span class="wrap-cat"><span class="cat" data-hover="Data viz">Data viz</span></span>
+          <span class="title">Charts &amp; Data Visualizations</span>
+        </button>
+        <button class="article" onclick="window.location.href='american-sickness.html';">
+          <span class="overlay"></span>
+          <span class="wrap-cat"><span class="cat" data-hover="Data viz">Data viz</span></span>
+          <span class="title">American Sickness</span>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-gray-100 pt-12 px-5">
+    <div class="container overflow-hidden flex flex-col lg:flex-row justify-between mx-auto">
+      <h2 class="text-lg font-sans block md:py-2 pb-1 w-1/5">Justin&nbsp;Chill</h2>
+      <div class="w-full block sm:flex text-sm mt-6 lg:mt-0">
+        <ul class="text-gray-700 text-lg list-none p-0 font-thin flex flex-col text-left w-full">
+          <li class="m-0  inline-block text-lg md:py-1 text-gray-700 uppercase font-medium tracking-wide">Blog Posts</li>
+          <li class="m-0"><a href="nics.html" class="m-0  inline-block text-lg py-2  text-gray-500 hover:text-blue-600 no-underline">NICS Background Checks</a></li>
+          <li class="m-0"><a href="lethal-passage.html" class="m-0  text-lg inline-block py-2  text-gray-500 hover:text-blue-600 no-underline">Lethal Passage</a></li>
+          <li class="m-0"><a href="caffeine.html" class="m-0  text-lg inline-block py-2  text-gray-500 hover:text-blue-600 no-underline">Caffeine Data</a></li>
+        </ul>
+        <ul class="text-gray-700 text-lg list-none p-0 font-thin flex flex-col text-left w-full">
+          <li class="m-0  inline-block text-lg pt-4 pb-1 md:py-1 text-gray-700 uppercase font-medium tracking-wide">Fun</li>
+          <li class="m-0"><a href="bingo.html" class="m-0  text-lg inline-block py-2  text-gray-500 hover:text-blue-600 no-underline">Conference call bingo</a>
           </li>
+          <li class="m-0"><a href="inf-hoe-graphic.html" class="m-0  text-lg inline-block py-2  text-gray-500 hover:text-blue-600 no-underline">Inf-hoe-graphic</a></li>
+          <li class="m-0"><a href="honest-LinkedIn.html" class="m-0  text-lg inline-block py-2  text-gray-500 hover:text-blue-600 no-underline">Honest LinkedIn</a></li>
+        </ul>
+        <ul class="text-gray-700 text-lg list-none p-0 font-thin flex flex-col text-left w-full">
+          <li class="m-0  inline-block text-lg pt-4 pb-1 md:py-1 text-gray-700 uppercase font-medium tracking-wide">Process</li>
+          <li class="m-0"><a href="csat.html" class="m-0  text-lg inline-block py-2  text-gray-500 hover:text-blue-600 no-underline">Customer Satisfaction Surveys</a></li>
+          <li class="m-0"><a href="nps.html" class="m-0  text-lg inline-block py-2  text-gray-500 hover:text-blue-600 no-underline">Net Promoter Score</a></li>
+          <li class="m-0"><a href="nps.html" class="m-0  text-lg inline-block py-2  text-gray-500 hover:text-blue-600 no-underline">Charts & Graphs</a></li>
         </ul>
         <div class="text-gray-700 text-lg flex flex-col px-0 w-3/4">
-          <div class="inline-block text-lg py-2 text-gray-700 uppercase font-medium tracking-wide">Follow</div>
+          <div class="inline-block text-lg pt-4 pb-1 md:py-1 text-gray-700 uppercase font-medium tracking-wide">Follow</div>
           <div class="flex justify-start mt-2">
             <a class="text-lg block flex items-center text-gray-300 hover:text-blue-600 mr-6 no-underline" href="https://www.linkedin.com/in/justinrichardhill/">
               <svg viewBox="0 50 512 512" class="fill-current w-5 h-5" xmlns="http://www.w3.org/2000/svg">
@@ -423,42 +432,42 @@
                 C50.104,72.691,72.612,50,100.377,50C128.143,50,150.65,72.691,150.65,100.682z M143.294,187.333H58.277V462h85.017V187.333z
                 M279.195,187.333h-81.541V462h81.541c0,0,0-101.877,0-144.181c0-38.624,17.779-61.615,51.807-61.615
                 c31.268,0,46.289,22.071,46.289,61.615c0,39.545,0,144.181,0,144.181h84.605c0,0,0-100.344,0-173.915
-                s-41.689-109.131-99.934-109.131s-82.768,45.369-82.768,45.369V187.333z"/>
+                s-41.689-109.131-99.934-109.131s-82.768,45.369-82.768,45.369V187.333z" />
               </svg>
             </a>
             <a class="block flex items-center text-gray-300 hover:text-blue-600 no-underline" href="http://github.com/JustinChill">
               <svg viewBox="0 0 24 24" class="fill-current w-5 h-5" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" /></svg>
-              </a>
-            </div>
+                <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+              </svg>
+            </a>
           </div>
         </div>
       </div>
-      <div class="text-sm mt-4 pt-6 lg:pb-4 sm:pb-2 text-gray-800 border-t border-gray-800 flex md:flex-row justify-center items-center">
-        <span class="inline-block py-2 pl-3 pr-3 text-gray-500 lg:pr-5">© 2024 Justin Chill</span>
-        <span class="inline-block py-2 pl-3 pr-3 text-gray-500 lg:pr-5">Thanks for visiting!</span>
-      </div>
-    </footer>
+    </div>
+    <div class="text-sm mt-4 pt-6 lg:pb-4 sm:pb-2 text-gray-800 border-t border-gray-800 flex md:flex-row justify-center items-center">
+      <span class="inline-block py-2 pl-3 pr-3 text-gray-500 lg:pr-5">© 2024 Justin Chill</span>
+      <span class="inline-block py-2 pl-3 pr-3 text-gray-500 lg:pr-5">Thanks for visiting!</span>
+    </div>
+  </footer>
   <script>
     /**
      * Activate email links designated with .js-email-link classes.
      * We're avoiding putting our email in the href to prevent harvesting for
      * spam. This tip from Lokesh Dhakar.
      */
-       [...document.getElementsByClassName('js-email-link')].forEach(link => {
-        link.addEventListener('click', event => {
-          const a = "Justin.richard.hill@";
-          const b = "gmail.com";
-          window.open(`mailto:${a}${b}`, 'email');
-          return false;
-        });
+    [...document.getElementsByClassName('js-email-link')].forEach(link => {
+      link.addEventListener('click', event => {
+        const a = "Justin.richard.hill@";
+        const b = "gmail.com";
+        window.open(`mailto:${a}${b}`, 'email');
+        return false;
       });
+    });
 
-  // Responsive header
+    // Responsive header
     let header = document.getElementById("header");
     let menuButton = document.getElementById("menu-button");
     let topHamburgerIcon = document.getElementById("top-hamburger-icon");
-    let midHamburgerIcon = document.getElementById("mid-hamburger-icon");
     let botHamburgerIcon = document.getElementById("bot-hamburger-icon");
     let responsiveMenu = document.getElementById("responsive-menu");
     let isMenuOpened = false;
@@ -468,12 +477,12 @@
       if (isMenuOpened) {
         header.classList.add("opened");
         responsiveMenu.classList.remove("hidden");
+        responsiveMenu.classList.remove("invisible");
         responsiveMenu.classList.add("opened");
         topHamburgerIcon.classList.add("rotate-45");
         topHamburgerIcon.classList.remove("-translate-y-1");
         botHamburgerIcon.classList.add("-rotate-45");
         botHamburgerIcon.classList.remove("translate-y-1");
-        midHamburgerIcon.classList.add("opacity-0");
       } else {
         header.classList.remove("opened");
         responsiveMenu.classList.add("hidden");
@@ -482,12 +491,11 @@
         topHamburgerIcon.classList.add("-translate-y-1");
         botHamburgerIcon.classList.remove("-rotate-45");
         botHamburgerIcon.classList.add("translate-y-1");
-        midHamburgerIcon.classList.remove("opacity-0");
         responsiveMenu.classList.add("invisible");
       }
     }
 
-  // Fancy hover effect for featured articles
+    // Fancy hover effect for featured articles
     let articles = document.querySelectorAll(".article");
 
     articles.forEach(i => {
@@ -497,26 +505,25 @@
           let mouseX = e.offsetX;
           let mouseY = e.offsetY;
           i.querySelector(".overlay")
-          .style.setProperty(
-            "background-image",
-            `radial-gradient(circle at ${(mouseX) * 100  / -i.offsetWidth+100}% ${(mouseY) * 100  / -i.offsetHeight+100}%,rgba(0,0,0,0.2) 20%,rgba(0,0,0,0.3) 50%)`
+            .style.setProperty(
+              "background-image",
+              `radial-gradient(circle at ${(mouseX) * 100  / -i.offsetWidth+100}% ${(mouseY) * 100  / -i.offsetHeight+100}%,rgba(0,0,0,0.2) 20%,rgba(0,0,0,0.3) 50%)`
             );
-          i.style.setProperty("transform", `rotateY(${  ( ( (mouseX*100) / i.offsetWidth - 50 ) / 100) * 2}deg) rotateX(${  ( ( (mouseY*100) / i.offsetHeight - 50 ) / 100) * 2}deg) `
-            )
+          i.style.setProperty("transform", `rotateY(${  ( ( (mouseX*100) / i.offsetWidth - 50 ) / 100) * 2}deg) rotateX(${  ( ( (mouseY*100) / i.offsetHeight - 50 ) / 100) * 2}deg) `)
         },
         false
-        );
-      i.addEventListener("mouseleave",()=>{
-        i.style.setProperty("transform",`rotateX(0deg) rotateY(0deg)`);
+      );
+      i.addEventListener("mouseleave", () => {
+        i.style.setProperty("transform", `rotateX(0deg) rotateY(0deg)`);
 
         i.querySelector(".overlay")
-        .style.setProperty(
-          "background-image",
-          `radial-gradient(circle at 50% 50%,rgba(0,0,0,0.2) 20%,rgba(0,0,0,0.3) 50%)`
+          .style.setProperty(
+            "background-image",
+            `radial-gradient(circle at 50% 50%,rgba(0,0,0,0.2) 20%,rgba(0,0,0,0.3) 50%)`
           );
       })
     });
-
   </script>
 </body>
+
 </html>

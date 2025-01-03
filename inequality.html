@@ -54,8 +54,8 @@
     <article>
      <div class="article-hero">
       <h2 class="article-category">Post</h2>
-      <h1 class="article-title">4 Decades of Inequality</h1>
-      <h2 class="article-subtitle">Why Are Some Places So Much More Unequal Than Others?</h2>
+      <h1 class="article-title">Mean Diversions</h1>
+      <h2 class="article-subtitle">Measuring inequality across America</h2>
     </div>
 
     <h3>The ratio of inequality to population in 195 metro areas between 1980&nbsp;-&nbsp;2015</h3>
@@ -69,6 +69,9 @@
 
     <h2>Why is this happening?</h2>
     <p>Abel and Deitz find three drivers of wage inequality: differences in the local demand for skilled and unskilled workers; urban agglomeration<a href="#mass" aria-describedby="footnote-label" id="mass-ref"></a> economies, which tend to favor higher-skilled workers; and the migration of skilled workers between locations. </p>
+    
+    <img src="https://www.economist.com/cdn-cgi/image/width=1424,quality=80,format=auto/content-assets/images/20241019_SRP554.jpg" loading="lazy" alt="Man walking on sidewalk. Photograph: Matt Black/Magnum Photos">
+    <figcaption>Photograph: Matt Black/Magnum Photos</figcaption>
 
   </article>
 </main>
@@ -145,20 +148,22 @@
         `${d.nyt_display} \nPopulation in 1980: ${d3.format(",")(d.POP_1980)}\nPopulation in 2015: ${d3.format(",")(d.POP_2015)}\nCurrent level of inequality: ${d3.format(",")(d.R90_10_2015)}\nChange in inequality: ${d3.format("+.4")(d.R90_10_2015 - d.R90_10_1980)}`, // \n makes a new line
       }),
       // This dot helps increase the surface area at the end of the arrow for hovering
-      Plot.dot(metros, {
-        x: "POP_2015",
-        y: "R90_10_2015",
-        r: 10,
-        fillOpacity: 0,
-        fill: d => d.R90_10_2015 - d.R90_10_1980,
-        title:  (d) =>
-        `${d.nyt_display} \nPopulation in 1980: ${d3.format(",")(d.POP_1980)}\nPopulation in 2015: ${d3.format(",")(d.POP_2015)}\nCurrent level of inequality: ${d3.format(",")(d.R90_10_2015)}\nChange in inequality: ${d3.format("+.4")(d.R90_10_2015 - d.R90_10_1980)}`, // \n makes a new line
-      }),
+      // Plot.dot(metros, {
+      //   x: "POP_2015",
+      //   y: "R90_10_2015",
+      //   r: 10,
+      //   fillOpacity: 0,
+      //   fill: d => d.R90_10_2015 - d.R90_10_1980,
+      //   title:  (d) =>
+      //   `${d.nyt_display} \nPopulation in 1980: ${d3.format(",")(d.POP_1980)}\nPopulation in 2015: ${d3.format(",")(d.POP_2015)}\nCurrent level of inequality: ${d3.format(",")(d.R90_10_2015)}\nChange in inequality: ${d3.format("+.4")(d.R90_10_2015 - d.R90_10_1980)}`, // \n makes a new line
+      // }),
       Plot.text(metros.filter(d => d.nyt_display !== "San Francisco" && d.nyt_display !== "Johnstown" && d.nyt_display !== "Houston"), {
         x: "POP_2015",
         y: "R90_10_2015",
         fontSize: size*1.1,
         text: d => d.highlight && d.nyt_display,
+        fill: "currentColor",
+        stroke: "white",
         dy: -10,
         dy: -12,
       }),
@@ -167,6 +172,8 @@
         y: "R90_10_2015",
         fontSize: size*1.1,
         text: d => d.highlight && d.nyt_display,
+        fill: "currentColor",
+        stroke: "white",
         dy: -10,
         dx: -40
       }),
@@ -175,12 +182,16 @@
         y: "R90_10_2015",
         fontSize: size*1.1,
         text: d => d.highlight && d.nyt_display,
+        fill: "currentColor",
+        stroke: "white",
         dy: 15,
         dx: 18
       }),
       Plot.text(metros.filter(d => d.nyt_display === "Houston"), {
         x: "POP_2015",
         y: "R90_10_2015",
+        fill: "currentColor",
+        stroke: "white",
         fontSize: size*1.1,
         text: d => d.highlight && d.nyt_display,
         dy: -16,
