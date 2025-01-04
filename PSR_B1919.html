@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+  <title>PSR B1919+21</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="PSR B1919+21">
+  <meta name="author" content="Justin Chill">
+  <!-- OpenGraph tags -->
+  <meta name="keywords" content="flights, data viz, map">
+  <meta name="robots" content="all">
+  <meta content="en_US" property="og:locale">
+  <meta content="JustinChill" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="https://justinchill.com/flights.html" property="og:url">
+  <meta content="PSR B1919+21" property="og:title">
+  <meta content="World PSR B1919+21" property="og:description">
+  <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
+  <link rel="canonical" href="https://www.justinchill.com/flights.html">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="PSR B1919+21">
+  <meta name="twitter:description" content="World PSR B1919+21">
+
+  <link type="text/plain" href="humans.txt" rel="author">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="/favicon.ico">
+  <meta name="theme-color" content="#4C63B6">
+
+  <script type="module">
+    document.documentElement.classList.remove('no-js');
+    document.documentElement.classList.add('js');
+  </script>
+
+  <style type="text/css">
+
+  </style>
+</head>
+
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+
+  <main role="main">
+    <article>
+      <div class="article-hero">
+        <h2 class="article-category">Post</h2>
+        <h1 class="article-title">Top Flight</h1>
+        <h2 class="article-subtitle">PSR B1919+21</h2>
+      </div>
+
+      <figure id="pulsar" class="mid-size"></figure>
+      <figcaption class="right">Data: <a href="https://www.proquest.com/docview/302499144/abstract?sourcetype=Dissertations%20&amp;%20Theses" rel="nofollow"><em>Radio Observations of the Pulse Profiles and Dispersion Measures of Twelve Pulsars</em></a></figcaption>
+
+      <p>In 1967, a radio signal was detected using the Interplanetary Scintillation Array of the Mullard Radio Astronomy Observatory in Cambridge, UK, by Jocelyn Bell and Antony Hewish. The signal had a 1.337 period and 0.04-second pulsewidth. It originated at celestial coordinates 19<sup>h</sup> 19<sup>m</sup> right ascension, +21° declination. It was detected by individual observation of miles of graphical data traces. Due to its almost perfect regularity, it was at first assumed to be spurious noise, but this hypothesis was promptly discarded. The discoverers jokingly named it little green men 1 (LGM-1), considering that it may have originated from an extraterrestrial civilization, but Bell soon ruled out extraterrestrial life as a source after discovering a similar signal from another part of the sky.
+      </p>
+      <p>The original signal turned out to be radio emissions from the <mark>pulsar</mark> CP 1919, and was the first one recognized as such. Bell noted that other scientists could have discovered pulsars before her, but their observations were either ignored or disregarded. Researchers Thomas Gold and Sir Fred Hoyle identified this astronomical object as a rapidly rotating <a href="/wiki/Neutron_star" title="Neutron star">neutron star</a> immediately upon their announcement.</p>
+      <aside>A <strong>pulsar</strong> is a highly magnetized, rotating neutron star or white dwarf which spin rapidly and produce huge electromagnetic radiation along a narrow beam. Neutron stars are very dense and have short, regular spins. This produces a very precise interval between pulses that range from roughly milliseconds to seconds for an individual pulsar.</aside>
+      <p>Before the nature of the signal was determined, the researchers, Bell and her PhD supervisor Antony Hewish, considered the possibility of extraterrestrial life:
+      </p>
+
+    </article>
+  </main>
+  <footer>
+    <h2 id="footnote-label">Footnotes</h2>
+    <ol>
+      <li id="pew"><a href="https://www.pewresearch.org/short-reads/2024/02/29/most-americans-now-live-in-a-legal-marijuana-state-and-most-have-at-least-one-dispensary-in-their-county/">Pew Researc Center, <i>Most Americans now live in a legal marijuana state – and most have at least one dispensary in their county</i> </a>.<a href="#pew-ref" aria-label="Back to content">↩</a></li>
+    </ol>
+
+    <div>
+      <p>Justin Chill © 2024. Thanks&nbsp;for&nbsp;reading!</p>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code and feedback</a></span>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+
+  <script type="text/javascript">
+    var elementMid = d3.select('figure.mid-size').node();
+    var widthMid = elementMid.getBoundingClientRect().width; // get width of figure.mid-size so graphic is responsive
+    var size = 12;
+
+    // Use Promises to async request data
+    var promises = [d3.csv("data/pulsar.csv", d3.autoType)];
+
+    myDataPromises = Promise.all(promises);
+
+    // After data is successfully fetched, generate viz
+    myDataPromises.then(function(data) {
+      // Define the data. There's gotta be a better way to do this:
+      var rawdata = data[0];
+      console.log(rawdata);
+
+      var pulsar = {
+        width: widthMid,
+  height: 760,
+        marginTop: 30,
+        axis: null,
+        x: {axis: "bottom", label: "Time (ms) →"},
+        y: {domain: [0, d3.max(pulsar, ([, y]) => y) / 18]},
+        marks: [Plot.lineY(pulsar, {x: "0", y: "1", fy: "2", fill: (d)=>d[2], stroke: "currentColor", strokeWidth: 1})]
+      };
+
+      document.getElementById("pulsar").appendChild(Plot.plot(pulsar));
+    });
+  </script>
+</body>
+
+</html>
