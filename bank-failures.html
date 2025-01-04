@@ -34,7 +34,9 @@
   </script>
 
   <style type="text/css">
-
+    #dodgeplot {
+    overflow-y: clip;
+    }
   </style>
 </head>
 
@@ -57,16 +59,27 @@
         <h1 class="article-title">The Big Short</h1>
         <h2 class="article-subtitle">An Analysis of Failed Banks In The US</h2>
       </div>
-
-      <figure id="dodgeplot" class="mid-size" aria-label="A dodge chart showing bank failures in the USA as circles sized according to their assets."></figure>
+      <div id="sort-container" class="visually-hidden">
+        <label>Sort by:</label>
+        <form>
+          <label>
+            <input type="radio" name="sort" value="Date" checked/>
+            <span>Date</span>
+          </label>
+          <label>
+            <input type="radio" name="sort" value="size" />
+            <span>Size</span>
+          </label>
+        </form>
+      </div>
+      <figure id="dodgeplot" class="mid-size" aria-label="A dodge chart showing bank failures in the USA as circles sized according to their assets."></figure>      
       <figcaption class="mid-size right">Data: <a href="https://www.fdic.gov/resources/resolutions/bank-failures/in-brief/bfb2023.html">FDIC</a>, <a href="https://fred.stlouisfed.org/series/CPIAUCSL">FRED</a></figcaption>
 
       <p>Bank failures happen more often than we hear about: there have been <strong>569</strong> in the U.S. since January 1, 2000. That’s an average of about 25 per year.</p>
       <p>But the back-to-back collapses of Silicon Valley Bank (SVB) and Signature Bank in early 2023, followed by First Republic Bank in May, were unique in more ways than one. An analysis of the Federal Deposit Insurance Corporation’s (FDIC) database reveals what makes the recent failures stand out and offers context to compare these collapses to earlier bank failures.</p>
-      <h3>Failures by total assets</h3>
+      <h3>Failures per year</h3>
       <figure id="barcode" class="mid-size" aria-label="A barcode chart showing bank failures in the USA as vertical lines shaded according to their date of failure."></figure>
       <figcaption class="mid-size right">Data: <a href="https://www.fdic.gov/resources/resolutions/bank-failures/in-brief/bfb2023.html">FDIC</a>, <a href="https://fred.stlouisfed.org/series/CPIAUCSL">FRED</a></figcaption>
-
       <p>In the wake of the Great Recession, it was typical to see dozens—if not hundreds—of bank failures each year. This slowed significantly from 2015 to 2020, when the U.S. saw an average of fewer than five bank failures per year. Zero banks failed in both 2021 and 2022.</p>
       <p>Bank collapses were similarly uncommon in the early 2000s. From 2001 to 2007, the U.S. saw an average of just 3.57 bank failures per year.</p>
       <p>This took a sharp turn after the U.S. declared a recession in December 2007. From 2008 to 2012, bank failures shot up to an average of 93 per year. Of the 569 bank failures from 2000 to 2024, 465—or 82%—occurred from 2008 to 2012. Bank failures hit a peak in 2010 at 157 in one year—more than double the number of bank failures we’ve seen in the last 10 years combined.</p>
@@ -202,8 +215,8 @@
       <p>There’s a strategic purpose behind this, of course. Traditionally, banks operate Monday through Friday and close on weekends. If the FDIC waits to take over a failing bank until Friday, it has the entire weekend to settle accounts, liquidate assets and transition to new management before customers start demanding their money.</p>
       <p>The need to oversee a smooth transition and keep panic contained isn’t just about one bank’s customers. If regulators don’t do a good job of cushioning the fall when a bank collapses, customers at other banks could start worrying they’ll lose their money, prompting bank runs all over the country. This self-fulfilling prophecy can trigger a financial crisis.</p>
       <p>This is why the decision to shut down Signature Bank on a Sunday evening, forcing regulators to clean up what was the third-largest bank failure in U.S. history overnight, might seem odd. It even came as a surprise to Signature Bank executives, who believed they’d stabilized the situation over the weekend, according to a CNBC interview with board member Barney Frank.</p>
-      <p>However, the SVB failure happened fast, triggering a run on deposits at Signature Bank even faster. <span style="font-weight: 400">Regulators are focused on preventing a domino effect in the banking sector, so taking over and reassuring depositors their money is safe before they have the chance to withdraw it makes sense.</span></p>
-      <img src="https://thumbor.forbes.com/thumbor/fit-in/1290x/https://www.forbes.com/advisor/wp-content/uploads/2023/03/960x0-16.jpg" loading="lazy" />
+      <p>However, the SVB failure happened fast, triggering a run on deposits at Signature Bank even faster. Regulators are focused on preventing a domino effect in the banking sector, so taking over and reassuring depositors their money is safe before they have the chance to withdraw it makes sense.</p>
+      <img src="https://thumbor.forbes.com/thumbor/fit-in/1290x/https://www.forbes.com/advisor/wp-content/uploads/2023/03/960x0-16.jpg" alt="The outside of Silicon Valley Bank (SVB)." loading="lazy" />
     </article>
   </main>
   <footer>
@@ -225,7 +238,12 @@
     var widthMid = elementMid.getBoundingClientRect().width; // get width of figure.mid-size so graphic is responsive
     var element = d3.select('figure:last-of-type').node();
     var width = element.getBoundingClientRect().width; // get width of figure so graphic is responsive. Todo / hacky
-    var size = 12;
+    var size = 16;    
+    let sortBy = "Size"; // Initial sort value
+    
+    const sortContainer = document.getElementById("sort-container");
+    const chartContainer = document.getElementById("dogeplot");
+    const result = document.getElementById("result");    
 
     // Use Promises to async request data
     var promises = [d3.csv("data/bfb-data@1.csv", d3.autoType), d3.csv("data/bfb-assets.csv", d3.autoType)];
@@ -244,12 +262,13 @@
       document.getElementById("barcode").innerHTML = "";
 
       // Inspired by https://observablehq.com/d/09375f1a53f38932
-      var dodgeplot = {
+      // Function to update the chart
+      function renderChart(sort) {
+        const dodgeplot = {
         width: widthMid,
-        height: width > 450 ? 680 : 780,
-        style: {
-          overflow: "clip"
-        },
+        height: sort === "Date" ? 760 : 680,
+        marginLeft: 0,
+        marginRight: 0,
         insetLeft: 10,
         insetRight: 60,
         r: {
@@ -262,6 +281,7 @@
           Plot.dot(
             fails,
             Plot.dodgeY({
+              // sort: sort,
               anchor: "bottom",
               padding: 2,
               x: "Date",
@@ -275,6 +295,7 @@
           Plot.text(
             fails,
             Plot.filter((d) => d.Assets > 2000, Plot.dodgeY({
+              // sort: sort,
               anchor: "bottom",
               padding: 2,
               x: "Date",
@@ -289,6 +310,22 @@
           )
         ]
       };
+      
+      // Clear existing chart
+      const chartContainer = document.getElementById("dodgeplot");
+      chartContainer.innerHTML = ""; // Clear existing chart
+      chartContainer.appendChild(Plot.plot(dodgeplot)); // Add new chart
+    }
+            
+      // Initial render
+      renderChart(sortBy);
+      // Event listener for dropdown change -- TODO: This sort isn't working :(
+      sortContainer.addEventListener("change", (event) => {
+        const sortBy = event.target.value;
+        console.log(sortBy);
+        renderChart(sortBy);
+      });
+        
 
       var barcode = {
         width: widthMid,
@@ -315,10 +352,12 @@
         width: widthMid,
         grid: true,
         y: {
-          tickFormat: width < 600 ?
-            "$" // dollars, scientific notation
-            :
-            "$,.0f", // dollars, commas, 0 precision, fixed point notation,
+          tickFormat: "$,f",
+          nice: true,
+          tickSize: 0,
+        },
+        x: {
+          tickSize: 0,
           nice: true,
         },
         marks: [
@@ -338,6 +377,10 @@
       document.getElementById("dodgeplot").appendChild(Plot.plot(dodgeplot));
       document.getElementById("barcode").appendChild(Plot.plot(barcode));
       document.getElementById("stackedBarBankFailures").appendChild(Plot.plot(stackedBarBankFailures));
+    });
+    
+    myDataPromises.catch(function() {
+      console.log('🚨 Oops - Something has gone wrong fetching data.')
     });
   </script>
 </body>

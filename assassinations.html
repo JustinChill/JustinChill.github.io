@@ -59,7 +59,7 @@
       </div>
       <figcaption id="legend" aria-label="An unfilled circle (⭕) represents a sucessful landing with debris. A filled circle (⚫) represents an unsuccessful landing. "></figcaption>
       <figure class="mid-size" id="line" aria-label="A line graph showing..."></figure>
-      
+
       <p>Throughout American history, there have been numerous attempts to assassinate sitting presidents, as well as president-elects and presidential candidates. In total, four American presidents have been assassinated and there have been thirteen other attempted assassinations (two of which were on Gerald Ford, within weeks of each other):</p>
       <ol>
         <li>Abraham Lincoln - 1865</li>
@@ -75,7 +75,7 @@
         <li>William McKinley (1901) - Republican Party</li>
         <li>John F. Kennedy (1963) - Democratic Party</li>
       </ol>
-      
+
       <figure id="imgs" aria-label="A line graph showing..."></figure>
       <p>It's worth noting that the Republican Party of Lincoln's era was quite different from the modern Republican Party in many of its policies and positions. The parties have evolved significantly over time, with major shifts in their platforms and constituencies occurring especially during the 20th century.</p>
       <p>Kennedy was the only Democrat among the four assassinated presidents. His assassination came during a time of significant social and political change in the United States.</p>
@@ -168,7 +168,7 @@ Barack Obama,2011,Democratic,Survived,Yes,https://upload.wikimedia.org/wikipedia
         inOffice
       }))
       .sort((a, b) => d3.ascending(a.date, b.date));
-      
+
     // OcclusionY adds an initializer that shifts nodes vertically with a tiny force simulation. From https://observablehq.com/@observablehq/plot-slope-chart
     occlusionY = ({
       radius = 6.5,
@@ -383,26 +383,29 @@ Barack Obama,2011,Democratic,Survived,Yes,https://upload.wikimedia.org/wikipedia
     document.getElementById("line").appendChild(Plot.plot(line));
     document.getElementById("imgs").appendChild(Plot.plot(imgs));
     // Circle legend from https://observablehq.com/@chris-creditdesign/nature-lunar-crash-landings-graphic
-      const svg_width = 16;
-      const legend = document.querySelector('#legend');
+    const svg_width = 16;
+    const legend = document.querySelector('#legend');
 
-      const empty_circle = `
+    const empty_circle = `
         <svg viewport="0 0 ${svg_width} ${svg_width}"  width="${svg_width}" height="${svg_width}">
           <circle r="${(svg_width - 6) / 2}" cx="${svg_width / 2}" cy="${
         svg_width / 2
       }" stroke="#000" stroke-width="3" fill="#fff"/>
         </svg>`;
 
-      const filled_circle = `
+    const filled_circle = `
         <svg viewport="0 0 ${svg_width} ${svg_width}"  width="${svg_width}" height="${svg_width}">
           <circle r="${(svg_width - 6) / 2}" cx="${svg_width / 2}" cy="${
         svg_width / 2
       }" stroke="#000" stroke-width="3" fill="#000"/>
         </svg>`;
 
-      legend.innerHTML = `<div style="font-family: sans-serif; font-size: 12px; display: flex; align-items: center; gap: 0.5em;">${empty_circle}<p>Injured</p>${filled_circle} <p>Killed</p></div>`;
-
-    // Inspired by Alireza Moayerzadeh: https://observablehq.com/d/1871c666c8816883
+    legend.innerHTML = `<div style="font-family: sans-serif; font-size: 12px; display: flex; align-items: center; gap: 0.5em;">${empty_circle}<p>Injured</p>${filled_circle} <p>Killed</p></div>`;
+    
+    });
+    myDataPromises.catch(function() {
+      console.log('🚨 Oops - Something has gone wrong fetching data.')
+    });
   </script>
 </body>
 
