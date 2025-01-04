@@ -88,7 +88,7 @@
         <h1 class="article-title">Space Waste</h1>
         <h2 class="article-subtitle">Debris left on the moon's surface.</h2>
       </div>
-      <h2>Missions that have smashed into the Moon, either as a full spacecraft or as parts</h2>
+      <h2>Lunar Missions</h2>
       <figcaption id="legend" aria-label="An unfilled circle (⭕) represents a sucessful landing with debris. A filled circle (⚫) represents an unsuccessful landing. "></figcaption>
       <figure id="crashes" aria-label=""></figure>
       <figcaption>Data: Alexandra Witze for <a href="https://www.nature.com/articles/d41586-022-00542-4">Nature</a></figcaption>
@@ -159,6 +159,8 @@
         height: 240,
         style: {
           fontSize: size,
+          paddingLeft: width > 450 ? 0 : 20,
+          paddingRight: width > 450 ? 0 : 10,
         },
         color: {
           legend: false, // Show legend separately 
@@ -189,14 +191,14 @@
             fillOpacity: "soft_landing",
             stroke: "nation",
             strokeWidth: 2,
-            r: 4,
+            r: width > 450 ? 4 : 2,
             title: (d) => `${d.object} - ${d.full_date}`,
             tip: true,
           }),
           Plot.arrow(tips, {
             filter: (d,i) => i == 0,
             x1: d => d.x1 -3,
-            y1: d => d.y1 - 2,
+            y1: d => d.y1 - 3,
             x2: d => d.x2 - .75,
             y2: d => d.y2 + .25,
             strokeLinejoin: "miter",
@@ -240,7 +242,7 @@
             filter: (d,i) => i == 2,
             x1: d => d.x1 + 6,
             y1: d => d.y1-2,
-            x2: d => d.x2 - .8,
+            x2: d => d.x2 - 1,
             y2: d => d.y2+.3,
             strokeLinejoin: "miter",
             headLength: 5,
