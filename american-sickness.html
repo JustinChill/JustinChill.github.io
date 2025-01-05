@@ -35,7 +35,7 @@
 
   <style type="text/css">
     #spending {
-      padding-bottom: 2rem;
+      padding-bottom: 1rem;
     }
 
     #spending [aria-label="x-axis label"],
@@ -44,6 +44,13 @@
       font-size: 1.2rem;
       letter-spacing: -0.03px;
       line-height: calc(1.5em + .2vw);
+    }
+    
+    @media screen and (max-width: 680px) {
+      #spending [aria-label="x-axis label"],
+      #spending [aria-label="y-axis label"] {
+        font-size: .9rem;
+      }
     }
   </style>
 </head>
@@ -312,7 +319,8 @@
         height: width,
         style: {
           fontSize: size,
-          marginLeft: 20,
+          marginLeft: width > 450 ? 20 : 0,
+          paddingRight: 30,
         },
         color: {
           legend: false,
@@ -326,14 +334,14 @@
           label: "Health Expenditure per capita",
           lineWidth: 8,
           labelAnchor: "center",
-          labelOffset: 55,
+          labelOffset: width > 450 ? 55 : 44,
         },
         y: {
           nice: true,
           label: "Life Expectancy",
           lineWidth: 8,
           labelAnchor: "center",
-          labelOffset: 80,
+          labelOffset: width > 450 ? 80 : 44,
           tickFormat: d => Number.isInteger(d) ? d : "", // Show only whole numbers
           tickSize: 0,
           lineWidth: 8,
@@ -435,7 +443,7 @@
             },
             tip: true,
             title: (d) =>
-              `${d.State}\nPopulation: ${d.population}\nLife Expectancy: ${d["life expectancy"]} years\nIncome: $${d['income (k$)']}k`
+              `${d.State}\nPopulation: ${d3.format(",")(d.population)}k\nLife Expectancy: ${d["life expectancy"]} years\nIncome: $${d['income (k$)']}k`
           }),
           Plot.line(states, {
             x: "group",
@@ -475,7 +483,7 @@
           fontSize: size,
           paddingTop: ".5rem",
         },
-        marginLeft: 0, 
+        // marginLeft: 0, 
         grid: true,
         color: {
           domain: ["Above average", "Below average"],
@@ -498,12 +506,14 @@
           labelOffset: 45,
           frameAnchor: "right",
           label: "Income ($)",
+          ticks: 2,
         },
         facet: {
           data: states,
           x: "group",    
         },
         marks: [
+          Plot.frame(),
           Plot.dot(states, {
             x: "income (k$)",
             y: "life expectancy",
