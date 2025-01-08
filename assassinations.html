@@ -34,7 +34,12 @@
   </script>
 
   <style type="text/css">
-
+    #imgs [aria-label="x-axis label"] {
+    font-family: "Camphor", Arial, Helvetica, sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: -0.03px;
+    line-height: calc(1.5em + .2vw);
+  }
   </style>
 </head>
 
@@ -62,19 +67,13 @@
 
       <p>Throughout American history, there have been numerous attempts to assassinate sitting presidents, as well as president-elects and presidential candidates. In total, four American presidents have been assassinated and there have been thirteen other attempted assassinations (two of which were on Gerald Ford, within weeks of each other):</p>
       <ol>
-        <li>Abraham Lincoln - 1865</li>
-        <li>James A. Garfield - 1881</li>
-        <li>William McKinley - 1901</li>
-        <li>John F. Kennedy - 1963</li>
-      </ol>
-      <p>Note that the chart above highlights the date of the shooting, not necessarily the date of death attributed to the shooting. Lincoln for example was shot April 14, 1865 and died the 15th. Garfield was shot July 2, 1881 and died September 19. McKinley was shot September 6, 1901 and died the 14th. Kennedy was shot and killed November 22, 1963.</p>
-      <p>These assassinations had significant impacts on American history and led to changes in presidential security measures over time. Each of the assassinated presidents belonged to one of the two major political parties of their time. Here's a breakdown:</p>
-      <ol>
         <li>Abraham Lincoln (1865) - Republican Party</li>
         <li>James A. Garfield (1881) - Republican Party</li>
         <li>William McKinley (1901) - Republican Party</li>
         <li>John F. Kennedy (1963) - Democratic Party</li>
       </ol>
+      <p>Note that the chart above highlights the date of the shooting, not necessarily the date of death attributed to the shooting. Lincoln for example was shot April 14<sup>th</sup>, 1865 and died the 15<sup>th</sup>. Garfield was shot July 2<sup>nd</sup>, 1881 and died September 19<sup>th</sup>. McKinley was shot September 6<sup>th</sup>, 1901 and died the 14<sup>th</sup>. Kennedy was shot and killed November 22<sup>nd</sup>, 1963.</p>
+      <p>These assassinations had significant impacts on American history and led to changes in presidential security measures over time. Each of the assassinated presidents belonged to one of the two major political parties of their time. Here's a breakdown:</p>
 
       <figure id="imgs" aria-label="A line graph showing..."></figure>
       <p>It's worth noting that the Republican Party of Lincoln's era was quite different from the modern Republican Party in many of its policies and positions. The parties have evolved significantly over time, with major shifts in their platforms and constituencies occurring especially during the 20th century.</p>
@@ -106,10 +105,12 @@
           <p>George W. Bush (2005) - A grenade thrown at Bush during a speech in Georgia (the country) failed to detonate.</p>
         </li>
         <li>
-          <p>Barack Obama - Several plots were uncovered during his presidency, but none resulted in attempts that came close to fruition.<a href="#splc" aria-describedby="footnote-label" id="splc-ref"></a></p>
+          <p>Barack Obama - Several plots were uncovered during his presidency, but none resulted in attempts that came close to fruition<a href="#splc" aria-describedby="footnote-label" id="splc-ref"></a>. In 2014, an armed security contractor with three prior criminal convictions was allowed to ride an elevator with President Barack Obama, according to <a href="https://time.com/3450943/obama-elevator-secret-service/">reports</a> by the Washington Post and the Washington Examiner.</p>
+        </li>
+        <li>
+          <p>Donald Trump (2024) - On September 15, 2024, Donald Trump, then-nominee of the Republican Party in the 2024 presidential election, survived an assassination attempt while golfing at Trump International Golf Club in West Palm Beach, Florida.</p>
         </li>
       </ol>
-      <p>In 2014, an armed security contractor with three prior criminal convictions was allowed to ride an elevator with President Barack Obama, a violation of Secret Service protocol, according to <a href="https://time.com/3450943/obama-elevator-secret-service/">reports</a> by the Washington Post and the Washington Examiner.</p>
       <p>Adapted from Code by Mike Bostock and <a href="https://observablehq.com/@tophtucker">Toph Tucker</a>. Based on the Wikipedia article, “<a href="https://en.wikipedia.org/wiki/List_of_United_States_presidential_assassination_attempts_and_plots">List of United States presidential assassination attempts and plots</a>”.</p>
     </article>
   </main>
@@ -247,7 +248,7 @@ Barack Obama,2011,Democratic,Survived,Yes,https://upload.wikimedia.org/wikipedia
         textTransform: "capitalize",
       },
       y: {
-        tickSize: 0,
+        tickSize: 4,
         tickFormat: d => d.toLocaleString("en"),
         nice: true,
         label: "Days",
@@ -309,9 +310,9 @@ Barack Obama,2011,Democratic,Survived,Yes,https://upload.wikimedia.org/wikipedia
     var imgs = {
       width: width,
       style: {
-        fontSize: size,
-        paddingBottom: 0,
-        paddingLeft: 50,
+        fontSize: size+4,
+        paddingBottom: "1em",
+        paddingLeft: "1rem",
         paddingRight: 40,
         textTransform: "capitalize",
       },
@@ -326,8 +327,11 @@ Barack Obama,2011,Democratic,Survived,Yes,https://upload.wikimedia.org/wikipedia
         type: "linear",
         domain: d3.extent(data, (d) => d.Year),
         label: "Year",
+        labelOffset: 45,
+        labelAnchor: "center",
+        className: "x-axis",
         tickFormat: d3.format("d"),
-        tickSize: 0,
+        tickSize: 4,
         paddingOuter: 1,
         inset: 12,
       },
@@ -355,6 +359,7 @@ Barack Obama,2011,Democratic,Survived,Yes,https://upload.wikimedia.org/wikipedia
           x: "Year",
           y: "President",
           src: "image", // Assuming 'image' is the column name in your dataset
+          preserveAspectRatio: "xMidYMin slice", // try not to clip heads
           r: 13,
           tip: true,
           title: (d) => `${d.President}\nYear: ${d.Year}\nParty: ${d.Party}\nOutcome: ${d.Outcome}`
@@ -364,8 +369,9 @@ Barack Obama,2011,Democratic,Survived,Yes,https://upload.wikimedia.org/wikipedia
             x: "Year",
             y: "President",
             text: () => "Assassinated",
-            dx: 54,
-            dy: -4, // Adjust this value to position the text above the dot
+            dx: 20,
+            textAnchor: "start",
+            dy: -5, // Adjust this value to position the text above the dot
             fill: "red",
           }
         ),
