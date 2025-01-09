@@ -39,7 +39,6 @@
   /* Layout */
   --nav-width: 8.75rem;
   --gutter: 12px;
-  --radius: 4px;
   --spacer-1: 8px;
   --spacer-2: 16px;
   --spacer-3: 24px;
@@ -49,8 +48,8 @@
   --spacer-7: 92px;
   --spacer-8: 136px;
 
-  --type-scale--1: 0.9375rem;
   --type-scale--2: 0.8125rem;
+  --type-scale--1: 0.9375rem;
   --type-scale-0: 1.0625rem;
   --type-scale-1: 1.25rem;
   --type-scale-2: 1.4375rem;
@@ -64,6 +63,18 @@
   --type-scale-10: 4.25rem;
   --type-scale-11: 5rem;
   --type-scale-12: 5.75rem;
+  
+  /* border-radius */
+  --radius: 4px;
+  --radius-sm: 0.1875em;
+  --radius-md: 0.375em;
+  --radius-lg: 0.75em;
+
+  /* timing functions */
+  --ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
+  --ease-in: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* Box sizing rules. Reset from: 'https://codepen.io/andybelldesign/pen/Ygmwym.css' */
@@ -110,6 +121,8 @@ dd {
 /* Set HTML color-scheme value based on current theme */
 html {
   color-scheme: light;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 html[data-theme=dark] {
@@ -637,6 +650,35 @@ article>aside * {
 
 .right {
   text-align: right;
+}
+
+/* overflow items */
+:where(.item-full-width, .item-overflow, .item-overflow-left, .item-overflow-right, .item-left, .item-right) img {
+  width: 100%;
+}
+
+.item-full-width {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+}
+
+@media (min-width: 48rem) {
+  .item-left,
+.item-right,
+.item-overflow-left,
+.item-overflow-right {
+    width: 45%;
+  }
+  .item-left,
+.item-overflow-left {
+    float: left;
+    margin-right: var(--spacer-2);
+  }
+  .item-right,
+.item-overflow-right {
+    float: right;
+    margin-left: var(--spacer-2);
+  }
 }
 
 article>img,
