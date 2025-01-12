@@ -33,7 +33,17 @@
   </script>
   
   <style type="text/css">
+    div[class*="swatch"] {
+      font-size: calc(.6rem + .25vw);
+      font-family: var(--font-main);
+      font-size: calc(var(--type-scale--1) + .25vw);
+      letter-spacing: -0.03px;
+      line-height: calc(1.5em + .2vw);
+    }
 
+    div[class*="swatch"] svg {
+      border-radius: 50%;
+    }
   </style>
 </head>
 <body>
@@ -130,14 +140,16 @@
         frameAnchor: "top-left",
         labelOffset: -10,
       },
+      legend: {
+        r: 10,
+      },
       color: {
         legend: true,
-        columns: 2, 
-        width: 500,
-        marginLeft: 40,
+        columns: 1, 
+        swatchHeight: 20,
+        swatchSize: 20,
         domain: ["London", "South East and East of England", "Midlands and North of England", "Wales and South West", "Scotland and Northern Ireland"],
         range: ["#EEAEB1", "#FFD5AB", "#DCDCDE", "#ADCFE0", "#CDF0FE"],
-        style: { fontFamily: "Noto Sans, san-serif", fontSize: "12px" }
       },
       marks: [
         Plot.dot(mapped, {x: "air_pollution", y: "child_poverty", stroke: "grouping", strokeOpacity: 1, fill: "grouping", fillOpacity: 0.5, r: 5,}),
