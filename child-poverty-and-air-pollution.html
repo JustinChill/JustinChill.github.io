@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <title>The link between child poverty and air pollution</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Children from low-income households are more likely to live in areas of high air pollution.">
+  <meta name="author" content="Justin Chill">
+  <!-- OpenGraph tags -->
+  <meta name="keywords" content="stats, chart, data viz, The Guardian, air pollution, child poverty">
+  <meta name="robots" content="all">
+  <meta content="en_US" property="og:locale">
+  <meta content="JustinChill" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="https://justinchill.com/child-poverty-and-air-pollution.html" property="og:url"> 
+  <meta content="The link between child poverty and air pollution" property="og:title">
+  <meta content="Children from low-income households are more likely to live in areas of high air pollution." property="og:description">
+  <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
+  <link rel="canonical" href="https://www.justinchill.com/child-poverty-and-air-pollution.html">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The link between child poverty and air pollution">
+  <meta name="twitter:description" content="Children from low-income households are more likely to live in areas of high air pollution.">
+  
+  <link type="text/plain" href="humans.txt" rel="author">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="/favicon.ico">
+  <meta name="theme-color" content="#4C63B6">
+  
+  <script type="module">
+    document.documentElement.classList.remove('no-js');
+    document.documentElement.classList.add('js');
+  </script>
+  
+  <style type="text/css">
+
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+  
+  <main role="main">
+    <article>
+     <div class="article-hero">
+      <h2 class="article-category">Post</h2>
+      <h1 class="article-title">Development and the environment</h1>
+      <h2 class="article-subtitle">The link between child poverty and air pollution</h2>
+    </div>
+
+    <h3>Children from low-income households are more likely to live in areas of high air pollution</h3>
+    <figure id="scatter" aria-label=""></figure>
+    <figcaption>Source: Labour analysis of Defra, End Child Poverty coalition data. Note: child poverty data is after housing costs. Pollution is population-weighted annual mean PM2.5 concentration for 2020 (micrograms per cubic metre)</figcaption>    
+    <p>“The centralisation of population in great cities exercises of itself an unfavourable influence,” wrote Friedrich Engels in 1844. “All putrefying vegetable and animal substances give off gases decidedly injurious to health, and if these gases have no free way of escape, they inevitably poison the atmosphere [The poor] are obliged to throw all offal and garbage, all dirty water, often all disgusting drainage and excrement into the streets, being without other means of disposing of them; they are thus compelled to infect the region of their own dwelling.”</p>
+    <p>Much of Engels's writing seems anachronistic today, but his description of working-class life in 19th-century London paints an uncannily accurate picture of slum life in developing countries at the end of the 20th century. In the Klong Toey district of Bangkok, the stench from the rotting rubbish and fetid water that collect between the shacks is overpowering. In the north of Mexico city, near Santa Fe, hovels cling to the sides of a steep valley which most days is choked with smog, and streams of untreated sewage run down to the river below. In the Moroccan town of Marrakesh, the smell of rotting cattle flesh surrounds tanneries for miles around.</p>
+    <p>Five London boroughs rank worst for child poverty and worst for dirty air, according to government data collated by Labour, mapping areas of high poverty against statistics on air pollution. The analysis showed that the higher the rate of child poverty in a given area, the dirtier the air there was on average, with most of the 50 most polluted areas in the UK also showing the highest rates of child poverty<a href="#grd" aria-describedby="footnote-label" id="grd-ref2"></a>.</p>
+
+  </article>
+</main>
+<footer>
+  <h2 id="footnote-label">Footnotes</h2>
+  <ol>
+    <li id="grd"><a href="https://www.theguardian.com/environment/2021/dec/28/labour-highlights-link-between-child-poverty-and-air-pollution">The Guardian</a>, <em>Labour demands stricter air pollution limits after child poverty link revealed</em>.<a href="#grd-ref" aria-label="Back to content">↩</a></li>    
+  </ol>
+
+  <div>
+    <p>Justin Chill © 2024. Thanks&nbsp;for&nbsp;reading!</p>
+    <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code and feedback</a></span>    
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/d3"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+
+<script type="text/javascript">
+  var element = d3.select('figure').node();
+  var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+  var size = 12;
+  
+  // Use Promises to async request data
+  var promises = [d3.csv("data/child_poverty_and_particulate_matter.csv", d3.autoType)];
+
+  // You can request multiple srcs in a promise
+  myDataPromises = Promise.all(promises);
+
+  // After data is successfully fetched, generate viz
+  myDataPromises.then(function(data) {
+    // Define the data. There's gotta be a better way to do this:
+    var rawdata = data[0];
+    var mapped = rawdata.map(d => ({
+  area_code: d.area_code,
+  area_name: d.area_name,
+  country_region: d.country_region,
+  child_poverty: +d.child_poverty,
+  air_pollution: +d.air_pollution,
+  grouping: d.grouping
+}));
+    console.log(mapped);
+
+    var scatter = {
+      width: width,
+      style: {
+        fontFamily: "Noto Sans, san-serif",
+        fontSize: "14px",
+        color: "#222222",
+        paddingBottom: "1rem",
+      },
+      x: {
+        domain: [1,10],
+        tickSize: 0,
+        label: "PM 2.5 pollution levels",
+        labelAnchor: "center",
+        labelOffset: 40
+      },
+      y: {
+        percent: true,
+        domain: [10,60],
+        nice: true,
+        ticks: 6,
+        tickSize: 0,
+        label: "% of children living in poverty",
+        labelAnchor: "top",
+        frameAnchor: "top-left",
+        labelOffset: -10,
+      },
+      color: {
+        legend: true,
+        columns: 2, 
+        width: 500,
+        marginLeft: 40,
+        domain: ["London", "South East and East of England", "Midlands and North of England", "Wales and South West", "Scotland and Northern Ireland"],
+        range: ["#EEAEB1", "#FFD5AB", "#DCDCDE", "#ADCFE0", "#CDF0FE"],
+        style: { fontFamily: "Noto Sans, san-serif", fontSize: "12px" }
+      },
+      marks: [
+        Plot.dot(mapped, {x: "air_pollution", y: "child_poverty", stroke: "grouping", strokeOpacity: 1, fill: "grouping", fillOpacity: 0.5, r: 5,}),
+        Plot.linearRegressionY(mapped, {x: "air_pollution", y: "child_poverty", stroke: "grouping"}),
+        Plot.ruleY([10], {stroke: "rgb(146,146,151)", strokeWidth: 1}),
+        Plot.ruleX([1], {stroke: "rgb(146,146,151)", strokeWidth: 1}),
+      ],
+    };
+    document.getElementById("scatter").appendChild(Plot.plot(scatter));
+  });
+</script>
+</body>
+</html>
