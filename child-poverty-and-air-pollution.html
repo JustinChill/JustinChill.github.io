@@ -71,10 +71,10 @@
     <h3>Children from low-income households are more likely to live in areas of high air pollution</h3>
     <figure id="scatter" aria-label=""></figure>
     <figcaption>Source: Labour analysis of Defra, End Child Poverty coalition data.</figcaption>    
-    <p>“The centralisation of population in great cities exercises of itself an unfavourable influence,” wrote Friedrich Engels in 1844. “All putrefying vegetable and animal substances give off gases decidedly injurious to health, and if these gases have no free way of escape, they inevitably poison the atmosphere [The poor] are obliged to throw all offal and garbage, all dirty water, often all disgusting drainage and excrement into the streets, being without other means of disposing of them; they are thus compelled to infect the region of their own dwelling.”<a href="#econ" aria-describedby="footnote-label" id="econ-ref"></a></p>
-    <p>Much of Engels's writing seems anachronistic today, but his description of poverty in 19th-century London paints an uncannily accurate picture of slum life in developing countries at the end of the 20th century. Air pollution is an invisible but dangerous threat to global health. Toxic emissions can damage children’s growth and leave them with lasting health problems. In 71% of United Kingdom towns and cities, children are breathing unsafe levels of air pollution.</p>
-    <p>Five London boroughs rank worst for child poverty and worst for dirty air, according to government data, mapping areas of high poverty against statistics on air pollution. The analysis showed that the higher the rate of child poverty in a given area, the dirtier the air there was on average, with most of the 50 most polluted areas in the UK also showing the highest rates of child poverty<a href="#grd" aria-describedby="footnote-label" id="grd-ref"></a>.</p>
-    <p>Boroughs in Birmingham, Southampton, Portsmouth, Sandwell and Walsall also showed high correlations between child poverty and air pollution. Altogether, about 6.7 million children are living in areas of the UK where air pollution has breached legal limits, of whom about 2 million are also living in poverty, according to the research.</p>
+    <p>“T<em>he centralisation of population in great cities exercises of itself an unfavourable influence,” </em>wrote Friedrich Engels in 1844. “<em>All putrefying vegetable and animal substances give off gases decidedly injurious to health, and if these gases have no free way of escape, they inevitably poison the atmosphere</em> [The poor] <em>are obliged to throw all offal and garbage, all dirty water, often all disgusting drainage and excrement into the streets, being without other means of disposing of them; they are thus compelled to infect the region of their own dwelling</em>.”<a href="#econ" aria-describedby="footnote-label" id="econ-ref"></a></p>
+    <p>Much of Engels's writing seems anachronistic today, but his description of poverty in 19th-century London paints an uncannily accurate picture of slum life in developing countries at the beginning of the 21<sup>st</sup> century. Air pollution is an invisible but dangerous threat to global health. Toxic emissions can damage children’s growth and leave them with lasting health problems. In <strong>71%</strong> of United Kingdom towns and cities, children are breathing unsafe levels of air pollution.</p>
+    <p>Five London boroughs rank worst for child poverty and worst for dirty air, according to government data, comparing areas with high levels of poverty with air pollution measurements. The analysis showed that the higher the rate of child poverty in a given area, the dirtier the air there was on average, with most of the 50 most polluted areas in the UK also showing the highest rates of child poverty<a href="#grd" aria-describedby="footnote-label" id="grd-ref"></a>.</p>
+    <p>Boroughs in <em>Birmingham</em>, <em>Southampton</em>, <em>Portsmouth</em>, <em>Sandwell</em> and <em>Walsall</em> also showed high correlations between child poverty and air pollution. Altogether, about 6.7 million children are living in areas of the UK where air pollution has breached legal limits, of whom about 2 million are also living in poverty, according to the research.</p>
     <h3>6 Takeaways</h3>
     <ol>
 <li><strong>Child poverty is rising. </strong>In March 2020, there were 4.3 million UK children living in poverty, over half a million more than the last five years. Young people with lived experience of poverty know what that really means: the embarrassment of not being able to afford the right school uniform, the assumption that you won’t achieve anything because of where you’re from and the anxiety and uncertainty that impact your mental health.</li>
@@ -85,7 +85,8 @@
 <li><strong>The impact of Covid-19 on poverty is not yet fully known. </strong>This research covers the period before the pandemic. However, it shows significant and worrying rises in child poverty, even <em>before</em> the impact of the pandemic on jobs and household income.</li>
 </ol>
 <h3>About the data</h3>
-<p>These <a href="https://uk-air.defra.gov.uk/data/pcm-data">data</a> are population-weighted annual mean concentrations (µg m<sup>-3</sup>) for  each Local Authority in the United Kingdom. It was compiled by the Department for Environment Food & Rural Affairs (Defra) for use in estimating the burden of mortality attributable to long-term exposure to particulate air pollution.</p>
+<p>These <a href="https://uk-air.defra.gov.uk/data/pcm-data">data</a> are population-weighted annual mean concentrations (<small>µg m<sup>-3</sup></small>) for each Local Authority in the United Kingdom. It was compiled by the Department for Environment Food & Rural Affairs (<small>Defra</small>) to estimate the burden of mortality attributable to long-term exposure to particulate air pollution. Defra's air quality modelling produces a number of meteorological simulations, gridded outputs and concentrations maps.</p>
+<p>I've used this data to reproduce a graphic from The Guardian, originally published in December of 2021.</p>
   </article>
 </main>
 <footer>
@@ -96,7 +97,7 @@
   </ol>
 
   <div>
-    <p>Justin Chill © 2024. Thanks&nbsp;for&nbsp;reading!</p>
+    <p>Justin Chill &copy; 2025. Thanks&nbsp;for&nbsp;reading!</p>
     <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code and feedback</a></span>    
   </div>
 </footer>
@@ -155,12 +156,11 @@
         percent: true,
         domain: [10,60],
         nice: true,
-        ticks: 6,
-        tickSize: 0,
-        label: "% of children living in poverty",
+        label: "% of children\n  living in poverty",
         labelAnchor: "top",
         frameAnchor: "top-left",
-        labelOffset: -10,
+        labelOffset: 1000,
+        tickSize: 8,
       },
       color: {
         legend: true,
@@ -170,12 +170,29 @@
       },
       marks: [
         Plot.frame({
-          anchor: "bottom",
+          anchor: "left",
           stroke: "rgb(146,146,151)",
         }),
         Plot.frame({
           anchor: "bottom",
           stroke: "rgb(146,146,151)",
+        }),
+        Plot.axisY({
+          dy: -4, // offset up
+          lineAnchor: "bottom", // draw labels above grid lines
+          ticks: 6,
+          tickSize: 0,
+          labelOffset: -10,
+        }),
+        Plot.axisY({
+          dx: -10, // shift left
+          lineAnchor: "bottom", // draw labels above grid lines
+          ticks: 6,
+          tickSize: 12,
+          label: null,
+          stroke: "rgb(146,146,151)",
+          strokeWidth: 2,
+          tickFormat: d => ``,
         }),
         Plot.dot(mapped, {
           x: "air_pollution", 
@@ -202,7 +219,7 @@
           y: "child_poverty",
           z: "area_name",
           text: "area_name",
-          fill: "black",
+          fill: "rgb(146,146,151)",
           dy: -10,
           dx: 0,
           fontSize: size-2,
@@ -214,7 +231,7 @@
           y: "child_poverty",
           z: "area_name",
           text: "area_name",
-          fill: "black",
+          fill: "rgb(146,146,151)",
           dy: -3,
           dx: -10,
           fontSize: size-2,
@@ -226,7 +243,7 @@
           y: "child_poverty",
           z: "area_name",
           text: "area_name",
-          fill: "black",
+          fill: "rgb(146,146,151)",
           dy: 10,
           dx: -2,
           lineWidth: 8,
@@ -239,7 +256,7 @@
           y: "child_poverty",
           z: "area_name",
           text: "area_name",
-          fill: "black",
+          fill: "rgb(146,146,151)",
           dy: 16,
           dx: 0,
           lineWidth: 8,
@@ -252,7 +269,7 @@
           y: "child_poverty",
           z: "area_name",
           text: "area_name",
-          fill: "black",
+          fill: "rgb(146,146,151)",
           dy: 4,
           dx: 10,
           lineWidth: 10,
