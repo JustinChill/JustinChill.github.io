@@ -281,12 +281,13 @@ Barack Obama,2011,Democratic,Survived,Yes,https://upload.wikimedia.org/wikipedia
           stroke: "black"
         }),
         Plot.text(shootingsAnnotated, occlusionY({
+          filter: width > 450 ? null : d => d.name !== "James A. Garfield", // Hide "James A. Garfield" on smaller screens
           x: "date",
           y: "daysSince",
           text: (d) => `${d.name}${d.killed ? "\nkilled" : "\ninjured"}${d.inOffice ? " in office" : ""}`,
           fill: "black",
           stroke: "white",
-          dy: -16
+          dy: -16,
         })),
         Plot.text(
           [{
@@ -312,8 +313,8 @@ Barack Obama,2011,Democratic,Survived,Yes,https://upload.wikimedia.org/wikipedia
       style: {
         fontSize: size+4,
         paddingBottom: "1em",
-        paddingLeft: "1rem",
-        paddingRight: 40,
+        paddingLeft: "5.25rem",
+        paddingRight: 0,
         textTransform: "capitalize",
       },
       y: {
