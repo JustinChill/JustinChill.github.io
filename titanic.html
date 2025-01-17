@@ -710,7 +710,6 @@
         ]
       };
 
-      console.log(titanic);
       var whoSurvived = {
         width: width,
         height: 720,
@@ -766,7 +765,11 @@
           }))
         ]
       };
-
+// 
+      function sign(label){
+        label === 0 ? -1 : 1
+      };
+      console.log(titanic);
       var Bron = {
         width: width,
         style: {
@@ -783,8 +786,22 @@
           labelOffset: 44,
         },
         marks: [
-
-          Plot.barX(titanic, {y: "Sex", x: "Survived", fill: "Sex", sort: {y: "x"}, fy: "Pclass"}),
+          Plot.barX(
+            titanic,
+            Plot.stackX2({ 
+              x: (d) => d.Survived === "1" ? 1 : -1,
+              y: "Pclass",
+              fill: "Sex",
+              title: "Name"
+            },
+              {
+                fill: "Sex",
+                y: "Pclass"
+              }
+            )
+          ),
+          
+          // Plot.barX(titanic, {y: "Sex", x: "Survived", fill: "Sex", sort: {y: "x"}, fy: "Pclass"}),
           Plot.ruleX([0]),
 
           Plot.frame({stroke: "hsl(209, 23%, 60%)", strokeOpacity: .35}),
