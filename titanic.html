@@ -124,7 +124,7 @@
       <figure id="whoSurvived"></figure>
       <figcaption>Data: <a href="https://cran.r-project.org/web/packages/titanic/readme/README.html">R project</a></figcaption>
 
-      <p>The sinking of the <em>RMS Titanic</em> is one of the most storied shipwrecks in maritime history. Touted as the ultimate in transatlantic travel and said to be “unsinkable”, the <em>Titanic</em> collided with an iceberg on April 14<sup>th</sup>, 1912 on her maiden voyage and sank shortly thereafter on April 15<sup>th</sup>, killing 1,502 out of 2,224 passengers and crew. The sinking of the <em>Titanic</em> is not the largest in terms of lives lost at sea. But it is the one that has been documented most thoroughly – in government reports and personal accounts of survivors, and in numerous books and several popular movies.</p>
+      <p>The sinking of the <em>RMS Titanic</em> is one of the most storied shipwrecks in maritime history. Touted as the ultimate in transatlantic travel and said to be “unsinkable”, the <em>Titanic</em> collided with an iceberg on April 14<sup>th</sup>, 1912 on her maiden voyage and sank shortly after on April 15<sup>th</sup>, killing 1,502 out of 2,224 passengers and crew. The sinking of the <em>Titanic</em> is not the largest in terms of lives lost at sea. But it is the one that has been documented most thoroughly – in government reports and personal accounts of survivors, and in numerous books and several popular movies.</p>
       <p>This is one legacy of the <em>Titanic</em> disaster, but it left another: a wealth of data, comprising details of passengers and crew, complete with names, ages, passenger class, and even cabin numbers for those in first and second class.</p>
       <p>I recently discovered an early data visualization showing survival among the <em>Titanic</em> passengers and crew, published less than one month after the disaster. This graph had a surprisingly modern look. I was inspired to recreate it using modern javascript while looking into the different ways historians have visualized the <em>Titanic</em> disaster over the past century.</p>
       <h3>The Loss of the <em>Titanic</em></h3>
@@ -265,8 +265,8 @@
       <img src="imgs/titanic-parallel.png" loading="lazy" />
       <figcaption><a href="https://www.jasondavies.com/parallel-sets/">Jason Davies</a></figcaption>
       <h3>Lifeboats data</h3>
-      <p>The Titanic sailed with only enough lifeboat space for half the people on board, the result of an antiquated safety code that hadn’t kept pace with the growing size of ocean liners. Yet some of those lifeboats were lowered less than half full.</p>
-      <p>Bron tried to illustrate what he knew at the time, but the actual data allowed a richer story to be told with modern graphical and statistical methods.</p>
+      <p>The Titanic sailed with only enough lifeboat space for half the people on board, the result of an antiquated safety code that hadn’t kept pace with the growing size of ocean liners. Yet some of those lifeboats were lowered <strong>less than half full</strong>.</p>
+      <p>Bron tried to illustrate what he knew at the time, but the actual data allows for a richer story to be told with modern graphical and statistical methods.</p>
       <figure id="lifeboat_bars"></figure>
       <figcaption>Data: <a href="https://cran.r-project.org/web/packages/titanic/readme/README.html">R project</a></figcaption>
       <p>After the disaster, the British Board of Trade launched several inquiries, the most comprehensive of which resulted in the Report on the <em>Loss of the Titanic</em> (S.S.) by Lord Mersey (Mersey, 1912). The report lists the time of launch and composition of the 18 boats (out of 20) that actually launched, broken down as “male passengers”, “women and children”, and “men of crew”, as reported by witnesses.</p>
@@ -703,7 +703,8 @@
 
       var whoSurvived = {
         width: width,
-        height: width > 450 ? 720 :800,
+        marginLeft: 0,
+        height: width > 450 ? 720 : 550,
         style: {
           fontSize: size,
           textTransform: "capitalize",
@@ -731,11 +732,11 @@
         marks: [
           Plot.linearRegressionY(titanic, Plot.dodgeY("middle",{
             x: "Age",
-            // y: "Age",
             fx: "Pclass",
             fy: "Survived",
             stroke: null,
-            ci: 0.95
+            ci: 0.95,
+            fillOpacity: .075,
           })),
           Plot.frame({stroke: "hsl(209, 23%, 60%)", strokeOpacity: .35}),
           Plot.dot(titanic, Plot.dodgeY("middle",{
@@ -744,6 +745,7 @@
             fill: "Sex",
             fx: "Pclass",
             fy: "Survived",
+            r: width > 450 ? 2.75 : 1.65,
             tip: true,
             channels: {Name: "Name", "Survived?": d => d.Survived == 1 ? "Yes": "No", Fare: d => d3.format("$.2f")(d.Fare), Gender: "Sex", "Passenger Class": "Pclass"},
             tip: {
