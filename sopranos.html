@@ -78,6 +78,12 @@
       list-style: circle;
     }
 
+    [aria-label*="fx-axis"] text{
+      font-size: .825rem;
+      letter-spacing: -0.03px;
+      line-height: calc(1.5em + .2vw);
+    }
+
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -202,6 +208,15 @@
         opacity: 0;
       }
     }
+
+    @media screen and (max-width: 680px) {
+
+    [aria-label*="fx-axis"] text{
+      font-size: .625rem;
+      letter-spacing: -0.4px;
+      line-height: calc(1.5em + .2vw);
+    }
+  }
   </style>
 </head>
 
@@ -220,7 +235,7 @@
   <main role="main">
     <header class="hero" alt="A cartoon Tony Soprano in a white robe holds a newspaper, standing in front of a burning dumpster with ducks nearby. A Bada Bing! sign and car are in the background under a dramatic sky.">
       <div class="hero-content">
-        <h1 class="hero-title">The Sopranos by the Data</h1>
+        <h1 class="hero-title">The Sopranos by the data</h1>
         <p class="hero-subtitle">For Alec & Matt</p>
       </div>
     </header>
@@ -230,11 +245,14 @@
       <figure id="sopranosRatings"></figure>
       <figcaption>Data: <a href="https://www.imdb.com/title/tt0141842/">IMDB</a></figcaption>
       <p>The Sopranos, the iconic American crime drama television series, has left an indelible mark on pop culture since it first premiered in 1999. Created by David Chase, the show follows the life of Tony Soprano, a mob boss struggling to balance his dual roles as a family man and a ruthless leader in the New Jersey mafia.</p>
+      <p>The Sopranos wasn’t just another crime drama; it was a deep dive into the human psyche and the complexities of modern life. Its ability to balance dark humor, intense drama, and profound character development made it a standout in a sea of television shows. Here’s what set it apart:</p>
+      <ul><li><strong>Complex Characters:</strong> The characters in The Sopranos were multilayered and deeply human, each with their own flaws, struggles, and motivations.</li><li><strong>Realistic Portrayal of Family Dynamics:</strong> The show depicted the struggles of balancing family life with professional responsibilities, a theme that resonated with many viewers.</li><li><strong>Innovative Storytelling:</strong> By breaking traditional television norms, The Sopranos introduced morally ambiguous protagonists and unpredictable plotlines.</li><li><strong>Cinematic Quality:</strong> From its direction to its cinematography, The Sopranos felt more like a series of feature films than a television show.</li></ul>
+
       <p><em>Pine Barrens & Long Term Parking</em> is the highest scoring episode with an IMDB score of <strong>9.7</strong>. The lowest scoring episode is <em>Christopher</em> (<strong>8</strong>).</p>
 
       <h3>Episode IMDB ratings</h3>
       <figure id="sopranosGrid"></figure>
-      <figcaption>Data: <a href="https://www.imdb.com/title/tt0141842/">IMDB</a></figcaption>
+      <figcaption class="right">Data: <a href="https://www.imdb.com/title/tt0141842/">IMDB</a></figcaption>
 
       <h3 id="headline"> Facts about The Sopranos</h3>
       <ul class="nodot">
@@ -428,9 +446,9 @@
 
       var sopranosRatings = {
         width: width,
+        height: 300,
         marginLeft: 0,
         marginRight: 0,
-        aspectRatio: .05,
         style: {
           paddingLeft: 10,
           paddingBottom: 20
@@ -442,13 +460,20 @@
           labelOffset: 35,
           nice: true,
           clamp: true,
+          ticks: width > 450 ? 3 : 1,
+          tickSize: 0,
+          grid: true,
         },
-        y: {
-          // label: null,
+        y: {          
           labelAnchor: "bottom",
           nice: true,
           clamp: true,
           grid: true,
+          tickSize: 0,
+          domain: [7.5,10],
+        },
+        fy: {
+          // domain: [0,10],
         },
         color: {
           scheme: "tableau10",
@@ -473,11 +498,11 @@
           Plot.bollingerY(sopranos_imdb, {
             x: "Episode",
             y: "Rating",
-            stroke: "grey",
+            stroke: null,
             clip: true,
-            n: 3,
+            opacity: .175,
+            n: 4,
             k: 2,
-            // curve: "catmull-rom",
           }),
           Plot.dot(sopranos_imdb, {
             x: "Episode",
@@ -498,23 +523,25 @@
 
       var sopranosGrid = {
         width: width,
-        height: 720,
+        height: 620,
         style: {
           fontSize: size,
           paddingTop: 10
         },
         padding: 0,
         grid: true,
-        aspectRatio: .8,
         x: {
           axis: "top",
           labelAnchor: "center",
-          anchor: "top"
+          anchor: "top",
+          tickSize: 4,
+          labelOffset: 40
         },
         y: {
           anchor: "left",
           labelAnchor: "center",
-          labelOffset: 40
+          labelOffset: 40,
+          tickSize: 4,
         },
         color: {
           type: "linear",
