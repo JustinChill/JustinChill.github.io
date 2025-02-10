@@ -47,7 +47,9 @@
       stroke: hsl(209, 23%, 60%);
       opacity: .5;
     }
-    #whoSurvived g[aria-label*="fy-axis"] text, #whoSurvived g[aria-label*="fx-axis"] text, #whoSurvived g[aria-label*="x-axis"] > text {
+    g[aria-label*="fy-axis"] text, 
+    g[aria-label*="fx-axis"] text, 
+    g[aria-label*="x-axis"] > text {
       font-size: 1.65rem;
     }
     
@@ -102,8 +104,18 @@
     }
     
     @media screen and (max-width: 680px) {
-    #whoSurvived g[aria-label*="fy-axis"] text, #whoSurvived g[aria-label*="fx-axis"] text, #whoSurvived g[aria-label*="x-axis"] > text {
+      g[aria-label*="fy-axis"] text, 
+      g[aria-label*="fx-axis"] text, 
+      g[aria-label*="x-axis"] > text {
       font-size: 1rem;
+    }
+    }
+
+    @media screen and (max-width: 1020px) {
+      g[aria-label*="fy-axis"] text, 
+      g[aria-label*="fx-axis"] text, 
+      g[aria-label*="x-axis"] > text {
+      font-size: 1.15rem;
     }
     }
   </style>
@@ -374,7 +386,7 @@
   <script>
     var element = d3.select('figure:last-of-type').node();
     var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
-    var size = width > 450 ? ".9rem" : ".7rem";
+    var size = width > 450 ? 18 : 14;
 
     var tb5 = d3.csvParse(`Sex,Age,p_sex,x1,x2,y1,y2,Class_c,Class,value,_x1,_x2,X1,X2
   Female,Adult,0.210336,0,0.210336,0,0.883156,1,First Class,144,0,0.338824,0,0.071267
@@ -578,9 +590,6 @@
         width: width,
         style: {
           fontSize: size,
-          paddingLeft: 0,
-          paddingRight: 10,
-          paddingBottom: 10,
           textTransform: "capitalize"
         },
         color: {
@@ -590,7 +599,12 @@
           domain: ["Survived", "Perished"],
         },
         x: {
-          labelOffset: 40
+          labelOffset: 50,
+          labelAnchor: "center"
+        },
+        y: {
+          labelAnchor: "top",
+          labelOffset: 0,
         },
         // fx: {interval: 10},
         marks: [
@@ -667,15 +681,17 @@
         height: 600,
         style: {
           fontSize: size,
-          paddingTop: "1rem"
+          paddingTop: "1rem",
+          paddingRight: width > 450 ? 30 : 10,
         },
         x: {
-          label: "← empty seats · Lifeboats · filled seats →                               ",
+          label: "← Empty seats · Lifeboats · Filled seats →                               ",
           labelAnchor: "center",
           axis: "top",
           labelOffset: 45,
           tickSize: 0,
           grid: true,
+          nice: true,
         },
         fy: {
           label: null,
@@ -717,17 +733,18 @@
       var whoSurvived = {
         width: width,
         marginLeft: 0,
+        marginRight: 60,
         height: width > 450 ? 700 : 550,
         style: {
           fontSize: size,
           textTransform: "capitalize",
           paddingBottom: 20,
+          paddingRight: width > 450 ? 30 : 10,
         },
         color: {
           range: ["rgb(245, 129, 120)","rgb(36, 63, 108)"],
           legend: false
         },
-        marginRight: 60,
         facet: {label: null},
         x: {
           nice: true,
