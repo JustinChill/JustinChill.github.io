@@ -256,22 +256,14 @@
       var monthly_sums = data[1];
       var gfc = fails.filter((d) => d["Bank Name"] == "IndyMac Bank");
 
-      // Remove the existing plots
-      document.getElementById("dodgeplot").innerHTML = "";
-      document.getElementById("stackedBarBankFailures").innerHTML = "";
-      document.getElementById("barcode").innerHTML = "";
-
       // Inspired by https://observablehq.com/d/09375f1a53f38932
-      // Function to update the chart
-      function renderChart(sort) {
-        const dodgeplot = {
+        var dodgeplot = {
         width: widthMid,
-        height: 770,
+        height: widthMid * 1.5,
         marginLeft: 0,
         marginRight: 0,
-        // marginTop: 10,
-        insetLeft: 10,
-        insetRight: 60,
+        marginTop: 0,
+        insetRight: 40,
         r: {
           range: width > 450 ? [0, 80] : [0, 60]
         },
@@ -354,27 +346,11 @@
           )
         ]
       };
-      
-      // Clear existing chart
-      const chartContainer = document.getElementById("dodgeplot");
-      chartContainer.innerHTML = ""; // Clear existing chart
-      chartContainer.appendChild(Plot.plot(dodgeplot)); // Add new chart
-    }
-            
-      // Initial render
-      renderChart(sortBy);
-      // Event listener for dropdown change -- TODO: This sort isn't working :(
-      sortContainer.addEventListener("change", (event) => {
-        const sortBy = event.target.value;
-        console.log(sortBy);
-        renderChart(sortBy);
-      });
-        
 
       var barcode = {
         width: widthMid,
-        insetLeft: 10,
-        insetRight: 60,
+        marginRight: 0,
+        marginLeft: 0,
         x: {
           round: true,
           label: null
@@ -394,6 +370,7 @@
 
       var stackedBarBankFailures = {
         width: widthMid,
+        marginRight: 0,
         grid: true,
         y: {
           tickFormat: "$,f",
