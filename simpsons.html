@@ -654,7 +654,7 @@
         <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code and feedback</a></span>    
       </div>
     </footer>
-
+    <script type="text/javascript" src="js/growup.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/d3"></script>
     <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
     <script>
@@ -871,19 +871,19 @@
         },
         marks: [
         Plot.frame({stroke: "hsl(209, 23%, 60%)"}),
-        Plot.cell(simpsons_imdb, {
+        Plot.cell(simpsons_imdb, growUp({
           x: "episode_no",
           y: "season_no",
           title: (d) => `${d.episode_name}\nS${d.season_no} E${d.episode_no}\n${d.episode_score} IMDB rating`, 
           fill: "episode_score",
           tip: true,
-        }),
-        Plot.text(simpsons_imdb, colorContrast({
+        })),
+        Plot.text(simpsons_imdb, colorContrast(growUp({
           x: "episode_no",
           y: "season_no",
           text: d => d.episode_score?.toFixed(1), 
           fill: "episode_score",
-        })),
+        }))),
         ]
       };
 
@@ -995,21 +995,21 @@
           y: { grid: true,label: "Season average"},
           x: { labelAnchor: "right", },
           marks: [
-              Plot.barY(averages, {
+              Plot.barY(averages, growUp({
                 x: "season",
                 y: "average_imdb_rating",
                 fill: "average_imdb_rating"
-              }),
+              })),
               Plot.text(
                 averages,
-                colorContrast({
+                colorContrast(growUp({
                   x: "season",
                   y: "average_imdb_rating",
                   fill: "average_imdb_rating",
                   dy: 8,
                   text: (d) => d.average_imdb_rating?.toFixed(1),
                   title: "title"
-                })
+                }))
               ),
               Plot.ruleY([0])
             ]
