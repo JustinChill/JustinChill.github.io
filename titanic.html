@@ -380,6 +380,7 @@
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code and feedback</a></span>
     </div>
   </footer>
+  <script type="text/javascript" src="js/growup.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/d3"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 
@@ -577,12 +578,12 @@
           Plot.frame({stroke: "hsl(209, 23%, 60%)", strokeOpacity: .35}),
           Plot.rectY(titanic, Plot.binX({
             y: "count"
-          }, {
+          }, growUp({
             x: "Age",
             thresholds: 10,
             fill: "Sex",
             tip: true
-          })),
+          }))),
           Plot.ruleY([0])
         ]
       };
@@ -619,11 +620,11 @@
               Plot.binX({
                   y2: "count"
                 }, // opt-out of stacking
-                {
+                growUp({
                   x: "Age",
                   fill: (d) => d.Survived ? "Perished" : "Survived",
                   thresholds: 10,
-                }
+                })
               )
             )
           ),
@@ -662,7 +663,7 @@
         },
         marks: [
           Plot.frame({stroke: "hsl(209, 23%, 60%)", strokeOpacity: .35}),          
-          Plot.dot(titanic, {
+          Plot.dot(titanic, growUp({
             x: "Pclass",
             y: "Fare",
             stroke: (d) => d.Survived ? "Perished" : "Survived",
@@ -675,7 +676,7 @@
                 fill: null,
               },
             },
-          }),
+          })),
         ]
       };
 
