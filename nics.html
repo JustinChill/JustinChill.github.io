@@ -38,12 +38,6 @@
       float: right;
       width: 200px;
     }
-    @media screen and (max-width: 680px) {
-      /* Shift "San Bernadino attack" north on mobile to avoid occlusion */
-      .dates text:nth-child(2){
-        transform: translate(200px, 30px)
-      }
-    }
   </style>
 </head>
 
@@ -158,8 +152,6 @@
 
       // Define the data
       var data = data[0];
-
-      console.log(dates);
       var extent = d3.extent(
         data.map((o) => o.month)
       );
@@ -189,7 +181,6 @@
         style: {
           fontSize: size
         },
-        // marginBottom: 40,
         marginLeft: 20,
         marginRight: 0,
         marginTop: 20,
@@ -199,7 +190,6 @@
           tickSize: 2,
         },
         y: {
-          // labelAnchor: "center",
           labelOffset: 30,
           tickSize: 2,
           grid: true,
@@ -245,7 +235,8 @@
       // Inspired by https://observablehq.com/d/e9f848e0c316f88a
       var barplot = {
         width: widthMid,
-        marginTop: 50,
+        marginTop: 40,
+        marginRight: 0,
         style: {
           fontSize: size
         },
@@ -262,7 +253,6 @@
           anchor: "top-left",
           ticks: 4,
           grid: true,
-
           tickFormat: (d, i, _) => (i === _.length > 1 ? `$${d}` : d) // Show $ on first tick only
         },
         marks: [
@@ -306,8 +296,8 @@
           }),
           Plot.text(dates, {
             text: "label",
-            dy: 0,
-            dx: 5,
+            // dy: (d) => d.label === "Sandy Hook" ? 10 : -10,
+            dx: -5,
             x: "date",
             frameAnchor: "top",
             lineWidth: 20,
@@ -316,9 +306,7 @@
             stroke: "white",
             strokeWidth: .95,
             strokeOpacity: .75,
-            lineHeight: 1.4,
-            textAnchor: "start",
-            className: "dates",
+            textAnchor: "end",
           }),
         ]
       };
@@ -326,6 +314,7 @@
       var recent = {
         width: width,
         marginTop: 30,
+        marginRight: 0,
         style: {
           fontSize: size
         },
@@ -376,6 +365,7 @@
       var line = {
         width: width,
         marginTop: 30,
+        marginRight: 0,
         style: {
           fontSize: size,
           textTransform: `capitalize`
