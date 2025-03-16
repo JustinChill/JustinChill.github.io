@@ -1537,7 +1537,7 @@
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code and feedback</a></span>
     </div>
   </footer>
-
+  <script type="text/javascript" src="js/occlusionY.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/d3"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 
@@ -2854,57 +2854,6 @@
     // Civilization chart
     formatYear = year => year < 0 ? `${-year} BC` : `${year} AD` // formatYear uses a ternary operator to dynamically format the year in the data. Such a cool d3 thing! 😎
 
-    // OcclusionY adds an initializer that shifts nodes vertically with a tiny force simulation. From https://observablehq.com/@observablehq/plot-slope-chart
-    occlusionY = ({
-      radius = 6.5,
-      ...options
-    } = {}) => Plot.initializer(options, (data, facets, {
-      y: {
-        value: Y
-      },
-      text: {
-        value: T
-      }
-    }, {
-      y: sy
-    }, dimensions, context) => {
-      for (const index of facets) {
-        const unique = new Set();
-        const nodes = Array.from(index, (i) => ({
-          fx: 0,
-          y: sy(Y[i]),
-          visible: unique.has(T[i]) // remove duplicate labels
-            ?
-            false :
-            !!unique.add(T[i]),
-          i
-        }));
-        d3.forceSimulation(nodes.filter((d) => d.visible))
-          .force("y", d3.forceY(({
-            y
-          }) => y)) // gravitate towards the original y
-          .force("collide", d3.forceCollide().radius(radius)) // collide
-          .stop()
-          .tick(20);
-        for (const {
-            y,
-            node,
-            i,
-            visible
-          }
-          of nodes) Y[i] = !visible ? NaN : y;
-      }
-      return {
-        data,
-        facets,
-        channels: {
-          y: {
-            value: Y
-          }
-        }
-      };
-    });
-
     colorContrast = ({
         luminance = 60,
         ...options
@@ -3043,10 +2992,8 @@
       style: {
         textTransform: "capitalize",
         fontSize: size,
-        paddingTop: 20,
-        paddingRight: 10
       },
-      height: 380,
+      height: 280,
       y: {
         label: null,
         tickSize: 0,
@@ -3140,12 +3087,9 @@
 
     var wework = {
       width: width,
-      marginLeft: 0,
       marginRight: 0,
       style: {
         fontSize: size,
-        paddingLeft: 20,
-        paddingRight: 10,
       },
       y: {
         grid: true,
@@ -3292,8 +3236,8 @@
         fontSize: size,
         paddingTop: 24,
         paddingBottom: 24,
-        paddingLeft: 30,
-        paddingRight: 30
+        paddingLeft: 35,
+        paddingRight: 35
       },
       margin: 0,
       x: {
@@ -3426,10 +3370,9 @@
       width: width,
       style: {
         fontSize: size,
-        paddingRight: 20,
-        paddingLeft: 20
       },
       marginLeft: 0,
+      marginRight: 0,
       x: {
         grid: true
       },
@@ -3627,8 +3570,6 @@
         textTransform: "capitalize",
         paddingBottom: 10
       },
-      // height: 420,
-      inset: 25,
       color: {
         legend: true,
         style: {
@@ -3860,7 +3801,7 @@
           paddingTop: 35,
         },
         width: width,
-        marginLeft: width / 4,
+        marginLeft: width > 450 ? 0 : width / 6,
         aspectRatio: 2,
         padding: 0,
         x: {
@@ -3954,14 +3895,12 @@
       // https://observablehq.com/@observablehq/plot-slope-chart ? 
       var slope = {
         width: width,
+        marginRight: 0,
+        marginLeft: 0,
         style: {
           fontSize: size + 2,
-          paddingLeft: 10,
-          paddingRight: 10
         },
         height: 540,
-        marginLeft: 0,
-        marginRight: 0,
         x: {
           axis: "top",
           type: "ordinal",
@@ -4194,20 +4133,17 @@
       const tinyapple = aapl.slice(-90);
       var candlestick = {
         width: width,
+        marginRight: 0,
+        marginTop: 30,
         style: {
           fontSize: size,
-          paddingTop: 20,
-          paddingBottom: 10,
-          paddingLeft: 24
         },
-        marginLeft: 0,
         grid: true,
         inset: 4,
         y: {
           label: "↑ Apple stock price ($)",
           tickFormat: "$f",
           anchor: "top",
-          labelAnchor: -30,
           tickSize: 0,
           nice: true,
         },
@@ -4268,11 +4204,10 @@
         width: width,
         style: {
           fontSize: size,
-          paddingLeft: 0,
           paddingRight: 10,
         },
         marginLeft: 0,
-        marginRight: 0,
+        marginRight: 12,
         x: {
           label: null,
           tickSize: 0,
@@ -4453,12 +4388,7 @@
         width: width,
         style: {
           fontSize: size,
-          paddingTop: 10,
-          paddingBottom: 0,
-          paddingLeft: 30,
-          paddingRight: 10
         },
-        marginLeft: 0,
         marginRight: 0,
         grid: true,
         inset: 4,
@@ -4573,6 +4503,7 @@
 
       var morley = {
         width: width,
+        marginRight: 0,
         style: {
           fontSize: size,
           paddingTop: 10,
@@ -4602,18 +4533,15 @@
 
       var gapminder = {
         width: width,
+        marginRight: 0,
         style: {
           fontSize: size,
-          textTransform: "capitalize",
           paddingTop: 10,
-          paddingBottom: 10,
-          paddingLeft: 24
         },
-        marginLeft: 0,
         inset: 2,
         y: {
           // grid: true,
-          label: "Life Expectency",
+          label: "Life expectency",
           ticks: 4,
           tickFormat: formatWhole,
           anchor: "left"
@@ -4621,7 +4549,7 @@
         x: {
           type: "log",
           tickFormat: formatLog,
-          label: "GDP Per Capita (log)",
+          label: "GDP per capita (log)",
           tickFormat: "~s",
           className: "axis-x",
           labelOffset: -10,
@@ -4657,11 +4585,10 @@
       // https://observablehq.com/@observablehq/plot-bullet-graph
       var bullet = {
         width: width,
+        height: 340,
         style: {
           fontSize: size,
           textTransform: "capitalize",
-          paddingTop: 10,
-          paddingBottom: 10
         },
         marginRight: 0,
         x: {
@@ -4834,6 +4761,7 @@
       var driving_line = {
         width: width,
         height: 500,
+        marginRight: 0,
         style: {
           fontSize: width > 450 ? size : size - 2,
           paddingRight: 24
@@ -5422,11 +5350,10 @@
 
       var example_line = {
         width: width,
+        marginLeft: 0,
         style: {
           fontSize: size,
-          paddingLeft: 10
         },
-        marginLeft: 0,
         y: {
           tickFormat: formatUS,
           type: "log",
@@ -5447,12 +5374,10 @@
 
       var lollipop = {
         width: width,
+        marginRight: 0,
         style: {
           fontSize: size,
-          paddingLeft: 24,
-          paddingTop: 10
         },
-        marginLeft: 0,
         x: {
           label: null,
           tickPadding: 6,
@@ -5461,7 +5386,8 @@
         y: {
           percent: true,
           nice: true,
-          anchor: "left"
+          anchor: "left",
+          label: "Frequency"
         },
         marks: [
           Plot.ruleX(alphabet, {
@@ -5480,13 +5406,13 @@
 
       var bls_line = {
         width: width,
+        marginTop: 30,
         style: {
           fontSize: size,
           textTransform: "capitalize",
           paddingRight: 40,
-          paddingTop: 0,
+          paddingBottom: 10,
         },
-        marginLeft: 0,
         y: {
           label: "Unemployed (thousands)",
           nice: true,
@@ -5607,15 +5533,11 @@
 
       var bls_bar = {
         width: width,
-        marginLeft: 0,
         marginRight: 0,
         style: {
           fontSize: size,
           textTransform: "capitalize",
-          paddingTop: 20,
           paddingBottom: 10,
-          paddingRight: 10,
-          paddingLeft: 30
         },
         x: {
           tickFormat: "%Y",
@@ -5770,10 +5692,7 @@
         style: {
           fontSize: size,
           textTransform: "capitalize",
-          padding: 10,
-          paddingLeft: 24
         },
-        marginLeft: 0,
         marginRight: 0,
         x: {
           inset: 4,
@@ -5855,13 +5774,10 @@
       // Drug scatter plot 
       var drug_scatter = {
         width: width,
-        marginLeft: 0,
         marginRight: 0,
         style: {
           fontSize: size,
-          paddingLeft: 20,
           paddingBottom: 20,
-          paddingRight: 10
         },
         grid: true,
         y: {
@@ -5912,13 +5828,10 @@
 
       var example_histogram = {
         width: width,
+        marginRight: 0,
         style: {
           fontSize: size,
-          paddingTop: 10,
-          paddingBottom: 20,
-          paddingLeft: 20
         },
-        marginLeft: 0,
         color: {
           type: "diverging",
           scheme: "Sinebow"
@@ -5986,9 +5899,8 @@
         width: width,
         style: {
           fontSize: size,
-          paddingTop: 10,
-          paddingBottom: 10,
-          paddingLeft: 10
+          paddingLeft: 20,
+          paddingRight: 20,
         },
         x: {
           domain: columns,
@@ -6137,12 +6049,10 @@
 
       var streamgraph = {
         width: width,
-        marginLeft: 0,
         style: {
           fontSize: size,
           textTransform: "capitalize",
-          paddingRight: 30,
-          paddingLeft: 24
+          paddingRight: 50,
         },
         x: {
           tickSize: 0,
@@ -6189,7 +6099,8 @@
 
       var qatar_pyramid = {
         width: width,
-        aspectRatio: .065,
+        aspectRatio: .045,
+        marginRight: 0,
         style: {
           fontSize: size,
           maxHeight: 840,
@@ -6364,12 +6275,8 @@
         style: {
           textTransform: "capitalize",
           fontSize: size,
-          paddingRight: 10,
-          paddingLeft: 30,
-          paddingBottom: 20
         },
         marginRight: 0,
-        marginLeft: 0,
         x: {
           label: "City mpg",
           ticks: 2,
@@ -6428,12 +6335,11 @@
       // https://observablehq.com/@observablehq/plot-percentogram
       var percentogram = {
         width: width,
+        marginRight: 0,
         style: {
           fontSize: size,
           textTransform: "capitalize",
-          paddingLeft: 20
         },
-        marginLeft: 0,
         color: {
           legend: true,
           type: "quantize",
@@ -6565,7 +6471,6 @@
       var renko = { 
         width: width,
         height: 350,
-        marginLeft: 0,
         marginRight: 0,
         color: {
           domain: [1, -1],
@@ -6613,7 +6518,6 @@
       var renko_comparison = { 
         width: width,
         height: 350,
-        marginLeft: 0,
         marginRight: 0,
         color: {
           domain: [1, -1],
@@ -6659,12 +6563,9 @@
 
       var irregular = {
         width: width,
-        marginLeft: 0,
         marginRight: 0,
         style: {
           fontSize: size,
-          paddingLeft: 20,
-          paddingBottom: 20,
         },
         x: {
           label: "Commute time (minutes) →",
@@ -6721,12 +6622,9 @@
 
       var irregular_bar = {
         width: width,
-        marginLeft: 0,
         marginRight: 0,
         style: {
           fontSize: size,
-          paddingLeft: 20,
-          paddingBottom: 30
         },
         x: {
           label: "Population (millions) →",
@@ -6786,7 +6684,7 @@
             fill: "black",
             text: "Age group",
             dy: 11,
-            fontSize: width > 450 ? 14 : 11,
+            fontSize: width > 450 ? 14 : 10,
           }),
 
           // age group size
