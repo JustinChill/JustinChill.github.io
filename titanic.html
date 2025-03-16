@@ -385,6 +385,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 
   <script>
+    window.addEventListener("load", () => {
     var element = d3.select('figure:last-of-type').node();
     var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
     var size = width > 450 ? 18 : 14;
@@ -578,12 +579,12 @@
           Plot.frame({stroke: "hsl(209, 23%, 60%)", strokeOpacity: .35}),
           Plot.rectY(titanic, Plot.binX({
             y: "count"
-          }, growUp({
+          }, {
             x: "Age",
             thresholds: 10,
             fill: "Sex",
             tip: true
-          }))),
+          })),
           Plot.ruleY([0])
         ]
       };
@@ -620,11 +621,11 @@
               Plot.binX({
                   y2: "count"
                 }, // opt-out of stacking
-                growUp({
+                {
                   x: "Age",
                   fill: (d) => d.Survived ? "Perished" : "Survived",
                   thresholds: 10,
-                })
+                }
               )
             )
           ),
@@ -663,7 +664,7 @@
         },
         marks: [
           Plot.frame({stroke: "hsl(209, 23%, 60%)", strokeOpacity: .35}),          
-          Plot.dot(titanic, growUp({
+          Plot.dot(titanic, {
             x: "Pclass",
             y: "Fare",
             stroke: (d) => d.Survived ? "Perished" : "Survived",
@@ -676,7 +677,7 @@
                 fill: null,
               },
             },
-          })),
+          }),
         ]
       };
 
@@ -841,6 +842,7 @@
       document.getElementById("lifeboat_bars").appendChild(Plot.plot(lifeboat_bars));
       document.getElementById("whoSurvived").appendChild(Plot.plot(whoSurvived));
       // document.getElementById("Bron").appendChild(Plot.plot(Bron));
+    });
     });
   </script>
 </body>
