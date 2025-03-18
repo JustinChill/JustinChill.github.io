@@ -33,14 +33,10 @@
   </script>
 
   <style type="text/css">
-    #spending {
-      padding-bottom: 1rem;
-    }
-
     #spending [aria-label="x-axis label"],
     #spending [aria-label="y-axis label"] {
       font-family: "Camphor", Arial, Helvetica, sans-serif;
-      font-size: 1.2rem;
+      font-size: 1.0625rem;
       letter-spacing: -0.03px;
       line-height: calc(1.5em + .2vw);
     }
@@ -264,12 +260,12 @@
       // Inspired by https://observablehq.com/d/8e1bd1f9a5b1ee81
       var spending = {
         width: width,
-        // height: width,
-        marginLeft: 10,
+        height: width,
         style: {
           fontSize: size,
           paddingRight: 30,
           paddingLeft: 20,
+          paddingBottom: 20,
         },
         color: {
           legend: false,
@@ -287,13 +283,15 @@
         },
         y: {
           nice: true,
+          ticks: 4,
           label: "Life Expectancy",
           lineWidth: 8,
           labelAnchor: "center",
-          labelOffset: width > 450 ? 80 : 44,
+          labelOffset: width > 450 ? 50 : 44,
           tickFormat: d => Number.isInteger(d) ? d : "", // Show only whole numbers
           tickSize: 0,
           lineWidth: 8,
+          domain: [70,85]
         },
         marks: [
           Plot.line(lifeVsMoney, {
@@ -392,7 +390,7 @@
             },
             tip: true,
             title: (d) =>
-              `${d.State}\nPopulation: ${d3.format(",")(d.population)}k\nLife Expectancy: ${d["life expectancy"]} years\nIncome: $${d['income (k$)']}k`
+              `${d.State}\nPopulation: ${(d.population).toLocaleString()} people\nLife Expectancy: ${d["life expectancy"].toFixed(1)} years\nIncome: $${d['income (k$)']}k`
           }),
           Plot.line(states, {
             x: "group",
@@ -471,7 +469,7 @@
             fillOpacity: 0.5,
             sort: {fx: "y", reduce: "mean"},
             title: (d) =>
-              `${d.State}\n Population: ${d.population}\n Life Expectancy: ${d["life expectancy"]} years\n Income: $${d['income (k$)']}k`
+              `${d.State}\nPopulation: ${d.population.toLocaleString()} people\nLife Expectancy: ${d["life expectancy"].toFixed(1)} years\nIncome: $${d['income (k$)']}k`
           }),
           Plot.linearRegressionY(states, {x: "income (k$)", y: "life expectancy", stroke: "red", ci: 0.95})
         ]
