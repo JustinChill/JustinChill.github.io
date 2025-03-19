@@ -1218,15 +1218,15 @@
 
       var line = {
         grid: true,
-        aspectRatio: 1,
+        // aspectRatio: 1,
         inset: 10,
         width: width,
+        height: Math.max(width, 500), // minHeight is 500, otherwise width
         marginRight: 0,
         style: {
           fontSize: size,
-          paddingBottom: 0,
           textTransform: "capitalize",
-          paddingRight: width > 500 ? 0 : 40,
+          paddingRight: width > 500 ? 0 : 50,
         },
         y: {
           tickSize: 0,
@@ -1237,7 +1237,8 @@
           tickSize: 0,
           tickFormat: ("Y"),
           nice: true,
-          labelAnchor: "center"
+          labelAnchor: "center",
+          labelOffset: 40
         },
         color: {
           legend: true,
@@ -1260,6 +1261,15 @@
             tip: true,
             r: 7,
             channels: {president: "president"},
+            // channels: {Weapons: "Weapon_csis", Target: "Target_csis",Orientation: "Orientation_csis", Victims: "vict_killed_csis"},
+            tip: {
+              format: {
+                // r: null,
+                x: ("Y"),
+                y: ("Y"),
+                // fill: null,
+              },
+            },
           }),
           Plot.line(norm_data, {
             x: "election year",
@@ -1268,15 +1278,25 @@
             strokeDasharray: [2, 5]
           }),
           Plot.text(data, {
-            filter: (d,i,_) => i % 5 == 0, // Mess with the filter until only a few text labels appear for highlights
+            filter: (d,i,_) => i % 5 == 0 && d.president != "Barack Obama", // Mess with the filter until only a few text labels appear for highlights
             x: "election year",
             y: "born",
             text: "president",
-            dy: 20,
-            dx: 0,
+            dy: 18,
+            dx: 2,
             textAnchor: "start",
             rotate: 0
-          })
+          }),
+          Plot.text(data, Plot.selectLast({
+            filter: (d) => d.president == "Barack Obama", // Mess with the filter until only a few text labels appear for highlights
+            x: "election year",
+            y: "born",
+            text: "president",
+            dy: -16,
+            dx: 4,
+            textAnchor: "end",
+            rotate: 0
+          }))
         ]
       };
 
