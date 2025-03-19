@@ -120,18 +120,19 @@ myDataPromises = Promise.all(promises);
 myDataPromises.then(function(data) {
     // Define the data. There's gotta be a better way to do this:
   var stocks = data[0];
-  console.log(stocks);
 
   var lineChart = {
     width: width,
-    marginLeft: 0,
     marginRight: 0,
     style:{fontSize: size, paddingLeft: 24, paddingRight: 10, paddingBottom: 10},
     x: {tickSize: 0,},
     y: {
       tickSize: 0, 
-      tickFormat: (d, i, _) => (i === _.length - 1 ? `$${d}` : `${d}`), // Show $ on first tick only
-      grid: true
+      // tickFormat: (d, i, _) => (i === _.length - 1 ? `$${d}` : `${d}`), // Show $ on first tick only
+      tickFormat: (d) => `$${d}`,
+      grid: true,
+      ticks: 4,
+      domain: [0, 60]
     },
     marks: [
       Plot.areaY(stocks, {x: "Date", y: "Close", fill: "url(#gradient)"}),
@@ -146,10 +147,10 @@ myDataPromises.then(function(data) {
         curve: "catmull-rom",
         strokeWidth: 3,
         sort: "Date",
-        title: d => `${formatDate(d.Date)}\nClose: ${d.Close}\nGrowth: ${formatPercent(d.Growth)}`,
+        title: d => `${formatDate(d.Date)}\nClose: $${d.Close}\nGrowth: ${formatPercent(d.Growth)}`,
       }),
-      Plot.text(stocks, Plot.selectFirst({text: d => `Election day, 2016\nClose: $${d.Close}`, frameAnchor: "bottom-left", fontSize: 14, lineHeight: 1.5, dx: 6, dy: -30})),
-      Plot.text(stocks, Plot.selectLast({text: d => `Close: $${d.Close}`, frameAnchor: "right", fontSize: 14, dx: -6, dy: -20})),
+      Plot.text(stocks, Plot.selectFirst({text: d => `Election day, 2016\nClose: $${d.Close}`, frameAnchor: "bottom-left", fontSize: 14, lineHeight: 1.5, dx: 6, dy: -30, stroke: "white", strokeWidth: .5, fill: "currentColor"})),
+      Plot.text(stocks, Plot.selectLast({text: d => `Close: $${d.Close}`, frameAnchor: "right", fontSize: 14, dx: -6, dy: -20, stroke: "white", strokeWidth: .5, fill: "currentColor"})),
     ]
   };
 
