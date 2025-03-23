@@ -871,19 +871,19 @@
         },
         marks: [
         Plot.frame({stroke: "hsl(209, 23%, 60%)"}),
-        Plot.cell(simpsons_imdb, growUp({
+        Plot.cell(simpsons_imdb, {
           x: "episode_no",
           y: "season_no",
           title: (d) => `${d.episode_name}\nS${d.season_no} E${d.episode_no}\n${d.episode_score} IMDB rating`, 
           fill: "episode_score",
           tip: true,
-        })),
-        Plot.text(simpsons_imdb, colorContrast(growUp({
+        }),
+        Plot.text(simpsons_imdb, colorContrast({
           x: "episode_no",
           y: "season_no",
           text: d => d.episode_score?.toFixed(1), 
           fill: "episode_score",
-        }))),
+        })),
         ]
       };
 
@@ -995,21 +995,21 @@
           y: { grid: true,label: "Season average"},
           x: { labelAnchor: "right", },
           marks: [
-              Plot.barY(averages, growUp({
+              Plot.barY(averages, {
                 x: "season",
                 y: "average_imdb_rating",
                 fill: "average_imdb_rating"
-              })),
+              }),
               Plot.text(
                 averages,
-                colorContrast(growUp({
+                colorContrast({
                   x: "season",
                   y: "average_imdb_rating",
                   fill: "average_imdb_rating",
                   dy: 8,
                   text: (d) => d.average_imdb_rating?.toFixed(1),
                   title: "title"
-                }))
+                })
               ),
               Plot.ruleY([0])
             ]
