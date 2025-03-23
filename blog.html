@@ -130,7 +130,7 @@
       will-change: transform;
     }
 
-    .card:hover {
+    .card:hover, .card:active {
       box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
@@ -1952,6 +1952,15 @@
         return false;
       });
     });
+    
+    var cards = document.querySelectorAll(".card");
+    for (var i=0; i<cards.length; i++) {
+      cards[i].addEventListener('click', function(e) {
+        var link = this.querySelector('[role="button"]');
+        link.click();
+      }, false);
+    }
+
   </script>
 </body>
 
