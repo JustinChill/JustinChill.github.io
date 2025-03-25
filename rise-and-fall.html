@@ -82,8 +82,8 @@
   </ol>
 
   <div>
-    <p>Justin Chill &copy; 2025. Thanks&nbsp;for&nbsp;reading!</p>
-    <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code and feedback</a></span>    
+    <p>Justin Chill &copy; 2025</p>
+    <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>    
   </div>
 </footer>
 <script type="text/javascript" src="js/growup.js"></script>
@@ -121,6 +121,7 @@
     var gibbons = {
       // title: "Gibbon's Decline and Fall of the Roman Empire",
       width: width,
+      marginRight: 0,
       style:{fontSize: size, paddingRight: 30, paddingBottom: 30},
       x: {
         grid: true,
@@ -138,7 +139,7 @@
       marks: [
         Plot.axisY({anchor: "left", tickFormat: "y", tickSize: 0, labelArrow: null, labelOffset: 30 }),
         Plot.axisX({anchor: "bottom", labelOffset: 40}),
-        Plot.tip(gibbonsData, growUp({
+        Plot.tip(gibbonsData, {
           y1: "startDate",
           y2: "endDate",
           x: "startPage",
@@ -148,8 +149,8 @@
           anchor: "bottom",
           dy: -85,
           title: (d) => [d.id].join("\n\n")
-        })),
-        Plot.tip(gibbonsData, growUp({
+        }),
+        Plot.tip(gibbonsData, {
           y1: "startDate",
           y2: "endDate",
           x: "startPage",
@@ -160,8 +161,8 @@
           dx: -4,
           dy: -100,
           title: (d) => [d.id].join("\n\n")
-        })),
-        Plot.tip(gibbonsData, growUp({
+        }),
+        Plot.tip(gibbonsData, {
           y1: "startDate",
           y2: "endDate",
           x: "startPage",
@@ -171,8 +172,8 @@
           anchor: "bottom",
           dy: -24,
           title: (d) => [d.id].join("\n\n")
-        })),
-        Plot.barY(gibbonsData, growUp({
+        }),
+        Plot.barY(gibbonsData, {
           y1: "startDate",
           y2: "endDate",
           x: "startPage",
@@ -180,7 +181,7 @@
           channels: {id: "id", endPage: "endPage"},
           tip: true,
           sort: {x: "x"}
-        })),
+        }),
         ]
     };
 
@@ -204,7 +205,7 @@
         tickFormat: (d) => formatYear(d)
       },
       marks: [
-        Plot.barX(emperors, growUp({
+        Plot.barX(emperors, {
           x1: "reignStart",
           x2: "reignEnd",
           y: "name",
@@ -215,7 +216,7 @@
             textPadding: 10,
           },
           sort: {y: "x1"}
-        })),
+        }),
         Plot.text(emperors, {
           x: "reignStart",
           y: "name",
@@ -247,7 +248,7 @@
         label: null,
       },
       marks: [
-        Plot.barY(emperors, Plot.groupX({y: "count"}, growUp({x: "cause", tip: true, fill: "cause", fillOpacity: .8, stroke: "#ccc", strokeWidth: .125}))),
+        Plot.barY(emperors, Plot.groupX({y: "count"}, {x: "cause", tip: true, fill: "cause", fillOpacity: .8, stroke: "#ccc", strokeWidth: .125})),
         ]
     };
 
