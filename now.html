@@ -27,6 +27,8 @@
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="/favicon.ico">
   <meta name="theme-color" content="#4C63B6">
+  <!-- Add Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 
   <script type="module">
     document.documentElement.classList.remove('no-js');
@@ -62,65 +64,42 @@
         <h2 class="article-subtitle"></h2>
       </div>
       <p>
-      Most websites have a link that says “<strong>about</strong>”.
+      Most websites have a link that says "<strong>about</strong>".
       It goes to a page that tells you something about the background of this person or business.
-      For short, people just call it an “about page”.
+      For short, people just call it an "about page".
       </p>
       <p>
-      Most websites have a link that says “<strong>contact</strong>”.
+      Most websites have a link that says "<strong>contact</strong>".
       It goes to a page that tells you how to contact this person or business.
-      For short, people just call it a “contact page”.
+      For short, people just call it a "contact page".
       </p>
       <p>
-      So a website with a link that says “<strong>now</strong>”
+      So a website with a link that says "<strong>now</strong>"
       goes to a page that tells you <strong>what this person is focused on at this point in their life.</strong>
-      For short, we call it a “now page”.
+      For short, we call it a "now page".
       </p>
-      <h2>Don’t Twitter and Facebook updates do that?</h2>
+      <h2>Don't Twitter and Facebook updates do that?</h2>
       <p>
-      No.
-      If I wonder how someone is doing these days, it doesn’t help me to see that they went on vacation last week, are upset about something in the news, or even got a new job.
-      That’s not the big picture.
+      Nope. If I wonder how someone is doing these days, it doesn't help me to see that they went on vacation last week, are upset about something in the news, or even got a new job.
+      That's not the big picture.
       </p>
       <p>
-      Think of <strong>what you’d tell a friend you hadn’t seen in a year</strong>.
+      Think of <strong>what you'd tell a friend you hadn't seen in a year</strong>.
       </p>
-      <p>Inspired by Derek Sivers’ <a href="https://nownownow.com/about">nownownow.com</a>. This page has its own <a href="https://nownownow.com/p/Mu02">profile</a>, too.</p>      
+      <p>Inspired by Derek Sivers' <a href="https://nownownow.com/about">nownownow.com</a>. This page has its own <a href="https://nownownow.com/p/Mu02">profile</a>, too.</p>      
       <h3>📚 Reading</h3>
       <p>What I'm currently reading:</p>
-      <div id="literal-widget" handle="justinchill" status="IS_READING" layout="list"></div>
+      <div class="literal-widget" handle="justinchill" status="IS_READING" layout="list"></div>
       <p>What I've just finished reading:</p>
-      <div id="literal-widget" handle="justinchill" status="FINISHED" layout="list"></div>
+      <div class="literal-widget" handle="justinchill" status="FINISHED" layout="list" limit="3"></div>
       <p>What I want to read next:</p>
-      <div id="literal-widget" handle="justinchill" status="WANTS_TO_READ" layout="list"></div>
+      <div class="literal-widget" handle="justinchill" status="WANTS_TO_READ" layout="list" limit="3"></div>
       <h3>📍 New York, New York</h3>
-           <div id="location">
-            Your Location is <span id="city">Loading...</span>, <span id="state"></span>
-          </div><!--End of Location-->
 
-       <div id="weather">
-              <div class="row">
-                 <span id="wIcon"></span>
-             </div>
+        <div id="map" style="height: 300px; width: 100%; margin-top: 20px; border-radius: 8px;"></div>
 
-              <div class="row">
-               It's <span id="temp"></span> over there!
-             </div>
-
-              <div class="row">
-             <button class="btn btn-primary" id="btnToggle">Convert C/F Temp</button>
-              </div>
-      </div><!--End of Weather-->
-
-      <!--Required Credit Link-->
-        <div id="cred">
-          Powered by
-        <a href="http://openweathermap.org/api" target="_blank">Open Weather API</a>, 
-      <a href="https://ipinfo.io/developers"  target="_blank">https://ipinfo.io</a> and
-           <a href="https://github.com/Rob--W/cors-anywhere/"  target="_blank">cors-anywhere.herokuapp.com</a>
-          </div>
       <h3>Work</h3>
-      <p>Currently leading local Tech Connect at <small>PwC</small> (formerly Pricewaterhouse Coopers).</p>
+      <p>Currently leading local Tech Connect at <small>PwC</small> (Pricewaterhouse&nbsp;Coopers)</p>
       <!-- Blake Watson's now: https://now.blakewatson.com/ -->
       <!--  Nick Simson's now: https://nicksimson.com/now/ -->
     </article>
@@ -135,119 +114,209 @@
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
-  <script src="https://literal.club/js/widget.js"></script>
+  <!-- Add Leaflet JavaScript -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script type="text/javascript">
-    // self executing function here. Adapted from https://codepen.io/Aleeweb/pen/qjYRBN
-    (function() {
-       // your page initialization code here
-       // the DOM will be available here
-      var proxy = 'https://cors-anywhere.herokuapp.com/';
+    // Initialize map when the page loads
+    window.addEventListener('load', function() {
+      // NYC coordinates (40.7128° N, 74.0060° W)
+      const map = L.map('map').setView([40.7128, -74.0060], 12);
+      
+      // Add OpenStreetMap tiles
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap contributors'
+      }).addTo(map);
 
-        var Ip = 'https://ipinfo.io/json';
+      // Add a marker for NYC
+      L.marker([40.7128, -74.0060])
+        .addTo(map)
+        .bindPopup('New York City')
+        .openPopup();
+    });
 
-        var request = new XMLHttpRequest();
-        request.open('GET', Ip, true);
+    // Function to handle each literal widget
+    function initializeLiteralWidget(target) {
+      const variables = {
+        handle: target.getAttribute('handle'),
+        readingStatus: target.getAttribute('status'),
+        layout: target.getAttribute('layout'),
+        limit: parseInt(target.getAttribute('limit')) || 20,
+      };
 
-        request.onload = function() {
-          if (request.status >= 200 && request.status < 400) {
-            // Success!
-            var data = JSON.parse(request.responseText);
-            var city = data.city.split(' ').join('%20');
-            var region = data.region.split(' ').join('%20');
-            var country = data.country;
-
-            var KEY = '&APPID=767a7cce68ed2b3098d41e24364ec56c';
-
-            var URL ='http://api.openweathermap.org/data/2.5/weather?q=' + city + ',' + region + country + KEY;      
-            var requests = new XMLHttpRequest();      
-            requests.open('GET', proxy + URL, true);
-
-            request.onload = function() {
-              if (request.status >= 200 && request.status < 400) {
-                // Success!
-                var data = JSON.parse(request.responseText);
-                var type = data.weather[0].main;  //array 0 index
-                var id = data.weather[0].id; //array 0 index
-                var city = data.name;
-
-                var tempCel = Math.round(data.main.temp - 273.15);
-                var tempC = tempCel + '°C';
-                var weather = data.weather[0].description;
-                var tempF = Math.round(tempCel * (9 / 5) + 32) + '°F';
-                var icon = data.weather[0].icon;
-                var tempBool = true;
-
-                console.log(data);
-
-                //Output data to display on the page
-                document.querySelector('#city').text(city);
-                document.querySelector('#state').text(region);
-                document.querySelector('#temp').text(tempF); //Show Fahrenheit by Default
-                var weatherIcon = 'http://openweathermap.org/img/w/' + icon + '.png';
-                document.querySelector('#wIcon').html('<img src=' + weatherIcon + '>');
-              } else {
-                // We reached our target server, but it returned an error
-                console.log("We are here");
+      fetch('https://backend.literal.club/', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          query: `
+            query booksByReadingStateAndHandle($limit: Int!, $offset: Int!, $readingStatus: ReadingStatus!, $handle: String!) {
+              booksByReadingStateAndHandle(
+                limit: $limit
+                offset: $offset
+                readingStatus: $readingStatus
+                handle: $handle
+              ) {
+                ...BookParts
+                __typename
               }
             }
+            
+            fragment BookParts on Book {
+              id
+              slug
+              title
+              subtitle
+              description
+              isbn10
+              isbn13
+              language
+              pageCount
+              publishedDate
+              publisher
+              physicalFormat
+              cover
+              authors {
+                ...AuthorMini
+                __typename
+              }
+              gradientColors
+              workId
+              __typename
+            }
+            
+            fragment AuthorMini on Author {
+              id
+              name
+              slug
+              __typename
+            }
+          `,
+          variables: {
+            handle: variables.handle,
+            readingStatus: variables.readingStatus,
+            limit: variables.limit,
+            offset: 0,
+          },
+        }),
+      })
+      .then((response) => response.json())
+      .then((response) => {
+        const books = response.data.booksByReadingStateAndHandle || [];
+        const formatter = new Intl.ListFormat('en', { style: 'short', type: 'conjunction' });
 
-          } else {
-            // We reached our target server, but it returned an error
-            console.log("We are over here!");
-          }
-        };
+        const bookItems = books.map((book) => {
+          const authors = formatter.format(book.authors.map((a) => a.name));
+          const bookItem = document.createElement('div');
+          bookItem.classList.add('literal-book-item');
+          bookItem.innerHTML = `
+            <a href="https://literal.club/${variables.handle}/book/${book.slug}?utm_source=${variables.handle}&utm_medium=widget" target="_blank">
+              <div class="literal-book-item__inner">
+                <div class="literal-book-item__image">
+                  <div class="literal-book-item__image_cover__outer">
+                    <img src="${book.cover}" alt="${book.title}" />
+                  </div>
+                </div>
+                <div class="literal-book-item__info">
+                  <div class="literal-book-item__title">
+                    ${book.title}
+                  </div>
+                  <div class="literal-book-item__authors">
+                    ${authors}
+                  </div>
+                </div>
+              </div>
+            </a>
+          `;
+          return bookItem;
+        });
 
-        request.onerror = function() {
-          // There was a connection error of some sort
-        };
+        target.append(...bookItems);
+      });
+    }
 
-        request.send();
+    // Add styles for the widgets
+    const styles = `
+      .literal-widget {
+        margin: 20px 0;
+      }
+      .literal-widget .literal-book-item {
+        display: flex;
+        text-align: left;
+        position: relative;
+        transition: all .2s linear;
+      }
+      .literal-widget .literal-book-item:hover {
+        border-color: #e1dddd;
+        z-index: 1;
+      }
+      .literal-widget .literal-book-item a {
+        width: 100%;
+        display: flex;
+        padding: 10px 10px 10px 0;
+      }
+      .literal-widget .literal-book-item__inner {
+        flex: 1 0;
+        display: flex;
+        align-items: center;
+      }
+      .literal-widget .literal-book-item__image {
+        width: 40px;
+        flex: 0 0 40px;
+        align-self: flex-start;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        margin-right: 23px;
+      }
+      .literal-widget .literal-book-item__image_cover__outer {
+        position: relative;
+        display: inline-block;
+        line-height: 100%;
+      }
+      .literal-widget .literal-book-item__image_cover__outer img {
+        user-select: none;
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: 100%;
+        border-top-left-radius: 1px;
+        border-bottom-left-radius: 1px;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        filter: drop-shadow(0 calc((0 + 0) * 2px) calc((5 + 0) * 2px) rgba(0,0,0,calc((1.5 + 0) * .03)));
+        border: 1px solid #f5f5f5;
+        display: inline-block;
+        vertical-align: middle;
+        -webkit-transform: translateZ(0);
+      }
+      .literal-widget .literal-book-item__info {
+        flex: 1 0;
+      }
+      .literal-widget .literal-book-item__title {
+        font-weight: 400;
+        color: #000000;
+        font-size: 14px;
+        line-height: 150%;
+      }
+      .literal-widget .literal-book-item__authors {
+        font-size: 14px;
+        color: #9a988b;
+        line-height: 145%;
+        margin-top: 4px;
+      }
+    `;
 
-           // document.getJSON(Ip, function(data) {
-           //  var city = data.city;
-           //  var region = data.region;
-           //  var country = data.country;
+    const styleSheet = document.createElement('style');
+    styleSheet.textContent = styles;
+    document.head.appendChild(styleSheet);
 
-           //  var KEY = '&APPID=767a7cce68ed2b3098d41e24364ec56c';
-
-           //  var URL ='http://api.openweathermap.org/data/2.5/weather?q=' + city + ',' + region + country + KEY;
-
-            // document.getJSON(proxy + URL, function(data) {
-             //  var type = data.weather[0].main;  //array 0 index
-             //  var id = data.weather[0].id; //array 0 index
-             //  var city = data.name;
-
-             //  var tempCel = Math.round(data.main.temp - 273.15);
-             //  var tempC = tempCel + '°C';
-             //  var weather = data.weather[0].description;
-             //  var tempF = Math.round(tempCel * (9 / 5) + 32) + '°F';
-             //  var icon = data.weather[0].icon;
-             //  var tempBool = true;
-
-             //  //Output data to display on the page
-             //  $('#city').text(city);
-             //  $('#state').text(region);
-             // $('#temp').text(tempF); //Show Fahrenheit by Default
-             // var weatherIcon = 'http://openweathermap.org/img/w/' + icon + '.png';
-             //  $('#wIcon').html('<img src=' + weatherIcon + '>');
-
-
-         //Then toggle to switch between F and C temperature.
-    //      document.querySelector("#btnToggle").on('click', function() {
-    //           var temp = $('#temp');
-    //           if (tempBool) {
-    //               temp.html(tempC);
-    //               tempBool = false
-    //               } else {
-    //               temp.html(tempF);
-    //               tempBool = true;
-    //            }
-    //         }); //End of toggle function
-
-    //           });
-    //        });
-    })();
-
+    // Initialize all literal widgets when the page loads
+    window.addEventListener('load', function() {
+      document.querySelectorAll('.literal-widget').forEach(initializeLiteralWidget);
+    });
   </script>
 </body>
 
