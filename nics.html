@@ -142,7 +142,7 @@
         label: "Sandy Hook"
       },
     ];
-    
+
     // Use Promises to async request data
     var promises = [d3.csv("https://raw.githubusercontent.com/BuzzFeedNews/nics-firearm-background-checks/master/data/nics-firearm-background-checks.csv", d3.autoType)];
     myDataPromises = Promise.all(promises);
@@ -296,8 +296,8 @@
           }),
           Plot.text(dates, {
             text: "label",
-            // dy: (d) => d.label === "Sandy Hook" ? 10 : -10,
-            dx: -5,
+            dy: (d, i) => i * 10, // stagger by 10 pixels per index, doesn't work?
+            dx: 4,
             x: "date",
             frameAnchor: "top",
             lineWidth: 20,
@@ -306,7 +306,7 @@
             stroke: "white",
             strokeWidth: .95,
             strokeOpacity: .75,
-            textAnchor: "end",
+            textAnchor: "start",
           }),
         ]
       };
