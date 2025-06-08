@@ -66,9 +66,10 @@
       <figure id="barplot" class="mid-size" aria-label="A bar graph titled Monthly Background Checks from 2000 to 2023. The graph shows a general upward trend, with notable spikes around events like Sandy Hook, San Bernardino, and January 6th. Total checks peak at over 4 million."></figure>
       <figcaption class="mid-size right">Data: <a href="https://www.fbi.gov/file-repository/nics_firearm_checks_-_month_year_by_state_type.pdf/view">FBI.gov</a></figcaption>
 
-      <p>Following the implementation of <a href="https://www.atf.gov/rules-and-regulations/brady-law">the Brady act</a> in 1994, the Federal Bureau of Investigation (<small>FBI</small>) developed a system to conduct background checks on those wishing to obtain a firearm. The system known as the <strong>National Instant Criminal Background Check System</strong> (<small>NICS</small>) was created in collaboration with the Bureau of Alcohol, Tobacco and Firearms and local law enforcement agencies. Since it's inception in November 1998, the <small>FBI</small> has released monthly data from each state and U.S territory. The <small>FBI</small> claims that over 300 million requests have been approved, and 1.5 million have been denied.</p>
-
-      <p>The <small>FBI</small>'s background check numbers come with caveats. These numbers show only the number of firearm background checks initiated through the NICS. <strong>They don't represent</strong> the number of firearms sold. Due to varying state laws a one-to-one correlation cannot be made between a firearm background check and a firearm sale. Kentucky runs a new check on each concealed carry license holder each month. And of course, the <small>FBI</small>’s numbers don’t include private gun sales, many of which do not require a background check.</p>
+      <p>Following the implementation of <a href="https://www.atf.gov/rules-and-regulations/brady-law">the Brady act</a> in 1994, the Federal Bureau of Investigation (<small>FBI</small>) developed a system to conduct background checks on those wishing to obtain a firearm. The system known as the <strong>National Instant Criminal Background Check System</strong> (<small>NICS</small>) was created in collaboration with the Bureau of Alcohol, Tobacco and Firearms and local law enforcement agencies.</p> 
+      <p>Since it's inception in November 1998, the <small>FBI</small> has released monthly data from each state and U.S territory. The <small>FBI</small> claims that over 300 million requests have been approved, and 1.5 million have been denied.</p>
+      <p>The <small>FBI</small>'s background check numbers come with caveats. These numbers show only the number of firearm background checks initiated through the NICS. <strong>They don't represent</strong> the number of firearms sold.</p> 
+      <p>Due to varying state laws a one-to-one correlation cannot be made between a firearm background check and a firearm sale. Kentucky runs a new check on each concealed carry license holder each month. And of course, the <small>FBI</small>’s numbers don’t include private gun sales, many of which do not require a background check.</p>
 
       <h3>NICS Background Checks - past 36 months</h3>
       <figure id="recent"></figure>
@@ -106,7 +107,10 @@
       </ol>
 
       <h3>About the data</h3>
-      <p><img src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Emblem_of_the_National_Instant_Criminal_Background_Check_System_%28FBI%29.jpg" alt="A circular logo for the National Instant Criminal Background Check System features a map of the USA, a green handgun, and a large red check mark. It reads Federal Bureau of Investigation around the border." loading="lazy">Sourced from the FBI's National Instant Criminal Background Check System (NICS) and made accessible through Buzzfeed News' <a href="https://github.com/BuzzFeedNews/nics-firearm-background-checks?tab=readme-ov-file">data repository</a>, the data visualized here provides an important look into the demand of firearms in the United States. The Brady Handgun Violence Prevention Act of 1993 played a significant role in this data collection process, facilitating the instant screening of prospective gun buyers to determine their eligibility for firearm ownership. Before a purchase is completed, sellers are required to contact NICS for a background check to ensure that the buyer does not have a criminal record, restraining orders, or other disqualifications, such as being a convicted felon or having a history of mental illness. The data derived from NICS checks offers important insights into the impact of these regulations on the firearms market and, by extension, discussions surrounding gun violence, gun control debates, and the gun production and market dynamics in the United States.</p>
+      <p><img src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Emblem_of_the_National_Instant_Criminal_Background_Check_System_%28FBI%29.jpg" alt="A circular logo for the National Instant Criminal Background Check System features a map of the USA, a green handgun, and a large red check mark. It reads Federal Bureau of Investigation around the border." loading="lazy">Sourced from the FBI's National Instant Criminal Background Check System (NICS) and made accessible through Buzzfeed News' <a href="https://github.com/BuzzFeedNews/nics-firearm-background-checks?tab=readme-ov-file">data repository</a>, the data visualized here provides an important look into the demand of firearms in the United States.</p> 
+      <p>The Brady Handgun Violence Prevention Act of 1993 played a significant role in this data collection process, facilitating the instant screening of prospective gun buyers to determine their eligibility for firearm ownership.</p> 
+      <p> Before a purchase is completed, sellers are required to contact NICS for a background check to ensure that the buyer does not have a criminal record, restraining orders, or other disqualifications, such as being a convicted felon or having a history of mental illness. </p> 
+      <p>The data derived from NICS checks offers important insights into the impact of these regulations on the firearms market and, by extension, discussions surrounding gun violence, gun control debates, and the gun production and market dynamics in the United States.</p>
       <img src="https://www.thetrace.org/wp-content/uploads/2015/07/5372331238_5d56cfb371_b.jpg" alt="A white building with GUNS in large red and yellow letters on its side. Several palm trees are in the background under a clear blue sky. A few cars are parked in front, and orange cones are placed nearby." class="full-bleed" loading="lazy">
     </article>
   </main>
@@ -132,25 +136,49 @@
 
     var dates = [{
         date: new Date(2021, 1, 6),
-        label: "January 6th"
+        label: "January 6th",
+        y: 4700000
       },
       {
         date: new Date(2015, 12, 2),
-        label: "San Bernadino attack"
+        label: "San Bernadino attack",
+        y: 3400000
       },
       {
         date: new Date(2012, 12, 14),
-        label: "Sandy Hook"
+        label: "Sandy Hook",
+        y: 2700000
       },
     ];
 
+    // Local storage key
+    const localStorageKey = 'nicsData';
+
+    // Function to fetch data and store in local storage
+    async function fetchData() {
+      // Check if data exists in local storage
+      const cachedData = localStorage.getItem(localStorageKey);
+      if (cachedData) {
+        // If data exists, parse and return it
+        console.log('Loading data from local storage');
+        return JSON.parse(cachedData);
+      }
+
+      // If data does not exist, fetch it from the URL
+      console.log('Fetching data from URL');
+      const data = await d3.csv("https://raw.githubusercontent.com/BuzzFeedNews/nics-firearm-background-checks/master/data/nics-firearm-background-checks.csv", d3.autoType);
+
+      // Store data in local storage after stringifying it
+      localStorage.setItem(localStorageKey, JSON.stringify(data));
+      return data;
+    }
+
     // Use Promises to async request data
-    var promises = [d3.csv("https://raw.githubusercontent.com/BuzzFeedNews/nics-firearm-background-checks/master/data/nics-firearm-background-checks.csv", d3.autoType)];
-    myDataPromises = Promise.all(promises);
+    myDataPromises = Promise.all([fetchData()]);
+
 
     // After data is successfully fetched, generate viz
     myDataPromises.then(function(data) {
-
       // Define the data
       var data = data[0];
       var extent = d3.extent(
@@ -295,19 +323,24 @@
               d.total
             )} background checks`
           }),
+          // Plot.rect(dates, {
+          //   x:"date",
+          //   y: "y",
+          //   fill: "black",
+          //   stroke: "black",
+          // }),
           Plot.text(dates, {
             text: "label",
-            dy: (d, i) => i * 10, // stagger by 10 pixels per index, doesn't work?
-            dx: 4,
+            dx: -8,
             x: "date",
-            frameAnchor: "top",
+            y: "y",
             lineWidth: 20,
             fill: "currentColor",
             fontSize: size + 1,
             stroke: "white",
             strokeWidth: .95,
             strokeOpacity: .75,
-            textAnchor: "start",
+            textAnchor: "end",
           }),
         ]
       };
