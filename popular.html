@@ -18,11 +18,11 @@
   <meta content="A recap of how Americans voted in 2024." property="og:description">
   <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
   <link rel="canonical" href="https://www.justinchill.com/popular.html">
-  
+
   <meta property="og:locality" content="New York">
   <meta property="og:region" content="NY">
   <meta property="og:country_name" content="USA">
-  
+
   <meta name="datePublished" content="2025-12-18">
   <meta name="dateModified" content="2025-07-04">
 
@@ -41,7 +41,6 @@
   </script>
 
   <style type="text/css">
-
     @media screen and (max-width: 680px) {}
   </style>
 </head>
@@ -80,7 +79,9 @@
   <footer>
     <h2 class="visually-hidden" id="footnote-label">Footnotes</h2>
     <ol>
-
+      <!-- https://www.cfr.org/article/2024-election-numbers
+    https://en.wikipedia.org/wiki/List_of_United_States_presidential_elections_in_which_the_winner_lost_the_popular_vote
+    https://www.britannica.com/topic/list-of-US-presidential-elections-in-which-the-winner-lost-the-popular-vote -->
     </ol>
     <div>
       <p>Justin Chill &copy; 2025</p>
@@ -96,7 +97,7 @@
     var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
     // var ns = Inputs.text().classList[0];
     var isDarkMode = () =>
-    window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
 
     // Use Promises to async request data
     var promises = [];
@@ -119,319 +120,314 @@
         2020,Trump,Donald Trump,lose,Republican,false,232,-4.5,46.8
         2024,Harris,Kamala Harris,lose,Democratic,true,226,-3.9,47.2
         2024,Trump,Donald Trump,win,Republican,true,312,3.9,51.1`, d3.autoType);
-        
-        var popular_vote = popular_vote_data.map((d) => ({
-          ...d,
-          party: d.party,
-          year: +d.year,
-          popular: +d.popular,
-          electoral: +d.electoral,
-          difference: +d.difference
-        }));
-        console.log(popular_vote);
 
-    var popular_time_chart = {
-      width: width,
-      style: {
-        fontSize: size + 1.15
-      },
-      insetLeft: 10,
-      insetBottom: 20,
-      insetTop: 20,
-      insetRight: 10,
-      color: {
-        domain: ["Democratic", "Republican"],
-        range: ["#4f80ff", "#e84f1c"]
-      },
-      y: {
-        label: "% of popular vote",
-        domain: [45, 55],
-        ticks: [45, 50, 55],
-      },
-      x: {
-        tickFormat: "",
-        ticks: [2000, 2004, 2008, 2012, 2016, 2020],
-        label: null
-      },
-      
-      marks: [
-        // Hintergrund 2000
-        Plot.rectY([0], {
-          x1: 1998,
-          x2: 2002,
-          y1: 45,
-          y2: 55,
-          fill: "#DCE4EA",
-          opacity: 0.2
-        }),
-      
-        // Hintergrund 2016
-        Plot.rectY([0], {
-          x1: 2014,
-          x2: 2018,
-          y1: 45,
-          y2: 55,
-          fill: "#DCE4EA",
-          opacity: 0.2
-        }),
-      
-        // Striche
-        Plot.ruleX(popular_vote, {
-          x: "year",
-          stroke: "#eff3f5",
-          y1: "popular",
-          y2: (d) => d.popular - d.difference,
-          z: "party"
-        }),
-      
-        // Punkte weißer Untergrung
-        Plot.dot(popular_vote, {
-          x: "year",
-          y: "popular",
-          z: "party",
-          r: 4.5,
-          fill: "#fff"
-        }),
-      
-        // Punkte
-        Plot.dot(popular_vote, {
-          x: "year",
-          y: "popular",
-          z: "party",
-          r: 5,
-          fill: "party",
-          fillOpacity: (d) => (d.status == "win" ? 1 : 0.4)
-        }),
-      
-        // Label oben
-        Plot.text(popular_vote, {
-          filter: (d) => d.difference > 0,
-          dy: -14,
-          x: "year",
-          y: "popular",
-          text: (d) => (d.status == "win" ? d.name + " ✓" : d.name),
-          fill: "party",
-          fillOpacity: (d) => (d.status == "win" ? 1 : 0.4)
-        }),
-      
-        // Label unten
-        Plot.text(popular_vote, {
-          filter: (d) => d.difference <= 0,
-          dy: 14,
-          x: "year",
-          y: "popular",
-          text: (d) => (d.status == "win" ? d.name + " ✓" : d.name),
-          fill: "party",
-          fillOpacity: (d) => (d.status == "win" ? 1 : 0.4)
-        }),
-      
-        //  Tooltip
-        Plot.tip(
-          popular_vote,
-          Plot.pointer({
-            fill: isDarkMode() ? "#293845" : "#ffffff",
-            fillOpacity: 0.7,
-            strokeOpacity: 0.4,
+      var popular_vote = popular_vote_data.map((d) => ({
+        ...d,
+        party: d.party,
+        year: +d.year,
+        popular: +d.popular,
+        electoral: +d.electoral,
+        difference: +d.difference
+      }));
+      console.log(popular_vote);
+
+      var popular_time_chart = {
+        width: width,
+        style: {
+          fontSize: size + 1.15
+        },
+        insetLeft: 10,
+        insetBottom: 20,
+        insetTop: 20,
+        insetRight: 10,
+        color: {
+          domain: ["Democratic", "Republican"],
+          range: ["#4f80ff", "#e84f1c"]
+        },
+        y: {
+          label: "% of popular vote",
+          domain: [45, 55],
+          ticks: [45, 50, 55],
+        },
+        x: {
+          tickFormat: "",
+          ticks: [2000, 2004, 2008, 2012, 2016, 2020],
+          label: null
+        },
+
+        marks: [
+          // Hintergrund 2000
+          Plot.rectY([0], {
+            x1: 1998,
+            x2: 2002,
+            y1: 45,
+            y2: 55,
+            fill: "#DCE4EA",
+            opacity: 0.2
+          }),
+
+          // Hintergrund 2016
+          Plot.rectY([0], {
+            x1: 2014,
+            x2: 2018,
+            y1: 45,
+            y2: 55,
+            fill: "#DCE4EA",
+            opacity: 0.2
+          }),
+
+          // Striche
+          Plot.ruleX(popular_vote, {
+            x: "year",
+            stroke: "#eff3f5",
+            y1: "popular",
+            y2: (d) => d.popular - d.difference,
+            z: "party"
+          }),
+
+          // Punkte weißer Untergrung
+          Plot.dot(popular_vote, {
             x: "year",
             y: "popular",
-            title: (d) =>
-              `${d.candidate}\n${d.party}\n\n${
+            z: "party",
+            r: 4.5,
+            fill: "#fff"
+          }),
+
+          // Punkte
+          Plot.dot(popular_vote, {
+            x: "year",
+            y: "popular",
+            z: "party",
+            r: 5,
+            fill: "party",
+            fillOpacity: (d) => (d.status == "win" ? 1 : 0.4)
+          }),
+
+          // Label oben
+          Plot.text(popular_vote, {
+            filter: (d) => d.difference > 0,
+            dy: -14,
+            x: "year",
+            y: "popular",
+            text: (d) => (d.status == "win" ? d.name + " ✓" : d.name),
+            fill: "party",
+            fillOpacity: (d) => (d.status == "win" ? 1 : 0.4)
+          }),
+
+          // Label unten
+          Plot.text(popular_vote, {
+            filter: (d) => d.difference <= 0,
+            dy: 14,
+            x: "year",
+            y: "popular",
+            text: (d) => (d.status == "win" ? d.name + " ✓" : d.name),
+            fill: "party",
+            fillOpacity: (d) => (d.status == "win" ? 1 : 0.4)
+          }),
+
+          //  Tooltip
+          Plot.tip(
+            popular_vote,
+            Plot.pointer({
+              fill: isDarkMode() ? "#293845" : "#ffffff",
+              fillOpacity: 0.7,
+              strokeOpacity: 0.4,
+              x: "year",
+              y: "popular",
+              title: (d) =>
+                `${d.candidate}\n${d.party}\n\n${
                 d.year
               }\nStimmenanteil: ${d.popular.toLocaleString("en", {
                 minimumFractionDigits: 1,
                 maximumFractionDigits: 1
               })} Prozent`
-          })
-        )
-      ]
-    };
-    
-    var popular_chart = {
-  width: width,
-  style: {
-    fontSize: size + 1.15
-  },
-    height: 450,
-    marginTop: 30,
-    marginLeft: 40,
-    marginRight: 40,
-    marginBottom: 40,
-    height: 350,
-    
-    color: {
-      domain: ["Democratic", "Republican"],
-      range: ["#4f80ff", "#e84f1c"]
-    },
-    
-    x: {
-      domain: [-8, 8],
-      ticks: [-8, -4, 4, 8],
-      tickFormat: "+",
-      label: null
-    },
-    
-    y: {
-      domain: [120, 410],
-      ticks: [170, 220, 270, 320, 370],
-      label: "Electoral votes"
-    },
-    
-    marks: [
-      Plot.ruleY([270]),
-      Plot.ruleX([0]),
-    
-      //  Label x-Achse
-      Plot.text([0], {
-        textAnchor: "center",
-        x: (d) => d,
-        y: (d) => 140,
-        dy: 50,
-        text: (d) => "<- % of popular vote ->"
-      }),
-    
-      Plot.text([0], {
-        textAnchor: "center",
-        x: (d) => d,
-        y: (d) => 140,
-        dy: 33,
-        text: (d) => "0"
-      }),
-    
-      //  Text in Quadranten
-      Plot.text([0], {
-        textAnchor: "end",
-        x: (d) => d,
-        y: (d) => 400,
-        dx: -5,
-        fillOpacity: 0.4,
-        text: (d) => "Lost popular vote,\nstill won the election"
-      }),
-    
-      Plot.text([0], {
-        textAnchor: "start",
-        x: (d) => d,
-        y: (d) => 400,
-        fillOpacity: 0.4,
-        dx: 5,
-        text: (d) => "Won popular vote,\nwon the election"
-      }),
-    
-      Plot.text([0], {
-        textAnchor: "start",
-        x: (d) => d,
-        y: (d) => 140,
-        dx: 5,
-        fillOpacity: 0.4,
-        text: (d) => "Won popular vote,\nlost election"
-      }),
-    
-      Plot.text([0], {
-        textAnchor: "end",
-        x: (d) => d,
-        y: (d) => 140,
-        dx: -5,
-        fillOpacity: 0.4,
-        text: (d) => "Lost popular vote,\nlost election"
-      }),
-    
-      // Punkte
-      Plot.dot(popular_vote, {
-        fill: "party",
-        r: 5,
-        x: "difference",
-        y: "electoral",
-        fillOpacity: (d) => (d.highlight == "true" ? 1 : 0.4)
-      }),
-    
-      // Label ohne Ausnahmen
-      Plot.text(
-        popular_vote.filter(
-          (d) =>
-            (d.electoral != 271) &
-            (d.electoral != 266) &
-            (d.electoral != 232) &
-            (d.electoral != 312)
-        ),
-        {
-          fill: "party",
-          text: "name",
-          textAnchor: "start",
-          dx: 7,
-          x: "difference",
-          y: "electoral",
-          fillOpacity: (d) => (d.highlight == "true" ? 1 : 0.4)
-        }
-      ),
-    
-      // Label Bush
-      Plot.text(
-        popular_vote.filter((d) => d.electoral == 271),
-        {
-          fill: "party",
-          text: "name",
-          textAnchor: "end",
-          dx: -7,
-          dy: -7,
-          x: "difference",
-          y: "electoral",
-          fillOpacity: (d) => (d.highlight == "true" ? 1 : 0.4)
-        }
-      ),
-    
-      // Label Gore
-      Plot.text(
-        popular_vote.filter((d) => d.electoral == 266),
-        {
-          fill: "party",
-          text: "name",
-          textAnchor: "start",
-          dx: 7,
-          dy: 3,
-          x: "difference",
-          y: "electoral",
-          fillOpacity: (d) => (d.highlight == "true" ? 1 : 0.4)
-        }
-      ),
-    
-      // Label Trump I
-      Plot.text(
-        popular_vote.filter((d) => d.electoral == 232),
-        {
-          fill: "party",
-          text: "name",
-          textAnchor: "end",
-          dx: -7,
-          x: "difference",
-          y: "electoral",
-          fillOpacity: (d) => (d.highlight == "true" ? 1 : 0.4)
-        }
-      ),
-    
-      // Label Trump II
-      Plot.text(
-        popular_vote.filter((d) => d.electoral == 312),
-        {
-          fill: "party",
-          text: "name",
-          textAnchor: "end",
-          dx: -7,
-          x: "difference",
-          y: "electoral",
-          fillOpacity: (d) => (d.highlight == "true" ? 1 : 0.4)
-        }
-      ),
-    
-      //  Tooltip
-      Plot.tip(
-        popular_vote,
-        Plot.pointer({
-          fill: isDarkMode() ? "#293845" : "#ffffff",
-          fillOpacity: 0.7,
-          strokeOpacity: 0.4,
-          x: "difference",
-          y: "electoral",
-          title: (d) =>
-            `${d.candidate}\n${d.party}\n\n${d.year}\nDifference: ${
+            })
+          )
+        ]
+      };
+
+      var popular_chart = {
+        width: width,
+        style: {
+          fontSize: size + 1.15
+        },
+        height: 450,
+        marginTop: 30,
+        marginLeft: 40,
+        marginRight: 40,
+        marginBottom: 40,
+        height: 350,
+
+        color: {
+          domain: ["Democratic", "Republican"],
+          range: ["#4f80ff", "#e84f1c"]
+        },
+
+        x: {
+          domain: [-8, 8],
+          ticks: [-8, -4, 4, 8],
+          tickFormat: "+",
+          label: null
+        },
+
+        y: {
+          domain: [120, 410],
+          ticks: [170, 220, 270, 320, 370],
+          label: "Electoral votes"
+        },
+
+        marks: [
+          Plot.ruleY([270]),
+          Plot.ruleX([0]),
+
+          //  Label x-Achse
+          Plot.text([0], {
+            textAnchor: "center",
+            x: (d) => d,
+            y: (d) => 140,
+            dy: 50,
+            text: (d) => "<- % of popular vote ->"
+          }),
+
+          Plot.text([0], {
+            textAnchor: "center",
+            x: (d) => d,
+            y: (d) => 140,
+            dy: 33,
+            text: (d) => "0"
+          }),
+
+          //  Text in Quadranten
+          Plot.text([0], {
+            textAnchor: "end",
+            x: (d) => d,
+            y: (d) => 400,
+            dx: -5,
+            fillOpacity: 0.4,
+            text: (d) => "Lost popular vote,\nstill won the election"
+          }),
+
+          Plot.text([0], {
+            textAnchor: "start",
+            x: (d) => d,
+            y: (d) => 400,
+            fillOpacity: 0.4,
+            dx: 5,
+            text: (d) => "Won popular vote,\nwon the election"
+          }),
+
+          Plot.text([0], {
+            textAnchor: "start",
+            x: (d) => d,
+            y: (d) => 140,
+            dx: 5,
+            fillOpacity: 0.4,
+            text: (d) => "Won popular vote,\nlost election"
+          }),
+
+          Plot.text([0], {
+            textAnchor: "end",
+            x: (d) => d,
+            y: (d) => 140,
+            dx: -5,
+            fillOpacity: 0.4,
+            text: (d) => "Lost popular vote,\nlost election"
+          }),
+
+          // Punkte
+          Plot.dot(popular_vote, {
+            fill: "party",
+            r: 5,
+            x: "difference",
+            y: "electoral",
+            fillOpacity: (d) => (d.highlight == "true" ? 1 : 0.4)
+          }),
+
+          // Label ohne Ausnahmen
+          Plot.text(
+            popular_vote.filter(
+              (d) =>
+              (d.electoral != 271) &
+              (d.electoral != 266) &
+              (d.electoral != 232) &
+              (d.electoral != 312)
+            ), {
+              fill: "party",
+              text: "name",
+              textAnchor: "start",
+              dx: 7,
+              x: "difference",
+              y: "electoral",
+              fillOpacity: (d) => (d.highlight == "true" ? 1 : 0.4)
+            }
+          ),
+
+          // Label Bush
+          Plot.text(
+            popular_vote.filter((d) => d.electoral == 271), {
+              fill: "party",
+              text: "name",
+              textAnchor: "end",
+              dx: -7,
+              dy: -7,
+              x: "difference",
+              y: "electoral",
+              fillOpacity: (d) => (d.highlight == "true" ? 1 : 0.4)
+            }
+          ),
+
+          // Label Gore
+          Plot.text(
+            popular_vote.filter((d) => d.electoral == 266), {
+              fill: "party",
+              text: "name",
+              textAnchor: "start",
+              dx: 7,
+              dy: 3,
+              x: "difference",
+              y: "electoral",
+              fillOpacity: (d) => (d.highlight == "true" ? 1 : 0.4)
+            }
+          ),
+
+          // Label Trump I
+          Plot.text(
+            popular_vote.filter((d) => d.electoral == 232), {
+              fill: "party",
+              text: "name",
+              textAnchor: "end",
+              dx: -7,
+              x: "difference",
+              y: "electoral",
+              fillOpacity: (d) => (d.highlight == "true" ? 1 : 0.4)
+            }
+          ),
+
+          // Label Trump II
+          Plot.text(
+            popular_vote.filter((d) => d.electoral == 312), {
+              fill: "party",
+              text: "name",
+              textAnchor: "end",
+              dx: -7,
+              x: "difference",
+              y: "electoral",
+              fillOpacity: (d) => (d.highlight == "true" ? 1 : 0.4)
+            }
+          ),
+
+          //  Tooltip
+          Plot.tip(
+            popular_vote,
+            Plot.pointer({
+              fill: isDarkMode() ? "#293845" : "#ffffff",
+              fillOpacity: 0.7,
+              strokeOpacity: 0.4,
+              x: "difference",
+              y: "electoral",
+              title: (d) =>
+                `${d.candidate}\n${d.party}\n\n${d.year}\nDifference: ${
               d.difference > 0
                 ? "+" +
                   d.difference.toLocaleString("en", {
@@ -446,13 +442,13 @@
               minimumFractionDigits: 0,
               maximumFractionDigits: 0
             })}`
-        })
-      )
-    ]
-    };
+            })
+          )
+        ]
+      };
 
-    document.getElementById("popular_time_chart").appendChild(Plot.plot(popular_time_chart));
-    document.getElementById("popular_chart").appendChild(Plot.plot(popular_chart));
+      document.getElementById("popular_time_chart").appendChild(Plot.plot(popular_time_chart));
+      document.getElementById("popular_chart").appendChild(Plot.plot(popular_chart));
     });
   </script>
 </body>
