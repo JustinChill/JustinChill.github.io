@@ -66,11 +66,10 @@
         <h2 class="article-subtitle">How Alex Ovechkin broke Wayne Gretzky’s once-unbreakable record</h2>
       </div>
 
-
       <div class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></div>
       <h2>Alex Ovechkin's path to the NHL record for goals scored</h2>
       <figure id="step_chart" aria-label=""></figure>
-      <p>Every four years, Americans cast their ballots for president, but the winner isn’t always the candidate who gets the most votes. In 2016, more than 138 million people voted in the general election, but only 538 of them directly voted for president and vice president.</p>
+      <p>When Wayne Gretzky, “the Great One”, retired from hockey in 1999, many assumed that his goal record (he potted 894 during his career) would last forever. But for the past few years, the countdown has been on for when Alexander Ovechkin, better known as Ovi, might eclipse him. On April 6th he did just that, ripping a wrist shot past right the New York Islanders’ goaltender. It was his 895th goal. As was only fitting, he had fired the shot from the spot on the ice that has come to be known as “Ovi’s office”—the area in and around the left faceoff circle.</p>
       <p>The system was created as a compromise at the Constitutional Convention in 1787<a href="#govfacts" aria-describedby="footnote-label" id="govfacts-ref"></a>. The founders couldn’t agree on whether Congress should pick the president or whether there should be a direct national vote. The Electoral College split the difference, creating an indirect method that balanced various competing interests.</p>
       
     </article>
@@ -108,29 +107,29 @@
       const defaultValues = ["Alex Ovechkin", "Wayne Gretzky"];
       
       // Create a label for the dropdown
-      const label = document.createElement("label");
-      label.textContent = "Select players: ";
-      label.setAttribute("for", "playerSelect");
-            
-      // Create the select dropdown
-      const select = document.createElement("select");
-      select.id = "playerSelect";
-      // Populate the dropdown with options
-      players.forEach(player => {
-        const option = document.createElement("checkboxes");
-        option.value = player;
-        option.textContent = player;
-        select.appendChild(option);
-      });
-      // Append the label and select to the document
-      document.getElementById("step_chart").appendChild(label);
-      document.getElementById("step_chart").appendChild(select);
-      
-      // To get the selected values
-      function getSelectedPlayers() {
-        const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-        return Array.from(checkboxes).map(checkbox => checkbox.value);
-      }
+      // const label = document.createElement("label");
+      // label.textContent = "Select players: ";
+      // label.setAttribute("for", "playerSelect");
+      //       
+      // // Create the select dropdown
+      // const select = document.createElement("checkbox");
+      // select.id = "playerSelect";
+      // // Populate the dropdown with options
+      // players.forEach(player => {
+      //   const option = document.createElement("checkbox");
+      //   option.value = player;
+      //   option.textContent = player;
+      //   select.appendChild(option);
+      // });
+      // // Append the label and select to the document
+      // document.getElementById("step_chart").appendChild(label);
+      // document.getElementById("step_chart").appendChild(select);
+      // 
+      // // To get the selected values
+      // function getSelectedPlayers() {
+      //   const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+      //   return Array.from(checkboxes).map(checkbox => checkbox.value);
+      // }
       function formatData() {
         let players = [...new Set(formatted.map((d) => d.Player))];
         let output = [];
@@ -163,7 +162,7 @@
         return output;
       }
       
-      var playersToViz = formatted.filter((f) => getSelectedPlayers().includes(f.player));
+      var playersToViz = formatted.filter((f) => defaultValues);
       var step_chart = {
         width: width,
         style: {
@@ -184,7 +183,7 @@
         marks: [
           Plot.ruleY([0]),
           Plot.lineY(
-            getSelectedPlayers, {
+            playersToViz, {
               x: "age",
               y: "Goals",
               stroke: "player",
