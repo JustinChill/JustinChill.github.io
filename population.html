@@ -108,7 +108,7 @@
       const label = document.createElement("label");
       label.textContent = "Country: ";
       label.setAttribute("for", "countrySelect");
-      
+
       // Create the select dropdown
       const select = document.createElement("select");
       select.id = "countrySelect";
@@ -184,75 +184,75 @@
       function renderCountryChart(area) {
         area_data = rawdata.filter(d => d.name == area);
         const countryChart = {
-        width: width,
-        margin: 10,
-        marginLeft: 15,
-        style: {
-          paddingTop: "1rem",
-        },
-        x: {
-          type: "time",
-          label: "Year",
-          grid: true
-        },
-        y: {
-          grid: true,
-          transform: d => d / 1e3,
-          label: "Population of " + area + " (Millions)",
-          labelArrow: null,
-          tickSize: 0,
-        },
-        color: {
-          legend: true
-        },
-        marks: [
-          Plot.areaY(area_data, {
-            x: "date",
-            y1: "pop_95l",
-            y2: "pop_95u",
-            fill: "rgba(0, 50, 100, 0.1)"
-          }),
-          Plot.areaY(area_data, {
-            x: "date",
-            y1: "pop_80l",
-            y2: "pop_80u",
-            fill: "rgba(0, 50, 100, 0.1)"
-          }),
-          Plot.lineY(area_data, {
-            x: "date",
-            y: "pop",
-            stroke: "rgba(0, 0, 0, 0.75)"
-          }),
-          Plot.dot(area_data.filter(d => d.year % 10 == 0), {
-            x: "date",
-            y: "pop",
-            r: 1
-          }),
-          Plot.text(area_data.filter(d => d.year % 10 == 0), {
-            x: "date",
-            y: "pop",
-            text: d => d3.format(".1f")(d.pop / 1e3) + "M",
-            dy: -15,
-            format: "%f"
-          })
-        ]
-      };
-      
+          width: width,
+          margin: 10,
+          marginLeft: 15,
+          style: {
+            paddingTop: "1rem",
+          },
+          x: {
+            type: "time",
+            label: "Year",
+            grid: true
+          },
+          y: {
+            grid: true,
+            transform: d => d / 1e3,
+            label: "Population of " + area + " (Millions)",
+            labelArrow: null,
+            tickSize: 0,
+          },
+          color: {
+            legend: true
+          },
+          marks: [
+            Plot.areaY(area_data, {
+              x: "date",
+              y1: "pop_95l",
+              y2: "pop_95u",
+              fill: "rgba(0, 50, 100, 0.1)"
+            }),
+            Plot.areaY(area_data, {
+              x: "date",
+              y1: "pop_80l",
+              y2: "pop_80u",
+              fill: "rgba(0, 50, 100, 0.1)"
+            }),
+            Plot.lineY(area_data, {
+              x: "date",
+              y: "pop",
+              stroke: "rgba(0, 0, 0, 0.75)"
+            }),
+            Plot.dot(area_data.filter(d => d.year % 10 == 0), {
+              x: "date",
+              y: "pop",
+              r: 1
+            }),
+            Plot.text(area_data.filter(d => d.year % 10 == 0), {
+              x: "date",
+              y: "pop",
+              text: d => d3.format(".1f")(d.pop / 1e3) + "M",
+              dy: -15,
+              format: "%f"
+            })
+          ]
+        };
+
         // Clear existing chart
         const countryContainer = document.getElementById("country");
         countryContainer.innerHTML = ""; // Clear existing chart
         countryContainer.appendChild(label); // Re-add label
         countryContainer.appendChild(select); // Re-add dropdown
         countryContainer.appendChild(Plot.plot(countryChart)); // Add new chart
-      }
-      
+      } //renderCountryChart
+
       // Initial render
       renderCountryChart(area);
       // Event listener for dropdown change
-        select.addEventListener("change", event => {
-          const selectedCountry = event.target.value;
-          renderCountryChart(selectedCountry);
-        });
+      select.addEventListener("change", event => {
+        const selectedCountry = event.target.value;
+        renderCountryChart(selectedCountry);
+      });
 
       var changes = {
         width: width,
@@ -279,7 +279,15 @@
           legend: true
         },
         marks: [
-          Plot.dot(change_data, { x: "year2022", y: "percent_change", stroke: "rgba(0, 0, 50, 0.75)", r: 3, title: (d) => `${d.name} \n% Change in Pop.: ${d3.format(".2%")(d["percent_change"])}\n2022 Pop. (M): ${d3.format(".2f")(d["year2022"])}`, stroke: "area_name", tip:true })  
+          Plot.dot(change_data, {
+            x: "year2022",
+            y: "percent_change",
+            stroke: "rgba(0, 0, 50, 0.75)",
+            r: 3,
+            title: (d) => `${d.name} \n% Change in Pop.: ${d3.format(".2%")(d["percent_change"])}\n2022 Pop. (M): ${d3.format(".2f")(d["year2022"])}`,
+            stroke: "area_name",
+            tip: true
+          })
         ]
       };
 
