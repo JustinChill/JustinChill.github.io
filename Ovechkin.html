@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+  <title>How Alex Ovechkin broke Wayne Gretzky’s once-unbreakable record | Justin Chill</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Using Hockey Reference data to show the progression of Alex Ovechkin to the career record for NHL goals.">
+  <meta name="author" content="Justin Chill">
+  <!-- OpenGraph tags -->
+  <meta name="keywords" content="stats, chart, data viz, sports, hockey, NHL, goals, scored, Alex, Ovechkin, Alex Ovechkin, Wayne Gretzky">
+  <meta name="robots" content="all">
+  <meta content="en_US" property="og:locale">
+  <meta content="JustinChill" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="https://justinchill.com/Ovechkin.html" property="og:url">
+  <meta content="How Alex Ovechkin broke Wayne Gretzky’s once-unbreakable record | Justin Chill" property="og:title">
+  <meta content="Using Hockey Reference data to show the progression of Alex Ovechkin to the career record for NHL goals." property="og:description">
+  <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
+  <link rel="canonical" href="https://www.justinchill.com/Ovechkin.html">
+
+  <meta property="og:locality" content="New York">
+  <meta property="og:region" content="NY">
+  <meta property="og:country_name" content="USA">
+
+  <meta name="datePublished" content="2025-04-07">
+  <meta name="dateModified" content="2025-07-06">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How Alex Ovechkin broke Wayne Gretzky’s once-unbreakable record | Justin Chill">
+  <meta name="twitter:description" content="Using Hockey Reference data to show the progression of Alex Ovechkin to the career record for NHL goals.">
+
+  <link type="text/plain" href="humans.txt" rel="author">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="/favicon.ico">
+  <meta name="theme-color" content="#4C63B6">
+
+  <script type="module">
+    document.documentElement.classList.remove('no-js');
+    document.documentElement.classList.add('js');
+  </script>
+
+  <style type="text/css">
+    @media screen and (max-width: 680px) {}
+  </style>
+</head>
+
+<body>
+  <nav class="nav" role="navigation">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
+      <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
+      <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+
+  <main role="main">
+    <article>
+      <div class="article-hero">
+        <h2 class="article-category">Post</h2>
+        <h1 class="article-title">A new goal standard</h1>
+        <h2 class="article-subtitle">How Alex Ovechkin broke Wayne Gretzky’s once-unbreakable record</h2>
+      </div>
+
+
+      <div class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></div>
+      <h2>Alex Ovechkin's path to the NHL record for goals scored</h2>
+      <figure id="step_chart" aria-label=""></figure>
+      <p>Every four years, Americans cast their ballots for president, but the winner isn’t always the candidate who gets the most votes. In 2016, more than 138 million people voted in the general election, but only 538 of them directly voted for president and vice president.</p>
+      <p>The system was created as a compromise at the Constitutional Convention in 1787<a href="#govfacts" aria-describedby="footnote-label" id="govfacts-ref"></a>. The founders couldn’t agree on whether Congress should pick the president or whether there should be a direct national vote. The Electoral College split the difference, creating an indirect method that balanced various competing interests.</p>
+      
+    </article>
+  </main>
+  <footer>
+    <h2 id="footnote-label">Footnotes</h2>
+    <ol>
+      <li id="govfacts"><strong>GovFacts</strong>, <a href="https://govfacts.org/explainer/the-electoral-college-vs-popular-vote-how-america-elects-its-president/">"The Electoral College vs. Popular Vote: How America Elects Its President"</a>.<a href="#govfacts-ref" aria-label="Back to content">↩</a></li>
+    </ol>
+
+    <div>
+      <p>Justin Chill &copy; 2025</p>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+
+  <script type="text/javascript">
+    var size = 12;
+    var element = d3.select('figure').node();
+    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+
+    // Use Promises to async request data
+    var promises = [d3.json("data/Ovechkin record - Sheet1@3.json")];
+    myDataPromises = Promise.all(promises);
+    
+    // After data is successfully fetched, generate viz
+    myDataPromises.then(function(data) {
+    
+      // Define the data
+      var formatted = data[0];
+      // Assuming raw_data is an array of objects with a 'Player' property
+      const players = [...new Set(formatted.map((d) => d.Player))];
+      const defaultValues = ["Alex Ovechkin", "Wayne Gretzky"];
+      
+      // Create a label for the dropdown
+      const label = document.createElement("label");
+      label.textContent = "Select players: ";
+      label.setAttribute("for", "playerSelect");
+            
+      // Create the select dropdown
+      const select = document.createElement("select");
+      select.id = "playerSelect";
+      // Populate the dropdown with options
+      players.forEach(player => {
+        const option = document.createElement("checkboxes");
+        option.value = player;
+        option.textContent = player;
+        select.appendChild(option);
+      });
+      // Append the label and select to the document
+      document.getElementById("step_chart").appendChild(label);
+      document.getElementById("step_chart").appendChild(select);
+      
+      // To get the selected values
+      function getSelectedPlayers() {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+        return Array.from(checkboxes).map(checkbox => checkbox.value);
+      }
+      function formatData() {
+        let players = [...new Set(formatted.map((d) => d.Player))];
+        let output = [];
+      
+        players.forEach((player) => {
+          let arr = formatted
+            .filter((f) => f.Player == player)
+            .filter((f) => f.Lg != "WHA");
+          output.push(arr);
+          let goals = 0;
+          let skip;
+          arr.forEach((d, i) => {
+            if (d.Team == "2TM") {
+              skip = i;
+            }
+            if (!skip || i > skip + 2 || i <= skip) {
+              goals += Number(d.G);
+              let obj = {
+                player: player,
+                age: Number(d.Age),
+                "Total goals": goals,
+                Goals: Number(d.G)
+              };
+              if (d.Age) {
+                output.push(obj);
+              }
+            }
+          });
+        });
+        return output;
+      }
+      
+      var playersToViz = formatted.filter((f) => getSelectedPlayers().includes(f.player));
+      var step_chart = {
+        width: width,
+        style: {
+          fontSize: size + 1.15
+        },
+        insetLeft: 10,
+        insetBottom: 20,
+        insetTop: 20,
+        insetRight: 10,
+        marginRight: 100,
+        color: {
+          legend: true
+        },
+        x: {
+          ticks: [18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40],
+          domain: [18, 40]
+        },
+        marks: [
+          Plot.ruleY([0]),
+          Plot.lineY(
+            getSelectedPlayers, {
+              x: "age",
+              y: "Goals",
+              stroke: "player",
+              tip: true,
+              curve: "step-after"
+            }
+          )
+        ]
+      };
+
+      document.getElementById("step_chart").appendChild(Plot.plot(step_chart));
+    });
+  </script>
+</body>
+
+</html>
