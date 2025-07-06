@@ -2,7 +2,7 @@
 <html lang="en" class="no-js">
 
 <head>
-  <title>Altered States</title>
+  <title>Altered States | Justin Chill</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Interactive map on cannabis legalization, medical use, and recreational use by US state">
@@ -14,7 +14,7 @@
   <meta content="JustinChill" property="og:site_name">
   <meta content="website" property="og:type">
   <meta content="https://justinchill.com/weedlaws.html" property="og:url">
-  <meta content="Altered States" property="og:title">
+  <meta content="Altered States | Justin Chill" property="og:title">
   <meta content="Interactive map on cannabis legalization, medical use, and recreational use by US state" property="og:description">
   <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
   <link rel="canonical" href="https://www.justinchill.com/weedlaws.html">
@@ -25,7 +25,7 @@
   <meta content="marijuana types" property="og:image:alt">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Altered states">
+  <meta name="twitter:title" content="Altered states | Justin Chill">
   <meta name="twitter:description" content="Interactive map on cannabis legalization, medical use, and recreational use by US state">
 
   <link type="text/plain" href="humans.txt" rel="author">
@@ -41,6 +41,11 @@
   </script>
 
   <style type="text/css">
+    article>figure {
+      display: flex;
+      flex-direction: column-reverse;
+    }
+
     .article-subtitle {
       margin-bottom: 1rem;
     }
@@ -50,9 +55,8 @@
     }
 
     g[aria-label*="tip"] tspan:first-of-type {
-        {
-        font-weight: 700;
-      }
+      font-weight: 700;
+    }
   </style>
 </head>
 
@@ -77,8 +81,9 @@
         <h2 class="article-subtitle">Cannabis legality in the USA</h2>
       </div>
 
-      <figure id="map" class="mid-size" alt="Map of the United States showing states with same-sex marriage legality: fully legal (blue), fully illegal (red), and mixed legality (green). Data source: Wikipedia."></figure>
-      <figcaption>Data: <a href="https://en.wikipedia.org/wiki/Legality_of_cannabis_by_U.S._jurisdiction">Wikipedia</a>.</figcaption>
+      <figure id="map" class="mid-size" aria-label="Map of the United States showing states with same-sex marriage legality: fully legal (blue), fully illegal (red), and mixed legality (green). Data source: Wikipedia.">
+        <figcaption class="right">Data: <a href="https://en.wikipedia.org/wiki/Legality_of_cannabis_by_U.S._jurisdiction">Wikipedia</a>.</figcaption>
+      </figure>
 
       <p>Marijuana is illegal under federal law, but most Americans now live in a state that has legalized the drug<a href="#pew" aria-describedby="footnote-label" id="pew-ref"></a>. The legal cannabis industry in America is barely a decade old. At the start of 2014 adults could not legally purchase weed simply to get high, rather than to ease pain, anywhere in America. Recreational use is now legal in 24 out of 50 states, home to just over half of Americans. Medical use is legal in 38. </p>
       <ul>
@@ -105,13 +110,6 @@
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
-  <svg style="display: none;">
-    <filter id="coastalGlow">
-      <feGaussianBlur stdDeviation="10" in="SourceAlpha" result="shadow"></feGaussianBlur>
-      <feflood flood-color="#9fd8e0" result="color" />
-      <feComposite operator="in" in="color" in2="shadow" />
-    </filter>
-  </svg>
   <script src="https://cdn.jsdelivr.net/npm/d3"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/topojson@3.0.2/dist/topojson.min.js"></script>
@@ -142,9 +140,6 @@
       var crimmap = new Map(laws.map(d => [d.State, d.Decriminalized]));
       var stateabbr = new Map(stategrid.map(d => [d.name, d.key]));
 
-      // const formatDate = d3.timeFormat("%B %d, %Y");
-
-      // Coastal glow from
       var waterColor = "#EAF1F2";
       var waterGlowColor = "#9fd8e0";
       var landColor = "#fff6e6";
