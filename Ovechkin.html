@@ -2,7 +2,7 @@
 <html lang="en" class="no-js">
 
 <head>
-  <title>How Alex Ovechkin broke Wayne Gretzky’s once-unbreakable record | Justin Chill</title>
+  <title>Alex Ovechkin's path to top scorer in the NHL | Justin Chill</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Using Hockey Reference data to show the progression of Alex Ovechkin to the career record for NHL goals.">
@@ -14,7 +14,7 @@
   <meta content="JustinChill" property="og:site_name">
   <meta content="website" property="og:type">
   <meta content="https://justinchill.com/Ovechkin.html" property="og:url">
-  <meta content="How Alex Ovechkin broke Wayne Gretzky’s once-unbreakable record | Justin Chill" property="og:title">
+  <meta content="Alex Ovechkin's path to top scorer in the NHL | Justin Chill" property="og:title">
   <meta content="Using Hockey Reference data to show the progression of Alex Ovechkin to the career record for NHL goals." property="og:description">
   <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
   <link rel="canonical" href="https://www.justinchill.com/Ovechkin.html">
@@ -27,7 +27,7 @@
   <meta name="dateModified" content="2025-07-06">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="How Alex Ovechkin broke Wayne Gretzky’s once-unbreakable record | Justin Chill">
+  <meta name="twitter:title" content="Alex Ovechkin's path to top scorer in the NHL | Justin Chill | Justin Chill">
   <meta name="twitter:description" content="Using Hockey Reference data to show the progression of Alex Ovechkin to the career record for NHL goals.">
 
   <link type="text/plain" href="humans.txt" rel="author">
@@ -41,12 +41,14 @@
   </script>
 
   <style type="text/css">
-    input[type='checkbox'] { 
+    input[type='checkbox'] {
       margin-left: .8rem;
     }
-    input[type='checkbox'] +label { 
+
+    input[type='checkbox']+label {
       padding-left: .2rem;
-     }
+    }
+
     @media screen and (max-width: 680px) {}
   </style>
 </head>
@@ -107,21 +109,21 @@
     // Use Promises to async request data
     var promises = [d3.json("data/Ovechkin record - Sheet1@3.json")];
     myDataPromises = Promise.all(promises);
-    
+
     // After data is successfully fetched, generate viz
     myDataPromises.then(function(data) {
-    
+
       // Define the data
       var formatted = data[0].filter((f) => f.player != null)
-      .filter((f) => f.Lg != "WHA");
+        .filter((f) => f.Lg != "WHA");
       // Assuming raw_data is an array of objects with a 'Player' property
       const players = [...new Set(formatted.map((d) => d.player))];
       const defaultValues = ["Alex Ovechkin", "Wayne Gretzky"];
-      
+
       // Create a container for the checkboxes
       const container = document.createElement('label');
       container.innerHTML = 'Select players: ';
-      
+
       // Create a checkbox for each player
       players.forEach(player => {
         const checkbox = document.createElement('input');
@@ -129,47 +131,45 @@
         checkbox.id = player;
         checkbox.value = player;
         checkbox.checked = defaultValues.includes(player);
-      
+
         const label = document.createElement('label');
         label.htmlFor = player;
         label.appendChild(document.createTextNode(player));
-      
+
         container.appendChild(checkbox);
         container.appendChild(label);
         // container.appendChild(document.createElement('br'));
       });
-      
+
       // Add the container to the body (or any other element you prefer)
       document.getElementById("step_chart").appendChild(container);
-      
+
       // To get the selected values, you can use the following function:
       function getSelectedPlayers() {
         return Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(checkbox => checkbox.value);
       }
-      
+
       playersToViz = formatted.filter((f) => getSelectedPlayers().includes(f.player))
-      var step_chart = {
-      };
-      
-      
+      var step_chart = {};
+
       // Function to redraw the step_chart
       function redrawStepChart() {
         const selectedPlayers = getSelectedPlayers();
         const filteredData = formatted;
-      
+
         // Assuming you have a function to create or update the step_chart
         // For example, using a library like D3.js or any other plotting library
         renderStepChart(filteredData);
       }
-      
+
       // Add event listeners to all checkboxes
       document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
         checkbox.addEventListener('change', redrawStepChart);
       });
-      
+
       // Initial redraw
       renderStepChart();
-      
+
       // Function to render the country chart
       function renderStepChart(area) {
         const step_chart = {
@@ -184,7 +184,7 @@
             ticks: [18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40],
             domain: [18, 40]
           },
-          y:{
+          y: {
             nice: true,
             labelAnchor: "top",
             frameAnchor: "top-left",
@@ -218,14 +218,14 @@
             )
           ]
         };
-      
+
         // Clear existing chart
         const countryContainer = document.getElementById("step_chart");
         countryContainer.innerHTML = ""; // Clear existing chart
         countryContainer.appendChild(container); // Re-add dropdown
         countryContainer.appendChild(Plot.plot(step_chart)); // Add new chart
       } //renderCountryChart
-      
+
       var age_chart = {
         width: width,
         style: {
@@ -233,18 +233,20 @@
         },
         marginRight: 10,
         paddingBottom: 40,
-        fx: { label: null },
+        fx: {
+          label: null
+        },
         x: {
           ticks: [20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40],
-          domain: d3.range(19, 40)
+          domain: d3.range(19, 40),
+          label: "Age",
         },
         marks: [
           Plot.ruleY([0]),
           Plot.barY(
-            playersToViz.length < 1
-              ? formatted.filter((f) => f.player == "Alex Ovechkin")
-              : playersToViz,
-            {
+            playersToViz.length < 1 ?
+            formatted.filter((f) => f.player == "Alex Ovechkin") :
+            playersToViz, {
               x: "age",
               y: "Goals",
               fx: "player",
