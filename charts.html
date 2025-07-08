@@ -946,7 +946,8 @@
         <img src="imgs/Asylum_seekers.png" alt="Flowchart illustrating European asylum seeker application decisions in 2012 and 2014. Shows main origin and destination countries, including Afghanistan, Syria, Serbia, and Pakistan, with applications in Germany, Sweden, France, and more. Data source: Eurostat." loading="lazy">
         <figcaption class="right">Source: <a href="https://www.economist.com/graphic-detail/2015/05/12/seeking-safety">The Economist</a></figcaption>
       </figure>
-      <p>The alluvial diagram is useful for showing changes over time across categories. Each group of stacked bars represents a variable while the size of each segment represents how many observations in the dataset belong to that segment. The colored flows between the bars represent a group of observations between each variable of the flow. The thickness of the flow indicates how many observations belong to that group. In the example above, countries are represented by each bar and the flow tracks refugees as they change countries. Alluvial diagrams are named after <a href="https://en.wikipedia.org/wiki/Alluvial_fan">alluvial fans</a>.</p>
+      <p>An alluvial diagram is useful for showing changes over time across categories. Each group of stacked bars represents a variable while the size of each segment represents how many observations in the dataset belong to that segment. The colored flows between the bars represent a group of observations between each variable of the flow. The thickness of the flow indicates how many observations belong to that group.</p> 
+      <p>In the example above, countries are represented by each bar and the flow tracks refugees as they change countries. Alluvial diagrams are named after <a href="https://en.wikipedia.org/wiki/Alluvial_fan">alluvial fans</a>.</p>
 
       <h2>Area chart</h2>
       <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
@@ -961,7 +962,7 @@
       <figure id="electricity">
         <figcaption>Data: <a href="https://ourworldindata.org/electricity-mix">Our World in Data</a></figcaption>
       </figure>
-      <p>A stacked area chart stacks values so that the cumulative area represents 100%. These charts can help to show a progression and composition over time, and the 100% stacked area chart is meant to show the percentage that each component contributes when the cumulative total is not important.</p>
+      <p>A 100% stacked area chart works on the same principle, but each category is plotted as a percentage of an absolute number, with the total adding up to 100%. The y-axis therefore plots percentages instead of numbers. You can quickly identify a 100% stacked chart by its rectangular shape.&nbsp;</p>
       <h2>Bar chart</h2>
       <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
       <h3>English letter frequency</h3>
@@ -993,7 +994,7 @@
       <h2>Beeswarm </h2>
       <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
       <h3>US Presidents</h3>
-      <figure id="beeswarm"></figure>
+      <figure id="beeswarm" class="mid-size"></figure>
       <p>Beeswarm plots are a fun, visually pleasing alternative to histograms that can be used when data is sufficiently small and you want to plot every point. A beeswarm chart is a one-dimensional chart that shows all the information on a single-axis (usually the X axis). It is similar to a strip plot, except that would-be overlapping points are separated such that each is visible. </p>
       <h2>Box and Whisker Plot</h2>
       <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
@@ -1063,7 +1064,7 @@
       <h2>Connected scatter plot</h2>
       <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
       <h3>Driving shifts into reverse</h3>
-      <figure id="driving_line">
+      <figure id="driving_line" class="mid-size">
         <figcaption class="right">Data: <a href="http://www.nytimes.com/imagepages/2010/05/02/business/02metrics.html">New York Times</a></figcaption>
       </figure>
       <p>A connected scatterplot is a line chart where each data point is shown with a marker, usually a circle or dot. A cross between a scatterplot and a time series graph, the connected scatter plot helps visualize two (2) variables over time.</p>
@@ -1687,6 +1688,8 @@
   <script type="text/javascript">
     var element = d3.select('p').node();
     var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive  
+    var elementMid = d3.select('figure.mid-size').node();
+    var widthMid = elementMid.getBoundingClientRect().width; // get width of figure.mid-size so graphic is responsive
     var size = width > 450 ? ".9rem" : ".7rem";
     var backgroundColor = "rgba(242,245,248,1)";
 
@@ -1797,13 +1800,13 @@
       "country": "China",
       "value": 10174.681
     }, {
-      "country": "United States of America",
+      "country": "United States",
       "value": 5284.697
     }, {
       "country": "India",
       "value": 2616.449
     }, {
-      "country": "Russian Federation",
+      "country": "Russia",
       "value": 1678.367
     }, {
       "country": "Japan",
@@ -4298,7 +4301,7 @@
       };
 
       var beeswarm = {
-        width: width,
+        width: widthMid,
         inset: 20,
         marginBottom: 40,
         marginTop: 20,
@@ -4343,6 +4346,7 @@
           tickFormat: "$f",
           anchor: "top",
           tickSize: 0,
+          ticks: 4,
           nice: true,
         },
         x: {
@@ -4356,6 +4360,7 @@
         marks: [
           Plot.axisY({
             tickSize: 0, // don’t draw ticks
+            ticks: 4,
             dx: 2, // offset right
             dy: -4, // offset up
             lineAnchor: "bottom", // draw labels above grid lines
@@ -4715,6 +4720,9 @@
           tickSize: 0,
           anchor: "left",
           labelOffset: 4,
+          ticks: 4,
+          grid: true,
+          label: "Speed of light (km/s minus 299,000)"
         },
         x: {
           label: "Experiment",
@@ -4722,11 +4730,23 @@
           labelAnchor: "center",
         },
         marks: [
+          Plot.text(["True speed"], {
+            stroke: "white", 
+            strokeWidth: 1,
+            fill: "currentColor",
+            frameAnchor: "middle",
+            dy: 50
+          }),
           boxY(morley, {
             x: "Expt",
             y: "Speed",
             fill: "hsl(43, 89%, 70%)"
-          })
+          }),
+          Plot.ruleY([790], {
+            stroke: "currentColor", 
+            strokeWidth: 1,
+            strokeDasharray: "5 1.5"
+          }),
         ]
       };
 
@@ -4958,7 +4978,7 @@
       };
 
       var driving_line = {
-        width: width,
+        width: widthMid,
         height: 500,
         marginRight: 0,
         style: {
@@ -5846,7 +5866,7 @@
       var diverging = {
         width: width,
         style: {
-          fontSize: size,
+          fontSize: 12.5,
           paddingTop: 40
         },
         margin: 0,
