@@ -41,7 +41,16 @@
   </script>
 
   <style type="text/css">
-
+    #country{
+      display: flex;
+      flex-direction: column;
+    }
+    select#countrySelect {
+        width: fit-content;
+    }
+    #changes div[class*="swatch"] span{
+        font-size: 1.0125rem;
+      }
   </style>
 </head>
 
@@ -65,21 +74,28 @@
         <h1 class="article-title">Growth areas</h1>
         <h2 class="article-subtitle">UN Population Projections 2022</h2>
       </div>
-
-      <figure id="total" aria-label="A line chart showing the current world population as a solid line to 2022 and projections of the world population to 2100 as a cone of uncertainty."></figure>
-      <figcaption class="right">Data: <a href="https://population.un.org/wpp/">United Nations</a></figcaption>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <h2>The Road to 10 Billion</h2>
+      <figure id="total" aria-label="A line chart showing the current world population as a solid line to 2022 and projections of the world population to 2100 as a cone of uncertainty.">
+        <figcaption class="right">Data: <a href="https://population.un.org/wpp/">United Nations</a></figcaption>
+      </figure>      
 
       <p>The United Nations Population Division recently released <a href="https://population.un.org/wpp/">World Population Prospects 2022</a>, which includes yearly population projections to 2100. The probabilistic projections are based on a hierarchical Bayesian model.</p>
       <p>The solid line in the figure above shows historical world population from 1949-2021 and the posterior median population projection from 2022-2100. The shaded regions illustrate the posterior 80% and 95% credible intervals for population projections from 2022-2100.</p>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
       <h3>Country Projections</h3>
-      <figure id="country" aria-label="A line chart showing the current population of the selected country as a solid line to 2022 and projections of the population to 2100 as a cone of uncertainty."></figure>
-      <figcaption class="right">Data: <a href="https://population.un.org/wpp/">United Nations</a></figcaption>
+      <figure id="country" aria-label="A line chart showing the current population of the selected country as a solid line to 2022 and projections of the population to 2100 as a cone of uncertainty.">
+        <figcaption class="right">Data: <a href="https://population.un.org/wpp/">United Nations</a></figcaption>
+      </figure>      
       <p>The solid line shows historical population of <span id="countryLabel">Afghanistan</span> from 1949-2021 and the posterior median population projection from 2022-2100. The shaded regions illustrate the posterior 80% and 95% credible intervals for population projections from 2022-2100.</p>
       <h3>Changes in Population</h3>
       <p>Let's take a quick look to at which countries are projected to have the largest change in population from 2022-2100.</p>
       <p>The plot below compares the percent change in population from 2022-2100 to the 2022 population (log scale) for every country.</p>
-      <figure id="changes" aria-label="A scatter plot showing each country compared to the percent of population change from 2022 - 2100 on the y-axis and the 2022 population (log scale) on the x-axis."></figure>
-      <figcaption class="right">Data: <a href="https://population.un.org/wpp/">United Nations</a></figcaption>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <h3>Africa on the rise</h3>
+      <figure id="changes" aria-label="A scatter plot showing each country compared to the percent of population change from 2022 - 2100 on the y-axis and the 2022 population (log scale) on the x-axis.">
+        <figcaption class="right">Data: <a href="https://population.un.org/wpp/">United Nations</a></figcaption>
+      </figure>      
     </article>
   </main>
   <footer>
@@ -136,8 +152,9 @@
       // Inspired by https://observablehq.com/d/20d13d84dd44a84e
       var total = {
         width: width,
-        margin: 10,
-        marginLeft: 15,
+        style: {
+          fontSize: size
+        },
         x: {
           type: "time",
           label: "Year",
@@ -146,9 +163,11 @@
         y: {
           grid: true,
           transform: d => d / 1e6,
-          label: "World Population (Billions)",
+          label: "World population (Billions)",
           labelArrow: null,
           tickSize: 0,
+          ticks: 4,
+          nice: true,
         },
         color: {
           legend: true
@@ -263,7 +282,6 @@
 
       var changes = {
         width: width,
-        margin: 10,
         marginLeft: 20,
         style: {
           paddingTop: ".5rem",
@@ -272,7 +290,9 @@
           label: "2022 Population (Millions)",
           type: "log",
           transform: d => d / 1e3,
-          tickFormat: "f"
+          tickFormat: "f",
+          frameAnchor: "bottom",
+          labelAnchor: "center"
         },
         y: {
           grid: true,
@@ -281,6 +301,7 @@
           labelOffset: 2,
           tickSize: 0,
           labelArrow: null,
+          ticks: 4,
         },
         color: {
           legend: true
