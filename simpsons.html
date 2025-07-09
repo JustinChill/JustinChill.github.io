@@ -367,32 +367,13 @@
       top: 50px;
       left: 45px;
     }
-
-    /*Plot*/
-    p.title {
-      font-family: 'Ubuntu', sans-serif;
-      text-align: left;
-      font-size: calc(16px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
-      padding-bottom: 0;
-      margin-top: 2rem;
-      pointer-events: none;
-    }
-
+/* 
     .plot text {
       color: #656568;
       font-family: 'Ubuntu', sans-serif;
       font-size: calc(4px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
       padding: 2rem;
-    }
-
-    figcaption {
-      color: #656568;
-      text-align: right;
-    }
-
-    #simpsonsEpisodes svg[class*="plot"] {
-      margin: 20px 0px;
-    }
+    } */
 
     #simpsonsEpisodes svg[class*="plot"],
     #simpsonsSeasons svg[class*="plot"] {
@@ -636,23 +617,30 @@
     <article>
       <p>The Simpsons needs no introduction. At 34 seasons and counting it is the longest-running scripted series in the history of American primetime television<a href="#longrunning" aria-describedby="footnote-label" id="longrunning-ref"></a>. If Bart Simpson aged in real time with the show, <a href="https://screenrant.com/simpsons-characters-real-life-age-how-old/#:~:text=Bart%20Simpson's%20Age,years%2Dold%20as%20of%202020.">he would now be in his 40s</a>. </p>
       <p>As a fan of the show, I present here a few short analyses about Springfield, from the show’s dialogue to its TV ratings. All code used for this post is available on <a href="https://github.com/JustinChill/JustinChill.github.io/blob/main/simpsons.html">GitHub</a>.</p>
-
-      <p class="title">Ratings for The Simpsons have declined over time</p>
-      <figure class="mid-size" id="simpsonsRatings"></figure>
-      <figcaption>Data: <a href="https://www.imdb.com/title/tt0096697/">IMDB</a></figcaption>
+      <span class="header-tag mid-size"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <h2 class="mid-size">Ratings for The Simpsons have declined over time</h2>
+      <figure class="mid-size" id="simpsonsRatings">
+        <figcaption class="right">Data: <a href="https://www.imdb.com/title/tt0096697/">IMDB</a></figcaption>
+      </figure>
       <p><em>You Only Move Twice</em> aired <time datetime="1996-11-03">Nov 3, 1996</time> and remains the highest scoring episode with an IMDB score of <strong>9.3</strong>. Ratings decline steadily after season 10 but the decline has largely tapered off. The lowest scoring episode to date came in season 23 with <em>Lisa Goes Gaga</em> (<strong>3.9</strong>).</p>
 
-      <p class="title">600+ episodes </p>
-      <figure id="simpsonsEpisodes"></figure>
-      <figcaption>Data: <a href="https://www.imdb.com/title/tt0096697/">IMDB</a></figcaption>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <h3>600+ episodes </h3>
+      <figure id="simpsonsEpisodes">
+        <figcaption>Data: <a href="https://www.imdb.com/title/tt0096697/">IMDB</a></figcaption>
+      </figure>
       <p>This matrix graph visualizes each episode as an individual cell, shaded according to IMDB score. This creates a heatmap, allowing you to see trends more quickly.</p>
-
-      <p class="title">Average rating by season</p>
-      <figure id="simpsonsSeasons"></figure>
-      <figcaption>Data: <a href="https://www.imdb.com/title/tt0096697/">IMDB</a></figcaption>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <h2>Average rating by season</h2>
+      <figure id="simpsonsSeasons">
+        <figcaption>Data: <a href="https://www.imdb.com/title/tt0096697/">IMDB</a></figcaption>
+      </figure>
       <p>Here we look at the difference between episodes within each season. Early seasons have a tighter grouping of episodes, meaning they all score roughly the same. Starting in season 6 we start to see a greater spread of episodes. Season 23 has the greatest range of scores within a season (&plusmn; 4.4).</p>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <h2>Homer Economicus</h2>
+      <h3>Average IMDb rating, per season</h3>
       <figure id="seasonavg"></figure>
-      <!-- <p class="title">Average rating by season</p> -->
+      <!-- <p class="title">Average rating by season</p> -->      
       <figure id="simpsonsFacet"></figure>
 
       <!-- Random Simpson's quote -->
@@ -697,7 +685,7 @@
 
       <!-- <h2>Top ten episodes</h2> -->
       <!-- <figure id="top_ten"></figure>       -->
-
+      
       <h2>Simpsons no-nos</h2>
       <figure class="mid-size">
         <img src="https://i.imgur.com/d7FqN8Z.jpg" alt="Simpsons no-nos" loading="lazy">
@@ -782,8 +770,10 @@
         // episode_description: d.episode_description,
       }
     })];
-    var element = d3.select('figure.mid-size').node();
-    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+    var elementMid = d3.select('figure.mid-size').node();
+    var widthMid = elementMid.getBoundingClientRect().width; // get width of figure.mid-size so graphic is responsive
+    var element = d3.select('figure:last-of-type').node();
+    var width = element.getBoundingClientRect().width; // get width of figure so graphic is responsive. Todo / hacky
     var size = 12;
 
     var averages = [{
@@ -883,7 +873,7 @@
 
       // Line chart ratings over time
       var simpsonsRatings = {
-        width: width,
+        width: widthMid,
         style: {
           fontSize: size,
           background: "none",

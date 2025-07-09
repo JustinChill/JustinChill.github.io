@@ -77,9 +77,11 @@
         <h1 class="article-title">The <span>failing</span> New York Times</h1>
         <h2 class="article-subtitle"></h2>
       </div>
-
-      <figure id="lineChart" class="mid-size"></figure>
-      <figcaption class="right mid-size">Data: <a href="https://www.google.com/finance/quote/NYT:NYSE">Google Finance</a></figcaption>
+      <span class="header-tag mid-size"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <h3 class="mid-size">Fake news!</h3>
+      <figure id="lineChart" class="mid-size">
+        <figcaption class="right mid-size">Data: <a href="https://www.google.com/finance/quote/NYT:NYSE">Google Finance</a></figcaption>
+      </figure>      
       <p>Donald Trump regularly refers to The New York Times as "The Failing New York Times." However, in addition to the Times' growing subscription numbers, stock prices have also soared. Interact with the viz to see how stock prices have grown since election day.</p>
     </article>
   </main>
@@ -95,7 +97,6 @@
   <footer>
     <h2 id="footnote-label">Footnotes</h2>
     <ol>
-      <li id="Chayka"><a href="https://www.nytimes.com/2017/08/19/opinion/trump-nazism-republican-party-failing.html">Illustration</a> by Doug Chayka.</li>
       <li id="font"><a href="https://github.com/ctrlcctrlv/chomsky">Chomsky</a>: A font in the style of the New York Times masthead</li>
     </ol>
 
@@ -135,7 +136,6 @@
         marginRight: 0,
         style: {
           fontSize: size,
-          paddingLeft: 24,
           paddingRight: 10,
           paddingBottom: 10
         },
@@ -148,9 +148,19 @@
           tickFormat: (d) => `$${d}`,
           grid: true,
           ticks: 4,
+          labelArrow: false,
           domain: [0, 60]
         },
         marks: [
+          Plot.axisY({
+            tickSize: 0, // don’t draw ticks
+            dx: 2, // offset right
+            dy: -6, // offset up
+            lineAnchor: "bottom", // draw labels above grid lines
+            tickFormat: (d, i, _) => (i === _.length - 1 ? `$${d}` : d), // Show $ on first tick only,
+            labelOffset: 5,
+            ticks: 4,
+          }),
           Plot.areaY(stocks, {
             x: "Date",
             y: "Close",
@@ -176,7 +186,7 @@
             lineHeight: 1.5,
             dx: 6,
             dy: -30,
-            stroke: "white",
+            stroke: "currentColor",
             strokeWidth: .5,
             fill: "currentColor"
           })),
@@ -186,7 +196,7 @@
             fontSize: 14,
             dx: -6,
             dy: -20,
-            stroke: "white",
+            stroke: "currentColor",
             strokeWidth: .5,
             fill: "currentColor"
           })),
