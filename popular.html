@@ -114,8 +114,8 @@
     var element = d3.select('figure').node();
     var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
     // var ns = Inputs.text().classList[0];
-    var isDarkMode = () =>
-      window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    // var isDarkMode = () =>
+    //   window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
 
     // Use Promises to async request data
     var promises = [];
@@ -248,15 +248,14 @@
           Plot.tip(
             popular_vote,
             Plot.pointer({
-              fill: isDarkMode() ? "#293845" : "#ffffff",
+              // fill: isDarkMode() ? "#293845" : "#ffffff",
+              fill: "#fff",
               fillOpacity: 0.7,
               strokeOpacity: 0.4,
               x: "year",
               y: "popular",
               title: (d) =>
-                `${d.candidate}\n${d.party}\n\n${
-                d.year
-              }\nShare of votes: ${d.popular.toLocaleString("en", {
+                `${d.candidate}, ${d.year}\n${d.party}\n\nShare of votes: ${d.popular.toLocaleString("en", {
                 minimumFractionDigits: 1,
                 maximumFractionDigits: 1
               })} %`
@@ -436,13 +435,14 @@
           Plot.tip(
             popular_vote,
             Plot.pointer({
-              fill: isDarkMode() ? "#293845" : "#ffffff",
+              // fill: isDarkMode() ? "#293845" : "#ffffff",
+              fill: "#fff",
               fillOpacity: 0.7,
               strokeOpacity: 0.4,
               x: "difference",
               y: "electoral",
               title: (d) =>
-                `${d.candidate}\n${d.party}\n\n${d.year}\nDifference: ${
+                `${d.candidate}, ${d.year}\n${d.party}\n\nDifference: ${
               d.difference > 0
                 ? "+" +
                   d.difference.toLocaleString("en", {

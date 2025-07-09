@@ -34,7 +34,6 @@
   </script>
 
   <style type="text/css">
-
     @media screen and (max-width: 680px) {}
   </style>
 </head>
@@ -64,18 +63,22 @@
       <figure id="gryfhousecup" aria-label="" class="mid-size"></figure>
       <p>The House Cup was a yearly award given at Hogwarts School of Witchcraft and Wizardry. It was given at the end of the school year to the House with the most House points. Points were given to Houses by teachers and prefects throughout the year for various things including answering questions correctly and doing good deeds. The winners of school Quidditch games also received points. Points could be taken away for things such as misbehaving or rule-breaking.</p>
       <img src="https://static.wikia.nocookie.net/harrypotter/images/f/f8/HogwartsHouseCupWU.png" alt="The House Cup, a gold trophy." />
-      <blockquote><p>"While you are at Hogwarts, your triumphs will earn you house points, while any rule-breaking will lose house points. At the end of the year, the house with the most points is awarded the house cup, a great honor"</p>
-      <figcaption><p>Professor Minerva McGonagall explaining the house point system and the House Cup</p></figcaption></blockquote>
+      <blockquote>
+        <p>"While you are at Hogwarts, your triumphs will earn you house points, while any rule-breaking will lose house points. At the end of the year, the house with the most points is awarded the house cup, a great honor"</p>
+        <cite>Professor Minerva McGonagall explaining the house point system and the House Cup</cite>
+      </blockquote>
       <h3>House points awarded to all Houses</h3>
       <figure id="housecup" aria-label=""></figure>
       <p>A <a href="https://www.nytimes.com/interactive/2024/10/31/world/europe/russia-gains-ukraine-maps.html">graphic</a> in the New York Times inspired this article. I like how they presented a diverging bar chart to show change and wanted to mimic the style with happier data.</p>
-      <blockquote><p>The din was deafening. Those who could add up while yelling themselves hoarse knew that Gryffindor now had four hundred and seventy-two points—exactly the same as Slytherin. They had tied for the house cup -- if only Dumbledore had given Harry just one more point .
-        
-        Dumbledore raised his hand. The room gradually fell silent. "There are all kinds of courage," said Dumbledore, smiling.
-        
-        "It takes a great deal of bravery to stand up to our enemies, but just as much to stand up to our friends. I therefore award ten points to Mr. Neville Longbottom."</p>
-      <figcaption><p>Dumbledore in Harry Potter and the Sorcerer's Stone</p></figcaption></blockquote>      
-      
+      <blockquote>
+        <p>The din was deafening. Those who could add up while yelling themselves hoarse knew that Gryffindor now had four hundred and seventy-two points—exactly the same as Slytherin. They had tied for the house cup -- if only Dumbledore had given Harry just one more point .
+
+          Dumbledore raised his hand. The room gradually fell silent. "There are all kinds of courage," said Dumbledore, smiling.
+
+          "It takes a great deal of bravery to stand up to our enemies, but just as much to stand up to our friends. I therefore award ten points to Mr. Neville Longbottom."</p>
+        <cite>Dumbledore in Harry Potter and the Sorcerer's Stone</cite>
+      </blockquote>
+
     </article>
   </main>
   <footer>
@@ -99,80 +102,107 @@
     var width = element.getBoundingClientRect().width; // get width of figure so graphic is responsive. TODO / hacky
 
     // Use Promises to async request data
-    var promises = [d3.csv("data/Harry Potter Points Table.csv", d3.autoType),];
+    var promises = [d3.csv("data/Harry Potter Points Table.csv", d3.autoType), ];
     myDataPromises = Promise.all(promises);
-    
+
     // After data is successfully fetched, generate viz
     myDataPromises.then(function(data) {
-    var data = data[0];
-    var gryffindor = data.filter(d => d.House == "Gryffindor")
-    console.log(data);
+      var data = data[0];
+      var gryffindor = data.filter(d => d.House == "Gryffindor")
+      console.log(data);
 
-    var gryfhousecup = {
-      width: widthMid,
-      style: {
-        fontSize: size,
-        textTransform: "capitalize",
-        paddingBottom: 30,
-      },
-      color: {
-        legend: true,
-      },
-      color: {
-        legend: true,
-      },
-      y: { nice: true, label: "House points"},
-      fy: { label: null },
-      marks: [
-        Plot.frame({ strokeOpacity: 0.1 }),
-        Plot.axisX({lineWidth: 7, tickSize: 0, label: null}),
-        Plot.barY(gryffindor, {
-          fy: "House",
-          x: "Movie Title",
-          y: "Points Awarded",
-          title: "Points Awarded",
-          tip: true,
-          fill: "rgba(25,153,206,255)",
-        }),
-        Plot.barY(gryffindor,
-          { fy: "House", x: "Movie Title", y: "Points Deducted", title: "Points Deducted", tip: true, fill: "rgba(232,72,66,255)" }
-        ),
-        Plot.ruleY([0])
-      ]
-    };
-    
-    var housecup = {
-      width: width,
-      style: {
-        fontSize: size,
-        textTransform: "capitalize",
-        paddingBottom: 30,
-      },
-      color: {
-        legend: true,
-      },
-      color: {
-        legend: true,
-      },
-      fy: { label: null },
-      marks: [
-        Plot.frame({ strokeOpacity: 0.1 }),
-        Plot.axisX({lineWidth: 6, tickSize: 0, label: null}),
-        Plot.barY(data, {
-          fy: "House",
-          x: "Movie Title",
-          y: "Points Awarded",
-          fill: "rgba(25,153,206,255)",
-        }),
-        Plot.barY(data,
-          { fy: "House", x: "Movie Title", y: "Points Deducted", fill: "rgba(232,72,66,255)" }
-        ),
-        Plot.ruleY([0])
-      ]
-    };
+      var gryfhousecup = {
+        width: widthMid,
+        style: {
+          fontSize: size,
+          textTransform: "capitalize",
+          paddingBottom: 30,
+        },
+        color: {
+          legend: true,
+        },
+        color: {
+          legend: true,
+        },
+        y: {
+          nice: true,
+          label: "House points"
+        },
+        fy: {
+          label: null
+        },
+        marks: [
+          Plot.frame({
+            strokeOpacity: 0.1
+          }),
+          Plot.axisX({
+            lineWidth: 7,
+            tickSize: 0,
+            label: null
+          }),
+          Plot.barY(gryffindor, {
+            fy: "House",
+            x: "Movie Title",
+            y: "Points Awarded",
+            title: "Points Awarded",
+            tip: true,
+            fill: "rgba(25,153,206,255)",
+          }),
+          Plot.barY(gryffindor, {
+            fy: "House",
+            x: "Movie Title",
+            y: "Points Deducted",
+            title: "Points Deducted",
+            tip: true,
+            fill: "rgba(232,72,66,255)"
+          }),
+          Plot.ruleY([0])
+        ]
+      };
 
-    document.getElementById("housecup").appendChild(Plot.plot(housecup));
-    document.getElementById("gryfhousecup").appendChild(Plot.plot(gryfhousecup));
+      var housecup = {
+        width: width,
+        style: {
+          fontSize: size,
+          textTransform: "capitalize",
+          paddingBottom: 30,
+        },
+        color: {
+          legend: true,
+        },
+        color: {
+          legend: true,
+        },
+        fy: {
+          label: null
+        },
+        marks: [
+          Plot.frame({
+            strokeOpacity: 0.1
+          }),
+          Plot.axisX({
+            lineWidth: 6,
+            tickSize: 0,
+            label: null
+          }),
+          Plot.barY(data, {
+            fy: "House",
+            x: "Movie Title",
+            y: "Points Awarded",
+            fill: "rgba(25,153,206,255)",
+          }),
+          Plot.barY(data, {
+            fy: "House",
+            x: "Movie Title",
+            y: "Points Deducted",
+            fill: "rgba(232,72,66,255)"
+          }),
+          Plot.ruleY([0])
+        ]
+      };
+
+      document.getElementById("housecup").appendChild(Plot.plot(housecup));
+      document.getElementById("gryfhousecup").appendChild(Plot.plot(gryfhousecup));
     });
   </script>
 </body>
