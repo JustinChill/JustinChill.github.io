@@ -63,31 +63,31 @@
       <div class="article-hero">
         <h2 class="article-category">Post</h2>
         <h1 class="article-title">Steph Curry Popcorn</h1>
-        <h2 class="article-subtitle"></h2>
+        <h2 class="article-subtitle">Steph Curry Ranks the Popcorn at All 29 N.B.A. Arenas</h2>
       </div>
 
-      <h3>Steph Curry Ranks the Popcorn at All 29 N.B.A. Arenas</h3>
-      <figure id="heatmap" aria-label="A heatmap ranking the popcorn at 29 NBA arenas based on five qualities: butter, crunchiness, freshness, presentation, and saltiness. Top arenas: Mavericks (24), Nets (23), and Heat (22). Scores are color-coded from light to dark orange."></figure>
-      <figcaption>Data: <a href="https://www.nytimes.com/interactive/2019/04/12/sports/basketball/stephen-curry-warriors-popcorn.html">New York Times, 2019</a></figcaption>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <h2>Pass the popcorn</h2>
+      <figure id="heatmap" aria-label="A heatmap ranking the popcorn at 29 NBA arenas based on five qualities: butter, crunchiness, freshness, presentation, and saltiness. Top arenas: Mavericks (24), Nets (23), and Heat (22). Scores are color-coded from light to dark orange.">
+        <figcaption>Data: <a href="https://www.nytimes.com/interactive/2019/04/12/sports/basketball/stephen-curry-warriors-popcorn.html">New York Times, 2019</a></figcaption>
+      </figure>
 
       <p>Golden State Warriors superstar guard Steph Curry is a self-professed “popcorn addict.” Asked by <a href="https://www.nytimes.com/interactive/2019/04/12/sports/basketball/stephen-curry-warriors-popcorn.html">The New York Times</a> if he was prepared to officially compile a 1-to-29 ladder for publication, Curry not only agreed but also suggested scoring five factors on a scale of 1 to 5 to support the rankings: freshness, saltiness, crunchiness, butter and presentation.</p>
-
+      <blockquote>
+        <p>“I really get off on popcorn. It's not even a joke.”</p>
+        <cite>Steph Curry</cite>
+      </blockquote>
       <p>He proudly shared<a href="#story" aria-describedby="footnote-label" id="story-ref"></a> a story of Miami Heat ball boys, at the morning practice on Feb. 27, assuring him that he would be “impressed by their efforts on the popcorn front” — and then being greeted later that evening by a table with popcorn bags lined up on wood planks under heat lamps.</p>
 
       <p>Curry says he never adds anything to the popcorn to change its appearance, taste or temperature.</p>
 
       <figure>
+        <figcaption class="right">Stephen Curry's NBA arena popcorn scorecard for the Dallas Mavericks.</figcaption>
         <img src="https://static01.nyt.com/images/2019/04/13/sports/13CurryPopcorn1_Mavericks/13CurryPopcorn1_Mavericks-master1050-v2.jpg" alt="Stephen Curry’s Dallas Popcorn Ballot" loading="lazy">
-        <figcaption>Stephen Curry's NBA arena popcorn scorecard for the Dallas Mavericks.</figcaption>
       </figure>
 
       <p>The original graphic appeared in the NYT April 2019, "<a href="https://www.nytimes.com/interactive/2019/04/12/sports/basketball/stephen-curry-warriors-popcorn.html">Stephen Curry Has a Popcorn Problem</a>":</p>
       <img src="https://flowingdata.com/wp-content/uploads/2019/04/Stephen-Curry-popcorn-scores.png" alt="A heatmap ranking the popcorn at 29 NBA arenas based on five qualities: butter, crunchiness, freshness, presentation, and saltiness. Top arenas: Mavericks (24), Nets (23), and Heat (22). Scores are color-coded from light to dark orange." loading="lazy">
-      <p></p>
-      <blockquote>
-        <p>“I really get off on popcorn. It's not even a joke.”</p>
-        <cite>Steph Curry</cite>
-      </blockquote>
 
     </article>
   </main>
@@ -133,6 +133,7 @@
         marginLeft: width > 450 ? width / 4 : width / 3,
         aspectRatio: 2,
         padding: 0,
+        marginRight: width > 450 ? 0 : 32,
         x: {
           axis: "both",
           label: null,
@@ -161,7 +162,7 @@
           Plot.text(popcorn, {
             y: "Team",
             dx: -10,
-            dy: width > 450 ? -4 : -2,
+            // dy: width > 450 ? -4 : -2,
             text: (d) => `${d.Team}`,
             frameAnchor: "left",
             textAnchor: "end",
@@ -172,11 +173,11 @@
           Plot.text(popcorn, {
             y: "Team",
             dx: -10,
-            dy: width > 450 ? 6 : 1,
+            dy: width > 450 ? 16 : 10,
             text: (d) => `${d.Arena}`,
             frameAnchor: "left",
             textAnchor: "end",
-            lineAnchor: "top",
+            lineAnchor: "bottom",
             fontWeight: "light",
             fontSize: width > 450 ? 16 : 10
           }), // Arena name
@@ -213,7 +214,6 @@
             fontWeight: "bold"
           }),
         ]
-
       };
       document.getElementById("heatmap").appendChild(Plot.plot(heatmap));
     });

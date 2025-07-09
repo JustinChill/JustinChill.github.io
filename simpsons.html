@@ -367,7 +367,8 @@
       top: 50px;
       left: 45px;
     }
-/* 
+
+    /* 
     .plot text {
       color: #656568;
       font-family: 'Ubuntu', sans-serif;
@@ -615,8 +616,8 @@
       </div>
     </header>
     <article>
-      <p>The Simpsons needs no introduction. At 34 seasons and counting it is the longest-running scripted series in the history of American primetime television<a href="#longrunning" aria-describedby="footnote-label" id="longrunning-ref"></a>. If Bart Simpson aged in real time with the show, <a href="https://screenrant.com/simpsons-characters-real-life-age-how-old/#:~:text=Bart%20Simpson's%20Age,years%2Dold%20as%20of%202020.">he would now be in his 40s</a>. </p>
-      <p>As a fan of the show, I present here a few short analyses about Springfield, from the show’s dialogue to its TV ratings. All code used for this post is available on <a href="https://github.com/JustinChill/JustinChill.github.io/blob/main/simpsons.html">GitHub</a>.</p>
+      <p>The Simpsons needs no introduction. At <a href="https://www.yahoo.com/entertainment/simpsons-renewed-season-40-185615929.html">40 seasons</a> and counting it is the longest-running scripted series in the history of American primetime television<a href="#longrunning" aria-describedby="footnote-label" id="longrunning-ref"></a>. If Bart Simpson aged in real time with the show, he would now be in his <a href="https://screenrant.com/simpsons-characters-real-life-age-how-old/#:~:text=Bart%20Simpson's%20Age,years%2Dold%20as%20of%202020.">40s</a>. </p>
+      <p>As a cromulent fan of the show I present here a few short analyses about Springfield, from the show’s dialogue to its TV ratings. All code used for this post is available on <a href="https://github.com/JustinChill/JustinChill.github.io/blob/main/simpsons.html">GitHub</a>.</p>
       <span class="header-tag mid-size"><img src="imgs/tag.svg" alt="Chart header tag"></span>
       <h2 class="mid-size">Ratings for The Simpsons have declined over time</h2>
       <figure class="mid-size" id="simpsonsRatings">
@@ -627,20 +628,20 @@
       <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
       <h3>600+ episodes </h3>
       <figure id="simpsonsEpisodes">
-        <figcaption>Data: <a href="https://www.imdb.com/title/tt0096697/">IMDB</a></figcaption>
+        <figcaption class="right">Data: <a href="https://www.imdb.com/title/tt0096697/">IMDB</a></figcaption>
       </figure>
       <p>This matrix graph visualizes each episode as an individual cell, shaded according to IMDB score. This creates a heatmap, allowing you to see trends more quickly.</p>
       <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
       <h2>Average rating by season</h2>
       <figure id="simpsonsSeasons">
-        <figcaption>Data: <a href="https://www.imdb.com/title/tt0096697/">IMDB</a></figcaption>
+        <figcaption class="right">Data: <a href="https://www.imdb.com/title/tt0096697/">IMDB</a></figcaption>
       </figure>
       <p>Here we look at the difference between episodes within each season. Early seasons have a tighter grouping of episodes, meaning they all score roughly the same. Starting in season 6 we start to see a greater spread of episodes. Season 23 has the greatest range of scores within a season (&plusmn; 4.4).</p>
       <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
-      <h2>Homer Economicus</h2>
-      <h3>Average IMDb rating, per season</h3>
-      <figure id="seasonavg"></figure>
-      <!-- <p class="title">Average rating by season</p> -->      
+      <!-- <h2>Homer Economicus</h2> -->
+      <!-- <h3>Average IMDb rating, per season</h3> -->
+      <!-- <figure id="seasonavg"></figure> -->
+      <!-- <p class="title">Average rating by season</p> -->
       <figure id="simpsonsFacet"></figure>
 
       <!-- Random Simpson's quote -->
@@ -685,7 +686,7 @@
 
       <!-- <h2>Top ten episodes</h2> -->
       <!-- <figure id="top_ten"></figure>       -->
-      
+
       <h2>Simpsons no-nos</h2>
       <figure class="mid-size">
         <img src="https://i.imgur.com/d7FqN8Z.jpg" alt="Simpsons no-nos" loading="lazy">
@@ -887,7 +888,7 @@
           labelOffset: 40,
         },
         y: {
-          label: "IMDB Rating",
+          label: "IMDb rating",
           labelAnchor: width > 450 ? "center" : "top",
           labelOffset: 35,
           grid: true,
@@ -917,14 +918,14 @@
             y: "episode_score",
             fill: "hsl(42, 87%, 55%)",
             r: 2,
-            title: (d) => `${d.episode_name}\nS${d.season_no} E${d.episode_no}\n${d.episode_score} IMDB rating`,
+            title: (d) => `${d.episode_name}\nS${d.season_no} E${d.episode_no}\n${d.episode_score} IMDb rating`,
           })),
           Plot.dot(simpsons_imdb, Plot.selectMaxY({
             x: "episode_no_abs",
             y: "episode_score",
             fill: "hsl(42, 87%, 55%)",
             r: 2,
-            title: (d) => `${d.episode_name}\nS${d.season_no} E${d.episode_no}\n${d.episode_score} IMDB rating`,
+            title: (d) => `${d.episode_name}\nS${d.season_no} E${d.episode_no}\n${d.episode_score} IMDb rating`,
           })),
           Plot.text(simpsons_imdb, Plot.selectMinY({
             x: "episode_no_abs",
@@ -974,8 +975,7 @@
                   ||
                   scales.color == null // when the scale isn't yet available (e.g. hexbin below)
                   ?
-                  Array.from(data).fill(contrast(options.fill)) :
-                  Array.from(channels.fill.value, (value) => contrast(scales.color(value)))
+                  Array.from(data).fill(contrast(options.fill)) : Array.from(channels.fill.value, (value) => contrast(scales.color(value)))
               }
             }
           };
@@ -986,7 +986,7 @@
         width: width,
         style: {
           cursor: "default",
-          fontSize: size,
+          fontSize: size - 1,
         },
         grid: true,
         aspectRatio: 1,
@@ -1007,7 +1007,7 @@
           scheme: "RdYlBu",
           unknown: "#ddd",
           legend: true,
-          label: "IMDB Rating",
+          label: "IMDb rating",
           clamp: true,
           nice: true,
           tickSize: 0,
@@ -1024,7 +1024,7 @@
           Plot.cell(simpsons_imdb, {
             x: "episode_no",
             y: "season_no",
-            title: (d) => `${d.episode_name}\nS${d.season_no} E${d.episode_no}\n${d.episode_score} IMDB rating`,
+            title: (d) => `${d.episode_name}\nS${d.season_no} E${d.episode_no}\n${d.episode_score} IMDb rating`,
             fill: "episode_score",
             tip: true,
           }),
@@ -1055,21 +1055,22 @@
           tickSize: 0,
         },
         y: {
-          label: "IMDB Rating",
-          labelAnchor: "center",
+          label: "IMDb rating",
+          // labelAnchor: "top",
           labelOffset: 35,
           grid: true,
           nice: true,
           clamp: true,
           tickSize: 0,
-          domain: [1, 10]
+          domain: [0, 10],
+          ticks: 2,
         },
         color: {
           scheme: "RdYlBu",
           type: "linear",
           unknown: "#ddd",
           legend: true,
-          label: "IMDB Rating",
+          label: "IMDb rating",
           clamp: true,
           nice: true,
           tickSize: 0,
@@ -1103,7 +1104,7 @@
             x: "season_no",
             y: "episode_score",
             fill: "episode_score",
-            title: (d) => `${d.episode_name}\nS${d.season_no} E${d.episode_no}\n${d.episode_score} IMDB rating`,
+            title: (d) => `${d.episode_name}\nS${d.season_no} E${d.episode_no}\n${d.episode_score} IMDb rating`,
             tip: true,
           }),
           Plot.text(simpsons_imdb, Plot.selectMinY({
@@ -1198,7 +1199,7 @@
       document.getElementById("simpsonsRatings").appendChild(Plot.plot(simpsonsRatings));
       document.getElementById("simpsonsEpisodes").appendChild(Plot.plot(simpsonsEpisodes));
       document.getElementById("simpsonsSeasons").appendChild(Plot.plot(simpsonsSeasons));
-      document.getElementById("seasonavg").appendChild(Plot.plot(seasonavg));
+      // document.getElementById("seasonavg").appendChild(Plot.plot(seasonavg));
       // document.getElementById("simpsonsFacet").appendChild(Plot.plot(simpsonsFacet));
     })
 
