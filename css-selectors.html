@@ -2,10 +2,10 @@
 <html lang="en" class="no-js">
 
 <head>
-	<title>What are CSS selectors?</title>
+	<title>Visualizing CSS selectors | Justin Chill</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="CSS selectors explained with examples. Intended as a reference">
+	<meta name="description" content="Learn what CSS selectors are and how to use and group them. Then explore different types of CSS selectors, with specific examples visualized.">
 	<meta name="author" content="Justin Chill">
 	<!-- OpenGraph tags -->
 	<meta name="keywords" content="CSS, explained, Cascading Style Sheets, visualization, blog, help, code">
@@ -14,8 +14,8 @@
 	<meta content="JustinChill" property="og:site_name">
 	<meta content="website" property="og:type">
 	<meta content="https://justinchill.com/css-selectors.html" property="og:url">
-	<meta content="What are CSS selectors?" property="og:title">
-	<meta content="CSS selectors explained with examples. Intended as a reference" property="og:description">
+	<meta content="Visualizing CSS selectors | Justin Chill" property="og:title">
+	<meta content="Learn what CSS selectors are and how to use and group them. Then explore different types of CSS selectors, with specific examples visualized." property="og:description">
 	<meta content="https://www.justinchill.com/blog.html" property="og:see_also">
 	<link rel="canonical" href="https://www.justinchill.com/css-selectors.html">
 
@@ -23,15 +23,15 @@
 	<meta property="og:region" content="NY">
 	<meta property="og:country_name" content="USA">
 
-	<meta name="datePublished" content="2025-06-16">
-	<meta name="dateModified" content="2025-07-06">
+	<meta name="datePublished" content="2019-07-12">
+	<meta name="dateModified" content="2025-07-11">
 
 	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:title" content="What are CSS selectors?">
-	<meta name="twitter:description" content="CSS selectors explained with examples. Intended as a reference">
+	<meta name="twitter:title" content="Visualizing CSS selectors | Justin Chill">
+	<meta name="twitter:description" content="Learn what CSS selectors are and how to use and group them. Then explore different types of CSS selectors, with specific examples visualized.">
 
-	<link type="text/plain" href="humans.txt" rel="author">
-	<link rel="stylesheet" href="style.css">
+	<link type="text/plain" href="humans.txt" rel="author preload">
+	  <link rel="preload" href="style.css" as="style" />
 	<link rel="icon" href="/favicon.ico">
 	<meta name="theme-color" content="#4C63B6">
 
@@ -92,13 +92,13 @@
 		}
 
 		.selector-example {
-			padding: 30px 0;
+			padding: var(--spacer-2) 0;
 			/*background-color: #fff;*/
 		}
 
 		.selector-example:not(:last-of-type)::after {
 			display: block;
-			padding: 30px 0;
+			padding-top: var(--spacer-2);
 			width: 100%;
 			content: "";
 			border-bottom: 2px solid hsl(83, 68%, 74%);
@@ -565,6 +565,10 @@
 			left: -138px;
 			top: 32px;
 		}
+		.RebeccaPurple{
+			color: rebeccapurple;
+			font-weight: bold;
+		}
 	</style>
 
 </head>
@@ -585,17 +589,27 @@
 	<main role="main">
 		<article>
 			<div class="article-hero">
-				<h2 class="article-category">Explained</h2>
+				<h2 class="article-category"> # > . , * + ~ : { } ( ) [ ] </h2>
 				<h1 class="article-title">CSS selectors</h1>
-				<h2 class="article-subtitle"> # > . , * + ~ : { } ( ) [ ] </h2>
+				<h2 class="article-subtitle">A visual reference guide</h2>
 			</div>
-			<p>Cascading Style Sheets (CSS) is the language for visual style and design on the web. CSS has a long history on the web dating back to 1994. In the time since, CSS has become a feature-rich language capable of laying out a webpage, creating complex animations, and much more.</p>
-			<p>CSS is not a conventional programming language. While it does have some features found in other programming languages, such as variables and math, CSS is dependent on HTML to work. CSS’s purpose is to provide visual modifications to HTML. The CSS language is more like a to-do list for the browser: You are saying to the browser, here is a list of things I want you to find. Once the browser finds those things, the CSS instructs the browser to go through the subset list and make changes to those things.</p>
-			<div class="content-outer">
-
+			<p>Originally released in 1994, Cascading Style Sheets (CSS) have become a feature-rich language capable of laying out a webpage, creating complex animations, and much more. These patterns allow web designers to dictate how styles apply to specific HTML elements.</p>
+			<p>There are many different types of CSS selectors, each with their own unique syntax. Together they tell the browser which elements to apply CSS property values to.</p>
+			<p>CSS is not a conventional programming language. Its more like a to-do list for the browser: You are saying to the browser, here is a list of things I want you to find. Once the browser finds those things, the CSS instructs the browser to go through the subset list and make changes to those things.</p>
+			<h2>Pick me</h2>
+			<p>Selectors can be broadly divided into six categories:</p>
+			<ol>
+				<li>Universal selector (*)</li>
+				<li>Individual selector (tag name)</li>
+				<li>Class (.) and Id (#) selector</li>
+				<li>Group selector (,)</li>
+				<li>Combined selector (⎵ &gt; + ~)</li>
+				<li>Pseudo selector (: or ::)</li>
+			</ol>
+			<section>
 				<!-- Universal selector -->
-				<div class="selector-example">
-					<p><strong>Universal</strong> Selector: <strong>*</strong> { }</p>
+				<figure class="selector-example">
+					<p><strong>Universal</strong> selector: <strong>*</strong> { }</p>
 					<div class="circle-outer">
 						<div class="circle selected">
 							<div>a</div>
@@ -610,13 +624,88 @@
 							<div>d</div>
 						</div>
 					</div>
-					<p>Selects everything. I use this to <a href="https://meyerweb.com/eric/tools/css/reset/">reset default CSS styles</a> before adding my own.</p>
-				</div>
+					<p>Selects everything. Useful for resetting styles to flatten browser inconsistencies and provide a stable foundation to build on. Typically starts a stylesheet <a href="https://meyerweb.com/eric/tools/css/reset/">before</a> custom styles are added.</p>
+				</figure>
 				<!-- Universal selector close-->
 
+				<!-- Type selector -->
+				<figure class="selector-example">
+					<p>Individual <strong>type</strong> selector: <strong>a</strong> { }</p>
+					<div class="circle-outer">
+						<div class="circle selected">
+							<div>a</div>
+						</div>
+						<div class="circle">
+							<div>b</div>
+						</div>
+						<div class="circle">
+							<div>c</div>
+						</div>
+					</div>
+					<p>Select elements by type (tag name). In this example, we select all <code>a</code> elements.</p>
+				</figure>
+				<!-- Type selector close-->
+
+				<!-- ID selector -->
+				<figure class="selector-example">
+					<p><strong>ID</strong> selector: <strong>#a</strong> { }</p>
+					<div class="circle-outer">
+						<div class="circle selected">
+							<div>#a</div>
+						</div>
+						<div class="circle">
+							<div>#b</div>
+						</div>
+						<div class="circle">
+							<div>#c</div>
+						</div>
+					</div>
+					<p>* <strong>IDs</strong> shouldn't be used in selectors because these rules are too tightly coupled with the HTML and have no possibility of reuse. It's much preferred to use classes in selectors and then apply a class to an element in the page.</p>
+				</figure>
+				<!-- ID selector close -->
+
+				<!-- Class selector -->
+				<figure class="selector-example">
+					<p><strong>Class</strong> selector: <strong>.a</strong> { }</p>
+					<div class="circle-outer">
+						<div class="circle selected">
+							<div>.a</div>
+						</div>
+						<div class="circle">
+							<div>.b</div>
+						</div>
+						<div class="circle">
+							<div>.c</div>
+						</div>
+					</div>
+					<p><a href="https://frontstuff.io/you-need-to-stop-targeting-tags-in-css">Here</a> is a great primer on using class names to add context to your HTML and create more reusable code.</p>
+				</figure>
+				<!-- Type selector close-->
+
+				<!-- Comma Combinator selector -->
+				<figure class="selector-example">
+					<p><strong>Comma combinator</strong> selector: <strong>a, c</strong> { }</p>
+					<div class="circle-outer">
+						<div class="circle selected">
+							<div>a</div>
+						</div>
+						<div class="circle">
+							<div>b</div>
+						</div>
+						<div class="circle selected">
+							<div>c</div>
+						</div>
+						<div class="circle">
+							<div>d</div>
+						</div>
+					</div>
+					<p>You can condense different CSS selectors with identical declarations into one rule using a comma separated list.</p>
+				</figure>
+				<!-- Comma Combinator selector close-->
+
 				<!-- Combine Universal selector -->
-				<div class="selector-example">
-					<p><strong>Combine Universal</strong> Selector: <strong>a *</strong> { }</p>
+				<figure class="selector-example">
+					<p><strong>Combine Universal</strong> selector: <strong>a *</strong> { }</p>
 
 					<div> <!-- Level 2 + 4 circle -->
 						<div class="level1"> <!-- Level 1  -->
@@ -681,30 +770,12 @@
 
 					</div> <!-- 2 Level + 4circle close -->
 					<p><strong>CSS is read right to left</strong>. <br>The selector <code>a * { }</code> can be as read "all elements that are descendants of <code>a</code> element".</p>
-				</div>
+				</figure>
 				<!-- Combine Universal close -->
 
-				<!-- Type selector -->
-				<div class="selector-example">
-					<p><strong>Type</strong> Selector: <strong>a</strong> { }</p>
-					<div class="circle-outer">
-						<div class="circle selected">
-							<div>a</div>
-						</div>
-						<div class="circle">
-							<div>b</div>
-						</div>
-						<div class="circle">
-							<div>c</div>
-						</div>
-					</div>
-					<p>Select elements by type. In this example, we select all <code>a</code> elements.</p>
-				</div>
-				<!-- Type selector close-->
-
 				<!-- Child selector -->
-				<div class="selector-example">
-					<p><strong>Child</strong> Selector: <strong>a > b</strong> { }</p>
+				<figure class="selector-example">
+					<p><strong>Child</strong> selector: <strong>a > b</strong> { }</p>
 					<div> <!-- Level 2 + 4 circle -->
 						<div class="level1"> <!-- Level 1  -->
 							<div class="circle-outer">
@@ -769,10 +840,10 @@
 						</div> <!-- level 2 close-->
 						<p>The child selector matches only those elements matched by the second selector that are the direct children of elements matched by the first 🤯<br>Remember that CSS is read right to left, so here we match all <code>b</code> elements that follow an <code>a</code> element.</p>
 					</div> <!-- 2 Level + 4circle close -->
-				</div> <!-- Child selector close -->
+				</figure> <!-- Child selector close -->
 				<!-- Descendant selector -->
-				<div class="selector-example">
-					<p><strong>Descendant</strong> Selector: <strong>a b</strong> { }</p>
+				<figure class="selector-example">
+					<p><strong>Descendant</strong> selector: <strong>a b</strong> { }</p>
 
 					<div> <!-- Level 2 + 4 circle -->
 						<div class="level1"> <!-- Level 1  -->
@@ -839,30 +910,12 @@
 
 					</div> <!-- 2 Level + 4circle close -->
 					<p>This means “any <code>b</code> element that is a descendant of an <code>a</code> element.”</p>
-				</div>
+				</figure>
 				<!-- Descendant selector close -->
 
-				<!-- ID selector -->
-				<div class="selector-example">
-					<p><strong>ID</strong> Selector: <strong>#a</strong> { }</p>
-					<div class="circle-outer">
-						<div class="circle selected">
-							<div>#a</div>
-						</div>
-						<div class="circle">
-							<div>#b</div>
-						</div>
-						<div class="circle">
-							<div>#c</div>
-						</div>
-					</div>
-					<p>* <strong>IDs</strong> shouldn't be used in selectors because these rules are too tightly coupled with the HTML and have no possibility of reuse. It's much preferred to use classes in selectors and then apply a class to an element in the page.</p>
-				</div>
-				<!-- ID selector close -->
-
 				<!-- Combine Descendant & ID selector -->
-				<div class="selector-example">
-					<p><strong>Combine Descendant & ID</strong> Selector: <strong>#a b</strong> { }</p>
+				<figure class="selector-example">
+					<p><strong>Combine Descendant & ID</strong> selector: <strong>#a b</strong> { }</p>
 					<div> <!-- Level 2 + 4 circle -->
 						<div class="level1"> <!-- Level 1  -->
 							<div class="circle-outer">
@@ -927,30 +980,12 @@
 						</div> <!-- level 2 close-->
 
 					</div> <!-- 2 Level + 4circle close -->
-				</div>
+				</figure>
 				<!-- Descendant selector close -->
 
-				<!-- Class selector -->
-				<div class="selector-example">
-					<p><strong>Class</strong> Selector: <strong>.a</strong> { }</p>
-					<div class="circle-outer">
-						<div class="circle selected">
-							<div>.a</div>
-						</div>
-						<div class="circle">
-							<div>.b</div>
-						</div>
-						<div class="circle">
-							<div>.c</div>
-						</div>
-					</div>
-					<p><a href="https://frontstuff.io/you-need-to-stop-targeting-tags-in-css">Here</a> is a great primer on using class names to add context to your HTML and create more reusable code.</p>
-				</div>
-				<!-- Type selector close-->
-
 				<!-- Combine the Class selector -->
-				<div class="selector-example">
-					<p><strong>Combine the Class</strong> Selector: <strong>b.x</strong> { }</p>
+				<figure class="selector-example">
+					<p><strong>Combine the Class</strong> selector: <strong>b.x</strong> { }</p>
 					<div class="circle-outer">
 						<div class="circle">
 							<div>a.x</div>
@@ -963,33 +998,12 @@
 						</div>
 					</div>
 					<p>This means “any <code>b</code> element that has a class of<code>x</code>.”</p>
-				</div>
+				</figure>
 				<!-- Combine the Class selector close-->
 
-				<!-- Comma Combinator selector -->
-				<div class="selector-example">
-					<p><strong>Comma Combinator</strong> Selector: <strong>a, c</strong> { }</p>
-					<div class="circle-outer">
-						<div class="circle selected">
-							<div>a</div>
-						</div>
-						<div class="circle">
-							<div>b</div>
-						</div>
-						<div class="circle selected">
-							<div>c</div>
-						</div>
-						<div class="circle">
-							<div>d</div>
-						</div>
-					</div>
-					<p>You can condense different CSS selectors with identical declarations into one rule using a comma separated list.</p>
-				</div>
-				<!-- Comma Combinator selector close-->
-
 				<!-- Adjacent Sibling selector -->
-				<div class="selector-example">
-					<p><strong>Adjacent Sibling</strong> Selector: <strong>a + b</strong> { }</p>
+				<figure class="selector-example">
+					<p><strong>Adjacent Sibling</strong> selector: <strong>a + b</strong> { }</p>
 					<div class="circle-outer">
 						<div class="circle">
 							<div>a</div>
@@ -1005,12 +1019,12 @@
 						</div>
 					</div>
 					<p>Matches the second element only if it <em>immediately</em> follows the first element, and both are children of the same parent element.</p>
-				</div>
+				</figure>
 				<!-- Adjacent Sibling selector close-->
 
 				<!-- General Sibling selector -->
-				<div class="selector-example">
-					<p><strong>General Sibling</strong> Selector: <strong>a ~ b</strong> { }</p>
+				<figure class="selector-example">
+					<p><strong>General Sibling</strong> selector: <strong>a ~ b</strong> { }</p>
 					<div class="circle-outer">
 						<div class="circle">
 							<div>a</div>
@@ -1029,12 +1043,15 @@
 						</div>
 					</div>
 					<p>Selects all elements that are siblings of a specified element. Again, both must be children of the same parent element.</p>
-				</div>
+				</figure>
 				<!-- General Sibling selector close-->
+			</section>
 
+			<p>Along with traditional CSS selectors, we also have <strong>pseudo-classes and pseudo-elements</strong>. Pseudo-classes allow us to define styles based on an element's state or its relation to other elements. Think of things like hovering over a button or selecting the first item in a list. Pesudo-classes start with a colon character (<strong>:</strong>).</p>
+			<section>
 				<!-- First Child Pseudo selector -->
-				<div class="selector-example">
-					<p><strong>First Child Pseudo</strong> Selector: <strong>b:first-child</strong> { }</p>
+				<figure class="selector-example">
+					<p><strong>First Child Pseudo</strong> selector: <strong>b:first-child</strong> { }</p>
 					<div class="circle-outer ">
 						<div class="circle selected">
 							<div>b</div>
@@ -1060,12 +1077,12 @@
 					</div>
 					<p class="text-small firstChildPseudo">first-child</p>
 					<p>* In the second diagram, the <strong>first-child</strong> is <code>a</code> element, not <code>b</code> element, so there is nothing to be selected.</p>
-				</div>
+				</figure>
 				<!-- First Child Pseudo selector close-->
 
 				<!-- Only Child Pseudo selector -->
-				<div class="selector-example">
-					<p><strong>Only Child Pseudo </strong> Selector:
+				<figure class="selector-example">
+					<p><strong>Only Child Pseudo </strong> selector:
 					<p><strong>b:only-child</strong> { } or <strong>a :only-child</strong> { }</p>
 					<div class="flex-row">
 						<!-- 1circle -->
@@ -1137,12 +1154,12 @@
 						</div>
 						<!-- 3circle close-->
 					</div> <!-- diagram-outer close-->
-				</div>
+				</figure>
 				<!-- Only Child Pseudo selector close-->
 
 				<!-- Last Child Pseudo selector -->
-				<div class="selector-example">
-					<p><strong>Last Child Pseudo</strong> Selector: <strong>b:last-child</strong> { }</p>
+				<figure class="selector-example">
+					<p><strong>Last Child Pseudo</strong> selector: <strong>b:last-child</strong> { }</p>
 					<div class="circle-outer">
 						<div class="circle">
 							<div>b</div>
@@ -1167,11 +1184,11 @@
 						</div>
 					</div>
 					<p>* In the second diagram, the <strong>last-child</strong> is <code>c</code> element, not <code>b</code> element, so there is nothing to be selected.</p>
-				</div>
+				</figure>
 				<!-- Last Child Pseudo selector close-->
 				<!-- Nth Child Pseudo selector -->
-				<div class="selector-example">
-					<p><strong>Nth Child Pseudo</strong> Selector:</p>
+				<figure class="selector-example">
+					<p><strong>Nth Child Pseudo</strong> selector:</p>
 					<p> <strong>b:nth-child(2)</strong> { }</p>
 					<!-- circle with number -->
 					<div class="number">
@@ -1260,11 +1277,11 @@
 					</div>
 					<!-- 3circle close-->
 					<p>Select the <strong>nth-child(2)</strong> that is a descendent of an <code>a</code> element.</p>
-				</div>
+				</figure>
 				<!-- First of Type selector -->
 
-				<div class="selector-example">
-					<p><strong>First of Type</strong> Selector: <strong>b:first-of-type</strong> { }</p>
+				<figure class="selector-example">
+					<p><strong>First of Type</strong> selector: <strong>b:first-of-type</strong> { }</p>
 					<div class="circle-outer">
 						<div class="circle">
 							<div>a</div>
@@ -1279,13 +1296,13 @@
 							<div>b</div>
 						</div>
 					</div>
-				</div>
+				</figure>
 				<!-- First of Type selector close-->
 				<!-- Nth Child Pseudo selector close -->
 
 				<!-- Nth Last Child selector -->
-				<div class="selector-example">
-					<p><strong>Nth Last Child</strong> Selector:</p>
+				<figure class="selector-example">
+					<p><strong>Nth Last Child</strong> selector:</p>
 					<p><strong>a :nth-last-child(2)</strong> { } or <strong>c:nth-last-child(2)</strong> { }</p>
 
 					<!-- 4circle -->
@@ -1377,12 +1394,12 @@
 					</div>
 					<!-- numbers close -->
 					<p>* In this diagram, <strong>nth-last-child(2)</strong> is <code>c</code> element, not <code>b</code> element. So there is nothing to be selected.</p>
-				</div>
+				</figure>
 				<!-- Nth Last Child selector close-->
 
 				<!-- Nth of Type selector -->
-				<div class="selector-example">
-					<p><strong>Nth of Type</strong> Selector:</p>
+				<figure class="selector-example">
+					<p><strong>Nth of Type</strong> selector:</p>
 					<p> <strong>a:nth-of-type(2)</strong> { }</p>
 					<!-- circle with number -->
 					<div class="number">
@@ -1533,13 +1550,13 @@
 						<p class="text-small nth-of-type">2n+1</p>
 					</div>
 					<p>* <strong>n</strong> is an every positive integer or zero value.</p>
-				</div>
+				</figure>
 				<!-- Nth of Type selector close -->
 
 				<!-- Only of Type selector -->
 
-				<div class="selector-example">
-					<p><strong>Only of Type </strong> Selector: <strong>b:only-of-type</strong> { }</p>
+				<figure class="selector-example">
+					<p><strong>Only of Type </strong> selector: <strong>b:only-of-type</strong> { }</p>
 
 
 
@@ -1618,12 +1635,12 @@
 						</div>
 						<!-- 3circle close-->
 					</div> <!-- diagram-outer close-->
-				</div>
+				</figure>
 				<!-- Only of Type selector close -->
 
 				<!-- Last of Type selector -->
-				<div class="selector-example">
-					<p><strong>Last of Type</strong> Selector: </p>
+				<figure class="selector-example">
+					<p><strong>Last of Type</strong> selector: </p>
 					<p><strong>b:last-of-type</strong> { }</p>
 					<div class="circle-outer">
 						<div class="circle">
@@ -1809,12 +1826,12 @@
 					</div>
 					<!-- arrow close -->
 					<p>* Those items won’t be selected as no <strong>.x</strong> is presented</p>
-				</div>
+				</figure>
 				<!-- Last of Type selector close -->
 
 				<!-- Empty selector -->
-				<div class="selector-example">
-					<p><strong>Empty</strong> Selector: <strong>a:empty</strong> { }</p>
+				<figure class="selector-example">
+					<p><strong>Empty</strong> selector: <strong>a:empty</strong> { }</p>
 					<!-- 	infographic outer -->
 					<div class="circle-outer">
 						<div class="circle selected marginRight">
@@ -1853,12 +1870,12 @@
 					</div>
 					<!-- 	infographic outer close-->
 					<p>* <strong>empty</strong> indicates no children elements or text.</p>
-				</div>
+				</figure>
 				<!-- Empty selector close -->
 
 				<!-- Negation Pseudo-class selector -->
-				<div class="selector-example">
-					<p><strong>Negation Pseudo-class</strong> Selector:</p>
+				<figure class="selector-example">
+					<p><strong>Negation Pseudo-class</strong> selector:</p>
 					<p><strong>a:not(.x)</strong> { }</p>
 					<div class="circle-outer">
 						<div class="circle selected">
@@ -1890,12 +1907,12 @@
 							<div>a</div>
 						</div>
 					</div>
-				</div>
+				</figure>
 				<!-- Negation Pseudo-class selector close -->
 				<!-- Attribute selector -->
 
-				<div class="selector-example">
-					<p><strong>Attribute</strong> Selector:</p>
+				<figure class="selector-example">
+					<p><strong>Attribute</strong> selector:</p>
 					<p>The <strong>[attribute]</strong> selector is used to select elements with a specified attribute.</p>
 					<p><strong>[for]</strong> { }</p>
 					<div class="circle-outer condensed">
@@ -1930,12 +1947,12 @@
 						</div>
 					</div>
 					<p>This means "Select all <code>a</code> elements that have the <strong>[for]</strong> attribute.</p>
-				</div>
+				</figure>
 				<!-- Attribute selector close -->
 
 				<!-- Attribute Value selector -->
-				<div class="selector-example">
-					<p><strong>Attribute Value</strong> Selector: <strong>a[for=“x”]</strong> { }</p>
+				<figure class="selector-example">
+					<p><strong>Attribute Value</strong> selector: <strong>a[for=“x”]</strong> { }</p>
 					<div class="circle-outer condensed">
 						<div class="circle">
 							<div>a</div>
@@ -1951,12 +1968,12 @@
 						</div>
 					</div>
 					<p>This means "Select all elements that have a <strong>[for]</strong> attribute equal to "<strong>x</strong>".</p>
-				</div>
+				</figure>
 				<!-- Attribute Value selector close -->
 
 				<!-- Attribute Starts selector -->
-				<div class="selector-example">
-					<p><strong>Attribute Starts</strong> Selector: <strong>[for^=“x”]</strong> { }</p>
+				<figure class="selector-example">
+					<p><strong>Attribute Starts</strong> selector: <strong>[for^=“x”]</strong> { }</p>
 					<div class="circle-outer condensed">
 						<div class="circle selected">
 							<div>[x]</div>
@@ -1972,12 +1989,12 @@
 						</div>
 					</div>
 					<p>Now we're getting funky. The <strong>[attribute^=value]</strong> selector matches every element whose <em>attribute</em> value begins with a specified <em>value</em>.</p>
-				</div>
+				</figure>
 				<!-- Attribute Starts selector close -->
 
 				<!-- Attribute Ends selector -->
-				<div class="selector-example">
-					<p><strong>Attribute Ends</strong> Selector: <strong>[for$=“x”]</strong> { }</p>
+				<figure class="selector-example">
+					<p><strong>Attribute Ends</strong> selector: <strong>[for$=“x”]</strong> { }</p>
 					<div class="circle-outer condensed">
 						<div class="circle selected">
 							<div>[x]</div>
@@ -1993,12 +2010,12 @@
 						</div>
 					</div>
 					<p>Same thing as above, but this time we match elements that end with a specified value.</p>
-				</div>
+				</figure>
 				<!-- Attribute Ends selector close -->
 
 				<!-- Attribute Wildcard selector -->
-				<div class="selector-example">
-					<p><strong>Attribute Wildcard</strong> Selector: <strong>[for*=“x”]</strong> { }</p>
+				<figure class="selector-example">
+					<p><strong>Attribute Wildcard</strong> selector: <strong>[for*=“x”]</strong> { }</p>
 					<div class="circle-outer condensed">
 						<div class="circle selected">
 							<div>[x]</div>
@@ -2013,9 +2030,10 @@
 							<div>[zx]</div>
 						</div>
 					</div>
-					<p>Used to select elements whose attribute value contains the specified substring<a href="#substring" aria-describedby="footnote-label" id="substring-ref"></a>. This example shows how to use a wildcard to select all elements with a class that contains <strong>x</strong>. This could be at the start, the end or in the middle of the class.</p>
-				</div>
-			</div>
+					<p>Used to select elements whose attribute value contains the specified substring. This example shows how to use a wildcard to select all elements with a class that contains <strong>x</strong>. This could be at the start, the end or in the middle of the class.</p>
+				</figure>
+			</section>
+			<aside>A substring is a contiguous sequence of characters within a string. For instance, "the best of" is a substring of "It was the best of times".<a href="#substring-ref" aria-label="Back to content">↩</a></aside>
 		</article>
 	</main>
 	<footer>
@@ -2023,9 +2041,7 @@
 		<ol>
 			<li id="cheatsheet">Inspired by a post I saw on Codepen by a user named "<a href="https://codepen.io/nana8/pen/aXQgoj">Nana</a>". <a href="#cheatsheet-ref" aria-label="Back to content">↩</a></li>
 
-			<li id="substring">A substring is a contiguous sequence of characters within a string. For instance, "the best of" is a substring of "It was the best of times".<a href="#substring-ref" aria-label="Back to content">↩</a></li>
-
-			<li id="RebeccaPurple">The story of RebeccaPurple is quite sad. Rebecca Alison Meyer died of a brain tumor at six years of age. The hex color #663399 was named "rebeccapurple" and added to the CSS Colors list in her memory.<a href="#RebeccaPurple-ref" aria-label="Back to content">↩</a></li>
+			<li id="RebeccaPurple">The story of <span class="RebeccaPurple">RebeccaPurple</span> is quite sad. Rebecca Alison Meyer died of a brain tumor at six years of age. The hex color #663399 was named "<span class="RebeccaPurple">rebeccapurple</span>" and added to the CSS Colors list in her memory.<a href="#RebeccaPurple-ref" aria-label="Back to content">↩</a></li>
 		</ol>
 		<div>
 			<p>Justin Chill &copy; 2025.</p>
