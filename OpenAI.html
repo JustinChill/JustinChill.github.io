@@ -40,12 +40,16 @@
     document.documentElement.classList.remove('no-js');
     document.documentElement.classList.add('js');
   </script>
+  <link rel="stylesheet" href="https://unpkg.com/d3-milestones/build/d3-milestones.css">
+  <script src="https://unpkg.com/d3-milestones/build/d3-milestones.min.js"></script>
 
   <style type="text/css">
     .logo {
       max-width: 120px;
       max-height: 120px;
     }
+    .milestones__group__bullet {
+        border: 3px solid red;    }
   </style>
 </head>
 
@@ -111,161 +115,57 @@
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
-  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
-
   <script>
-    var size = 12;
-    var element = d3.select('figure').node();
-    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
-    var lineLength = 25;
-    var fontSizeInt = width > 450 ? 14 : 8;
-    var height = 300;
-    var tickHeight = 45;
-
-    var events = [{
-        year: 2015,
-        label: 'OpenAI Founded',
-        people: 'Elon Musk, Sam Altman, Greg Brockman, Ilya Sutskever, Wojciech Zaremba, John Schulman',
-      },
-      {
-        year: 2018,
-        label: 'Dota 2 Bot Beats Human Professionals',
-        people: 'OpenAI Five Team',
-      },
-      {
-        year: 2019,
-        label: 'Partnership with Microsoft',
-        people: 'Sam Altman, Greg Brockman, Satya Nadella (Microsoft CEO)',
-      },
-      {
-        year: 2020,
-        label: 'GPT-3 Released',
-        people: 'Ilya Sutskever, Greg Brockman, Sam Altman',
-      },
-      {
-        year: 2021,
-        label: 'Codex and DALL·E Announced',
-        people: 'OpenAI Team',
-      },
-      {
-        year: 2022,
-        label: 'ChatGPT Launched',
-        people: 'OpenAI Team',
-      },
-      {
-        year: 2023,
-        label: 'ChatGPT-4 Launched',
-        people: 'OpenAI Team',
-      },
-      {
-        year: 2024,
-        label: 'Sora Launched',
-        people: 'OpenAI Team',
-      },
-      // Add other key events related to OpenAI here.
-    ]
-
-    // Use Promises to async request data
-    var promises = [];
-    myDataPromises = Promise.all(promises);
-
-    // After data is successfully fetched, generate viz
-    myDataPromises.then(function(data) {
-
-      function wrapText(inputString, segmentLength) {
-        const words = inputString.split(" ");
-        let result = "";
-        let currentLineLength = 0;
-        let numberOfLines = 0;
-
-        for (const word of words) {
-          if (currentLineLength + word.length + 1 <= segmentLength) {
-            // Add the word and a space to the current line
-            result += (result === "" ? "" : " ") + word;
-            currentLineLength += word.length + 1;
-          } else {
-            // Start a new line with the word
-            result += "\n" + word;
-            currentLineLength = word.length;
-            numberOfLines++;
-          }
-        }
-
-        // Count the last line
-        if (result !== "") {
-          numberOfLines++;
-        }
-
-        return {
-          text: result,
-          numberOfLines: numberOfLines
-        };
-      }
-
-      preparedData = events
-        .map(function(d) {
-          // const people = d.people.split(" ").slice(-1);
-          const {
-            text,
-            numberOfLines
-          } = wrapText(
-            `${d.label} (${d.people})`,
-            lineLength
-          );
-          return {
-            ...d,
-            text,
-            numberOfLines
-          };
-        })
-        .sort((a, b) => d3.ascending(a.year, b.year))
-
-      var timeline = {
-        style: {
-          fontSize: fontSizeInt + "px",
-          fontFamily: "Lato",
-          paddingLeft: 20,
-          paddingRight: 20,
-        },
-        height: height,
-        width: width,
-        x: {
-          axis: null
-        },
-        y: {
-          axis: null,
-          domain: [-height / 2, height / 2]
-        },
-        marks: [
-          Plot.ruleY([0]),
-          Plot.ruleX(preparedData, {
-            x: "year",
-            y: (d, i) => (i % 2 === 0 ? tickHeight : -tickHeight)
-          }),
-          Plot.dot(preparedData, {
-            x: "year",
-            fill: "#fff",
-            stroke: "red"
-          }),
-          Plot.text(preparedData, {
-            x: "year",
-            y: (d, i) => (i % 2 === 0 ? -fontSizeInt / 2 - 4 : fontSizeInt / 2 + 4),
-            text: (d) => d.year.toString()
-          }),
-          Plot.text(preparedData, {
-            x: "year",
-            y: (d, i) =>
-              i % 2 === 0 ?
-              tickHeight + d.numberOfLines * fontSizeInt * 0.5 : -tickHeight - d.numberOfLines * fontSizeInt * 0.5,
-            text: "text"
-          }),
-          // Plot.frame()
-        ]
-      };
-
-      document.getElementById("timeline").appendChild(Plot.plot(timeline));
-    });
+    milestones('#timeline')
+      .mapping({
+        'timestamp': 'year',
+        'text': 'label',
+        'value' : "people"
+      })
+      .parseTime('%Y')
+      .aggregateBy('year')
+      .render([{
+            year: 2015,
+            label: 'OpenAI Founded',
+            people: 'Elon Musk, Sam Altman, Greg Brockman, Ilya Sutskever, Wojciech Zaremba, John Schulman',
+          },
+          {
+            year: 2018,
+            label: 'Dota 2 bot beats human professionals',
+            people: 'OpenAI Five Team',
+          },
+          {
+            year: 2019,
+            label: 'Partnership with Microsoft',
+            people: 'Sam Altman, Greg Brockman, Satya Nadella (Microsoft CEO)',
+          },
+          {
+            year: 2020,
+            label: 'GPT-3 released',
+            people: 'Ilya Sutskever, Greg Brockman, Sam Altman',
+          },
+          {
+            year: 2021,
+            label: 'Codex and DALL·E announced',
+            people: 'OpenAI Team',
+          },
+          {
+            year: 2022,
+            label: 'ChatGPT launched',
+            people: 'OpenAI Team',
+          },
+          {
+            year: 2023,
+            label: 'ChatGPT-4 launched',
+            people: 'OpenAI Team',
+          },
+          {
+            year: 2024,
+            label: 'Sora launched',
+            people: 'OpenAI Team',
+          },
+          // Add other key events related to OpenAI here.
+        ]);
   </script>
 </body>
 
