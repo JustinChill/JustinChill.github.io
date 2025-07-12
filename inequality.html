@@ -32,7 +32,7 @@
 
   <link type="text/plain" href="humans.txt" rel="author">
   <link rel="preload" href="style.css" as="style" />
-	<link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="/favicon.ico">
   <meta name="theme-color" content="#4C63B6">
 
@@ -107,6 +107,32 @@
     var element = d3.select('figure').node();
     var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive  
     var promises = [d3.csv("data/metros.csv", d3.autoType)]; // Use Promises to async request data
+    function midpoint({
+      x1,
+      x2,
+      y1,
+      y2,
+      ...options
+    } = {}) {
+      const [X, setX] = Plot.column(x2);
+      const [Y, setY] = Plot.column(y2);
+      return Plot.transform({
+        x: X,
+        y: Y,
+        ...options
+      }, function(data, facets) {
+        const X1 = Plot.valueof(data, x1);
+        const X2 = Plot.valueof(data, x2);
+        const Y1 = Plot.valueof(data, y1);
+        const Y2 = Plot.valueof(data, y2);
+        setX(Float64Array.from(data, (d, i) => (X1[i] + X2[i]) / 2));
+        setY(Float64Array.from(data, (d, i) => (Y1[i] + Y2[i]) / 2));
+        return {
+          data,
+          facets
+        };
+      });
+    }
 
 
     myDataPromises = Promise.all(promises);
@@ -138,10 +164,10 @@
           label: "↑ Inequality",
           tickSize: 0,
           nice: true,
-          ticks: 6,
+          ticks: 4,
+          // domain: [1, 10],
           anchor: "left",
           labelAnchor: "top",
-          // tickFormat: ""
         },
         color: {
           type: "diverging",
@@ -161,58 +187,49 @@
             bend: true,
             stroke: d => d.R90_10_2015 - d.R90_10_1980,
             title: (d) =>
-              `${d.nyt_display} \nPopulation in 1980: ${d3.format(",")(d.POP_1980)}\nPopulation in 2015: ${d3.format(",")(d.POP_2015)}\nCurrent level of inequality: ${d3.format(",")(d.R90_10_2015)}\nChange in inequality: ${d3.format("+.4")(d.R90_10_2015 - d.R90_10_1980)}`, // \n makes a new line
+              `${d.nyt_display} \n
+              Population in 1980: ${d3.format(",")(d.POP_1980)}\n
+              Population in 2015: ${d3.format(",")(d.POP_2015)}\n
+              Current level of inequality: ${d3.format(",")(d.R90_10_2015)}\n
+              Change in inequality: ${d3.format("+.4")(d.R90_10_2015 - d.R90_10_1980)}`, // \n makes a new line
           }),
           // This dot helps increase the surface area at the end of the arrow for hovering
-          // Plot.dot(metros, {
+          Plot.dot(metros, {
+            x: "POP_2015",
+            y: "R90_10_2015",
+            r: 4,
+            fillOpacity: 0,
+            tip: true,
+            fill: d => d.R90_10_2015 - d.R90_10_1980,
+            title:  (d) =>
+            `${d.nyt_display} \n
+            Population in 1980: ${d3.format(",")(d.POP_1980)}\n
+            Population in 2015: ${d3.format(",")(d.POP_2015)}\n
+            Current level of inequality: ${d3.format(",")(d.R90_10_2015)}\n
+            Change in inequality: ${d3.format("+.4")(d.R90_10_2015 - d.R90_10_1980)}`, //
+          }),
+          // Plot.text(metros.filter(d => d.nyt_display == "New York" || d.nyt_display !== "Johnstown" || d.nyt_display !== "Houston" || d.nyt_display !== "Chicago"), {
           //   x: "POP_2015",
           //   y: "R90_10_2015",
-          //   r: 10,
-          //   fillOpacity: 0,
-          //   fill: d => d.R90_10_2015 - d.R90_10_1980,
-          //   title:  (d) =>
-          //   `${d.nyt_display} \nPopulation in 1980: ${d3.format(",")(d.POP_1980)}\nPopulation in 2015: ${d3.format(",")(d.POP_2015)}\nCurrent level of inequality: ${d3.format(",")(d.R90_10_2015)}\nChange in inequality: ${d3.format("+.4")(d.R90_10_2015 - d.R90_10_1980)}`, // \n makes a new line
+          //   text: d => d.highlight && d.nyt_display,
+          //   fill: "currentColor",
+          //   stroke: "hsla(209, 23%, 99%, 1)",
+          //   strokeWidth: 6,
+          //   dx: -10,
           // }),
-          Plot.text(metros.filter(d => d.nyt_display !== "San Francisco" && d.nyt_display !== "Johnstown" && d.nyt_display !== "Houston"), {
-            x: "POP_2015",
-            y: "R90_10_2015",
-            fontSize: size * 1.1,
-            text: d => d.highlight && d.nyt_display,
-            fill: "currentColor",
-            stroke: "hsla(209, 23%, 99%, 1)",
-            strokeWidth: 6,
-            dy: -10,
-            dy: -12,
-          }),
-          Plot.text(metros.filter(d => d.nyt_display === "San Francisco"), {
-            x: "POP_2015",
-            y: "R90_10_2015",
-            fontSize: size * 1.1,
-            text: d => d.highlight && d.nyt_display,
-            fill: "currentColor",
-            stroke: "hsla(209, 23%, 99%, 1)",
-            dy: -10,
-            dx: -40
-          }),
-          Plot.text(metros.filter(d => d.nyt_display === "Johnstown"), {
-            x: "POP_2015",
-            y: "R90_10_2015",
-            fontSize: size * 1.1,
-            text: d => d.highlight && d.nyt_display,
-            fill: "currentColor",
-            stroke: "hsla(209, 23%, 99%, 1)",
-            dy: 15,
-            dx: 18
-          }),
-          Plot.text(metros.filter(d => d.nyt_display === "Houston"), {
-            x: "POP_2015",
-            y: "R90_10_2015",
-            fill: "currentColor",
-            stroke: "hsla(209, 23%, 99%, 1)",
-            fontSize: size * 1.1,
-            text: d => d.highlight && d.nyt_display,
-            dy: -16,
-          }),
+          Plot.text(metros.filter(d => d.nyt_display !== "New York" || d.nyt_display !== "Johnstown" || d.nyt_display !== "Houston" || d.nyt_display !== "Chicago"), 
+            midpoint({
+              x1: "POP_1980",
+              y1: "R90_10_1980",
+              x2: "POP_2015",
+              y2: "R90_10_2015",
+              filter: "highlight",
+              text: "nyt_display",
+              fill: "currentColor",
+              stroke: "white",
+              dy: -6,
+            })
+          )
         ]
       };
 
