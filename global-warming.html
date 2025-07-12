@@ -32,7 +32,7 @@
 
   <link type="text/plain" href="humans.txt" rel="author">
   <link rel="preload" href="style.css" as="style" />
-	<link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="/favicon.ico">
   <meta name="theme-color" content="#4C63B6">
 
@@ -67,13 +67,13 @@
       <h2 class="mid-size">Heating up</h2>
       <figure id="temps" aria-label="A graph showing global surface temperature changes from 1880 to 2020. Points transition from blue to red, indicating a rise in temperature over time. The y-axis represents temperature change in Celsius, and the x-axis shows years. Data by NASA." class="mid-size">
         <figcaption class="right">Data: <a href="https://data.giss.nasa.gov/gistemp/">NASA's Goddard Institute for Space Studies</a></figcaption>
-      </figure>      
+      </figure>
 
       <p>Of the 17 hottest years ever recorded, 16 have now occurred since 2000. The chart above is my recreation of a wonderful graphic from <a href="https://nyti.ms/3x89ywY">the New York Times</a>, featured in the article, "How 2016 Became Earth’s Hottest Year on Record". Thanks to publicly available data<a href="#NOAA" aria-describedby="footnote-label" id="NOAA-ref"></a> from NASA we can plot recorded temperatures by data going back to 1880. Once visualized we can clearly see temperatures climbing and increasingly rapidly in the past 2 decades.</p>
       <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
       <h3>Warming stripes</h3>
       <figure id="stripes"></figure>
-      <p>Reduced to just one dimension, the warming trend becomes more obvious. each stripe or bar represents a single year or month, and the color of the stripe represents the temperature anomaly for that specific time period. Blue shades indicate cooler temperatures or negative anomalies, while red shades represent warmer temperatures or positive anomalies.</p> 
+      <p>Reduced to just one dimension, the warming trend becomes more obvious. each stripe or bar represents a single year or month, and the color of the stripe represents the temperature anomaly for that specific time period. Blue shades indicate cooler temperatures or negative anomalies, while red shades represent warmer temperatures or positive anomalies.</p>
       <p>You’ll notice that the stripes take a sharp turn toward the yellows, and then reds, starting in the late 1970s, reflecting the significant rise in global average temperatures. Last year was a dark red. How dark the stripes get by the end of this century depends on whether the world as a whole keeps pumping more greenhouse gas emissions into the atmosphere.</p>
       <span class="header-tag mid-size"><img src="imgs/tag.svg" alt="Chart header tag"></span>
       <h2 class="mid-size">Hot streak</h2>
@@ -117,10 +117,10 @@
     var size = 12;
     const formatDate = d3.timeFormat("%B %d, %Y");
     isDarkMode = () =>
-    window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+      window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
 
     // Use Promises to async request data
-    var promises = [d3.csv("data/global-temps.csv", d3.autoType), d3.csv("data/emission_pathways_2100.csv", d3.autoType),d3.csv("data/jahr_global_temp.csv", d3.autoType)];
+    var promises = [d3.csv("data/global-temps.csv", d3.autoType), d3.csv("data/emission_pathways_2100.csv", d3.autoType), d3.csv("data/jahr_global_temp.csv", d3.autoType)];
     myDataPromises = Promise.all(promises);
 
     // After data is successfully fetched, generate viz
@@ -148,9 +148,9 @@
           label: null,
           tickSize: 0,
           ticks: 2,
-          domain: [-1,1],
+          domain: [-1, 1],
           tickFormat: (d) =>
-          `${d.toLocaleString("en", {
+            `${d.toLocaleString("en", {
             minimumFractionDigits: "0",
             maximumFractionDigits: "1"
           })}°C`
@@ -186,7 +186,7 @@
             fontSize: size
           },
           label: "Surface temperature change (°C)",
-        },        
+        },
         marks: [
           Plot.ruleY([0], {
             stroke: "rgba(0,0,0,.3)",
@@ -269,8 +269,8 @@
             dy: -4,
           })
         ]
-      };      
-      
+      };
+
       var stripesBar = {
         // Adapted from RedaktionsNetzwerk Deutschland: https://observablehq.com/@rnd/warming-stripes
         width: widthMid,
@@ -302,7 +302,7 @@
           ],
           type: "quantile",
           legend: false
-        },        
+        },
         y: {
           axis: "left",
           label: "°C",
@@ -314,14 +314,14 @@
               minimumFractionDigits: "1",
               maximumFractionDigits: "1"
             })}`
-        },        
+        },
         x: {
           ticks: [1850, 1900, 1950, 2000],
           tickFormat: d3.format(""),
           tickSize: 4,
           label: null
         },
-        
+
         marks: [
           Plot.barY(global_temp, {
             y: "degree",
@@ -330,11 +330,14 @@
             strokeWidth: 0.4,
             fill: "degree",
             title: (d) => `${d.year}`,
-            sort: { y: "y", reverse: true },
+            sort: {
+              y: "y",
+              reverse: true
+            },
             opacity: 1,
             tip: false
           }),
-        
+
           // pre-industrial period (1850-1900) Arrow
           Plot.arrow([0], {
             y: 0.75,
@@ -345,7 +348,7 @@
             bend: false,
             strokeLinejoin: "miter",
           }),
-        
+
           // pre-industrial period (1850-1900) Text
           Plot.text([0], {
             x: 1850,
@@ -356,7 +359,7 @@
             dy: -10,
             dx: 0,
             fontWeight: 700
-          }),        
+          }),
           Plot.ruleY([0]),
           Plot.arrow([0], {
             x1: 2024,
@@ -368,7 +371,7 @@
             bend: false,
             strokeLinejoin: "miter",
           }),
-        
+
           // Temp Text
           Plot.text([0], {
             x: 2024,
@@ -381,7 +384,7 @@
             dx: 2,
             fontWeight: 700
           }),
-        
+
           // Tooltip
           Plot.tip(
             global_temp,

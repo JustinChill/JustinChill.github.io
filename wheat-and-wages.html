@@ -32,7 +32,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,700;1,400&family=Pinyon+Script&family=Fredericka+the+Great&display=swap" rel="stylesheet">
   <link type="text/plain" href="humans.txt" rel="author">
   <link rel="preload" href="style.css" as="style" />
-	<link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="/favicon.ico">
   <meta name="theme-color" content="#4C63B6">
 
@@ -154,8 +154,10 @@
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 
   <script type="text/javascript">
-    var element = d3.select('figure').node();
-    var width = element.getBoundingClientRect().width; // get width of figure so graphic is responsive. Todo / hacky
+    var elementMid = d3.select('figure.mid-size').node();
+    var widthMid = elementMid.getBoundingClientRect().width; // get width of figure.mid-size so graphic is responsive
+    var element = d3.select('figure:not(.mid-size)').node();
+    var width = element.getBoundingClientRect().width;
     var size = 12;
     var bgClr = "rgb(250,244,230)";
     var fnt = ({
@@ -460,10 +462,8 @@
             anchor: "right",
             tickFormat: (d) =>
               d === 0 || d > 100 ?
-              "" :
-              d === 5 || d === 50 || d === 100 ?
-              `${d} Shillings` :
-              d,
+              "" : d === 5 || d === 50 || d === 100 ?
+              `${d} Shillings` : d,
             tickSize: 0,
             tickSpacing: 20,
             tickPadding: 4,
@@ -537,10 +537,8 @@
             anchor: "right",
             tickFormat: (d) =>
               d === 0 || d > 100 ?
-              "" :
-              d === 5 || d === 50 || d === 100 ?
-              `${d} Shillings` :
-              d,
+              "" : d === 5 || d === 50 || d === 100 ?
+              `${d} Shillings` : d,
             tickSize: 0,
             tickSpacing: 20,
             tickPadding: 4,
@@ -634,10 +632,8 @@
             anchor: "right",
             tickFormat: (d) =>
               d === 0 || d > 100 ?
-              "" :
-              d === 5 || d === 50 || d === 100 ?
-              `${d} Shillings` :
-              d,
+              "" : d === 5 || d === 50 || d === 100 ?
+              `${d} Shillings` : d,
             tickSize: 0,
             tickSpacing: 20,
             tickPadding: 4,
@@ -730,10 +726,8 @@
             y1: (d) => (d.y < 96 ? d.y : d.y + 1),
             y2: (d) =>
               d.end > 1800 || d.name === "Charles I" || d.commonwealth ?
-              d.y :
-              d.y < 96 ?
-              d.y + 3 :
-              d.y - 2
+              d.y : d.y < 96 ?
+              d.y + 3 : d.y - 2
           }),
           Plot.text(monarchData, {
             x: "x",
@@ -780,10 +774,8 @@
             anchor: "right",
             tickFormat: (d) =>
               d === 0 || d > 100 ?
-              "" :
-              d === 5 || d === 50 || d === 100 ?
-              `${d} Shillings` :
-              d,
+              "" : d === 5 || d === 50 || d === 100 ?
+              `${d} Shillings` : d,
             tickSize: 0,
             tickSpacing: 20,
             tickPadding: 4,
@@ -992,10 +984,8 @@
             anchor: "right",
             tickFormat: (d) =>
               d === 0 || d > 100 ?
-              "" :
-              d === 5 || d === 50 || d === 100 ?
-              `${d} Shillings` :
-              d,
+              "" : d === 5 || d === 50 || d === 100 ?
+              `${d} Shillings` : d,
             tickSize: 0,
             tickSpacing: 20,
             tickPadding: 4,

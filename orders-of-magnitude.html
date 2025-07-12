@@ -18,11 +18,11 @@
   <meta content="Orders of magnitude" property="og:description">
   <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
   <link rel="canonical" href="https://www.justinchill.com/orders-of-magnitude.html">
-  
+
   <meta property="og:locality" content="NY">
   <meta property="og:region" content="NY">
   <meta property="og:country_name" content="USA">
-  
+
   <meta name="datePublished" content="2025-07-06">
   <meta name="dateModified" content="2025-07-06">
 
@@ -32,7 +32,7 @@
 
   <link type="text/plain" href="humans.txt" rel="author">
   <link rel="preload" href="style.css" as="style" />
-	<link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="/favicon.ico">
   <meta name="theme-color" content="#4C63B6">
 
@@ -80,7 +80,7 @@
         <li>One million dollars divided evenly among the U.S. population would mean everyone in the United States would receive about one-third of one cent.</li>
       </ul>
       <h3>How to Conceptualize a Billion</h3>
-      <ul> 
+      <ul>
         <li>One billion is a thousand millions.</li>
         <li>One billion is a 1 with nine zeros after it, denoted by 1,000,000,000.</li>
         <li>One billion seconds is about <mark>32 years</mark>.</li>
@@ -90,7 +90,7 @@
         <li>One billion dollars divided equally among the U.S. population would mean that everyone in the United States would receive about $3.33.</li>
       </ul>
       <h3>How to Conceptualize a Trillion</h3>
-      <ul> 
+      <ul>
         <li>One trillion is a thousand billions, or equivalently a million millions.</li>
         <li>It is a 1 with 12 zeros after it, denoted by 1,000,000,000,000.</li>
         <li>One trillion seconds is <mark>32,000 years</mark>.</li>
@@ -100,23 +100,35 @@
       </ul>
       <h3>Billion versus Million comparison chart</h3>
       <div class="wrapper" tabindex="0" role="region" aria-labelledby="tableCaption_01">
-      <table id="diffenTable">
-                  <caption class="visually-hidden">Billion versus Million comparison chart</caption>
-                  <thead>
-                      <tr><th></th><th class="vcol" scope="col">Billion</th><th class="vcol" scope="col">Million</th></tr></thead><tbody><tr class="comparisonRow diff " id="row1"><th class="acol" scope="row">Power of 10</th>                    <td id="valtd1_1" class="vcol">10 to the 9th power (10^9)</td>
-                          <td id="valtd1_2" class="vcol">10 to the 6th power (10^6)</td>
-                          </tr><tr class="comparisonRow diff lastRow" id="row2"><th class="acol" scope="row">Number</th>                    <td id="valtd2_1" class="vcol">1,000,000,000</td>
-                          <td id="valtd2_2" class="vcol">1,000,000</td>
-                          </tr>
-                        </tbody>
-                        </table>
-                        </div>
+        <table id="diffenTable">
+          <caption class="visually-hidden">Billion versus Million comparison chart</caption>
+          <thead>
+            <tr>
+              <th></th>
+              <th class="vcol" scope="col">Billion</th>
+              <th class="vcol" scope="col">Million</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="comparisonRow diff " id="row1">
+              <th class="acol" scope="row">Power of 10</th>
+              <td id="valtd1_1" class="vcol">10 to the 9th power (10^9)</td>
+              <td id="valtd1_2" class="vcol">10 to the 6th power (10^6)</td>
+            </tr>
+            <tr class="comparisonRow diff lastRow" id="row2">
+              <th class="acol" scope="row">Number</th>
+              <td id="valtd2_1" class="vcol">1,000,000,000</td>
+              <td id="valtd2_2" class="vcol">1,000,000</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </article>
   </main>
   <footer>
     <h2 id="footnote-label">Footnotes</h2>
     <ol>
-      <li id="thoughtco">Courtney K. Taylor, Ph.D., the author of "<a href="http://bookboon.com/en/an-introduction-to-abstract-algebra-ebook" >An Introduction to Abstract Algebra</a>,"&nbsp;an open-access e-book.<a href="#thoughtco-ref" aria-label="Back to content">↩</a></li>
+      <li id="thoughtco">Courtney K. Taylor, Ph.D., the author of "<a href="http://bookboon.com/en/an-introduction-to-abstract-algebra-ebook">An Introduction to Abstract Algebra</a>,"&nbsp;an open-access e-book.<a href="#thoughtco-ref" aria-label="Back to content">↩</a></li>
     </ol>
     <div>
       <p>Justin Chill &copy; 2025</p>
@@ -128,26 +140,97 @@
 
   <script type="text/javascript">
     var size = 12;
-    var element = d3.select('figure').node();
-    var width = element.getBoundingClientRect().width; // get width of figure so graphic is responsive. Todo / hacky
+    var elementMid = d3.select('figure.mid-size').node();
+    var widthMid = elementMid.getBoundingClientRect().width; // get width of figure.mid-size so graphic is responsive
+    var element = d3.select('figure:not(.mid-size)').node();
+    var width = element.getBoundingClientRect().width;
 
-    var data = [
-      { value: 0, labelFR: "Zéro", labelEN: "Zero",dy : 73, line: 50, anchor:"start"},
-      { value: 1000000, labelFR: "Un million", labelEN: "One million" ,dy : 60, line: 0, anchor:"start"},
-      { value: 1000000000, labelFR: "Un milliard", labelEN: "One billion" ,dy : 40, line: 33, anchor:"start"},
-      { value: 10000000000, labelFR: "10 milliards", labelEN: "10 billion" ,dy : 20, line: 12, anchor:"middle"},
-      { value: 100000000000, labelFR: "100 milliards", labelEN: "100 billion" ,dy : 30, line: 22, anchor:"start"},
-      { value: 97000000000, labelFR: "Mark Zuckerberg", labelEN: "Mark Zuckerberg" ,dy : 30, line: 18, anchor:"end"},
+    var data = [{
+        value: 0,
+        labelFR: "Zéro",
+        labelEN: "Zero",
+        dy: 73,
+        line: 50,
+        anchor: "start"
+      },
+      {
+        value: 1000000,
+        labelFR: "Un million",
+        labelEN: "One million",
+        dy: 60,
+        line: 0,
+        anchor: "start"
+      },
+      {
+        value: 1000000000,
+        labelFR: "Un milliard",
+        labelEN: "One billion",
+        dy: 40,
+        line: 33,
+        anchor: "start"
+      },
+      {
+        value: 10000000000,
+        labelFR: "10 milliards",
+        labelEN: "10 billion",
+        dy: 20,
+        line: 12,
+        anchor: "middle"
+      },
+      {
+        value: 100000000000,
+        labelFR: "100 milliards",
+        labelEN: "100 billion",
+        dy: 30,
+        line: 22,
+        anchor: "start"
+      },
+      {
+        value: 97000000000,
+        labelFR: "Mark Zuckerberg",
+        labelEN: "Mark Zuckerberg",
+        dy: 30,
+        line: 18,
+        anchor: "end"
+      },
 
-      
-      { value: 124000000000, labelFR: "Bill Gates", labelEN: "Bill Gates" ,dy : 30, line: 22, anchor:"middle"},
-      { value: 150000000000, labelFR: "Bernard Arnault", labelEN: "Bernard Arnault" ,dy : 30, line: 22, anchor:"end"},
-      { value: 151000000000, labelFR: "Elon Musk", labelEN: "Elon Musk" ,dy : 30, line: 22, anchor:"start"},
-      { value: 177000000000, labelFR: "Jeff Bezos", labelEN: "Jeff Bezos" ,dy : 30, line: 22, anchor:"end"},
+
+      {
+        value: 124000000000,
+        labelFR: "Bill Gates",
+        labelEN: "Bill Gates",
+        dy: 30,
+        line: 22,
+        anchor: "middle"
+      },
+      {
+        value: 150000000000,
+        labelFR: "Bernard Arnault",
+        labelEN: "Bernard Arnault",
+        dy: 30,
+        line: 22,
+        anchor: "end"
+      },
+      {
+        value: 151000000000,
+        labelFR: "Elon Musk",
+        labelEN: "Elon Musk",
+        dy: 30,
+        line: 22,
+        anchor: "start"
+      },
+      {
+        value: 177000000000,
+        labelFR: "Jeff Bezos",
+        labelEN: "Jeff Bezos",
+        dy: 30,
+        line: 22,
+        anchor: "end"
+      },
 
     ];
 
-    var line = {      
+    var line = {
       width: width,
       style: {
         fontSize: size,
@@ -167,13 +250,19 @@
         legend: false,
       },
       marks: [
-        Plot.ruleX(data, {x: "value"}),
-        Plot.text(data, {x: "value", text: "labelEN", textAnchor: "end", frameAnchor: "top"}),
+        Plot.ruleX(data, {
+          x: "value"
+        }),
+        Plot.text(data, {
+          x: "value",
+          text: "labelEN",
+          textAnchor: "end",
+          frameAnchor: "top"
+        }),
       ]
     };
 
     document.getElementById("line").appendChild(Plot.plot(line));
-
   </script>
 </body>
 
