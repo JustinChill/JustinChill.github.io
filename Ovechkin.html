@@ -50,6 +50,9 @@
       padding-left: .2rem;
     }
 
+          svg [aria-label="tip"]{
+        text-transform: capitalize;
+      }
     @media screen and (max-width: 680px) {}
   </style>
 </head>
@@ -124,60 +127,15 @@
       const players = [...new Set(formatted.map((d) => d.player))];
       const defaultValues = ["Alex Ovechkin", "Wayne Gretzky"];
 
-      // Create a container for the checkboxes
-      const container = document.createElement('label');
-      container.innerHTML = 'Select players: ';
-
-      // Create a checkbox for each player
-      players.forEach(player => {
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.id = player;
-        checkbox.value = player;
-        checkbox.checked = defaultValues.includes(player);
-
-        const label = document.createElement('label');
-        label.htmlFor = player;
-        label.appendChild(document.createTextNode(player));
-
-        container.appendChild(checkbox);
-        container.appendChild(label);
-        // container.appendChild(document.createElement('br'));
-      });
-
-      // Add the container to the body (or any other element you prefer)
-      document.getElementById("step_chart").appendChild(container);
-
-      // To get the selected values, you can use the following function:
       function getSelectedPlayers() {
-        return Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(checkbox => checkbox.value);
+        return Array.from(defaultValues);
       }
 
       playersToViz = formatted.filter((f) => getSelectedPlayers().includes(f.player))
-      var step_chart = {};
-
-      // Function to redraw the step_chart
-      function redrawStepChart() {
-        const selectedPlayers = getSelectedPlayers();
-        const filteredData = formatted;
-
-        // Assuming you have a function to create or update the step_chart
-        // For example, using a library like D3.js or any other plotting library
-        renderStepChart(filteredData);
-      }
-
-      // Add event listeners to all checkboxes
-      document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-        checkbox.addEventListener('change', redrawStepChart);
-      });
-
-      // Initial redraw
-      renderStepChart();
-
-      // Function to render the country chart
-      function renderStepChart(area) {
-        const step_chart = {
+   
+      var step_chart = {
           width: width,
+          marginTop: 35,
           style: {
             fontSize: size + 1.15
           },
@@ -222,13 +180,6 @@
             )
           ]
         };
-
-        // Clear existing chart
-        const countryContainer = document.getElementById("step_chart");
-        countryContainer.innerHTML = ""; // Clear existing chart
-        countryContainer.appendChild(container); // Re-add dropdown
-        countryContainer.appendChild(Plot.plot(step_chart)); // Add new chart
-      } //renderCountryChart
 
       var age_chart = {
         width: width,
