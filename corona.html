@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+  <title>Corona | Justin Chill</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Restrictive gun laws save lives.">
+  <meta name="author" content="Justin Chill">
+  <!-- OpenGraph tags -->
+  <meta name="keywords" content="chart, data viz, corona">
+  <meta name="robots" content="all">
+  <meta content="en_US" property="og:locale">
+  <meta content="JustinChill" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="https://justinchill.com/gun-laws.html" property="og:url">
+  <meta content="Corona | Justin Chill" property="og:title">
+  <meta content="Restrictive gun laws save lives." property="og:description">
+  <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
+  <link rel="canonical" href="https://www.justinchill.com/corona.html">
+
+  <meta property="og:locality" content="New York">
+  <meta property="og:region" content="NY">
+  <meta property="og:country_name" content="USA">
+
+  <meta name="datePublished" content="2025-07-12">
+  <meta name="dateModified" content="2025-07-12">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Corona | Justin Chill">
+  <meta name="twitter:description" content="Restrictive gun laws save lives.">
+
+  <link type="text/plain" href="humans.txt" rel="author">
+  <link rel="preload" href="style.css" as="style" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="/favicon.ico">
+  <meta name="theme-color" content="#4C63B6">
+
+  <script type="module">
+    document.documentElement.classList.remove('no-js');
+    document.documentElement.classList.add('js');
+  </script>
+
+  <style type="text/css">
+    .box {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .box_one, .box_two {
+        width: calc(50% - 2px);
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="nav" role="navigation">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
+      <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
+      <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+
+  <main role="main">
+    <article>
+      <div class="article-hero">
+        <h2 class="article-category">Post</h2>
+        <h1 class="article-title">Corona</h1>
+        <h2 class="article-subtitle"></h2>
+      </div>
+      <span class="header-tag mid-size"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <h3 class="mid-size">Stages of the Corona Era</h3>
+      <h4 class="mid-size">The most important events of the COVID-19 pandemic against the backdrop of the number of deaths worldwide and the number of vaccine doses administered</h4>
+      <section class="mid-size">
+        <div class="box">
+
+          <figure class="box_one" id="death_chart">
+          </figure>
+
+          <figure class="box_two" id="vax_chart">
+          </figure>
+
+        </div>
+      </section>
+
+    </article>
+  </main>
+  <footer>
+    <!--   <h2 id="footnote-label">Footnotes</h2>
+  <ol>
+    <li id="Holmes"><a href="https://digital.library.unt.edu/ark:/67531/metadc68027/m2/1/high_res_d/thesis.pdf">Holmes, 2011</a>.<a href="#Holmes-ref" aria-label="Back to content">↩</a></li>
+    <li id="Graff"><a href="https://onlinelibrary.wiley.com/doi/abs/10.1111/j.0033-0124.1994.00019.x">Graff and Ashton, 1994</a>.<a href="#Graff-ref" aria-label="Back to content">↩</a></li>    
+  </ol> -->
+
+    <div>
+      <p>Justin Chill &copy; 2025</p>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+
+  <script type="text/javascript">
+    var element = d3.select('figure').node();
+    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+    var size = 20;
+    var chart_width = window.innerWidth / 2 - 4;
+    // var ns = Inputs.text().classList[0];
+
+    // Use Promises to async request data
+    var promises = [d3.csv("data/death_vac@9.csv", d3.autoType)];
+
+    // You can request multiple srcs in a promise
+    myDataPromises = Promise.all(promises);
+
+    // After data is successfully fetched, generate viz
+    myDataPromises.then(function(data) {
+      // Define the data. There's gotta be a better way to do this:
+      var death_vac_data = data[0];
+      var death = death_vac_data.map((d) => ({
+        date: new Date(d.date),
+        death: +d.death,
+        vac: +d.vac
+      }));
+      death_ordered = death.sort((a, b) => d3.ascending(a.date, b.date));
+      var annotations_vac = [{
+          date: new Date(2020, 3, 29),
+          text: "Biontech and Pfizer test corona vaccine"
+        },
+        {
+          date: new Date(2020, 7, 20),
+          text: "Russia approves the world's first vaccine"
+        },
+
+        {
+          date: new Date(2020, 9, 20),
+          text: "EU Medicines Agency reviews vaccine"
+        },
+        {
+          date: new Date(2020, 10, 30),
+          text: "EU approves Biontech/Pfizer vaccine"
+        },
+        {
+          date: new Date(2021, 0, 19),
+          text: "Astra-Zeneca approved for use in the EU"
+        },
+        {
+          date: new Date(2021, 2, 10),
+          text: "Vulnerable people vaccinated with priority"
+        },
+        {
+          date: new Date(2021, 3, 15),
+          text: "Astra-Zeneca vaccine has major side effects"
+        },
+        {
+          date: new Date(2021, 7, 0),
+          text: "Children and adolescents should be vaccinated"
+        },
+        {
+          date: new Date(2021, 8, 0),
+          text: "Second and third vaccinations (boosters) available"
+        },
+        {
+          date: new Date(2022, 2, 16),
+          text: "Compulsory vaccination for doctors and nurses"
+        },
+        {
+          date: new Date(2023, 5, 0),
+          text: "More than 13 billion vaccine doses administered"
+        }
+      ];
+      var annotations_death = [{
+          date: new Date(2019, 10, 15),
+          text: "New lung disease in Wuhan, China"
+        },
+        {
+          date: new Date(2020, 0, 20),
+          text: "First patient dies of Covid-19 in Wuhan"
+        },
+        {
+          date: new Date(2020, 2, 0),
+          text: "WHO declares the outbreak a pandemic"
+        },
+        {
+          date: new Date(2020, 3, 10),
+          text: "Global stock market crash"
+        },
+
+        {
+          date: new Date(2020, 3, 30),
+          text: "Many countries impose social distancing"
+        },
+
+        {
+          date: new Date(2020, 4, 30),
+          text: "Hospitals overloaded"
+        },
+        {
+          date: new Date(2020, 5, 30),
+          text: "EU mobilizes billions to combat economic crisis"
+        },
+
+        {
+          date: new Date(2020, 7, 10),
+          text: "States require testing and quarantine"
+        },
+        {
+          date: new Date(2020, 8, 29),
+          text: "More than one million deaths worldwide"
+        },
+        {
+          date: new Date(2020, 11, 5),
+          text: "New mutation called Alpha in Great Britain"
+        },
+        {
+          date: new Date(2021, 1, 0),
+          text: "FFP2 masks prescribed more frequently"
+        },
+        {
+          date: new Date(2021, 2, 10),
+          text: "Self-tests start rolling out"
+        },
+        {
+          date: new Date(2021, 3, 20),
+          text: "States take on immense debts"
+        },
+        {
+          date: new Date(2021, 6, 8),
+          text: "Delta variant prevails"
+        },
+        {
+          date: new Date(2021, 10, 26),
+          text: "Worrying Omicron variant discovered"
+        },
+        {
+          date: new Date(2022, 3, 2),
+          text: "Mask requirements eased"
+        },
+        {
+          date: new Date(2022, 10, 0),
+          text: "The virus loses its terror"
+        },
+        {
+          date: new Date(2023, 5, 0),
+          text: "Seven million deaths"
+        }
+      ];
+
+      var death_chart = {
+        width: chart_width,
+        style: {
+          fontSize: size
+        },
+        height: 1500,
+        marginLeft: 25,
+        marginRight: 0,
+        marginTop: 40,
+        color: {
+          legend: false
+        },
+        y: {
+          axis: null,
+          grid: true,
+          ticks: [],
+          reverse: true,
+          domain: [new Date(2019, 10, 0), new Date(2023, 7, 0)]
+        },
+
+        x: {
+          tickFormat: (d) => d.toLocaleString("en"),
+          label: "Deaths per day",
+          labelAnchor: "left",
+          stroke: "#99AFC2",
+          grid: false,
+          axis: "top",
+          ticks: [5000, 10000],
+          domain: [0, 15000]
+        },
+
+        marks: [
+          Plot.ruleX([0], {
+            stroke: "#99AFC2"
+          }),
+
+          Plot.ruleY([new Date(2019, 10, 0)], {
+            stroke: "#99AFC2"
+          }),
+
+          Plot.ruleY([new Date(2020, 0, 0)], {
+            stroke: "#99AFC2"
+          }),
+
+          Plot.ruleY([new Date(2021, 0, 0)], {
+            stroke: "#99AFC2"
+          }),
+
+          Plot.ruleY([new Date(2022, 0, 0)], {
+            stroke: "#99AFC2"
+          }),
+
+          Plot.ruleY([new Date(2023, 0, 0)], {
+            stroke: "#99AFC2"
+          }),
+
+          // Annotations
+          Plot.text(annotations_death, {
+            x: 0,
+            y: "date",
+            text: "text",
+            textAnchor: "start",
+            lineAnchor: "top",
+            dx: 4
+          }),
+
+          // Axis years
+          Plot.axisY({
+            ticks: "year",
+            tickSize: 0,
+            stroke: "#fff",
+            dx: 12,
+            dy: 10,
+            textAnchor: "start"
+          }),
+
+          // Axis months
+          Plot.axisY({
+            ticks: "4 months",
+            tickSize: 0,
+            dx: 6,
+            fill: "#99AFC2",
+            tickFormat: (d) => d.toLocaleString("en", {
+              month: "short"
+            }),
+            textAnchor: "end"
+          }),
+
+          // Area / line
+          Plot.areaX(
+            death_ordered.filter((d) => d.date < new Date(2023, 7, 0)), {
+              y: "date",
+              x: "death",
+              fill: "#e84f1c",
+              fillOpacity: 0.3,
+              tip: true,
+              curve: "catmull-rom"
+            }
+          )
+        ]
+      };
+      var vax_chart = {
+        width: chart_width,
+        style: {
+          fontSize: size
+        },
+        height: 1500,
+        marginLeft: 0,
+        marginRight: 25,
+        marginTop: 40,
+        color: {
+          legend: false
+        },
+        y: {
+          axis: null,
+          grid: true,
+          ticks: [],
+          reverse: true,
+          domain: [new Date(2019, 10, 0), new Date(2023, 7, 0)]
+        },
+        x: {
+          tickFormat: (d) => d.toLocaleString("en"),
+          label: "Vaccinations per day (M)",
+          labelAnchor: "right",
+          stroke: "#99AFC2",
+          grid: false,
+          axis: "top",
+          reverse: true,
+          ticks: [15, 30],
+          domain: [0, 45]
+        },
+        marks: [
+          Plot.ruleX([0], {
+            stroke: "#99AFC2"
+          }),
+
+          Plot.ruleY([new Date(2019, 10, 0)], {
+            stroke: "#99AFC2"
+          }),
+
+          Plot.ruleY([new Date(2020, 0, 0)], {
+            stroke: "#99AFC2"
+          }),
+
+          Plot.ruleY([new Date(2021, 0, 0)], {
+            stroke: "#99AFC2"
+          }),
+
+          Plot.ruleY([new Date(2022, 0, 0)], {
+            stroke: "#99AFC2"
+          }),
+
+          Plot.ruleY([new Date(2023, 0, 0)], {
+            stroke: "#99AFC2"
+          }),
+
+          // Annotations
+          Plot.text(annotations_vac, {
+            x: 0,
+            y: "date",
+            text: "text",
+            textAnchor: "end",
+            lineAnchor: "top",
+            dx: -4
+          }),
+
+          // Axis years
+          Plot.axisY({
+            ticks: "year",
+            tickSize: 0,
+            anchor: "right",
+            stroke: "#fff",
+            dx: -12,
+            dy: 10,
+            textAnchor: "end"
+          }),
+
+          // Axis months
+          Plot.axisY({
+            ticks: "4 months",
+            tickSize: 0,
+            dx: -6,
+            anchor: "right",
+            fill: "#99AFC2",
+            tickFormat: (d) => d.toLocaleString("en", {
+              month: "short"
+            }),
+            textAnchor: "start"
+          }),
+
+          // Linien
+          Plot.areaX(
+            death_ordered.filter((d) => d.date < new Date(2023, 7, 0)), {
+              y: "date",
+              x: (d) => d.vac,
+              fill: "#4f80ff",
+              fillOpacity: 0.3,
+              tip: true,
+              curve: "catmull-rom"
+            }
+          )
+        ]
+      };
+      document.getElementById("death_chart").appendChild(Plot.plot(death_chart));
+      document.getElementById("vax_chart").appendChild(Plot.plot(vax_chart));
+    });
+  </script>
+</body>
+
+</html>
