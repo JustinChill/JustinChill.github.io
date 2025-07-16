@@ -35,6 +35,16 @@
   --font-main: "Camphor", Arial, Helvetica, sans-serif;
   --weight-regular: 400;
   --weight-bold: 700;
+  
+  /* Fluid type */
+  --min-fs: 1.0625;
+  --max-fs: 1.25;
+  --min-vw: 20;
+  --max-vw: 45;
+  --min-fs-rem: var(--min-fs) * 1rem;
+  --max-fs-rem: var(--max-fs) * 1rem;
+  --min-vw-rem: var(--min-vw) * 1rem;
+  --slope: (var(--max-fs) - var(--min-fs)) * (100vw - var(--min-vw-rem)) / (var(--max-vw) - var(--min-vw));
 
   /* Layout */
   --nav-width: 8.75rem;
@@ -236,6 +246,7 @@ figcaption,
 figcaption a {
   font-family: var(--font-main);
   font-size: calc(var(--type-scale--1) + .25vw);
+  font-size: clamp(var(--min-fs-rem), var(--min-fs-rem) + var(--slope), var(--max-fs-rem));
   letter-spacing: -0.03px;
   line-height: calc(1.5em + .2vw);
   text-wrap: pretty;
@@ -294,6 +305,7 @@ a.anchor:hover:after {
 h1 {
   font-family: "Camphor Heavy", var(--font-main);
   font-size: calc(var(--type-scale-6) + .25vw);
+  font-size: clamp(var(--type-scale-5), 4vw + 1rem, var(--type-scale-6));
   text-align: center;
   margin-bottom: 1rem;
 }
@@ -302,6 +314,7 @@ h2 {
   font-family: "Camphor Light", var(--font-main);
   margin: var(--spacer-3) 0 var(--spacer-2) 0;
   font-size: calc(var(--type-scale-4) + .25vw);
+  font-size: clamp(var(--type-scale-4), 4vw + 1rem, var(--type-scale-5));
   font-weight: var(--weight-regular);
   text-wrap: balance;
 }
@@ -309,6 +322,7 @@ h2 {
 h3 {
   font-family: "Camphor Light", var(--font-main);
   font-size: calc(var(--type-scale-3) + .05vw);
+  font-size: clamp(var(--type-scale-3), 4vw + 1rem, var(--type-scale-4));
   font-weight: var(--weight-regular);
   padding: 0;
   text-align: left;
@@ -320,6 +334,7 @@ h3 {
 h4 {
   font-family: "Camphor Light", var(--font-main);
   font-size: calc(var(--type-scale-2) - .25vw);
+  font-size: clamp(var(--type-scale-2), 4vw + 1rem, var(--type-scale-3));
   font-weight: var(--weight-regular);
   margin: var(--spacer-2) 0 var(--spacer-1) 0;
 }
@@ -327,6 +342,7 @@ h4 {
 h5 {
   font-family: "Camphor Light", var(--font-main);
   font-size: calc(var(--type-scale-1) + .25vw);
+  font-size: clamp(var(--type-scale-1), 4vw + 1rem, var(--type-scale-2));
   font-weight: var(--weight-regular);
   margin: var(--spacer-2) 0 var(--spacer-1) 0;
 }
@@ -338,6 +354,7 @@ article>q {
   -webkit-background-clip: text;
   background-clip: text;
   font-size: 1.4em;
+  font-size: clamp(var(--type-scale-3), 4vw + 1rem, var(--type-scale-4));
   width: 100%;
   font-family: var(--font-main);
   margin: var(--spacer-4) 0 var(--spacer-2);
@@ -457,6 +474,7 @@ article>p:first-of-type:first-letter {
   color: hsl(225, 57%, 67%);
   margin: 0 0 1rem;
   font-size: calc(.85rem + .25vw);
+  font-size: clamp(var(--type-scale-0), 4vw + 1rem, var(--type-scale-2));
   text-transform: uppercase;
 }
 
@@ -464,12 +482,14 @@ article>p:first-of-type:first-letter {
   font-family: "Camphor Heavy", 'Playfair Display SC', serif;
   margin: 0;
   font-size: calc(var(--type-scale-6) + .25vw);
+  font-size: clamp(var(--type-scale-6), 4vw + 1rem, var(--type-scale-8));
 }
 
 .article-subtitle {
   font-family: "Camphor Light", 'Playfair Display SC', serif;
   color: rgba(0, 0, 0, 0.54);
   font-size: calc(1.25rem + .25vw);
+  font-size: clamp(var(--type-scale-0), 4vw + 1rem, var(--type-scale-2));
   margin: 1rem 0 0;
   font-weight: normal;
 }
@@ -778,6 +798,7 @@ figcaption a {
   color: #718096;
   font-family: "Camphor Light", var(--font-main);
   font-size: calc(.75rem + .25vw);
+  font-size: clamp(var(--type-scale-0), 4vw + 1rem, --type-scale-1);
 }
 
 blockquote cite {
