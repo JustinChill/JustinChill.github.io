@@ -50,6 +50,9 @@
     #dodgeplot {
       overflow-y: clip;
     }
+    tbody th{
+      background-color: initial;
+    }
   </style>
 </head>
 
@@ -165,8 +168,8 @@
       <p>Banks rarely fail on weekends, but Signature Bank, which failed on Sunday, March 13, 2023, is an exception. Of the 569 bank failures since the year 2000, Signature Bank is the only one to fail on a Sunday. The vast majority (95%) failed on Fridays—including Silicon Valley Bank.</p>
       <table id="mkpl-market-table" data-mc="0" data-tcc="2" class="mkpl-marketplace_tables table style-1" style="text-align: left">
         <tbody>
-          <tr class="thead" style="background-color: #4657A1 !important">
-            <th> Day of the Week </th>
+          <tr class="thead">
+            <th class="right"> Day of the Week </th>
             <th style="text-align: right;"> Bank Failures </th>
           </tr>
           <tr>
@@ -251,8 +254,8 @@
   <script type="text/javascript">
     var elementMid = d3.select('figure.mid-size').node();
     var widthMid = elementMid.getBoundingClientRect().width; // get width of figure.mid-size so graphic is responsive
-    var element = d3.select('figure:not(.mid-size)').node();
-    var width = element.getBoundingClientRect().width;
+    // var element = d3.select('figure:not(.mid-size)').node();
+    // var width = element.getBoundingClientRect().width;
     var size = 16;
     let sortBy = "Size"; // Initial sort value
 
@@ -282,7 +285,7 @@
         insetRight: 40,
         padding: 0,
         r: {
-          range: width > 450 ? [0, 80] : [0, 60]
+          range: widthMid > 450 ? [0, 80] : [0, 60]
         },
         x: {
           nice: true,
@@ -319,9 +322,9 @@
               r: "Assets", // N.B. sqrt scale
               // title: (d) => `${d["Bank Name"]}\n${(d["Assets"] / 1000).toFixed(1)}B`,
               title: (d) =>
-                `${d["Bank Name"]}\n${(d["Assets"] / 1000).toFixed(1)}B\n${d[
+                `${d["Bank Name"]}\n$${(d["Assets"] / 1000).toFixed(1)}B\n${d[
                   "Date"
-                ].toLocaleString("fr-FR", {
+                ].toLocaleString("en-US", {
                   year: "numeric",
                   month: "2-digit",
                   day: "2-digit"

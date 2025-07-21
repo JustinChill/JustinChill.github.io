@@ -312,7 +312,7 @@ h1 {
 
 h2 {
   font-family: var(--font-ui), var(--font-main);
-  margin: var(--spacer-3) 0 var(--spacer-2) 0;
+  margin: var(--spacer-4) 0 var(--spacer-2) 0;
   font-size: calc(var(--type-scale-4) + .25vw);
   font-size: clamp(var(--type-scale-4), 1.467rem + 3.913vw, var(--type-scale-5));
   font-weight: var(--weight-regular);
@@ -327,7 +327,7 @@ h3 {
   padding: 0;
   text-align: left;
   letter-spacing: -0.45px;
-  margin: var(--spacer-3) 0 var(--spacer-1) 0;
+  margin: var(--spacer-4) 0 var(--spacer-1) 0;
   text-wrap: balance;
 }
 
@@ -365,11 +365,11 @@ article>q {
   font-size: calc(var(--type-scale-2) + .25vw);
 }
 
-article>blockquote figcaption p {
+/*article>blockquote figcaption p {
   font-size: small;
   font-style: normal;
   text-align: right;
-}
+}*/
 
 article>blockquote::before {
   font-family: 'Playfair Display SC', Arial, Helvetica, sans-serif;
@@ -474,7 +474,7 @@ article>p:first-of-type:first-letter {
   color: hsl(225, 57%, 67%);
   margin: 0 0 1rem;
   font-size: calc(.85rem + .25vw);
-  font-size: clamp(var(--type-scale-0), 1.467rem + 3.913vw, var(--type-scale-2));
+  font-size: clamp(var(--type-scale--1), 1.467rem + 3.913vw, var(--type-scale-0));
   text-transform: uppercase;
 }
 
@@ -482,14 +482,14 @@ article>p:first-of-type:first-letter {
   font-family: "Camphor Heavy", 'Playfair Display SC', serif;
   margin: 0;
   font-size: calc(var(--type-scale-6) + .25vw);
-  font-size: clamp(var(--type-scale-6), 1.467rem + 3.913vw, var(--type-scale-8));
+  font-size: clamp(var(--type-scale-5), 1.467rem + 3.913vw, var(--type-scale-6));
 }
 
 .article-subtitle {
   font-family: var(--font-ui), 'Playfair Display SC', serif;
   color: rgba(0, 0, 0, 0.54);
   font-size: calc(1.25rem + .25vw);
-  font-size: clamp(var(--type-scale-0), 1.467rem + 3.913vw, var(--type-scale-2));
+  font-size: clamp(var(--type-scale-1), 1.467rem + 3.913vw, var(--type-scale-2));
   margin: 1rem 0 0;
   font-weight: normal;
 }
@@ -652,10 +652,6 @@ textarea {
   -webkit-font-smoothing: antialiased;
 }
 
-article>p+figure {
-  margin-top: var(--spacer-4);
-}
-
 article>aside {
   margin: .5rem 1rem;
   grid-column: 5 / 7;
@@ -683,6 +679,7 @@ article>aside * {
 
 .mid-size {
   grid-column: 2 / -2;
+  margin: var(--spacer-2) 0;
 }
 
 .full-bleed {
@@ -781,9 +778,13 @@ pre>code {
 }
 
 article>figure {
-  margin-top: var(--spacer-1);
+  margin: var(--spacer-4) 0 var(--spacer-2);
   display: flex;
   flex-direction: column-reverse;
+}
+article>h2 + figure,
+article>h3 + figure{
+  margin-top: var(--spacer-1);
 }
 
 section figure:not([.item-left])+p,
@@ -794,17 +795,22 @@ section figure:not([.item-right])+p {
 blockquote cite,
 figcaption,
 figcaption a {
-  margin: var(--spacer-1) 0 0;
   color: #718096;
   font-family: var(--font-ui), var(--font-main);
   font-size: calc(.75rem + .25vw);
-  font-size: clamp(var(--type-scale-0), 1.467rem + 3.913vw, --type-scale-1);
+  font-size: clamp(var(--type-scale-0), 1.467rem + 3.913vw, var(--type-scale-1));
 }
 
 blockquote cite {
   float: right;
   text-align: right;
   font-style: normal;
+}
+
+figcaption, 
+figcaption a {
+  font-size: calc(.75rem + .25vw);
+  font-size: clamp(var(--type-scale--1), 1.467rem + 3.913vw, var(--type-scale-0));
 }
 
 /* Toggles ☑️ */
@@ -1439,6 +1445,10 @@ svg[class*="plot"][class*="ramp"] text {
 
 /* Tablets */
 @media screen and (max-width: 770px) {
+
+.mid-size {
+  margin: var(--spacer-1) 0;
+}
   /*  .article-category{/*
     font-size: calc(.9rem + .2vw);
     margin-bottom: .8rem;
