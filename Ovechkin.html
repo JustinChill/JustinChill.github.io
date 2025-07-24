@@ -76,13 +76,13 @@
       <div class="article-hero">
         <h2 class="article-category">Post</h2>
         <h1 class="article-title">Alex Ovechkin's path to #1</h1>
-        <h2 class="article-subtitle">How Alex Ovechkin broke Wayne Gretzky’s once-unbreakable record</h2>
+        <h2 class="article-subtitle">How Alex Ovechkin broke a once-unbreakable record</h2>
       </div>
 
       <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
       <h2>A new goal standard</h2>
       <figure id="step_chart" aria-label=""></figure>
-      <p>When Wayne Gretzky, “the Great One”, retired from hockey in 1999, many assumed that his goal record of 894 would last forever. But over the past few years, the countdown has been on for when Alexander Ovechkin, better known as Ovi, might surpass him. On April 6th he did just that, ripping a shot through traffic past right New York Islanders goaltender Ilya Sorokin. It was his 895th goal. As was only fitting, he had fired the shot from the spot on the ice that has come to be known as “Ovi’s office”—the area in and around the left faceoff circle.</p>
+      <p>When Wayne Gretzky, “the Great One”, retired in 1999, his 894-goal record seemed untouchable. But recently the countdown has been on for when Alexander Ovechkin, better known as Ovi, might surpass him. On April 6th he did just that, ripping a shot through traffic past right New York Islanders goaltender Ilya Sorokin. It was his 895th goal. As was only fitting, he had fired the shot from the spot on the ice that has come to be known as “Ovi’s office”—the area in and around the left faceoff circle.</p>
       <p>Ovechkin’s proficiency is remarkable for two reasons. The first is his remarkable longevity. As shown in the chart above, a tracker of cumulative goals scored, Wayne Gretzky was far more effective at putting pucks in the net early in his career. Through age 29 Gretzky outperformed Ovi by a wide margin. No <small>NHL</small> player had ever scored more goals than Gretzky at <a href="https://archive.ph/o/gMmi4/https://stathead.com/sharing/Tr01r" target="_blank">19</a>, or <a href="https://archive.ph/o/gMmi4/https://stathead.com/sharing/1KjB4" target="_blank">20</a>, or—well, at 21, Gretzky scored <a href="https://archive.ph/o/gMmi4/https://records.nhl.com/records/skater-records/goals/skater-most-goals-one-season" target="_blank">more goals</a> than anyone else has scored in a single season at <em>any</em> age. He was on pace to become hockey’s most prolific career scorer from the second he set foot on the ice.</p>
       <p>In his 30s, though, Mr. Gretzky was scoring just a bit better than the league average. Other prolific goal scorers tend to experience similar declines, with their production dropping off as they advance along the aging curve<a href="#econ" aria-describedby="footnote-label" id="econ-ref"></a>.</p>
       <p>Not Ovi. He was on track to be <em>one</em> of the greatest goal scorers ever, certainly. But <em>the</em> greatest of all time? No way. Why would anyone have expected him to overtake Gretzky? Even as his skating has slowed, he still has a stunning ability to read the play, find openings and fire off exquisitely placed shots.</p>
@@ -145,19 +145,22 @@
         },
         x: {
           ticks: [18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40],
-          domain: [18, 40]
+          domain: [18, 40],
         },
         y: {
           nice: true,
           labelAnchor: "top",
           frameAnchor: "top-left",
+          tickSize: 0, // don’t draw ticks
+          ticks: 4,
+          grid: true,
         },
         marks: [
           Plot.ruleY([0]),
           Plot.dot(playersToViz, Plot.selectLast({
             x: "age",
             y: "Total goals",
-            // fill: "grey",
+            fill: "player",
             strokeWidth: 1,
             r: 2,
           })),
@@ -190,7 +193,11 @@
         marginRight: 10,
         paddingBottom: 40,
         fx: {
-          label: null
+          label: null,
+        },
+        y: {
+          nice: true,
+          ticks: 4,
         },
         x: {
           ticks: [20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40],
