@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+	<title>Joke generator | Justin Chill</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Dad joke generator.">
+	<meta name="author" content="Justin Chill">
+	<!-- OpenGraph tags -->
+	<meta name="keywords" content="API, joke, laugh, pun, generator, dad joke, gag, humor, fun">
+	<meta name="robots" content="all">
+	<meta content="en_US" property="og:locale">
+	<meta content="JustinChill" property="og:site_name">
+	<meta content="website" property="og:type">
+	<meta content="https://justinchill.com/to-don't.html" property="og:url">
+	<meta content="Joke generator | Justin Chill" property="og:title">
+	<meta content="Dad joke generator" property="og:description">
+	<meta content="https://www.justinchill.com/blog.html" property="og:see_also">
+	<link rel="canonical" href="https://www.justinchill.com/jokes.html">
+
+	<meta property="og:locality" content="NY">
+	<meta property="og:region" content="NY">
+	<meta property="og:country_name" content="USA">
+
+	<meta name="datePublished" content="2025-08-04">
+	<meta name="dateModified" content="2025-08-04">
+
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="To Don't List | Justin Chill">
+	<meta name="twitter:description" content="Don't do these things">
+
+	<link type="text/plain" href="humans.txt" rel="author">
+	<link rel="preload" href="style.css" as="style" />
+	<link rel="stylesheet" href="style.css" />
+	<link rel="icon" href="/favicon.ico">
+	<meta name="theme-color" content="#4C63B6">
+
+	<script type="module">
+		document.documentElement.classList.remove('no-js');
+		document.documentElement.classList.add('js');
+	</script>
+
+	<style type="text/css">
+		@import url("https://fonts.googleapis.com/css?family=Roboto+Mono:500|Roboto:400,500,700&display=swap");
+		html {
+		  box-sizing: border-box;
+		  height: 100%;
+		  font-size: 100%;
+		  -webkit-text-size-adjust: 100%;
+		  -ms-text-size-adjust: 100%;
+		}
+		
+		* {
+		  -webkit-tap-highlight-color: rbga(0, 0, 0, 0);
+		  -webkit-text-size-adjust: none;
+		}
+		body {
+		  font-family: "Roboto", "Helvetica Neue", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+		  /* line-height: 1.4; */
+		  /* font-weight: 400; */
+		  min-height: 80vh;
+		  /* -webkit-font-smoothing: antialiased; */
+		  /* -moz-osx-font-smoothing: grayscale; */
+		  /* color: #202020; */
+		  -ms-scroll-chaining: none;
+			  overscroll-behavior: none;
+		  /* font-size: 1rem; */
+		  /* background-color: #ece7fd; */
+		  /* position: relative; */
+		  /* display: flex; */
+		  /* align-items: flex-start; */
+		  /* justify-content: center; */
+		  /* height: 100vh; */
+		  /* width: 100vw; */
+		}
+		
+		img {
+		  width: 100%;
+		  font-style: italic;
+		  vertical-align: middle;
+		}
+		
+		img[height],
+		img[width] {
+		  width: auto;
+		}
+		
+		a:active, a:focus,
+		button:active,
+		button:focus,
+		select:active,
+		select:focus,
+		textarea:active,
+		textarea:focus {
+		  outline: -webkit-focus-ring-color auto 5px;
+		}
+		
+		.brand-group {
+		  position: absolute;
+		  bottom: 1.25rem;
+		  right: 1.25rem;
+		  display: inline-flex;
+		  align-items: center;
+		  align-self: flex-end;
+		  margin-top: 1.25rem;
+		}
+		@media (min-width: 576px) {
+		  .brand-group {
+			bottom: 3.25rem;
+			right: 3.25rem;
+		  }
+		}
+		
+		.dribbble-logo {
+		  display: block;
+		  height: 18px;
+		  width: auto;
+		  fill: #202020;
+		  margin-right: 0.5rem;
+		}
+		
+		.alxv-brand {
+		  display: block;
+		  height: 18px;
+		  width: auto;
+		  fill: #202020;
+		}
+		
+		.emoji {
+		  display: inline-block;
+		  white-space: nowrap;
+		  font-size: 2.074rem;
+		  -webkit-user-select: none;
+			 -moz-user-select: none;
+			  -ms-user-select: none;
+				  user-select: none;
+		}
+		.emoji--small {
+		  font-size: 1.44rem;
+		}
+		
+		.project-container {
+		  position: relative;
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
+		  flex-direction: column;
+		  padding: 1.25rem;
+		  width: 100%;
+		  height: 100%;
+		  max-width: 768px;
+		}
+		
+		.avatar {
+		  align-self: flex-start;
+		  position: relative;
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
+		  background-color: #ffffff;
+		  height: 58px;
+		  width: 58px;
+		  flex-shrink: 0;
+		  border-radius: 90px;
+		  -webkit-user-select: none;
+			 -moz-user-select: none;
+			  -ms-user-select: none;
+				  user-select: none;
+		  box-shadow: 0px 11px 10px -10px rgba(89, 31, 249, 0.65);
+		}
+		.avatar .emoji {
+		  position: relative;
+		  top: 2px;
+		}
+		
+		.chat-bot {
+		  position: relative;
+		  display: flex;
+		  flex-direction: column;
+		}
+		@media (min-width: 768px) {
+		  .chat-bot {
+			flex-direction: row;
+		  }
+		}
+		.chat-bot__chatter {
+		  position: relative;
+		  display: flex;
+		  align-items: center;
+		  order: 1;
+		}
+		@media (min-width: 768px) {
+		  .chat-bot__chatter {
+			order: 0;
+			align-self: flex-end;
+		  }
+		}
+		.chat-bot__messages {
+		  position: relative;
+		  width: 100%;
+		  margin-left: 0;
+		}
+		@media (min-width: 768px) {
+		  .chat-bot__messages {
+			margin-left: 1.25rem;
+		  }
+		}
+		.chat-bot__messages-info {
+		  position: relative;
+		  margin-top: 0.75rem;
+		  width: 100%;
+		  display: flex;
+		  align-items: center;
+		  color: #202020;
+		  opacity: 0.65;
+		  padding-right: 1.25rem;
+		}
+		.chat-bot__messages-info .feather {
+		  display: block;
+		  height: 22px;
+		  width: auto;
+		  margin-left: 0.75rem;
+		  stroke: currentColor;
+		}
+		
+		.speaker {
+		  position: relative;
+		  opacity: 1;
+		  display: inline-flex;
+		  align-items: center;
+		  margin-left: 1.25rem;
+		}
+		.speaker__dot {
+		  display: inline-block;
+		  height: 12px;
+		  width: 12px;
+		  border-radius: 90px;
+		  margin: 0.5rem;
+		  background-color: #591ff9;
+		}
+		
+		.chat-bubble {
+		  position: relative;
+		  width: 100%;
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
+		  background-color: #f7f5fc;
+		  padding: 1.25rem;
+		  border-radius: 1.25rem;
+		  border-bottom-left-radius: 0;
+		  transition: all 175ms ease-out;
+		  border: 3px solid transparent;
+		  box-shadow: 0px 18px 24px -15px rgba(89, 31, 249, 0.25), 0px 15px 20px -25px rgba(89, 31, 249, 0.25);
+		}
+		@media (min-width: 768px) {
+		  .chat-bubble {
+			padding: 2rem;
+		  }
+		}
+		.chat-bubble__actions {
+		  position: absolute;
+		  display: flex;
+		  align-items: center;
+		  justify-content: space-between;
+		  padding: 0.75rem;
+		  top: -28px;
+		  right: -8px;
+		  width: 160px;
+		  height: 48px;
+		  background-color: #ffffff;
+		  border-radius: 0.625rem;
+		  box-shadow: 0px 11px 10px -10px rgba(89, 31, 249, 0.15);
+		  transition: all 175ms ease-out;
+		  opacity: 0;
+		  visibility: hidden;
+		  transform: translateY(-28px);
+		}
+		.chat-bubble__actions .emoji-action {
+		  cursor: pointer;
+		  border: none;
+		  -webkit-user-select: none;
+			 -moz-user-select: none;
+			  -ms-user-select: none;
+				  user-select: none;
+		  min-width: 0;
+		  background-color: inherit;
+		  -webkit-tap-highlight-color: transparent;
+		  -webkit-font-smoothing: antialiased;
+		  -moz-osx-font-smoothing: grayscale;
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
+		  background-color: transparent;
+		  text-align: center;
+		  height: 38px;
+		  width: 38px;
+		  line-height: 38px;
+		  border-radius: 90px;
+		  transition: all 175ms ease-out;
+		  transform: scale(1);
+		}
+		.chat-bubble__actions .emoji-action::-moz-focus-inner {
+		  border: 0;
+		}
+		.chat-bubble__actions .emoji-action:hover, .chat-bubble__actions .emoji-action:focus {
+		  outline: none;
+		  transform: scale(1.2);
+		  background-color: #f7f5fc;
+		}
+		.chat-bubble__actions .emoji-action:active {
+		  transform: scale(0.96);
+		}
+		.chat-bubble:hover, .chat-bubble:focus {
+		  outline: none;
+		  border: 3px solid rgba(89, 31, 249, 0.25);
+		}
+		.chat-bubble:hover .chat-bubble__actions, .chat-bubble:focus .chat-bubble__actions {
+		  visibility: visible;
+		  opacity: 1;
+		  transform: translateY(0);
+		}
+		
+		.time-recieved {
+		  display: block;
+		  font-size: 0.833rem;
+		  font-family: "Roboto Mono";
+		  font-weight: 500;
+		}
+		
+		.chat-message {
+		  margin: 0;
+		  line-height: 1.2;
+		  font-size: 1.2rem;
+		  font-family: "roboto";
+		  font-weight: 500;
+		  -webkit-user-select: none;
+			 -moz-user-select: none;
+			  -ms-user-select: none;
+				  user-select: none;
+		  margin-right: auto;
+		  white-space: pre-wrap;
+		}
+	</style>
+</head>
+
+<body>
+	<nav class="nav" role="navigation">
+		<div class="nav__list">
+			<a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
+			<a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
+			<a href="now.html" class="nav__item" aria-label="Now page">Now</a>
+		</div>
+		<div class="nav__list">
+			<a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+			<a href="#" class="nav__item js-email-link">Email</a>
+		</div>
+	</nav>
+
+	<main role="main">
+		<article>
+			<div class="article-hero">
+				<h2 class="article-category"></h2>
+				<h1 class="article-title">Jokes</h1>
+				<h2 class="article-subtitle"></h2>
+			</div>
+
+			<div class="project-container">
+			  <div class="chat-bot">
+				<div class="chat-bot__chatter">
+				  <div class="avatar">
+					<span class="emoji">🤖</span>
+				  </div>
+				  <div class="speaker">
+					<span class="speaker__dot"></span>
+					<span class="speaker__dot"></span>
+					<span class="speaker__dot"></span>
+				  </div>
+				</div>
+			  </div>
+			</div>
+			<p>I love a good joke, and quite a few bad jokes, too. These jokes are served from the <a href="https://icanhazdadjoke.com/api">icanhazdadjoke</a> API, a free resource that delivers a random Dad joke on request.</p>
+		</article>
+	</main>
+
+	<footer>
+		<h2 id="footnote-label">Footnotes</h2>
+		<ol>
+			<li id="tribute">Inspired by <a href="https://codepen.io/alxvtoronto">Alex Vong</a>.<a href="#tribute-ref" aria-label="Back to content">↩</a></li>
+		</ol>
+		<div>
+			<p>Justin Chill &copy; 2025.</p>
+			<span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
+		</div>
+	</footer>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
+	<script src="https://unpkg.com/feather-icons"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js"></script>
+	<script type="text/javascript">
+		const JOKES_API = "https://icanhazdadjoke.com/";
+		const avatar = $(".avatar");
+		const chatBot = $(".chat-bot");
+		const chatDots = $(".speaker");
+		const actions = Array("😂", "🤣", "😅");
+		const buttonSFX = new Audio("https://facebook.design/public/sounds/Tab 1.mp3");
+		const popSFX = new Audio("https://facebook.design/public/sounds/Tab 2.mp3");
+		const typingSFX = new Audio(
+		  "https://facebook.design/public/sounds/Collapse.mp3"
+		);
+		// Create dynamic elements
+		const chatContainer = createNewElement("div", "chat-bot__messages");
+		const chatBubble = createNewElement("div", "chat-bubble");
+		const messagesInfo = createNewElement("div", "chat-bot__messages-info");
+		const timeRecieved = createNewElement("span", "time-recieved");
+		const infoIcon = createNewElement("div");
+		infoIcon.innerHTML = feather.icons.check.toSvg();
+		messagesInfo.appendChild(timeRecieved);
+		messagesInfo.appendChild(infoIcon);
+		const dadJoke = createNewElement("h1", "chat-message");
+		const chatActions = createNewElement("div", "chat-bubble__actions");
+		
+		const emojiActions = actions.map((action) => {
+		  const emoji = createNewElement("span", "emoji emoji--small");
+		  emoji.textContent = action;
+		  const emojiButton = createNewElement("button", "emoji-action");
+		  emojiButton.appendChild(emoji);
+		  return (action = emojiButton);
+		});
+		
+		emojiActions.forEach((action) => {
+		  chatActions.appendChild(action);
+		  console.log(action);
+		  action.addEventListener("click", () => getJokes());
+		});
+		
+		getJokes();
+		
+		function getJokes() {
+		  buttonSFX.play();
+		  return fetch(JOKES_API, { headers: { Accept: "application/json" } })
+			.then((response) => {
+			  if (response.status === 200) {
+				chatBubble.setAttribute("tabindex", 0);
+				chatContainer.appendChild(chatBubble);
+				dadJoke.remove();
+				animateInDots();
+				return response.json();
+			  }
+			  throw error(reponse.error);
+			})
+			.then((data) => {
+			  let oldtime = Date.now();
+			  setTimeout(() => {
+				dadJoke.textContent = data.joke;
+				const timeAgo = moment(oldtime).fromNow();
+				timeRecieved.textContent = timeAgo;
+				chatContainer.appendChild(messagesInfo);
+				animateOutDots();
+			  }, 4000);
+			})
+			.catch((error) => console.log(error));
+		}
+		
+		// Animations
+		function animateAvatar() {
+		  const tl = gsap.timeline({
+			defaults: { duration: 0.7, ease: "elastic" }
+		  });
+		  tl.to(avatar, { scale: 1.4 }).to(avatar, { scale: 1, delay: 0.1 }, "<");
+		}
+		function animateInDots() {
+		  animateChatDots();
+		  gsap.fromTo(
+			chatDots,
+			{ y: 28, opacity: 0 },
+			{
+			  y: 0,
+			  opacity: 1,
+			  ease: "elastic",
+			  duration: 0.8,
+			  onStart: () => {
+				typingSFX.play();
+				gsap.to(dadJoke, { opacity: 0 });
+				animateAvatar();
+				console.log("play typing sound");
+				chatDots.style.display = "inline-flex";
+				chatContainer.remove();
+			  }
+			}
+		  );
+		}
+		function animateOutDots() {
+		  gsap.fromTo(
+			chatDots,
+			{ y: 0, opacity: 1 },
+			{
+			  y: 10,
+			  opacity: 0,
+			  ease: "back",
+			  duration: 0.8,
+			  onComplete: (e) => {
+				console.log("done");
+				chatDots.style.display = "none";
+				animateInChat();
+			  }
+			}
+		  );
+		}
+		
+		function animateInChat() {
+		  chatBubble.appendChild(chatActions);
+		  chatBubble.appendChild(dadJoke);
+		  chatBot.appendChild(chatContainer);
+		  gsap.to(dadJoke, { opacity: 1, duration: 0.2 });
+		  gsap.fromTo(
+			chatContainer,
+			{ y: 18, opacity: 0 },
+			{
+			  y: -10,
+			  opacity: 1,
+			  ease: "elastic",
+			  duration: 0.8,
+			  onStart: () => {
+				popSFX.play();
+				console.log("play recieve sound");
+			  }
+			}
+		  );
+		}
+		
+		function animateChatDots() {
+		  const dotsArry = gsap.utils.toArray(".speaker__dot");
+		  const tl = gsap.timeline({
+			defaults: { duration: 0.4, ease: "back" }
+		  });
+		  dotsArry.forEach((dot) => {
+			tl.to(
+			  dot,
+			  {
+				y: 8,
+				delay: 0.1
+			  },
+			  "<"
+			).to(dot, {
+			  y: 0,
+			  repeat: -1,
+			  yoyo: true
+			});
+		  });
+		}
+		
+		// Helper functions
+		function $(element) {
+		  return document.querySelector(element);
+		}
+		
+		function createNewElement(element, cssClass = null) {
+		  const newElement = document.createElement(element);
+		  if (cssClass) {
+			newElement.className = cssClass;
+		  }
+		  return newElement;
+		}
+	</script>
+</body>
+
+</html>
