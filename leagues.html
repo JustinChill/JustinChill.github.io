@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js">
+
 <head>
   <title>Major League Cities</title>
   <meta charset="UTF-8">
@@ -12,31 +13,36 @@
   <meta content="en_US" property="og:locale">
   <meta content="JustinChill" property="og:site_name">
   <meta content="website" property="og:type">
-  <meta content="https://justinchill.com/leagues.html" property="og:url"> 
+  <meta content="https://justinchill.com/leagues.html" property="og:url">
   <meta content="Major League Cities" property="og:title">
   <meta content="A league of their own: Major sports leagues of North America." property="og:description">
   <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
   <link rel="canonical" href="https://www.justinchill.com/leagues.html">
-  
+
+  <meta content="imgs/aliens-film-wallpaper-full-hd.jpg" property="og:image">
+  <meta content="imgs/aliens-film-wallpaper-full-hd.jpg" property="twitter:image">
+  <meta content="A woman holding a large, futuristic weapon stands closely beside another person in a control room with technical diagrams visible in the background. Both appear focused and determined." property="og:image:alt">
+
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Major League Cities">
   <meta name="twitter:description" content="A league of their own: Major sports leagues of North America.">
-  
+
   <link type="text/plain" href="humans.txt" rel="author">
   <link rel="preload" href="style.css" as="style" />
-	<link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="/favicon.ico">
   <meta name="theme-color" content="#4C63B6">
-  
+
   <script type="module">
     document.documentElement.classList.remove('no-js');
     document.documentElement.classList.add('js');
   </script>
 
-<style type="text/css">
+  <style type="text/css">
 
-</style>
+  </style>
 </head>
+
 <body>
   <nav class="nav" role="navigation">
     <div class="nav__list">
@@ -49,81 +55,110 @@
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
-  
+
   <main role="main">
     <article>
-     <div class="article-hero">
-      <h2 class="article-category">Post</h2>
-      <h1 class="article-title">Major League Cities</h1>
-      <h2 class="article-subtitle">North American Major League Teams</h2>
-    </div>
+      <div class="article-hero">
+        <h2 class="article-category">Post</h2>
+        <h1 class="article-title">Major League Cities</h1>
+        <h2 class="article-subtitle">North American Major League Teams</h2>
+      </div>
 
-    <figure id="map" class="mid-size"></figure>
-    <figcaption>Data: ESPN</figcaption>
+      <figure id="map" class="mid-size"></figure>
+      <figcaption>Data: ESPN</figcaption>
 
-    <p>Key takeaways:
+      <p>Key takeaways:
       <ul>
         <li>Austin is the largest city (by 2021 population) that does not have a major league sports team in 2023.</li>
         <li>The smallest cities with major league teams include Green Bay, Fort Lauderdale (arguably home of the Florida Panthers), and Salt Lake City.</li>
         <li>Detroit is the smallest city with a professional team in all four major sports leagues.</li>
       </ul>
-    </p>
+      </p>
 
-  </article>
-</main>
-<footer>
-<!--   <h2 id="footnote-label">Footnotes</h2>
+    </article>
+  </main>
+  <footer>
+    <!--   <h2 id="footnote-label">Footnotes</h2>
   <ol>
     <li id="pew"><a href="https://www.pewresearch.org/short-reads/2024/02/29/most-americans-now-live-in-a-legal-marijuana-state-and-most-have-at-least-one-dispensary-in-their-county/">Pew Researc Center, <i>Most Americans now live in a legal marijuana state – and most have at least one dispensary in their county</i> </a>.<a href="#pew-ref" aria-label="Back to content">↩</a></li>
   </ol> -->
 
-  <div>
-    <p>Justin Chill &copy; 2025</p>
-    <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>    
-  </div>
-</footer>
-<script src="https://cdn.jsdelivr.net/npm/d3"></script>
-<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+    <div>
+      <p>Justin Chill &copy; 2025</p>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/topojson@3.0.2/dist/topojson.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/topojson@3.0.2/dist/topojson.min.js"></script>
 
-<script type="text/javascript">
-  var element = d3.select('figure').node();
-  var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
-  var size = 12;
+  <script type="text/javascript">
+    var element = d3.select('figure').node();
+    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+    var size = 12;
 
-  // Use Promises to async request data
-var promises = [d3.json("data/geo/ne_10m_admin_1_states_provinces.json"),d3.json("data/citiesAndTeams.json")];
+    // Use Promises to async request data
+    var promises = [d3.json("data/geo/ne_10m_admin_1_states_provinces.json"), d3.json("data/citiesAndTeams.json")];
 
-myDataPromises = Promise.all(promises);
+    myDataPromises = Promise.all(promises);
 
-  // After data is successfully fetched, generate viz
-myDataPromises.then(function(data) {
-    // Define the data. There's gotta be a better way to do this:
-  var ne_10m_admin_1_states_provinces = data[0];
-  var citiesAndTeams = data[1];
-  var topCities = citiesAndTeams.filter((d) => d.teams > 2);
+    // After data is successfully fetched, generate viz
+    myDataPromises.then(function(data) {
+      // Define the data. There's gotta be a better way to do this:
+      var ne_10m_admin_1_states_provinces = data[0];
+      var citiesAndTeams = data[1];
+      var topCities = citiesAndTeams.filter((d) => d.teams > 2);
 
-  console.log(topCities);
+      console.log(topCities);
 
-  // https://observablehq.com/@johnking/nfl-teams
+      // https://observablehq.com/@johnking/nfl-teams
 
-  // https://observablehq.com/@anbnyc/major-league-cities
-  var map = {
-    width: width,
-    height: 700,
-    projection: "albers",
-    marks: [
-      Plot.geo(ne_10m_admin_1_states_provinces, { strokeOpacity: 0.1 }),
-      Plot.dot(topCities, { x: "longitude", y: "latitude", r: 4, fill: "orange", fillOpacity: 1, title: d => d.city }),
-      Plot.text(topCities,{ x: "longitude", y: "latitude", "text": "label", textAnchor: "start", dx: 5 }),
-      Plot.dot(topCities, { x: "longitude", y: "latitude", r: 2, fill: "blue", fillOpacity: 0.5, title: d => d.city }),
-      Plot.text( topCities,{ x: "longitude", y: "latitude", "text": "label", textAnchor: "start", dx: 5 }),
-    ]
-  };
+      // https://observablehq.com/@anbnyc/major-league-cities
+      var map = {
+        width: width,
+        height: 700,
+        projection: "albers",
+        marks: [
+          Plot.geo(ne_10m_admin_1_states_provinces, {
+            strokeOpacity: 0.1
+          }),
+          Plot.dot(topCities, {
+            x: "longitude",
+            y: "latitude",
+            r: 4,
+            fill: "orange",
+            fillOpacity: 1,
+            title: d => d.city
+          }),
+          Plot.text(topCities, {
+            x: "longitude",
+            y: "latitude",
+            "text": "label",
+            textAnchor: "start",
+            dx: 5
+          }),
+          Plot.dot(topCities, {
+            x: "longitude",
+            y: "latitude",
+            r: 2,
+            fill: "blue",
+            fillOpacity: 0.5,
+            title: d => d.city
+          }),
+          Plot.text(topCities, {
+            x: "longitude",
+            y: "latitude",
+            "text": "label",
+            textAnchor: "start",
+            dx: 5
+          }),
+        ]
+      };
 
-  document.getElementById("map").appendChild(Plot.plot(map));
-});
-</script>
+      document.getElementById("map").appendChild(Plot.plot(map));
+    });
+  </script>
 </body>
+
 </html>
