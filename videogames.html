@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js">
+
 <head>
   <title>Visualizing video game sales</title>
   <meta charset="UTF-8">
@@ -12,22 +13,26 @@
   <meta content="en_US" property="og:locale">
   <meta content="JustinChill" property="og:site_name">
   <meta content="website" property="og:type">
-  <meta content="https://justinchill.com/videogames.html" property="og:url"> 
+  <meta content="https://justinchill.com/videogames.html" property="og:url">
   <meta content="Visualizing video game sales" property="og:title">
   <meta content="Analyzing video game ratings and performance" property="og:description">
   <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
   <link rel="canonical" href="https://www.justinchill.com/videogames.html">
-  
+
+  <meta content="" property="og:image">
+  <meta content="" property="twitter:image">
+  <meta content="" property="og:image:alt">
+
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Visualizing video game sales">
   <meta name="twitter:description" content="Analyzing video game ratings and performance">
-  
+
   <link type="text/plain" href="humans.txt" rel="author">
   <link rel="preload" href="style.css" as="style" />
-	<link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="/favicon.ico">
   <meta name="theme-color" content="#4C63B6">
-  
+
   <script type="module">
     document.documentElement.classList.remove('no-js');
     document.documentElement.classList.add('js');
@@ -35,8 +40,9 @@
 
   <style type="text/css">
 
-</style>
+  </style>
 </head>
+
 <body>
   <nav class="nav" role="navigation">
     <div class="nav__list">
@@ -49,98 +55,112 @@
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
-  
+
   <main role="main">
     <article>
-       <div class="article-hero">
+      <div class="article-hero">
         <h2 class="article-category">Post</h2>
         <h1 class="article-title">Popularity of Steam Games</h1>
         <h2 class="article-subtitle">Leaked Player Data from Steam</h2>
       </div>
 
-    <!-- <figcaption id="legend"></figcaption> -->
-    <figure id="steam"></figure>
-    <figcaption>Data: Steam</figcaption>
+      <!-- <figcaption id="legend"></figcaption> -->
+      <figure id="steam"></figure>
+      <figcaption>Data: Steam</figcaption>
 
-</article>
-</main>
-<footer>
-  <h2 id="footnote-label">Footnotes</h2>
-  <ol>
+    </article>
+  </main>
+  <footer>
+    <h2 id="footnote-label">Footnotes</h2>
+    <ol>
 
-  </ol>
-  <div>
-    <p>Justin Chill &copy; 2025</p>
-    <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>    
-  </div>
-</footer>
-<script src="https://cdn.jsdelivr.net/npm/d3"></script>
-<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+    </ol>
+    <div>
+      <p>Justin Chill &copy; 2025</p>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 
-<script type="text/javascript">
-  var element = d3.select('figure').node();
-  var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
-  var size = 12;
+  <script type="text/javascript">
+    var element = d3.select('figure').node();
+    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+    var size = 12;
 
-  // Use Promises to async request data
-  var promises = [d3.csv("data/player-estimates.csv",d3.autoType)];
-  myDataPromises = Promise.all(promises);
+    // Use Promises to async request data
+    var promises = [d3.csv("data/player-estimates.csv", d3.autoType)];
+    myDataPromises = Promise.all(promises);
 
-  // After data is successfully fetched, generate viz
-  myDataPromises.then(function(data) {
-    
-    // Define the data
-    var data = data[0];
-    // console.log(data);
+    // After data is successfully fetched, generate viz
+    myDataPromises.then(function(data) {
 
-    var steam = {
-      width: width,
-      height: width * 100,
-      style:{fontSize: size},
-      marginLeft: 200,
-      x: {
-        grid: true,
-        nice: true,
-        percent: true,
-      },
-      y: {
-        grid: true,
-        nice: true,
-        domain: d3.sort(data, d => -d["Players Estimate"]).map(d => d.Title)
-      },
-      style: {
-        background: "hsl(0, 0%, 99%)",
-      },
-      marks: [
-        Plot.barX(
-          data,
-          Plot.stackX(
-            {order: "y", reverse: true},
-            Plot.groupZ(
-              {x: "proportion"},
-              {z: "Title", fillOpacity: 0.2, inset: 0.5}
+      // Define the data
+      var data = data[0];
+      // console.log(data);
+
+      var steam = {
+        width: width,
+        height: width * 100,
+        style: {
+          fontSize: size
+        },
+        marginLeft: 200,
+        x: {
+          grid: true,
+          nice: true,
+          percent: true,
+        },
+        y: {
+          grid: true,
+          nice: true,
+          domain: d3.sort(data, d => -d["Players Estimate"]).map(d => d.Title)
+        },
+        style: {
+          background: "hsl(0, 0%, 99%)",
+        },
+        marks: [
+          Plot.barX(
+            data,
+            Plot.stackX({
+                order: "y",
+                reverse: true
+              },
+              Plot.groupZ({
+                x: "proportion"
+              }, {
+                z: "Title",
+                fillOpacity: 0.2,
+                inset: 0.5
+              })
             )
-          )
-        ),
-        Plot.text(
-          data,
-          Plot.filter(
-            (D) => D.length > 200,
-            Plot.stackX(
-              {order: "y", reverse: true},
-              Plot.groupZ(
-                {x: "proportion", text: "first"},
-                {z: "Title", text: "Title", rotate: 90}
+          ),
+          Plot.text(
+            data,
+            Plot.filter(
+              (D) => D.length > 200,
+              Plot.stackX({
+                  order: "y",
+                  reverse: true
+                },
+                Plot.groupZ({
+                  x: "proportion",
+                  text: "first"
+                }, {
+                  z: "Title",
+                  text: "Title",
+                  rotate: 90
+                })
               )
             )
-          )
-        ),
-        Plot.ruleX([0, 1])
-      ]
-    };
+          ),
+          Plot.ruleX([0, 1])
+        ]
+      };
 
-    document.getElementById("steam").appendChild(Plot.plot(steam));
-  });
+      document.getElementById("steam").appendChild(Plot.plot(steam));
+    });
   </script>
 </body>
+
 </html>

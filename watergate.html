@@ -19,13 +19,17 @@
   <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
   <link rel="canonical" href="https://www.justinchill.com/watergate.html">
 
+  <meta content="" property="og:image">
+  <meta content="" property="twitter:image">
+  <meta content="" property="og:image:alt">
+
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="The Language of Watergate">
   <meta name="twitter:description" content="Exploring the Language of Watergate with charts.">
 
   <link type="text/plain" href="humans.txt" rel="author">
   <link rel="preload" href="style.css" as="style" />
-	<link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="/favicon.ico">
   <meta name="theme-color" content="#4C63B6">
 
@@ -35,9 +39,7 @@
   </script>
 
   <style type="text/css">
-    @media screen and (max-width: 680px) {
-
-    }
+    @media screen and (max-width: 680px) {}
   </style>
 </head>
 
@@ -93,15 +95,15 @@
     var size = 12;
     var element = d3.select('figure').node();
     var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
-    
+
     function sortByDateAscending(a, b) {
       // Dates will be cast to numbers automagically:
       return (+a.decade - +b.decade) || (a.date_parsed - b.date_parsed);
     }
     formatDate = d3.timeFormat("%b %Y");
-    
+
     // Use Promises to async request data
-    var promises = [d3.csv("data/watergate_count_data.csv", d3.autoType),d3.csv("data/watergate_word_data.csv", d3.autoType)];
+    var promises = [d3.csv("data/watergate_count_data.csv", d3.autoType), d3.csv("data/watergate_word_data.csv", d3.autoType)];
     myDataPromises = Promise.all(promises);
 
     // After data is successfully fetched, generate viz
@@ -109,14 +111,14 @@
 
       // Define the data
       var data = data[0];
-      var word_data = data[1];    
+      var word_data = data[1];
       console.log(data);
       var sumstat = d3.group(data, (d) => d.month_year) // Group, formally nest, function allows to group the calculation per level of a factor
-        // .key(function(d) { return d.month_year;})
-        // .rollup(function(leaves) { return leaves.length; })
-        // .entries(data); 
+      // .key(function(d) { return d.month_year;})
+      // .rollup(function(leaves) { return leaves.length; })
+      // .entries(data); 
       console.log(sumstat);
-      
+
       var alltime = {
         grid: true,
         inset: 10,
@@ -131,19 +133,20 @@
           tickSize: 0,
           label: null,
         },
-        color: {
-        },
+        color: {},
         marks: [
-        Plot.line(data, Plot.binX({y: "count"},{
-          x: "date_parsed", 
-          // y: "episode_score", 
-          stroke: "hsl(42, 87%, 55%)",
-          strokeWidth: 1.5,
-          // curve: "basis",
-        })),
+          Plot.line(data, Plot.binX({
+            y: "count"
+          }, {
+            x: "date_parsed",
+            // y: "episode_score", 
+            stroke: "hsl(42, 87%, 55%)",
+            strokeWidth: 1.5,
+            // curve: "basis",
+          })),
         ]
       };
-      
+
       var postNixon = {
         grid: true,
         inset: 10,
@@ -160,17 +163,18 @@
         x: {
           tickSize: 0,
         },
-        color: {
-        },
+        color: {},
         marks: [
-        Plot.line(data, Plot.binX({y: "count"},{
-          x: "date_parsed", 
-          // y: "episode_score", 
-          stroke: "hsl(42, 87%, 55%)",
-          strokeWidth: 1.5,
-          curve: "basis",
-        })),
-        // Plot.rectY(titanic, Plot.binX({y: "count"}, {x: "Age", thresholds: 10, fill: "Sex", tip:true})),
+          Plot.line(data, Plot.binX({
+            y: "count"
+          }, {
+            x: "date_parsed",
+            // y: "episode_score", 
+            stroke: "hsl(42, 87%, 55%)",
+            strokeWidth: 1.5,
+            curve: "basis",
+          })),
+          // Plot.rectY(titanic, Plot.binX({y: "count"}, {x: "Age", thresholds: 10, fill: "Sex", tip:true})),
         ]
       };
 
