@@ -89,11 +89,6 @@
         <h2 class="article-subtitle">ABC Financial Services</h2>
       </div>
       <img src="https://fa.wellsfargoadvisors.com/collins-wealth/mediahandler/media/mediahandler/media/709396/AAA%202025%20New%20%20Inv%20Approach%20cropped_727x520.jpg" alt="Personalized investment portfolios consider an individuals risk tolerance, investment horizon, cash flow and liquidity needs, and more." loading="lazy" />
-      <!-- <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
-      <h3>All aboard the Beagle</h3>
-      <figure id="map" aria-label="A world map illustrating the voyage of the HMS Beagle from 1831 to 1836. The path is marked in colored lines, highlighting stops at the Falkland Islands and the Galápagos Islands. Map includes text about Darwin’s theory. Data by Marilyn Waldman.">
-        <figcaption class="right">Data: <a href="https://observablehq.com/d/e309286e8d899f38">Marilyn Waldman</a>.</figcaption>
-      </figure> -->
       <p>Today’s clients expect more than one-size-fits-all investment portfolios. They seek tailored solutions that reflect their individual values, financial goals, and lifestyle choices. From targeting a specific retirement age to prioritizing tax efficiency, advisors are increasingly challenged to deliver highly customized options quickly and on demand.</p>
       <p><strong>ABC Financial Services</strong> is proud to announce the launch of a new portfolio optimization and personalization system that significantly improves our client’s investment experience. Using proprietary algorithms and big data we can deliver tailored investment strategies at lower costs, enhancing operational efficiency and scalability.</p>
       <p>Traditional portfolio construction methods can be time-consuming and labor-intensive, especially when you’re juggling multiple client demands at once. ABC's system will dynamically construct personalized portfolios based on a client’s financial goals, risk tolerance, and investment horizons.</p>
@@ -257,7 +252,7 @@
           <tr>
             <td>Data Sources</td>
             <td>Integrate</td>
-            <td>Use existing CRM/ERP systems; buy access to external financial data(e.g.,<a href="https://www.factset.com/">FactSet</a>) and build adapters as needed.</td>
+            <td>Use existing CRM/ERP systems; buy access to external financial data (e.g.,<a href="https://www.factset.com/">FactSet</a>) and build adapters as needed.</td>
           </tr>
         </tbody>
       </table>
@@ -401,6 +396,7 @@
       <li id="benchmark"><a href="https://thehedgefundjournal.com/beat-the-benchmark-not-so-fast/"><strong>The Hedge Fund Journal</strong></a>, <em>Beat the Benchmark? Not So Fast</em>.<a href="#benchmark-ref" aria-label="Back to content">↩</a></li>
       <li id="FinSpace"><a href="https://aws.amazon.com/blogs/industries/automated-and-personalized-asset-portfolio-optimization-combining-esg-and-financial-data-on-amazon-finspace/"><strong>Amazon Financial Services</strong></a>, <em>Automated and personalized asset portfolio optimization combining ESG and financial data on Amazon FinSpace</em>.<a href="#FinSpace-ref" aria-label="Back to content">↩</a></li>
       <li id="Markowitz"><a href="https://www.researchgate.net/publication/265226216_Capital_Market_Theories_Market_Efficiency_Versus_Investor_Prospects"><strong>ResearchGate</strong></a>, <em>Capital Market Theories: Market Efficiency Versus Investor Prospects</em>.<a href="#Markowitz-ref" aria-label="Back to content">↩</a></li>
+      <li id="investipal"><a href="https://www.investipal.co/blog-posts/how-personalized-portfolio-construction-is-reshaping-wealth-management"><strong>Investipal</strong></a>, <em>How Personalized Portfolio Construction Is Reshaping Wealth Management</em>.<a href="#investipal-ref" aria-label="Back to content">↩</a></li>
     </ol>
 
     <div>
@@ -408,81 +404,6 @@
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
-  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
-
-  <script type="text/javascript">
-    var element = d3.select('figure').node();
-    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
-    var size = 12;
-
-    // Use Promises to async request data
-    var promises = [d3.json("data/geo/land.json"), d3.json("data/geo/beagle.json")];
-
-    // You can request multiple srcs in a promise
-    myDataPromises = Promise.all(promises);
-
-    // After data is successfully fetched, generate viz
-    myDataPromises.then(function(data) {
-      // Define the data. There's gotta be a better way to do this:
-      var land = data[0];
-      var beagle = data[1];
-
-      var london = {
-        "type": "Point",
-        "coordinates": [-0.13, 51.5]
-      };
-      var Galápagos = {
-        "type": "Point",
-        "coordinates": [-92.41, 1.38]
-      };
-
-      var map = {
-        width: width,
-        projection: "equal-earth",
-        marks: [
-          Plot.graticule(),
-          Plot.sphere({
-            fill: "#a5e5e1",
-            fillOpacity: .3
-          }),
-          Plot.geo(land, {
-            fill: "#DFDFDF"
-          }),
-          Plot.line(beagle.coordinates, {
-            stroke: (d, i) => i,
-            z: null,
-            strokeWidth: 2
-          }),
-          Plot.geo(london, {
-            fill: "#e2130c",
-            r: 5
-          }),
-          // Plot.geo(Galápagos, {fill: "red", r: 5,  tip: true}),
-          Plot.tip([`HMS Beagle left London in 1831, returning 1836.`], {
-            x: -0.13,
-            y: 51.5,
-            dy: -3,
-            anchor: "bottom"
-          }),
-          Plot.tip([`The large number of endemic species in the Galápagos Islands inspired Darwin's theory of evolution via natural selection. `], {
-            x: -92.41,
-            y: 1.38,
-            dy: -3,
-            anchor: "bottom"
-          }),
-          Plot.tip([`The Falkland Islands.`], {
-            x: -62.88,
-            y: -53.3,
-            dy: -3,
-            anchor: "left"
-          }),
-          // Plot.dot(beagle.coordinates, {r: 5, fill: "none", tip: true}),
-        ],
-      };
-      // document.getElementById("map").appendChild(Plot.plot(map));
-    });
-  </script>
 </body>
 
 </html>
