@@ -8,7 +8,7 @@
   <meta name="description" content="Failed banks in the US: An analysis by year, size And more">
   <meta name="author" content="Justin Chill">
   <!-- OpenGraph tags -->
-  <meta name="keywords" content="data viz, bank failures, bank, SvB, graphic">
+  <meta name="keywords" content="data viz, bank failures, bank, SvB, Silicon Valley Bank, graphic, finance, money, funding">
   <meta name="robots" content="all">
   <meta content="en_US" property="og:locale">
   <meta content="JustinChill" property="og:site_name">
@@ -242,7 +242,7 @@
     <h2 id="footnote-label">Footnotes</h2>
     <ol>
       <li id="fbs"><strong>Forbes</strong>, <a href="https://www.forbes.com/advisor/banking/list-of-failed-banks/"><em>Failed Banks In The US</em>.</a> <a href="#fbs-ref" aria-label="Back to content">↩</a></li>
-      <li><strong>Max Bo</strong>, <a href="https://observablehq.com/@mjbo/bank-failures-as-a-stacked-bar-chart"><em>An alternative to the dodged dot plot of Bostock's 'Bank failures'</em></li>
+      <li><strong>Max Bo</strong>, <a href="https://observablehq.com/@mjbo/bank-failures-as-a-stacked-bar-chart"><em>An alternative to the dodged dot plot of Bostock's 'Bank failures'</em></a></li>
     </ol>
 
     <div>
@@ -373,12 +373,17 @@
         marginLeft: 0,
         x: {
           round: true,
-          label: null
+          label: null,
+          tickSize: 0,
         },
         color: {
           scheme: "Reds"
         },
         marks: [
+          Plot.frame({
+            stroke: "#DFDFDF",
+            anchor: "bottom"
+          }),
           Plot.barX(monthly_sums, {
             x: "month",
             interval: "month",
@@ -391,16 +396,15 @@
       var stackedBarBankFailures = {
         width: widthMid,
         marginRight: 0,
-        grid: true,
         y: {
           tickFormat: "$,f",
           nice: true,
           tickSize: 0,
           ticks: 4,
+          grid: true,
         },
         x: {
           tickSize: 0,
-          nice: true,
         },
         marks: [
           Plot.rectY(fails, {
