@@ -25,7 +25,7 @@
 
   <meta name="datePublished" content="2025-03-06">
   <meta name="dateModified" content="2025-08-06">
-  
+
   <meta content="imgs/cover/titanic_cover.webp" property="og:image">
   <meta content="imgs/cover/titanic_cover.webp" property="twitter:image">
   <meta content="Scatter plot showing Titanic survival analysis by gender and class. Categories include children and adults among females and males, across 1st, 2nd, 3rd class, and crew. Data from R project." property="og:image:alt">
@@ -189,8 +189,8 @@
       </figure>
       <p>Bron's graph shows the breakdown of survival among the passengers and crew – by passenger class, gender and age (comparing adults and children) – in what is clearly an early innovation in data display. It combines back-to-back bar charts for those who lived and those who perished, using area of the bars to convey the actual numbers. Within the passenger classes, the numbers and bars are subdivided by gender for adults, while children are shown as a separate group. It also includes two similar summary panels, showing the totals for all passengers and for all passengers and crew.</p>
       <p>Today, we might describe this as an early form of a mosaic plot, or as an area-proportional back-to-back array of bar charts. Whatever name we give, it deserves to be admired as an exceptional early example of data visualization and a tribute to the skills of the illustrator.</p>
+      <figure id="titanic_diverging"></figure>
       <h3>Who was G. Bron?</h3>
-      <figure id="Bron"></figure>
       <p>G. Bron was a prolific technical illustrator who worked for <em>The Sphere</em>, the <em>Illustrated London News</em> and similar publications between about 1910 and 1925. Today, he would be called a data-graphic or info-vis designer, one far ahead of his time. Little about him is known for sure, not even his first name. G. Bron was most likely the pseudonym adopted by William B. Treeby, born in London, but further biographical details are still sketchy (see additional material <a href="http://bit.ly/titanicvis">here</a>). A <a href="http://bit.ly/2Rzv5dm">search</a> in the British Newspaper Archive turned up over 20 examples of his work, most published in <em>The Sphere</em>.</p>
       <table class="Bron">
         <tbody>
@@ -310,7 +310,7 @@
       <h3>Mosaic plots</h3>
       <p>Bron’s chart illustrated some of the challenges in visualizing a table of frequencies of survival, classified by two or more factors. Mosaic plots<a href="#Hartigan" aria-describedby="footnote-label" id="Hartigan-ref"></a> provided an attractive alternative, where the frequencies in a table were show by areas of “tiles” in a recursive partitioning of a unit square.</p>
       <p>Mosaics are useful for discovering unusually high or small counts and for discovering dependencies between variables. In principle, mosaics may be used for any number of cross-classifying variables, but six seems to be a practical maximum.</p>
-      <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fslideplayer.com%2Fslide%2F15899575%2F88%2Fimages%2F14%2FMosaic%2BPlot%2B%25E2%2580%2593%2BTitanic%2BData.jpg&f=1&nofb=1&ipt=8e74bcf4a0edf6424193319a58c41b704d0242174b12efe9eb85cb9f128ad77d&ipo=images" loading="lazy" alt="Mosaic plot showing Titanic data. Left plot: survival by class, with larger survival for 1st and 3rd class. Right plot: survival by gender, with higher female survival; both plots use red for died, teal for survived." />
+      <img src="https://d2mvzyuse3lwjc.cloudfront.net/www/resources/graph_gallery/images_galleries_new/Titanic_Mosaic_n2.png" loading="lazy" alt="Mosaic plot showing Titanic data. Left plot: survival by class, with larger survival for 1st and 3rd class. Right plot: survival by gender, with higher female survival; both plots use red for died, teal for survived." />
       <h3>Text plots</h3>
       <p>Brath (2018) created mosaic plots filling the tiles with the names of the victims and survivors among the 1308 passengers. This highlights the fact that the passengers were people, not statistics. For Brath, it provided an example of how typography could be used in data visualization.</p>
       <img src="imgs/text-survived.png" loading="lazy" alt="Infographic titled Who Survived on the Titanic? showing 1,308 passengers. Divided by class and gender, it uses colors to indicate survival (green) and death (red). Women and children have serif font; men have sans serif." />
@@ -474,6 +474,36 @@
 
       // After data is successfully fetched, generate viz
       myDataPromises.then(function(data) {
+        // Transform for diverging bar chart (one for saved, one for not saved)
+        const chartData = [];
+        tb6.forEach(d => {
+          // Simplified group names
+          let groupType;
+          if (d.Age === "Child") {
+            groupType = "Child";
+          } else if (d.Sex === "Female") {
+            groupType = "Woman";
+          } else {
+            groupType = "Men";
+          }
+
+          // survivors: value is positive
+          chartData.push({
+            Class: d.Class,
+            GroupType: groupType,
+            Status: "Survived",
+            value: d.survived
+          });
+
+          // not survived: value is negative (total - survived)
+          let total = d.value;
+          chartData.push({
+            Class: d.Class,
+            GroupType: groupType,
+            Status: "Perished",
+            value: -(total - d.survived)
+          });
+        });
         // Define the data. There's gotta be a better way to do this:
         var titanic = data[0];
         var lifeboats = data[1];
@@ -862,48 +892,63 @@
             }))
           ]
         };
-        // 
-        function sign(label) {
-          label === 0 ? -1 : 1
-        };
-        var Bron = {
+
+        console.log(chartData);
+        var titanic_diverging = {
           width: width,
           style: {
             fontSize: size,
           },
+          x: {
+            label: "Number of Passengers",
+            grid: true,
+            domain: [-900, 400]
+          },
+          y: {
+            label: null,
+            tickSize: 0,
+            domain: ["Man", "Woman", "Child"],
+            axis: "right",
+          },
           color: {
-            legend: false
+            domain: ["Perished", "Survived"],
+            range: ["#1a1a1a", "#a9a9a9"],
+            legend: true
           },
           facet: {
-            label: null
-          },
-          x: {
-            nice: true,
-            tickSize: 8,
-            labelAnchor: "center",
-            labelOffset: 44,
+            label: null,
+            axis: "left",
           },
           marks: [
-            Plot.barX(
-              titanic,
-              Plot.stackX2({
-                x: (d) => d.Survived === "1" ? 1 : -1,
-                y: "Pclass",
-                fill: "Sex",
-                title: "Name"
-              }, {
-                fill: "Sex",
-                y: "Pclass"
-              })
-            ),
-
-            // Plot.barX(titanic, {y: "Sex", x: "Survived", fill: "Sex", sort: {y: "x"}, fy: "Pclass"}),
-            Plot.ruleX([0]),
-
-            Plot.frame({
-              stroke: "hsl(209, 23%, 60%)",
-              strokeOpacity: .35
+            // Zero line
+            Plot.ruleX([0], {
+              stroke: "#ccc",
+              strokeWidth: 1
             }),
+            // Bars grouped by Status and GroupType
+            Plot.barX(chartData, {
+              x: "value",
+              y: "GroupType",
+              fill: "Status",
+              fy: "Class",
+              rx: 3,
+              tip: true,
+              stroke: "none"
+            }),
+            // Text labels on bars
+            Plot.text(chartData, {
+              x: "value",
+              y: "GroupType",
+              text: d => {
+                const absVal = Math.abs(d.value);
+                return absVal > 0 ? absVal.toString() : "";
+              },
+              fill: "white",
+              fontSize: 10,
+              fontWeight: "bold",
+              // dx: d => d.value > 0 ? -5 : 5,
+              textAnchor: d => d.value > 0 ? "end" : "start"
+            })
           ]
         };
 
@@ -912,7 +957,7 @@
         document.getElementById("classScatter").appendChild(Plot.plot(classScatter));
         document.getElementById("lifeboat_bars").appendChild(Plot.plot(lifeboat_bars));
         document.getElementById("whoSurvived").appendChild(Plot.plot(whoSurvived));
-        // document.getElementById("Bron").appendChild(Plot.plot(Bron));
+        // document.getElementById("titanic_diverging").appendChild(Plot.plot(titanic_diverging));
       });
     });
   </script>
