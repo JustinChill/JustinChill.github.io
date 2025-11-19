@@ -25,7 +25,7 @@
 
   <meta name="datePublished" content="2025-07-04">
   <meta name="dateModified" content="2025-08-06">
-  
+
   <meta content="https://cdn.prod.website-files.com/633ec8b202a7496fb9c9dda9/64020daae50d701ac16ebd7a_Net%20Promoter%20Score.jpeg" property="og:image">
   <meta content="https://cdn.prod.website-files.com/633ec8b202a7496fb9c9dda9/64020daae50d701ac16ebd7a_Net%20Promoter%20Score.jpeg" property="twitter:image">
   <meta content="Infographic showing Net Promoter Score. It features a formula: percentage of promoters (smiley faces) minus percentage of detractors (frowning faces), with passives as neutral faces in between, ranked from 0 to 10." property="og:image:alt">
@@ -36,7 +36,7 @@
 
   <link type="text/plain" href="humans.txt" rel="author">
   <link rel="preload" href="style.css" as="style" />
-	<link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="/favicon.ico">
   <meta name="theme-color" content="#4C63B6">
 
@@ -46,6 +46,126 @@
   </script>
 
   <style type="text/css">
+    /* NPS Graphic Styles */
+    .nps-graphic {
+      width: 100%;
+      max-width: 800px;
+      margin: 2rem auto;
+    }
+
+    .nps-top-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      font-style: italic;
+      font-weight: 600;
+      color: #444;
+    }
+    .nps-top-labels span{
+      font-size: var(--type-scale--1);
+    }
+
+    .nps-bar {
+      display: flex;
+      width: 100%;
+      height: 50px; /* Height of the colored bar */      
+    }
+
+    .nps-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Flex-grow ratios: Detractors (7 items), Passive (2 items), Promoter (2 items) */
+    .nps-group.detractor {
+      flex: 7;
+    }
+
+    .nps-group.passive {
+      flex: 2;
+    }
+
+    .nps-group.promoter {
+      flex: 2;
+    }
+
+    .nps-numbers {
+      display: flex;
+      height: 100%;
+    }
+
+    .nps-numbers span {
+      flex: 1;
+      /* Distribute numbers evenly within their group */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: var(--type-scale-1);
+      border-right: 1px solid rgba(255, 255, 255, 0.4);
+      /* The white dividers */
+    }
+
+    .nps-numbers span:last-child {
+      border-right: none;
+      /* Remove border from very last item in group */
+    }
+
+    /* Colors from the image */
+    .nps-group.detractor .nps-numbers {
+      background-color: #eb8023;
+    }
+
+    .nps-group.passive .nps-numbers {
+      background-color: #c1cd55;
+    }
+
+    .nps-group.promoter .nps-numbers {
+      background-color: #008641;
+    }
+
+    .nps-label {
+      text-align: center;
+      margin-top: 0.5rem;
+      font-size: 1rem;
+    }
+
+    /* Text colors for bottom labels */
+    .nps-group.detractor .nps-label {
+      color: #eb8023;
+    }
+
+    .nps-group.passive .nps-label {
+      color: #c1cd55;
+    }
+
+    .nps-group.promoter .nps-label {
+      color: #008641;
+    }
+
+    .nps-formula {
+      text-align: center;
+      margin-top: 2rem;
+      font-family: sans-serif;
+      /* Formula usually looks better in sans */
+      font-weight: bold;
+      color: #444;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+
+    /* Mobile responsiveness */
+    @media screen and (max-width: 600px) {
+      .nps-numbers span {
+        font-size: 0.8rem;
+      }
+
+      .nps-top-labels {
+        font-size: 0.75rem;
+      }
+    }
+
     span.green {
       color: var(--green);
     }
@@ -68,7 +188,7 @@
     output {
       display: block;
       margin-bottom: 6px;
-      font-family: "Lora", sans-serif, serif;
+      /* font-family: "Lora", sans-serif, serif; */
       font-size: calc(.75rem + .25vw);
       letter-spacing: -0.03px;
       line-height: 1.58;
@@ -409,11 +529,46 @@
       <ol>
         <li>
           <h3>Sort your customers</h3>
-          <!-- <figure id="classes"></figure> -->
-          <figure>
-            <img src="https://isminc-public-assets.s3.amazonaws.com/public/inline-images/NPS-Definition-copy-04-copy.jpg" alt="An NPS scale from 0 to 10 with categories: 0-6 in orange as Detractor, 7-8 in light green as Passive, 9-10 in dark green as Promoter. Formula: % Promoters - % Detractors = NPS, below the scale.">
-          <figcaption class="right">Image: <a href="https://isminc.com/advisory/publications/the-source/how-use-net-promoter-score-nps-your-private-school-marketing">Independent School Management</a></figcaption>
-        </figure>
+          <figure aria-label="Net Promoter Score Scale: 0-6 Detractor, 7-8 Passive, 9-10 Promoter">
+            <div class="nps-graphic">
+
+              <div class="nps-top-labels">
+                <span>Not at all likely</span>
+                <span>Neutral</span>
+                <span>Extremely likely</span>
+              </div>
+
+              <div class="nps-bar">
+
+                <div class="nps-group detractor">
+                  <div class="nps-numbers">
+                    <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>
+                  </div>
+                  <div class="nps-label">Detractor</div>
+                </div>
+
+                <div class="nps-group passive">
+                  <div class="nps-numbers">
+                    <span>7</span><span>8</span>
+                  </div>
+                  <div class="nps-label">Passive</div>
+                </div>
+
+                <div class="nps-group promoter">
+                  <div class="nps-numbers">
+                    <span>9</span><span>10</span>
+                  </div>
+                  <div class="nps-label">Promoter</div>
+                </div>
+
+              </div>
+
+              <div class="nps-formula">
+                % Promoters - % Detractors = NPS (Net Promoter Score)
+              </div>
+
+            </div>
+          </figure>
           <p>Classify your customers by their response to your NPS survey. Respondents with a score 0 - 6 are detractors, 7 - 8 are neutral, and 9 - 10 are promoters. This classification helps to standardize the language used within an organization.</p>
         </li>
         <li>
