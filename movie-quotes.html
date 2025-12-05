@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+    <title>AFI 100 Years... 100 Movie Quotes | Justin Chill</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+        content="A visual recreation of AFI's 100 Years... 100 Movie Quotes using CSS Grid and Counters.">
+    <meta name="author" content="Justin Chill">
+    <!-- OpenGraph tags -->
+    <meta name="robots" content="all">
+    <meta content="en_US" property="og:locale">
+    <meta content="JustinChill" property="og:site_name">
+    <meta content="article" property="og:type">
+    <meta content="https://justinchill.com/movie-quotes.html" property="og:url">
+    <meta content="AFI 100 Years... 100 Movie Quotes | Justin Chill" property="og:title">
+    <meta content="A visual recreation of AFI's 100 Years... 100 Movie Quotes using CSS Grid and Counters."
+        property="og:description">
+    <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
+    <link rel="canonical" href="https://www.justinchill.com/movie-quotes.html">
+
+    <meta property="og:locality" content="New York">
+    <meta property="og:region" content="NY">
+    <meta property="og:country_name" content="USA">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AFI 100 Years... 100 Movie Quotes | Justin Chill">
+    <meta name="twitter:description"
+        content="A visual recreation of AFI's 100 Years... 100 Movie Quotes using CSS Grid and Counters.">
+
+    <link type="text/plain" href="humans.txt" rel="author">
+    <link rel="preload" href="style.css" as="style" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="/favicon.ico">
+    <meta name="theme-color" content="#4C63B6">
+
+    <script type="module">
+        document.documentElement.classList.remove('no-js');
+        document.documentElement.classList.add('js');
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #f4f4f4;
+            --card-bg: #ffffff;
+            --text-main: #333;
+            --text-sec: #666;
+            --accent: #e74c3c;
+            --number-color: #aaa;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            /* margin: 0; */
+            /* Reset by style.css usually, but keeping user's bg color */
+            /* padding: 20px; */
+            /* Removed to prevent nav issues */
+            color: var(--text-main);
+        }
+
+        /* Custom font for the quotes section if needed, or inherit from site */
+        .grid-container {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        /* GRID LAYOUT */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(25vmin, auto));
+            gap: 20px;
+            counter-reset: quote-counter;
+            /* Initialize CSS Counter */
+            /* max-width: 1600px; */
+            margin: 0 auto;
+            padding: 20px;
+            /* Moved padding here */
+        }
+
+        /* CARD STYLE */
+        .quote-card {
+            background-color: var(--card-bg);
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease;
+        }
+
+        .quote-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* CSS COUNTER IMPLEMENTATION */
+        .quote-card::before {
+            counter-increment: quote-counter;
+            content: counter(quote-counter);
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: var(--number-color);
+        }
+
+        /* ILLUSTRATION */
+        .illustration {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 15px;
+            fill: var(--text-main);
+        }
+
+        /* QUOTE TEXT */
+        .quote-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            line-height: 1.3;
+            flex-grow: 1;
+            /* Pushes movie details down */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quote-text::before,
+        .quote-text::after {
+            content: '"';
+            color: var(--accent);
+        }
+
+        /* MOVIE INFO */
+        .movie-info {
+            font-size: 0.85rem;
+            color: var(--text-sec);
+            margin-top: 10px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+            width: 100%;
+        }
+
+        .movie-year {
+            font-size: 0.75rem;
+            color: #999;
+        }
+
+        /* Override article hero for this page if needed */
+        .article-hero {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav" role="navigation">
+        <div class="nav__list">
+            <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
+            <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
+            <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
+        </div>
+        <div class="nav__list">
+            <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+            <a href="#" class="nav__item js-email-link">Email</a>
+        </div>
+    </nav>
+
+    <main role="main">
+        <article>
+            <div class="article-hero">
+                <h2 class="article-category">Movies</h2>
+                <h1 class="article-title">AFI's 100 Years... 100 Movie Quotes</h1>
+                <h2 class="article-subtitle">A visual recreation using CSS Grid and Counters</h2>
+            </div>
+
+            <div class="grid-container mid-size" id="app">
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <div>
+            <p>Justin Chill &copy; 2025</p>
+            <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img
+                        src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
+        </div>
+    </footer>
+
+    <script>
+        // Data Source: AFI 100 Years... 100 Movie Quotes
+        const quotes = [
+            { q: "Frankly, my dear, I don't give a damn.", m: "Gone with the Wind", y: 1939, icon: "q1" },
+            { q: "I'm gonna make him an offer he can't refuse.", m: "The Godfather", y: 1972, icon: "q2" },
+            { q: "You don't understand! I coulda had class...", m: "On the Waterfront", y: 1954, icon: "q3" },
+            { q: "Toto, I've a feeling we're not in Kansas anymore.", m: "The Wizard of Oz", y: 1939, icon: "q4" },
+            { q: "Here's looking at you, kid.", m: "Casablanca", y: 1942, icon: "q5" },
+            { q: "Go ahead, make my day.", m: "Sudden Impact", y: 1983, icon: "q6" },
+            { q: "All right, Mr. DeMille, I'm ready for my close-up.", m: "Sunset Boulevard", y: 1950, icon: "q7" },
+            { q: "May the Force be with you.", m: "Star Wars", y: 1977, icon: "q8" },
+            { q: "Fasten your seatbelts. It's going to be a bumpy night.", m: "All About Eve", y: 1950, icon: "q9" },
+            { q: "You talkin' to me?", m: "Taxi Driver", y: 1976, icon: "q10" },
+            { q: "What we've got here is failure to communicate.", m: "Cool Hand Luke", y: 1967, icon: "q11" },
+            { q: "I love the smell of napalm in the morning.", m: "Apocalypse Now", y: 1979, icon: "q12" },
+            { q: "Love means never having to say you're sorry.", m: "Love Story", y: 1970, icon: "q13" },
+            { q: "The stuff that dreams are made of.", m: "The Maltese Falcon", y: 1941, icon: "q14" },
+            { q: "E.T. phone home.", m: "E.T. The Extra-Terrestrial", y: 1982, icon: "q15" },
+            { q: "They call me Mister Tibbs!", m: "In the Heat of the Night", y: 1967, icon: "q16" },
+            { q: "Rosebud.", m: "Citizen Kane", y: 1941, icon: "q17" },
+            { q: "Made it, Ma! Top of the world!", m: "White Heat", y: 1949, icon: "q18" },
+            { q: "I'm as mad as hell, and I'm not going to take this anymore!", m: "Network", y: 1976, icon: "q19" },
+            { q: "Louis, I think this is the beginning of a beautiful friendship.", m: "Casablanca", y: 1942, icon: "q20" },
+            { q: "A census taker once tried to test me...", m: "The Silence of the Lambs", y: 1991, icon: "q21" },
+            { q: "Bond. James Bond.", m: "Dr. No", y: 1962, icon: "q22" },
+            { q: "There's no place like home.", m: "The Wizard of Oz", y: 1939, icon: "q23" },
+            { q: "I am big! It's the pictures that got small.", m: "Sunset Boulevard", y: 1950, icon: "q24" },
+            { q: "Show me the money!", m: "Jerry Maguire", y: 1996, icon: "q25" },
+            { q: "Why don't you come up sometime and see me?", m: "She Done Him Wrong", y: 1933, icon: "q26" },
+            { q: "I'm walking here! I'm walking here!", m: "Midnight Cowboy", y: 1969, icon: "q27" },
+            { q: "Play it, Sam. Play 'As Time Goes By.'", m: "Casablanca", y: 1942, icon: "q28" },
+            { q: "You can't handle the truth!", m: "A Few Good Men", y: 1992, icon: "q29" },
+            { q: "I want to be alone.", m: "Grand Hotel", y: 1932, icon: "q30" },
+            { q: "After all, tomorrow is another day!", m: "Gone with the Wind", y: 1939, icon: "q31" },
+            { q: "Round up the usual suspects.", m: "Casablanca", y: 1942, icon: "q32" },
+            { q: "I'll have what she's having.", m: "When Harry Met Sally...", y: 1989, icon: "q33" },
+            { q: "You know how to whistle, don't you, Steve?", m: "To Have and Have Not", y: 1944, icon: "q34" },
+            { q: "You're gonna need a bigger boat.", m: "Jaws", y: 1975, icon: "q35" },
+            { q: "Badges? We ain't got no badges!", m: "The Treasure of the Sierra Madre", y: 1948, icon: "q36" },
+            { q: "I'll be back.", m: "The Terminator", y: 1984, icon: "q37" },
+            { q: "Today, I consider myself the luckiest man on the face of the earth.", m: "The Pride of the Yankees", y: 1942, icon: "q38" },
+            { q: "If you build it, he will come.", m: "Field of Dreams", y: 1989, icon: "q39" },
+            { q: "Mama always said life was like a box of chocolates.", m: "Forrest Gump", y: 1994, icon: "q40" },
+            { q: "We rob banks.", m: "Bonnie and Clyde", y: 1967, icon: "q41" },
+            { q: "Plastics.", m: "The Graduate", y: 1967, icon: "q42" },
+            { q: "We'll always have Paris.", m: "Casablanca", y: 1942, icon: "q43" },
+            { q: "I see dead people.", m: "The Sixth Sense", y: 1999, icon: "q44" },
+            { q: "Stella! Hey, Stella!", m: "A Streetcar Named Desire", y: 1951, icon: "q45" },
+            { q: "Oh, Jerry, don't let's ask for the moon. We have the stars.", m: "Now, Voyager", y: 1942, icon: "q46" },
+            { q: "Shane. Shane. Come back!", m: "Shane", y: 1953, icon: "q47" },
+            { q: "Well, nobody's perfect.", m: "Some Like It Hot", y: 1959, icon: "q48" },
+            { q: "It's alive! It's alive!", m: "Frankenstein", y: 1931, icon: "q49" },
+            { q: "Houston, we have a problem.", m: "Apollo 13", y: 1995, icon: "q50" },
+            { q: "You've got to ask yourself one question: 'Do I feel lucky?'", m: "Dirty Harry", y: 1971, icon: "q51" },
+            { q: "You had me at 'hello.'", m: "Jerry Maguire", y: 1996, icon: "q52" },
+            { q: "One morning I shot an elephant in my pajamas.", m: "Animal Crackers", y: 1930, icon: "q53" },
+            { q: "There's no crying in baseball!", m: "A League of Their Own", y: 1992, icon: "q54" },
+            { q: "La-dee-da, la-dee-da.", m: "Annie Hall", y: 1977, icon: "q55" },
+            { q: "A boy's best friend is his mother.", m: "Psycho", y: 1960, icon: "q56" },
+            { q: "Greed, for lack of a better word, is good.", m: "Wall Street", y: 1987, icon: "q57" },
+            { q: "Keep your friends close, but your enemies closer.", m: "The Godfather Part II", y: 1974, icon: "q58" },
+            { q: "As God is my witness, I'll never be hungry again.", m: "Gone with the Wind", y: 1939, icon: "q59" },
+            { q: "Well, here's another nice mess you've gotten me into!", m: "Sons of the Desert", y: 1933, icon: "q60" },
+            { q: "Say 'hello' to my little friend!", m: "Scarface", y: 1983, icon: "q61" },
+            { q: "What a dump.", m: "Beyond the Forest", y: 1949, icon: "q62" },
+            { q: "Mrs. Robinson, you're trying to seduce me. Aren't you?", m: "The Graduate", y: 1967, icon: "q63" },
+            { q: "Gentlemen, you can't fight in here! This is the War Room!", m: "Dr. Strangelove", y: 1964, icon: "q64" },
+            { q: "Elementary, my dear Watson.", m: "The Adventures of Sherlock Holmes", y: 1939, icon: "q65" },
+            { q: "Get your stinking paws off me, you damned dirty ape.", m: "Planet of the Apes", y: 1968, icon: "q66" },
+            { q: "Of all the gin joints in all the towns in all the world...", m: "Casablanca", y: 1942, icon: "q67" },
+            { q: "Here's Johnny!", m: "The Shining", y: 1980, icon: "q68" },
+            { q: "They're here!", m: "Poltergeist", y: 1982, icon: "q69" },
+            { q: "Is it safe?", m: "Marathon Man", y: 1976, icon: "q70" },
+            { q: "Wait a minute, wait a minute. You ain't heard nothin' yet!", m: "The Jazz Singer", y: 1927, icon: "q71" },
+            { q: "No wire hangers, ever!", m: "Mommie Dearest", y: 1981, icon: "q72" },
+            { q: "Mother of mercy, is this the end of Rico?", m: "Little Caesar", y: 1930, icon: "q73" },
+            { q: "Forget it, Jake, it's Chinatown.", m: "Chinatown", y: 1974, icon: "q74" },
+            { q: "I have always depended on the kindness of strangers.", m: "A Streetcar Named Desire", y: 1951, icon: "q75" },
+            { q: "Hasta la vista, baby.", m: "Terminator 2: Judgment Day", y: 1991, icon: "q76" },
+            { q: "Soylent Green is people!", m: "Soylent Green", y: 1973, icon: "q77" },
+            { q: "Open the pod bay doors, HAL.", m: "2001: A Space Odyssey", y: 1968, icon: "q78" },
+            { q: "Surely you can't be serious.", m: "Airplane!", y: 1980, icon: "q79" },
+            { q: "Yo, Adrian!", m: "Rocky", y: 1976, icon: "q80" },
+            { q: "Hello, gorgeous.", m: "Funny Girl", y: 1968, icon: "q81" },
+            { q: "Toga! Toga!", m: "National Lampoon's Animal House", y: 1978, icon: "q82" },
+            { q: "Listen to them. Children of the night. What music they make.", m: "Dracula", y: 1931, icon: "q83" },
+            { q: "Oh, no, it wasn't the airplanes. It was Beauty killed the Beast.", m: "King Kong", y: 1933, icon: "q84" },
+            { q: "My precious.", m: "The Lord of the Rings: The Two Towers", y: 2002, icon: "q85" },
+            { q: "Attica! Attica!", m: "Dog Day Afternoon", y: 1975, icon: "q86" },
+            { q: "Sawyer, you're going out a youngster, but you've got to come back a star!", m: "42nd Street", y: 1933, icon: "q87" },
+            { q: "Listen to me, mister. You're my knight in shining armor...", m: "On Golden Pond", y: 1981, icon: "q88" },
+            { q: "Tell 'em to go out there with all they got and win just one for the Gipper.", m: "Knute Rockne, All American", y: 1940, icon: "q89" },
+            { q: "A martini. Shaken, not stirred.", m: "Goldfinger", y: 1964, icon: "q90" },
+            { q: "Who's on first?", m: "The Naughty Nineties", y: 1945, icon: "q91" },
+            { q: "Cinderella story. Outta nowhere...", m: "Caddyshack", y: 1980, icon: "q92" },
+            { q: "Life is a banquet, and most poor suckers are starving to death!", m: "Auntie Mame", y: 1958, icon: "q93" },
+            { q: "I feel the need...the need for speed!", m: "Top Gun", y: 1986, icon: "q94" },
+            { q: "Carpe diem. Seize the day, boys. Make your lives extraordinary.", m: "Dead Poets Society", y: 1989, icon: "q95" },
+            { q: "Snap out of it!", m: "Moonstruck", y: 1987, icon: "q96" },
+            { q: "My mother thanks you. My father thanks you...", m: "Yankee Doodle Dandy", y: 1942, icon: "q97" },
+            { q: "Nobody puts Baby in a corner.", m: "Dirty Dancing", y: 1987, icon: "q98" },
+            { q: "I'll get you, my pretty, and your little dog too!", m: "The Wizard of Oz", y: 1939, icon: "q99" },
+            { q: "I'm the King of the World!", m: "Titanic", y: 1997, icon: "q100" }
+        ];
+
+        const icons = {
+            q1: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">AMOUNT OF DAMN</text><circle cx="22" cy="30" r="12" fill="none" stroke="#000" stroke-width="0.5"/><circle cx="38" cy="30" r="12" fill="none" stroke="#000" stroke-width="0.5"/><text x="18" y="30" font-size="2" text-anchor="middle" font-family="sans-serif">Care</text><text x="42" y="30" font-size="2" text-anchor="middle" font-family="sans-serif">Do</text>',
+            q2: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">OFFER</text><circle cx="25" cy="30" r="15" fill="none" stroke="#000" stroke-width="0.5"/><circle cx="45" cy="20" r="5" fill="#000"/><line x1="38" y1="25" x2="42" y2="22" stroke="#000" stroke-width="0.5"/><text x="25" y="30" font-size="2" text-anchor="middle" font-family="sans-serif">Offer</text><text x="52" y="20" font-size="2" text-anchor="middle" font-family="sans-serif">Refuse</text>',
+            q3: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">CLASS</text><circle cx="25" cy="30" r="10" fill="none" stroke="#000" stroke-width="0.5"/><circle cx="35" cy="30" r="10" fill="none" stroke="#000" stroke-width="0.5"/><text x="20" y="50" font-size="2" text-anchor="middle" font-family="sans-serif">Contender</text><text x="40" y="50" font-size="2" text-anchor="middle" font-family="sans-serif">Bum</text>',
+            q4: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">KANSAS</text><path d="M10,20 L50,20 L45,40 L35,45 L15,40 Z" fill="none" stroke="#000" stroke-width="0.5"/><rect x="28" y="28" width="5" height="3" fill="#fff" stroke="#000" stroke-width="0.5"/><text x="30" y="50" font-size="2" text-anchor="middle" font-family="sans-serif">Not Kansas</text>',
+            q5: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">LOOKING AT YOU</text><line x1="10" y1="45" x2="50" y2="45" stroke="#000" stroke-width="0.5"/><line x1="10" y1="45" x2="10" y2="15" stroke="#000" stroke-width="0.5"/><circle cx="20" cy="35" r="2" fill="#000"/><line x1="20" y1="37" x2="20" y2="45" stroke="#000" stroke-width="0.5"/><circle cx="30" cy="30" r="2" fill="#000"/><line x1="30" y1="32" x2="30" y2="45" stroke="#000" stroke-width="0.5"/><circle cx="40" cy="25" r="2" fill="#000"/><line x1="40" y1="27" x2="40" y2="45" stroke="#000" stroke-width="0.5"/><text x="30" y="55" font-size="2" text-anchor="middle" font-family="sans-serif">Growth</text>',
+            q6: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">MAKE MY DAY</text><circle cx="30" cy="30" r="15" fill="none" stroke="#000" stroke-width="0.5"/><path d="M30,30 L30,15 A15,15 0 0,1 45,30 Z" fill="#000"/><text x="30" y="50" font-size="2" text-anchor="middle" font-family="sans-serif">Make my day</text>',
+            q7: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">CLOSE-UP</text><line x1="10" y1="45" x2="50" y2="45" stroke="#000" stroke-width="0.5"/><line x1="10" y1="45" x2="10" y2="15" stroke="#000" stroke-width="0.5"/><polyline points="10,45 20,40 30,35 40,20 50,15" fill="none" stroke="#000" stroke-width="1"/><text x="30" y="55" font-size="2" text-anchor="middle" font-family="sans-serif">Readiness</text>',
+            q8: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">THE FORCE</text><path d="M10,40 Q30,10 50,40" fill="none" stroke="#000" stroke-width="0.5" stroke-dasharray="2,1"/><circle cx="10" cy="40" r="2" fill="#000"/><circle cx="50" cy="40" r="2" fill="#000"/><text x="30" y="50" font-size="2" text-anchor="middle" font-family="sans-serif">Trajectory</text>',
+            q9: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">BUMPY NIGHT</text><rect x="30" y="30" width="20" height="20" transform="translate(-10,-10) rotate(45 30 30)" fill="#f1c40f" stroke="#000" stroke-width="0.5"/><text x="30" y="32" font-size="2" text-anchor="middle" font-family="sans-serif">Bumpy</text>',
+            q10: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">WHO YOU ARE TALKING TO</text><circle cx="22" cy="30" r="12" fill="none" stroke="#000" stroke-width="0.5"/><circle cx="38" cy="30" r="12" fill="#000"/><text x="18" y="30" font-size="2" text-anchor="middle" font-family="sans-serif">10% chance</text><text x="18" y="33" font-size="2" text-anchor="middle" font-family="sans-serif">someone else</text><text x="42" y="30" font-size="2" text-anchor="middle" font-family="sans-serif" fill="#fff">90% chance</text><text x="42" y="33" font-size="2" text-anchor="middle" font-family="sans-serif" fill="#fff">it\'s me</text>',
+            q11: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">COMMUNICATE</text><line x1="10" y1="30" x2="20" y2="30" stroke="#000" stroke-width="0.5"/><polyline points="20,30 22,25 25,35 28,25 30,30" fill="none" stroke="#000" stroke-width="0.5"/><line x1="30" y1="30" x2="40" y2="30" stroke="#000" stroke-width="0.5"/><rect x="40" y="20" width="15" height="20" fill="none" stroke="#000" stroke-width="0.5"/><text x="47.5" y="32" font-size="2" text-anchor="middle" font-family="sans-serif">Failure</text>',
+            q12: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">NAPALM SMELL</text><line x1="10" y1="45" x2="50" y2="45" stroke="#000" stroke-width="0.5"/><line x1="10" y1="45" x2="10" y2="15" stroke="#000" stroke-width="0.5"/><polyline points="10,40 20,20 30,35 40,40 50,42" fill="none" stroke="#000" stroke-width="1"/><text x="20" y="50" font-size="2" text-anchor="middle" font-family="sans-serif">Morning</text>',
+            q13: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">LOVE STORY</text><line x1="10" y1="30" x2="50" y2="30" stroke="#000" stroke-width="0.5" marker-end="url(#arrow)"/><text x="10" y="25" font-size="2" text-anchor="start" font-family="sans-serif">Love</text><text x="50" y="25" font-size="2" text-anchor="end" font-family="sans-serif">Never say sorry</text>',
+            q14: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">DREAMS</text><rect x="20" y="20" width="20" height="20" fill="none" stroke="#000" stroke-width="1"/><text x="30" y="32" font-size="8" text-anchor="middle" font-family="serif" font-weight="bold">Ds</text><text x="30" y="38" font-size="2" text-anchor="middle" font-family="sans-serif">Stuff</text>',
+            q15: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">CALL FREQUENCY</text><rect x="10" y="20" width="5" height="30" fill="#000"/><rect x="25" y="45" width="5" height="5" fill="#000"/><rect x="40" y="45" width="5" height="5" fill="#000"/><text x="12.5" y="55" font-size="2" text-anchor="middle" font-family="sans-serif">Rarely</text><text x="27.5" y="55" font-size="2" text-anchor="middle" font-family="sans-serif">Home</text><text x="42.5" y="55" font-size="2" text-anchor="middle" font-family="sans-serif">Other</text>',
+            q16: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">MISTER TIBBS</text><circle cx="22" cy="30" r="12" fill="none" stroke="#000" stroke-width="0.5"/><circle cx="38" cy="30" r="12" fill="none" stroke="#000" stroke-width="0.5"/><text x="18" y="30" font-size="2" text-anchor="middle" font-family="sans-serif">They call me</text><text x="42" y="30" font-size="2" text-anchor="middle" font-family="sans-serif">Mr. Tibbs</text>',
+            q17: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">ROSEBUD</text><path d="M15,35 L45,35 L40,40 L20,40 Z" fill="none" stroke="#000" stroke-width="0.5"/><line x1="20" y1="35" x2="15" y2="25" stroke="#000" stroke-width="0.5"/><line x1="40" y1="35" x2="45" y2="25" stroke="#000" stroke-width="0.5"/><line x1="15" y1="25" x2="45" y2="25" stroke="#000" stroke-width="0.5"/><text x="30" y="32" font-size="2" text-anchor="middle" font-family="sans-serif">Rosebud</text>',
+            q18: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">TOP OF THE WORLD</text><circle cx="30" cy="35" r="12" fill="none" stroke="#000" stroke-width="0.5"/><path d="M25,30 Q30,35 35,30 M20,35 Q30,40 40,35" fill="none" stroke="#000" stroke-width="0.5"/><line x1="30" y1="23" x2="30" y2="15" stroke="#000" stroke-width="0.5"/><text x="30" y="13" font-size="2" text-anchor="middle" font-family="sans-serif">Ma!</text>',
+            q19: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">MAD AS HELL</text><line x1="20" y1="40" x2="20" y2="20" stroke="#000" stroke-width="0.5"/><rect x="18" y="35" width="4" height="2" fill="#000"/><line x1="30" y1="40" x2="30" y2="20" stroke="#000" stroke-width="0.5"/><rect x="28" y="30" width="4" height="2" fill="#000"/><line x1="40" y1="40" x2="40" y2="20" stroke="#000" stroke-width="0.5"/><rect x="38" y="20" width="4" height="2" fill="#000"/><text x="40" y="18" font-size="2" text-anchor="middle" font-family="sans-serif">Mad</text>',
+            q20: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">FRIENDSHIP</text><line x1="10" y1="30" x2="45" y2="30" stroke="#000" stroke-width="0.5"/><circle cx="45" cy="30" r="2" fill="#000"/><text x="45" y="35" font-size="2" text-anchor="middle" font-family="sans-serif">Beginning</text>',
+            q21: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">CENSUS TAKER</text><circle cx="30" cy="30" r="10" fill="none" stroke="#000" stroke-width="0.5"/><rect x="15" y="20" width="2" height="20" fill="#000"/><rect x="43" y="20" width="2" height="20" fill="#000"/><text x="30" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Dinner</text>',
+            q22: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">BOND, JAMES</text><rect x="15" y="25" width="15" height="10" fill="none" stroke="#000" stroke-width="0.5"/><text x="22.5" y="31" font-size="2" text-anchor="middle" font-family="sans-serif">Bond</text><line x1="30" y1="30" x2="40" y2="30" stroke="#000" stroke-width="0.5"/><polygon points="40,30 38,28 38,32" fill="#000"/><rect x="40" y="25" width="15" height="10" fill="none" stroke="#000" stroke-width="0.5"/><text x="47.5" y="31" font-size="2" text-anchor="middle" font-family="sans-serif">James</text><text x="30" y="20" font-size="2" text-anchor="middle" font-family="sans-serif">Start here</text>',
+            q23: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">NO PLACE LIKE HOME</text><path d="M10,20 L50,20 L45,40 L35,45 L15,40 Z" fill="none" stroke="#000" stroke-width="0.5"/><circle cx="28" cy="28" r="1" fill="#000"/><text x="28" y="32" font-size="2" text-anchor="middle" font-family="sans-serif">Home</text>',
+            q24: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">PICTURES</text><line x1="10" y1="40" x2="50" y2="40" stroke="#000" stroke-width="0.5"/><rect x="15" y="20" width="10" height="20" fill="#000"/><rect x="35" y="35" width="10" height="5" fill="#000"/><text x="20" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Me</text><text x="40" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Pictures</text>',
+            q25: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">SHOW ME THE MONEY</text><text x="20" y="20" font-size="4" text-anchor="middle" font-family="sans-serif" fill="#2ecc71">$</text><text x="30" y="30" font-size="4" text-anchor="middle" font-family="sans-serif" fill="#2ecc71">$</text><text x="40" y="20" font-size="4" text-anchor="middle" font-family="sans-serif" fill="#2ecc71">$</text><text x="25" y="40" font-size="4" text-anchor="middle" font-family="sans-serif" fill="#2ecc71">$</text><text x="35" y="35" font-size="4" text-anchor="middle" font-family="sans-serif" fill="#2ecc71">$</text>',
+            q26: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">COME UP</text><line x1="10" y1="45" x2="50" y2="45" stroke="#000" stroke-width="0.5"/><line x1="10" y1="45" x2="10" y2="15" stroke="#000" stroke-width="0.5"/><polyline points="10,40 20,35 30,25 40,30 50,20" fill="none" stroke="#000" stroke-width="1"/><text x="30" y="55" font-size="2" text-anchor="middle" font-family="sans-serif">Sometime</text>',
+            q27: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">WALKING HERE</text><line x1="10" y1="30" x2="50" y2="30" stroke="#000" stroke-width="2"/><line x1="30" y1="10" x2="30" y2="50" stroke="#000" stroke-width="2"/><circle cx="30" cy="30" r="2" fill="#fff" stroke="#000" stroke-width="0.5"/><text x="30" y="55" font-size="2" text-anchor="middle" font-family="sans-serif">Intersection</text>',
+            q28: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">PLAY IT</text><rect x="15" y="25" width="30" height="10" fill="#000"/><rect x="15" y="25" width="4" height="6" fill="#fff"/><rect x="21" y="25" width="4" height="6" fill="#fff"/><rect x="27" y="25" width="4" height="6" fill="#fff"/><rect x="33" y="25" width="4" height="6" fill="#fff"/><rect x="39" y="25" width="4" height="6" fill="#fff"/><text x="30" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Sam</text>',
+            q29: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">THE TRUTH</text><rect x="20" y="15" width="20" height="10" fill="none" stroke="#000" stroke-width="0.5"/><text x="30" y="21" font-size="2" text-anchor="middle" font-family="sans-serif">Can you</text><text x="30" y="24" font-size="2" text-anchor="middle" font-family="sans-serif">handle it?</text><line x1="30" y1="25" x2="30" y2="35" stroke="#000" stroke-width="0.5"/><polygon points="30,35 28,33 32,33" fill="#000"/><rect x="20" y="35" width="20" height="10" fill="none" stroke="#000" stroke-width="0.5"/><text x="30" y="41" font-size="2" text-anchor="middle" font-family="sans-serif">No</text>',
+            q30: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">WANT TO BE ALONE</text><circle cx="30" cy="30" r="2" fill="#000"/><text x="30" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Me</text>',
+            q31: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">TOMORROW</text><rect x="15" y="20" width="30" height="25" fill="none" stroke="#000" stroke-width="0.5"/><line x1="15" y1="25" x2="45" y2="25" stroke="#000" stroke-width="0.5"/><text x="30" y="24" font-size="2" text-anchor="middle" font-family="sans-serif">Month</text><text x="30" y="40" font-size="8" text-anchor="middle" font-family="sans-serif" font-weight="bold">1</text>',
+            q32: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">USUAL SUSPECTS</text><circle cx="15" cy="25" r="3" fill="none" stroke="#000" stroke-width="0.5"/><line x1="15" y1="28" x2="15" y2="40" stroke="#000" stroke-width="0.5"/><circle cx="30" cy="25" r="3" fill="none" stroke="#000" stroke-width="0.5"/><line x1="30" y1="28" x2="30" y2="40" stroke="#000" stroke-width="0.5"/><circle cx="45" cy="25" r="3" fill="none" stroke="#000" stroke-width="0.5"/><line x1="45" y1="28" x2="45" y2="40" stroke="#000" stroke-width="0.5"/><text x="30" y="50" font-size="2" text-anchor="middle" font-family="sans-serif">Lineup</text>',
+            q33: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">MENU CHOICES</text><path d="M10,30 Q20,20 30,30 Q40,40 50,30" fill="none" stroke="#000" stroke-width="1"/><text x="15" y="25" font-size="2" text-anchor="middle" font-family="sans-serif">What she\'s</text><text x="15" y="28" font-size="2" text-anchor="middle" font-family="sans-serif">having</text><text x="45" y="35" font-size="2" text-anchor="middle" font-family="sans-serif">What I\'ll</text><text x="45" y="38" font-size="2" text-anchor="middle" font-family="sans-serif">have</text>',
+            q34: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">WHISTLE</text><path d="M20,30 Q30,20 40,30 Q30,40 20,30" fill="none" stroke="#000" stroke-width="1"/><circle cx="45" cy="25" r="2" fill="#000"/><circle cx="50" cy="20" r="2" fill="#000"/><text x="30" y="50" font-size="2" text-anchor="middle" font-family="sans-serif">Lips</text>',
+            q35: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">BIGGER BOAT</text><rect x="15" y="35" width="10" height="15" fill="#000"/><rect x="35" y="15" width="10" height="35" fill="#000"/><text x="20" y="55" font-size="2" text-anchor="middle" font-family="sans-serif">Have</text><text x="40" y="55" font-size="2" text-anchor="middle" font-family="sans-serif">Need</text>',
+            q36: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">BADGES</text><circle cx="22" cy="30" r="12" fill="none" stroke="#000" stroke-width="0.5"/><circle cx="38" cy="30" r="12" fill="none" stroke="#000" stroke-width="0.5"/><text x="18" y="30" font-size="2" text-anchor="middle" font-family="sans-serif">Need</text><text x="42" y="30" font-size="2" text-anchor="middle" font-family="sans-serif">Have</text>',
+            q37: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">I\'LL BE BACK</text><path d="M15,40 Q30,10 45,40" fill="none" stroke="#000" stroke-width="0.5" marker-end="url(#arrow)"/><text x="30" y="50" font-size="2" text-anchor="middle" font-family="sans-serif">Boomerang</text>',
+            q38: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">LUCKIEST MAN</text><path d="M10,40 Q30,10 50,40" fill="none" stroke="#000" stroke-width="0.5"/><line x1="10" y1="40" x2="50" y2="40" stroke="#000" stroke-width="0.5"/><line x1="30" y1="40" x2="30" y2="25" stroke="#000" stroke-width="0.5" stroke-dasharray="2,1"/><text x="30" y="50" font-size="2" text-anchor="middle" font-family="sans-serif">Luck</text>',
+            q39: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">BUILD IT</text><line x1="10" y1="45" x2="50" y2="45" stroke="#000" stroke-width="0.5"/><line x1="10" y1="45" x2="10" y2="15" stroke="#000" stroke-width="0.5"/><circle cx="20" cy="40" r="1" fill="#000"/><circle cx="25" cy="35" r="1" fill="#000"/><circle cx="30" cy="30" r="1" fill="#000"/><circle cx="35" cy="25" r="1" fill="#000"/><circle cx="40" cy="20" r="1" fill="#000"/><text x="30" y="55" font-size="2" text-anchor="middle" font-family="sans-serif">They will come</text>',
+            q40: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">CHOCOLATES</text><line x1="10" y1="45" x2="50" y2="45" stroke="#000" stroke-width="0.5"/><line x1="10" y1="45" x2="10" y2="15" stroke="#000" stroke-width="0.5"/><circle cx="20" cy="30" r="1" fill="#000"/><circle cx="40" cy="20" r="1" fill="#000"/><circle cx="30" cy="40" r="1" fill="#000"/><circle cx="35" cy="25" r="1" fill="#000"/><text x="30" y="55" font-size="2" text-anchor="middle" font-family="sans-serif">Uncertainty</text>',
+            q41: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">WE ROB BANKS</text><path d="M20,40 Q15,40 15,30 L20,15 L40,15 L45,30 Q45,40 40,40 Z" fill="none" stroke="#000" stroke-width="0.5"/><text x="30" y="30" font-size="4" text-anchor="middle" font-family="sans-serif">$</text><text x="30" y="50" font-size="2" text-anchor="middle" font-family="sans-serif">Money Bag</text>',
+            q42: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">PLASTICS</text><rect x="15" y="35" width="10" height="10" fill="#000"/><rect x="35" y="15" width="10" height="30" fill="#000"/><text x="20" y="50" font-size="2" text-anchor="middle" font-family="sans-serif">Other</text><text x="40" y="50" font-size="2" text-anchor="middle" font-family="sans-serif">Plastics</text>',
+            q43: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">PARIS</text><line x1="10" y1="30" x2="50" y2="30" stroke="#000" stroke-width="0.5"/><circle cx="10" cy="30" r="2" fill="#000"/><circle cx="50" cy="30" r="2" fill="#000"/><text x="10" y="35" font-size="2" text-anchor="middle" font-family="sans-serif">Then</text><text x="50" y="35" font-size="2" text-anchor="middle" font-family="sans-serif">Now</text><text x="30" y="25" font-size="2" text-anchor="middle" font-family="sans-serif">Always</text>',
+            q44: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">DEAD PEOPLE</text><circle cx="22" cy="30" r="12" fill="none" stroke="#000" stroke-width="0.5"/><circle cx="38" cy="30" r="12" fill="none" stroke="#000" stroke-width="0.5"/><text x="18" y="30" font-size="2" text-anchor="middle" font-family="sans-serif">See</text><text x="42" y="30" font-size="2" text-anchor="middle" font-family="sans-serif">Dead</text>',
+            q45: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">STELLA!</text><circle cx="20" cy="25" r="3" fill="none" stroke="#000" stroke-width="0.5"/><line x1="20" y1="28" x2="20" y2="40" stroke="#000" stroke-width="0.5"/><line x1="20" y1="30" x2="15" y2="25" stroke="#000" stroke-width="0.5"/><line x1="20" y1="30" x2="25" y2="25" stroke="#000" stroke-width="0.5"/><line x1="20" y1="40" x2="15" y2="45" stroke="#000" stroke-width="0.5"/><line x1="20" y1="40" x2="25" y2="45" stroke="#000" stroke-width="0.5"/><path d="M25,20 L35,15 L35,25 Z" fill="#000"/><text x="40" y="25" font-size="2" text-anchor="start" font-family="sans-serif">STELLA!</text>',
+            q46: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">THE STARS</text><circle cx="22" cy="30" r="12" fill="none" stroke="#000" stroke-width="0.5"/><circle cx="38" cy="30" r="12" fill="none" stroke="#000" stroke-width="0.5"/><text x="18" y="30" font-size="2" text-anchor="middle" font-family="sans-serif">Ask for</text><text x="42" y="30" font-size="2" text-anchor="middle" font-family="sans-serif">Have</text>',
+            q47: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">SHANE</text><circle cx="30" cy="20" r="3" fill="#000"/><path d="M30,23 L30,35 L25,45 M30,35 L35,45 M25,30 L35,30" stroke="#000" stroke-width="1"/><text x="30" y="50" font-size="2" text-anchor="middle" font-family="sans-serif">Come back!</text>',
+            q48: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">NOBODY\'S PERFECT</text><circle cx="20" cy="30" r="10" fill="none" stroke="#000" stroke-width="0.5"/><circle cx="45" cy="30" r="10" fill="none" stroke="#000" stroke-width="0.5"/><text x="20" y="30" font-size="2" text-anchor="middle" font-family="sans-serif">People</text><text x="45" y="30" font-size="2" text-anchor="middle" font-family="sans-serif">Perfect</text>',
+            q49: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">IT\'S ALIVE</text><rect x="20" y="25" width="20" height="10" fill="none" stroke="#000" stroke-width="0.5"/><rect x="22" y="27" width="6" height="6" fill="#000"/><text x="30" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Switch</text>',
+            q50: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">WE HAVE A PROBLEM</text><line x1="10" y1="40" x2="10" y2="20" stroke="#000" stroke-width="0.5"/><line x1="10" y1="40" x2="50" y2="40" stroke="#000" stroke-width="0.5"/><polyline points="10,30 20,30 25,25 30,35 35,30 50,30" fill="none" stroke="#000" stroke-width="1"/><text x="15" y="25" font-size="2" text-anchor="middle" font-family="sans-serif">OK</text><text x="15" y="35" font-size="2" text-anchor="middle" font-family="sans-serif">Not</text><text x="15" y="38" font-size="2" text-anchor="middle" font-family="sans-serif">OK</text><text x="20" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Beginning</text><text x="45" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Now</text><text x="40" y="25" font-size="2" text-anchor="middle" font-family="sans-serif">Houston...</text>',
+            q51: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">LUCKY?</text><line x1="10" y1="40" x2="50" y2="40" stroke="#000" stroke-width="0.5"/><line x1="10" y1="40" x2="10" y2="20" stroke="#000" stroke-width="0.5"/><polyline points="10,35 20,30 30,35 40,25 50,30" fill="none" stroke="#000" stroke-width="1"/><text x="30" y="50" font-size="2" text-anchor="middle" font-family="sans-serif">Do I feel lucky?</text>',
+            q52: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">HELLO</text><line x1="10" y1="30" x2="50" y2="30" stroke="#000" stroke-width="0.5"/><circle cx="15" cy="30" r="2" fill="#000"/><text x="15" y="35" font-size="2" text-anchor="middle" font-family="sans-serif">Hello</text><text x="50" y="35" font-size="2" text-anchor="middle" font-family="sans-serif">Rest of life</text>',
+            q53: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">IN MY PAJAMAS</text><circle cx="22" cy="30" r="12" fill="none" stroke="#000" stroke-width="0.5"/><circle cx="38" cy="30" r="12" fill="none" stroke="#000" stroke-width="0.5"/><text x="18" y="30" font-size="2" text-anchor="middle" font-family="sans-serif">P.Js</text><text x="42" y="30" font-size="2" text-anchor="middle" font-family="sans-serif">Elephant</text>',
+            q54: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">CRYING IN BASEBALL</text><text x="20" y="25" font-size="2" text-anchor="middle" font-family="sans-serif">Tear count</text><text x="20" y="30" font-size="2" text-anchor="middle" font-family="sans-serif">10 -</text><text x="20" y="35" font-size="2" text-anchor="middle" font-family="sans-serif">5 -</text><text x="20" y="40" font-size="2" text-anchor="middle" font-family="sans-serif">0 -</text><text x="30" y="40" font-size="2" text-anchor="middle" font-family="sans-serif">NA</text><text x="40" y="40" font-size="2" text-anchor="middle" font-family="sans-serif">NA</text><text x="30" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Game 1</text><text x="40" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Game 2</text>',
+            q55: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">LA-DEE-DA</text><path d="M25,20 L35,20 L32,50 L28,50 Z" fill="#000"/><path d="M25,20 L20,15 L40,15 L35,20" fill="#000"/><text x="30" y="55" font-size="2" text-anchor="middle" font-family="sans-serif">La-dee-da</text>',
+            q56: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">FRIENDS</text><rect x="15" y="20" width="30" height="20" fill="none" stroke="#000" stroke-width="0.5"/><line x1="15" y1="25" x2="45" y2="25" stroke="#000" stroke-width="0.5"/><line x1="15" y1="30" x2="45" y2="30" stroke="#000" stroke-width="0.5"/><line x1="15" y1="35" x2="45" y2="35" stroke="#000" stroke-width="0.5"/><line x1="35" y1="20" x2="35" y2="40" stroke="#000" stroke-width="0.5"/><text x="25" y="24" font-size="1.5" text-anchor="middle" font-family="sans-serif">Mother Bates</text><text x="25" y="29" font-size="1.5" text-anchor="middle" font-family="sans-serif">Marion Crane</text><text x="25" y="34" font-size="1.5" text-anchor="middle" font-family="sans-serif">Milton Arbogast</text><rect x="37" y="22" width="6" height="2" fill="#000"/><rect x="37" y="27" width="6" height="2" fill="#000"/><rect x="37" y="32" width="6" height="2" fill="#000"/><text x="40" y="18" font-size="1.5" text-anchor="middle" font-family="sans-serif" transform="rotate(-45 40,18)">Not Best Friend</text><text x="45" y="18" font-size="1.5" text-anchor="middle" font-family="sans-serif" transform="rotate(-45 45,18)">Best Friend</text>',
+            q57: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">GOOD AND BAD</text><line x1="10" y1="30" x2="50" y2="30" stroke="#000" stroke-width="0.5"/><circle cx="15" cy="30" r="1" fill="#000"/><circle cx="45" cy="30" r="1" fill="#000"/><text x="15" y="35" font-size="2" text-anchor="middle" font-family="sans-serif">Bad</text><text x="45" y="35" font-size="2" text-anchor="middle" font-family="sans-serif">Good</text><text x="45" y="25" font-size="2" text-anchor="middle" font-family="sans-serif">Greed</text>',
+            q58: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">PROXIMITY TO ENEMIES</text><line x1="15" y1="40" x2="15" y2="20" stroke="#000" stroke-width="0.5"/><text x="12" y="25" font-size="2" text-anchor="end" font-family="sans-serif">Close</text><text x="12" y="35" font-size="2" text-anchor="end" font-family="sans-serif">Not close</text><rect x="16" y="30" width="5" height="10" fill="#000"/><rect x="25" y="20" width="5" height="20" fill="#000"/><text x="18.5" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Friends</text><text x="27.5" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Enemies</text>',
+            q59: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">WHEN I WON\'T GO HUNGRY</text><line x1="10" y1="40" x2="50" y2="40" stroke="#000" stroke-width="0.5"/><line x1="10" y1="40" x2="10" y2="20" stroke="#000" stroke-width="0.5"/><polyline points="10,30 25,30 50,40" fill="none" stroke="#000" stroke-width="1"/><text x="10" y="18" font-size="2" text-anchor="middle" font-family="sans-serif">Not hungry</text><text x="10" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Hungry</text><text x="25" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Now</text><text x="45" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Later</text>',
+            q60: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">NICE MESS</text><circle cx="30" cy="30" r="10" fill="none" stroke="#000" stroke-width="5"/><text x="30" y="32" font-size="2" text-anchor="middle" font-family="sans-serif" fill="#000">Mess</text>',
+            q61: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">MY LITTLE FRIEND</text><path d="M15,30 L45,30" stroke="#000" stroke-width="1"/><circle cx="30" cy="30" r="2" fill="#000"/><text x="15" y="25" font-size="2" text-anchor="middle" font-family="sans-serif">Say hello</text><text x="45" y="25" font-size="2" text-anchor="middle" font-family="sans-serif">You</text><line x1="30" y1="30" x2="45" y2="30" stroke="#000" stroke-width="1" stroke-dasharray="2,1"/>',
+            q62: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">WHAT A DUMP</text><path d="M20,25 Q30,15 40,25 Q35,35 25,35 Q15,25 20,25" fill="none" stroke="#000" stroke-width="0.5"/><path d="M22,28 Q30,20 38,28" fill="none" stroke="#000" stroke-width="0.5"/><path d="M25,32 Q30,38 35,32" fill="none" stroke="#000" stroke-width="0.5"/><text x="30" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Dump</text>',
+            q63: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">MRS. ROBINSON</text><line x1="10" y1="40" x2="50" y2="40" stroke="#000" stroke-width="0.5"/><line x1="10" y1="40" x2="10" y2="20" stroke="#000" stroke-width="0.5"/><path d="M10,35 Q30,35 50,25" fill="none" stroke="#000" stroke-width="1"/><text x="15" y="25" font-size="2" text-anchor="middle" font-family="sans-serif">Prob. of</text><text x="15" y="28" font-size="2" text-anchor="middle" font-family="sans-serif">seduction</text><text x="40" y="20" font-size="2" text-anchor="middle" font-family="sans-serif">Definitely</text><text x="30" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Time past</text>',
+            q64: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">WHERE YOU CAN FIGHT</text><rect x="15" y="20" width="30" height="20" fill="none" stroke="#000" stroke-width="0.5"/><line x1="15" y1="25" x2="45" y2="25" stroke="#000" stroke-width="0.5"/><line x1="30" y1="20" x2="30" y2="40" stroke="#000" stroke-width="0.5"/><text x="22.5" y="24" font-size="2" text-anchor="middle" font-family="sans-serif">In here</text><text x="37.5" y="24" font-size="2" text-anchor="middle" font-family="sans-serif">Out there</text><text x="37.5" y="32" font-size="2" text-anchor="middle" font-family="sans-serif">War room</text>',
+            q65: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">ELEMENTARY</text><text x="15" y="25" font-size="2" text-anchor="end" font-family="sans-serif">Poor</text><text x="15" y="30" font-size="2" text-anchor="end" font-family="sans-serif">Advanced</text><text x="15" y="35" font-size="2" text-anchor="end" font-family="sans-serif">Intermediate</text><text x="15" y="40" font-size="2" text-anchor="end" font-family="sans-serif">Elementary</text><text x="45" y="25" font-size="2" text-anchor="start" font-family="sans-serif">Ale</text><text x="45" y="30" font-size="2" text-anchor="start" font-family="sans-serif">Elementary</text><text x="45" y="35" font-size="2" text-anchor="start" font-family="sans-serif">Elementary</text><text x="45" y="40" font-size="2" text-anchor="start" font-family="sans-serif">Elementary</text><line x1="18" y1="25" x2="42" y2="25" stroke="#000" stroke-width="0.5"/><line x1="18" y1="30" x2="42" y2="30" stroke="#000" stroke-width="0.5"/><line x1="18" y1="35" x2="42" y2="35" stroke="#000" stroke-width="0.5"/><line x1="18" y1="40" x2="42" y2="40" stroke="#000" stroke-width="0.5"/>',
+            q66: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">DAMNED DIRTY APE</text><line x1="10" y1="40" x2="50" y2="40" stroke="#000" stroke-width="0.5"/><line x1="10" y1="40" x2="10" y2="20" stroke="#000" stroke-width="0.5"/><path d="M10,35 Q30,35 50,25" fill="none" stroke="#000" stroke-width="1"/><text x="15" y="25" font-size="2" text-anchor="middle" font-family="sans-serif">Risk</text><text x="45" y="30" font-size="2" text-anchor="middle" font-family="sans-serif">Paws</text><text x="45" y="33" font-size="2" text-anchor="middle" font-family="sans-serif">off</text><text x="30" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Exposure to germs</text>',
+            q67: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">WHERE SHE WALKED INTO</text><text x="15" y="25" font-size="2" text-anchor="middle" font-family="sans-serif">Gin Joint</text><rect x="15" y="30" width="5" height="10" fill="none" stroke="#000" stroke-width="0.5"/><rect x="20" y="30" width="5" height="10" fill="none" stroke="#000" stroke-width="0.5"/><rect x="25" y="30" width="5" height="10" fill="none" stroke="#000" stroke-width="0.5"/><rect x="30" y="30" width="5" height="10" fill="#000" stroke="#000" stroke-width="0.5"/><rect x="35" y="30" width="5" height="10" fill="none" stroke="#000" stroke-width="0.5"/><rect x="40" y="30" width="5" height="10" fill="none" stroke="#000" stroke-width="0.5"/><text x="32.5" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Mine</text>',
+            q69: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">WHERE JOHNNY IS</text><rect x="15" y="20" width="20" height="20" fill="none" stroke="#000" stroke-width="0.5"/><line x1="25" y1="20" x2="25" y2="40" stroke="#000" stroke-width="0.5"/><line x1="15" y1="30" x2="35" y2="30" stroke="#000" stroke-width="0.5"/><circle cx="45" cy="30" r="2" fill="#000"/><text x="45" y="25" font-size="2" text-anchor="middle" font-family="sans-serif">Johnny</text><text x="45" y="28" font-size="2" text-anchor="middle" font-family="sans-serif">is here</text>',
+            q70: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">WHO IS SAFE</text><rect x="15" y="20" width="20" height="20" fill="none" stroke="#000" stroke-width="0.5"/><circle cx="25" cy="30" r="2" fill="#000"/><text x="45" y="25" font-size="2" text-anchor="middle" font-family="sans-serif">They are</text><text x="45" y="28" font-size="2" text-anchor="middle" font-family="sans-serif">Safe</text>',
+            q71: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">SAFETY</text><rect x="20" y="20" width="20" height="15" fill="none" stroke="#000" stroke-width="0.5"/><text x="30" y="28" font-size="2" text-anchor="middle" font-family="sans-serif">Is it safe?</text><line x1="25" y1="35" x2="20" y2="40" stroke="#000" stroke-width="0.5"/><line x1="35" y1="35" x2="40" y2="40" stroke="#000" stroke-width="0.5"/><text x="20" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Yes</text><text x="30" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">No</text><text x="40" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Unsure</text>',
+            q72: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">WHAT YOU\'VE HEARD</text><text x="15" y="25" font-size="2" text-anchor="start" font-family="sans-serif">Something</text><text x="15" y="35" font-size="2" text-anchor="start" font-family="sans-serif">Nothin\'</text><line x1="35" y1="25" x2="35" y2="35" stroke="#000" stroke-width="0.5"/><text x="40" y="35" font-size="2" text-anchor="middle" font-family="sans-serif">So far</text><rect x="45" y="30" width="5" height="10" fill="#000"/><text x="47.5" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">No one</text><text x="47.5" y="48" font-size="2" text-anchor="middle" font-family="sans-serif">Whistle</text>',
+            q73: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">WIRE HANGERS</text><path d="M15,35 L30,25 L45,35" fill="none" stroke="#000" stroke-width="0.5"/><line x1="15" y1="35" x2="45" y2="35" stroke="#000" stroke-width="0.5"/><line x1="30" y1="25" x2="30" y2="20" stroke="#000" stroke-width="0.5"/><circle cx="30" cy="20" r="2" fill="none" stroke="#000" stroke-width="0.5"/><text x="30" y="30" font-size="2" text-anchor="middle" font-family="sans-serif">Not</text><text x="30" y="33" font-size="2" text-anchor="middle" font-family="sans-serif">allowed, ever</text>',
+            q74: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">END OF RICO</text><rect x="15" y="25" width="10" height="10" fill="none" stroke="#000" stroke-width="0.5"/><text x="20" y="30" font-size="2" text-anchor="middle" font-family="sans-serif">Is this the</text><text x="20" y="33" font-size="2" text-anchor="middle" font-family="sans-serif">end of Rico?</text><line x1="25" y1="30" x2="35" y2="30" stroke="#000" stroke-width="0.5" marker-end="url(#arrow)"/><text x="40" y="30" font-size="2" text-anchor="middle" font-family="sans-serif">Yes</text>',
+            q75: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">IT\'S CHINATOWN</text><rect x="15" y="20" width="10" height="20" fill="none" stroke="#000" stroke-width="0.5"/><text x="20" y="30" font-size="2" text-anchor="middle" font-family="sans-serif">Re-</text><text x="20" y="33" font-size="2" text-anchor="middle" font-family="sans-serif">member</text><rect x="35" y="20" width="10" height="20" fill="#000"/><text x="40" y="30" font-size="2" text-anchor="middle" font-family="sans-serif" fill="#fff">China-</text><text x="40" y="33" font-size="2" text-anchor="middle" font-family="sans-serif" fill="#fff">Town</text><text x="20" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Forget</text><text x="40" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Jake</text>',
+            q75: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">STRANGERS</text><path d="M15,30 Q25,20 35,30" fill="none" stroke="#000" stroke-width="0.5"/><path d="M45,30 Q35,40 25,30" fill="none" stroke="#000" stroke-width="0.5"/><text x="30" y="50" font-size="2" text-anchor="middle" font-family="sans-serif">Kindness</text>',
+            q76: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">HASTA LA VISTA</text><path d="M15,25 L45,25 L40,35 L20,35 Z" fill="#000"/><line x1="15" y1="25" x2="10" y2="20" stroke="#000" stroke-width="0.5"/><line x1="45" y1="25" x2="50" y2="20" stroke="#000" stroke-width="0.5"/><text x="30" y="50" font-size="2" text-anchor="middle" font-family="sans-serif">Baby</text>',
+            q77: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">PEOPLE</text><rect x="25" y="25" width="10" height="10" fill="#2ecc71"/><text x="30" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Soylent Green</text><text x="30" y="20" font-size="4" text-anchor="middle" font-family="sans-serif">=</text>',
+            q78: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">POD BAY DOORS</text><circle cx="30" cy="30" r="15" fill="#e74c3c"/><circle cx="30" cy="30" r="5" fill="#f1c40f"/><circle cx="30" cy="30" r="2" fill="#000"/><text x="30" y="55" font-size="2" text-anchor="middle" font-family="sans-serif">Open</text>',
+            q79: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">SERIOUS</text><text x="30" y="30" font-size="3" text-anchor="middle" font-family="sans-serif">Serious</text><text x="30" y="40" font-size="3" text-anchor="middle" font-family="sans-serif" text-decoration="line-through">Shirley</text><text x="30" y="50" font-size="2" text-anchor="middle" font-family="sans-serif">Don\'t call me</text>',
+            q80: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">ADRIAN!</text><text x="30" y="35" font-size="4" text-anchor="middle" font-family="sans-serif">Yo</text><text x="30" y="50" font-size="2" text-anchor="middle" font-family="sans-serif">Adrian!</text>',
+            q81: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">HELLO</text><ellipse cx="30" cy="30" rx="10" ry="15" fill="none" stroke="#000" stroke-width="1"/><text x="30" y="20" font-size="2" text-anchor="middle" font-family="sans-serif">Gorgeous people</text><text x="30" y="40" font-size="2" text-anchor="middle" font-family="sans-serif">People</text><line x1="30" y1="22" x2="30" y2="28" stroke="#000" stroke-width="0.5"/><text x="35" y="25" font-size="2" text-anchor="middle" font-family="sans-serif">You</text>',
+            q82: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">TOGA! TOGA!</text><path d="M15,15 Q30,10 45,15 L50,50 L10,50 Z" fill="none" stroke="#000" stroke-width="0.5"/><path d="M15,15 Q30,25 45,15" fill="none" stroke="#000" stroke-width="0.5"/><text x="30" y="40" font-size="2" text-anchor="middle" font-family="sans-serif">Toga</text>',
+            q83: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">CHILDREN OF THE NIGHT</text><line x1="10" y1="40" x2="50" y2="40" stroke="#000" stroke-width="0.5"/><line x1="10" y1="40" x2="10" y2="20" stroke="#000" stroke-width="0.5"/><rect x="15" y="30" width="5" height="10" fill="#000"/><text x="17.5" y="25" font-size="2" text-anchor="middle" font-family="sans-serif">Us</text><text x="17.5" y="28" font-size="2" text-anchor="middle" font-family="sans-serif">Airplanes</text><text x="30" y="50" font-size="2" text-anchor="middle" font-family="sans-serif">Music</text>',
+            q84: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">WHAT KILLED THE BEAST</text><rect x="15" y="20" width="30" height="10" fill="none" stroke="#000" stroke-width="0.5"/><text x="30" y="26" font-size="2" text-anchor="middle" font-family="sans-serif">100% Beauty</text><text x="30" y="40" font-size="2" text-anchor="middle" font-family="sans-serif">0%</text><text x="30" y="43" font-size="2" text-anchor="middle" font-family="sans-serif">Airplanes</text>',
+            q85: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">MY PRECIOUS</text><circle cx="30" cy="30" r="12" stroke="#f1c40f" stroke-width="3" fill="none"/><text x="30" y="50" font-size="2" text-anchor="middle" font-family="sans-serif">Precious</text>',
+            q86: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">ATTICA</text><rect x="15" y="20" width="30" height="15" fill="none" stroke="#000" stroke-width="0.5"/><text x="30" y="28" font-size="2" text-anchor="middle" font-family="sans-serif">11</text><text x="30" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Dog Day Afternoon</text>',
+            q87: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">COMING BACK A STAR</text><circle cx="20" cy="30" r="2" fill="#000"/><path d="M40,20 L42,28 L50,28 L44,34 L46,42 L40,36 L34,42 L36,34 L30,28 L38,28 Z" fill="#000"/><line x1="22" y1="30" x2="32" y2="30" stroke="#000" stroke-width="0.5" stroke-dasharray="2,1"/><text x="20" y="40" font-size="2" text-anchor="middle" font-family="sans-serif">Youngster</text><text x="40" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Star</text>',
+            q88: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">KNIGHT IN SHINING ARMOR</text><text x="15" y="25" font-size="2" text-anchor="start" font-family="sans-serif">Your potential</text><text x="15" y="30" font-size="2" text-anchor="start" font-family="sans-serif">High -</text><text x="15" y="40" font-size="2" text-anchor="start" font-family="sans-serif">Low -</text><line x1="25" y1="25" x2="25" y2="45" stroke="#000" stroke-width="0.5"/><line x1="25" y1="45" x2="45" y2="45" stroke="#000" stroke-width="0.5"/><rect x="30" y="40" width="5" height="5" fill="#000"/><rect x="40" y="25" width="5" height="20" fill="#000"/><text x="32.5" y="50" font-size="2" text-anchor="middle" font-family="sans-serif">What you</text><text x="32.5" y="53" font-size="2" text-anchor="middle" font-family="sans-serif">think</text><text x="42.5" y="50" font-size="2" text-anchor="middle" font-family="sans-serif">What I</text><text x="42.5" y="53" font-size="2" text-anchor="middle" font-family="sans-serif">know</text>',
+            q89: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">WIN FOR THE GIPPER</text><text x="10" y="25" font-size="2" text-anchor="start" font-family="sans-serif">Winning</text><line x1="20" y1="30" x2="50" y2="30" stroke="#000" stroke-width="0.5"/><circle cx="45" cy="30" r="2" fill="none" stroke="#000" stroke-width="0.5"/><text x="45" y="25" font-size="2" text-anchor="middle" font-family="sans-serif">One</text><text x="10" y="35" font-size="2" text-anchor="start" font-family="sans-serif">Losing</text><path d="M20,35 L25,35 L25,30" fill="none" stroke="#000" stroke-width="0.5" marker-end="url(#arrow)"/><text x="22.5" y="40" font-size="2" text-anchor="middle" font-family="sans-serif">Go</text>',
+            q90: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">A MARTINI</text><line x1="20" y1="20" x2="20" y2="40" stroke="#000" stroke-width="0.5"/><line x1="40" y1="20" x2="40" y2="40" stroke="#000" stroke-width="0.5"/><circle cx="20" cy="30" r="2" fill="#000"/><line x1="20" y1="30" x2="20" y2="35" stroke="#000" stroke-width="0.5"/><circle cx="40" cy="30" r="2" fill="none" stroke="#000" stroke-width="0.5"/><line x1="40" y1="30" x2="40" y2="35" stroke="#000" stroke-width="0.5"/><text x="20" y="15" font-size="2" text-anchor="middle" font-family="sans-serif">Correct</text><text x="40" y="15" font-size="2" text-anchor="middle" font-family="sans-serif">Incorrect</text>',
+            q91: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">WHO\'S ON FIRST</text><rect x="25" y="25" width="10" height="10" fill="none" stroke="#000" stroke-width="0.5" transform="rotate(45 30,30)"/><text x="30" y="32" font-size="2" text-anchor="middle" font-family="sans-serif">Who</text><text x="45" y="30" font-size="2" text-anchor="middle" font-family="sans-serif">Unknown</text><line x1="35" y1="30" x2="40" y2="30" stroke="#000" stroke-width="0.5" marker-end="url(#arrow)"/>',
+            q92: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">CINDERELLA STORY</text><rect x="15" y="35" width="30" height="5" fill="#000"/><rect x="25" y="25" width="10" height="10" fill="none" stroke="#000" stroke-width="0.5"/><text x="20" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Greens-</text><text x="20" y="48" font-size="2" text-anchor="middle" font-family="sans-serif">keeper</text><text x="40" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Masters</text><text x="40" y="48" font-size="2" text-anchor="middle" font-family="sans-serif">champion</text><text x="30" y="30" font-size="2" text-anchor="middle" font-family="sans-serif">In the hole!</text>',
+            q93: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">BANQUET LIFE</text><circle cx="30" cy="30" r="12" fill="none" stroke="#000" stroke-width="0.5"/><line x1="30" y1="30" x2="40" y2="20" stroke="#000" stroke-width="0.5"/><text x="25" y="35" font-size="2" text-anchor="middle" font-family="sans-serif">Those starving</text><text x="25" y="38" font-size="2" text-anchor="middle" font-family="sans-serif">to death</text>',
+            q94: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">A NEED</text><circle cx="30" cy="30" r="12" fill="none" stroke="#000" stroke-width="0.5"/><path d="M30,30 L42,30 A12,12 0 0,1 30,42 Z" fill="#000"/><text x="25" y="25" font-size="2" text-anchor="middle" font-family="sans-serif">What I</text><text x="25" y="28" font-size="2" text-anchor="middle" font-family="sans-serif">need</text><text x="40" y="40" font-size="2" text-anchor="middle" font-family="sans-serif" fill="#fff">Speed</text>',
+            q95: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">IMPROVED QUALITY OF LIFE</text><line x1="10" y1="40" x2="50" y2="40" stroke="#000" stroke-width="0.5"/><line x1="10" y1="40" x2="10" y2="20" stroke="#000" stroke-width="0.5"/><text x="15" y="25" font-size="2" text-anchor="start" font-family="sans-serif">Extra-</text><text x="15" y="28" font-size="2" text-anchor="start" font-family="sans-serif">ordinary</text><text x="15" y="35" font-size="2" text-anchor="start" font-family="sans-serif">Ordinary</text><line x1="25" y1="35" x2="45" y2="35" stroke="#000" stroke-width="0.5"/><line x1="45" y1="35" x2="50" y2="25" stroke="#000" stroke-width="0.5"/><text x="45" y="20" font-size="2" text-anchor="middle" font-family="sans-serif">Carpe diem</text><text x="40" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Day seized</text>',
+            q96: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">OUT OF IT</text><circle cx="30" cy="30" r="12" fill="none" stroke="#000" stroke-width="0.5"/><line x1="30" y1="30" x2="45" y2="30" stroke="#000" stroke-width="0.5" marker-end="url(#arrow)"/><text x="45" y="25" font-size="2" text-anchor="middle" font-family="sans-serif">Snap to</text><text x="45" y="28" font-size="2" text-anchor="middle" font-family="sans-serif">get out</text>',
+            q97: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">WHO THANKED YOU</text><circle cx="30" cy="30" r="10" fill="none" stroke="#000" stroke-width="0.5"/><path d="M30,30 L25,25 L20,30 L25,35 Z" fill="#000"/><text x="20" y="25" font-size="2" text-anchor="middle" font-family="sans-serif">Mother</text><text x="20" y="35" font-size="2" text-anchor="middle" font-family="sans-serif">Father</text><text x="20" y="40" font-size="2" text-anchor="middle" font-family="sans-serif">Sister</text><text x="20" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">Me</text><text x="35" y="25" font-size="2" text-anchor="middle" font-family="sans-serif">Yankee</text><text x="35" y="28" font-size="2" text-anchor="middle" font-family="sans-serif">Doodle</text>',
+            q98: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">FRONT AND CENTER</text><rect x="15" y="20" width="20" height="20" fill="#000"/><text x="35" y="25" font-size="2" text-anchor="middle" font-family="sans-serif">Dance loud!</text><text x="35" y="28" font-size="2" text-anchor="middle" font-family="sans-serif">Baby here</text><text x="35" y="35" font-size="2" text-anchor="middle" font-family="sans-serif">Keep Baby</text><text x="35" y="38" font-size="2" text-anchor="middle" font-family="sans-serif">here</text><text x="25" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">What I</text><text x="25" y="48" font-size="2" text-anchor="middle" font-family="sans-serif">have</text><text x="35" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">What I</text><text x="35" y="48" font-size="2" text-anchor="middle" font-family="sans-serif">will get</text>',
+            q99: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">STUFF TO GET</text><path d="M20,20 L30,20 L30,40 L20,40 Z" fill="#000"/><text x="35" y="25" font-size="2" text-anchor="middle" font-family="sans-serif">My pretty</text><text x="35" y="35" font-size="2" text-anchor="middle" font-family="sans-serif">Your little dog</text><text x="25" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">What I</text><text x="25" y="48" font-size="2" text-anchor="middle" font-family="sans-serif">have</text><text x="35" y="45" font-size="2" text-anchor="middle" font-family="sans-serif">What I</text><text x="35" y="48" font-size="2" text-anchor="middle" font-family="sans-serif">will get</text>',
+            q100: '<text x="30" y="8" font-size="4" text-anchor="middle" font-family="sans-serif">KING OF THE WORLD</text><line x1="10" y1="35" x2="50" y2="35" stroke="#000" stroke-width="0.5"/><circle cx="30" cy="30" r="2" fill="#000"/><text x="30" y="25" font-size="2" text-anchor="middle" font-family="sans-serif">Me</text><circle cx="15" cy="40" r="1" fill="none" stroke="#000" stroke-width="0.5"/><circle cx="20" cy="40" r="1" fill="none" stroke="#000" stroke-width="0.5"/><circle cx="25" cy="40" r="1" fill="none" stroke="#000" stroke-width="0.5"/><circle cx="35" cy="40" r="1" fill="none" stroke="#000" stroke-width="0.5"/><circle cx="40" cy="40" r="1" fill="none" stroke="#000" stroke-width="0.5"/><circle cx="45" cy="40" r="1" fill="none" stroke="#000" stroke-width="0.5"/><text x="45" y="30" font-size="2" text-anchor="middle" font-family="sans-serif">Rest of</text><text x="45" y="33" font-size="2" text-anchor="middle" font-family="sans-serif">world</text>',
+        };
+
+        const container = document.getElementById('app');
+
+        // Fisher-Yates Shuffle
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        shuffle(quotes);
+
+        quotes.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'quote-card';
+
+            // SVG Illustration
+            const svgContent = icons[item.icon] || icons.default;
+            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute('viewBox', '0 0 60 60');
+            svg.classList.add('illustration');
+            svg.innerHTML = svgContent;
+
+            // Quote Text
+            const quoteText = document.createElement('div');
+            quoteText.className = 'quote-text';
+            quoteText.textContent = item.q;
+
+            // Movie Info
+            const movieInfo = document.createElement('div');
+            movieInfo.className = 'movie-info';
+            movieInfo.innerHTML = `<strong>${item.m}</strong><br><span class="movie-year">${item.y}</span>`;
+
+            card.appendChild(svg);
+            card.appendChild(quoteText);
+            card.appendChild(movieInfo);
+
+            container.appendChild(card);
+        });
+
+        /**
+         * Activate email links designated with .js-email-link classes.
+         * We're avoiding putting our email in the href to prevent harvesting for
+         * spam. This tip from Lokesh Dhakar.
+         */
+        [...document.getElementsByClassName('js-email-link')].forEach(link => {
+            link.addEventListener('click', event => {
+                const a = "Justin.richard.hill@";
+                const b = "gmail.com";
+                window.open(`mailto:${a}${b}`, 'email');
+                return false;
+            });
+        });
+    </script>
+</body>
+
+</html>

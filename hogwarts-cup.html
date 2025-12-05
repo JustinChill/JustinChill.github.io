@@ -48,6 +48,48 @@
 
   <style type="text/css">
     @media screen and (max-width: 680px) {}
+
+    /* Hogwarts Cup Styles */
+    .cup-container {
+      display: flex;
+      justify-content: center;
+      margin: 40px auto;
+      max-width: 400px;
+      position: relative;
+    }
+
+    .hogwarts-cup {
+      width: 100%;
+      height: auto;
+      overflow: visible;
+      transition: all 0.5s ease-in-out;
+      cursor: pointer;
+    }
+
+    .hogwarts-cup:hover .cup-body {
+      transform: translateY(-10px) scale(1.02);
+      filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.6));
+    }
+
+    .cup-body {
+      transition: transform 0.5s ease-in-out, filter 0.5s ease;
+      transform-origin: center bottom;
+    }
+
+    /* Fog Animation */
+    @keyframes moveFog {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    .fog-layer {
+      animation: moveFog 60s linear infinite;
+    }
   </style>
 </head>
 
@@ -79,8 +121,80 @@
         throughout the year for various things including answering questions correctly and doing good deeds. The winners
         of school Quidditch games also received points. Points could be taken away for things such as misbehaving or
         rule-breaking.</p>
-      <img src="https://static.wikia.nocookie.net/harrypotter/images/f/f8/HogwartsHouseCupWU.png"
-        alt="The House Cup, a gold trophy." />
+      <div class="cup-container">
+        <svg class="hogwarts-cup" viewBox="0 0 300 350" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <!-- Gold Gradient -->
+            <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#b8860b;stop-opacity:1" />
+              <stop offset="25%" style="stop-color:#ffd700;stop-opacity:1" />
+              <stop offset="50%" style="stop-color:#ffe4b5;stop-opacity:1" />
+              <stop offset="75%" style="stop-color:#ffd700;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#b8860b;stop-opacity:1" />
+            </linearGradient>
+
+            <!-- Texture Filter -->
+            <filter id="goldTexture" x="0%" y="0%" width="100%" height="100%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="3" result="noise" />
+              <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.4 0" in="noise"
+                result="coloredNoise" />
+              <feComposite operator="in" in="coloredNoise" in2="SourceGraphic" result="composite" />
+              <feBlend mode="multiply" in="composite" in2="SourceGraphic" />
+            </filter>
+
+            <!-- Fog Filter -->
+            <filter id="fog-filter">
+              <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="5" result="fog" />
+              <feColorMatrix type="matrix" values="1 0 0 0 0.9  0 1 0 0 0.9  0 0 1 0 0.9  0 0 0 0.3 0" />
+            </filter>
+          </defs>
+
+          <!-- Fog Background -->
+          <g opacity="0.4">
+            <rect x="-100%" y="200" width="300%" height="150" filter="url(#fog-filter)" class="fog-layer" />
+          </g>
+
+          <!-- The Cup -->
+          <g class="cup-body" filter="url(#goldTexture)">
+            <!-- Base -->
+            <path d="M100,320 L200,320 L210,340 L90,340 Z" fill="url(#goldGradient)" stroke="#8b4513"
+              stroke-width="1" />
+            <rect x="110" y="290" width="80" height="30" fill="url(#goldGradient)" stroke="#8b4513" stroke-width="1" />
+            <path d="M115,290 Q150,280 185,290" fill="none" stroke="#666" stroke-width="1" opacity="0.5" />
+
+            <!-- Stem -->
+            <path d="M135,240 L165,240 L160,290 L140,290 Z" fill="url(#goldGradient)" stroke="#8b4513"
+              stroke-width="1" />
+            <ellipse cx="150" cy="240" rx="20" ry="5" fill="#daa520" />
+
+            <!-- Bowl -->
+            <path d="M90,80 Q90,250 150,250 Q210,250 210,80" fill="url(#goldGradient)" stroke="#8b4513"
+              stroke-width="1" />
+            <ellipse cx="150" cy="80" rx="60" ry="10" fill="#ffec8b" stroke="#8b4513" stroke-width="1" />
+
+            <!-- Rim Light -->
+            <ellipse cx="150" cy="82" rx="55" ry="8" fill="none" stroke="#fff" stroke-width="1" opacity="0.5" />
+
+            <!-- Ornamental Lines on Bowl -->
+            <path d="M100,100 Q150,110 200,100" fill="none" stroke="#b8860b" stroke-width="1" opacity="0.6" />
+            <path d="M105,120 Q150,130 195,120" fill="none" stroke="#b8860b" stroke-width="1" opacity="0.6" />
+            <path d="M115,140 Q150,150 185,140" fill="none" stroke="#b8860b" stroke-width="1" opacity="0.6" />
+
+            <!-- Handles -->
+            <!-- Left Handle -->
+            <path d="M90,100 C40,90 40,160 80,180 C60,190 60,220 100,210" fill="none" stroke="url(#goldGradient)"
+              stroke-width="8" stroke-linecap="round" />
+            <path d="M90,100 C40,90 40,160 80,180 C60,190 60,220 100,210" fill="none" stroke="#b8860b"
+              stroke-width="1" />
+
+            <!-- Right Handle -->
+            <path d="M210,100 C260,90 260,160 220,180 C240,190 240,220 200,210" fill="none" stroke="url(#goldGradient)"
+              stroke-width="8" stroke-linecap="round" />
+            <path d="M210,100 C260,90 260,160 220,180 C240,190 240,220 200,210" fill="none" stroke="#b8860b"
+              stroke-width="1" />
+          </g>
+        </svg>
+      </div>
       <blockquote>
         <p>"While you are at Hogwarts, your triumphs will earn you house points, while any rule-breaking will lose house
           points. At the end of the year, the house with the most points is awarded the house cup, a great honor"</p>
