@@ -155,7 +155,7 @@
       </div>
       <figure>
         <figcaption class="right">Illustration by Ricardo Tomas</figcaption>
-        <img src="https://www.economist.com/cdn-cgi/image/width=1424,quality=80,format=auto/content-assets/images/20250412_WBD001.jpg" alt="Apple in China illustration by Ricardo Tomas" class="rounded">
+        <img src="https://www.economist.com/cdn-cgi/image/width=1424,quality=80,format=auto/content-assets/images/20250412_WBD001.jpg" alt="" class="rounded">
       </figure>
       <p>In May of 2016, while Donald Trump was on the campaign trail railing against China and vowing to strong-arm Apple into “building their damn computers and things in this country,” CEO Tim Cook and a cadre of top Apple executives was quietly meeting with the Chinese Communist Party to pledge the opposite.</p>
       <p>Cook and his team had flown to Beijing to meet with officials at the Chinese Communist Party’s headquarters to reassure President Xi Jinping that Apple wasn’t going anywhere. In fact, the company was so invested in China’s future that it planned to spend <strong>$275 billion</strong> in the country over the next five years.</p>
@@ -192,10 +192,11 @@
       <p>After struggling to build its products on three continents, Apple was lured by China’s seemingly inexhaustible supply of cheap labor. Soon it was sending thousands of engineers across the Pacific, training millions of workers, and spending hundreds of billions of dollars to create the world’s most sophisticated supply chain. These capabilities enabled Apple to build the 21st century’s most iconic products—in staggering volume and for enormous profit.</p>
       <p>Without explicitly intending to, Apple built an advanced electronics industry within China, only to discover that its massive investments in technology upgrades had inadvertently given Beijing a supply chain that could be weaponized.</p>
       <p>“It would be banal to say that Apple wouldn’t be Apple today without China,” McGee writes. “What this book contends is more intriguing—that China wouldn’t be China today without Apple.” Hyperbolic as it may be, McGee presents a convincing case.</p>
-      <h3>Moving on out</h3>
-      <figure>
-        <figcaption class="right">Financial Times (FT)</figcaption>
-        <img alt="Apple has made little progress moving manufacturing out of China. Chart of where devices are made." src="https://daringfireball.net/misc/2025/02/ft-apple-china-manufacture-country.png" class="rounded" loading="lazy">
+      <h2>Apple has made little progress moving manufacturing out of <span style="color: hsl(360, 71%, 66%); font-size: inherit;">China</span></h2>
+      <h3>Where devices are manufactured (%)</h3>
+      <figure id="FT_chart">
+        <figcaption class="right">Recreated from the Financial Times (FT)</figcaption>
+        <!-- <img alt="Apple has made little progress moving manufacturing out of China. Chart of where devices are made." src="https://daringfireball.net/misc/2025/02/ft-apple-china-manufacture-country.png" class="rounded" loading="lazy"> -->
       </figure>
       <p>Apple’s quarter-century consolidation into China has left it deeply vulnerable. While Cook likes to say the iPhone is “made everywhere,” alluding to how hundreds of suppliers originating from at least 40 countries contribute to its production, all roads lead through China. Even iPhones labeled “made in India” are just assembled there—after extensive tooling, stamping, shaping, etching, and fitting of all the materials and parts in China.</p>
       <!-- <p>The Chinese government is in a position to make Apple’s diversification efforts painful. “They can lower the boom on you in a million different ways,” said Brady MacKay, a former U.S. special agent and attaché to the U.S. embassy in Beijing, who has seen the Chinese Communist Party deploy a number of tactics against other companies to make its point. “Like, raw materials—they can shut that off in a heartbeat,” he said. “Electricity—all of a sudden it’s only available four hours a day.”</p> -->
@@ -223,6 +224,207 @@
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
+  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+
+  <script type="text/javascript">
+    var element = d3.select('figure').node();
+    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+    var size = 20;
+
+    const data = [
+      // iPhone
+      {
+        year: 2020,
+        product: "iPhone",
+        region: "China",
+        value: 99
+      },
+      {
+        year: 2021,
+        product: "iPhone",
+        region: "China",
+        value: 96
+      },
+      {
+        year: 2022,
+        product: "iPhone",
+        region: "China",
+        value: 94
+      },
+      {
+        year: 2023,
+        product: "iPhone",
+        region: "China",
+        value: 90
+      },
+      {
+        year: 2024,
+        product: "iPhone",
+        region: "China",
+        value: 88
+      },
+    
+      // AirPods
+      {
+        year: 2020,
+        product: "AirPods",
+        region: "China",
+        value: 100
+      },
+      {
+        year: 2021,
+        product: "AirPods",
+        region: "China",
+        value: 97
+      },
+      {
+        year: 2022,
+        product: "AirPods",
+        region: "China",
+        value: 95
+      },
+      {
+        year: 2023,
+        product: "AirPods",
+        region: "China",
+        value: 92
+      },
+      {
+        year: 2024,
+        product: "AirPods",
+        region: "China",
+        value: 89
+      },
+    
+      // Mac
+      {
+        year: 2020,
+        product: "Mac",
+        region: "China",
+        value: 100
+      },
+      {
+        year: 2021,
+        product: "Mac",
+        region: "China",
+        value: 99
+      },
+      {
+        year: 2022,
+        product: "Mac",
+        region: "China",
+        value: 98
+      },
+      {
+        year: 2023,
+        product: "Mac",
+        region: "China",
+        value: 96
+      },
+      {
+        year: 2024,
+        product: "Mac",
+        region: "China",
+        value: 95
+      },
+    
+      // iPad
+      {
+        year: 2020,
+        product: "iPad",
+        region: "China",
+        value: 100
+      },
+      {
+        year: 2021,
+        product: "iPad",
+        region: "China",
+        value: 99
+      },
+      {
+        year: 2022,
+        product: "iPad",
+        region: "China",
+        value: 97
+      },
+      {
+        year: 2023,
+        product: "iPad",
+        region: "China",
+        value: 95
+      },
+      {
+        year: 2024,
+        product: "iPad",
+        region: "China",
+        value: 93
+      },
+    ].flatMap(d => [
+      d,
+      {
+        ...d,
+        region: "Rest of the world",
+        value: 100 - d.value
+      }
+    ]);
+
+      var FT_chart = {
+        width: width,
+        style: {
+          backgroundColor: "#fff1e5", // FT Beige background
+          fontFamily: "sans-serif",
+          fontSize: 12,
+          color: "#333"
+        },
+        marginLeft: 40,
+        marginRight: 20,
+        height: 400,
+        color: {
+          domain: ["China", "Rest of the world"],
+          range: ["hsl(360, 71%, 66%)", "hsl(210, 24%, 16%)"], // Salmon pink and Dark Grey
+          legend: true,
+        },
+        fx: {
+          domain: ["iPhone", "AirPods", "Mac", "iPad"],
+          label: null,
+          padding: 0.3
+        },
+        y: {
+          grid: true,
+          nice: true,
+          ticks: 6,
+          tickSize: 0,
+          label: null,
+          tickFormat: (d) => d // Simple numbers
+        },
+
+        // X-Axis configuration
+        x: {
+          tickFormat: "d", // Remove comma from years (e.g. 2,022 -> 2022)
+          ticks: [2020, 2022, 2024], // Match the specific ticks in the image
+          label: null
+        },
+
+        marks: [
+          // The stacked area chart
+          Plot.areaY(data, {
+            x: "year",
+            y: "value",
+            fill: "region",
+            opacity: .8,
+            fx: "product",
+            // Important: Ensure the stack order matches the visual (China on bottom)
+            order: (a, b) => a.region === "China" ? -1 : 1
+          }),
+
+          // The horizontal line at y=0
+          Plot.ruleY([0])
+        ]
+      };
+
+      document.getElementById("FT_chart").appendChild(Plot.plot(FT_chart));
+  </script>
 </body>
 
 </html>
