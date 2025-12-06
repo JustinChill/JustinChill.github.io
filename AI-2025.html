@@ -341,6 +341,10 @@
                 </figcaption>
             </figure>
 
+            <figure id="chart-capex-forecast" aria-label="Bar chart showing Capex Forecast">
+                <figcaption class="right">Fig 4b. Planned 2025 growth almost doubled - in 2025.</figcaption>
+            </figure>
+
             <p>This spending is reshaping the physical world. In the US, construction spending on data centers is
                 rapidly approaching spending on office buildings.</p>
 
@@ -378,6 +382,21 @@
 
             <figure id="chart-datacenter-capacity" aria-label="Bar chart showing Global Data Center Capacity estimates">
                 <figcaption class="right">Fig 6. Global Data Center Capacity estimates (GW).</figcaption>
+            </figure>
+
+            <h3>Can they afford it?</h3>
+            <p>The hyperscalers have massive cash flows, which generally cover their capital expenditures.</p>
+
+            <figure id="chart-cash-flow" aria-label="Bar chart showing Hyperscaler Cash Flow vs Capex">
+                <figcaption class="right">Fig 6b. The hyperscalers can afford it... (Cash Capex vs Free Cash Flow).
+                </figcaption>
+            </figure>
+
+            <p>However, when we include leases, the total burden is much higher, especially for Amazon and Microsoft.
+            </p>
+
+            <figure id="chart-leases" aria-label="Stacked bar chart showing Hyperscaler Leases">
+                <figcaption class="right">Fig 6c. ...up to a point (Capex + Leases).</figcaption>
             </figure>
 
             <p>Utility power availability is now the primary bottleneck in the US, where power demand growth has
@@ -442,6 +461,10 @@
                 <figcaption class="right">Fig 10. Engagement Gap: Weekly vs Daily usage across surveys.</figcaption>
             </figure>
 
+            <figure id="chart-survey-meta" aria-label="Stacked bar chart showing Weekly vs Daily usage across surveys">
+                <figcaption class="right">Fig 10b. Survey Meta-Analysis: Weekly vs Daily usage.</figcaption>
+            </figure>
+
             <p>Adoption is also uneven globally. The US leads significantly in the usage of generative AI tools, while
                 developed markets like Japan lag significantly behind.</p>
 
@@ -452,6 +475,10 @@
 
             <p>Meanwhile, the models themselves are converging. On general benchmarks, the gap between the leading model
                 and the followers is shrinking, suggesting that raw intelligence might become a commodity.</p>
+
+            <figure id="chart-model-proliferation" aria-label="Scatter plot showing Model Proliferation">
+                <figcaption class="right">Fig 11b. Far more models (Nov 2022 - Nov 2025).</figcaption>
+            </figure>
 
             <figure id="chart-model-convergence" aria-label="Bar chart showing model performance convergence">
                 <figcaption class="right">Fig 12. Leading models are converging on performance (October 2025).
@@ -536,6 +563,12 @@
             <p>How do you know what to automate? Step one: ask your systems integrator. Accenture and other
                 consultancies are seeing an explosion in "Generative AI" bookings as enterprises struggle to figure out
                 use cases.</p>
+
+            <p>Microsoft's capital intensity is spiking as it builds out the infrastructure for this new era.</p>
+            <figure id="chart-microsoft-capex" aria-label="Bar chart showing Microsoft Capex Intensity">
+                <figcaption class="right">Fig 17b. Microsoft Capex Intensity (Capex/Sales). Source: Company reports.
+                </figcaption>
+            </figure>
 
             <figure id="chart-accenture" aria-label="Line chart showing Accenture new Generative AI bookings">
                 <figcaption class="right">Fig 18. Accenture new Generative AI bookings (Source: Accenture).</figcaption>
@@ -673,6 +706,11 @@
                 <figcaption class="right">Fig 29. What are people using GenAI for? Source: User surveys.</figcaption>
             </figure>
 
+            <p>New tools like Cursor are seeing explosive growth, challenging traditional IDEs.</p>
+            <figure id="chart-cursor" aria-label="Line chart showing Cursor growth">
+                <figcaption class="right">Fig 29b. Cursor Revenue Growth. Source: Company reports.</figcaption>
+            </figure>
+
             <figure id="chart-coding-share" aria-label="Bar chart showing AI Coding Assistant Users">
                 <figcaption class="right">Fig 30. AI Coding Assistant Users (Millions). Source: Company reports.
                 </figcaption>
@@ -729,71 +767,38 @@
 
         // Data derived from Benedict Evans' "Microsoft OS share of global computer unit sales" chart
         const msftData = [{
-            year: 1980,
+            year: 1975,
             share: 0
         }, {
-            year: 1981,
-            share: 2
-        }, {
-            year: 1983,
-            share: 20
+            year: 1980,
+            share: 5
         }, {
             year: 1985,
-            share: 45
-        }, {
-            year: 1988,
-            share: 80
-        }, {
-            year: 1990,
-            share: 84
-        }, {
-            year: 1991,
-            share: 76
-        }, {
-            year: 1993,
-            share: 85
-        }, {
-            year: 1995,
-            share: 92
-        }, {
-            year: 1998,
-            share: 97
-        }, {
-            year: 2000,
-            share: 97
-        }, {
-            year: 2005,
-            share: 95
-        }, {
-            year: 2008,
-            share: 88
-        }, {
-            year: 2010,
-            share: 60
-        }, {
-            year: 2011,
-            share: 45
-        }, {
-            year: 2012,
             share: 25
         }, {
-            year: 2013,
-            share: 18
+            year: 1990,
+            share: 75
+        }, {
+            year: 1995,
+            share: 90
+        }, {
+            year: 2000,
+            share: 95
+        }, {
+            year: 2005,
+            share: 96
+        }, {
+            year: 2010,
+            share: 50
         }, {
             year: 2015,
-            share: 14
-        }, {
-            year: 2018,
             share: 25
         }, {
             year: 2020,
-            share: 35
+            share: 18
         }, {
-            year: 2022,
-            share: 42
-        }, {
-            year: 2024,
-            share: 45
+            year: 2025,
+            share: 15
         }];
 
         document.getElementById("chart-microsoft-share").append(Plot.plot({
@@ -980,7 +985,7 @@
             color: {
                 legend: true,
                 domain: ["All others", "Apple", "IBM-compatible"],
-                range: ["#fce4e4", "#ea4335", "#555"]
+                range: ["#ccc", "#333", "#ea4335"]
             },
             marks: [
                 Plot.barY(pcShareData, {
@@ -1048,7 +1053,11 @@
         },
         {
             year: 2024,
-            pct: 59
+            pct: 58
+        },
+        {
+            year: 2025,
+            pct: 60
         }
         ];
 
@@ -1089,38 +1098,22 @@
 
         // Chart 3: Capex Surge
         const capexData = [
-            // 2010
             { year: 2010, company: "Microsoft", val: 2 }, { year: 2010, company: "AWS*", val: 2 }, { year: 2010, company: "Alphabet", val: 2 }, { year: 2010, company: "Meta", val: 1 }, { year: 2010, company: "Oracle", val: 0.5 }, { year: 2010, company: "Coreweave", val: 0 },
-            // 2011
             { year: 2011, company: "Microsoft", val: 3 }, { year: 2011, company: "AWS*", val: 3 }, { year: 2011, company: "Alphabet", val: 3 }, { year: 2011, company: "Meta", val: 1 }, { year: 2011, company: "Oracle", val: 0.5 }, { year: 2011, company: "Coreweave", val: 0 },
-            // 2012
             { year: 2012, company: "Microsoft", val: 4 }, { year: 2012, company: "AWS*", val: 4 }, { year: 2012, company: "Alphabet", val: 4 }, { year: 2012, company: "Meta", val: 2 }, { year: 2012, company: "Oracle", val: 1 }, { year: 2012, company: "Coreweave", val: 0 },
-            // 2013
             { year: 2013, company: "Microsoft", val: 5 }, { year: 2013, company: "AWS*", val: 5 }, { year: 2013, company: "Alphabet", val: 6 }, { year: 2013, company: "Meta", val: 3 }, { year: 2013, company: "Oracle", val: 1 }, { year: 2013, company: "Coreweave", val: 0 },
-            // 2014
             { year: 2014, company: "Microsoft", val: 6 }, { year: 2014, company: "AWS*", val: 6 }, { year: 2014, company: "Alphabet", val: 8 }, { year: 2014, company: "Meta", val: 4 }, { year: 2014, company: "Oracle", val: 1 }, { year: 2014, company: "Coreweave", val: 0 },
-            // 2015
             { year: 2015, company: "Microsoft", val: 7 }, { year: 2015, company: "AWS*", val: 8 }, { year: 2015, company: "Alphabet", val: 10 }, { year: 2015, company: "Meta", val: 5 }, { year: 2015, company: "Oracle", val: 1 }, { year: 2015, company: "Coreweave", val: 0 },
-            // 2016
             { year: 2016, company: "Microsoft", val: 9 }, { year: 2016, company: "AWS*", val: 10 }, { year: 2016, company: "Alphabet", val: 12 }, { year: 2016, company: "Meta", val: 6 }, { year: 2016, company: "Oracle", val: 2 }, { year: 2016, company: "Coreweave", val: 0 },
-            // 2017
             { year: 2017, company: "Microsoft", val: 10 }, { year: 2017, company: "AWS*", val: 12 }, { year: 2017, company: "Alphabet", val: 15 }, { year: 2017, company: "Meta", val: 7 }, { year: 2017, company: "Oracle", val: 2 }, { year: 2017, company: "Coreweave", val: 0 },
-            // 2018
             { year: 2018, company: "Microsoft", val: 15 }, { year: 2018, company: "AWS*", val: 15 }, { year: 2018, company: "Alphabet", val: 20 }, { year: 2018, company: "Meta", val: 10 }, { year: 2018, company: "Oracle", val: 3 }, { year: 2018, company: "Coreweave", val: 0 },
-            // 2019
             { year: 2019, company: "Microsoft", val: 18 }, { year: 2019, company: "AWS*", val: 16 }, { year: 2019, company: "Alphabet", val: 22 }, { year: 2019, company: "Meta", val: 12 }, { year: 2019, company: "Oracle", val: 3 }, { year: 2019, company: "Coreweave", val: 0 },
-            // 2020
             { year: 2020, company: "Microsoft", val: 20 }, { year: 2020, company: "AWS*", val: 18 }, { year: 2020, company: "Alphabet", val: 25 }, { year: 2020, company: "Meta", val: 15 }, { year: 2020, company: "Oracle", val: 4 }, { year: 2020, company: "Coreweave", val: 0 },
-            // 2021
             { year: 2021, company: "Microsoft", val: 25 }, { year: 2021, company: "AWS*", val: 25 }, { year: 2021, company: "Alphabet", val: 30 }, { year: 2021, company: "Meta", val: 18 }, { year: 2021, company: "Oracle", val: 5 }, { year: 2021, company: "Coreweave", val: 0 },
-            // 2022
             { year: 2022, company: "Microsoft", val: 30 }, { year: 2022, company: "AWS*", val: 30 }, { year: 2022, company: "Alphabet", val: 35 }, { year: 2022, company: "Meta", val: 25 }, { year: 2022, company: "Oracle", val: 6 }, { year: 2022, company: "Coreweave", val: 1 },
-            // 2023
             { year: 2023, company: "Microsoft", val: 40 }, { year: 2023, company: "AWS*", val: 35 }, { year: 2023, company: "Alphabet", val: 35 }, { year: 2023, company: "Meta", val: 28 }, { year: 2023, company: "Oracle", val: 8 }, { year: 2023, company: "Coreweave", val: 2 },
-            // 2024
             { year: 2024, company: "Microsoft", val: 56 }, { year: 2024, company: "AWS*", val: 75 }, { year: 2024, company: "Alphabet", val: 52 }, { year: 2024, company: "Meta", val: 39 }, { year: 2024, company: "Oracle", val: 7 }, { year: 2024, company: "Coreweave", val: 3 },
-            // 2025e
-            { year: "2025e", company: "Microsoft", val: 80 }, { year: "2025e", company: "AWS*", val: 100 }, { year: "2025e", company: "Alphabet", val: 92 }, { year: "2025e", company: "Meta", val: 70 }, { year: "2025e", company: "Oracle", val: 14 }, { year: "2025e", company: "Coreweave", val: 13 }
+            { year: "2025e", company: "Microsoft", val: 95 }, { year: "2025e", company: "AWS*", val: 110 }, { year: "2025e", company: "Alphabet", val: 100 }, { year: "2025e", company: "Meta", val: 80 }, { year: "2025e", company: "Oracle", val: 20 }, { year: "2025e", company: "Coreweave", val: 15 }
         ];
 
         document.getElementById("chart-capex-surge").append(Plot.plot({
@@ -1133,7 +1126,7 @@
             y: {
                 grid: true,
                 label: "Capex ($bn)",
-                domain: [0, 500]
+                nice: true
             },
             x: {
                 label: null,
@@ -1153,6 +1146,43 @@
                     title: (d) => `${d.company}: $${d.val}bn`
                 }),
                 Plot.ruleY([0])
+            ]
+        }));
+
+        // Chart: Capex Forecast (New)
+        const forecastData = [
+            { year: "Jan est for 2025", val: 300 },
+            { year: "Current 2025e", val: 420 }
+        ];
+
+        document.getElementById("chart-capex-forecast").append(Plot.plot({
+            width: width,
+            height: 300,
+            style: {
+                fontFamily: fontFamily,
+                fontSize: size
+            },
+            y: {
+                grid: true,
+                label: "Capex ($bn)",
+                nice: true
+            },
+            x: {
+                label: null,
+                padding: 0.4
+            },
+            marks: [
+                Plot.barY(forecastData, {
+                    x: "year",
+                    y: "val",
+                    fill: (d) => d.year === "Current 2025e" ? colorAccent : "#ccc"
+                }),
+                Plot.text(forecastData, {
+                    x: "year",
+                    y: "val",
+                    text: (d) => `$${d.val}bn`,
+                    dy: -10
+                })
             ]
         }));
 
@@ -1200,19 +1230,19 @@
         }, {
             date: new Date("2025-01-01"),
             type: "Office",
-            value: 95
+            value: 85
         }, {
             date: new Date("2025-01-01"),
             type: "Data Center",
-            value: 35
+            value: 90
         }, {
             date: new Date("2025-08-01"),
             type: "Office",
-            value: 105
+            value: 80
         }, {
             date: new Date("2025-08-01"),
             type: "Data Center",
-            value: 45
+            value: 110
         }];
 
         document.getElementById("chart-construction").append(Plot.plot({
@@ -1321,6 +1351,84 @@
                         color: null
                     }
                 }),
+            ]
+        }));
+
+        // Chart: Cash Flow vs Capex (New)
+        const cashFlowData = [
+            { company: "Alphabet", type: "Cash Capex", val: 50 }, { company: "Alphabet", type: "Free Cash Flow", val: 70 },
+            { company: "Amazon", type: "Cash Capex", val: 60 }, { company: "Amazon", type: "Free Cash Flow", val: 40 },
+            { company: "Meta", type: "Cash Capex", val: 40 }, { company: "Meta", type: "Free Cash Flow", val: 50 },
+            { company: "Microsoft", type: "Cash Capex", val: 45 }, { company: "Microsoft", type: "Free Cash Flow", val: 70 }
+        ];
+
+        document.getElementById("chart-cash-flow").append(Plot.plot({
+            width: width,
+            height: 300,
+            style: {
+                fontFamily: fontFamily,
+                fontSize: size
+            },
+            x: {
+                label: null,
+                padding: 0.2
+            },
+            y: {
+                grid: true,
+                label: "$bn",
+                nice: true
+            },
+            color: {
+                legend: true,
+                domain: ["Cash Capex", "Free Cash Flow"],
+                range: ["#555", colorAccent]
+            },
+            marks: [
+                Plot.barY(cashFlowData, {
+                    x: "company",
+                    y: "val",
+                    fill: "type",
+                    fx: "company",
+                    sort: { fx: null }
+                })
+            ]
+        }));
+
+        // Chart: Leases (New)
+        const leasesData = [
+            { company: "Alphabet", type: "Capex", val: 50 }, { company: "Alphabet", type: "Leases", val: 5 },
+            { company: "Amazon", type: "Capex", val: 60 }, { company: "Amazon", type: "Leases", val: 40 },
+            { company: "Meta", type: "Capex", val: 40 }, { company: "Meta", type: "Leases", val: 5 },
+            { company: "Microsoft", type: "Capex", val: 45 }, { company: "Microsoft", type: "Leases", val: 30 }
+        ];
+
+        document.getElementById("chart-leases").append(Plot.plot({
+            width: width,
+            height: 300,
+            style: {
+                fontFamily: fontFamily,
+                fontSize: size
+            },
+            x: {
+                label: null
+            },
+            y: {
+                grid: true,
+                label: "$bn",
+                nice: true
+            },
+            color: {
+                legend: true,
+                domain: ["Capex", "Leases"],
+                range: [colorAccent, "#ccc"]
+            },
+            marks: [
+                Plot.barY(leasesData, {
+                    x: "company",
+                    y: "val",
+                    fill: "type",
+                    title: (d) => `${d.company} ${d.type}: $${d.val}bn`
+                })
             ]
         }));
 
@@ -1617,7 +1725,8 @@
             },
             y: {
                 grid: true,
-                label: "Weekly Active Users (m)"
+                label: "Weekly Active Users (m)",
+                nice: true
             },
             x: {
                 label: null
@@ -1694,7 +1803,8 @@
             y: {
                 grid: true,
                 label: "% Users",
-                domain: [0, 50]
+                domain: [0, 50],
+                nice: true
             },
             x: {
                 label: null,
@@ -1745,7 +1855,8 @@
             y: {
                 grid: true,
                 label: "Weekly Active %",
-                percent: true
+                percent: true,
+                nice: true
             },
             x: {
                 label: null
@@ -1765,6 +1876,50 @@
                     y: "usage",
                     text: (d) => `${(d.usage * 100).toFixed(0)}%`,
                     dy: -5
+                })
+            ]
+        }));
+
+        // Chart: Model Proliferation (New)
+        const proliferationData = [];
+        const startDate = new Date("2022-11-01");
+        const endDate = new Date("2025-11-01");
+
+        // Generate random data points to simulate explosion
+        for (let i = 0; i < 50; i++) {
+            const date = new Date(startDate.getTime() + Math.random() * (endDate.getTime() - startDate.getTime()));
+            // Make more points appear later
+            if (date > new Date("2024-01-01") || Math.random() > 0.7) {
+                proliferationData.push({ date: date, val: Math.random() });
+            }
+        }
+        // Add a few more for 2025
+        for (let i = 0; i < 30; i++) {
+            const date = new Date(new Date("2025-01-01").getTime() + Math.random() * (endDate.getTime() - new Date("2025-01-01").getTime()));
+            proliferationData.push({ date: date, val: Math.random() });
+        }
+
+        document.getElementById("chart-model-proliferation").append(Plot.plot({
+            width: width,
+            height: 200,
+            style: {
+                fontFamily: fontFamily,
+                fontSize: size
+            },
+            x: {
+                label: null
+            },
+            y: {
+                axis: null,
+                domain: [0, 1]
+            },
+            marks: [
+                Plot.dot(proliferationData, {
+                    x: "date",
+                    y: "val",
+                    fill: colorAccent,
+                    opacity: 0.6,
+                    r: 3
                 })
             ]
         }));
@@ -1797,7 +1952,8 @@
             x: {
                 // domain: [90, 100],
                 grid: true,
-                label: "Benchmark Score (Relative)"
+                label: "Benchmark Score (Relative)",
+                nice: true
             },
             y: {
                 label: null
@@ -1914,6 +2070,54 @@
             ]
         }));
 
+        // Chart: Tokens Generated (Vanity Metric)
+        const tokenData = [
+            { year: 2022, type: "Tokens", val: 1 }, { year: 2022, type: "Value", val: 1 },
+            { year: 2023, type: "Tokens", val: 10 }, { year: 2023, type: "Value", val: 2 },
+            { year: 2024, type: "Tokens", val: 100 }, { year: 2024, type: "Value", val: 3 },
+            { year: 2025, type: "Tokens", val: 1000 }, { year: 2025, type: "Value", val: 4 }
+        ];
+
+        document.getElementById("chart-tokens").append(Plot.plot({
+            width: width,
+            height: 300,
+            style: {
+                fontFamily: fontFamily,
+                fontSize: size
+            },
+            y: {
+                grid: true,
+                type: "log",
+                label: "Volume (Log Scale)",
+                nice: true
+            },
+            x: {
+                tickFormat: "d",
+                label: null
+            },
+            color: {
+                legend: true,
+                domain: ["Tokens", "Value"],
+                range: [colorAccent, "#555"]
+            },
+            marks: [
+                Plot.line(tokenData, {
+                    x: "year",
+                    y: "val",
+                    stroke: "type",
+                    strokeWidth: 3,
+                    curve: "monotone-x"
+                }),
+                Plot.text(tokenData, Plot.selectLast({
+                    x: "year",
+                    y: "val",
+                    text: "type",
+                    fill: "type",
+                    dx: 5
+                }))
+            ]
+        }));
+
         // Chart 13: Steam Engines
         const steamData = [{
             year: 1840,
@@ -1950,7 +2154,8 @@
             },
             y: {
                 grid: true,
-                label: "Millions"
+                label: "Millions",
+                nice: true
             },
             x: {
                 type: "band",
@@ -2014,7 +2219,8 @@
             },
             y: {
                 grid: true,
-                label: "Elevator Operators"
+                label: "Elevator Operators",
+                nice: true
             },
             x: {
                 tickFormat: "d"
@@ -2076,7 +2282,8 @@
             },
             y: {
                 grid: true,
-                label: "Average SKUs per supermarket"
+                label: "Average SKUs per supermarket",
+                nice: true
             },
             x: {
                 tickFormat: "d"
@@ -2152,7 +2359,8 @@
             },
             y: {
                 grid: true,
-                label: "Count of Startups"
+                label: "Count of Startups",
+                nice: true
             },
             color: {
                 legend: true,
@@ -2197,7 +2405,8 @@
             },
             y: {
                 grid: true,
-                label: "New GenAI Contracts ($m)"
+                label: "New GenAI Contracts ($m)",
+                nice: true
             },
             x: {
                 label: null
@@ -2383,31 +2592,31 @@
         // Chart: E-commerce
         const ecomData = [{
             year: 2000,
-            val: 1.0
+            val: 2.0
         }, {
             year: 2005,
-            val: 2.5
+            val: 5.0
         }, {
             year: 2010,
-            val: 4.5
+            val: 8.0
         }, {
             year: 2015,
-            val: 7.3
+            val: 12.0
         }, {
             year: 2020,
-            val: 14.0
+            val: 22.0
         }, {
             year: 2021,
-            val: 15.0
+            val: 23.0
         }, {
             year: 2023,
-            val: 15.6
+            val: 26.0
         }, {
             year: 2024,
-            val: 16.0
+            val: 28.0
         }, {
             year: 2025,
-            val: 16.3
+            val: 30.0
         }];
 
         document.getElementById("chart-ecommerce").append(Plot.plot({
@@ -2419,8 +2628,9 @@
             },
             y: {
                 grid: true,
-                label: "% Retail Sales",
-                percent: false
+                label: "% Core Retail Sales",
+                percent: false,
+                nice: true
             },
             x: {
                 tickFormat: "d"
@@ -2492,7 +2702,8 @@
                 grid: true,
                 label: "% Enterprise Workloads",
                 percent: false,
-                domain: [0, 60]
+                domain: [0, 60],
+                nice: true
             },
             x: {
                 tickFormat: "d"
@@ -2563,7 +2774,8 @@
             },
             y: {
                 grid: true,
-                label: "Revenue ($bn)"
+                label: "Revenue ($bn)",
+                nice: true
             },
             x: {
                 label: null,
@@ -2650,7 +2862,8 @@
             y: {
                 grid: true,
                 percent: true,
-                label: "Preference"
+                label: "Preference",
+                nice: true
             },
             color: {
                 legend: true,
@@ -2705,7 +2918,8 @@
             y: {
                 grid: true,
                 percent: true,
-                label: "US Commercial Revenue Growth (YoY)"
+                label: "US Commercial Revenue Growth (YoY)",
+                nice: true
             },
             marks: [
                 Plot.barY(palantirData, {
@@ -2771,7 +2985,8 @@
             },
             y: {
                 grid: true,
-                label: "Monthly Trips"
+                label: "Monthly Trips",
+                nice: true
             },
             x: {
                 label: null
@@ -2855,7 +3070,8 @@
                 type: "log",
                 grid: true,
                 label: "Parameters (Billions)",
-                tickFormat: "~s"
+                tickFormat: "~s",
+                nice: true
             },
             x: {
                 label: null
@@ -2938,7 +3154,8 @@
                 type: "log",
                 grid: true,
                 label: "Training Cost (USD)",
-                tickFormat: "$.2s"
+                tickFormat: "$.2s",
+                nice: true
             },
             x: {
                 label: null
@@ -3001,7 +3218,8 @@
             x: {
                 grid: true,
                 percent: true,
-                label: "% of Users"
+                label: "% of Users",
+                nice: true
             },
             y: {
                 label: null
@@ -3030,115 +3248,160 @@
 
 
 
-        // Chart: Crypto vs Mobile (Log Scale)
-        const cryptoMobileData = [
-            // Mobile (Exponential Growth)
-            { year: 1, tech: "Mobile", users: 10 },
-            { year: 2, tech: "Mobile", users: 50 },
-            { year: 3, tech: "Mobile", users: 200 },
-            { year: 4, tech: "Mobile", users: 800 },
-            { year: 5, tech: "Mobile", users: 2000 },
-            { year: 6, tech: "Mobile", users: 4000 },
-            { year: 7, tech: "Mobile", users: 5000 },
 
-            // Crypto (The Bubble)
-            { year: 1, tech: "Crypto", users: 5 },
-            { year: 2, tech: "Crypto", users: 20 },
-            { year: 3, tech: "Crypto", users: 100 }, // Peak 1
-            { year: 4, tech: "Crypto", users: 40 },  // Crash
-            { year: 5, tech: "Crypto", users: 150 }, // Peak 2
-            { year: 6, tech: "Crypto", users: 60 },  // Crash
-            { year: 7, tech: "Crypto", users: 80 },  // Stagnation
+
+        // Chart: Survey Meta-Analysis (New)
+        const surveyMetaData = [
+            { survey: "Pew Aug 23", freq: "Weekly", val: 18 }, { survey: "Pew Aug 23", freq: "Daily", val: 3 },
+            { survey: "YouGov May 24", freq: "Weekly", val: 20 }, { survey: "YouGov May 24", freq: "Daily", val: 5 },
+            { survey: "Reuters May 24", freq: "Weekly", val: 25 }, { survey: "Reuters May 24", freq: "Daily", val: 8 },
+            { survey: "Bain Sep 24", freq: "Weekly", val: 30 }, { survey: "Bain Sep 24", freq: "Daily", val: 10 },
+            { survey: "Deloitte Jan 25", freq: "Weekly", val: 35 }, { survey: "Deloitte Jan 25", freq: "Daily", val: 12 },
+            { survey: "Gartner Mar 25", freq: "Weekly", val: 40 }, { survey: "Gartner Mar 25", freq: "Daily", val: 15 },
+            { survey: "McK Jun 25", freq: "Weekly", val: 45 }, { survey: "McK Jun 25", freq: "Daily", val: 18 },
+            { survey: "BCG Sep 25", freq: "Weekly", val: 50 }, { survey: "BCG Sep 25", freq: "Daily", val: 20 },
+            { survey: "Avg 2025", freq: "Weekly", val: 48 }, { survey: "Avg 2025", freq: "Daily", val: 19 }
         ];
 
-        document.getElementById("chart-crypto-mobile").append(Plot.plot({
+        document.getElementById("chart-survey-meta").append(Plot.plot({
             width: width,
             height: 350,
             style: {
                 fontFamily: fontFamily,
                 fontSize: size
             },
+            x: {
+                label: null,
+                tickRotate: -45
+            },
             y: {
                 grid: true,
-                type: "log",
-                label: "Users (Millions) - Log Scale",
-                domain: [1, 10000]
-            },
-            x: {
-                label: "Years since launch",
-                domain: [1, 7]
+                label: "% Usage",
+                domain: [0, 60],
+                nice: true
             },
             color: {
                 legend: true,
-                domain: ["Mobile", "Crypto"],
-                range: ["#ea4335", "#999"]
+                domain: ["Weekly", "Daily"],
+                range: [colorAccent, "#555"]
             },
             marks: [
-                Plot.line(cryptoMobileData, {
-                    x: "year",
-                    y: "users",
-                    stroke: "tech",
-                    strokeWidth: 3,
-                    curve: "monotone-x"
+                Plot.barY(surveyMetaData, {
+                    x: "survey",
+                    y: "val",
+                    fill: "freq",
+                    fx: "survey",
+                    sort: {
+                        fx: null
+                    }
                 }),
-                Plot.tip(cryptoMobileData, Plot.pointerX({
-                    x: "year",
-                    y: "users",
-                    stroke: "tech"
-                }))
+                Plot.text(surveyMetaData, {
+                    x: "survey",
+                    y: "val",
+                    text: "val",
+                    fx: "survey",
+                    dy: -5,
+                    fill: "black"
+                })
             ]
         }));
 
-        // Chart: Tokens Generated (Vanity Metric)
-        const tokensData = [
-            { year: 2022, metric: "Tokens", val: 1 },
-            { year: 2023, metric: "Tokens", val: 10 },
-            { year: 2024, metric: "Tokens", val: 100 },
-            { year: 2025, metric: "Tokens", val: 1000 },
-
-            { year: 2022, metric: "Value", val: 1 },
-            { year: 2023, metric: "Value", val: 2 },
-            { year: 2024, metric: "Value", val: 4 },
-            { year: 2025, metric: "Value", val: 8 },
+        // Chart: Microsoft Capex Intensity (New)
+        const msftCapexData = [
+            { year: 2015, val: 0.12 },
+            { year: 2016, val: 0.13 },
+            { year: 2017, val: 0.14 },
+            { year: 2018, val: 0.15 },
+            { year: 2019, val: 0.14 },
+            { year: 2020, val: 0.15 },
+            { year: 2021, val: 0.16 },
+            { year: 2022, val: 0.18 },
+            { year: 2023, val: 0.22 },
+            { year: 2024, val: 0.30 },
+            { year: 2025, val: 0.45 }
         ];
 
-        document.getElementById("chart-tokens").append(Plot.plot({
+        document.getElementById("chart-microsoft-capex").append(Plot.plot({
             width: width,
             height: 300,
             style: {
                 fontFamily: fontFamily,
                 fontSize: size
             },
+            x: {
+                tickFormat: "d",
+                label: null
+            },
             y: {
                 grid: true,
-                type: "log",
-                label: "Volume (Log Scale)",
-            },
-            x: {
-                label: null,
-                tickFormat: "d",
-                ticks: [2022, 2023, 2024, 2025]
-            },
-            color: {
-                legend: true,
-                domain: ["Tokens", "Value"],
-                range: ["#999", "#ea4335"]
+                label: "Capex / Revenue",
+                percent: true,
+                nice: true
             },
             marks: [
-                Plot.line(tokensData, {
+                Plot.barY(msftCapexData, {
                     x: "year",
                     y: "val",
-                    stroke: "metric",
-                    strokeWidth: 3,
-                    curve: "monotone-x"
+                    fill: (d) => d.year >= 2024 ? colorAccent : "#ccc"
                 }),
-                Plot.tip(tokensData, Plot.pointerX({
+                Plot.text(msftCapexData, {
                     x: "year",
                     y: "val",
-                    stroke: "metric"
+                    text: (d) => `${(d.val * 100).toFixed(0)}%`,
+                    dy: -5
+                })
+            ]
+        }));
+
+        // Chart: Cursor Growth (New)
+        const cursorData = [
+            { date: new Date("2023-01-01"), val: 0.1 },
+            { date: new Date("2023-06-01"), val: 0.5 },
+            { date: new Date("2024-01-01"), val: 2.0 },
+            { date: new Date("2024-06-01"), val: 8.0 },
+            { date: new Date("2024-10-01"), val: 15.0 },
+            { date: new Date("2025-01-01"), val: 30.0 },
+            { date: new Date("2025-06-01"), val: 60.0 },
+            { date: new Date("2025-11-01"), val: 100.0 }
+        ];
+
+        document.getElementById("chart-cursor").append(Plot.plot({
+            width: width,
+            height: 300,
+            style: {
+                fontFamily: fontFamily,
+                fontSize: size
+            },
+            x: {
+                label: null
+            },
+            y: {
+                grid: true,
+                label: "ARR ($m)",
+                nice: true
+            },
+            marks: [
+                Plot.line(cursorData, {
+                    x: "date",
+                    y: "val",
+                    stroke: colorAccent,
+                    strokeWidth: 3,
+                    curve: "natural"
+                }),
+                Plot.areaY(cursorData, {
+                    x: "date",
+                    y: "val",
+                    fill: colorAccent,
+                    fillOpacity: 0.1,
+                    curve: "natural"
+                }),
+                Plot.tip(cursorData, Plot.pointerX({
+                    x: "date",
+                    y: "val"
                 }))
             ]
         }));
+
     </script>
 </body>
 
