@@ -159,8 +159,8 @@
         width: width,
         style: {
           fontSize: size,
-          background: "hsla(209, 23%, 99%, 1)",
-          color: "rgba(0, 0, 0, 0.84)",
+          // background: "hsla(209, 23%, 99%, 1)",
+          // color: "rgba(0, 0, 0, 0.84)",
         },
         marginLeft: 100,
         marginRight: 0,
@@ -219,7 +219,7 @@
             title: d => `${d.Drug}\nUsers: ${d["Harm to users"]}\nOthers: ${d["Harm to others"]}`,
             tip: true
           }),
-          Plot.text(drugs, occlusionY({
+          Plot.text(drugs.filter(d => !["Buprenorphine", "Anabolic Steroids", "Benzodiazepines", "Mephedrone"].includes(d.Drug)), occlusionY({
             x: "Harm to users",
             y: "Harm to others",
             text: "Drug",
@@ -232,8 +232,8 @@
         width: width,
         style: {
           fontSize: size,
-          background: "hsla(209, 23%, 99%, 1)",
-          color: "rgba(0, 0, 0, 0.84)",
+          // background: "hsla(209, 23%, 99%, 1)",
+          // color: "rgba(0, 0, 0, 0.84)",
         },
         marginTop: 40,
         x: {
@@ -259,7 +259,7 @@
             title: d => `${d.Drug}\nOverall: ${d.Overall}`,
             tip: true
           }),
-          Plot.text(drugs, occlusionY({
+          Plot.text(drugs.filter(d => !["Buprenorphine", "Anabolic Steroids", "Benzodiazepines", "Mephedrone"].includes(d.Drug)), occlusionY({
             x: "Overall",
             y: d => d.Class === "Legal" ? "Legal" : "Class " + d.Class,
             text: "Drug",
