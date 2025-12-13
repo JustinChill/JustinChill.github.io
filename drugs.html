@@ -53,6 +53,10 @@
       text-align: right;
       font-size: calc(10px + (22 - 16) * ((100vw - 320px) / (1300 - 320)))
     }
+
+    #drug_bar path {
+      stroke: gray;
+    }
   </style>
 </head>
 
@@ -166,9 +170,11 @@
           nice: true,
           inset: 10,
           labelAnchor: "right",
+          tickSize: 0,
         },
         y: {
           label: null,
+          tickColor: "red",
           domain: drugs.sort((a, b) => b.Overall - a.Overall).map(d => d.Drug) // Sort by Overall score
         },
         color: {
@@ -193,8 +199,8 @@
         height: 500,
         style: {
           fontSize: size,
-          background: "hsla(209, 23%, 99%, 1)",
-          color: "rgba(0, 0, 0, 0.84)",
+          // background: "hsla(209, 23%, 99%, 1)",
+          // color: "rgba(0, 0, 0, 0.84)",
         },
         grid: true,
         x: { label: "Harm to users (out of 100)", ticks: 4, },
