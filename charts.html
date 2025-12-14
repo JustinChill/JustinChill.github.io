@@ -161,6 +161,24 @@
       }
     }
 
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translate3d(0, 40px, 0);
+      }
+
+      to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    .animate-in {
+      animation-duration: 0.2s;
+      animation-fill-mode: both;
+      animation-name: fadeInUp;
+    }
+
     @media print {}
   </style>
 </head>
@@ -745,7 +763,8 @@
         ahead.</p>
       <p>The line chart above uses a <em>logarithmic</em>, or log, scale. <a
           href="https://www.highcharts.com/blog/tutorials/when-should-you-use-logarithmic-or-linear-scales-in-charts/">Log
-          scales</a> are used when the values of the data vary over a wide range, such as population growth.</p>
+          scales</a> are used when the values of the data vary over a wide range, such as population growth or a large
+        range of numbers, as shown in the chart above.</p>
       <h2>Lollipop chart</h2>
       <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
       <h3>English letter frequency</h3>
@@ -2765,7 +2784,7 @@
         .attr("font-size", 12)
         .attr("text-anchor", "middle")
         .selectAll()
-        .data(pie(data))
+        .data(pie(data).filter(d => !["80-84", "≥85"].includes(d.data.name)))
         .join("text")
         .attr("transform", d => `translate(${arc.centroid(d)})`)
         .call(text => text.append("tspan")
@@ -3377,9 +3396,9 @@
         },
         width: width,
         aspectRatio: 2,
-        marginTop: 60,
+        marginTop: 70,
         marginBottom: 60,
-        marginLeft: 60,
+        marginLeft: 160,
         marginRight: 0,
         x: {
           axis: "both",
@@ -4032,6 +4051,7 @@
           padding: 0,
         },
         margin: 0,
+        marginLeft: 160,
         x: {
           axis: "top",
           label: null,
@@ -4375,6 +4395,7 @@
           label: "↑ Cost of gasoline ($ per gallon)",
           tickFormat: formatCurrency,
           ticks: 6,
+          tickSize: 0,
         },
         marks: [
           Plot.line(driving, {
@@ -5005,7 +5026,6 @@
 
       var bls_line = {
         width: width,
-        // marginTop: 10,
         style: {
           fontSize: size,
           textTransform: "capitalize",
@@ -5013,14 +5033,15 @@
         },
         y: {
           label: "Unemployed (thousands)",
-          // nice: true,
+          nice: false,
           clamp: true,
           frameAnchor: "top-left",
+          ticks: 4,
+          grid: true,
         },
         x: {
           nice: false,
           clamp: true,
-          grid: true,
           tickSize: 0,
         },
         marks: [
@@ -5030,6 +5051,7 @@
             dy: -6, // offset up
             lineAnchor: "bottom", // draw labels above grid lines
             ticks: 4,
+            grid: true,
           }),
           Plot.areaY(bls, {
             x: "date",
@@ -5293,16 +5315,14 @@
           textTransform: "capitalize",
         },
         marginRight: 0,
+        marginLeft: 0,
         x: {
-          inset: 4,
+          insetLeft: 20,
           nice: true,
         },
         y: {
           grid: true,
           label: "Temperature (°F)",
-          tickSize: 0,
-          nice: true,
-          anchor: "top",
           ticks: 4,
         },
         color: {
@@ -5310,6 +5330,14 @@
           label: "colder"
         },
         marks: [
+          Plot.axisY({
+            tickSize: 0, // don’t draw ticks
+            ticks: 4,
+            dx: 20, // offset right
+            dy: -4, // offset up
+            lineAnchor: "bottom", // draw labels above grid lines
+            tickFormat: d => d3.format(".1s")(d) + "°",
+          }),
           Plot.differenceY(weather, {
             x: "date",
             y1: "New York",
@@ -6368,46 +6396,7 @@
       };
 
       // Draw the plots (data fetched)
-      document.getElementById("popcorn").appendChild(Plot.plot(popcorn));
-      document.getElementById("anomaly_barcode").appendChild(Plot.plot(anomaly_barcode));
-      document.getElementById("anomaly_dot").appendChild(Plot.plot(anomaly_dot));
-      document.getElementById("apple_area").appendChild(Plot.plot(apple_area));
-      document.getElementById("beeswarm").appendChild(Plot.plot(beeswarm));
-      document.getElementById("bls_bar").appendChild(Plot.plot(bls_bar));
-      document.getElementById("bls_line").appendChild(Plot.plot(bls_line));
-      document.getElementById("bls_stacked").appendChild(Plot.plot(bls_stacked));
-      document.getElementById("bullet").appendChild(Plot.plot(bullet));
-      document.getElementById("candlestick").appendChild(Plot.plot(candlestick));
-      document.getElementById("dotdensity").appendChild(Plot.plot(dotdensity));
-      document.getElementById("dotmap").appendChild(Plot.plot(dotmap));
-      document.getElementById("driving_line").appendChild(Plot.plot(driving_line));
-      document.getElementById("drug_scatter").appendChild(Plot.plot(drug_scatter));
-      document.getElementById("electricity").appendChild(Plot.plot(electricity));
-      document.getElementById("example_histogram").appendChild(Plot.plot(example_histogram));
-      document.getElementById("freq_letters").appendChild(Plot.plot(freq_letters));
-      document.getElementById("gapminder").appendChild(Plot.plot(gapminder));
-      document.getElementById("gridmap").appendChild(Plot.plot(gridmap));
-      document.getElementById("google_ridgeline").appendChild(Plot.plot(google_ridgeline));
-      document.getElementById("irregular").appendChild(Plot.plot(irregular));
-      document.getElementById("morley").appendChild(Plot.plot(morley));
-      document.getElementById("mosaic").appendChild(Plot.plot(mosaic));
-      document.getElementById("mpg").appendChild(Plot.plot(mpg));
-      document.getElementById("percentogram").appendChild(Plot.plot(percentogram));
-      document.getElementById("proportion_plot").appendChild(Plot.plot(proportion_plot));
-      document.getElementById("qatar_pyramid").appendChild(Plot.plot(qatar_pyramid));
-      document.getElementById("stem_plot").appendChild(Plot.plot(stem_plot));
-      document.getElementById("stocks_baseline").appendChild(Plot.plot(stocks_baseline));
-      document.getElementById("streamgraph").appendChild(Plot.plot(streamgraph));
-      document.getElementById("waffle").appendChild(Plot.plot(waffle));
-      document.getElementById("horizon_chart").appendChild(Plot.plot(horizon_chart));
-      document.getElementById("diverging").appendChild(Plot.plot(diverging));
-      document.getElementById("difference").appendChild(Plot.plot(difference));
-      document.getElementById("slope").appendChild(Plot.plot(slope));
-      document.getElementById("intslope").appendChild(Plot.plot(intslope));
-      document.getElementById("irregular_bar").appendChild(Plot.plot(irregular_bar));
-      document.getElementById("example_line").appendChild(Plot.plot(example_line));
-      document.getElementById("lollipop").appendChild(Plot.plot(lollipop));
-      document.getElementById("shockwave").appendChild(Plot.plot(shockwave));
+      // Charts rendered via IntersectionObserver below
 
       // Radar chart
       var radar_data = drugs.filter(d => ["Alcohol", "Cannabis", "Tobacco", "Heroin", "Cocaine"].includes(d.Drug));
@@ -6481,11 +6470,72 @@
         ]
       };
 
-      document.getElementById("radar").appendChild(Plot.plot(radar));
+      const chartConfigs = {
+        "popcorn": popcorn,
+        "anomaly_barcode": anomaly_barcode,
+        "anomaly_dot": anomaly_dot,
+        "apple_area": apple_area,
+        "beeswarm": beeswarm,
+        "bls_bar": bls_bar,
+        "bls_line": bls_line,
+        "bls_stacked": bls_stacked,
+        "bullet": bullet,
+        "candlestick": candlestick,
+        "dotdensity": dotdensity,
+        "dotmap": dotmap,
+        "driving_line": driving_line,
+        "drug_scatter": drug_scatter,
+        "electricity": electricity,
+        "example_histogram": example_histogram,
+        "freq_letters": freq_letters,
+        "gapminder": gapminder,
+        "gridmap": gridmap,
+        "google_ridgeline": google_ridgeline,
+        "irregular": irregular,
+        "morley": morley,
+        "mosaic": mosaic,
+        "mpg": mpg,
+        "percentogram": percentogram,
+        "proportion_plot": proportion_plot,
+        "qatar_pyramid": qatar_pyramid,
+        "stem_plot": stem_plot,
+        "stocks_baseline": stocks_baseline,
+        "streamgraph": streamgraph,
+        "waffle": waffle,
+        "horizon_chart": horizon_chart,
+        "diverging": diverging,
+        "difference": difference,
+        "slope": slope,
+        "intslope": intslope,
+        "irregular_bar": irregular_bar,
+        "example_line": example_line,
+        "lollipop": lollipop,
+        "shockwave": shockwave,
+        "radar": radar,
+        "renko": renko,
+        "renko_comparison": renko_comparison
+      };
 
-      document.getElementById("renko").appendChild(Plot.plot(renko));
-      document.getElementById("renko_comparison").appendChild(Plot.plot(renko_comparison));
-      // document.getElementById("spikeMap").appendChild(Plot.plot(spikeMap));
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            const config = chartConfigs[id];
+            if (config) {
+              entry.target.appendChild(Plot.plot(config));
+              entry.target.classList.add("animate-in");
+              obs.unobserve(entry.target);
+            }
+          }
+        });
+      }, {
+        rootMargin: "200px"
+      });
+
+      for (const id in chartConfigs) {
+        const el = document.getElementById(id);
+        if (el) observer.observe(el);
+      }
     });
 
     myDataPromises.catch(function () {
