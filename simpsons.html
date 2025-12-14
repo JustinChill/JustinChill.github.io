@@ -644,29 +644,30 @@
           Gaga</em> (<strong>3.9</strong>).</p>
 
       <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
-      <h3>800+ episodes </h3>
+      <h2>800+ episodes </h2>
       <figure id="simpsonsEpisodes">
         <figcaption class="right">Data: <a href="https://www.imdb.com/title/tt0096697/">IMDB</a></figcaption>
       </figure>
       <p>This matrix graph visualizes each episode as an individual cell, shaded according to IMDB score. This creates a
         heatmap, allowing you to see trends more quickly.</p>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
-      <h2>Average rating by season</h2>
       <figure id="simpsonsSeasons">
         <figcaption class="right">Data: <a href="https://www.imdb.com/title/tt0096697/">IMDB</a></figcaption>
       </figure>
       <p>Here we look at the difference between episodes within each season. Early seasons have a tighter grouping of
         episodes, meaning they all score roughly the same. Starting in season 6 we start to see a greater spread of
         episodes. Season 23 has the greatest range of scores within a season (&plusmn; 4.4).</p>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
-      <!-- <h2>Homer Economicus</h2> -->
-      <!-- <h3>Average IMDb rating, per season</h3> -->
-      <!-- <figure id="seasonavg"></figure> -->
-      <!-- <p class="title">Average rating by season</p> -->
-      <figure id="simpsonsFacet"></figure>
 
       <!-- Random Simpson's quote -->
-      <h2>Random quote</h2>
+      <div style="display: flex; align-items: baseline; gap: 0.5rem; justify-content: space-between;">
+        <h2>Random quote</h2>
+        <button onclick="randomQuote()" aria-label="New quote"
+          style="background: none; border: none; cursor: pointer; padding: 0; color: #555;" title="Get a new quote">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3" />
+          </svg>
+        </button>
+      </div>
       <div class="container">
         <div></div>
         <figure id="lineup"></figure>
@@ -690,6 +691,7 @@
             and... </p>
           <div class='quote-author'>
             <p id="character">- Matt Groening</p>
+
           </div>
         </div>
         <div class='quote-image' id="quote-image-right"></div>
@@ -701,17 +703,41 @@
       <p>Quotes provided from the wonderful <a href="https://github.com/JLuboff/TheSimpsonsQuoteAPI">Simpsons Quote
           API</a>. It returns a random Simpsons quote, character, link to their picture, and the direction the character
         is facing. I've used that last tidbit to make sure the character is always facing their quote.</p>
-
-
-      <!-- Work in progress -->
+      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
       <h2>Episodes by IMDB rating</h2>
       <figure id="best-eps"></figure>
-
-      <h2>Every season</h2>
-      <figure id="seasons"></figure>
-
+      <p>Here we see the law of averages applied to a thirty-year legacy, demonstrating how the
+        show&#39;s unparalleled longevity has diluted its critical average. The overwhelming concentration of episodes
+        in the <strong>6.5 to 7.5 rating range</strong> visually defines the modern era of <em>The Simpsons</em>: a
+        massive volume of &quot;serviceable&quot; television that keeps the series afloat but rarely challenges the
+        heights of its past.
+      </p>
+      <p>Conversely, the <strong>elite tier of 8.5+ ratings</strong> appears as a scarce, thinning tail on the far
+        right, emphasizing just how exceptional the &quot;Golden Age&quot; truly was. The drop-off from
+        solid middle ground to these masterpieces confirms that the perfection of episodes like &quot;Homer&#39;s
+        Enemy&quot; or &quot;Cape Feare&quot; is a statistical anomaly in a sea of consistent, but safe, entertainment.
+      </p>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
       <h2>Top ten episodes</h2>
       <figure id="top_ten"></figure>
+      <p>These episodes represent the peak creative and comedic output of <em>The Simpsons</em>,
+        predominantly spanning seasons 4 through 8. This period is characterized by the show's
+        mastery of satire, character development, and narrative ambition. Episodes like
+        <strong>&quot;Cape Feare,&quot; &quot;Marge vs. the Monorail,&quot;</strong> and <strong>&quot;Last Exit to
+          Springfield&quot;</strong> showcase the writers' ability to execute tight, cohesive plots
+        that are both hysterically funny and structurally sound, cementing their legacy as foundational television
+        comedy.
+      </p>
+      <hr>
+      <p>The listed episodes also mark a distinct evolution toward meta-narrative and dark comedy,
+        particularly with the inclusion of the groundbreaking <strong>&quot;Homer&#39;s Enemy&quot;</strong> and the
+        brilliant, self-contained narratives of <strong>&quot;The Springfield Files&quot;</strong> and <strong>&quot;You
+          Only Move Twice.&quot;</strong> The latter, featuring the introduction of <strong>Hank Scorpio</strong>, is
+        often cited as a masterclass in guest star utilization and a perfect blend of high-concept premise and
+        character-driven humor. The selection emphasizes the show&#39;s ability to maintain high quality across varied
+        formats, from the classic Whodunit of <strong>&quot;Who Shot Mr. Burns? Part One&quot;</strong> to the annual
+        brilliance of <strong>&quot;Treehouse of Horror V.&quot;</strong></p>
+
 
       <h2>Simpsons no-nos</h2>
       <img src="https://i.imgur.com/d7FqN8Z.jpg" alt="Simpsons no-nos" loading="lazy" class="mid-size">
@@ -1256,10 +1282,7 @@
       document.getElementById("simpsonsRatings").appendChild(Plot.plot(simpsonsRatings));
       document.getElementById("simpsonsEpisodes").appendChild(Plot.plot(simpsonsEpisodes));
       document.getElementById("simpsonsSeasons").appendChild(Plot.plot(simpsonsSeasons));
-      // document.getElementById("seasonavg").appendChild(Plot.plot(seasonavg));
-      // document.getElementById("simpsonsFacet").appendChild(Plot.plot(simpsonsFacet));
 
-      // Work in progress
       var bestEps = {
         width: width,
         style: {
@@ -1267,7 +1290,6 @@
         },
         x: {
           label: "IMDb rating",
-          // nice: true,
         },
         y: {
           label: "Frequency",
@@ -1284,64 +1306,21 @@
         ]
       };
 
-      var seasons = {
-        width: width,
-        style: {
-          fontSize: size,
-          background: "none",
-        },
-        x: {
-          // axis: null,
-          domain: [0, 25], // Assuming ~22-25 eps per season
-          tickSize: 0,
-          tickFormat: "",
-        },
-        y: {
-          axis: null,
-          domain: [0, 10],
-          tickSize: 0,
-        },
-        color: {
-          scheme: "RdYlBu",
-          type: "linear",
-          domain: [1, 10], // show nicer scale
-          range: [.25, 1], // clamping the color scheme gives tighter control over the color range
-        },
-        fx: {
-          tickFormat: d => `S${d}`,
-          label: null,
-        },
-        marks: [
-          Plot.frame({
-            strokeOpacity: 0.1
-          }),
-          // Plot.areaY(simpsons_imdb, {x: "episode_no", y: "episode_score", fy: "season_no", fill: "episode_score"}),
-          Plot.line(simpsons_imdb, {
-            x: "episode_no",
-            y: "episode_score",
-            fy: "season_no",
-            stroke: "episode_score",
-            strokeWidth: 2,
-            curve: "catmull-rom" // smooth lines
-          }),
-          Plot.tip(simpsons_imdb, Plot.pointer({
-            x: "episode_no",
-            y: "episode_score",
-            fy: "season_no",
-            title: (d) => `${d.episode_name}\nS${d.season_no} E${d.episode_no}\n${d.episode_score} IMDb rating`,
-          })),
-        ]
-      };
-
       var top_ten = {
         width: width,
+        height: 260,
         style: {
           fontSize: size
         },
+        color: {
+          scheme: "PiYG"
+        },
         marginLeft: 220, // ample space for episode titles
+        marginTop: 0,
         x: {
           label: "IMDb rating",
-          domain: [0, 10]
+          nice: true,
+          ticks: 3,
         },
         y: {
           label: null,
@@ -1354,7 +1333,7 @@
         marks: [
           Plot.barX(simpsons_imdb, {
             x: "episode_score",
-            y: "episode_name",
+            y: d => `${d.episode_name} (S${d.season_no})`,
             fill: "episode_score",
             sort: {
               y: "x",
@@ -1365,7 +1344,7 @@
           }),
           Plot.text(simpsons_imdb, {
             x: "episode_score",
-            y: "episode_name",
+            y: d => `${d.episode_name} (S${d.season_no})`,
             text: (d) => `${d.episode_score}`,
             textAnchor: "start",
             dx: 5,
@@ -1379,7 +1358,6 @@
       }
 
       document.getElementById("best-eps").appendChild(Plot.plot(bestEps));
-      document.getElementById("seasons").appendChild(Plot.plot(seasons));
       document.getElementById("top_ten").appendChild(Plot.plot(top_ten));
     })
 
