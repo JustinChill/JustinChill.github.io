@@ -84,10 +84,10 @@
       <div class="article-hero mid-size">
         <h2 class="article-category">Post</h2>
         <h1 class="article-title">The <span>failing</span> New York Times</h1>
-        <!-- <h2 class="article-subtitle"></h2> -->
+        <h2 class="article-subtitle">Fake news!</h2>
       </div>
       <span class="header-tag mid-size"><img src="imgs/tag.svg" alt="Chart header tag"></span>
-      <h3 class="mid-size">Fake news!</h3>
+      <h3 class="mid-size">NYT stock price, 2016 to 2025</h3>
       <figure id="lineChart" class="mid-size">
         <figcaption class="right mid-size">Data: <a href="https://www.google.com/finance/quote/NYT:NYSE">Google
             Finance</a></figcaption>
@@ -95,6 +95,14 @@
       <p>Donald Trump regularly refers to The New York Times as "The Failing New York Times." However, in addition to
         the Times' growing subscription numbers, stock prices have also soared. Interact with the viz to see how stock
         prices have grown since election day.</p>
+        <h2>The New York Times has transitioned from an advertising-led to a subscription business</h2>
+        <p>Almost half of The New York Times's revenue now comes from paid digital subscriptions. Once the majority, advertising revenue now only accounts for 20% of total revenue. At the end of 2024, NY Times had 10.8 million paid digital subscriptions, an increase of 11.5% from 2023.</p>
+        <span class="header-tag mid-size"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+        <h3 class="mid-size">NYT Revenue by source, last 20 years</h3>
+        <figure id="subscriptions" class="mid-size">
+          <figcaption class="right mid-size">Data: NY Times company reports</figcaption>
+        </figure>
+        <p>Ultimately, this shift has shaped internet culture in general, giving publishers a way to monetize content beyond the standard advertising models. While advertising may still continue to stay relevant, paid subscriptions are growing in popularity.</p>
     </article>
   </main>
   <!-- Todo: find better way to define SVG gradient, as in https://observablehq.com/@observablehq/plot-area-chart-with-gradient -->
@@ -112,6 +120,7 @@
     <ol>
       <li id="font"><a href="https://github.com/ctrlcctrlv/chomsky">Chomsky</a>: A font in the style of the New York
         Times masthead</li>
+        <li id="font">Fall and rise of The New York Times chart inspired by <a href="https://www.reddit.com/user/jtsg_/">u/jtsg_</a> on Reddit</li>
     </ol>
 
     <div>
@@ -129,6 +138,44 @@
     var size = 12;
     const formatDate = d3.timeFormat("%B %d, %Y");
     const formatPercent = d3.format(".0%");
+    
+    const NYTdata = [
+      {year: 2003, category: "Print Circulation / Subscription", value: 0.71}, {year: 2003, category: "Digital Subscription", value: 0.00}, {year: 2003, category: "Advertising: Digital & Print", value: 1.38}, {year: 2003, category: "Other", value: 0.20},
+      {year: 2004, category: "Print Circulation / Subscription", value: 0.70}, {year: 2004, category: "Digital Subscription", value: 0.00}, {year: 2004, category: "Advertising: Digital & Print", value: 1.40}, {year: 2004, category: "Other", value: 0.19},
+      {year: 2005, category: "Print Circulation / Subscription", value: 0.70}, {year: 2005, category: "Digital Subscription", value: 0.00}, {year: 2005, category: "Advertising: Digital & Print", value: 1.45}, {year: 2005, category: "Other", value: 0.18},
+      {year: 2006, category: "Print Circulation / Subscription", value: 0.72}, {year: 2006, category: "Digital Subscription", value: 0.00}, {year: 2006, category: "Advertising: Digital & Print", value: 1.45}, {year: 2006, category: "Other", value: 0.19},
+      {year: 2007, category: "Print Circulation / Subscription", value: 0.73}, {year: 2007, category: "Digital Subscription", value: 0.00}, {year: 2007, category: "Advertising: Digital & Print", value: 1.40}, {year: 2007, category: "Other", value: 0.21},
+      {year: 2008, category: "Print Circulation / Subscription", value: 0.76}, {year: 2008, category: "Digital Subscription", value: 0.00}, {year: 2008, category: "Advertising: Digital & Print", value: 1.23}, {year: 2008, category: "Other", value: 0.22},
+      {year: 2009, category: "Print Circulation / Subscription", value: 0.78}, {year: 2009, category: "Digital Subscription", value: 0.00}, {year: 2009, category: "Advertising: Digital & Print", value: 0.92}, {year: 2009, category: "Other", value: 0.14},
+      {year: 2010, category: "Print Circulation / Subscription", value: 0.78}, {year: 2010, category: "Digital Subscription", value: 0.00}, {year: 2010, category: "Advertising: Digital & Print", value: 0.89}, {year: 2010, category: "Other", value: 0.10},
+      {year: 2011, category: "Print Circulation / Subscription", value: 0.76}, {year: 2011, category: "Digital Subscription", value: 0.05}, {year: 2011, category: "Advertising: Digital & Print", value: 0.88}, {year: 2011, category: "Other", value: 0.16},
+      {year: 2012, category: "Print Circulation / Subscription", value: 0.79}, {year: 2012, category: "Digital Subscription", value: 0.13}, {year: 2012, category: "Advertising: Digital & Print", value: 0.84}, {year: 2012, category: "Other", value: 0.12},
+      {year: 2013, category: "Print Circulation / Subscription", value: 0.79}, {year: 2013, category: "Digital Subscription", value: 0.17}, {year: 2013, category: "Advertising: Digital & Print", value: 0.79}, {year: 2013, category: "Other", value: 0.13},
+      {year: 2014, category: "Print Circulation / Subscription", value: 0.78}, {year: 2014, category: "Digital Subscription", value: 0.19}, {year: 2014, category: "Advertising: Digital & Print", value: 0.78}, {year: 2014, category: "Other", value: 0.14},
+      {year: 2015, category: "Print Circulation / Subscription", value: 0.74}, {year: 2015, category: "Digital Subscription", value: 0.23}, {year: 2015, category: "Advertising: Digital & Print", value: 0.74}, {year: 2015, category: "Other", value: 0.12},
+      {year: 2016, category: "Print Circulation / Subscription", value: 0.74}, {year: 2016, category: "Digital Subscription", value: 0.26}, {year: 2016, category: "Advertising: Digital & Print", value: 0.67}, {year: 2016, category: "Other", value: 0.11},
+      {year: 2017, category: "Print Circulation / Subscription", value: 0.76}, {year: 2017, category: "Digital Subscription", value: 0.38}, {year: 2017, category: "Advertising: Digital & Print", value: 0.65}, {year: 2017, category: "Other", value: 0.13},
+      {year: 2018, category: "Print Circulation / Subscription", value: 0.73}, {year: 2018, category: "Digital Subscription", value: 0.45}, {year: 2018, category: "Advertising: Digital & Print", value: 0.64}, {year: 2018, category: "Other", value: 0.18},
+      {year: 2019, category: "Print Circulation / Subscription", value: 0.71}, {year: 2019, category: "Digital Subscription", value: 0.52}, {year: 2019, category: "Advertising: Digital & Print", value: 0.62}, {year: 2019, category: "Other", value: 0.24},
+      {year: 2020, category: "Print Circulation / Subscription", value: 0.68}, {year: 2020, category: "Digital Subscription", value: 0.68}, {year: 2020, category: "Advertising: Digital & Print", value: 0.46}, {year: 2020, category: "Other", value: 0.23},
+      {year: 2021, category: "Print Circulation / Subscription", value: 0.67}, {year: 2021, category: "Digital Subscription", value: 0.88}, {year: 2021, category: "Advertising: Digital & Print", value: 0.57}, {year: 2021, category: "Other", value: 0.25},
+      {year: 2022, category: "Print Circulation / Subscription", value: 0.62}, {year: 2022, category: "Digital Subscription", value: 0.98}, {year: 2022, category: "Advertising: Digital & Print", value: 0.62}, {year: 2022, category: "Other", value: 0.24}
+    ];
+    
+    // 2. Define Colors and Order
+    const colors = {
+      "Print Circulation / Subscription": "#343f4b", // Dark Slate
+      "Digital Subscription": "#dfae26",             // Mustard/Gold
+      "Advertising: Digital & Print": "#8b8b93",     // Medium Gray
+      "Other": "#dcdce3"                             // Light Gray
+    };
+    
+    const stackOrder = [
+      "Print Circulation / Subscription", 
+      "Digital Subscription", 
+      "Advertising: Digital & Print", 
+      "Other"
+    ];
 
     // Use Promises to async request data
     var promises = [d3.csv("data/NYTStock_Full Data_data.csv", function (d) {
@@ -220,8 +267,82 @@
           })),
         ]
       };
+      
+      var subscriptions = {
+        width: width,
+        height: 500,
+        marginTop: 10,
+        marginRight: 100,
+        style: {
+          fontFamily: "Georgia, serif", 
+          fontSize: size,
+          background: "#f9f9f9"
+        },
+        y: {
+          grid: true,
+          label: null,
+          tickFormat: (d) => `$${d.toFixed(1)}B`,
+          nice: true,
+          ticks: 4,
+          tickSize: 0,
+        },
+        x: {
+          label: null,
+          tickFormat: (d) => `'${d.toString().slice(-2)}`,
+          type: "band",
+          padding: 0.1
+        },
+        color: {
+          domain: stackOrder,
+          range: stackOrder.map(k => colors[k])
+        },
+        marks: [
+          // Stacked Bars
+          Plot.barY(NYTdata, {
+            x: "year",
+            y: "value",
+            fill: "category",
+            order: stackOrder, // Ensures correct vertical stacking
+            title: d => `${d.category}\n$${d.value.toFixed(2)}B`
+          }),
+      
+          // Annotation: Paywall Arrow
+          Plot.text(["Metered paywall\nintroduced in 2011"], {
+            x: 2011,
+            y: 2.5, 
+            textAnchor: "middle",
+            fontWeight: "bold",
+            lineHeight: 1.2
+          }),
+          Plot.arrow([{x1: 2011, y1: 2.4, x2: 2011, y2: 1.90}], {
+            x1: "x1", y1: "y1", x2: "x2", y2: "y2",
+            stroke: "black",
+            strokeWidth: 1
+          }),
+      
+          // Right-side Legends (using 2022 data points)
+          Plot.text(NYTdata.filter(d => d.year === 2022), Plot.stackY({
+            x: "year",
+            y: "value",
+            z: "category",
+            order: stackOrder,
+            text: d => {
+              if(d.category.includes("Digital Subscription")) return "Digital\nSubscriptions\n(48%)";
+              if(d.category.includes("Other")) return "Other\n(10%)";
+              if(d.category.includes("Advertising")) return "Advertising:\nDigital & Print\n(20%)";
+              return "Print Circulation\n/ Subscription\n(21%)";
+            },
+            dx: 35,
+            textAnchor: "start",
+            fill: d => d.category === "Digital Subscription" ? "#b4860b" : "#333",
+            fontWeight: "bold"
+          })),      
+        ]
+      };
 
       document.getElementById("lineChart").appendChild(Plot.plot(lineChart));
+      document.getElementById("subscriptions").appendChild(Plot.plot(subscriptions));
+
     });
   </script>
 </body>
