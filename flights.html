@@ -24,7 +24,7 @@
 
   <meta name="datePublished" content="2025-06-16">
   <meta name="dateModified" content="2025-08-06">
-  
+
   <meta content="https://www.justinchill.com/imgs/cover/flights_cover.webp" property="og:image">
   <meta content="https://www.justinchill.com/imgs/cover/flights_cover.webp" property="twitter:image">
   <meta content="World flight paths shown as bright violet lines across a dark world map." property="og:image:alt">
@@ -72,24 +72,42 @@
         <h2 class="article-subtitle">World flight paths, 2014</h2>
       </div>
 
-      <figure id="map" class="mid-size"></figure>
-      <figcaption class="right">Data: <a href="https://openflights.org">OpenFlights</a> (2014).</figcaption>
+      <figure id="map" class="mid-size" aria-label="World map displaying global flight paths">
+        <figcaption class="right">Data: <a href="https://openflights.org">OpenFlights</a> (2014)</figcaption>
+      </figure>
 
-      <p>Global air travel is a vital part of the modern world, connecting cities, countries, and continents through a vast network of air routes. With over <strong>40,000</strong> airports globally and more than <strong>100,000</strong> daily flights, the aviation industry serves millions of passengers and transports significant cargo across the globe.</p>
-      <p>World flight routes form a vast global network. Key hubs like Atlanta Hartsfield-Jackson and Beijing Capital International Airport handle a significant volume of air traffic. The Seoul to Jeju Island route in South Korea is the world's busiest by passenger traffic, with over 14 million passengers annually. In terms of long-haul routes, the New York to London and Los Angeles to Tokyo routes are among the busiest intercontinental flights. These routes are essential for global trade, tourism, and business, with commercial aviation contributing around <strong>3.6%</strong> of the world's GDP.</p>
-      <p>Recreation in Observable Plot of this original notebook by <a href="https://observablehq.com/@michaelbyrneau/flight-paths">Michael Byrne</a> showing all major air passenger routes as of 2014. Data sourced from OpenFlights.</p>
+      <p>Global air travel is a vital part of the modern world, connecting cities, countries, and continents through a
+        vast network of air routes. With over <strong>40,000</strong> airports globally and more than
+        <strong>100,000</strong> daily flights, the aviation industry serves millions of passengers and transports
+        significant cargo across the globe.
+      </p>
+      <p>World flight routes form a vast global network. Key hubs like Atlanta Hartsfield-Jackson and Beijing Capital
+        International Airport handle a significant volume of air traffic. The Seoul to Jeju Island route in South Korea
+        is the world's busiest by passenger traffic, with over 14 million passengers annually. In terms of long-haul
+        routes, the New York to London and Los Angeles to Tokyo routes are among the busiest intercontinental flights.
+        These routes are essential for global trade, tourism, and business, with commercial aviation contributing around
+        <strong>3.6%</strong> of the world's GDP.
+      </p>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <h3>Busiest Airports by total passenger traffic (<small>M</small>)</h3>
+      <figure id="chart-airports" aria-label="Bar chart showing the busiest airports in 2023">
+        <figcaption class="right">Data: ACI World</figcaption>
+      </figure>
 
     </article>
   </main>
   <footer>
-    <!--   <h2 id="footnote-label">Footnotes</h2>
-  <ol>
-    <li id="pew"><a href="https://www.pewresearch.org/short-reads/2024/02/29/most-americans-now-live-in-a-legal-marijuana-state-and-most-have-at-least-one-dispensary-in-their-county/">Pew Researc Center, <i>Most Americans now live in a legal marijuana state – and most have at least one dispensary in their county</i> </a>.<a href="#pew-ref" aria-label="Back to content">↩</a></li>
-  </ol> -->
+    <h2 id="footnote-label">Footnotes</h2>
+    <ol>
+      <li id="pew">Recreation in Observable Plot of this original notebook by <a
+          href="https://observablehq.com/@michaelbyrneau/flight-paths">Michael Byrne</a> showing all major air passenger
+        routes as of 2014. Data sourced from OpenFlights.</li>
+    </ol>
 
     <div>
       <p>Justin Chill &copy; 2025</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
+            alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/d3"></script>
@@ -103,85 +121,8 @@
     var widthMid = elementMid.getBoundingClientRect().width; // get width of figure.mid-size so graphic is responsive
     var size = 12;
 
-    // From Fil - https://observablehq.com/@fil/flight-paths
-
-    function link(data, options) {
-      const link = Plot.link(data, options);
-      link.project = () => {}; // disable projection, we need raw coordinates for geoPath
-      link.render = function(
-        index,
-        scales, {
-          x1: X1,
-          y1: Y1,
-          x2: X2,
-          y2: Y2
-        }, {
-          width,
-          height,
-          marginLeft,
-          marginRight,
-          marginTop,
-          marginBottom
-        }, {
-          projection
-        }
-      ) {
-        widthMid -= marginLeft + marginRight;
-        height -= marginTop + marginBottom;
-
-        const svg = d3.create("svg")
-          .attr("width", width)
-          .attr("height", height)
-          .attr("x", marginLeft)
-          .attr("y", marginTop);
-
-        const path = d3.geoPath().projection(projection);
-
-        // Create a group for all paths
-        const g = svg.append("g");
-
-        // Create paths for each route
-        index.forEach((i, idx) => {
-          const route = {
-            type: "LineString",
-            coordinates: [
-              [X1[i], Y1[i]],
-              [X2[i], Y2[i]]
-            ]
-          };
-
-          const d = path(route);
-
-          // Create the path element
-          const pathElement = g.append("path")
-            .attr("d", d)
-            .attr("stroke", this.stroke)
-            .attr("stroke-width", this.strokeWidth)
-            .attr("fill", "none")
-            .attr("opacity", this.opacity)
-            .attr("mix-blend-mode", this.mixBlendMode)
-            .attr("stroke-dasharray", function() {
-              const length = this.getTotalLength();
-              return `${length} ${length}`;
-            })
-            .attr("stroke-dashoffset", function() {
-              return this.getTotalLength(); // Start with path not drawn
-            });
-
-          // Animate the path
-          pathElement.transition()
-            .delay(500)
-            .duration(3000)
-            .attr("stroke-dashoffset", 0); // Animate to fully drawn
-        });
-
-        return svg.node();
-      };
-      return link;
-    };
-
     // Use Promises to async request data
-    var promises = [d3.csv("https://gist.githubusercontent.com/MichaelByrneAU/87383e163244055d641d4dcd58a5d24d/raw/d17299dcba8c9e18b4e1f4885f90a45618b55599/flight_paths_2014.csv", function(d) {
+    var promises = [d3.csv("https://gist.githubusercontent.com/MichaelByrneAU/87383e163244055d641d4dcd58a5d24d/raw/d17299dcba8c9e18b4e1f4885f90a45618b55599/flight_paths_2014.csv", function (d) {
       return [
         [+d.source_longitude, +d.source_latitude],
         [+d.destination_longitude, +d.destination_latitude]
@@ -191,7 +132,7 @@
     myDataPromises = Promise.all(promises);
 
     // After data is successfully fetched, generate viz
-    myDataPromises.then(function(data) {
+    myDataPromises.then(function (data) {
       // Define the data. There's gotta be a better way to do this:
       var routeData = data[0];
       var world = data[1];
@@ -200,6 +141,9 @@
       var map = {
         width: widthMid,
         projection: "equal-earth",
+        style: {
+          backgroundColor: "#111",
+        },
         marks: [
           Plot.sphere({
             fill: "#111"
@@ -207,21 +151,60 @@
           Plot.geo(land, {
             fill: "#262626"
           }),
-          link(routeData, {
+          Plot.link(routeData, {
             x1: d => d[0][0],
             y1: d => d[0][1],
             x2: d => d[1][0],
             y2: d => d[1][1],
-            mixBlendMode: "screen",
-            opacity: 0.15,
-            strokeWidth: 1.25,
-            stroke: "#8014b7"
+            stroke: "#8014b7",
+            strokeWidth: 0.25,
+            strokeOpacity: 0.2, // Use strokeOpacity instead of opacity
+            mixBlendMode: "screen"
           })
         ]
       };
 
       document.getElementById("map").appendChild(Plot.plot(map));
     });
+
+    // Top 10 Busiest Airports (2023)
+    const airportData = [
+      { airport: "Atlanta (ATL)", passengers: 104.7 },
+      { airport: "Dubai (DXB)", passengers: 87.0 },
+      { airport: "Dallas/Fort Worth (DFW)", passengers: 81.8 },
+      { airport: "London Heathrow (LHR)", passengers: 79.2 },
+      { airport: "Tokyo Haneda (HND)", passengers: 78.7 },
+      { airport: "Denver (DEN)", passengers: 77.8 },
+      { airport: "Istanbul (IST)", passengers: 76.0 },
+      { airport: "Los Angeles (LAX)", passengers: 75.1 },
+      { airport: "Chicago O'Hare (ORD)", passengers: 73.9 },
+      { airport: "Delhi (DEL)", passengers: 72.2 }
+    ];
+
+    var airportChart = Plot.plot({
+      marginLeft: 120,
+      marginTop: 0,
+      x: { label: "Passengers (Millions)", grid: true, ticks: 4, nice: true, },
+      y: { label: null },
+      marks: [
+        Plot.barX(airportData, {
+          x: "passengers",
+          y: "airport",
+          sort: { y: "x", reverse: true },
+          fill: "#4c78a8",
+          tip: true
+        }),
+        Plot.text(airportData, {
+          x: "passengers",
+          y: "airport",
+          text: (d) => `${d.passengers}`,
+          dx: 4,
+          textAnchor: "start"
+        })
+      ]
+    });
+
+    document.getElementById("chart-airports").appendChild(airportChart);
   </script>
 </body>
 
