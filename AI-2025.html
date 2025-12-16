@@ -49,6 +49,10 @@
 
     <style>
         /* Kept specific styles for the AI article diagrams */
+        figure svg g[aria-label="tip"] text {
+            text-transform: capitalize;
+        }
+
         :root {
             --bg-color: #ffffff;
             --text-color: #222222;
@@ -59,6 +63,8 @@
             --font-serif: "Merriweather", Georgia, serif;
             --font-sans: "Lato", Helvetica, Arial, sans-serif;
             --max-width: 680px;
+            --MTgray6: #f2f2f2;
+            --MTgray25: #bebebe;
         }
 
         /* Diagram Container */
@@ -265,6 +271,186 @@
         #chart-unexpected .label-red {
             fill: #D93025;
         }
+
+        /* Twitter card */
+        .wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: var(--spacer-2) 0;
+        }
+
+        .wrapper p,
+        .wrapper h1,
+        .wrapper h2,
+        .wrapper h3,
+        .wrapper h4 {
+            margin: 0;
+            padding: 0;
+        }
+
+        .wrapper p,
+        .wrapper a,
+        .wrapper time {
+            font-family: "Source Sans 3", sans-serif;
+            font-weight: 400;
+            color-scheme: light dark;
+            color: #fff;
+            text-decoration: none;
+
+            font-synthesis: none;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            width: 601px;
+            height: auto;
+            padding: 35px 31px;
+            gap: 15px;
+            border-radius: 10px;
+            background: #243447;
+            box-shadow: 0px 15px 60px 0px rgba(52, 81, 116, 0.15);
+        }
+
+        .user {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        .ava {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+        }
+
+        .icon {
+            font-size: 30px;
+            color: #1da1f2;
+        }
+
+        .username {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .username .name {
+            line-height: normal;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 700;
+        }
+
+        .username .uname {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+        }
+
+        .twitt .tag {
+            text-decoration: none;
+            color: #1da1f2;
+        }
+
+        .insight {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 26px;
+        }
+
+        .like {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .like svg:hover {
+            fill: crimson;
+            filter: drop-shadow(0 0 10px crimson);
+            cursor: pointer;
+        }
+
+        /* Photo span utility */
+        .MTmini {
+            position: relative;
+            background-color: var(--MTgray6);
+            padding: 2px 5px 2px 10px;
+            margin-left: 23px;
+            white-space: nowrap;
+            margin-right: 3px;
+            border-radius: 3px;
+            border: 1px solid var(--MTgray25);
+            line-height: inherit;
+        }
+
+        .MTmini span {
+            display: inline-block;
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            top: -6px;
+            left: -20px;
+            background-size: 100%;
+            background-repeat: no-repeat;
+            background-position: center center;
+            border-radius: 50%;
+            border: 1px solid #bfbfbf;
+            background-color: white;
+        }
+
+        .MTmini .nvidia {
+            background-image: url("imgs/nvidia_logo.svg");
+        }
+
+        .MTmini .intel {
+            background-image: url("imgs/Intel_logo.svg");
+        }
+
+        .MTmini .tsmc {
+            background-image: url("imgs/tsmc_logo.svg");
+        }
+
+        .MTmini .msft {
+            background-image: url("imgs/msft_logo.svg");
+        }
+
+        .MTmini .apple {
+            background-image: url("imgs/apple_logo.svg");
+        }
+
+        .MTmini .amazon {
+            background-image: url("imgs/amazon_logo.svg");
+        }
+
+        .MTmini .google {
+            background-image: url("imgs/google_logo.svg");
+        }
+
+        .MTmini .meta {
+            background-image: url("imgs/meta_logo.svg");
+        }
+
+        .MTmini .openai {
+            background-image: url("imgs/openai_icon_logo.svg");
+        }
     </style>
 </head>
 
@@ -360,7 +546,8 @@
                 </section>
             </div>
 
-            <p>Dominance in one era does not guarantee survival in the next. Microsoft dominated the PC era with a 90%+
+            <p>Dominance in one era does not guarantee survival in the next. <span class="MTmini"><span
+                        class="msft"></span>Microsoft</span> dominated the PC era with a 90%+
                 share of computing, but when the center of gravity shifted to smartphones, its share of total computing
                 devices collapsed.</p>
 
@@ -517,10 +704,13 @@
 
             <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
             <h2>2. The Capex Boom</h2>
-            <p>The race for AGI has triggered an investment cycle without precedent. The "Big 4" (Microsoft, Meta,
-                Alphabet, Amazon) are projected to spend over <strong>$330 billion</strong> in 2025 alone on AI
-                infrastructure. This level of spending is driven by FOMO and the existential threat of missing the next
-                platform.</p>
+            <p>The race for AGI has triggered an investment cycle without precedent. The "Big 4" (<span
+                    class="MTmini"><span class="msft"></span>Microsoft</span>, <span class="MTmini"><span
+                        class="meta"></span>Meta</span>, <span class="MTmini"><span
+                        class="google"></span>Alphabet</span>, <span class="MTmini"><span
+                        class="amazon"></span>Amazon</span>) are projected to spend over <strong>$330 billion</strong>
+                in 2025 alone on AI infrastructure. This level of spending is driven by FOMO and the existential threat
+                of missing the next platform.</p>
 
             <blockquote>
                 <p>"The risk of under-investing is significantly greater than the risk of over-investing."</p>
@@ -534,14 +724,17 @@
                 <figcaption class="right">Data: <a href="https://www.sec.gov/edgar/searchedgar/companysearch"
                         target="_blank">Company Reports</a></figcaption>
             </figure>
+            <p>Those four companies alone are expected to devote more than $380 billion combined to capital expenditures
+                in their current fiscal years, with most going to chips, servers and other data center-related expenses.
+                That’s a more than 1,300% jump from a decade ago. And they’ve all pledged to spend significantly more in
+                the year after that.</p>
             <blockquote>
                 <p>"The very worst case would be that we have just pre-built for a couple of years."</p>
                 <cite>&mdash; Mark Zuckerberg, Q3 2025</cite>
             </blockquote>
+            <h2>A new investment cycle</h2>
             <p>This spending is reshaping the physical world. In the US, construction spending on data centers is
                 rapidly approaching spending on office buildings.</p>
-            <h2>A new investment cycle</h2>
-            <p>US data centre construction is overtaking office construction.</p>
             <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
             <h3>US construction value (2025 $bn, seasonally adjusted annual rate)</h3>
             <figure id="chart-construction" aria-label="Line chart showing US Construction Spending">
@@ -550,18 +743,24 @@
             </figure>
 
             <h3>Nvidia can’t keep up</h3>
-            <p>While Nvidia is leading the AI chip market, it can’t keep up with the demand. They're trying to build a
-                new Sun Microsystems (though China and the hyperscalers’ own chips are coming up close behind).</p>
+            <p>While <span class="MTmini"><span class="nvidia"></span>Nvidia</span> is leading the AI chip market, it
+                can’t keep up with the demand. They're trying to build a new Sun Microsystems (though China and the
+                hyperscalers’ own chip designs are coming up close behind).</p>
             <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
             <h3>Nvidia vs Intel</h3>
             <figure id="chart-nvidia" aria-label="Line chart comparing Nvidia vs Intel revenue">
                 <figcaption class="right">Data: <a href="https://www.sec.gov/edgar/searchedgar/companysearch"
                         target="_blank">Company Reports</a></figcaption>
             </figure>
-            <p>This demand flows to one bottleneck: Nvidia. While Intel struggles to maintain relevance, Nvidia's
-                revenue has exploded, decoupling entirely from traditional semiconductor cycles.</p>
+            <p>This demand flows to one bottleneck: <span class="MTmini"><span class="nvidia"></span>Nvidia</span>.
+                While <span class="MTmini"><span class="intel"></span>Intel</span> struggles to maintain relevance,
+                <span class="MTmini"><span class="nvidia"></span>Nvidia's</span>
+                revenue has exploded, decoupling entirely from traditional semiconductor cycles.
+            </p>
             <h3>TSMC can't keep up either</h3>
-            <p>TSMC is unwilling (or unable) to expand capacity fast enough to meet Nvidia’s book of business.</p>
+            <p><span class="MTmini"><span class="tsmc"></span>TSMC</span> is unwilling (or unable) to expand
+                capacity fast enough to meet <span class="MTmini"><span class="nvidia"></span>Nvidia's</span> book of
+                business.</p>
             <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
             <h3>Quarterly revenue ($bn)</h3>
             <figure id="chart-tsmc" aria-label="Line chart showing Revenue of Nvidia, Intel and TSMC">
@@ -583,7 +782,8 @@
 
                 <section class="circle">
                     <h2>Chips</h2>
-                    <p>Demand flows to one bottleneck: Nvidia</p>
+                    <p>Demand flows to one bottleneck: Nvidia
+                    </p>
                 </section>
 
                 <div class="arrow" role="presentation"></div>
@@ -609,7 +809,7 @@
                 <cite>&mdash; Kevin Scott, Microsoft CTO </cite>
             </blockquote>
             <h2>Data centre capacity triples?</h2>
-            <p>Some very large numbers (although some of the ‘bragawatts’ may be more performative than real).</p>
+            <p>Some very large numbers (although some of these ‘bragawatts’ may be more performative than real).</p>
             <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
             <h3>Global data centre capacity estimates, H1 2025 (<small>GW</small>)</h3>
             <figure id="chart-datacenter-capacity" aria-label="Bar chart showing Global Data Center Capacity estimates">
@@ -640,7 +840,8 @@
 
             <h3>The hyperscalers can afford it…</h3>
             <p>The hyperscalers have massive cash flows, which generally cover their capital expenditures.</p>
-
+            <aside>Hyperscalers are major cloud providers (like AWS, Azure, Google Cloud) operating massive, globally
+                distributed data centers.</aside>
             <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
             <h3>Annual Capex and Free Cash Flow, 2010 to 2025 ($bn)</h3>
             <figure id="chart-cash-flow" aria-label="Bar chart showing Hyperscaler Cash Flow vs Capex">
@@ -648,7 +849,8 @@
                         target="_blank">Company Reports</a></figcaption>
             </figure>
             <h3>… up to a point</h3>
-            <p>However, when we include leases, the total burden is much higher, especially for Amazon and Microsoft.
+            <p>However, when we include leases, the total burden is much higher, especially for <span
+                    class="amazon"></span>Amazon</span> and <span class="msft"></span>Microsoft</span>.
                 Capital leases are not new, but they’ve grown much larger.
             </p>
             <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
@@ -660,16 +862,22 @@
             <p>Hyperscalers add leases and debt, while some analysts suggest Oracle’s cloud capex might be >100% of
                 revenue.</p>
             <h3>Circular Revenue</h3>
-            <p>Without its own cashflows, OpenAI partners with Nvidia, Oracle, Softbank, and <a
+            <p>Without its own cashflows, <span class="MTmini"><span class="openai"></span>OpenAI</span> partners with
+                <span class="MTmini"><span class="nvidia"></span>Nvidia</span>, Oracle, Softbank, and <a
                     href="https://www.reuters.com/sustainability/land-use-biodiversity/altman-touts-trillion-dollar-ai-vision-openai-restructures-chase-scale-2025-10-29/">petrodollars</a>.
             </p>
-            <p>OpenAI is buying Nvidia chips with Nvidia’s cashflow…</p>
+            <p><span class="MTmini"><span class="openai"></span>OpenAI</span> is buying <span class="MTmini"><span
+                        class="nvidia"></span>Nvidia</span> chips with <span class="MTmini"><span
+                        class="nvidia"></span>Nvidia's</span>
+                cashflow…</p>
             <figure id="chart-circular-revenue" aria-label="Stacked bar chart showing Hyperscaler Leases">
                 <figcaption class="right">Data: <a href="https://www.sec.gov/edgar/searchedgar/companysearch"
                         target="_blank">Company Reports</a></figcaption>
             </figure>
             <p>Which comes from the hyperscalers…</p>
-            <p>and using Nvidia’s cash to turn AMD into an Nvidia competitor, and pay Broadcom to make its own chips…
+            <p>and using <span class="MTmini"><span class="nvidia"></span>Nvidia's</span> cash to turn AMD into an
+                <span class="MTmini"><span class="nvidia"></span>Nvidia</span> competitor, and pay Broadcom to make its
+                own chips…
             </p>
             <h2>Yes, but where has all this money got us?</h2>
             <p>After three years, lots more science and engineering, but no real clarity on the shape of the market</p>
@@ -736,7 +944,7 @@
             <h2>Still more experimentation than daily use</h2>
             <p>So far, many more people use chatbots occasionally than make them part of their daily lives.</p>
             <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
-            <h3>Engagement Gap</h3>
+            <h3>How many people use generative AI chatbots in the USA?</h3>
             <figure id="chart-engagement" aria-label="Bar chart showing Engagement Gap">
                 <figcaption class="right">Data: <a href="https://www.ben-evans.com" target="_blank">Multiple Surveys</a>
                 </figcaption>
@@ -809,10 +1017,11 @@
                     <p>Win on network<br>effects & product?<br>(See: software)</p>
                 </section>
             </div>
-            <h2>Microsoft’s shift away from network effects?</h2>
+            <h2><span class="msft"></span>Microsoft's</span> shift away from network effects?</h2>
             <p>From competing on network effects to competing on access to capital?</p>
 
-            <p>Microsoft's capital intensity is spiking as it builds out the infrastructure for this new era.</p>
+            <p><span class="msft"></span>Microsoft's</span> capital intensity is spiking as it builds out the
+                infrastructure for this new era.</p>
             <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
             <h3>Microsoft capex/sales</h3>
             <figure id="chart-microsoft-capex" aria-label="Bar chart showing Microsoft Capex Intensity">
@@ -865,7 +1074,7 @@
             </div>
 
             <p>We are also seeing the unbundling of software. Startups are flooding into every vertical, attempting to
-                unbundle Excel, Google, and traditional SaaS using AI.</p>
+                unbundle Excel, <span class="google"></span>Google</span>, and traditional SaaS using AI.</p>
             <p>The coming wave of AI startups trying to unbundle Google, Excel, email and Oracle… and ChatGPT.</p>
             <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
             <h3>Y Combinator startups by field</h3>
@@ -978,7 +1187,58 @@
                 </section>
             </div>
             <h2>300m interns? Jevons paradox at work</h2>
-            <p>Steam engines gave Britain the equivalent labour of (very roughly) 5x its total population by 1900</p>
+            <p>In 1865, William Stanley Jevons first described a paradox. He maintained that more efficient steam
+                engines would not decrease the use of coal in British factories but would actually increase it. As the
+                fossil fuel became cheaper, demand for the resource would grow, leading to the construction of more
+                engines.</p>
+            <div class="wrapper">
+                <div class="card">
+                    <div class="user">
+                        <div class="profile">
+                            <img src="https://media.licdn.com/dms/image/v2/C5603AQHHUuOSlRVA1w/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1579726625448?e=2147483647&v=beta&t=pJA2hyC4PlS23HlA6irA5KUc4dYwuwm4IAFtk2yge84"
+                                alt="avatar" class="ava">
+                            <div class="username">
+                                <h3 class="name"><a href="https://x.com/satyanadella">Satya Nadella</a></h3>
+                                <p class="uname">@satyanadella</p>
+                            </div>
+                        </div>
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="30"
+                            height="30" fill="currentColor">
+                            <path
+                                d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z" />
+                        </svg>
+                    </div>
+                    <div class="twitt">
+                        <p>Jevons paradox strikes again! As AI gets more efficient and accessible, we will see its use
+                            skyrocket, turning it into a commodity we just can't get enough of.
+                        </p>
+                    </div>
+                    <div class="insight">
+                        <div class="like">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <g id="heart">
+                                    <path id="Vector"
+                                        d="M20.84 4.61C20.3292 4.099 19.7228 3.69364 19.0554 3.41708C18.3879 3.14052 17.6725 2.99817 16.95 2.99817C16.2275 2.99817 15.5121 3.14052 14.8446 3.41708C14.1772 3.69364 13.5708 4.099 13.06 4.61L12 5.67L10.94 4.61C9.9083 3.57831 8.50903 2.99871 7.05 2.99871C5.59096 2.99871 4.19169 3.57831 3.16 4.61C2.1283 5.64169 1.54871 7.04097 1.54871 8.5C1.54871 9.95903 2.1283 11.3583 3.16 12.39L4.22 13.45L12 21.23L19.78 13.45L20.84 12.39C21.351 11.8792 21.7563 11.2728 22.0329 10.6054C22.3095 9.93789 22.4518 9.22249 22.4518 8.5C22.4518 7.77751 22.3095 7.0621 22.0329 6.39464C21.7563 5.72718 21.351 5.12075 20.84 4.61V4.61Z"
+                                        stroke="white" stroke-opacity="0.6" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </g>
+                            </svg>
+
+                            <p class="like-value">1.6K</p>
+                        </div>
+                        <div class="created">
+                            <time datetime="2024-09-17T17:15:56.000Z">1:15 PM · Feb 7, 2025</time>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p>The paradox applies to various technological shifts. For example, Los Angeles had 10,000 horses in 1900,
+                but by 1950, there were 1 million cars. Similarly, despite the rise of fuel-efficient and
+                electric vehicles, total miles driven has increased, and energy-efficient computers have led to
+                widespread smartphone use and data centers that now consume 1.5% of global electricity<a
+                    href="#northeastern" aria-describedby="footnote-label" id="northeastern-ref"></a>.</p>
+            <p>Steam engines gave Britain the equivalent labour of (very roughly) 5x its total population by 1900.</p>
             <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
             <h3>UK population and steam engine labour unit equivalent (m)</h3>
             <figure id="chart-steam" aria-label="Chart showing UK Population vs Steam Engine Labor Equivalent">
@@ -1057,8 +1317,7 @@
                     alt="Wired Magazine: The Web is dead." loading="lazy">
             </a>
             <p><strong>Wired</strong>: March 1, 1997: “You can kiss your web browser goodbye” –&nbsp;Kevin Kelly and
-                Gary Wolf, The
-                Big Story</p>
+                Gary Wolf, The Big Story</p>
             <p></p>
             <h2>But where are we going?</h2>
             <p>What if recommendations go from correlation to an understanding of what those SKUs really represent?
@@ -1144,6 +1403,11 @@
             <li id="ben-evans"><strong>Benedict Evans</strong>, “<em><a href="https://www.ben-evans.com">AI Eats the
                         World</a></em>" (2025 presentation).<a href="#ben-evans-ref" aria-label="Back to content">↩</a>
             </li>
+            <li id="northeastern"><strong>Northeastern University</strong>, “<em><a
+                        href="https://news.northeastern.edu/2025/02/07/jevons-paradox-ai-future/">What is Jevons
+                        Paradox? And why it may — or may not — predict AI’s future</a></em>" <a href="#northeastern-ref"
+                    aria-label="Back to content">↩</a>
+            </li>
         </ol>
         <div>
             <p>Justin Chill &copy; 2025</p>
@@ -1227,6 +1491,7 @@
         document.getElementById("chart-microsoft-share").append(Plot.plot({
             width: width,
             height: 350,
+            marginTop: 40,
             style: {
                 fontFamily: "Lato, sans-serif",
                 fontSize: "12px",
@@ -1251,6 +1516,17 @@
                     stroke: "#ea4335",
                     strokeWidth: 3,
                     curve: "natural"
+                }),
+                Plot.ruleX([2007, 2023], {
+                    strokeOpacity: 0.5,
+                    strokeDasharray: "4 4"
+                }),
+                Plot.text(["iPhone launched", "ChatGPT"], {
+                    x: [2007, 2023],
+                    y: 1,
+                    dy: -10,
+                    fontSize: 12,
+                    fill: colorMain
                 }),
                 Plot.tip(msftData, Plot.pointerX({
                     x: "year",
@@ -1433,6 +1709,7 @@
         document.getElementById("chart-online-dating").append(Plot.plot({
             width: width,
             height: 350,
+            marginTop: 40,
             style: {
                 fontFamily: "Lato, sans-serif",
                 fontSize: "12px",
@@ -1451,16 +1728,23 @@
                 nice: true,
             },
             marks: [
-                Plot.axisX({
-                    ticks: "3 months",
-                    label: null
-                }),
                 Plot.line(datingData, {
                     x: "year",
                     y: (d) => d.pct / 100,
                     stroke: "#ea4335",
                     strokeWidth: 3,
                     curve: "natural"
+                }),
+                Plot.ruleX([2012, 2022], {
+                    strokeOpacity: 0.5,
+                    strokeDasharray: "4 4"
+                }),
+                Plot.text(["Tinder 🔥", "Grindr"], {
+                    x: [2012, 2022],
+                    y: 0.6,
+                    dy: -10,
+                    fontSize: 12,
+                    fill: colorMain
                 }),
                 Plot.tip(datingData, Plot.pointerX({
                     x: "year",
@@ -1876,6 +2160,7 @@
         document.getElementById("chart-capex-surge").append(Plot.plot({
             width: width,
             height: 400,
+            marginLeft: 0,
             style: {
                 fontFamily: fontFamily,
                 fontSize: size
@@ -1900,12 +2185,36 @@
                 range: ["#999", "#444", "#000", "#fce8e6", "#f4b4b4", "#ea4335"]
             },
             marks: [
+                Plot.axisY({
+                    tickFormat: (d) => d === 0 ? "0" : (d >= 1000 ? `${d}B` : `$${d}M`),
+                    tickSize: 0, // don’t draw ticks
+                    ticks: 4,
+                    dx: 2, // offset right
+                    dy: -4, // offset up
+                    lineAnchor: "bottom", // draw labels above grid lines
+                    textAnchor: "start",
+                }),
                 Plot.barY(capexData, {
                     x: "year",
                     y: "val",
                     fill: "company",
                     order: "company", // Stack order
                     title: (d) => `${d.company}: $${d.val}bn`
+                }),
+                Plot.text(["Meta, Alphabet, Amazon (AWS) and Microsoft are expected to spend between $350 and $400 billion in 2025, most of it dedicated to building datacenters that are the foundation of all AI applications."], {
+                    frameAnchor: "top-left",
+                    dx: 40,
+                    dy: 20,
+                    fontFamily: fontFamily,
+                    fontSize: 14,
+                    lineHeight: 1.2,
+                    lineWidth: 25,
+                    stroke: "white", // Halo effect
+                    strokeWidth: 10,
+                    fill: "currentColor",
+                    style: {
+                        paintOrder: "stroke"
+                    }
                 }),
                 Plot.ruleY([0])
             ]
@@ -2225,7 +2534,8 @@
             height: 300,
             style: {
                 fontFamily: fontFamily,
-                fontSize: size
+                fontSize: size,
+                marginRight: 0,
             },
             x: {
                 label: null,
@@ -2236,6 +2546,8 @@
                 label: "$bn",
                 nice: true,
                 tickSize: 0,
+                ticks: 4,
+                tickFormat: (d) => d === 0 ? "0" : (d >= 1000 ? `${d / 1000}B` : `$${d}M`),
             },
             fx: {
                 label: null,
@@ -2334,7 +2646,8 @@
             height: 300,
             style: {
                 fontFamily: fontFamily,
-                fontSize: size
+                fontSize: size,
+                marginRight: 0,
             },
             x: {
                 label: null,
@@ -2345,6 +2658,7 @@
                 label: "$bn",
                 nice: true,
                 tickSize: 0,
+                tickFormat: (d) => d === 0 ? "0" : (d >= 1000 ? `${d / 1000}B` : `$${d}M`),
             },
             fx: {
                 label: null,
@@ -2745,16 +3059,19 @@
         document.getElementById("chart-nvidia").append(Plot.plot({
             width: width,
             height: 350,
+            marginRight: 40,
+            marginTop: 30,
             style: {
                 fontFamily: fontFamily,
-                fontSize: size
+                fontSize: (size + 2) + "px",
             },
             y: {
                 grid: true,
                 label: "Quarterly Revenue ($bn)",
                 nice: true,
-                ticks: 6,
+                ticks: 4,
                 tickSize: 0,
+                tickFormat: (d) => d === 0 ? "$0" : (d >= 1000 ? `${d / 1000}B` : `$${d}M`),
             },
             x: {
                 label: null,
@@ -2775,6 +3092,15 @@
                     strokeWidth: 3,
                     curve: "monotone-x"
                 }),
+                Plot.text(revenueData, Plot.selectLast({
+                    x: "date",
+                    y: "revenue",
+                    z: "company",
+                    text: "company",
+                    textAnchor: "start",
+                    dx: 3,
+                    fill: "company"
+                })),
                 Plot.tip(revenueData, Plot.pointerX({
                     x: "date",
                     y: "revenue",
@@ -2821,9 +3147,10 @@
         document.getElementById("chart-tsmc").append(Plot.plot({
             width: width,
             height: 350,
+            marginRight: 40,
             style: {
                 fontFamily: fontFamily,
-                fontSize: size
+                fontSize: (size + 2) + "px",
             },
             y: {
                 grid: true,
@@ -2859,6 +3186,15 @@
                     curve: "monotone-x",
                     strokeDasharray: "5,5"
                 }),
+                Plot.text(tsmcData, Plot.selectLast({
+                    x: "date",
+                    y: "revenue",
+                    z: "company",
+                    text: "company",
+                    textAnchor: "start",
+                    dx: 3,
+                    fill: "company"
+                })),
                 Plot.tip(tsmcData, Plot.pointerX({
                     x: "date",
                     y: "revenue",
@@ -2868,68 +3204,128 @@
         }));
 
         // Chart 6: ChatGPT Growth
-        const gptData = [{
-            date: new Date("2022-11-30"),
-            users: 0
-        }, {
-            date: new Date("2023-01-31"),
-            users: 100
-        }, {
-            date: new Date("2023-11-01"),
-            users: 100
-        }, {
-            date: new Date("2024-08-01"),
-            users: 200
-        }, {
-            date: new Date("2024-10-01"),
-            users: 250
-        }, {
-            date: new Date("2024-12-01"),
-            users: 300
-        }, {
-            date: new Date("2025-02-01"),
-            users: 400
-        }, {
-            date: new Date("2025-11-01"),
-            users: 800
-        }];
+        const gptData = [
+            // Active Users (Red)
+            { date: new Date("2024-01-01"), users: 100, type: "ChatGPT weekly active users" },
+            { date: new Date("2024-02-01"), users: 125, type: "ChatGPT weekly active users" },
+            { date: new Date("2024-03-01"), users: 120, type: "ChatGPT weekly active users" },
+            { date: new Date("2024-04-01"), users: 160, type: "ChatGPT weekly active users" },
+            { date: new Date("2024-05-01"), users: 170, type: "ChatGPT weekly active users" },
+            { date: new Date("2024-06-01"), users: 165, type: "ChatGPT weekly active users" },
+            { date: new Date("2024-07-01"), users: 165, type: "ChatGPT weekly active users" },
+            { date: new Date("2024-08-01"), users: 200, type: "ChatGPT weekly active users" },
+            { date: new Date("2024-09-01"), users: 260, type: "ChatGPT weekly active users" },
+            { date: new Date("2024-10-01"), users: 300, type: "ChatGPT weekly active users" },
+            { date: new Date("2024-11-01"), users: 335, type: "ChatGPT weekly active users" },
+            { date: new Date("2024-12-01"), users: 260, type: "ChatGPT weekly active users" },
+            { date: new Date("2025-01-01"), users: 375, type: "ChatGPT weekly active users" },
+            { date: new Date("2025-02-01"), users: 410, type: "ChatGPT weekly active users" },
+            { date: new Date("2025-04-01"), users: 515, type: "ChatGPT weekly active users" },
+            { date: new Date("2025-05-01"), users: 565, type: "ChatGPT weekly active users" },
+            { date: new Date("2025-06-01"), users: 605, type: "ChatGPT weekly active users" },
+            { date: new Date("2025-07-01"), users: 655, type: "ChatGPT weekly active users" },
+            { date: new Date("2025-08-01"), users: 690, type: "ChatGPT weekly active users" },
+
+            // Subscribers (Blue)
+            { date: new Date("2024-01-01"), users: 5, type: "ChatGPT subscribers" },
+            { date: new Date("2024-02-01"), users: 5, type: "ChatGPT subscribers" },
+            { date: new Date("2024-03-01"), users: 6, type: "ChatGPT subscribers" },
+            { date: new Date("2024-04-01"), users: 6, type: "ChatGPT subscribers" },
+            { date: new Date("2024-05-01"), users: 7, type: "ChatGPT subscribers" },
+            { date: new Date("2024-06-01"), users: 8, type: "ChatGPT subscribers" },
+            { date: new Date("2024-07-01"), users: 9, type: "ChatGPT subscribers" },
+            { date: new Date("2024-08-01"), users: 10, type: "ChatGPT subscribers" },
+            { date: new Date("2024-09-01"), users: 12, type: "ChatGPT subscribers" },
+            { date: new Date("2024-10-01"), users: 13, type: "ChatGPT subscribers" },
+            { date: new Date("2024-11-01"), users: 14, type: "ChatGPT subscribers" },
+            { date: new Date("2024-12-01"), users: 15, type: "ChatGPT subscribers" },
+            { date: new Date("2025-01-01"), users: 16, type: "ChatGPT subscribers" },
+            { date: new Date("2025-02-01"), users: 18, type: "ChatGPT subscribers" },
+            { date: new Date("2025-03-01"), users: 20, type: "ChatGPT subscribers" },
+            { date: new Date("2025-04-01"), users: 25, type: "ChatGPT subscribers" },
+            { date: new Date("2025-05-01"), users: 29, type: "ChatGPT subscribers" },
+            { date: new Date("2025-06-01"), users: 31, type: "ChatGPT subscribers" },
+            { date: new Date("2025-07-01"), users: 33, type: "ChatGPT subscribers" },
+            { date: new Date("2025-08-01"), users: 34, type: "ChatGPT subscribers" },
+        ];
 
         document.getElementById("chart-chatgpt-growth").append(Plot.plot({
             width: width,
             height: 250,
+            marginRight: 60,
+            marginLeft: 0,
             style: {
                 fontFamily: fontFamily,
-                fontSize: size
+                fontSize: (size + 2) + "px",
             },
             y: {
                 grid: true,
-                label: "Weekly Active Users (m)",
+                label: null,
                 nice: true,
                 ticks: 4,
                 tickSize: 0,
             },
             x: {
                 label: null,
-                tickFormat: "%Y",
                 nice: true,
-                tickSize: 0,
+                // tickSize: 0,
+            },
+            color: {
+                domain: ["ChatGPT weekly active users", "ChatGPT subscribers"],
+                range: ["#ea4335", "#2859C0"]
             },
             marks: [
+                Plot.axisY({
+                    tickFormat: (d) => d === 0 ? "0" : (d >= 1000 ? `${d / 1000}B` : `${d}M`),
+                    tickSize: 0, // don’t draw ticks
+                    ticks: 4,
+                    dx: -2, // offset right
+                    dy: -4, // offset up
+                    lineAnchor: "bottom", // draw labels above grid lines
+                    textAnchor: "start",
+                }),
                 Plot.line(gptData, {
                     x: "date",
                     y: "users",
-                    stroke: colorAccent,
+                    stroke: "type",
                     strokeWidth: 3
                 }),
                 Plot.dot(gptData, {
                     x: "date",
                     y: "users",
-                    fill: colorAccent
+                    fill: "type"
                 }),
+                Plot.text(gptData, Plot.selectLast({
+                    x: "date",
+                    y: "users",
+                    z: "type",
+                    text: "type",
+                    textAnchor: "start",
+                    dx: 10,
+                    dy: -4,
+                    fill: "type",
+                    lineWidth: 10
+                })),
                 Plot.tip(gptData, Plot.pointerX({
                     x: "date",
-                    y: "users"
-                }))
+                    y: "users",
+                    stroke: "type"
+                })),
+                Plot.text(["For every hundred weekly active users of ChatGPT, five people pay for its Pro or Plus services."], {
+                    frameAnchor: "top-left",
+                    dx: 40,
+                    dy: -2,
+                    fontFamily: fontFamily,
+                    fontSize: 14,
+                    lineHeight: 1.2,
+                    lineWidth: 25,
+                    stroke: "white", // Halo effect
+                    strokeWidth: 10,
+                    fill: "currentColor",
+                    style: {
+                        paintOrder: "stroke"
+                    }
+                })
             ]
         }));
 
@@ -3530,6 +3926,7 @@
                     text: "method",
                     textAnchor: "start",
                     dx: 5,
+                    fontSize: (size + 2) + "px",
                     fill: (d) => d.method === "Online" ? colorAccent : "#777"
                 }))
             ]
@@ -3575,7 +3972,8 @@
                 domain: [0, 300],
                 nice: true,
                 ticks: 4,
-                tickSize: 0
+                tickSize: 0,
+                tickFormat: d => `${d}M`,
             },
             x: {
                 axis: null,
@@ -3852,6 +4250,12 @@
                     y: "val",
                     fill: "type",
                     title: (d) => `${d.batch}\n${d.type}: ${d.val}`
+                }),
+                Plot.image([0], {
+                    frameAnchor: "top-right",
+                    src: "/imgs/Y_Combinator_.logo.svg",
+                    title: "Y Combinator logo",
+                    width: 40,
                 })
             ]
         }));
@@ -3905,6 +4309,13 @@
                     fill: "#e15746",
                     r: 4
                 }),
+                Plot.image([0], {
+                    frameAnchor: "top",
+                    dy: 20,
+                    src: "https://upload.wikimedia.org/wikipedia/commons/c/cd/Accenture.svg",
+                    title: "Accenture logo",
+                    width: 100,
+                }),
                 Plot.tip(accentureData, Plot.pointerX({
                     x: "date",
                     y: "val",
@@ -3955,7 +4366,7 @@
                 }),
                 Plot.text(cioData, Plot.stackX({
                     x: "pct",
-                    text: "status",
+                    text: (d) => `${d.status} \n(${d.pct}%)`,
                     fill: (d) => d.status === "H2 2025" ? "#555" : "white",
                     fontSize: 14
                 }))
@@ -4726,6 +5137,21 @@
                     interval: "3 months",
                     tip: true
                 }),
+                Plot.text(["Microsoft’s capex is now 25% of its revenue, more than three times what it was 10 years ago, according to Bloomberg data. "], {
+                    frameAnchor: "top-left",
+                    dx: 40,
+                    dy: 20,
+                    fontFamily: fontFamily,
+                    fontSize: 14,
+                    lineHeight: 1.2,
+                    lineWidth: 25,
+                    stroke: "white", // Halo effect
+                    strokeWidth: 10,
+                    fill: "currentColor",
+                    style: {
+                        paintOrder: "stroke"
+                    }
+                }),
                 Plot.ruleY([0])
             ]
         }));
@@ -4768,21 +5194,31 @@
         document.getElementById("chart-cursor").append(Plot.plot({
             width: width,
             height: 300,
+            marginLeft: 0,
             style: {
                 fontFamily: fontFamily,
-                fontSize: size
+                fontSize: size,
             },
             x: {
                 label: null
             },
             y: {
                 grid: true,
-                label: "ARR ($m)",
+                label: null,
                 nice: true,
                 ticks: 4,
                 tickSize: 0,
             },
             marks: [
+                Plot.axisY({
+                    tickFormat: (d) => d === 0 ? "0" : (d >= 1000 ? `${d}B` : `$${d}M`),
+                    tickSize: 0, // don’t draw ticks
+                    ticks: 4,
+                    dx: 2, // offset right
+                    dy: -4, // offset up
+                    lineAnchor: "bottom", // draw labels above grid lines
+                    textAnchor: "start",
+                }),
                 Plot.line(cursorData, {
                     x: "date",
                     y: "val",
@@ -4800,7 +5236,13 @@
                 Plot.tip(cursorData, Plot.pointerX({
                     x: "date",
                     y: "val"
-                }))
+                })),
+                Plot.image([0], {
+                    x: new Date("2024-06-01"),
+                    src: "https://cdn.prod.website-files.com/66d7fce027e564db2ca93b06/6743094de405ccdd2bd06625_Cusor-Logo.svg",
+                    width: 200,
+                    title: "Cursor logo",
+                }),
             ]
         }));
 
