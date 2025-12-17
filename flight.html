@@ -24,10 +24,12 @@
 
   <meta name="datePublished" content="2025-06-16">
   <meta name="dateModified" content="2025-08-06">
-  
+
   <meta content="https://i.pinimg.com/originals/b7/f4/34/b7f434d6f681d1ab729acb5c8ad39a66.jpg" property="og:image">
   <meta content="https://i.pinimg.com/originals/b7/f4/34/b7f434d6f681d1ab729acb5c8ad39a66.jpg" property="twitter:image">
-  <meta content="Illustration depicting various airplanes from different eras, including early biplanes, a Concorde, and modern jet airliners, all set against a background of stylized clouds." property="og:image:alt">
+  <meta
+    content="Illustration depicting various airplanes from different eras, including early biplanes, a Concorde, and modern jet airliners, all set against a background of stylized clouds."
+    property="og:image:alt">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="The evolution of human flight | Justin Chill">
@@ -35,7 +37,7 @@
 
   <link type="text/plain" href="humans.txt" rel="author">
   <link rel="preload" href="style.css" as="style" />
-	<link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="/favicon.ico">
 
   <meta name="theme-color" content="#4C63B6">
@@ -72,13 +74,21 @@
       </div>
       <span class="header-tag mid-size"><img src="imgs/tag.svg" alt="Chart header tag"></span>
       <h2 class="mid-size">Reaching for the stars</h2>
-      <figure id="lineChart" class="mid-size">
-        <figcaption class="right">Data: <a href="https://en.wikipedia.org/wiki/History_of_aviation">Wikipedia</a></figcaption>
+      <figure id="lineChart" class="mid-size"
+        aria-label="Line chart showing the maximum speed of aircraft over time. The speed of sound (Mach 1) is marked, showing how modern aircraft have far exceeded it.">
       </figure>
-      <p>While the story of Icarus appears as early as the 1st century, it wasn't until 1903 that the Wright brothers' aircraft took off into the air. In just a little more than 40 years Chuck Yeager became the first person to travel faster than the speed of sound. In 1976, the Lockheed SR-71 Blackbird set the record for the fastest air-breathing manned aircraft, which it still holds today.</p>
+      <figcaption class="right">Data: <a href="https://en.wikipedia.org/wiki/History_of_aviation">Wikipedia</a>
+      </figcaption>
+      </figure>
+      <p>While the story of Icarus appears as early as the 1st century, it wasn't until 1903 that the Wright brothers'
+        aircraft took off into the air. In just a little more than 40 years Chuck Yeager became the first person to
+        travel faster than the speed of sound. In 1976, the Lockheed SR-71 Blackbird set the record for the fastest
+        air-breathing manned aircraft, which it still holds today.</p>
       <figure>
         <figcaption>Jacob Peter Gowy (c 1615-1661), The Fall of Icarus (1635-7). Wikimedia Commons.</figcaption>
-        <img src="https://eclecticlight.co/wp-content/uploads/2016/04/gowyicarus.jpg?w=1024" alt="Painting of two mythological figures flying near the sea. The older man on the left, with wings, watches over a younger man falling. The scene is dramatic with swirling clouds and crashing waves, suggesting a tale of caution and ambition." loading="lazy">
+        <img src="https://eclecticlight.co/wp-content/uploads/2016/04/gowyicarus.jpg?w=1024"
+          alt="Painting of two mythological figures flying near the sea. The older man on the left, with wings, watches over a younger man falling. The scene is dramatic with swirling clouds and crashing waves, suggesting a tale of caution and ambition."
+          loading="lazy">
       </figure>
     </article>
   </main>
@@ -90,7 +100,8 @@
 
     <div>
       <p>Justin Chill &copy; 2025</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
+            alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/d3"></script>
@@ -104,7 +115,7 @@
     const formatNumb = d3.format(",");
 
     // Use Promises to async request data
-    var promises = [d3.csv("data/flightData.csv", function(d) {
+    var promises = [d3.csv("data/flightData.csv", function (d) {
       return { // Accessor function to convert strings to numbers, dates
         Date: new Date(d.Date), // convert column to Date
         Aircraft: d.Aircraft,
@@ -116,7 +127,7 @@
     myDataPromises = Promise.all(promises);
 
     // After data is successfully fetched, generate viz
-    myDataPromises.then(function(data) {
+    myDataPromises.then(function (data) {
       // Define the data. There's gotta be a better way to do this:
       var flights = data[0];
       var mach1 = 1234.8;

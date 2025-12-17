@@ -24,7 +24,7 @@
 
   <meta name="datePublished" content="2025-03-06">
   <meta name="dateModified" content="2025-08-06">
-  
+
   <meta content="" property="og:image">
   <meta content="" property="twitter:image">
   <meta content="" property="og:image:alt">
@@ -35,7 +35,7 @@
 
   <link type="text/plain" href="humans.txt" rel="author">
   <link rel="preload" href="style.css" as="style" />
-	<link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="/favicon.ico">
   <meta name="theme-color" content="#4C63B6">
 
@@ -71,56 +71,79 @@
       </div>
 
       <h3>Elevation Coloring</h3>
-      <figure id="dem1"></figure>
+      <figure id="dem1" aria-label="Digital elevation model of the Lake District showing elevation coloring"></figure>
       <figcaption>Data: (<a href="https://www.gicentre.net/utils/mapprojection">giCentre</a>)</figcaption>
 
-      <p>Assume as a starting point we have have a dataset containing a regular grid of elevation values, often known as a <a href="https://en.wikipedia.org/wiki/Digital_elevation_model">digital elevation model</a> (DEM). A common text format for DEMs is the ESRI ASCII (grid) format. Here we use a sample of raster DEMs from the Ordnance Survey Terrain 50 dataset<a href="#Holmes" aria-describedby="footnote-label" id="Holmes-ref"></a> covering parts of the English Lake District. These record elevations at regular 50m gridded intervals.</p>
+      <p>Assume as a starting point we have have a dataset containing a regular grid of elevation values, often known as
+        a <a href="https://en.wikipedia.org/wiki/Digital_elevation_model">digital elevation model</a> (DEM). A common
+        text format for DEMs is the ESRI ASCII (grid) format. Here we use a sample of raster DEMs from the Ordnance
+        Survey Terrain 50 dataset<a href="#Holmes" aria-describedby="footnote-label" id="Holmes-ref"></a> covering parts
+        of the English Lake District. These record elevations at regular 50m gridded intervals.</p>
 
       <h3>Swiss Style</h3>
-      <figure id="dem2"></figure>
+      <figure id="dem2" aria-label="Topographic map with Swiss-style color scheme"></figure>
 
-      <p>The default 'Turbo' colour scheme is somewhat garish, so let's provide a custom colour scheme more suited to terrain. In this example, we are aiming for a topographic map inspired by the 'Swiss style', and especially Eduard Imhof, so here is a one of the colour schemes recommended in his book Cartographic Relief Presentation.</p>
+      <p>The default 'Turbo' colour scheme is somewhat garish, so let's provide a custom colour scheme more suited to
+        terrain. In this example, we are aiming for a topographic map inspired by the 'Swiss style', and especially
+        Eduard Imhof, so here is a one of the colour schemes recommended in his book Cartographic Relief Presentation.
+      </p>
 
       <h3>Shaded relief</h3>
-      <figure id="relief"></figure>
+      <figure id="relief" aria-label="Shaded relief map of the terrain"></figure>
       <figcaption>Data: (<a href="https://www.gicentre.net/utils/mapprojection">giCentre</a>)</figcaption>
 
-      <p>Showing elevation by colour alone generates a somewhat flat looking map. To add a bit of depth we can calculate the local <a href="https://en.wikipedia.org/wiki/Terrain_cartography#Shaded_relief">shaded relief</a>.</p>
+      <p>Showing elevation by colour alone generates a somewhat flat looking map. To add a bit of depth we can calculate
+        the local <a href="https://en.wikipedia.org/wiki/Terrain_cartography#Shaded_relief">shaded relief</a>.</p>
 
       <h3>Hypsometric Tinting</h3>
-      <figure id="hypsometric"></figure>
+      <figure id="hypsometric" aria-label="Map with hypsometric tinting applied"></figure>
       <figcaption>Data: (<a href="https://www.gicentre.net/utils/mapprojection">giCentre</a>)</figcaption>
 
-      <p>Hypsometric tinting is the process of colouring a shaded relief map to reflect the altitude of the underlying terrain. We can achieve this in Plot by rendering both the coloured elevation raster and the relief raster using a mixBlendMode such as luminosity that combines both.</p>
+      <p>Hypsometric tinting is the process of colouring a shaded relief map to reflect the altitude of the underlying
+        terrain. We can achieve this in Plot by rendering both the coloured elevation raster and the relief raster using
+        a mixBlendMode such as luminosity that combines both.</p>
 
       <h3>Enhancing shape with contours</h3>
-      <figure id="relief2"></figure>
+      <figure id="relief2" aria-label="Map enhancing shape with contour lines"></figure>
 
-      <p>Relief shading gives a pretty good idea of terrain shape, but we can enhance it further by overlaying contour lines. These are easily specified with Plot's contour mark. It is common in topographic maps to use two weights of contour lines – a heavier weight for 'major' contours (e.g. at 200m intervals) and a lighter weight for 'minor' ones (e.g. 50m intervals).</p>
+      <p>Relief shading gives a pretty good idea of terrain shape, but we can enhance it further by overlaying contour
+        lines. These are easily specified with Plot's contour mark. It is common in topographic maps to use two weights
+        of contour lines – a heavier weight for 'major' contours (e.g. at 200m intervals) and a lighter weight for
+        'minor' ones (e.g. 50m intervals).</p>
 
       <h3>Contours</h3>
-      <figure id="contour_outline"></figure>
+      <figure id="contour_outline" aria-label="Detailed contour map of the area"></figure>
 
-      <p>We don't want the contours to stand out too much, just to subtly emphasise the shape of the terrain. Smoothing them slightly with a blur value of 2 and setting their opacity to a low value stops them from dominating the map.</p>
+      <p>We don't want the contours to stand out too much, just to subtly emphasise the shape of the terrain. Smoothing
+        them slightly with a blur value of 2 and setting their opacity to a low value stops them from dominating the
+        map.</p>
 
       <h2>Geographical Features</h2>
-      <p>So far, the rasters and contours have been specified in 'grid space' – that is, where location is somewhere between [0,0] and [nRows-1,nCols-1] determined by the size of the DEM grid. To integrate with other geographic information, we are going to need to locate that grid in 'geographic space' such as longitude/latitude or with a pre-projected map coordinate system. We can do this because the input DEM contains metadata on the geographic location of the bottom-left corner and the size of each grid cell:</p>
+      <p>So far, the rasters and contours have been specified in 'grid space' – that is, where location is somewhere
+        between [0,0] and [nRows-1,nCols-1] determined by the size of the DEM grid. To integrate with other geographic
+        information, we are going to need to locate that grid in 'geographic space' such as longitude/latitude or with a
+        pre-projected map coordinate system. We can do this because the input DEM contains metadata on the geographic
+        location of the bottom-left corner and the size of each grid cell:</p>
 
       <h3>Water Features</h3>
-      <figure id="waterFeatures"></figure>
+      <figure id="waterFeatures" aria-label="Map including water features"></figure>
 
     </article>
   </main>
   <footer>
     <h2 id="footnote-label">Footnotes</h2>
     <ol>
-      <li id="Holmes"><a href="https://digital.library.unt.edu/ark:/67531/metadc68027/m2/1/high_res_d/thesis.pdf">Holmes, 2011</a>.<a href="#Holmes-ref" aria-label="Back to content">↩</a></li>
-      <li id="Graff"><a href="https://onlinelibrary.wiley.com/doi/abs/10.1111/j.0033-0124.1994.00019.x">Graff and Ashton, 1994</a>.<a href="#Graff-ref" aria-label="Back to content">↩</a></li>
+      <li id="Holmes"><a
+          href="https://digital.library.unt.edu/ark:/67531/metadc68027/m2/1/high_res_d/thesis.pdf">Holmes, 2011</a>.<a
+          href="#Holmes-ref" aria-label="Back to content">↩</a></li>
+      <li id="Graff"><a href="https://onlinelibrary.wiley.com/doi/abs/10.1111/j.0033-0124.1994.00019.x">Graff and
+          Ashton, 1994</a>.<a href="#Graff-ref" aria-label="Back to content">↩</a></li>
     </ol>
 
     <div>
       <p>Justin Chill &copy; 2025</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
+            alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/d3"></script>
@@ -381,7 +404,7 @@
         };
         this._fc.features.push(feat);
         [this._mer.minX, this._mer.maxX, this._mer.minY, this._mer.maxY] =
-        this._updateBounds(coords);
+          this._updateBounds(coords);
         return feat;
       }
 
@@ -471,11 +494,11 @@
           .reverse() // Plot expecting rows from bottom to top.
           .flatMap((line) =>
             line
-            .trim()
-            .split(/\s+/)
-            .map((val) =>
-              val === headerData.noDataValue.toString() ? null : Number(val)
-            )
+              .trim()
+              .split(/\s+/)
+              .map((val) =>
+                val === headerData.noDataValue.toString() ? null : Number(val)
+              )
           )
       };
     }
@@ -561,7 +584,7 @@
     myDataPromises = Promise.all(promises);
 
     // After data is successfully fetched, generate viz
-    myDataPromises.then(function(data) {
+    myDataPromises.then(function (data) {
       // Define the data. There's gotta be a better way to do this:
       var dem = data[0];
       var lakes = data[1];

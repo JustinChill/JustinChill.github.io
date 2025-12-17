@@ -24,7 +24,7 @@
 
   <meta name="datePublished" content="2020-07-04">
   <meta name="dateModified" content="2025-07-05">
-  
+
   <meta content="" property="og:image">
   <meta content="" property="twitter:image">
   <meta content="" property="og:image:alt">
@@ -35,7 +35,7 @@
 
   <link type="text/plain" href="humans.txt" rel="author">
   <link rel="preload" href="style.css" as="style" />
-	<link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="/favicon.ico">
   <meta name="theme-color" content="#4C63B6">
 
@@ -88,23 +88,29 @@
       </div>
 
       <figcaption id="cal_legend"></figcaption>
-      <figure id="golf_cal"></figure>
+      <figure id="golf_cal" aria-label="Calendar heatmap of President Trump's golf outings"></figure>
       <figcaption>Data: <a href="https://trumpgolfcount.com">Trump Golf Count</a></figcaption>
 
-      <p>According to the website <a href="https://trumpgolfcount.com/displayoutings">Trump Golf Count</a>, President Trump has played 298 rounds of golf during his four years as president. Estimated cost to taxpayers: $149,000,000<a href="#est" aria-describedby="footnote-label" id="est-ref"></a>.</p>
-      <p>"<i>I'm going to be working for you. I'm not going to have time to go play golf.</i>" --Donald J. Trump, August, 2016</p>
+      <p>According to the website <a href="https://trumpgolfcount.com/displayoutings">Trump Golf Count</a>, President
+        Trump has played 298 rounds of golf during his four years as president. Estimated cost to taxpayers:
+        $149,000,000<a href="#est" aria-describedby="footnote-label" id="est-ref"></a>.</p>
+      <p>"<i>I'm going to be working for you. I'm not going to have time to go play golf.</i>" --Donald J. Trump,
+        August, 2016</p>
 
     </article>
   </main>
   <footer>
     <h2 id="footnote-label">Footnotes</h2>
     <ol>
-      <li id="est">Cost model for calculating the estimated cost to US tax payers <a href="https://trumpgolfcount.com/displaygaoreportcomment">here</a> <a href="#est-ref" aria-label="Back to content">↩</a></li>
+      <li id="est">Cost model for calculating the estimated cost to US tax payers <a
+          href="https://trumpgolfcount.com/displaygaoreportcomment">here</a> <a href="#est-ref"
+          aria-label="Back to content">↩</a></li>
 
     </ol>
     <div>
       <p>Justin Chill &copy; 2025</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
+            alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/d3"></script>
@@ -120,7 +126,7 @@
     myDataPromises = Promise.all(promises);
 
     // Calendar component
-    Calendar = new function() {
+    Calendar = new function () {
       // default accessors
       function valueAccessor(d) {
         return typeof d === "object" && ("value" in d ? d.value : d[1]);
@@ -142,7 +148,7 @@
         );
       }
 
-      return function(
+      return function (
         data = [], {
           date = dateAccessor,
           value = valueAccessor,
@@ -163,20 +169,20 @@
           locale = "en-US",
           weekNumberFormat = +weekStart === 0 ? "%U" : "%W",
           dayFormat = (d) =>
-          d.toLocaleString(locale, {
-            weekday: "narrow",
-            timeZone: "UTC"
-          }),
+            d.toLocaleString(locale, {
+              weekday: "narrow",
+              timeZone: "UTC"
+            }),
           monthFormat = (d) =>
-          d.toLocaleString(locale, {
-            month: "short",
-            timeZone: "UTC"
-          }),
+            d.toLocaleString(locale, {
+              month: "short",
+              timeZone: "UTC"
+            }),
           yearFormat = (d) =>
-          d.toLocaleString(locale, {
-            year: "numeric",
-            timeZone: "UTC"
-          }),
+            d.toLocaleString(locale, {
+              year: "numeric",
+              timeZone: "UTC"
+            }),
         } = {}
       ) {
         // rollup the data into days
@@ -225,11 +231,11 @@
 
         const weekX =
           W === "H" ?
-          (d) =>
-          +utcWeek.count(d3.utcYear(d), d) -
-          26.2 * (d.getUTCMonth() >= 6) +
-          gap * d.getUTCMonth() :
-          (d) => +utcWeek.count(d3.utcYear(d), d) + gap * +d.getUTCMonth();
+            (d) =>
+              +utcWeek.count(d3.utcYear(d), d) -
+              26.2 * (d.getUTCMonth() >= 6) +
+              gap * d.getUTCMonth() :
+            (d) => +utcWeek.count(d3.utcYear(d), d) + gap * +d.getUTCMonth();
         const height =
           (d3.utcMonths(...d3.extent(alldays)).length / 12) *
           (daysToShow.length + 2) *
@@ -266,10 +272,10 @@
           const formatValue = (d) => (typeof d === "number" ? format(d) : d);
           title = Plot.valueof(data, (d, i) =>
             d.foreground ?
-            `${new Intl.DateTimeFormat(locale, { timeZone: "UTC" }).format(
-            d.date
-            )}: ${formatValue(values[i])}` :
-            undefined
+              `${new Intl.DateTimeFormat(locale, { timeZone: "UTC" }).format(
+                d.date
+              )}: ${formatValue(values[i])}` :
+              undefined
           );
         }
 
@@ -283,9 +289,8 @@
             data,
             y: W === "H" ?
               (d) =>
-              `${d.date.getUTCFullYear()} H${
-            d.date.getUTCMonth() < 6 ? "1" : "2"
-          }` : (d) => d.date.getUTCFullYear()
+                `${d.date.getUTCFullYear()} H${d.date.getUTCMonth() < 6 ? "1" : "2"
+                }` : (d) => d.date.getUTCFullYear()
           },
           y: {
             // -2/-1 is for the legend/week number, 0=Sun, 1=Mon… 6=Sat
@@ -369,19 +374,19 @@
 
             // week numbers
             weekNumber ?
-            Plot.text(
-              data,
-              Plot.selectFirst({
-                filter: (d) => d.date.getUTCDay() === (weekStart + 6) % 7,
-                x: (d) => weekX(d.date),
-                y: -1,
-                text: (d) => weekNumberFormat(d.date),
-                fontSize: 7,
-                fill: "grey",
-                z: (d) => weekNumberFormat(d.date)
-              })
-            ) :
-            null
+              Plot.text(
+                data,
+                Plot.selectFirst({
+                  filter: (d) => d.date.getUTCDay() === (weekStart + 6) % 7,
+                  x: (d) => weekX(d.date),
+                  y: -1,
+                  text: (d) => weekNumberFormat(d.date),
+                  fontSize: 7,
+                  fill: "grey",
+                  z: (d) => weekNumberFormat(d.date)
+                })
+              ) :
+              null
           ]
         });
 
@@ -391,7 +396,7 @@
     };
 
     // After data is successfully fetched, generate viz
-    myDataPromises.then(function(data) {
+    myDataPromises.then(function (data) {
       // Define the data
       var golf = data[0];
 

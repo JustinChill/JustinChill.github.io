@@ -62,22 +62,27 @@
         <h1 class="article-title">Rocket Science</h1>
         <h2 class="article-subtitle">Rocket trajectory optimization</h2>
       </div>
-      <p>This example simulates the launch of a SpaceX Falcon 9 modeled using a system of ordinary differential equations.</p>
+      <p>This example simulates the launch of a SpaceX Falcon 9 modeled using a system of ordinary differential
+        equations.</p>
 
       <h3>Trajectory</h3>
-      <figure id="trajectory" aria-label="A bar graph..."></figure>
+      <figure id="trajectory"
+        aria-label="Line chart simulating the trajectory of a SpaceX Falcon 9 rocket launch, showing height above surface vs surface distance travelled.">
+      </figure>
 
     </article>
   </main>
   <footer>
     <h2 id="footnote-label">Footnotes</h2>
     <ol>
-      <li id="mathjs"><a href="https://mathjs.org/examples/browser/rocket_trajectory_optimization.html.html">mathjs, <i>Rocket Trajectory Optimization</i> </a>.<a href="#mathjs-ref" aria-label="Back to content">↩</a></li>
+      <li id="mathjs"><a href="https://mathjs.org/examples/browser/rocket_trajectory_optimization.html.html">mathjs,
+          <i>Rocket Trajectory Optimization</i> </a>.<a href="#mathjs-ref" aria-label="Back to content">↩</a></li>
     </ol>
 
     <div>
       <p>Justin Chill &copy; 2025</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
+            alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
   <script src="https://unpkg.com/mathjs@14.0.1/lib/browser/math.js"></script>
@@ -99,7 +104,7 @@
       ["v0", math.unit(v0, "m/s")], // Initial velocity (must be non-zero because ODE is ill-conditioned)
     ]);
     var parsedExpressions = math.parse(expressions);
-    var results = {
+    var results = (() => {
       parsedExpressions.evaluate(scope)
       return resultNames.map(resultName => {
         const result = scope.get(resultName)
@@ -108,7 +113,7 @@
           y: result.y.toArray()
         }
       })
-    }
+    })();
 
     function calc(expression) {
       return math.evaluate(expression, scope);
@@ -118,18 +123,18 @@
       let stages = []
       results.forEach(
         (result, i) =>
-        result.y.forEach(
-          (y, j) =>
-          stages.push({
-            stage: stageLabel[i],
-            t: result.t[j],
-            r: y[0],
-            v: y[1],
-            m: y[2],
-            phi: y[3],
-            gamma: y[4]
-          })
-        )
+          result.y.forEach(
+            (y, j) =>
+              stages.push({
+                stage: stageLabel[i],
+                t: result.t[j],
+                r: y[0],
+                v: y[1],
+                m: y[2],
+                phi: y[3],
+                gamma: y[4]
+              })
+          )
       )
       return stages
     };
@@ -141,7 +146,7 @@
     myDataPromises = Promise.all(promises);
 
     // After data is successfully fetched, generate viz
-    myDataPromises.then(function(data) {
+    myDataPromises.then(function (data) {
 
       var trajectory = {
         width: width,
