@@ -430,6 +430,20 @@
       display: block;
     }
 
+    .screen .taskbar .system-tray {
+      background-color: #0b9ce0;
+      border-left: 1px solid #1042af;
+      box-shadow: 1px 0px 1px #7fbce8 inset;
+      padding: 0 15px;
+      color: white;
+      font-size: 13px;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-shadow: none;
+    }
+
     .start-menu-container {
       text-align: center;
       line-height: 90vh;
@@ -603,7 +617,9 @@
                 </div>
               </div>
             </div>
-            <div class="quick-section"></div>
+            <div class="system-tray">
+              <div class="time">10:53 PM</div>
+            </div>
           </div>
         </div>
       </div>
@@ -649,7 +665,8 @@
             href="https://www.techradar.com/news/atm-security-still-running-windows-xp">Techradar</a></strong>,
         <em>Despite the large amount of funds held by ATMs, researchers have found that the protections used by the
           machines to prevent theft and tampering were basically for show and anyone motivated to do so could gain
-          access to a machine in under an hour</em>.<a href="#footnotes-ref" aria-label="Back to content">↩</a></li>
+          access to a machine in under an hour</em>.<a href="#footnotes-ref" aria-label="Back to content">↩</a>
+      </li>
 
     </ol>
     <div>
@@ -658,13 +675,11 @@
             alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
-  <!--    <script type="text/javascript" src="https://www.statcounter.com/js/fusioncharts.js"></script><script type="text/javascript" src="https://gs.statcounter.com/chart.php?desktop-windows_version-ww-monthly-201802-202104&chartWidth=600"></script>
- -->
   <script src="https://cdn.jsdelivr.net/npm/d3"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.1"></script>
   <script type="text/javascript">
     // Define small datasets locally to save an xHTTP request
-    var os_marketshare = [{
+    var osMarketShareData = [{
       "OS": "Windows",
       "Market Share Perc. (Dec 2020)": 76.56
     },
@@ -693,7 +708,11 @@
     // Keep clock updated
     function updateClock() {
       var now = new Date();
-      // d3.select('.start-button').text(now.toLocaleTimeString());
+      var timeString = now.toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+      d3.select('.time').text(timeString);
     }
     var oneMinute = 1000 * 60;
     var now = new Date();
@@ -711,7 +730,7 @@
     var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive  
     var size = 14;
 
-    var os_marketshare = {
+    var osMarketShareConfig = {
       width: width,
       style: {
         fontSize: size
@@ -734,34 +753,24 @@
         scheme: "tableau10",
       },
       marks: [
-        Plot.barY(os_marketshare, {
+        Plot.barY(osMarketShareData, {
           x: "OS",
           y: "Market Share Perc. (Dec 2020)",
           fill: "OS",
           title: d => `${d.OS} had ${d["Market Share Perc. (Dec 2020)"]}% market share in 2020.`,
         }),
-        Plot.text(os_marketshare, {
-          filter: d => d.OS !== "Windows",
+        Plot.text(osMarketShareData, {
           x: "OS",
           y: "Market Share Perc. (Dec 2020)",
           text: (d) => `${d["Market Share Perc. (Dec 2020)"]}%`,
           textAnchor: "center",
-          dy: -4,
+          dy: d => d.OS === "Windows" ? -12 : -4,
+          fontWeight: d => d.OS === "Windows" ? 700 : 400
         }),
-        Plot.text(os_marketshare, {
-          filter: d => d.OS === "Windows",
-          x: "OS",
-          y: "Market Share Perc. (Dec 2020)",
-          text: (d) => `${d["Market Share Perc. (Dec 2020)"]}%`,
-          textAnchor: "center",
-          dy: -12,
-          fontWeight: 700
-        }),
-
       ]
     }
 
-    document.getElementById("os_marketshare").appendChild(Plot.plot(os_marketshare));
+    document.getElementById("os_marketshare").appendChild(Plot.plot(osMarketShareConfig));
   </script>
 </body>
 
