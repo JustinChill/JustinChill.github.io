@@ -47,6 +47,23 @@
   <style type="text/css">
     #map {
       min-height: 490px;
+      position: relative;
+      /* Ensure consistent positioning context */
+    }
+
+    #map-base,
+    #map-flights {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    #map-flights {
+      pointer-events: none;
+      /* Let clicks pass through to base if needed */
+      z-index: 2;
     }
   </style>
 </head>
@@ -73,7 +90,11 @@
       </div>
 
       <figure id="map" class="mid-size" aria-label="World map displaying global flight paths">
-        <figcaption class="right">Data: <a href="https://openflights.org">OpenFlights</a> (2014)</figcaption>
+        <div id="map-base"></div>
+        <div id="map-flights"></div>
+        <figcaption class="right" style="position: absolute; bottom: 0; right: 0; z-index: 20;">Data: <a
+            href="https://openflights.org">OpenFlights</a>, 2014</figcaption>
+
       </figure>
 
       <p>Global air travel is a vital part of the modern world, connecting cities, countries, and continents through a
@@ -117,54 +138,131 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/topojson@3.0.2/dist/topojson.min.js"></script>
 
   <script type="text/javascript">
-    var elementMid = d3.select('figure.mid-size').node();
-    var widthMid = elementMid.getBoundingClientRect().width; // get width of figure.mid-size so graphic is responsive
-    var size = 12;
+    // Use window.load to ensure the page renders before fetching heavy data
+    window.addEventListener("load", async function () {
+      var elementMid = d3.select('figure.mid-size').node();
+      var widthMid = elementMid.getBoundingClientRect().width;
+      var heightMid = 490; // Fixed height from CSS
 
-    // Use Promises to async request data
-    var promises = [d3.csv("https://gist.githubusercontent.com/MichaelByrneAU/87383e163244055d641d4dcd58a5d24d/raw/d17299dcba8c9e18b4e1f4885f90a45618b55599/flight_paths_2014.csv", function (d) {
-      return [
-        [+d.source_longitude, +d.source_latitude],
-        [+d.destination_longitude, +d.destination_latitude]
-      ]
-    }), d3.json("https://unpkg.com/world-atlas@1/world/110m.json")];
+      // 1. Fetch and Render Base Map (World Atlas)
+      try {
+        const world = await d3.json("https://unpkg.com/world-atlas@1/world/110m.json");
+        const land = topojson.feature(world, world.objects.land);
 
-    myDataPromises = Promise.all(promises);
+        var baseMap = {
+          width: widthMid,
+          height: heightMid, // Explicit height to match CSS
+          projection: "equal-earth",
+          style: {
+            backgroundColor: "#111",
+          },
+          marks: [
+            Plot.sphere({
+              fill: "#111"
+            }),
+            Plot.geo(land, {
+              fill: "#262626"
+            })
+          ]
+        };
 
-    // After data is successfully fetched, generate viz
-    myDataPromises.then(function (data) {
-      // Define the data. There's gotta be a better way to do this:
-      var routeData = data[0];
-      var world = data[1];
-      var land = topojson.feature(world, world.objects.land);
+        const mapBaseContainer = document.getElementById("map-base");
+        mapBaseContainer.appendChild(Plot.plot(baseMap));
 
-      var map = {
-        width: widthMid,
-        projection: "equal-earth",
-        style: {
-          backgroundColor: "#111",
-        },
-        marks: [
-          Plot.sphere({
-            fill: "#111"
-          }),
-          Plot.geo(land, {
-            fill: "#262626"
-          }),
-          Plot.link(routeData, {
-            x1: d => d[0][0],
-            y1: d => d[0][1],
-            x2: d => d[1][0],
-            y2: d => d[1][1],
-            stroke: "#8014b7",
-            strokeWidth: 0.25,
-            strokeOpacity: 0.2, // Use strokeOpacity instead of opacity
-            mixBlendMode: "screen"
-          })
-        ]
-      };
+        // Fade out loader once base map is ready
+        var loader = document.getElementById("map-loader");
+        if (loader) {
+          loader.classList.add('fade-out');
+          setTimeout(() => loader.remove(), 500); // Remove after transition
+        }
 
-      document.getElementById("map").appendChild(Plot.plot(map));
+      } catch (error) {
+        console.error("Error loading base map:", error);
+      }
+
+      // 2. Stream and Render Flights
+      const url = "https://gist.githubusercontent.com/MichaelByrneAU/87383e163244055d641d4dcd58a5d24d/raw/d17299dcba8c9e18b4e1f4885f90a45618b55599/flight_paths_2014.csv";
+      const flightContainer = document.getElementById("map-flights");
+
+      try {
+        const response = await fetch(url);
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder("utf-8");
+        let buffer = "";
+        let flights = [];
+        let chunkCount = 0;
+        const CHUNK_SIZE = 25; // Update render every 25 flights for smoother initial feedback
+
+        while (true) {
+          const {
+            done,
+            value
+          } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, {
+            stream: true
+          });
+          const lines = buffer.split("\n");
+          // Keep the last partial line in the buffer
+          buffer = lines.pop();
+
+          for (const line of lines) {
+            const cols = line.split(",");
+            // CSV structure: count, source_latitude, source_longitude, destination_latitude, destination_longitude
+            if (cols.length >= 5) {
+              const s_lat = parseFloat(cols[1]);
+              const s_lon = parseFloat(cols[2]);
+              const d_lat = parseFloat(cols[3]);
+              const d_lon = parseFloat(cols[4]);
+
+              if (!isNaN(s_lat) && !isNaN(s_lon) && !isNaN(d_lat) && !isNaN(d_lon)) {
+                flights.push([
+                  [s_lon, s_lat],
+                  [d_lon, d_lat]
+                ]);
+              }
+            }
+          }
+
+          // Incremental Render
+          if (flights.length > chunkCount + CHUNK_SIZE) {
+            chunkCount = flights.length;
+            renderFlights(flights, widthMid, heightMid, flightContainer);
+          }
+        }
+
+        // Final Render
+        renderFlights(flights, widthMid, heightMid, flightContainer);
+
+      } catch (error) {
+        console.error("Error streaming flight data:", error);
+      }
+
+      function renderFlights(data, width, height, container) {
+        container.innerHTML = "";
+        const flightMap = {
+          width: width,
+          height: height,
+          projection: "equal-earth",
+          style: {
+            background: "transparent",
+          },
+          marks: [
+            Plot.link(data, {
+              x1: d => d[0][0],
+              y1: d => d[0][1],
+              x2: d => d[1][0],
+              y2: d => d[1][1],
+              stroke: "#8014b7",
+              strokeWidth: 0.25,
+              strokeOpacity: 0.2,
+              mixBlendMode: "screen"
+            })
+          ]
+        };
+        container.appendChild(Plot.plot(flightMap));
+      }
     });
 
     // Top 10 Busiest Airports (2023)

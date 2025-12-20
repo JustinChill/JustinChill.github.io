@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" class="no-js">
 
 <head>
@@ -18,9 +18,13 @@
 	<meta content="https://www.justinchill.com/blog.html" property="og:see_also">
 	<link rel="canonical" href="https://www.justinchill.com/article.html">
 
-	<meta content="" property="og:image">
-	<meta content="" property="twitter:image">
-	<meta content="" property="og:image:alt">
+	<meta
+		content="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Billy_Joel_at_the_piano%2C_1971.jpg/1024px-Billy_Joel_at_the_piano%2C_1971.jpg"
+		property="og:image">
+	<meta
+		content="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Billy_Joel_at_the_piano%2C_1971.jpg/1024px-Billy_Joel_at_the_piano%2C_1971.jpg"
+		property="twitter:image">
+	<meta content="Billy Joel performing on stage." property="og:image:alt">
 
 	<meta name="twitter:card" content="summary_large_image">
 	<meta name="twitter:title" content="We Didn't Start the Fire">
@@ -42,29 +46,19 @@
 		document.documentElement.classList.remove('no-js');
 		document.documentElement.classList.add('js');
 	</script>
-
-	<style type="text/css">
+	<style>
 		article {
-			/* Old browsers */
-			background: #a2e0f9;
-			/* FF3.6+ */
-			background: -moz-linear-gradient(-45deg, #a2e0f9 6%, #cef5fc 39%, #eafaeb 70%, #fefcd3 88%, #fdf4ba 100%);
-			/* Chrome,Safari4+ */
-			background: -webkit-gradient(linear, left top, right bottom, color-stop(6%, #a2e0f9), color-stop(39%, #cef5fc), color-stop(70%, #eafaeb), color-stop(88%, #fefcd3), color-stop(100%, #fdf4ba));
-			/* Chrome10+,Safari5.1+ */
-			background: -webkit-linear-gradient(-45deg, #a2e0f9 6%, #cef5fc 39%, #eafaeb 70%, #fefcd3 88%, #fdf4ba 100%);
-			/* Opera 11.10+ */
-			background: -o-linear-gradient(-45deg, #a2e0f9 6%, #cef5fc 39%, #eafaeb 70%, #fefcd3 88%, #fdf4ba 100%);
-			/* IE10+ */
-			background: -ms-linear-gradient(-45deg, #a2e0f9 6%, #cef5fc 39%, #eafaeb 70%, #fefcd3 88%, #fdf4ba 100%);
-			/* W3C */
+			/* Gradient background */
 			background: linear-gradient(135deg, #a2e0f9 6%, #cef5fc 39%, #eafaeb 70%, #fefcd3 88%, #fdf4ba 100%);
 			margin: 0;
+			padding-bottom: 2rem;
 		}
 
 		p.chorus {
-			width: 400px;
+			max-width: 400px;
+			width: 100%;
 			margin: 0 auto;
+			text-align: center;
 		}
 
 		.app {
@@ -74,7 +68,6 @@
 		}
 
 		.app.fade-in {
-			-webkit-animation: fadeIn 600ms 600ms ease forwards;
 			animation: fadeIn 600ms 600ms ease forwards;
 		}
 
@@ -88,6 +81,7 @@
 
 		.grid-image img {
 			width: 100%;
+			height: auto;
 			border-radius: 5px;
 		}
 
@@ -98,6 +92,7 @@
 			border: 2px solid #333;
 			border-radius: 5px;
 			transition: background 200ms ease;
+			cursor: pointer;
 		}
 
 		.grid-button button:hover {
@@ -106,127 +101,140 @@
 
 		audio {
 			display: block;
-			margin: 0 auto;
-		}
-
-		@-webkit-keyframes fadeIn {
-			0% {
-				opacity: 0;
-			}
-
-			100% {
-				opacity: 1;
-			}
+			margin: 0 auto 2rem;
+			width: 90%;
+			max-width: 400px;
 		}
 
 		@keyframes fadeIn {
-			0% {
+			from {
 				opacity: 0;
 			}
 
-			100% {
+			to {
 				opacity: 1;
 			}
 		}
 
-		body>header>h1 {
-			margin-bottom: 0;
+		h1,
+		h2,
+		h3 {
+			text-align: center;
 		}
 
-		article>header>h1 {
-			padding: 6rem 0;
+		.timeline-container {
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 0 1rem;
 		}
 
-		ul {
-			grid-column: 1/-1;
-			margin: 0 4rem;
+		section.verse {
+			margin-bottom: 4rem;
 		}
 
-		li {
+		section.verse h2 {
+			margin: 2rem 0;
+			font-family: var(--font-ui);
+			font-size: 2rem;
+			border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+			display: inline-block;
+			padding-bottom: 0.5rem;
+		}
+
+		ol.timeline-events {
 			list-style: none;
-			align-items: center;
+			padding: 0;
+			margin: 0;
+		}
+
+		li.year-group {
 			display: flex;
 			flex-direction: row;
-			font-size: 20px;
-			/*max-height: 400px;*/
+			align-items: flex-start;
+			/* Align year to top */
+			margin-bottom: 3rem;
+			gap: 1rem;
 		}
 
-		Li+li {
-			margin: 3rem 0;
-		}
-
-		li::before {
-			content: "&";
-		}
-
-		li::before {
-			/*
-			When we apply "display: flex" to the pseudo-element, the CONTENT within
-			the pseudo-element is given an IMPLICIT WRAPPER, making it the only item
-			in this local flexbox layout. This allows us to use "align-items" and
-			"justify-content" as a means to center the CONTENT within the dimensions
-			of the pseudo-element.
-			*/
-			align-items: center;
-			content: attr(data-year) ". ";
-			display: flex;
-			justify-content: center;
-
-			/* Other styling ... */
-			/*border-radius: 100% 100% 100% 100% ;*/
+		li.year-group::before {
+			content: attr(data-year);
 			font-family: monospace;
-			font-size: 16px;
-			font-weight: 600;
-			height: 36px;
-			width: 36px;
-			/*letter-spacing: 1px;*/
-			/*line-height: 21px ;*/
-			margin-right: 10px;
-			text-transform: uppercase;
+			font-size: 1.2rem;
+			font-weight: 700;
+			background: #333;
+			color: #fff;
+			padding: 0.25rem 0.5rem;
+			border-radius: 4px;
+			min-width: 60px;
+			text-align: center;
+			margin-top: 0.5rem;
+			/* Align with first row of images */
 		}
 
-		.gallery {
-			display: flex;
-			flex-wrap: wrap;
-			align-content: flex-start;
-			justify-content: space-between;
-		}
-
-		.gallery a {
-			flex-grow: 1;
-			flex-basis: 125px;
-			max-width: 100%;
-			/*max-width: 150px;*/
-			/*max-height: 250px;*/
-			margin: 5px;
-			display: flex;
-			flex-direction: column-reverse;
-		}
-
-		.gallery img {
-			height: 100%;
+		.gallery-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+			gap: 1.5rem;
 			width: 100%;
-			border-radius: 5px;
-			box-shadow: 0 0 11px rgba(33, 33, 33, .2);
 		}
 
-		.gallery img:hover {
-			box-shadow: 0 0 11px rgba(33, 33, 33, .5);
+		.event-card {
+			display: flex;
+			flex-direction: column;
+			text-decoration: none;
+			color: inherit;
+			background: rgba(255, 255, 255, 0.4);
+			padding: 0.5rem;
+			border-radius: 8px;
+			transition: transform 0.2s ease, box-shadow 0.2s ease;
+			height: 100%;
 		}
 
-		@media screen and (max-width: 1100px) {
-			ul {
-				margin: 0 1.5rem;
+		.event-card:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+			background: rgba(255, 255, 255, 0.7);
+		}
+
+		.event-card img {
+			width: 100%;
+			aspect-ratio: 1 / 1;
+			/* Make images square-ish */
+			object-fit: cover;
+			border-radius: 4px;
+			margin-bottom: 0.5rem;
+			order: -1;
+			/* Ensure image is visually first */
+		}
+
+		.event-caption {
+			font-family: var(--font-main);
+			font-size: 0.95rem;
+			line-height: 1.3;
+			text-align: center;
+			word-wrap: break-word;
+		}
+
+		i {
+			font-size: inherit;
+		}
+
+		@media screen and (max-width: 768px) {
+			li.year-group {
+				flex-direction: column;
 			}
 
-			li {
-				flex-direction: column;
-				font-size: 20px;
-				/*max-height: 400px;*/
+			li.year-group::before {
+				align-self: flex-start;
+				margin-bottom: 1rem;
+			}
+
+			.gallery-grid {
+				grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+				gap: 1rem;
 			}
 		}
 	</style>
-
 </head>
 
 <body>
@@ -244,15 +252,24 @@
 
 	<main role="main">
 		<article>
-
+			<div class="article-hero mid-size">
+				<h2 class="article-category">Bottoms up</h2>
+				<h1 class="article-title">We Didn't Start the Fire 🔥</h1>
+				<h2 class="article-subtitle">A pictorial chronology</h2>
+			</div>
 			<div class="app fade-in">
 				<div class="grid">
 					<div class="grid-group">
 						<div class="grid-image"><img
-								src="https://image.pbs.org/video-assets/pbs/great-performances/4194/images/Mezzanine_869.jpg?crop=1920x1080&format=jpg"
+								src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Billy_Joel_%22Piano_Man%22_1973_press_photo.jpg"
 								loading="lazy" alt="Billy Joel performing on stage." /></div>
 						<div class="grid-text">
-
+							<p>Billy Joel's <i>We Didn't Start the Fire</i> is a reminder that no matter how crazy
+								times
+								may
+								seem today, they have always been crazy and will continue to be crazy as long as life
+								continues to exist. It is a living time capsule, reminding us of foregone political and
+								cultural events. Explore the lyrics to the song below!</p>
 						</div>
 						<div class="grid-button">
 							<!-- <button>More</button> -->
@@ -260,841 +277,892 @@
 					</div>
 				</div>
 			</div>
-			<header>
-				<h1>We Didn't Start the Fire 🔥</h1>
-				<h2 class="subtitle">A pictorial chronology</h2>
-				<!-- <time date="2021-6-26">June 2021</time> -->
-			</header>
 
-			<p>Billy Joel's <i>We Didn’t Start the Fire</i> is a reminder that no matter how crazy times may seem today,
-				they have always been crazy and will continue to be crazy as long as life continues to exist. It is a
-				living time capsule, reminding us of foregone political and cultural events. Explore the lyrics to the
-				song below!</p>
 			<audio controls crossorigin>
 				<source src="https://archive.org/download/BillyJoelWeDidntStarttheFire/We_Didnt_Start_the_Fire.mp3"
 					type="audio/mpeg">
 			</audio>
 			<!-- <p>Reference <a href="https://i.imgur.com/dmJTo1O.jpg">image</a>.</p> -->
-			<ul>
-				<h2>Verse 1: 1949 - 52</h2>
-				<li data-year="1949" start="1949">
-					<div class="gallery">
-						<a href="https://en.wikipedia.org/wiki/Harry_S._Truman">
-							Harry Truman
-							<img src="https://www.readersdigest.ca/wp-content/uploads/2020/01/10305997a.jpg"
-								alt="Man holds newspaper that declares 'Dewey Defeats Truman'">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Doris_Day">
-							Doris Day
-							<img src="https://www.famousbirthsdeaths.com/wp-content/uploads/2015/11/is-doris-day-dead-or-alive.jpg"
-								alt="Doris Day smiling">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Communist-controlled_China_(1927–1949)">
-							Red China
-							<img src="https://cdn4.i-scmp.com/sites/default/files/images/methode/2017/05/18/474f8686-3a1b-11e7-8ee3-761f02c18070_image_hires_184547.jpg"
-								alt="China in 1949">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Johnnie_Ray">
-							Johnnie Ray
-							<img src="https://cps-static.rovicorp.com/3/JPG_500/MI0002/543/MI0002543681.jpg?partner=allrovi.com"
-								alt="The Johnnie Ray 'Remembering: His Greatest Hits - Johnnie Ray' Album cover.">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/South_Pacific_(musical)">
-							South Pacific
-							<img src="https://cdn.smehost.net/masterworksbroadwaycom-45pressprod/wp-content/uploads/2015/02/SOUTHPACIFIC_cast_phP-305x210.jpg"
-								alt="South Pacific the Musical">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Walter_Winchell">
-							Walter&nbsp;Winchell
-							<img src="http://4.bp.blogspot.com/-YJsfSUmI4mY/Vnlu_BJjWoI/AAAAAAAA9iE/90VGtBDJiiE/s1600/WALTER%2BWINCHELL.jpg"
-								alt="Walter Winchell in front of a microphone.">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Joe_DiMaggio">
-							Joe DiMaggio
-							<img src="https://i.pinimg.com/originals/c0/f2/30/c0f230cf2438fd6954198d6bf67a9401.jpg"
-								alt="Joe DiMaggio jump catch!">
-						</a>
-					</div>
-				</li>
-				<li data-year="1950">
-					<div class="gallery">
-						<a href="https://en.wikipedia.org/wiki/Joseph_McCarthy">
-							Joe McCarthy
-							<img src="http://wpr-public.s3.amazonaws.com/wprorg/s3fs-public/articles/2017/02/mccarthy.jpg"
-								alt="Man holds newspaper that declares 'McCarthyism is treason to America'">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Doris_Day">
-							Richard Nixon
-							<img src="http://3.bp.blogspot.com/_q8qoGZQ8Q3A/TRf_07uCC2I/AAAAAAAAC2s/8xdlXg72388/s1600/richard-nixon0.jpg"
-								alt="Richard Nixon portrait">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Studebaker#Post-WWII_styling">
-							Studebaker
-							<img src="https://i.pinimg.com/originals/5c/ce/51/5cce51d62285f0dda7685ed67d51e152.jpg"
-								alt="Studebaker car in 1939">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Television#Electronic">
-							Television
-							<img src="https://i.pinimg.com/736x/c5/ba/ec/c5baec304513cd954d828d5ca56b5a35--portable-tv-television-set.jpg"
-								alt="Early home television">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/North_Korea">
-							North Korea
-							<img src="https://atticusblog.com/wp-content/uploads/2017/04/missile_def_global_lead_img_lg-43-1024x1024.jpg"
-								alt="North Korea missle crisis">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/South_Korea">
-							South Korea
-							<img src="https://cdn.i-scmp.com/sites/default/files/styles/768x768/public/d8/images/methode/2019/05/20/690c544c-7859-11e9-933d-71f872cf659b_image_hires_234536.JPG?itok=DD0lWesX&v=1558367145"
-								alt="South Korean war.">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Marilyn_Monroe">
-							Marilyn&nbsp;Monroe
-							<img src="https://i.ebayimg.com/images/i/290369057744-0-1/s-l1000.jpg"
-								alt="Marilyn Monroe portrait">
-						</a>
-					</div>
-				</li>
-				<li data-year="1951">
-					<div class="gallery">
-						<a href="https://en.wikipedia.org/wiki/Julius_and_Ethel_Rosenberg">
-							Rosenbergs
-							<img loading="lazy"
-								src="https://upload.wikimedia.org/wikipedia/commons/6/68/Julius_and_Ethel_Rosenberg_NYWTS.jpg"
-								alt="Julius and Ethel Rosenberg">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Thermonuclear_weapon">
-							H-Bomb
-							<img loading="lazy"
-								src="https://qph.fs.quoracdn.net/main-qimg-8fbe62b643b8b01951a81a6137c87721-c"
-								alt="Thermonuclear weapon explosion">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Sugar_Ray">
-							Sugar Ray
-							<img loading="lazy"
-								src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Sugar_Ray_Robinson_1947.jpg/440px-Sugar_Ray_Robinson_1947.jpg"
-								alt="Sugar Ray the boxer.">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Panmunjom#Truce_talks_and_POW_issue">
-							Panmunjom
-							<img loading="lazy"
-								src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Panmunjom%2C_site_of_armistice_negotiations.jpg/440px-Panmunjom%2C_site_of_armistice_negotiations.jpg"
-								alt="The Johnnie Ray 'Remembering: His Greatest Hits - Johnnie Ray' Album cover.">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Marlon_Brando">
-							Brando
-							<img loading="lazy"
-								src="https://i.pinimg.com/originals/97/5a/0c/975a0c94ceae46c2be16ed593cb73d62.jpg"
-								alt="South Pacific the Musical">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/The_King_and_I">
-							The King and I
-							<img loading="lazy"
-								src="https://images.genius.com/37532f8b53655a87acc6570b68ce80e7.783x783x1.jpg"
-								alt="The King and I musical - 1951.">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/The_Catcher_in_the_Rye">
-							The&nbsp;Catcher&nbsp;in&nbsp;the&nbsp;Rye
-							<img loading="lazy"
-								src="https://i5.walmartimages.com/asr/ce79b04b-d178-400c-a07d-b0eea501bb44_1.4a411a4feff0124a23912c0043ab8b53.jpeg?odnWidth=612&odnHeight=612&odnBg=ffffff"
-								alt="The Catcher in the Rye. A classic American novel.">
-						</a>
-					</div>
-				</li>
-				<li data-year="1952">
-					<div class="gallery">
-						<a href="https://en.wikipedia.org/wiki/Dwight_D._Eisenhower">
-							Eisenhower
-							<img loading="lazy"
-								src="https://totallyhistory.com/wp-content/uploads/2011/08/Dwight-D-Eisenhower.jpg"
-								alt="Eisenhower portrait">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Polio_vaccine">
-							Vaccine
-							<img loading="lazy"
-								src="https://external-preview.redd.it/0e7BgK3hPSrRaALJ7I5uyD_axmRMz3uruudEQmzNe9s.jpg?auto=webp&s=3c6d5c0661f3a1866e862d2311b87dac9f7e921d"
-								alt="The polio vaccine">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Elizabeth_II">
-							England's Got a New Queen
-							<img loading="lazy"
-								src="https://upload.wikimedia.org/wikipedia/commons/d/de/Philip_Alexius_de_Laszlo-Princess_Elizabeth_of_York%2C_Currently_Queen_Elizabeth_II_of_England%2C1933.jpg"
-								alt="China in 1949">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Rocky_Marciano">
-							Marciano
-							<img loading="lazy"
-								src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Rocky_Marciano_Postcard_1953.jpg/440px-Rocky_Marciano_Postcard_1953.jpg"
-								alt="Rocky Marciano">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Liberace">
-							Liberace
-							<img loading="lazy"
-								src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Liberace_8_Allan_Warren.jpg/440px-Liberace_8_Allan_Warren.jpg"
-								alt="South Pacific the Musical">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/George_Santayana#In_popular_culture">
-							Santayana goodbye
-							<img loading="lazy"
-								src="https://42796r1ctbz645bo223zkcdl-wpengine.netdna-ssl.com/wp-content/uploads/2019/09/George_SantayanaAA.jpg"
-								alt="Walter Winchell in front of a microphone.">
-						</a>
-					</div>
-				</li>
-				<section>
-					<p class="chorus">[Chorus]<br>
-						We didn't start the fire<br>
-						It was always burning<br>
-						Since the world's been turning<br>
-						We didn't start the fire<br>
-						No, we didn't light it<br>
-						But we tried to fight it</p>
+			<div class="timeline-container mid-size">
+				<section class="verse">
+					<h2>Verse 1: 1949 - 52</h2>
+					<ol class="timeline-events">
+						<li class="year-group" data-year="1949">
+							<div class="gallery-grid">
+								<a href="https://en.wikipedia.org/wiki/Harry_S._Truman" class="event-card">
+									<span class="event-caption">Harry Truman</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/0/09/Dewey_Defeats_Truman.jpg"
+										alt="Man holds newspaper that declares 'Dewey Defeats Truman'">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Doris_Day" class="event-card">
+									<span class="event-caption">Doris Day</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/3/30/Doris_Day_-_1957.JPG"
+										alt="Doris Day smiling">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Communist-controlled_China_(1927-1949)"
+									class="event-card">
+									<span class="event-caption">Red China</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/8/85/Mao_Proclaiming_New_China.JPG"
+										alt="China in 1949">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Johnnie_Ray" class="event-card">
+									<span class="event-caption">Johnnie Ray</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Johnnie_Ray_c._1952_photo.png"
+										alt="Johnnie Ray publicity photo">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/South_Pacific_(musical)" class="event-card">
+									<span class="event-caption">South Pacific</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/e/e2/South_Pacific_Playbill.jpg"
+										alt="South Pacific the Musical">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Walter_Winchell" class="event-card">
+									<span class="event-caption">Walter Winchell</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/b/b9/Walter_Winchell_-_Radio-TV_Mirror%2C_January_1951.jpg"
+										alt="Walter Winchell in front of a microphone.">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Joe_DiMaggio" class="event-card">
+									<span class="event-caption">Joe DiMaggio</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/1939_Playball_Joe_Dimaggio_%28minus_halftone%29.jpg/800px-1939_Playball_Joe_Dimaggio_%28minus_halftone%29.jpg"
+										alt="Joe DiMaggio portrait">
+								</a>
+							</div>
+						</li>
+						<li class="year-group" data-year="1950">
+							<div class="gallery-grid">
+								<a href="https://en.wikipedia.org/wiki/Joseph_McCarthy" class="event-card">
+									<span class="event-caption">Joe McCarthy</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Joseph_McCarthy.jpg/800px-Joseph_McCarthy.jpg"
+										alt="Man holds newspaper that declares 'McCarthyism is treason to America'">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Richard_Nixon" class="event-card">
+									<span class="event-caption">Richard Nixon</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Richard_Nixon_presidential_portrait.jpg/800px-Richard_Nixon_presidential_portrait.jpg"
+										alt="Richard Nixon portrait">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Studebaker#Post-WWII_styling" class="event-card">
+									<span class="event-caption">Studebaker</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/2/21/1950_Studebaker_Champion_bullet_nose_%281144281588%29.jpg"
+										alt="Studebaker car in 1939">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Television#Electronic" class="event-card">
+									<span class="event-caption">Television</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/c/c5/RCA_630-TS_Television.jpg"
+										alt="Early home television">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/North_Korea" class="event-card">
+									<span class="event-caption">North Korea</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/a/ae/Korean-War-june-aug-1950.png"
+										alt="North Korea missle crisis">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/South_Korea" class="event-card">
+									<span class="event-caption">South Korea</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/IncheonLandingMcArthur.jpg/800px-IncheonLandingMcArthur.jpg"
+										alt="South Korean war.">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Marilyn_Monroe" class="event-card">
+									<span class="event-caption">Marilyn Monroe</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Marilyn_Monroe_in_1952.jpg/800px-Marilyn_Monroe_in_1952.jpg"
+										alt="Marilyn Monroe portrait">
+								</a>
+							</div>
+						</li>
+						<li class="year-group" data-year="1951">
+							<div class="gallery-grid">
+								<a href="https://en.wikipedia.org/wiki/Julius_and_Ethel_Rosenberg" class="event-card">
+									<span class="event-caption">Rosenbergs</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Julius_and_Ethel_Rosenberg_NYWTS.jpg/800px-Julius_and_Ethel_Rosenberg_NYWTS.jpg"
+										alt="Julius and Ethel Rosenberg">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Thermonuclear_weapon" class="event-card">
+									<span class="event-caption">H-Bomb</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/3/3d/IvyMike2.jpg"
+										alt="Thermonuclear weapon explosion">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Sugar_Ray" class="event-card">
+									<span class="event-caption">Sugar Ray</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Sugar_Ray_Robinson_1947.jpg/800px-Sugar_Ray_Robinson_1947.jpg"
+										alt="Sugar Ray the boxer.">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Panmunjom#Truce_talks_and_POW_issue"
+									class="event-card">
+									<span class="event-caption">Panmunjom</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/b/b5/Korean_War_armistice_agreement_1953.jpg"
+										alt="Panmunjom signature of armistice">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Marlon_Brando" class="event-card">
+									<span class="event-caption">Brando</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Marlon_Brando_1948.jpg"
+										alt="Marlon Brando">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/The_King_and_I" class="event-card">
+									<span class="event-caption">The King and I</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/f/f5/Yul_Brynner_The_King_and_I_1954.JPG"
+										alt="The King and I musical - 1951.">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/The_Catcher_in_the_Rye" class="event-card">
+									<span class="event-caption">The Catcher in the Rye</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/The_Catcher_in_the_Rye_%281951%2C_first_edition_cover%29.jpg/800px-The_Catcher_in_the_Rye_%281951%2C_first_edition_cover%29.jpg"
+										alt="The Catcher in the Rye. A classic American novel.">
+								</a>
+							</div>
+						</li>
+						<li class="year-group" data-year="1952">
+							<div class="gallery-grid">
+								<a href="https://en.wikipedia.org/wiki/Dwight_D._Eisenhower" class="event-card">
+									<span class="event-caption">Eisenhower</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/0/0e/Portrait_of_President_Dwight_D._Eisenhower_1956_%283x4_cropped%29.jpg"
+										alt="Eisenhower portrait">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Polio_vaccine" class="event-card">
+									<span class="event-caption">Vaccine</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/c/ca/SalkatPitt.jpg"
+										alt="The polio vaccine">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Elizabeth_II" class="event-card">
+									<span class="event-caption">England's Got a New Queen</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/9/9e/Elizabeth_and_Philip_1953.jpg"
+										alt="Queen Elizabeth II">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Rocky_Marciano" class="event-card">
+									<span class="event-caption">Marciano</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Rocky_Marciano_Postcard_1953.jpg/800px-Rocky_Marciano_Postcard_1953.jpg"
+										alt="Rocky Marciano">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Liberace" class="event-card">
+									<span class="event-caption">Liberace</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Liberace_8_Allan_Warren.jpg/800px-Liberace_8_Allan_Warren.jpg"
+										alt="Liberace in concert">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/George_Santayana#In_popular_culture"
+									class="event-card">
+									<span class="event-caption">Santayana goodbye</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/a/af/George_Santayana_%281863%E2%80%931952%29_c._1911.png"
+										alt="George Santayana">
+								</a>
+							</div>
+						</li>
+					</ol>
 				</section>
-				<h2>Verse 2: 1953 - 56</h2>
-				<li data-year="1953" start="1949">
-					<div class="gallery">
-						<a href="https://en.wikipedia.org/wiki/Joseph_Stalin">
-							Joseph Stalin
-							<img loading="lazy" src="https://prabook.com/web/show-photo.jpg?id=1560930"
-								alt="Joseph Stalin">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Georgy_Malenkov">
-							Malenkov
-							<img loading="lazy"
-								src="https://www.thefamouspeople.com/profiles/images/georgy-malenkov-2.jpg"
-								alt="Georgy Malenkov">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Gamal_Abdel_Nasser">
-							Nasser
-							<img loading="lazy" src="https://quoteslab.net/contents/uploads/gamal-abdel-nasser.jpg"
-								alt="Gamal Abdel Nasser">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Sergei_Prokofiev">
-							Prokofiev
-							<img loading="lazy"
-								src="https://media.laco.org/app/uploads/2019/01/13110046/Prokofiev-onbrnad-800x867.png.jpg"
-								alt="Sergei Prokofiev">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Winthrop_Rockefeller">
-							Rockerfeller
-							<img loading="lazy"
-								src="https://i0.wp.com/www.dir.org.ro/wp-content/uploads/2020/09/John-D-Rockefeller.jpg?ssl=1"
-								alt="John D. Rockefeller">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Roy_Campanella">
-							Campanella
-							<img loading="lazy" src="https://i.ebayimg.com/images/i/140625305584-0-1/s-l1000.jpg"
-								alt="Roy Campanella">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Eastern_Bloc">
-							Communist Bloc
-							<img loading="lazy"
-								src="https://66.media.tumblr.com/3d630761617c6c2912ebc2735118ce65/tumblr_o43f2zKdBn1u0l55ro1_640.jpg"
-								alt="Communist Bloc military formation">
-						</a>
-					</div>
-				</li>
-				<li data-year="1954">
-					<div class="gallery">
-						<a href="https://en.wikipedia.org/wiki/Roy_Cohn">
-							Roy Cohn
-							<img loading="lazy"
-								src="https://newportfilm.com/wp-content/uploads/2019/01/roy-cohn-donald-trump-08-17-06-600x600.jpg"
-								alt="Roy Cohn">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Juan_Perón">
-							Juan Perón
-							<img loading="lazy"
-								src="https://media.gettyimages.com/photos/argentine-presidentelect-juan-peron-in-his-office-buenos-aires-march-picture-id120816511"
-								alt="Juan Perón in his office.">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Arturo_Toscanini">
-							Toscanini
-							<img loading="lazy"
-								src="https://2.bp.blogspot.com/-JJ8xJExS_QE/VpmFv4mTndI/AAAAAAAAAic/IjtgZx5WDYw/s1600/Toscanini.jpg"
-								alt="Studebaker car in 1939">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Dacron">
-							Dacron
-							<img loading="lazy"
-								src="https://i.pinimg.com/originals/26/ee/d0/26eed0fc266159a17b2b07b61d4793d7.jpg"
-								alt="Dacron the miracle fiber ">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Battle_of_Dien_Bien_Phu">
-							Dien Dien Phu Falls
-							<img loading="lazy"
-								src="https://topwar.ru/uploads/posts/2020-05/1589178430_batalona-bizhara-ijul-1953-goda_-pervye-troe-pogibnut-v-denbenfu.jpg"
-								alt="Foreign Legion against the Viet Minh and disaster at Dien bien Phu">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Rock_Around_the_Clock">
-							Rock&nbsp;Around&nbsp;the&nbsp;Clock
-							<img loading="lazy"
-								src="https://img.discogs.com/vP9B5Rum8P7zJEYcCjXt34Ibiz8=/fit-in/600x589/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-2663925-1378417019-8711.jpeg.jpg"
-								alt="Bill Haley - Rock Around The Clock (Vinyl, LP, Compilation, Stereo)">
-						</a>
-					</div>
-				</li>
-				<li data-year="1955">
-					<div class="gallery">
-						<a href="https://en.wikipedia.org/wiki/Albert_Einstein">
-							Einstein
-							<img loading="lazy" src="https://voir.ca/normand-baillargeon/files/2014/03/Einstein.jpg"
-								alt="Albert Einstein">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/James_Dean">
-							James Dean
-							<img loading="lazy" src="https://www.media4.hw-static.com/wp-content/uploads/59387601.jpg"
-								alt="James Dean portrait">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/1955_Brooklyn_Dodgers_season">
-							Brooklyn's Got a Winning Team
-							<img loading="lazy"
-								src="https://www.nydailynews.com/resizer/dAl9aJxVM7ZtxxtluTRM60L08s8=/1200x0/arc-anglerfish-arc2-prod-tronc.s3.amazonaws.com/public/WH7RAA52K7NV3X5KRFD7OYDY5U.jpg"
-								alt="The Brooklyn Dodgers beat the New York Yankees in the 1955 World Series">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Davy_Crockett_(miniseries)e">
-							Davy Crockett
-							<img loading="lazy"
-								src="https://media.npr.org/assets/img/2013/02/26/ap100319112486_sq-e5d2bfa970f3e8e44fa7037c21238333e665098d.jpg"
-								alt="Davy Crockett">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Peter_Pan">
-							Peter Pan
-							<img loading="lazy"
-								src="https://www.nydailynews.com/resizer/_FrMAiWTvZTgQc-ycvK_SP9k6dI=/800x800/top/arc-anglerfish-arc2-prod-tronc.s3.amazonaws.com/public/FS7RJ5UYPVIHWUIMCNJH7E4FS4.jpg"
-								alt="Peter Pan the Musical">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Elvis_Presley">
-							Elvis Presley
-							<img loading="lazy"
-								src="https://cdn.gobankingrates.com/wp-content/uploads/2015/01/elvis_presley1.jpg"
-								alt="Elvis Presley portrait.">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Disneyland">
-							Disneyland
-							<img loading="lazy" src="https://lovelace-media.imgix.net/getty/3246539.jpg"
-								alt="Disneyland in 1955">
-						</a>
-					</div>
-				</li>
-				<li data-year="1956">
-					<div class="gallery">
-						<a href="https://en.wikipedia.org/wiki/Brigitte_Bardot">
-							Bardot
-							<img loading="lazy"
-								src="https://mentertained1-wpengine.netdna-ssl.com/wp-content/uploads/2016/12/tumblr_1c91c181bb5764beb711f22d8162ad3e_7a7e1204_1280.jpg"
-								alt="Brigitte Bardot">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Budapest">
-							Budapest
-							<img loading="lazy"
-								src="https://i2.wp.com/blogs.ethz.ch/digital-collections/files/2016/06/Com_M05-0448-0001.jpg?resize=650%2C657"
-								alt="The polio vaccine">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Alabama">
-							Alabama
-							<img loading="lazy" src="https://cdn.dashhudson.com/media/640/1603554714.244076571971.jpeg"
-								alt="Rosa Parks">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Nikita_Khrushchev">
-							Khruschev
-							<img loading="lazy"
-								src="https://cdn.images.express.co.uk/img/dynamic/78/590x/secondary/Khrushchev-and-JFK-battled-it-out-2137249.jpg?r=1572427938561"
-								alt="Nikita Khrushchev">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Grace_Kelly">
-							Princess Grace
-							<img loading="lazy"
-								src="https://i.pinimg.com/originals/3f/c6/b5/3fc6b5f68d1393893bd2eaffec069f1e.jpg"
-								alt="Princess Grace of Monaco in her Dior gow">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Peyton_Place_(novel)">
-							Peyton Place
-							<img loading="lazy"
-								src="https://www.game-ost.ru/static/covers_soundtracks/1/6/164402_895588.jpg"
-								alt="Peyton Place novel">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Suez_Crisis">
-							Trouble&nbsp;in&nbsp;the&nbsp;Suez
-							<img loading="lazy"
-								src="https://i.pinimg.com/originals/32/5b/d2/325bd2e940476ab90b74f3f948fe38b1.jpg"
-								alt="Suez Crisis 1956 ">
-						</a>
-					</div>
-				</li>
-				<section>
-					<p class="chorus">[Chorus]<br>
-						We didn't start the fire<br>
-						It was always burning<br>
-						Since the world's been turning<br>
-						We didn't start the fire<br>
-						No, we didn't light it<br>
-						But we tried to fight it</p>
-				</section>
-				<h2>Verse 3: 1957 - 1960</h2>
-				<li data-year="1957">
-					<div class="gallery">
-						<a href="https://en.wikipedia.org/wiki/Little_Rock">
-							Little Rock
-							<img loading="lazy"
-								src="https://static01.nyt.com/images/2018/09/22/opinion/20margolick/20margolick-articleLarge.jpg?quality=75&auto=webp&disable=upscale"
-								alt="Desegregation at Little Rock ">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Boris_Pasternak">
-							Pasternak
-							<img loading="lazy"
-								src="https://ndbooks.imgix.net/Pasternak_Boris.jpg?auto=format&fit=crop&h=500&sat=-100&w=500"
-								alt="Boris Pasternak">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Mickey_Mantle">
-							Mickey Mantle
-							<img loading="lazy"
-								src="https://www.thefamouspeople.com/profiles/images/mickey-mantle-6.jpg"
-								alt="Mickey Mantle portrait">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Jack_Kerouac">
-							Kerouac
-							<img loading="lazy"
-								src="https://i.pinimg.com/originals/5f/b5/ed/5fb5ed267254cbddb5edc4fa4126c45a.jpg"
-								alt="Jack kerouac">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Sputnik_1">
-							Sputnik
-							<img loading="lazy"
-								src="https://media.buzzle.com/media/images-en/gallery/conceptual/technology/1200-94512069-sputnik-satellite.jpg"
-								alt="Sputnik">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Zhou_Enlai">
-							Chou En-Lai
-							<img loading="lazy"
-								src="https://media.gettyimages.com/photos/circa-1946-chou-enlai-standing-in-front-of-building-picture-id50871289"
-								alt="Chou En-Lai standing in front of a building.">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/The_Bridge_on_the_River_Kwai">
-							Bridge on the River Kwai
-							<img loading="lazy"
-								src="https://i.pinimg.com/originals/25/72/34/257234b31446a7d5f2c2480d4c3d3925.jpg"
-								alt="The bridge on the River Kwai | Bangkok">
-						</a>
-					</div>
-				</li>
-				<li data-year="1958">
-					<div class="gallery">
-						<a href="https://en.wikipedia.org/wiki/1958_Lebanon_crisis">
-							Lebanon
-							<img loading="lazy"
-								src="https://s3.amazonaws.com/s3.timetoast.com/public/uploads/photos/8127354/Beirutbarr.jpg?1478344648"
-								alt="US Marines in Beirut during the 1958 Lebanon crisis">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Charles_de_Gaulle">
-							Charles de Gaulle
-							<img loading="lazy"
-								src="https://img.lelivrescolaire.fr/histoire-3e-2016/1944-1947-refonder-la-republique/reconstruire-la-france-refonder-la-republique/3000.h3.9.les.degaullefrise..jpg"
-								alt="Charles de Gaulle (1890-1970)">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/History_of_the_Brooklyn_Dodgers">
-							California Baseball
-							<img loading="lazy" src="https://s.hdnux.com/photos/51/64/45/10963279/5/1200x0.jpg"
-								alt="Dodgers Stadium in Los Angeles">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Charles_Starkweather">
-							Starkweather Homicide
-							<img loading="lazy"
-								src="https://1.bp.blogspot.com/-r3PomBYCbr0/WCseBUJTHkI/AAAAAAAAYM8/wCw3ebc7Lmkd695pQ3z4JqSmtw7cDgmNACLcB/s1600/10Dstarkweather.jpg"
-								alt="Charles Starkweather">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Thalidomide_scandal">
-							Children of Thalidomide
-							<img loading="lazy"
-								src="https://losyziemi.pl/wp-content/uploads/2012/09/Stosowanie-talidomidu-Niemcy.jpg"
-								alt="Child affected by Thalidomide">
-						</a>
-					</div>
-				</li>
-				<li data-year="1959">
-					<div class="gallery">
-						<a href="https://en.wikipedia.org/wiki/Buddy_Holly">
-							Buddy Holly
-							<img loading="lazy" src="https://www.thefamouspeople.com/profiles/images/buddy-holly-7.jpg"
-								alt="Buddy Holly portrait">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Ben-Hur_(1959_film)">
-							Ben-Hur
-							<img loading="lazy"
-								src="https://images.fineartamerica.com/images-medium-large-5/3-charlton-heston-in-ben-hur-silver-screen.jpg"
-								alt="Ben-Hur the movie.">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Monkeys_and_apes_in_space">
-							Space Monkey
-							<img loading="lazy"
-								src="https://i.pinimg.com/originals/a1/28/b7/a128b7d29f6b852b5afc1fe374953805.jpg"
-								alt="China in 1949">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Apalachin_meeting">
-							Mafia
-							<img loading="lazy" src="https://usercontent1.hubstatic.com/1291680_f520.jpg"
-								alt="Rocky Marciano">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Hula_hoop">
-							Hula hoops
-							<img loading="lazy"
-								src="https://i.pinimg.com/736x/19/fc/c7/19fcc7129d12ec4067607aadf274c364--weighted-hula-hoops-childhood-toys.jpg"
-								alt="Child playing with a Hula Hoop">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Fidel_Castro">
-							Castro
-							<img loading="lazy" src="https://s.hdnux.com/photos/71/55/41/15128684/3/920x920.jpg"
-								alt="Fidel Castro">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Edsel">
-							Edsel is a no-go
-							<img loading="lazy"
-								src="https://media-cache-ak0.pinimg.com/736x/c8/60/3f/c8603f13c396f5a02a195d356b08a161.jpg"
-								alt="1959 Ford Edsel ad">
-						</a>
-					</div>
-				</li>
 
-				<li data-year="1960">
-					<div class="gallery">
-						<a href="https://en.wikipedia.org/wiki/Lockheed_U-2">
-							U-2
-							<img loading="lazy"
-								src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Usaf.u2.750pix.jpg/600px-Usaf.u2.750pix.jpg"
-								alt="U-2 the plane">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Syngman_Rhee">
-							Syngman Rhee
-							<img loading="lazy"
-								src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Rhee_Syng-Man_in_1948.jpg/520px-Rhee_Syng-Man_in_1948.jpg"
-								alt="Syngman Rhee">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Payola">
-							Payola
-							<img loading="lazy"
-								src="https://images.musicrad.io/resizer/?image=aHR0cHM6Ly9jb250ZW50LnByb2R1Y3Rpb24uY2RuLmFydDE5LmNvbS9pbWFnZXMvOTAvMjkvZWYvMmYvOTAyOWVmMmYtOWJlYi00NWVlLTk4OGUtODhlNDIzZDliMjNlLzYxNDUzMjk5OTRiNDRhYzk2YjI3MGU5ZWFiZmI0NDU3YzZhNGM4MmE1ZTMzYmUxZmM3NGQ5NzhmYzFhNzBkOTVlYjUwM2ZkMmQ1MjU5YTY5ODgzYWU2ZmQ5YmJmYjRkZDUwMjEzMzBiYmZhYTU4OTBlYjQ1NzAwZDE5OWVmMTQ2LmpwZWc%3D&width=600&signature=oBwoAgIKQ1S5uLnCL7LkteOjNNY="
-								alt="Payola scandal newspaper headline">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/John_F._Kennedy">
-							Kennedy
-							<img loading="lazy"
-								src="https://vignette.wikia.nocookie.net/xmenmovies/images/4/40/JFK-first-class.jpg/revision/latest?cb=20140702072434"
-								alt="John F. Kennedy">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Chubby_Checker">
-							Chubby Checker
-							<img loading="lazy"
-								src="https://img.musicianbio.org/main/images/0000116984_Chubby_Checker/0000116984_Chubby_Checker_3.jpg"
-								alt="Chubby Checker">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Psycho_(1960_film)">
-							Psycho
-							<img loading="lazy" src="http://cinemajam.com/mag/wp-content/uploads/2015/04/34349.jpg"
-								alt="PSYCHO Movie Still.">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Congo_Crisis">
-							Belgians&nbsp;in&nbsp;the&nbsp;Congo
-							<img loading="lazy"
-								src="https://c8.alamy.com/comp/E0TWNM/aug-08-1960-belgian-troops-return-from-congo-king-baudouin-takes-salute-E0TWNM.jpg"
-								alt="Belgian Troops Return From Congo.">
-						</a>
-					</div>
-				</li>
-				<section>
-					<p class="chorus">[Chorus]<br>
-						We didn't start the fire<br>
-						It was always burning<br>
-						Since the world's been turning<br>
-						We didn't start the fire<br>
-						No, we didn't light it<br>
-						But we tried to fight it</p>
+				<p class="chorus">[Chorus]<br>
+					We didn't start the fire<br>
+					It was always burning<br>
+					Since the world's been turning<br>
+					We didn't start the fire<br>
+					No, we didn't light it<br>
+					But we tried to fight it</p>
+				<section class="verse">
+					<h2>Verse 2: 1953 - 56</h2>
+					<ol class="timeline-events">
+						<li class="year-group" data-year="1953">
+							<div class="gallery-grid">
+								<a href="https://en.wikipedia.org/wiki/Joseph_Stalin" class="event-card">
+									<span class="event-caption">Joseph Stalin</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Joseph_Stalin_color.png"
+										alt="Joseph Stalin">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Georgy_Malenkov" class="event-card">
+									<span class="event-caption">Malenkov</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Georgy_Malenkov_1953b.jpg"
+										alt="Georgy Malenkov">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Gamal_Abdel_Nasser" class="event-card">
+									<span class="event-caption">Nasser</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/8/86/President_Gamal_Abdel_Nasser.jpg"
+										alt="Gamal Abdel Nasser">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Sergei_Prokofiev" class="event-card">
+									<span class="event-caption">Prokofiev</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/6/64/Sergei_Prokofiev_02_%28cropped%29.jpg"
+										alt="Sergei Prokofiev">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Winthrop_Rockefeller" class="event-card">
+									<span class="event-caption">Rockefeller</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/9/93/Winthrop_Rockefeller_1967_%28cropped%29.jpg"
+										alt="Winthrop Rockefeller">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Roy_Campanella" class="event-card">
+									<span class="event-caption">Campanella</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/4/42/Roy_Campanella_1953.jpg"
+										alt="Roy Campanella">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Eastern_Bloc" class="event-card">
+									<span class="event-caption">Communist Bloc</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Warsaw_Pact_Logo.svg/800px-Warsaw_Pact_Logo.svg.png"
+										alt="Communist Bloc military formation">
+								</a>
+							</div>
+						</li>
+						<li class="year-group" data-year="1954">
+							<div class="gallery-grid">
+								<a href="https://en.wikipedia.org/wiki/Roy_Cohn" class="event-card">
+									<span class="event-caption">Roy Cohn</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/5/53/McCarthy_Cohn.jpg"
+										alt="Roy Cohn">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Juan_Perón" class="event-card">
+									<span class="event-caption">Juan Perón</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/6/68/Juan_Peron_1951_%28cropped2%29.jpg"
+										alt="Juan Perón in his office.">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Arturo_Toscanini" class="event-card">
+									<span class="event-caption">Toscanini</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Toscanini.jpg/800px-Toscanini.jpg"
+										alt="Arturo Toscanini">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Dacron" class="event-card">
+									<span class="event-caption">Dacron</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/5/57/Dacron_Reels.jpeg"
+										alt="Dacron the miracle fiber">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Battle_of_Dien_Bien_Phu" class="event-card">
+									<span class="event-caption">Dien Bien Phu Falls</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Dien_Bien_Phu_1954_French_prisoners.jpg/800px-Dien_Bien_Phu_1954_French_prisoners.jpg"
+										alt="Foreign Legion against the Viet Minh and disaster at Dien bien Phu">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Rock_Around_the_Clock" class="event-card">
+									<span class="event-caption">Rock&nbsp;Around&nbsp;the&nbsp;Clock</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Rock_Around_the_Clock.jpg"
+										alt="Bill Haley - Rock Around The Clock">
+								</a>
+							</div>
+						</li>
+						<li class="year-group" data-year="1955">
+							<div class="gallery-grid">
+								<a href="https://en.wikipedia.org/wiki/Albert_Einstein" class="event-card">
+									<span class="event-caption">Einstein</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/3/34/Albert_Einstein_in_later_years.jpg"
+										alt="Albert Einstein">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/James_Dean" class="event-card">
+									<span class="event-caption">James Dean</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/e/e6/James_Dean_in_Rebel_Without_a_Cause.jpg"
+										alt="James Dean portrait">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/1955_Brooklyn_Dodgers_season" class="event-card">
+									<span class="event-caption">Brooklyn's Got a Winning Team</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/2/2d/Jackie_Robinson%2C_Brooklyn_Dodgers%2C_1954.jpg"
+										alt="The Brooklyn Dodgers beat the New York Yankees in the 1955 World Series">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Davy_Crockett_(miniseries)" class="event-card">
+									<span class="event-caption">Davy Crockett</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/3/38/Fess_parker_crockett_disney_television.JPG"
+										alt="Davy Crockett">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Peter_Pan" class="event-card">
+									<span class="event-caption">Peter Pan</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/f/f0/Peter_Pan_statue_in_Kensington_Gardens.jpg"
+										alt="Peter Pan the Musical">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Elvis_Presley" class="event-card">
+									<span class="event-caption">Elvis Presley</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/9/99/Elvis_Presley_promoting_Jailhouse_Rock.jpg"
+										alt="Elvis Presley portrait.">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Disneyland" class="event-card">
+									<span class="event-caption">Disneyland</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/9/94/Opening_Day_at_Disneyland.jpg"
+										alt="Disneyland in 1955">
+								</a>
+							</div>
+						</li>
+						<li class="year-group" data-year="1956">
+							<div class="gallery-grid">
+								<a href="https://en.wikipedia.org/wiki/Brigitte_Bardot" class="event-card">
+									<span class="event-caption">Bardot</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/7/78/Brigitte_Bardot.jpg"
+										alt="Brigitte Bardot">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Budapest" class="event-card">
+									<span class="event-caption">Budapest</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/7/79/Soviet_tank_in_Budapest_1956.jpg"
+										alt="Hungarian Revolution 1956">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Alabama" class="event-card">
+									<span class="event-caption">Alabama</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Rosa_Parks_Bus.jpg/800px-Rosa_Parks_Bus.jpg"
+										alt="Rosa Parks">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Nikita_Khrushchev" class="event-card">
+									<span class="event-caption">Khrushchev</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Nikita_Khruchchev_Colour_%28cropped%29.jpg/800px-Nikita_Khruchchev_Colour_%28cropped%29.jpg"
+										alt="Nikita Khrushchev">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Grace_Kelly" class="event-card">
+									<span class="event-caption">Princess Grace</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Princess_Grace_and_Prince_Rainier_III.jpg"
+										alt="Princess Grace of Monaco in her Dior gown">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Peyton_Place_(novel)" class="event-card">
+									<span class="event-caption">Peyton Place</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/8/84/Peyton_Place_first_edition_cover.jpg"
+										alt="Peyton Place novel">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Suez_Crisis" class="event-card">
+									<span class="event-caption">Trouble&nbsp;in&nbsp;the&nbsp;Suez</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Suez_crisis.jpg/800px-Suez_crisis.jpg"
+										alt="Suez Crisis 1956">
+								</a>
+							</div>
+						</li>
+					</ol>
 				</section>
-				<h2>Verse 4: 1961 - 63</h2>
-				<li data-year="1961">
-					<div class="gallery">
-						<a href="https://en.wikipedia.org/wiki/Ernest_Hemingway">
-							Hemingway
-							<img loading="lazy"
-								src="https://s-i.huffpost.com/gen/1144481/images/o-HEMINGWAY-FAVORITE-BOOKS-facebook.jpg"
-								alt="Ernest Hemingway">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Adolf_Eichmann">
-							Eichmann
-							<img loading="lazy"
-								src="https://www.the-american-interest.com/wp-content/uploads/2014/09/eichmann.jpeg"
-								alt="Adolf Eichmann">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Stranger_in_a_Strange_Land">
-							Strangers in a strange land
-							<img loading="lazy"
-								src="https://images2.minutemediacdn.com/image/upload/c_fill,g_auto,h_1248,w_2220/f_auto,q_auto,w_1100/v1555435416/shape/mentalfloss/5j7kl4l.png"
-								alt="Stranger in a Strange Land book cover">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Bob_Dylan">
-							Dylan
-							<img loading="lazy" src="https://theorion.com/wp-content/uploads/2018/09/221.jpg"
-								alt="Bob Dylan">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Division_of_Germany">
-							Berlin
-							<img loading="lazy"
-								src="https://www.publicseminar.org/wp-content/uploads/2017/06/4234368822_4fb94c4458_o.jpg"
-								alt="The Berlin wall">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Bay_of_Pigs_Invasion">
-							Bay of Pigs invasion
-							<img loading="lazy"
-								src="http://bowienewsonline.com/wp-content/uploads/2016/04/bay_of_pigs.jpg"
-								alt="Bay of Pigs invasion">
-						</a>
-					</div>
-				</li>
-				<li data-year="1962">
-					<div class="gallery">
-						<a href="https://en.wikipedia.org/wiki/Lawrence_of_Arabia_(film)">
-							Lawrence of Arabia
-							<img loading="lazy"
-								src="https://cdn.vox-cdn.com/thumbor/LB75jz3fC2ThBiyF5ZUaoiTWNsA=/0x0:2403x3162/1200x800/filters:focal(965x490:1349x874)/cdn.vox-cdn.com/uploads/chorus_image/image/64137039/GettyImages_514705466.0.jpg"
-								alt="Lawrence of Arabia">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Beatlemania">
-							British Beatlemania
-							<img loading="lazy"
-								src="https://i.kinja-img.com/gawker-media/image/upload/s--BGt8w0NK--/c_fill,fl_progressive,g_center,h_900,q_80,w_1600/u85a2hligg36fjd67q8m.jpg"
-								alt="50 Years Of Beatlemania">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Ole_Miss_riot_of_1962">
-							Ole Miss
-							<img loading="lazy"
-								src="https://cbsnews1.cbsistatic.com/hub/i/2012/10/01/fe33a71b-a644-11e2-a3f0-029118418759/827518.jpg"
-								alt="Ole Miss' Integration">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/John_Glenn">
-							John Glenn
-							<img loading="lazy"
-								src="https://www.seti.org/sites/default/files/styles/original/public/2018-05/glenn-john-560px.jpg?itok=I-sG4mR3"
-								alt="John Glenn 1921-2016">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Sonny_Liston">
-							Liston beats Patterson
-							<img loading="lazy"
-								src="http://assets.sbnation.com/assets/178253/box_a_liston_600_medium.jpg"
-								alt="Sonny Liston boxing">
-						</a>
-					</div>
-				</li>
-				<li data-year="1963">
-					<div class="gallery">
-						<a href="https://en.wikipedia.org/wiki/Pope_Paul_VI">
-							Pope Paul
-							<img loading="lazy" src="https://www.thefamouspeople.com/profiles/images/pope-paul-vi-1.jpg"
-								alt="Pope Paul VI">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Malcolm_X">
-							Malcolm X
-							<img loading="lazy"
-								src="https://www.cmgworldwide.com/wp-content/uploads/2020/07/Malcolm-X-Bio-1.jpg"
-								alt="Malcolm X">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Profumo_affair">
-							British politician sex
-							<img loading="lazy"
-								src="https://upload.wikimedia.org/wikipedia/en/0/0d/John_Profumo_1960.jpg"
-								alt="A Cold War SEX SCANDAL that involved a Soviet Spy ">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Assassination_of_John_F._Kennedy">
-							JFK blown away
-							<img loading="lazy"
-								src="https://i.pinimg.com/736x/63/87/9d/63879d208ba15e4170fe5a0f33d1083b--the-kennedys-john-kennedy.jpg"
-								alt="John F. Kennedy">
-						</a>
-						<a href="#">
-							What&nbsp;else&nbsp;do&nbsp;I&nbsp;have&nbsp;to&nbsp;say?
-							<img loading="lazy"
-								src="https://images.pristineauction.com/47/472303/main_2-Vintage-Original-1963-New-York-Times-Newspaper-Headlining-John-F-Kennedy-s-Assassination-PristineAuction.com.jpg"
-								alt="Chubby Checker">
-						</a>
-					</div>
-				</li>
-				<section>
-					<p class="chorus">[Chorus]<br>
-						We didn't start the fire<br>
-						It was always burning<br>
-						Since the world's been turning<br>
-						We didn't start the fire<br>
-						No, we didn't light it<br>
-						But we tried to fight it</p>
+
+				<p class="chorus">[Chorus]<br>
+					We didn't start the fire<br>
+					It was always burning<br>
+					Since the world's been turning<br>
+					We didn't start the fire<br>
+					No, we didn't light it<br>
+					But we tried to fight it</p>
+				<section class="verse">
+					<h2>Verse 3: 1957 - 1960</h2>
+					<ol class="timeline-events">
+						<li class="year-group" data-year="1957">
+							<div class="gallery-grid">
+								<a href="https://en.wikipedia.org/wiki/Little_Rock_Nine" class="event-card">
+									<span class="event-caption">Little Rock</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Little_Rock_Nine_%284384366585%29.jpg"
+										alt="Desegregation at Little Rock">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Boris_Pasternak" class="event-card">
+									<span class="event-caption">Pasternak</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Boris_Pasternak_1958.jpg"
+										alt="Boris Pasternak">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Mickey_Mantle" class="event-card">
+									<span class="event-caption">Mickey Mantle</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/6/66/Mickey_Mantle_1953.jpg"
+										alt="Mickey Mantle portrait">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Jack_Kerouac" class="event-card">
+									<span class="event-caption">Kerouac</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Kerouac_ontheroad_scroll.jpg"
+										alt="Jack Kerouac">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Sputnik_1" class="event-card">
+									<span class="event-caption">Sputnik</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Sputnik_1.jpg"
+										alt="Sputnik">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Zhou_Enlai" class="event-card">
+									<span class="event-caption">Chou En-Lai</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Zhou_Enlai_in_1959.jpg"
+										alt="Chou En-Lai standing in front of a building.">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/The_Bridge_on_the_River_Kwai" class="event-card">
+									<span class="event-caption">Bridge on the River Kwai</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Bridge_on_the_River_Kwai.jpg"
+										alt="The bridge on the River Kwai poster">
+								</a>
+							</div>
+						</li>
+						<li class="year-group" data-year="1958">
+							<div class="gallery-grid">
+								<a href="https://en.wikipedia.org/wiki/1958_Lebanon_crisis" class="event-card">
+									<span class="event-caption">Lebanon</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/f/f3/USMC-Lebanon82-4.jpg"
+										alt="US Marines in Beirut during the 1958 Lebanon crisis">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Charles_de_Gaulle" class="event-card">
+									<span class="event-caption">Charles de Gaulle</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/e/e6/Charles_de_Gaulle_and_Konrad_Adenauer_%281958%29.jpg"
+										alt="Charles de Gaulle">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/History_of_the_Brooklyn_Dodgers"
+									class="event-card">
+									<span class="event-caption">California Baseball</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/0/0e/Los_Angeles_Dodgers_Logo.svg"
+										alt="Dodgers Stadium in Los Angeles">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Charles_Starkweather" class="event-card">
+									<span class="event-caption">Starkweather Homicide</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/2/23/Charles_Starkweather_Caril_Ann_Fugate_Lincoln_Journal_Star_28_January_1958.png"
+										alt="Charles Starkweather">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Thalidomide_scandal" class="event-card">
+									<span class="event-caption">Children of Thalidomide</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/c/cd/Thalidomide_effects.jpg"
+										alt="Child affected by Thalidomide">
+								</a>
+							</div>
+						</li>
+						<li class="year-group" data-year="1959">
+							<div class="gallery-grid">
+								<a href="https://en.wikipedia.org/wiki/Buddy_Holly" class="event-card">
+									<span class="event-caption">Buddy Holly</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/1/14/Buddy_Holly_cropped.JPG"
+										alt="Buddy Holly portrait">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Ben-Hur_(1959_film)" class="event-card">
+									<span class="event-caption">Ben-Hur</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/7/74/Ben_hur_1959_poster.jpg"
+										alt="Ben-Hur the movie.">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Monkeys_and_apes_in_space" class="event-card">
+									<span class="event-caption">Space Monkey</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Miss_Baker%2C_the_squirrel_monkey.jpg"
+										alt="Able monkey in space">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Apalachin_meeting" class="event-card">
+									<span class="event-caption">Mafia</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Vito_Genovese.jpg"
+										alt="Vito Genovese">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Hula_hoop" class="event-card">
+									<span class="event-caption">Hula hoops</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/9/98/Girl_twirling_Hula_Hoop%2C_1958.jpg"
+										alt="Child playing with a Hula Hoop">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Fidel_Castro" class="event-card">
+									<span class="event-caption">Castro</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/7/78/Fidel_Castro_%28c._1959%29.jpg"
+										alt="Fidel Castro">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Edsel" class="event-card">
+									<span class="event-caption">Edsel is a no-go</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/b/b3/1958_Edsel_Citation.jpg"
+										alt="1959 Ford Edsel ad">
+								</a>
+							</div>
+						</li>
+						<li class="year-group" data-year="1960">
+							<div class="gallery-grid">
+								<a href="https://en.wikipedia.org/wiki/Lockheed_U-2" class="event-card">
+									<span class="event-caption">U-2</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Francis_Gary_Powers_U2_at_Moscow.jpg"
+										alt="U-2 the plane">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Syngman_Rhee" class="event-card">
+									<span class="event-caption">Syngman Rhee</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/d/d2/Syngman_Rhee%2C_1951-May-1.jpg"
+										alt="Syngman Rhee">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Payola" class="event-card">
+									<span class="event-caption">Payola</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Dick_Clark_American_Bandstand_1961.JPG"
+										alt="Payola scandal newspaper headline">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/John_F._Kennedy" class="event-card">
+									<span class="event-caption">Kennedy</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/6/6a/John_F._Kennedy_campaigning_in_Florida_1960.jpg"
+										alt="John F. Kennedy">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Chubby_Checker" class="event-card">
+									<span class="event-caption">Chubby Checker</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Chubby_Checker_-_The_Twist.jpg"
+										alt="Chubby Checker">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Psycho_(1960_film)" class="event-card">
+									<span class="event-caption">Psycho</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/5/52/Psycho_%281960%29_theatrical_poster.jpg"
+										alt="PSYCHO Movie Still.">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Congo_Crisis" class="event-card">
+									<span class="event-caption">Belgians&nbsp;in&nbsp;the&nbsp;Congo</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/5/58/Patrice_Lumumba_in_1960.jpg"
+										alt="Belgian Troops Return From Congo.">
+								</a>
+							</div>
+						</li>
+					</ol>
 				</section>
-				<h2>Verse 5: 1965-89</h2>
-				<li data-year="1965-75">
-					<div class="gallery">
-						<a href="https://en.wikipedia.org/wiki/Birth_control">
-							Birth control
-							<img loading="lazy"
-								src="https://media.npr.org/assets/img/2020/05/08/gettyimages-514867588_wide-cb62e14434d70e9dfe428d8e96b877f3a0fdd5ee.jpg?s=1400"
-								alt="Birth Control / Contraception">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Ho_Chi_Minh">
-							Ho Chi Minh
-							<img loading="lazy"
-								src="https://static.independent.co.uk/s3fs-public/thumbnails/image/2015/04/05/23/22-HO-CHI-MINH-AFP-Getty.jpg"
-								alt="Ho Chi Minh">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/1968_United_States_presidential_election">
-							Richard Nixon back again
-							<img loading="lazy"
-								src="https://media.gettyimages.com/photos/republican-presidential-candidate-richard-nixon-rides-in-a-parade-on-picture-id739684"
-								alt="Nixon parade">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Apollo_program">
-							Moonshot
-							<img loading="lazy"
-								src="https://image.slidesharecdn.com/the60samericanpoliticsturbulentdecade-101218142713-phpapp02/95/the-60s-american-politics-turbulent-decade-16-728.jpg?cb=1292682506"
-								alt="John F. Kennedy moonshot speech">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Woodstock">
-							Woodstock
-							<img loading="lazy"
-								src="https://ih0.redbubble.net/image.472979778.9505/flat,550x550,075,f.u3.jpg"
-								alt="Woodstock: 3 days of peace and love">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Watergate_scandal">
-							Watergate
-							<img loading="lazy"
-								src="https://www.historyanswers.co.uk/wp-content/uploads/2019/05/NixonBanner.png"
-								alt="Man holding 'impeach Nixon' sign.">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/The_Ramones">
-							Punk rock
-							<img loading="lazy"
-								src="https://i0.wp.com/www.pleasekillme.com/wp-content/uploads/2015/06/enhanced-buzz-wide-6312-1409091434-31.jpg?resize=990%2C767"
-								alt="Punk rock forever.">
-						</a>
-					</div>
-				</li>
-				<li data-year="1976-79">
-					<div class="gallery">
-						<a href="https://en.wikipedia.org/wiki/Menachem_Begin">
-							Begin
-							<img loading="lazy"
-								src="http://media-1.web.britannica.com/eb-media/70/13170-004-185B6E2F.jpg"
-								alt="Israeli prime minister Begin.">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Ronald_Reagan">
-							Reagan
-							<img loading="lazy"
-								src="https://www.nccivitas.org/wp-content/uploads/2019/09/471px-Ronald_Reagan_presidential_portrait_crop.jpg"
-								alt="President Reagan">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Israeli–Palestinian_conflict">
-							Palestine
-							<img loading="lazy"
-								src="http://www.asianews.it/files/img/ISRAELE_-_PALESTINA_-_ibrahim_guerra.JPG"
-								alt="Conflict in Palestine">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Operation_Entebbe">
-							Terror&nbsp;on&nbsp;the&nbsp;airline
-							<img loading="lazy"
-								src="http://media2.intoday.in/indiatoday/images/stories/2016March/h5_032916052931.jpg"
-								alt="Plane hijackings">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Ayatollah">
-							Ayatollah's in Iran
-							<img loading="lazy"
-								src="https://static.timesofisrael.com/www/uploads/2019/02/2-25-19-iran-revolution-e1551262961835.jpg"
-								alt="Iranian revolution">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Soviet–Afghan_War">
-							Russians&nbsp;in&nbsp;Afghanistan
-							<img loading="lazy"
-								src="https://s3.amazonaws.com/s3.timetoast.com/public/uploads/photos/5310014/GuerillaWarfare.jpg?1476827345"
-								alt="soviet invasion of afghanistan">
-						</a>
-					</div>
-				</li>
-				<li data-year="1981-84">
-					<div class="gallery">
-						<a href="https://en.wikipedia.org/wiki/Wheel_of_Fortune_(American_game_show)">
-							Wheel of Fortune
-							<img loading="lazy"
-								src="https://s24990.pcdn.co/wp-content/uploads/2019/07/wheel-of-fortune1.jpg"
-								alt="Wheel of fortune">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Sally_Ride">
-							Sally Ride
-							<img loading="lazy"
-								src="https://www.girlfriendsmeet.com/blog/wp-content/uploads/2015/05/20150527-GFM-Blog-Sally-Ride-Lesbian-In-Space.jpg"
-								alt="Syngman Rhee">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Suicide_Solution">
-							Heavy&nbsp;metal&nbsp;suicide
-							<img loading="lazy"
-								src="https://i0.wp.com/www.themetalchannel.net/wp-content/uploads/2017/06/large.jpg.1c749495426a4b35de5b5db9431c96a0.jpg?fit=492%2C293"
-								alt="Rock concert">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Trade_deficit">
-							Foreign debts
-							<img loading="lazy" src="https://www.mortgagecalculator.org/images/debt.gif"
-								alt="Chased down a hill by a boulder of debt.">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Homelessness">
-							Homeless vets
-							<img loading="lazy"
-								src="https://www.chattanoogapulse.com/downloads/9254/download/13.49%20Front%201.png?cb=5c303ffd0ae2e6ee50d6a12ba876b28f"
-								alt="Please help- homeless">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/HIV/AIDS">
-							AIDS
-							<img loading="lazy"
-								src="https://media.npr.org/assets/img/2016/10/26/aids-march-07f480fce8780c3fc2f49156062a0a70894bd23c.jpg?s=4"
-								alt="Parade for AIDS research awareness">
-						</a>
-						<a
-							href="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Rocks_of_crack_cocaine.jpg/108px-Rocks_of_crack_cocaine.jpg">
-							Crack
-							<img loading="lazy"
-								src="https://www.findrehabcenters.org/wp-content/uploads/2018/04/crack-cocaine-addiction-810x540.png"
-								alt="Lighting a spoon of crack cocaine.">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Bernhard_Goetz">
-							Bernie Goetz
-							<img loading="lazy"
-								src="https://cbsnews1.cbsistatic.com/hub/i/r/2013/11/02/fe216542-4782-11e3-a5af-047d7b15b92e/thumbnail/620x350/eeabc7c5e2bebe4dd14dda483bc3e8cb/bernhard_goetz_AP686410047207_fullwidth.jpg"
-								alt="Bernhard Goetz, New York City subway vigilante">
-						</a>
-					</div>
-				</li>
-				<li data-year="1988-89">
-					<div class="gallery">
-						<a href="https://en.wikipedia.org/wiki/Syringe_Tide">
-							Hypodermics on the shore
-							<img loading="lazy" src="https://ditchingsuburbia.com/images/blog_images/hypodermics.jpg"
-								alt="Washed up syringe">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/1989_Tiananmen_Square_protests">
-							China's under martial law
-							<img loading="lazy"
-								src="https://s3.amazonaws.com/s3.timetoast.com/public/uploads/photo/1460672/image/35263703bde941423710fb08f8a5bf9f"
-								alt="">
-						</a>
-						<a href="https://en.wikipedia.org/wiki/Cola_wars">
-							Rock-and-roller cola wars
-							<img loading="lazy"
-								src="https://d-tm.ppstatic.pl/kadry/a0/c1/da586eb23d9dce5717963906c962.1000.jpg" alt="">
-						</a>
-					</div>
-				</li>
-				<li data-year="">
-					<div class="gallery" style="margin:0 auto; width: 420px; height: 420px;">
-						<a href="#">
-							I can't take it anymore!
-							<img loading="lazy"
-								src="https://www.onefinalserenade.com/uploads/2/9/1/2/2912571/we-didn-t-start-the-fire-gif_orig.gif"
-								alt="">
-						</a>
-					</div>
-				</li>
-			</ul>
+
+				<p class="chorus">[Chorus]<br>
+					We didn't start the fire<br>
+					It was always burning<br>
+					Since the world's been turning<br>
+					We didn't start the fire<br>
+					No, we didn't light it<br>
+					But we tried to fight it</p>
+				<section class="verse">
+					<h2>Verse 4: 1961 - 63</h2>
+					<ol class="timeline-events">
+						<li class="year-group" data-year="1961">
+							<div class="gallery-grid">
+								<a href="https://en.wikipedia.org/wiki/Ernest_Hemingway" class="event-card">
+									<span class="event-caption">Hemingway</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/7/77/Ernest_Hemingway_in_Spain%2C_1959.jpg"
+										alt="Ernest Hemingway">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Adolf_Eichmann" class="event-card">
+									<span class="event-caption">Eichmann</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Adolf_Eichmann_at_Trial1961.jpg"
+										alt="Adolf Eichmann">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Stranger_in_a_Strange_Land" class="event-card">
+									<span class="event-caption">Strangers in a strange land</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Flag_of_Mars_Stranger_in_a_Strange_Land.svg/800px-Flag_of_Mars_Stranger_in_a_Strange_Land.svg.png"
+										alt="Flag of Mars Stranger in a Strange Land">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Bob_Dylan" class="event-card">
+									<span class="event-caption">Dylan</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/3/33/Joan_Baez_Bob_Dylan.jpg"
+										alt="Bob Dylan">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Berlin_Wall" class="event-card">
+									<span class="event-caption">Berlin</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/The_Berlin_Wall_(6058525242).jpg/800px-The_Berlin_Wall_(6058525242).jpg"
+										alt="The Berlin wall">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Bay_of_Pigs_Invasion" class="event-card">
+									<span class="event-caption">Bay of Pigs invasion</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/7/78/BayofPigs.jpg"
+										alt="Bay of Pigs invasion">
+								</a>
+							</div>
+						</li>
+						<li class="year-group" data-year="1962">
+							<div class="gallery-grid">
+								<a href="https://en.wikipedia.org/wiki/Lawrence_of_Arabia_(film)" class="event-card">
+									<span class="event-caption">Lawrence of Arabia</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Lawrence_of_Arabia.jpg"
+										alt="Lawrence of Arabia">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Beatlemania" class="event-card">
+									<span class="event-caption">British Beatlemania</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/d/d8/The_Beatles_members_at_New_York_City_in_1964.jpg"
+										alt="50 Years Of Beatlemania">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Ole_Miss_riot_of_1962" class="event-card">
+									<span class="event-caption">Ole Miss</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/2/29/James_Meredith_OleMiss.jpg"
+										alt="Ole Miss' Integration">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/John_Glenn" class="event-card">
+									<span class="event-caption">John Glenn</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/9/94/Friendship_7_launch_with_John_Glenn_aboard.jpg"
+										alt="John Glenn 1921-2016">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Sonny_Liston" class="event-card">
+									<span class="event-caption">Liston beats Patterson</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/e/e6/Liston-Patterson_fight_%283%29.png"
+										alt="Sonny Liston boxing">
+								</a>
+							</div>
+						</li>
+						<li class="year-group" data-year="1963">
+							<div class="gallery-grid">
+								<a href="https://en.wikipedia.org/wiki/Pope_Paul_VI" class="event-card">
+									<span class="event-caption">Pope Paul</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/6/67/Papa_Paolo_VI.jpg"
+										alt="Pope Paul VI">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Malcolm_X" class="event-card">
+									<span class="event-caption">Malcolm X</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Malcolm_X_NYWTS_4.jpg"
+										alt="Malcolm X">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Profumo_affair" class="event-card">
+									<span class="event-caption">British politician sex</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/1/1a/Christine_Keeler_%28cropped_and_adjusted%29.jpg"
+										alt="A Cold War SEX SCANDAL that involved a Soviet Spy">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Assassination_of_John_F._Kennedy"
+									class="event-card">
+									<span class="event-caption">JFK blown away</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/3/33/Newman_Family.jpg"
+										alt="John F. Kennedy">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Assassination_of_John_F._Kennedy"
+									class="event-card">
+									<span
+										class="event-caption">What&nbsp;else&nbsp;do&nbsp;I&nbsp;have&nbsp;to&nbsp;say?</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/The_New_York_Times_JFK_Assassination_Headline.jpg/800px-The_New_York_Times_JFK_Assassination_Headline.jpg"
+										alt="New York Times JFK Assassination Headline">
+								</a>
+							</div>
+						</li>
+					</ol>
+				</section>
+
+				<p class="chorus">[Chorus]<br>
+					We didn't start the fire<br>
+					It was always burning<br>
+					Since the world's been turning<br>
+					We didn't start the fire<br>
+					No, we didn't light it<br>
+					But we tried to fight it</p>
+				<section class="verse">
+					<h2>Verse 5: 1965-89</h2>
+					<ol class="timeline-events">
+						<li class="year-group" data-year="1965-75">
+							<div class="gallery-grid">
+								<a href="https://en.wikipedia.org/wiki/Birth_control" class="event-card">
+									<span class="event-caption">Birth control</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/2/29/Birth_control_pills.jpg"
+										alt="Birth Control / Contraception">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Ho_Chi_Minh" class="event-card">
+									<span class="event-caption">Ho Chi Minh</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/3/35/Ho-chi-Minh_with_children_%281%29.jpg"
+										alt="Ho Chi Minh with children">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/1968_United_States_presidential_election"
+									class="event-card">
+									<span class="event-caption">Richard Nixon back again</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Richard_Nixon_campaign_rally_1968.png"
+										alt="Nixon parade">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Apollo_program" class="event-card">
+									<span class="event-caption">Moonshot</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/9/9c/Aldrin_Apollo_11.jpg"
+										alt="John F. Kennedy moonshot speech">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Woodstock" class="event-card">
+									<span class="event-caption">Woodstock</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/9/9d/Woodstock_Music_and_Art_Fair.jpg"
+										alt="Woodstock: 3 days of peace and love">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Watergate_scandal" class="event-card">
+									<span class="event-caption">Watergate</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/1/1f/Watergate_complex.jpg"
+										alt="The Watergate Complex from the air">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/The_Ramones" class="event-card">
+									<span class="event-caption">Punk rock</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Ramones_Toronto_1976.jpg"
+										alt="Punk rock forever.">
+								</a>
+							</div>
+						</li>
+						<li class="year-group" data-year="1976-79">
+							<div class="gallery-grid">
+								<a href="https://en.wikipedia.org/wiki/Menachem_Begin" class="event-card">
+									<span class="event-caption">Begin</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Menachem_Begin_1978.jpg/800px-Menachem_Begin_1978.jpg"
+										alt="Israeli prime minister Begin.">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Ronald_Reagan" class="event-card">
+									<span class="event-caption">Reagan</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Official_Portrait_of_President_Reagan_1981.jpg/800px-Official_Portrait_of_President_Reagan_1981.jpg"
+										alt="President Reagan">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Israeliâ€“Palestinian_conflict"
+									class="event-card">
+									<span class="event-caption">Palestine</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/1967_Six_Day_War_-_conquest_of_Sinai_5-6_June.jpg/800px-1967_Six_Day_War_-_conquest_of_Sinai_5-6_June.jpg"
+										alt="Conflict in Palestine">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Operation_Entebbe" class="event-card">
+									<span class="event-caption">Terror&nbsp;on&nbsp;the&nbsp;airline</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Entebbe_Airport_DF-ST-02-03033.jpg/800px-Entebbe_Airport_DF-ST-02-03033.jpg"
+										alt="Plane hijackings">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Ayatollah" class="event-card">
+									<span class="event-caption">Ayatollah's in Iran</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Ruhollah_Khomeini_1978_(cropped).jpg/800px-Ruhollah_Khomeini_1978_(cropped).jpg"
+										alt="Iranian revolution">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Sovietâ€“Afghan_War" class="event-card">
+									<span class="event-caption">Russians&nbsp;in&nbsp;Afghanistan</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/5/5b/Weapons_BTR-60.jpg"
+										alt="soviet invasion of afghanistan">
+								</a>
+							</div>
+						</li>
+						<li class="year-group" data-year="1981-84">
+							<div class="gallery-grid">
+								<a href="https://en.wikipedia.org/wiki/Wheel_of_Fortune_(American_game_show)"
+									class="event-card">
+									<span class="event-caption">Wheel of Fortune</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/1/10/WheelUSJan1975Round1.jpg"
+										alt="Wheel of Fortune studio set 1975">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Sally_Ride" class="event-card">
+									<span class="event-caption">Sally Ride</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/c/c2/Sally_Ride_in_1984.jpg"
+										alt="Astronaut Sally K. Ride">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Heavy_metal_music" class="event-card">
+									<span class="event-caption">Heavy metal suicide</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Ozzy_Osbourne_1982.jpg"
+										alt="Ozzy Osbourne 1982">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/National_debt_of_the_United_States"
+									class="event-card">
+									<span class="event-caption">Foreign debts</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/c/c5/FederalDebt1940to2012.svg"
+										alt="US Public Debt 1940-2012">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Homelessness_in_the_United_States"
+									class="event-card">
+									<span class="event-caption">Homeless Vets</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/d/d2/Homeless_person_in_New_York_City.jpg"
+										alt="Homeless person in New York City">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/HIV/AIDS_in_the_United_States"
+									class="event-card">
+									<span class="event-caption">AIDS</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/8/89/Silence%3DDeath.jpg"
+										alt="ACT UP Silence=Death poster">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Crack_epidemic" class="event-card">
+									<span class="event-caption">Crack</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Rocks_of_crack_cocaine.jpg"
+										alt="Crack cocaine rocks">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/1984_New_York_City_Subway_shooting"
+									class="event-card">
+									<span class="event-caption">Bernie Goetz</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/c/c0/NYCS_R46_interior.jpg"
+										alt="NYC Subway R46 car interior circa 1981">
+								</a>
+							</div>
+						</li>
+						<li class="year-group" data-year="1988-89">
+							<div class="gallery-grid">
+								<a href="https://en.wikipedia.org/wiki/Syringe_tide" class="event-card">
+									<span class="event-caption">Hypodermics on the shore</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/9/9f/Water_Pollution_with_Trash_Disposal_of_Waste_at_the_Garbage_Beach.jpg"
+										alt="Hypodermic needle on beach">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/1989_Tiananmen_Square_protests"
+									class="event-card">
+									<span class="event-caption">China's under martial law</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/3/33/Goddess_of_Democracy_HK_20100604.jpg"
+										alt="Goddess of Democracy replica">
+								</a>
+								<a href="https://en.wikipedia.org/wiki/Cola_Wars" class="event-card">
+									<span class="event-caption">Rock&nbsp;and&nbsp;Roller&nbsp;Cola&nbsp;Wars</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/f/fa/New_Coke_can.jpg"
+										alt="New Coke can 1985">
+								</a>
+							</div>
+						</li>
+						<li class="year-group" data-year="1990-91">
+							<div class="gallery-grid">
+								<a href="#" class="event-card">
+									<span class="event-caption">I can't take it anymore!</span>
+									<img loading="lazy"
+										src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Flame_of_fire.jpg"
+										alt="Burning fire flame">
+								</a>
+							</div>
+						</li>
+					</ol>
+				</section>
+			</div>
 			<section>
 				<p class="chorus">[Chorus]<br>
 					We didn't start the fire<br>
@@ -1104,12 +1172,9 @@
 					No, we didn't light it<br>
 					But we tried to fight it</p>
 			</section>
-
-			<P>All credit to Billy Joel 😎</P>
+			<p>All credit to Billy Joel 🤘</p>
 		</article>
 	</main>
-	<footer>
-	</footer>
 </body>
 
 </html>
