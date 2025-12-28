@@ -2,7 +2,7 @@
 <html lang="en" class="no-js">
 
 <head>
-  <title>Major League Cities</title>
+  <title>U.S. Major Sports Leagues</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="A league of their own: Major sports leagues of North America">
@@ -13,19 +13,21 @@
   <meta content="JustinChill" property="og:site_name">
   <meta content="article" property="og:type">
   <meta content="https://justinchill.com/leagues.html" property="og:url">
-  <meta content="Major League Cities" property="og:title">
+  <meta content="U.S. Major Sports Leagues" property="og:title">
   <meta content="A league of their own: Major sports leagues of North America." property="og:description">
   <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
   <link rel="canonical" href="https://www.justinchill.com/leagues.html">
 
-  <meta content="https://www.justinchill.com/imgs/aliens-film-wallpaper-full-hd.jpg" property="og:image">
-  <meta content="https://www.justinchill.com/imgs/aliens-film-wallpaper-full-hd.jpg" property="twitter:image">
   <meta
-    content="A woman holding a large, futuristic weapon stands closely beside another person in a control room with technical diagrams visible in the background. Both appear focused and determined."
-    property="og:image:alt">
+    content="https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/1920px-Flag_of_the_United_States.svg.png"
+    property="og:image">
+  <meta
+    content="https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/1920px-Flag_of_the_United_States.svg.png"
+    property="twitter:image">
+  <meta content="Flag of the United States" property="og:image:alt">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Major League Cities">
+  <meta name="twitter:title" content="U.S. Major Sports Leagues">
   <meta name="twitter:description" content="A league of their own: Major sports leagues of North America.">
 
   <link type="text/plain" href="humans.txt" rel="author">
@@ -61,12 +63,12 @@
     <article>
       <div class="article-hero">
         <h2 class="article-category">Post</h2>
-        <h1 class="article-title">Major League Cities</h1>
+        <h1 class="article-title">U.S. Major Sports Leagues</h1>
         <h2 class="article-subtitle">North American Major League Teams</h2>
       </div>
 
       <figure id="map" class="mid-size"
-        aria-label="Map of North American major league sports teams. It shows the geographic distribution of NFL, MLB, NBA, and NHL teams across the US and Canada.">
+        aria-label="Interactive tree diagram of North American major league sports teams, organized by League, Conference, and Division.">
       </figure>
       <figcaption>Data: ESPN</figcaption>
 
@@ -93,76 +95,250 @@
             alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
-  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
-
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/topojson@3.0.2/dist/topojson.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 
   <script type="text/javascript">
     var element = d3.select('figure').node();
     var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
-    var size = 12;
 
-    // Use Promises to async request data
-    var promises = [d3.json("data/geo/ne_10m_admin_1_states_provinces.json"), d3.json("data/citiesAndTeams.json")];
+    // Constants for the tree layout
+    const margin = {
+      top: 10,
+      right: 120,
+      bottom: 10,
+      left: 120
+    };
+    const dy = width / 6;
+    const dx = 50;
+    const svgWidth = width;
+    const tree = d3.tree().nodeSize([dx, dy]);
+    const diagonal = d3.linkHorizontal().x(d => d.y).y(d => d.x);
 
-    myDataPromises = Promise.all(promises);
+    d3.json("data/Leagues_flatData.json").then(function (data) {
+      const root = d3.stratify()
+        .id(d => d.id)
+        .parentId(d => d.manager)
+        (data);
 
-    // After data is successfully fetched, generate viz
-    myDataPromises.then(function (data) {
-      // Define the data. There's gotta be a better way to do this:
-      var ne_10m_admin_1_states_provinces = data[0];
-      var citiesAndTeams = data[1];
-      var topCities = citiesAndTeams.filter((d) => d.teams > 2);
+      root.x0 = dy / 2;
+      root.y0 = 0;
+      root.descendants().forEach((d, i) => {
+        d.id = i;
+        d._children = d.children;
+        // if (d.depth && d.data.name.length !== 7) d.children = null;
+      });
 
-      console.log(topCities);
-
-      // https://observablehq.com/@johnking/nfl-teams
-
-      // https://observablehq.com/@anbnyc/major-league-cities
-      var map = {
-        width: width,
-        height: 700,
-        projection: "albers",
-        marks: [
-          Plot.geo(ne_10m_admin_1_states_provinces, {
-            strokeOpacity: 0.1
-          }),
-          Plot.dot(topCities, {
-            x: "longitude",
-            y: "latitude",
-            r: 4,
-            fill: "orange",
-            fillOpacity: 1,
-            title: d => d.city
-          }),
-          Plot.text(topCities, {
-            x: "longitude",
-            y: "latitude",
-            "text": "label",
-            textAnchor: "start",
-            dx: 5
-          }),
-          Plot.dot(topCities, {
-            x: "longitude",
-            y: "latitude",
-            r: 2,
-            fill: "blue",
-            fillOpacity: 0.5,
-            title: d => d.city
-          }),
-          Plot.text(topCities, {
-            x: "longitude",
-            y: "latitude",
-            "text": "label",
-            textAnchor: "start",
-            dx: 5
-          }),
-        ]
-      };
-
-      document.getElementById("map").appendChild(Plot.plot(map));
+      const svgNode = chart(root);
+      document.getElementById("map").appendChild(svgNode);
     });
+
+    function chart(treeData) {
+      const root = treeData;
+      root.x0 = dy / 2;
+      root.y0 = 0;
+
+      const radius = (dx * .9) / 2;
+
+      const svg = d3
+        .create("svg")
+        .attr("viewBox", [-margin.left, -margin.top, svgWidth, dx])
+        .style("font", "12px sans-serif")
+        .style("user-select", "none");
+
+      const defs = svg
+        .append("defs")
+        .append("clipPath")
+        .attr("id", "avatar-clip")
+        .append("circle")
+        .attr("r", radius);
+
+      const gLink = svg
+        .append("g")
+        .attr("fill", "none")
+        .attr("stroke", "#000")
+        .attr("stroke-opacity", 0.25)
+        .attr("stroke-width", 1.5);
+
+      const gNode = svg
+        .append("g")
+        .attr("cursor", "pointer")
+        .attr("pointer-events", "all");
+
+      function update(source, duration = 250) {
+        const nodes = root.descendants().reverse();
+        const links = root.links();
+
+        // Compute the new tree layout.
+        tree(root);
+
+        let left = root;
+        let right = root;
+        root.eachBefore(node => {
+          if (node.x < left.x) left = node;
+          if (node.x > right.x) right = node;
+        });
+
+        const height = right.x - left.x + margin.top + margin.bottom;
+
+        const transition = svg
+          .transition()
+          .duration(duration)
+          .attr("viewBox", [-margin.left, left.x - margin.top, svgWidth, height])
+          .tween(
+            "resize",
+            window.ResizeObserver ? null : () => () => svg.dispatch("toggle")
+          );
+
+        // Update the nodes…
+        const node = gNode.selectAll("g").data(nodes, d => d.id);
+
+        // Enter any new nodes at the parent's previous position.
+        const nodeEnter = node
+          .enter()
+          .append("g")
+          .attr("transform", d => `translate(${source.y0},${source.x0})`)
+          .attr("fill-opacity", 0)
+          .attr("stroke-opacity", 0)
+          .on("click", (event, d) => {
+            const toggleOpen = !Boolean(d.children);
+            const slow = event.altKey;
+            const duration = slow ? 2500 : 250;
+            if (event.shiftKey && d.parent) {
+              // Toggle all siblings at this level
+              d.parent.children.forEach((node, i) => {
+                setTimeout(() => {
+                  node.children = toggleOpen ? node._children : null;
+                  update(node, duration);
+                }, duration * i);
+              });
+            } else {
+              d.children = toggleOpen ? d._children : null;
+              update(d, duration);
+            }
+          });
+
+        nodeEnter
+          .append("circle")
+          .attr("r", radius)
+          .attr("fill", "#fff")
+          .attr("stroke", d => (d._children ? "#555" : "#999"))
+          .attr("stroke-width", 1);
+
+        nodeEnter
+          .append("svg:image")
+          .attr("xlink:href", function (d) {
+            return d.data.img;
+          })
+          .attr("x", function (d) {
+            return -radius;
+          })
+          .attr("y", function (d) {
+            return -radius;
+          })
+          .attr("height", radius * 2)
+          .attr("width", radius * 2)
+          .attr("clip-path", "url(#avatar-clip)");
+
+        const labelX = d => (d._children ? -radius * 1.2 : radius * 1.2);
+
+        // Name
+        nodeEnter
+          .append("text")
+          .attr("dy", "-0em")
+          .attr("x", labelX)
+          .attr("text-anchor", d => (d._children ? "end" : "start"))
+          .text(d => d.data.name)
+          .clone(true)
+          .lower()
+          .attr("stroke-linejoin", "round")
+          .attr("stroke-width", 3)
+          .attr("stroke", "white");
+
+        // Title
+        nodeEnter
+          .append("text")
+          .attr("dy", "1em")
+          .attr("x", labelX)
+          .attr("text-anchor", d => (d._children ? "end" : "start"))
+          .attr("fill", "#999")
+          .style("font", "10px sans-serif")
+          .text(d => d.data.title)
+          .clone(true)
+          .lower()
+          .attr("stroke-linejoin", "round")
+          .attr("stroke-width", 3)
+          .attr("stroke", "white")
+          .append("tspan")
+          .attr("dy", "0.3em");
+
+        // Transition nodes to their new position.
+        const nodeUpdate = node
+          .merge(nodeEnter)
+          .transition(transition)
+          .attr("transform", d => `translate(${d.y},${d.x})`)
+          .attr("fill-opacity", 1)
+          .attr("stroke-opacity", 1);
+
+        // Transition exiting nodes to the parent's new position.
+        const nodeExit = node
+          .exit()
+          .transition(transition)
+          .remove()
+          .attr("transform", d => `translate(${source.y},${source.x})`)
+          .attr("fill-opacity", 0)
+          .attr("stroke-opacity", 0);
+
+        // Update the links…
+        const link = gLink.selectAll("path").data(links, d => d.target.id);
+
+        // Enter any new links at the parent's previous position.
+        const linkEnter = link
+          .enter()
+          .append("path")
+          .attr("d", d => {
+            const o = {
+              x: source.x0,
+              y: source.y0
+            };
+            return diagonal({
+              source: o,
+              target: o
+            });
+          });
+
+        // Transition links to their new position.
+        link
+          .merge(linkEnter)
+          .transition(transition)
+          .attr("d", diagonal);
+
+        // Transition exiting links to the parent's new position.
+        link
+          .exit()
+          .transition(transition)
+          .remove()
+          .attr("d", d => {
+            const o = {
+              x: source.x,
+              y: source.y
+            };
+            return diagonal({
+              source: o,
+              target: o
+            });
+          });
+
+        // Stash the old positions for transition.
+        root.eachBefore(d => {
+          d.x0 = d.x;
+          d.y0 = d.y;
+        });
+      }
+
+      update(root);
+
+      return svg.node();
+    }
   </script>
 </body>
 
