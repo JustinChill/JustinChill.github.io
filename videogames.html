@@ -59,15 +59,19 @@
     <article>
       <div class="article-hero">
         <h2 class="article-category">Post</h2>
-        <h1 class="article-title">Popularity of Steam Games</h1>
-        <h2 class="article-subtitle">Leaked Player Data from Steam</h2>
+        <h1 class="article-title">Video-game consoles</h1>
+        <h2 class="article-subtitle">Units sold (lifetime), m</h2>
       </div>
 
-      <!-- <figcaption id="legend"></figcaption> -->
-      <figure id="steam" aria-label="Stacked bar chart showing estimating player counts for popular Steam games">
+      <figure id="consoles" aria-label="Bar chart showing lifetime sales of video game consoles by generation">
       </figure>
-      <figcaption>Data: Steam</figcaption>
+      <figcaption>Sources: videogameconsolelibrary.com; VGchartz.com; Wikipedia; The Economist</figcaption>
 
+      <img
+        src="https://www.economist.com/cdn-cgi/image/width=384,quality=80,format=auto/sites/default/files/images/2013/05/blogs/graphic-detail/20130525_gdc970.png"
+        alt="The Economist video game console sales chart" loading="lazy">
+      <figcaption>Source: <a href="https://www.economist.com/graphic-detail/2013/05/21/game-on">The Economist</a>
+      </figcaption>
     </article>
   </main>
   <footer>
@@ -90,76 +94,190 @@
     var size = 12;
 
     // Use Promises to async request data
-    var promises = [d3.csv("data/player-estimates.csv", d3.autoType)];
+    var promises = [d3.csv("data/consoles.csv", d3.autoType)];
     myDataPromises = Promise.all(promises);
 
     // After data is successfully fetched, generate viz
     myDataPromises.then(function (data) {
 
-      // Define the data
       var data = data[0];
-      // console.log(data);
 
-      var steam = {
+      // Calculate totals per generation for bubbles
+      var genTotals = d3.rollup(data, v => {
+        return {
+          total: d3.sum(v, d => d.Units),
+          middle: v[Math.floor(v.length / 2)].Console
+        };
+      }, d => d.Generation);
+
+      var totalsArray = Array.from(genTotals, ([Generation, val]) => ({
+        Generation,
+        total: val.total,
+        middle: val.middle
+      }));
+
+      // Colors per generation to match The Economist image
+      const genColors = {
+        "1st": "#89B679", // Green
+        "2nd": "#C4A751", // Brown/Gold
+        "3rd": "#5EA5C3", // Blue
+        "4th": "#A57CBa", // Purple
+        "5th": "#4CB8A7", // Teal
+        "6th": "#7F8FA9", // Grey-Blue
+        "7th": "#E68458", // Orange
+        "8th": "#E883C7" // Pink
+      };
+
+      const bgColors = {
+        "1st": "#EBF4E9",
+        "2nd": "#F7F3EA",
+        "3rd": "#EBF4FA",
+        "4th": "#F5EFF7",
+        "5th": "#EDF9F8",
+        "6th": "#F2F3F4",
+        "7th": "#FDF4EE",
+        "8th": "#FDEDFA"
+      };
+
+      var options = {
         width: width,
-        height: width * 100,
-        style: {
-          fontSize: size
-        },
-        marginLeft: 200,
+        height: 800,
+        marginLeft: 320, // Space for: Generation band (30px) + Timeline/Name (290px)
+        marginRight: 100, // Space for Bubbles
+        grid: true,
         x: {
-          grid: true,
-          nice: true,
-          percent: true,
+          axis: "top",
+          label: "Units sold (lifetime), m",
+          domain: [0, 160],
+          nice: true
+        },
+        fy: {
+          label: null,
+          domain: ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th"],
+          padding: 0 // Remove padding between facets for continuous look
         },
         y: {
-          grid: true,
-          nice: true,
-          domain: d3.sort(data, d => -d["Players Estimate"]).map(d => d.Title)
+          axis: null,
+          domain: data.map(d => d.Console) // Keep data order
         },
         style: {
-          background: "hsl(0, 0%, 99%)",
+          fontFamily: "Roboto, sans-serif",
+          fontSize: 12,
+          overflow: "visible" // Allow marks to show in margins
         },
         marks: [
-          Plot.barX(
-            data,
-            Plot.stackX({
-              order: "y",
-              reverse: true
+          // 4. BUBBLE SECTION (Right) - Draw first to stay behind if needed, or order doesn't matter much
+          Plot.dot(totalsArray, {
+            fy: "Generation",
+            x: 180, // Position in right margin
+            y: "middle",
+            r: d => Math.sqrt(d.total) * 4,
+            fill: d => genColors[d.Generation],
+            stroke: "white",
+            strokeWidth: 2,
+            clip: false,
+            tip: true,
+          }),
+          // Plot.text(totalsArray, {
+          //   fy: "Generation",
+          //   x: 180,
+          //   y: "middle",
+          //   text: d => Math.round(d.total),
+          //   fill: "white",
+          //   fontWeight: "bold",
+          //   clip: false
+          // }),
+
+          // 1. GENERATION SECTION (Far Left)
+          // Background band for Generation
+          Plot.barX(data, {
+            x1: -320,
+            x2: -290,
+            fy: "Generation",
+            y: "Console",
+            fill: d => genColors[d.Generation],
+            clip: false
+          }),
+          // Generation Label (Rotated)
+          Plot.text(data, Plot.selectFirst({
+            filter: d => true,
+            x: -305,
+            y: "Console",
+            fy: "Generation",
+            text: d => d.Generation,
+            rotate: -90,
+            fill: "white",
+            fontWeight: "bold",
+            fontSize: 13,
+            clip: false
+          })),
+
+          // 2. TIMELINE / CONSOLE NAME SECTION (Left)
+          // Background color for name section
+          Plot.barX(data, {
+            x1: -290,
+            x2: 0,
+            fy: "Generation",
+            y: "Console",
+            fill: d => bgColors[d.Generation],
+            clip: false
+          }),
+          // Console Name
+          Plot.text(data, {
+            x: -45, // Leave space for year
+            y: "Console",
+            fy: "Generation",
+            text: d => d.Console,
+            textAnchor: "end",
+            fill: "#333",
+            clip: false
+          }),
+          // Launch Year (Timeline column)
+          Plot.text(data, {
+            x: -5,
+            y: "Console",
+            fy: "Generation",
+            text: d => {
+              const yearStr = d.Launch.toString();
+              return d.Console.includes("Odyssey") && d.Generation === "1st" ? yearStr : "'" + yearStr.slice(2);
             },
-              Plot.groupZ({
-                x: "proportion"
-              }, {
-                z: "Title",
-                fillOpacity: 0.2,
-                inset: 0.5
-              })
-            )
-          ),
-          Plot.text(
-            data,
-            Plot.filter(
-              (D) => D.length > 200,
-              Plot.stackX({
-                order: "y",
-                reverse: true
-              },
-                Plot.groupZ({
-                  x: "proportion",
-                  text: "first"
-                }, {
-                  z: "Title",
-                  text: "Title",
-                  rotate: 90
-                })
-              )
-            )
-          ),
-          Plot.ruleX([0, 1])
+            textAnchor: "end",
+            fill: "#555",
+            fontStyle: "italic",
+            fontVariantNumeric: "tabular-nums",
+            clip: false
+          }),
+          // Vertical "Launch" line at 0
+          Plot.ruleX([0]),
+          // "Launch" Label at top of timeline
+          Plot.text(["Launch"], {
+            frameAnchor: "top",
+            x: -5,
+            dy: -15,
+            fy: "Generation",
+            textAnchor: "end",
+            fontStyle: "italic",
+            fontSize: 10,
+            fill: "#555",
+            clip: false
+          }),
+
+          // 3. BAR CHART SECTION (Center)
+          // Background for bar area (optional, to keep grid visible against white?)
+          // Plot.frame({ stroke: "#ccc" }), 
+
+          // The Bars
+          Plot.barX(data, {
+            x: "Units",
+            y: "Console",
+            fy: "Generation",
+            fill: d => genColors[d.Generation],
+            title: d => `${d.Console}\nLaunched: ${d.Launch}\nSold: ${d.Units}m`
+          }),
         ]
       };
 
-      document.getElementById("steam").appendChild(Plot.plot(steam));
+      document.getElementById("consoles").appendChild(Plot.plot(options));
     });
   </script>
 </body>

@@ -129,8 +129,6 @@
           alt="The New York Times original graphic, visualizing global temperatures since 1880." loading="lazy"
           title="The New York Times original graphic, visualizing global temperatures since 1880."></a>
 
-      <!-- Todo: Add anomaly explanations https://observablehq.com/@ateliercartographie/visualising-absolute-and-anomaly-temperature  -->
-
     </article>
   </main>
   <footer>
@@ -252,18 +250,13 @@
             dx: 0,
             dy: -2,
             text: d => d3.timeFormat("%B %Y")(d.date)
-          }),
-          // Plot.text(hadcrut, {filter: d=> d.date == "Sun Jan 31 2016 19:00:00 GMT-0500 (EST)", x: "date", y: "value", dx: -50, dy: -2, text: d => d3.timeFormat("%B %Y")(d.date)}),
-          // Plot.text(hadcrut, {filter: d=> d.date == "Mon Feb 29 2016 19:00:00 GMT-0500 (EST)", x: "date", y: "value", dx: -50, dy: 4, text: d => d3.timeFormat("%B %Y")(d.date)}),
-          // Plot.text(hadcrut, {filter: d=> d.date == "Wed Feb 28 1990 19:00:00 GMT-0500 (EST)", x: "date", y: "value", dx: -14 , dy: -12, text: d => d3.timeFormat("%B %Y")(d.date)}),
-          // Plot.text(hadcrut, {filter: d=> d.date == "Tue Dec 31 1957 19:00:00 GMT-0500 (EST)", x: "date", y: "value", dx: -8, dy: -12, text: d => d3.timeFormat("%B %Y")(d.date)}),
-          // Plot.text(hadcrut, {filter: d=> d.date == "Thu Dec 31 1925 19:00:00 GMT-0500 (EST)", x: "date", y: "value", dx: -8, dy: -12, text: d => d3.timeFormat("%B %Y")(d.date)}),
-          // Plot.text(hadcrut, {filter: d=> d.date == "Thu Jan 31 1889 19:00:00 GMT-0500 (EST)", x: "date", y: "value", dx: -5, dy: -12, text: d => d3.timeFormat("%B %Y")(d.date)}),   
-        ]
+          })]
       };
 
       var stripes = {
         width: width,
+        marginTop: 10,
+        height: 100,
         style: {
           fontSize: size,
           paddingTop: 20
@@ -283,6 +276,11 @@
         marginRight: 0,
         marginLeft: 0,
         marks: [
+          Plot.tickX(hadcrut, {
+            opacity: .8,
+            x: "date",
+            filter: (d) => d["date"].getFullYear() % 10 === 0 && d["date"].getMonth() == 1
+          }),
           Plot.barX(hadcrut, {
             x: "date",
             interval: 1,
@@ -295,11 +293,6 @@
               r: 5,
               textPadding: 4
             },
-          }),
-          Plot.tickX(hadcrut, {
-            opacity: .8,
-            x: "date",
-            filter: (d) => d["date"].getFullYear() % 10 === 0 && d["date"].getMonth() == 1
           }),
           Plot.text(hadcrut, {
             frameAnchor: "top",
