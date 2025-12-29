@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+  <title>SNL | Justin Chill</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Charts about SNL.">
+  <meta name="author" content="Justin Chill">
+  <!-- OpenGraph tags -->
+  <meta name="robots" content="all">
+  <meta content="en_US" property="og:locale">
+  <meta content="JustinChill" property="og:site_name">
+  <meta content="article" property="og:type">
+  <meta content="https://justinchill.com/snl.html" property="og:url">
+  <meta content="SNL | Justin Chill" property="og:title">
+  <meta content="Charts about SNL." property="og:description">
+  <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
+  <link rel="canonical" href="https://www.justinchill.com/snl.html">
+
+  <meta property="og:locality" content="New York">
+  <meta property="og:region" content="NY">
+  <meta property="og:country_name" content="USA">
+
+  <meta name="datePublished" content="2025-07-12">
+  <meta name="dateModified" content="2025-08-06">
+
+  <meta content="" property="og:image">
+  <meta content="" property="twitter:image">
+  <meta content="" property="og:image:alt">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SNL | Justin Chill">
+  <meta name="twitter:description" content="Charts about SNL.">
+
+  <link type="text/plain" href="humans.txt" rel="author">
+  <link rel="preload" href="style.css" as="style" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="/favicon.ico">
+  <meta name="theme-color" content="#4C63B6">
+
+  <script type="module">
+    document.documentElement.classList.remove('no-js');
+    document.documentElement.classList.add('js');
+  </script>
+
+  <style type="text/css">
+
+  </style>
+</head>
+
+<body>
+  <nav class="nav" role="navigation">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
+      <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
+      <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
+    </div>
+    <div class="nav__list">
+      <a href="http://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+
+  <main role="main">
+    <article>
+      <div class="article-hero">
+        <h2 class="article-category">Post</h2>
+        <h1 class="article-title">SNL</h1>
+        <h2 class="article-subtitle"></h2>
+      </div>
+      <span class="header-tag mid-size"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <h3 class="mid-size">Cast Members Timeline</h3>
+      <figure id="snl_cast" class="mid-size"></figure>
+      <p>From the choppy early seasons, rife with backstage drama...</p>
+      <span class="header-tag"></span>
+      <h3>Boys’ Club</h3>
+      <p>Hiring on “S.N.L.” has become increasingly diverse — six of the 10 new players in the past
+        five years have been women or people of color. But looking at the casts over the long run, no season has
+        featured more women than men.</p>
+      <figure id="snl_gender"></figure>
+      <p>A recreation of this infographic from the New Yorker:</p>
+      <img src="imgs/djqur8h0fvze1.jpeg" alt="New Yorker infographic" loading="lazy">
+    </article>
+  </main>
+  <footer>
+    <h2 id="footnote-label">Footnotes</h2>
+    <ol>
+      <li id="Holmes"><a
+          href="https://digital.library.unt.edu/ark:/67531/metadc68027/m2/1/high_res_d/thesis.pdf">Holmes, 2011</a>.<a
+          href="#Holmes-ref" aria-label="Back to content">↩</a></li>
+      <li id="Graff"><a href="https://onlinelibrary.wiley.com/doi/abs/10.1111/j.0033-0124.1994.00019.x">Graff and
+          Ashton, 1994</a>.<a href="#Graff-ref" aria-label="Back to content">↩</a></li>
+    </ol>
+
+    <div>
+      <p>Justin Chill &copy; 2025</p>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
+            alt="GitHub logo" class="icon">Source code</a></span>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+
+  <script type="text/javascript">
+
+    var element = d3.select('figure').node();
+    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+
+    d3.json("data/snl_cast.json").then(function (cast) {
+
+      var annotations = [
+        { y: "Dan Aykroyd", x: 1980, text: "Dan Aykroyd and John Belushi became so famous as a result of 'S.N.L.' that they had to flee through the back window of a cabin they rented in Wisconsin after fans mobbed outside." },
+        { y: "Eddie Murphy", x: 1985, text: "Murphy, just out of high school, called the talent coordinator Neil Levy three times a day until he scored an audition." },
+        { y: "Julia Louis-Dreyfus", x: 1986, text: "Julia Louis-Dreyfus felt underused on 'S.N.L.' but she did meet Larry David, then a writer on the show. They teamed up on 'Seinfeld' five years later." },
+        { y: "Chris Farley", x: 1996, text: "A 1995 New York magazine cover story on the show's dissolution featured tart jokes and feuds between checked-out cast members. 'They can't even fake forcing themselves to care,' said one of the show's writers." },
+        { y: "Will Ferrell", x: 2003, text: "Before the 1999-2000 season, new cast members received more restrictive contracts written to limit them from jumping to Hollywood in the vein of Chevy Chase, Eddie Murphy and Mike Myers." },
+        { y: "Tina Fey", x: 2007, text: "Twenty years after 'S.N.L.' began, a less volatile culture emerged at Studio 8H. 'There's no drugs and there's no sex at the show now,' Tina Fey told the authors of 'Live From New York.' Female representation behind and in front of the camera ticked up, and Amy Poehler and Fey became the first female co-hosts of 'Weekend Update.'" },
+        { y: "Sasheer Zamata", x: 2018, text: "Sasheer Zamata and Leslie Jones were hired following criticism from Thompson and Jay Pharoah about the absence of black women in the cast." },
+        { y: "Bowen Yang", x: 2019, text: "Bowen Yang, a former 'S.N.L.' writer, became the first Chinese-American performer to join the cast." }
+      ];
+
+      var snl_cast = Plot.plot({
+        width: width,
+        height: cast.length * 15, // Increased spacing for readability
+        x: {
+          axis: "both",
+          // domain: [1975, 2030], // Extended domain for annotations
+          grid: false,
+          nice: true,
+          tickFormat: "d",
+          tickSize: 0,
+        },
+        y: {
+          axis: null,
+          domain: d3.sort(cast, c => c["lastYear"]).map(c => c["name"]),
+        },
+        color: {
+          domain: ["Male", "Female"],
+          range: ["#9e9ac8", "#66c2a4"], // Purple and Green
+          legend: true
+        },
+        marginLeft: 120,
+        marks: [
+          Plot.ruleX(d3.range(1975, 2026), {
+            stroke: d => d % 5 === 0 ? "#999" : "#e0e0e0",
+            strokeOpacity: .9
+          }),
+          Plot.barX(cast.filter(d => d.firstYear !== d.lastYear), {
+            y: "name",
+            x1: "firstYear",
+            x2: "lastYear",
+            fill: "gender",
+            rx: 5,
+            title: d => `${d.name}\n${d.firstYear}-${d.lastYear}\n${d.gender}`
+          }),
+          Plot.dot(cast.filter(d => d.firstYear === d.lastYear), {
+            x: "firstYear",
+            y: "name",
+            fill: "gender",
+            r: 4,
+            title: d => `${d.name}\n${d.firstYear}\n${d.gender}`
+          }),
+          Plot.textX(cast, {
+            x: "firstYear",
+            y: "name",
+            text: "name",
+            textAnchor: "end",
+            dx: -12,
+            stroke: "white", // Halo effect
+            strokeWidth: 4,
+            fill: "currentColor",
+            style: {
+              paintOrder: "stroke"
+            },
+          }),
+          Plot.text(annotations.filter(d => d.y !== "Bowen Yang"), {
+            x: "x",
+            y: "y",
+            text: "text",
+            textAnchor: "start",
+            dx: 10,
+            lineWidth: 25,
+            stroke: "white", // Halo effect
+            strokeWidth: 4,
+            fill: "currentColor",
+            style: {
+              paintOrder: "stroke"
+            },
+            fontSize: 11
+          }),
+          Plot.text(annotations.filter(d => d.y === "Bowen Yang"), {
+            x: "x",
+            y: "y",
+            text: "text",
+            textAnchor: "end",
+            dx: -200,
+            lineWidth: 25,
+            fill: "currentColor",
+            stroke: "white", // Halo effect
+            strokeWidth: 4,
+            style: {
+              paintOrder: "stroke"
+            },
+            fontSize: 11
+          })
+        ],
+      })
+
+      document.getElementById("snl_cast").appendChild(snl_cast);
+
+      // Data processing for second plot (Boys' Club)
+      const expandedCast = [];
+      cast.forEach(c => {
+        for (let year = c.firstYear; year <= c.lastYear; year++) {
+          expandedCast.push({
+            name: c.name,
+            gender: c.gender,
+            season: new Date(year, 0, 1) // Convert to Date object
+          });
+        }
+      });
+
+      // Group by season to calculate x-offsets
+      const seasonGroups = d3.group(expandedCast, d => d.season.getTime()); // Group by timestamp for reliable matching
+
+      const plotData = [];
+      for (const [seasonTime, members] of seasonGroups) {
+        // Separate by gender
+        const men = members.filter(d => d.gender === "Male").sort((a, b) => a.name.localeCompare(b.name));
+        const women = members.filter(d => d.gender === "Female").sort((a, b) => a.name.localeCompare(b.name));
+
+        men.forEach((d, i) => plotData.push({ ...d, x: -(i + 1) }));
+        women.forEach((d, i) => plotData.push({ ...d, x: (i + 1) }));
+      }
+
+      var snl_gender = Plot.plot({
+        width: width,
+        height: 800,
+        marginRight: 40,
+        marginLeft: 40,
+        x: {
+          axis: false,
+          domain: [-30, 30]
+        },
+        y: {
+          axis: null,
+          nice: true,
+          reverse: true,
+          type: "utc" // Explicitly time-based
+        },
+        marks: [
+          Plot.dot(plotData, {
+            x: "x",
+            y: "season",
+            fill: d => d.gender === "Male" ? "#8c6bb1" : "#41b6c4",
+            r: 3.5,
+            title: d => `${d.name} (${d.season.getFullYear()})`
+          }),
+          Plot.ruleX([0], { strokeOpacity: 0.5 }),
+          // Decade markers
+          Plot.ruleY([1980, 1990, 2000, 2010, 2020].map(y => new Date(y, 0, 1)), { strokeOpacity: 0.2 }),
+          Plot.text([1980, 1990, 2000, 2010].map(y => ({ y: new Date(y, 0, 1), label: `${y}-${(y + 1).toString().slice(2)}` })), {
+            y: "y", x: -28, text: "label", textAnchor: "start", fill: "#666"
+          }),
+          // Labels for Men / Women
+          Plot.text([{ x: -5, label: "Men" }, { x: 5, label: "Women" }], {
+            y: new Date(1974, 0, 1),
+            x: "x", text: "label", fontWeight: "bold", fontSize: 14
+          })
+        ]
+      });
+
+      document.getElementById("snl_gender").appendChild(snl_gender);
+    });
+  </script>
+</body>
+
+</html>
