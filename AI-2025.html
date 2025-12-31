@@ -272,6 +272,11 @@
             fill: #D93025;
         }
 
+        #waymo-map>figure>div>span[class*="swatch"] svg {
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
         /* Twitter card */
         .wrapper {
             display: flex;
@@ -706,6 +711,18 @@
                 <cite>&mdash; Sergey Brin</cite>
             </blockquote>
 
+            <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+            <h3>The AI Stack</h3>
+            <p>Competition is heating up among nine top makers of artificial intelligence and related hardware as they
+                expand their product lines. <span style="background-color: #fce8b2;">Highlighted cells</span> show new
+                entries since last year.</p>
+            <figure id="chart-ai-stack" aria-label="Table showing The AI Stack competition">
+                <figcaption class="right">* Hardware or software for humanoids &bull; Source: <a
+                        href="https://www.theinformation.com/articles/openai-meta-ai-rivals-ramp-turf-wars-partnerships-three-charts">The
+                        Information</a>
+                </figcaption>
+            </figure>
+
             <h2>Another platform shift, or more?</h2>
             <p>We know this will get better, but we don’t know how much</p>
             <figure id="chart-unexpected"
@@ -869,8 +886,18 @@
                 <p>"It’s been almost impossible to build capacity fast enough since ChatGPT launched"</p>
                 <cite>&mdash; Kevin Scott, Microsoft CTO </cite>
             </blockquote>
+            <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+            <h3>Current Affairs</h3>
+            <figure id="chart-arms-race" aria-label="Stacked bar chart showing Data Center Arms Race">
+                <figcaption class="right">Source: DataCenterHawk</figcaption>
+            </figure>
+            <p>Data centers consuming more than 25 gigawatts of electricity were under construction this year, with
+                facilities using another 128 gigawatts in planning. If all are built, they could use almost three times
+                California's peak electric demand.</p>
             <h2>Data centre capacity triples?</h2>
-            <p>Some very large numbers (although some of these ‘bragawatts’ may be more performative than real).</p>
+            <p>Some very large numbers (although some of these <a
+                    href="https://www.theinformation.com/articles/bragawatt-data-center-era-brings-reality-checks-energy-breakthroughs">‘bragawatts’</a>
+                may be more performative than real).</p>
             <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
             <h3>Global data centre capacity estimates, H1 2025 (<small>GW</small>)</h3>
             <figure id="chart-datacenter-capacity" aria-label="Bar chart showing Global Data Center Capacity estimates">
@@ -940,6 +967,16 @@
                 <span class="MTmini"><span class="nvidia"></span>Nvidia</span> competitor, and pay Broadcom to make its
                 own chips…
             </p>
+            <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+            <h3>Mutual Dependencies</h3>
+            <p>Major AI firms and cloud providers are increasingly relying on one another by striking interlocking deals
+                involving cash, servers, AI models and chips</p>
+            <figure id="chart-mutual-dependencies" aria-label="Heatmap showing mutual dependencies between AI firms">
+                <figcaption class="right">Source: <a
+                        href="https://www.theinformation.com/articles/openai-meta-ai-rivals-ramp-turf-wars-partnerships-three-charts">The
+                        Information</a></figcaption>
+            </figure>
+
             <h2>Yes, but where has all this money got us?</h2>
             <p>After three years, lots more science and engineering, but no real clarity on the shape of the market</p>
 
@@ -1432,6 +1469,12 @@
                 require enormous computational resources.</p>
             <p>We are seeing progress in "Embodied AI"—robots that learn to move by themselves—but we are still far
                 from a Rosie the Robot in every home.</p>
+            <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+            <h3>Way More to Come</h3>
+            <figure id="waymo-map" aria-label="Map showing Waymo operating areas">
+                <figcaption class="right">*As of November 2025 &bull; Source: Waymo</figcaption>
+            </figure>
+            <p>Waymos are currently ferrying passengers in five U.S. metro areas and testing in more than 20 more.</p>
 
             <h2>So what?</h2>
             <p>We are in the deployment phase. The technology works, the capital is flowing, and the models are
@@ -1494,6 +1537,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/d3"></script>
     <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+    <script src="https://cdn.jsdelivr.net/npm/topojson-client"></script>
 
     <script>
         // Constants for consistent visual style
@@ -10144,6 +10188,418 @@
                 })
             ]
         }));
+
+        // Data for AI Stack
+        const aiStackData = [
+            // Google
+            { company: "Google", category: "AI Server Chips", value: true, new: false },
+            { company: "Google", category: "AI Training Clusters", value: true, new: false },
+            { company: "Google", category: "Cloud AI Server Rentals", value: true, new: false },
+            { company: "Google", category: "API for AI App Devs", value: true, new: false },
+            { company: "Google", category: "State-of-the-Art LLM", value: true, new: false },
+            { company: "Google", category: "Enterprise AI Apps", value: true, new: false },
+            { company: "Google", category: "Consumer AI Apps", value: true, new: false },
+            { company: "Google", category: "Wearable AI Device", value: true, new: false },
+            { company: "Google", category: "Humanoid Robot*", value: true, new: true },
+
+            // Microsoft
+            { company: "Microsoft", category: "AI Server Chips", value: true, new: false },
+            { company: "Microsoft", category: "AI Training Clusters", value: true, new: false },
+            { company: "Microsoft", category: "Cloud AI Server Rentals", value: true, new: false },
+            { company: "Microsoft", category: "API for AI App Devs", value: true, new: false },
+            { company: "Microsoft", category: "State-of-the-Art LLM", value: true, new: false },
+            { company: "Microsoft", category: "Enterprise AI Apps", value: true, new: false },
+            { company: "Microsoft", category: "Consumer AI Apps", value: true, new: false },
+
+            // Amazon
+            { company: "Amazon", category: "AI Server Chips", value: true, new: false },
+            { company: "Amazon", category: "AI Training Clusters", value: true, new: false },
+            { company: "Amazon", category: "Cloud AI Server Rentals", value: true, new: false },
+            { company: "Amazon", category: "API for AI App Devs", value: true, new: false },
+            { company: "Amazon", category: "State-of-the-Art LLM", value: true, new: false },
+            { company: "Amazon", category: "Enterprise AI Apps", value: true, new: false },
+            { company: "Amazon", category: "Consumer AI Apps", value: true, new: false },
+            { company: "Amazon", category: "Wearable AI Device", value: true, new: true },
+            { company: "Amazon", category: "Humanoid Robot^", value: true, new: true },
+
+            // OpenAI
+            { company: "OpenAI", category: "AI Server Chips", value: true, new: false },
+            { company: "OpenAI", category: "AI Training Clusters", value: true, new: true },
+            { company: "OpenAI", category: "API for AI App Devs", value: true, new: false },
+            { company: "OpenAI", category: "State-of-the-Art LLM", value: true, new: false },
+            { company: "OpenAI", category: "Enterprise AI Apps", value: true, new: false },
+            { company: "OpenAI", category: "Consumer AI Apps", value: true, new: false },
+            { company: "OpenAI", category: "Wearable AI Device", value: true, new: true },
+            { company: "OpenAI", category: "Humanoid Robot^", value: true, new: true },
+
+            // Meta
+            { company: "Meta", category: "AI Server Chips", value: true, new: false },
+            { company: "Meta", category: "AI Training Clusters", value: true, new: false },
+            { company: "Meta", category: "API for AI App Devs", value: true, new: true },
+            { company: "Meta", category: "State-of-the-Art LLM", value: true, new: false },
+            { company: "Meta", category: "Consumer AI Apps", value: true, new: false },
+            { company: "Meta", category: "Wearable AI Device", value: true, new: false },
+            { company: "Meta", category: "Humanoid Robot^", value: true, new: true },
+
+            // xAI/Tesla
+            { company: "xAI/Tesla", category: "AI Server Chips", value: true, new: false },
+            { company: "xAI/Tesla", category: "AI Training Clusters", value: true, new: false },
+            { company: "xAI/Tesla", category: "API for AI App Devs", value: true, new: false },
+            { company: "xAI/Tesla", category: "State-of-the-Art LLM", value: true, new: false },
+            { company: "xAI/Tesla", category: "Enterprise AI Apps", value: true, new: true },
+            { company: "xAI/Tesla", category: "Consumer AI Apps", value: true, new: false },
+            { company: "xAI/Tesla", category: "Humanoid Robot^", value: true, new: false },
+
+            // Nvidia
+            { company: "Nvidia", category: "AI Server Chips", value: true, new: false },
+            { company: "Nvidia", category: "AI Training Clusters", value: true, new: false },
+            { company: "Nvidia", category: "Cloud AI Server Rentals", value: true, new: false },
+            { company: "Nvidia", category: "API for AI App Devs", value: true, new: false },
+            { company: "Nvidia", category: "State-of-the-Art LLM", value: true, new: false },
+            { company: "Nvidia", category: "Humanoid Robot^", value: true, new: true },
+
+            // Apple
+            { company: "Apple", category: "AI Server Chips", value: true, new: false },
+            { company: "Apple", category: "AI Training Clusters", value: true, new: false },
+            { company: "Apple", category: "State-of-the-Art LLM", value: true, new: false },
+            { company: "Apple", category: "Consumer AI Apps", value: true, new: false },
+            { company: "Apple", category: "Wearable AI Device", value: true, new: false },
+            { company: "Apple", category: "Humanoid Robot^", value: true, new: true },
+
+            // Anthropic
+            { company: "Anthropic", category: "AI Training Clusters", value: true, new: true },
+            { company: "Anthropic", category: "API for AI App Devs", value: true, new: false },
+            { company: "Anthropic", category: "State-of-the-Art LLM", value: true, new: false },
+            { company: "Anthropic", category: "Enterprise AI Apps", value: true, new: false },
+            { company: "Anthropic", category: "Consumer AI Apps", value: true, new: false }
+        ];
+
+        const companies = ["Google", "Microsoft", "Amazon", "OpenAI", "Meta", "xAI/Tesla", "Nvidia", "Apple", "Anthropic"];
+        const categories = ["AI Server Chips", "AI Training Clusters", "Cloud AI Server Rentals", "API for AI App Devs", "State-of-the-Art LLM", "Enterprise AI Apps", "Consumer AI Apps", "Wearable AI Device", "Humanoid Robot^"];
+
+        document.getElementById("chart-ai-stack").append(Plot.plot({
+            width: width,
+            height: 480,
+            marginTop: 60,
+            marginRight: 0,
+            style: {
+                fontFamily: "Lato, sans-serif",
+                fontSize: "12px",
+            },
+            x: {
+                domain: categories,
+                axis: "top",
+                label: null,
+                tickFormat: d => d.replace(/ /g, "\n"), // Stack words
+            },
+            y: {
+                domain: companies,
+                label: null,
+            },
+            marks: [
+                // Background cells
+                Plot.cell(companies.flatMap(c => categories.map(cat => ({ company: c, category: cat }))), {
+                    x: "category",
+                    y: "company",
+                    fill: (d) => {
+                        const item = aiStackData.find(x => x.company === d.company && x.category === d.category);
+                        if (item && item.new) return "#fff2cc"; // Yellow highlight
+                        const rowIndex = companies.indexOf(d.company);
+                        return rowIndex % 2 === 0 ? "white" : "#f8f9fa"; // Alternating rows
+                    },
+                    stroke: "#eee",
+                    strokeWidth: 1
+                }),
+                // Checks
+                Plot.text(aiStackData, {
+                    x: "category",
+                    y: "company",
+                    text: () => "✔️",
+                    fill: "#5e35b1", // Purple check
+                    fontSize: 16,
+                    fontWeight: "bold"
+                })
+            ]
+        }));
+    </script>
+
+    <script>
+        // Chart: Mutual Dependencies
+        const dependencyData = [
+            // Google
+            { provider: "Google", customer: "Google", status: "Self" },
+            { provider: "Google", customer: "Microsoft", status: "No deal" },
+            { provider: "Google", customer: "Amazon", status: "No deal" },
+            { provider: "Google", customer: "OpenAI", status: "Deal" }, // Green in image (Google uses OpenAI models? Or OpenAI uses Google? - Assuming Green based on image inspection)
+            { provider: "Google", customer: "Meta", status: "Deal" }, // Llama on GCP
+            { provider: "Google", customer: "xAI/Tesla", status: "No deal" },
+            { provider: "Google", customer: "Nvidia", status: "Deal" }, // Nvidia on GCP
+            { provider: "Google", customer: "Apple", status: "Deal" }, // iCloud on GCP
+
+            // Microsoft
+            { provider: "Microsoft", customer: "Google", status: "No deal" },
+            { provider: "Microsoft", customer: "Microsoft", status: "Self" },
+            { provider: "Microsoft", customer: "Amazon", status: "No deal" },
+            { provider: "Microsoft", customer: "OpenAI", status: "Deal" },
+            { provider: "Microsoft", customer: "Meta", status: "Deal" },
+            { provider: "Microsoft", customer: "xAI/Tesla", status: "No deal" },
+            { provider: "Microsoft", customer: "Nvidia", status: "Deal" },
+            { provider: "Microsoft", customer: "Apple", status: "No deal" },
+
+            // Amazon
+            { provider: "Amazon", customer: "Google", status: "No deal" },
+            { provider: "Amazon", customer: "Microsoft", status: "No deal" },
+            { provider: "Amazon", customer: "Amazon", status: "Self" },
+            { provider: "Amazon", customer: "OpenAI", status: "No deal" },
+            { provider: "Amazon", customer: "Meta", status: "Deal" },
+            { provider: "Amazon", customer: "xAI/Tesla", status: "No deal" },
+            { provider: "Amazon", customer: "Nvidia", status: "Deal" },
+            { provider: "Amazon", customer: "Apple", status: "Deal" },
+
+            // OpenAI
+            { provider: "OpenAI", customer: "Google", status: "No deal" },
+            { provider: "OpenAI", customer: "Microsoft", status: "Deal" },
+            { provider: "OpenAI", customer: "Amazon", status: "Pending" }, // Pending/Yellow
+            { provider: "OpenAI", customer: "OpenAI", status: "Self" },
+            { provider: "OpenAI", customer: "Meta", status: "No deal" },
+            { provider: "OpenAI", customer: "xAI/Tesla", status: "No deal" },
+            { provider: "OpenAI", customer: "Nvidia", status: "No deal" },
+            { provider: "OpenAI", customer: "Apple", status: "Deal" },
+
+            // Meta
+            { provider: "Meta", customer: "Google", status: "No deal" },
+            { provider: "Meta", customer: "Microsoft", status: "Deal" },
+            { provider: "Meta", customer: "Amazon", status: "Deal" },
+            { provider: "Meta", customer: "OpenAI", status: "No deal" },
+            { provider: "Meta", customer: "Meta", status: "Self" },
+            { provider: "Meta", customer: "xAI/Tesla", status: "No deal" },
+            { provider: "Meta", customer: "Nvidia", status: "No deal" },
+            { provider: "Meta", customer: "Apple", status: "No deal" },
+
+            // xAI/Tesla
+            { provider: "xAI/Tesla", customer: "Google", status: "No deal" },
+            { provider: "xAI/Tesla", customer: "Microsoft", status: "Deal" },
+            { provider: "xAI/Tesla", customer: "Amazon", status: "No deal" },
+            { provider: "xAI/Tesla", customer: "OpenAI", status: "No deal" },
+            { provider: "xAI/Tesla", customer: "Meta", status: "No deal" },
+            { provider: "xAI/Tesla", customer: "xAI/Tesla", status: "Self" },
+            { provider: "xAI/Tesla", customer: "Nvidia", status: "No deal" },
+            { provider: "xAI/Tesla", customer: "Apple", status: "No deal" },
+
+            // Nvidia
+            { provider: "Nvidia", customer: "Google", status: "Deal" },
+            { provider: "Nvidia", customer: "Microsoft", status: "Deal" },
+            { provider: "Nvidia", customer: "Amazon", status: "Deal" },
+            { provider: "Nvidia", customer: "OpenAI", status: "Deal" },
+            { provider: "Nvidia", customer: "Meta", status: "Deal" },
+            { provider: "Nvidia", customer: "xAI/Tesla", status: "Deal" },
+            { provider: "Nvidia", customer: "Nvidia", status: "Self" },
+            { provider: "Nvidia", customer: "Apple", status: "Deal" },
+
+            // Apple
+            { provider: "Apple", customer: "Google", status: "No deal" },
+            { provider: "Apple", customer: "Microsoft", status: "No deal" },
+            { provider: "Apple", customer: "Amazon", status: "No deal" },
+            { provider: "Apple", customer: "OpenAI", status: "No deal" },
+            { provider: "Apple", customer: "Meta", status: "No deal" },
+            { provider: "Apple", customer: "xAI/Tesla", status: "No deal" },
+            { provider: "Apple", customer: "Nvidia", status: "No deal" },
+            { provider: "Apple", customer: "Apple", status: "Self" },
+
+            // Anthropic
+            { provider: "Anthropic", customer: "Google", status: "No deal" },
+            { provider: "Anthropic", customer: "Microsoft", status: "Deal" }, // Green in image check ??
+            { provider: "Anthropic", customer: "Amazon", status: "Deal" },
+            { provider: "Anthropic", customer: "OpenAI", status: "No deal" },
+            { provider: "Anthropic", customer: "Meta", status: "No deal" },
+            { provider: "Anthropic", customer: "xAI/Tesla", status: "No deal" },
+            { provider: "Anthropic", customer: "Nvidia", status: "No deal" },
+            { provider: "Anthropic", customer: "Apple", status: "Pending" }, // Pending
+        ];
+
+        document.getElementById("chart-mutual-dependencies").append(Plot.plot({
+            width: width,
+            height: 400,
+            marginTop: 40,
+            marginRight: 0,
+            style: {
+                fontFamily: "Lato, sans-serif",
+                fontSize: "12px",
+            },
+            x: {
+                axis: "top",
+                label: "← Customer →",
+                labelAnchor: "center",
+                domain: ["Google", "Microsoft", "Amazon", "OpenAI", "Meta", "xAI/Tesla", "Nvidia", "Apple"],
+                tickSize: 0,
+                padding: 0
+            },
+            y: {
+                label: null,
+                domain: ["Google", "Microsoft", "Amazon", "OpenAI", "Meta", "xAI/Tesla", "Nvidia", "Apple", "Anthropic"],
+                tickSize: 0,
+                padding: 0
+            },
+            color: {
+                domain: ["No deal", "Pending", "Deal", "Self"],
+                range: ["#ef3b4e", "#fdd835", "#43a047", "#d0d0d0"],
+                legend: true
+            },
+            marks: [
+                Plot.cell(dependencyData, {
+                    x: "customer",
+                    y: "provider",
+                    fill: "status",
+                    stroke: "white",
+                    strokeWidth: 2,
+                    tip: true
+                })
+            ]
+        }));
+    </script>
+    <script>
+        // Chart: Data Center Arms Race
+        const armsRaceData = [
+            { year: "2021", type: "Under Construction", value: 3.6 },
+            { year: "2021", type: "Planned", value: 22.7 },
+            { year: "2022", type: "Under Construction", value: 5.6 },
+            { year: "2022", type: "Planned", value: 36.4 },
+            { year: "2023", type: "Under Construction", value: 9.6 },
+            { year: "2023", type: "Planned", value: 57.5 },
+            { year: "2024", type: "Under Construction", value: 18.3 },
+            { year: "2024", type: "Planned", value: 92.5 },
+            { year: "2025\n(Through Sept.)", type: "Under Construction", value: 25.3 },
+            { year: "2025\n(Through Sept.)", type: "Planned", value: 128.4 }
+        ];
+
+        const armsTotals = [
+            { year: "2021", value: 26.3 },
+            { year: "2022", value: 42 },
+            { year: "2023", value: 67.1 },
+            { year: "2024", value: 110.8 },
+            { year: "2025\n(Through Sept.)", value: 153.7 }
+        ];
+
+        document.getElementById("chart-arms-race").append(Plot.plot({
+            width: width,
+            marginRight: 100, // Extra space for annotations
+            style: {
+                fontFamily: "Lato, sans-serif",
+                fontSize: "12px"
+            },
+            y: {
+                grid: true,
+                label: null,
+                tickFormat: d => d + " GW",
+                domain: [0, 200],
+                nice: true,
+                ticks: 5,
+            },
+            x: {
+                label: null,
+                domain: ["2021", "2022", "2023", "2024", "2025\n(Through Sept.)"]
+            },
+            color: {
+                domain: ["Under Construction", "Planned"],
+                range: ["#ef3b4e", "#ffccd5"],
+                legend: true
+            },
+            marks: [
+                Plot.barY(armsRaceData, {
+                    x: "year",
+                    y: "value",
+                    fill: "type",
+                    title: d => `${d.year}\n${d.type}: ${d.value} GW`
+                }),
+
+                // Reference Lines
+                Plot.ruleY([165], { stroke: "#999", strokeWidth: 1, strokeDasharray: "4,4", strokeOpacity: 0.75 }),
+                Plot.text(["Japan peak\ndemand, 2024"], { frameAnchor: "right", y: 165, dx: 10, dy: -5, textAnchor: "start", fill: "#555" }),
+
+                Plot.ruleY([100], { stroke: "#999", strokeWidth: 1, strokeDasharray: "4,4", strokeOpacity: 0.75 }),
+                Plot.text(["France historic\npeak demand"], { frameAnchor: "right", y: 100, dx: 10, dy: -5, textAnchor: "start", fill: "#555" }),
+
+                Plot.ruleY([50], { stroke: "#999", strokeWidth: 1, strokeDasharray: "4,4", strokeOpacity: 0.75 }),
+                Plot.text(["California hist.\npeak"], { frameAnchor: "right", y: 50, dx: 10, dy: -5, textAnchor: "start", fill: "#555" }),
+
+                Plot.ruleY([13], { stroke: "#999", strokeWidth: 1, strokeDasharray: "4,4", strokeOpacity: 0.75 }),
+                Plot.text(["NYC hist. peak"], { frameAnchor: "right", y: 13, dx: 10, dy: -5, textAnchor: "start", fill: "#555" }),
+                // Inner labels
+                Plot.text(armsRaceData, Plot.stackY({
+                    x: "year",
+                    y: "value",
+                    text: d => ((d.type === "Under Construction" && d.value > 5) || (d.type === "Planned" && d.value > 10)) ? d.value + " GW" : null,
+                    fill: d => d.type === "Under Construction" ? "white" : "black",
+                    title: null
+                })),
+
+                // Total labels
+                Plot.text(armsTotals, {
+                    x: "year",
+                    y: "value",
+                    text: d => d.value + " GW",
+                    dy: -10,
+                    fontWeight: "bold"
+                }),
+            ]
+        }));
+
+        // Waymo Map
+        (async () => {
+            const waymoData = [
+                { city: "Phoenix", lat: 33.448, lon: -112.074, status: "Launched, with riders" },
+                { city: "San Francisco", lat: 37.774, lon: -122.419, status: "Launched, with riders" },
+                { city: "Los Angeles", lat: 34.052, lon: -118.243, status: "Launched, with riders" },
+                { city: "Austin", lat: 30.267, lon: -97.743, status: "Launched, with riders" },
+                { city: "Atlanta", lat: 33.749, lon: -84.388, status: "Launched, with riders" },
+                { city: "Miami", lat: 25.761, lon: -80.191, status: "Driving autonomously in coming weeks* without riders" },
+                { city: "Orlando", lat: 28.538, lon: -81.379, status: "Driving autonomously in coming weeks* without riders" },
+                { city: "Dallas", lat: 32.776, lon: -96.797, status: "\"Up next\"" },
+                { city: "Houston", lat: 29.760, lon: -95.369, status: "\"Up next\"" },
+                { city: "San Antonio", lat: 29.424, lon: -98.493, status: "\"Up next\"" },
+                { city: "Detroit", lat: 42.331, lon: -83.045, status: "\"Up next\"" },
+                { city: "Las Vegas", lat: 36.169, lon: -115.139, status: "\"Up next\"" },
+                { city: "San Diego", lat: 32.715, lon: -117.161, status: "\"Up next\"" },
+                { city: "Seattle", lat: 47.606, lon: -122.332, status: "Early mapping/planning" },
+                { city: "New York City", lat: 40.712, lon: -74.006, status: "Early mapping/planning" },
+                { city: "Philadelphia", lat: 39.952, lon: -75.165, status: "Early mapping/planning" },
+                { city: "Buffalo", lat: 42.886, lon: -78.878, status: "Early mapping/planning" },
+                { city: "New Orleans", lat: 29.951, lon: -90.071, status: "Early mapping/planning" },
+                { city: "Baltimore", lat: 39.290, lon: -76.612, status: "Early mapping/planning" },
+                { city: "Pittsburgh", lat: 40.440, lon: -79.995, status: "Early mapping/planning" },
+                { city: "Washington DC", lat: 38.907, lon: -77.036, status: "Early mapping/planning" }
+            ];
+
+            const us = await d3.json("https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json");
+            const nation = topojson.feature(us, us.objects.nation);
+            const states = topojson.feature(us, us.objects.states);
+
+            // Redefining width for local scope if needed, or use global 'width' if accessible. 
+            // Global 'width' is available here as it's defined in the outer scope.
+            const waymoWidth = 680;
+
+            const plot = Plot.plot({
+                projection: "albers-usa",
+                width: waymoWidth,
+                style: {
+                    fontFamily: "Lato, sans-serif",
+                    fontSize: "12px",
+                    backgroundColor: "transparent",
+                },
+                marks: [
+                    Plot.geo(nation, { fill: "hsl(43, 13%, 90%)" }),
+                    Plot.geo(states, { stroke: "white", strokeWidth: 1, strokeOpacity: 0.5 }),
+                    Plot.dot(waymoData, { x: "lon", y: "lat", fill: "status", r: 6, stroke: "white", strokeWidth: 1, channels: { City: "city" }, tip: { format: { x: null, y: null } } })
+                ],
+                color: {
+                    domain: ["Launched, with riders", "Driving autonomously in coming weeks* without riders", "\"Up next\"", "Early mapping/planning"],
+                    range: ["#4caf50", "#ff9800", "#ffeb3b", "#9e9e9e"],
+                    legend: true
+                }
+            });
+
+            document.getElementById("waymo-map").append(plot);
+        })();
     </script>
 </body>
 

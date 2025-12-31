@@ -259,53 +259,47 @@
       });
 
 
-      // Eras data with customized layout properties
+      // Eras data
       const eras = [
         {
           title: "The Big Bang",
           dates: "1975-80",
           start: 1975,
-          yIndex: 0.10,
-          dx: -30, // Shift left 30px
+          yIndex: 0.15,
           text: "A mix of money, cocaine, adulation and all-night writing sessions led to explosive success and burnout for the show's original cast and writers. Five seasons after 'Saturday Night Live' began, amid its highest ratings ever, the last of the original Not Ready for Prime Time Players departed, along with the executive producer, Lorne Michaels.",
-          img: "https://www.economist.com/cdn-cgi/image/width=1096,quality=80,format=auto/content-assets/images/20250215_CUP510.jpg"
+          img: "imgs/Belushi.jpg"
         },
         {
           title: "Sophomore Slump",
           dates: "1980-85",
           start: 1980,
-          yIndex: 0.25,
+          yIndex: 0.35,
           text: "A wunderkind, Eddie Murphy, along with one-year hires Martin Short and Billy Crystal, kept 'S.N.L.' alive for the next few years. But the show didn't begin to stabilize until a year after Michaels returned to the helm in 1985.",
-          img: "https://i.pinimg.com/474x/b8/2c/72/b82c72c58b311d61b9cdb5e436426e31.jpg"
+          img: "imgs/b82c72c58b311d61b9cdb5e436426e31.jpg"
         },
         {
           title: "Easy Laughs",
           dates: "1985-95",
           start: 1990,
-          yIndex: 0.40,
-          dx: 90, // Shift right 30px
+          yIndex: 0.5,
           text: "With a boost from the sketch-turned-movie 'Wayne's World,' the show enjoyed a run of popularity in the early '90s. Skits by Adam Sandler and Chris Farley kept the streak going for a couple of years, until network executives soured on their brand of broad humor. Farley and Sandler were fired, and Michaels set out to rebuild the show once again.",
-          img: "https://www.giantfreakinrobot.com/wp-content/uploads/2025/10/image-621-900x506.png"
+          img: "imgs/image-621-900x506.png"
         },
         {
           title: "Sobering Up",
           dates: "2005-11",
           start: 2005,
-          yIndex: 0.65,
-          frameAnchor: "left", // Align left
-          dyOffset: 20, // Shift down 20px
+          yIndex: 0.75,
           text: "Twenty years after 'S.N.L.' began, a less volatile culture emerged at Studio 8H. 'There's no drugs and there's no sex at the show now,' Tina Fey told the authors of 'Live From New York.' Female representation behind and in front of the camera ticked up, and Amy Poehler and Fey became the first female co-hosts of 'Weekend Update.'",
-          img: "https://www.economist.com/cdn-cgi/image/width=1096,quality=80,format=auto/content-assets/images/20250215_CUP506.jpg"
+          img: "imgs/20250215_CUP506.jpg"
         },
         {
           title: "New Voices",
           dates: "2011-19",
           start: 2011,
-          yIndex: 0.85,
-          frameAnchor: "left", // Align left
-          dyOffset: 20, // Shift down 20px
+          yIndex: 0.95,
           text: "The most recent iteration of 'S.N.L.' — starting with Kate McKinnon's hiring in 2011 — has found itself in the news for more than the edginess of its humor. Racist jokes from Shane Gillis and Melissa Villaseñor that surfaced on Twitter disrupted the tenure of some new hires before they began. The show has also responded to widespread pressure to feature a more diverse set of comedians.",
-          img: "https://www.hollywoodreporter.com/wp-content/uploads/2024/12/Marcello-Hernandez-Domingo-SNL-Publicity-H-2024.jpg?w=1296&h=730&crop=1"
+          img: "imgs/Marcello-Hernandez-Domingo-SNL-Publicity-H-2024.jpg"
         }
       ];
 
@@ -334,10 +328,6 @@
           const index = Math.floor(e.yIndex * yDomain.length);
           return { ...e, y: yDomain[index] };
         });
-
-        // Split eras into groups for cleaner Plot logic
-        const erasMiddle = erasWithY.filter(d => !d.frameAnchor || d.frameAnchor === "middle");
-        const erasLeft = erasWithY.filter(d => d.frameAnchor === "left");
 
         // Calculate grid lines that stop at the last active cast member
         const yearRules = d3.range(1975, 2026).map(year => {
@@ -428,7 +418,9 @@
               text: "text",
               textAnchor: "start",
               dx: 10,
+              // dy: d => d.y === "Dan Aykroyd" ? 10 : 0,
               lineWidth: 25,
+              lineHeight: 1.2,
               stroke: "white",
               strokeWidth: 4,
               fill: "currentColor",
@@ -440,124 +432,118 @@
               y: "y",
               text: "text",
               textAnchor: "end",
-              dx: -180,
+              dx: -175,
               lineWidth: 25,
+              lineHeight: 1.2,
               fill: "currentColor",
               stroke: "white",
               strokeWidth: 4,
               style: { paintOrder: "stroke", pointerEvents: "none" },
               fontSize: 11
             }),
-            // --- Eras Annotations (Middle Anchor) ---
-            // Image (Top)
-            Plot.image(erasMiddle, {
-              frameAnchor: "middle",
-              y: "y",
-              dx: 75,
-              src: "img",
-              width: 150,
-              preserveAspectRatio: "xMidYMid meet",
-              dy: -130
+            // 1. The Big Bang
+            Plot.image([erasWithY[0]], {
+              frameAnchor: "middle", y: "y",
+              src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=",
+              width: 190, height: 290, dx: 55, dy: -60, opacity: 0.85
             }),
-            // Title
-            Plot.text(erasMiddle, {
-              frameAnchor: "middle",
-              y: "y",
-              text: "title",
-              textAnchor: "start",
-              dx: 0,
-              dy: -70,
-              fontWeight: "bold",
-              fontSize: 14,
-              fill: "currentColor",
-              stroke: "white",
-              strokeWidth: 4,
-              style: { paintOrder: "stroke" }
+            Plot.image([erasWithY[0]], {
+              frameAnchor: "middle", y: "y", dx: 55, dy: -130,
+              src: "img", width: 150, preserveAspectRatio: "xMidYMid meet"
             }),
-            // Dates
-            Plot.text(erasMiddle, {
-              frameAnchor: "middle",
-              y: "y",
-              text: "dates",
-              textAnchor: "start",
-              dx: 0,
-              dy: -50,
-              fontSize: 12,
-              fill: "currentColor",
-              stroke: "white",
-              strokeWidth: 4,
-              style: { paintOrder: "stroke" }
+            Plot.text([erasWithY[0]], {
+              frameAnchor: "middle", y: "y", text: "title", textAnchor: "start", dx: -20, dy: -70,
+              fontWeight: "bold", fontSize: 14, fill: "currentColor", stroke: "white", strokeWidth: 4, style: { paintOrder: "stroke" }
             }),
-            // Paragraph (Bottom)
-            Plot.text(erasMiddle, {
-              frameAnchor: "middle",
-              y: "y",
-              text: "text",
-              textAnchor: "start",
-              dx: 0,
-              dy: -10, // -60 + 20 offset
-              lineWidth: 30,
-              fontSize: 11,
-              fill: "currentColor",
-              stroke: "white",
-              strokeWidth: 3,
-              style: { paintOrder: "stroke" }
+            Plot.text([erasWithY[0]], {
+              frameAnchor: "middle", y: "y", text: "dates", textAnchor: "start", dx: -20, dy: -52,
+              fontSize: 12, fill: "currentColor", stroke: "white", strokeWidth: 4, style: { paintOrder: "stroke" }
+            }),
+            Plot.text([erasWithY[0]], {
+              frameAnchor: "middle", y: "y", text: "text", textAnchor: "start", dx: -20, dy: 0,
+              lineWidth: 30, lineHeight: 1.2, fontSize: 11, fill: "currentColor", stroke: "white", strokeWidth: 3, style: { paintOrder: "stroke" }
             }),
 
-            // --- Eras Annotations (Left Anchor) ---
-            // Image (Top) - Centered in column (dx=75)
-            Plot.image(erasLeft, {
-              frameAnchor: "left",
-              y: "y",
-              dx: 75,
-              src: "img",
-              width: 150,
-              preserveAspectRatio: "xMidYMid meet",
-              dy: -110 // -130 + 20 offset
+            // 2. Sophomore Slump
+            Plot.image([erasWithY[1]], {
+              frameAnchor: "middle", y: "y",
+              src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=",
+              width: 150, height: 290, dx: 100, dy: -110, opacity: 0.85
             }),
-            // Title
-            Plot.text(erasLeft, {
-              frameAnchor: "left",
-              y: "y",
-              text: "title",
-              textAnchor: "start",
-              dx: 0,
-              dy: -40, // -60 + 20 offset
-              fontWeight: "bold",
-              fontSize: 14,
-              fill: "currentColor",
-              stroke: "white",
-              strokeWidth: 4,
-              style: { paintOrder: "stroke" }
+            Plot.image([erasWithY[1]], {
+              frameAnchor: "middle", y: "y", dx: 95, dy: -140,
+              src: "img", width: 150, preserveAspectRatio: "xMidYMid meet"
             }),
-            // Dates
-            Plot.text(erasLeft, {
-              frameAnchor: "left",
-              y: "y",
-              text: "dates",
-              textAnchor: "start",
-              dx: 0,
-              dy: -20, // -40 + 20 offset
-              fontSize: 12,
-              fill: "currentColor",
-              stroke: "white",
-              strokeWidth: 4,
-              style: { paintOrder: "stroke" }
+            Plot.text([erasWithY[1]], {
+              frameAnchor: "middle", y: "y", text: "title", textAnchor: "start", dx: 20, dy: -70,
+              fontWeight: "bold", fontSize: 14, fill: "currentColor", stroke: "white", strokeWidth: 4, style: { paintOrder: "stroke" }
             }),
-            // Paragraph (Bottom)
-            Plot.text(erasLeft, {
-              frameAnchor: "left",
-              y: "y",
-              text: "text",
-              textAnchor: "start",
-              dx: 0,
-              dy: 30,
-              lineWidth: 30,
-              fontSize: 11,
-              fill: "currentColor",
-              stroke: "white",
-              strokeWidth: 3,
-              style: { paintOrder: "stroke" }
+            Plot.text([erasWithY[1]], {
+              frameAnchor: "middle", y: "y", text: "dates", textAnchor: "start", dx: 20, dy: -50,
+              fontSize: 12, fill: "currentColor", stroke: "white", strokeWidth: 4, style: { paintOrder: "stroke" }
+            }),
+            Plot.text([erasWithY[1]], {
+              frameAnchor: "middle", y: "y", text: "text", textAnchor: "start", dx: 20, dy: -10,
+              lineWidth: 30, lineHeight: 1.2, fontSize: 11, fill: "currentColor", stroke: "white", strokeWidth: 3, style: { paintOrder: "stroke" }
+            }),
+
+            // 3. Easy Laughs
+            Plot.image([erasWithY[2]], {
+              frameAnchor: "right", y: "y",
+              src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=",
+              width: 190, height: 290, dx: -75, dy: -80, opacity: 0.85
+            }),
+            Plot.image([erasWithY[2]], {
+              frameAnchor: "right", y: "y", dx: -75, dy: -130,
+              src: "img", width: 150, preserveAspectRatio: "xMidYMid meet"
+            }),
+            Plot.text([erasWithY[2]], {
+              frameAnchor: "right", y: "y", text: "title", textAnchor: "start", dx: -150, dy: -70,
+              fontWeight: "bold", fontSize: 14, fill: "currentColor", stroke: "white", strokeWidth: 4, style: { paintOrder: "stroke" }
+            }),
+            Plot.text([erasWithY[2]], {
+              frameAnchor: "right", y: "y", text: "dates", textAnchor: "start", dx: -150, dy: -50,
+              fontSize: 12, fill: "currentColor", stroke: "white", strokeWidth: 4, style: { paintOrder: "stroke" }
+            }),
+            Plot.text([erasWithY[2]], {
+              frameAnchor: "right", y: "y", text: "text", textAnchor: "start", dx: -150, dy: 0,
+              lineWidth: 30, lineHeight: 1.2, fontSize: 11, fill: "currentColor", stroke: "white", strokeWidth: 3, style: { paintOrder: "stroke" }
+            }),
+
+            // 4. Sobering Up
+            Plot.image([erasWithY[3]], {
+              frameAnchor: "left", y: "y", dx: 75, dy: -110,
+              src: "img", width: 150, preserveAspectRatio: "xMidYMid meet"
+            }),
+            Plot.text([erasWithY[3]], {
+              frameAnchor: "left", y: "y", text: "title", textAnchor: "start", dx: 0, dy: -40,
+              fontWeight: "bold", fontSize: 14, fill: "currentColor", stroke: "white", strokeWidth: 4, style: { paintOrder: "stroke" }
+            }),
+            Plot.text([erasWithY[3]], {
+              frameAnchor: "left", y: "y", text: "dates", textAnchor: "start", dx: 0, dy: -20,
+              fontSize: 12, fill: "currentColor", stroke: "white", strokeWidth: 4, style: { paintOrder: "stroke" }
+            }),
+            Plot.text([erasWithY[3]], {
+              frameAnchor: "left", y: "y", text: "text", textAnchor: "start", dx: 0, dy: 30,
+              lineWidth: 30, lineHeight: 1.2, fontSize: 11, fill: "currentColor", stroke: "white", strokeWidth: 3, style: { paintOrder: "stroke" }
+            }),
+
+            // 5. New Voices
+            Plot.image([erasWithY[4]], {
+              frameAnchor: "left", y: "y", dx: 105, dy: -110,
+              src: "img", width: 150, preserveAspectRatio: "xMidYMid meet"
+            }),
+            Plot.text([erasWithY[4]], {
+              frameAnchor: "left", y: "y", text: "title", textAnchor: "start", dx: 30, dy: -40,
+              fontWeight: "bold", fontSize: 14, fill: "currentColor", stroke: "white", strokeWidth: 4, style: { paintOrder: "stroke" }
+            }),
+            Plot.text([erasWithY[4]], {
+              frameAnchor: "left", y: "y", text: "dates", textAnchor: "start", dx: 30, dy: -20,
+              fontSize: 12, fill: "currentColor", stroke: "white", strokeWidth: 4, style: { paintOrder: "stroke" }
+            }),
+            Plot.text([erasWithY[4]], {
+              frameAnchor: "left", y: "y", text: "text", textAnchor: "start", dx: 30, dy: 40,
+              lineWidth: 30, lineHeight: 1.2, fontSize: 11, fill: "currentColor", stroke: "white", strokeWidth: 3, style: { paintOrder: "stroke" }
             })
           ],
         });
