@@ -239,7 +239,7 @@
         { y: "Eddie Murphy", x: 1985, text: "Murphy, just out of high school, called the talent coordinator Neil Levy three times a day until he scored an audition." },
         { y: "Julia Louis-Dreyfus", x: 1986, text: "Julia Louis-Dreyfus felt underused on 'S.N.L.' but she did meet Larry David, then a writer on the show. They teamed up on 'Seinfeld' five years later." },
         { y: "Chris Farley", x: 1996, text: "A 1995 New York magazine cover story on the show's dissolution featured tart jokes and feuds between checked-out cast members. 'They can't even fake forcing themselves to care,' said one of the show's writers." },
-        { y: "Will Ferrell", x: 2003, text: "Before the 1999-2000 season, new cast members received more restrictive contracts written to limit them from jumping to Hollywood in the vein of Chevy Chase, Eddie Murphy and Mike Myers." },
+        { y: "Cheri Oteri", x: 2002, text: "Before the 1999-2000 season, new cast members received more restrictive contracts written to limit them from jumping to Hollywood in the vein of Chevy Chase, Eddie Murphy and Mike Myers." },
         { y: "Sasheer Zamata", x: 2018, text: "Sasheer Zamata and Leslie Jones were hired following criticism from Thompson and Jay Pharoah about the absence of black women in the cast." },
         { y: "Bowen Yang", x: 2019, text: "Bowen Yang, a former 'S.N.L.' writer, became the first Chinese-American performer to join the cast." }
       ];
@@ -318,6 +318,15 @@
           const startA = Math.min(...a.tenures.map(t => t.start));
           const startB = Math.min(...b.tenures.map(t => t.start));
           if (startA !== startB) return startA - startB;
+
+          // Duration tie-breaker (shortest first)
+          const endA = Math.max(...a.tenures.map(t => t.end));
+          const endB = Math.max(...b.tenures.map(t => t.end));
+          const durationA = endA - startA;
+          const durationB = endB - startB;
+
+          if (durationA !== durationB) return durationA - durationB;
+
           return a.name.localeCompare(b.name);
         })
           .map(c => c.name)
@@ -391,6 +400,7 @@
               fill: "gender",
               fillOpacity: d => d.type === "Featured" ? 0.3 : 1,
               rx: 5,
+              tip: true,
               title: d => `${d.name}\n${d.start}-${d.end}\n${d.gender}\n${d.type}`
             }),
             Plot.dot(castTenures.filter(d => d.start === d.end), {
