@@ -54,8 +54,8 @@
       flex-direction: column-reverse;
     }
 
-    .article-subtitle {
-      margin-bottom: 1rem;
+    g[aria-label*="tip"] {
+      text-transform: capitalize;
     }
 
     [class*="-swatches-wrap"] {
@@ -151,11 +151,13 @@
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/topojson@3.0.2/dist/topojson.min.js"></script>
 
   <script type="text/javascript">
-    var element = d3.select('figure').node();
-    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
-    var height = document.getElementById("map").getBoundingClientRect().x * 3; // get width of article so graphic is responsive
+    var element = d3.select('figure:not(.mid-size)').node();
+    var elementMid = d3.select('figure.mid-size').node();
+    var widthMid = elementMid.getBoundingClientRect().width; // get width of figure.mid-size so graphic is responsive
+    var width = element.getBoundingClientRect().width;
     var size = 12;
-    var scheme = "pastel1";
+    var domain = ["Legalized", "Medical and Decriminalized", "Medical", "Decriminalized", "CBD with THC Only", "Fully illegal"];
+    var range = ["#1a5d1a", "#388e3c", "#66bb6a", "#a5d6a7", "#bdbdbd", "#ef6c00"];
 
     // Use Promises to async request data
     // Todo remove "State laws" from .csv
@@ -181,16 +183,13 @@
       var landColor = "#fff6e6";
       // console.log(states);
       var map = {
-        width: width,
+        width: widthMid,
         inset: 4,
-        style: {
-          textTransform: 'capitalize'
-        },
         projection: "albers-usa",
         color: {
-          scheme: scheme,
-          reverse: false,
           legend: true,
+          domain: domain,
+          range: range,
         },
         marks: [
           // Plot.sphere({fill: waterColor, fillOpacity: .65}),
@@ -200,16 +199,19 @@
             // fill: landColor,
             stroke: null,
             channels: {
-              state: "name",
-              medicinal: d => medmap.get(d.properties.name),
+              State: "name",
+              Medicinal: d => medmap.get(d.properties.name),
               Decriminalized: d => crimmap.get(d.properties.name),
-              status: d => lawmap.get(d.properties.name),
+              Status: d => lawmap.get(d.properties.name),
             },
             tip: {
               opacity: 0.9,
               textPadding: 10,
               lineHeight: 1.65,
               fontSize: size,
+              style: {
+                textTransform: 'capitalize'
+              }
             },
           })),
           Plot.geo(topojson.mesh(us, us.objects.states, (a, b) => a !== b), {
@@ -252,12 +254,10 @@
         marginLeft: 0,
         style: {
           fontSize: size,
-          paddingTop: 10,
-          paddingBottom: 10
         },
-        aspectRatio: 30,
+        aspectRatio: 10,
         x: {
-          label: null
+          label: null,
         },
         y: {
           label: null,
@@ -265,7 +265,8 @@
         },
         color: {
           legend: false,
-          scheme: scheme
+          domain: domain,
+          range: range,
         },
         marks: [
           Plot.ruleY([0], {
@@ -277,13 +278,13 @@
             y: "count"
           }, {
             x: "LegalStatus",
-            fill: "LegalStatus"
+            fill: "LegalStatus",
           })),
           Plot.axisX({
             anchor: "bottom",
-            lineWidth: 10,
+            lineWidth: 5,
             tickSize: 0,
-            fontSize: width > 450 ? size * 2 : size
+            fontSize: size
           }),
         ]
       };

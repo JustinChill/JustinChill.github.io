@@ -159,6 +159,11 @@
       // Define the data
       var data = data[0];
 
+      // Parse dates
+      data.forEach(d => {
+        d.year = new Date(d.year.toString());
+      });
+
       // Inspired by https://observablehq.com/d/20d13d84dd44a84e
       var barplot = {
         width: widthMid,
@@ -180,10 +185,10 @@
           swatchHeight: 50
         },
         x: {
-          type: "band",
-          nice: true,
+          nice: false,
           label: null,
-          tickFormat: "Y",
+          ticks: width > 450 ? "1 year" : null,
+          tickFormat: "%Y",
           tickRotate: width > 450 ? 0 : -45,
         },
         y: {
@@ -209,15 +214,16 @@
             stroke: "white",
             order: "sum",
             reverse: true,
-            opacity: 0.9
+            opacity: 0.9,
+            interval: "1 year"
           }),
           Plot.text(["Looking at global renewables growth rates is hugely misleading. There is not one single energy transition but a series of regional transitions of widely varying form, pace and scope. The outsized materiality of one — China’s — means global figures veil more than they reveal. They currently look impressive because, and only because, China’s do. \n\n - Brett Christophers"], {
             frameAnchor: "top-left",
-            dx: 40,
+            dx: width < 450 ? 0 : 40,
             dy: -2,
-            fontSize: 14,
+            fontSize: width < 450 ? 12 : 14,
             lineHeight: 1.2,
-            lineWidth: 33,
+            lineWidth: width < 450 ? 20 : 33,
             stroke: "white", // Halo effect
             strokeWidth: 10,
             fill: "currentColor",
