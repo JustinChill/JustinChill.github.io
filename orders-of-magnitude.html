@@ -47,6 +47,36 @@
   </script>
 
   <style type="text/css">
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0;
+      font-variant-numeric: tabular-nums;
+    }
+
+    th,
+    td {
+      padding: 0.75rem;
+      border-bottom: 1px solid #e5e7eb;
+      text-align: left;
+    }
+
+    th {
+      /* font-weight: 600; */
+      color: #111827;
+      text-transform: uppercase;
+      /* font-size: 0.875rem; */
+      letter-spacing: 0.05em;
+    }
+
+    td {
+      color: #374151;
+      text-align: right;
+    }
+
+    td span {
+      font-size: inherit;
+    }
   </style>
 </head>
 
@@ -78,6 +108,33 @@
         words signifies something that is a thousand times larger than the other. A million is equal to one thousand
         thousands or 1,000,000, while a billion is equal to one thousand millions or 1,000,000,000. This means that a
         billion is a thousand times larger than a million.</p>
+      <h3>Time Flies</h3>
+      <table id="magnitude-table">
+        <thead>
+          <tr>
+            <th>Magnitude</th>
+            <th>Past</th>
+            <th>Future</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1 Million Seconds</td>
+            <td><span id="million-past"></span></td>
+            <td><span id="million-future"></span></td>
+          </tr>
+          <tr>
+            <td>1 Billion Seconds</td>
+            <td><span id="billion-past"></span></td>
+            <td><span id="billion-future"></span></td>
+          </tr>
+          <tr>
+            <td>1 Trillion Seconds</td>
+            <td><span id="trillion-past"></span></td>
+            <td><span id="trillion-future"></span></td>
+          </tr>
+        </tbody>
+      </table>
       <h3>How to Conceptualize a Million</h3>
       <ul>
         <li>One million is a thousand thousands.</li>
@@ -114,6 +171,7 @@
         <li>One trillion dollars divided evenly among the U.S. population would mean that everyone in the United States
           would receive a little over $3,000.</li>
       </ul>
+
       <img src="imgs/orders_of_magnitude.jpg" alt="Orders of magnitude scale" loading="lazy">
       <figcaption>Source: <a href="https://www.csun.edu/science/ref/measurement/orders_of_mag/scale.jpg">California
           State
@@ -138,93 +196,45 @@
 
   <script type="text/javascript">
     var size = 12;
-    var elementMid = d3.select('figure.mid-size').node();
-    var widthMid = elementMid.getBoundingClientRect().width; // get width of figure.mid-size so graphic is responsive
     var element = d3.select('figure:not(.mid-size)').node();
     var width = element.getBoundingClientRect().width;
 
-    var data = [{
-      value: 0,
-      labelFR: "Zéro",
-      labelEN: "Zero",
-      dy: 73,
-      line: 50,
-      anchor: "start"
-    },
-    {
-      value: 1000000,
-      labelFR: "Un million",
-      labelEN: "One million",
-      dy: 60,
-      line: 0,
-      anchor: "start"
-    },
-    {
-      value: 1000000000,
-      labelFR: "Un milliard",
-      labelEN: "One billion",
-      dy: 40,
-      line: 33,
-      anchor: "start"
-    },
-    {
-      value: 10000000000,
-      labelFR: "10 milliards",
-      labelEN: "10 billion",
-      dy: 20,
-      line: 12,
-      anchor: "middle"
-    },
-    {
-      value: 100000000000,
-      labelFR: "100 milliards",
-      labelEN: "100 billion",
-      dy: 30,
-      line: 22,
-      anchor: "start"
-    },
-    {
-      value: 97000000000,
-      labelFR: "Mark Zuckerberg",
-      labelEN: "Mark Zuckerberg",
-      dy: 30,
-      line: 18,
-      anchor: "end"
-    },
-
-
-    {
-      value: 124000000000,
-      labelFR: "Bill Gates",
-      labelEN: "Bill Gates",
-      dy: 30,
-      line: 22,
-      anchor: "middle"
-    },
-    {
-      value: 150000000000,
-      labelFR: "Bernard Arnault",
-      labelEN: "Bernard Arnault",
-      dy: 30,
-      line: 22,
-      anchor: "end"
-    },
-    {
-      value: 151000000000,
-      labelFR: "Elon Musk",
-      labelEN: "Elon Musk",
-      dy: 30,
-      line: 22,
-      anchor: "start"
-    },
-    {
-      value: 177000000000,
-      labelFR: "Jeff Bezos",
-      labelEN: "Jeff Bezos",
-      dy: 30,
-      line: 22,
-      anchor: "end"
-    },
+    var data = [
+      {
+        value: 1000000,
+        labelEN: "One million",
+        anchor: "end"
+      },
+      {
+        value: 10000000000,
+        labelEN: "10 billion",
+        anchor: "start"
+      },
+      {
+        value: 97000000000,
+        labelEN: "Mark Zuckerberg",
+        anchor: "end"
+      },
+      {
+        value: 124000000000,
+        labelEN: "Bill Gates",
+        anchor: "end"
+      },
+      {
+        value: 150000000000,
+        labelEN: "Bernard Arnault",
+        anchor: "end"
+      },
+      {
+        value: 151000000000,
+        labelEN: "Elon Musk",
+        anchor: "start"
+      },
+      {
+        value: 177000000000,
+        labelEN: "Jeff Bezos",
+        anchor: "start"
+      },
 
     ];
 
@@ -239,10 +249,12 @@
         nice: true,
       },
       x: {
-        tickSize: 0,
+        tickSize: 4,
         nice: true,
         zero: true,
-        tickFormat: d => d.toLocaleString("en"),
+        label: "Net Worth",
+        labelAnchor: "center",
+        tickFormat: d => d.toLocaleString("en-US", { style: "currency", currency: "USD", notation: "compact", maximumFractionDigits: 1 }),
       },
       color: {
         legend: false,
@@ -251,16 +263,53 @@
         Plot.ruleX(data, {
           x: "value"
         }),
-        Plot.text(data, {
+        Plot.text(data.filter(d => d.anchor === "start"), {
+          x: "value",
+          text: "labelEN",
+          textAnchor: "start",
+          frameAnchor: "top",
+          dx: 2,
+        }),
+        Plot.text(data.filter(d => d.anchor === "end"), {
           x: "value",
           text: "labelEN",
           textAnchor: "end",
-          frameAnchor: "top"
+          frameAnchor: "top",
+          dx: -2,
         }),
       ]
     };
 
     document.getElementById("line").appendChild(Plot.plot(line));
+
+    // Calculate dates for orders of magnitude
+    const now = new Date();
+    const options = {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    };
+
+    function formatDate(date) {
+      if (Math.abs(date.getFullYear()) > 10000) {
+        // For very distant dates (trillions), just show the year
+        return date.getFullYear() < 0 ? Math.abs(date.getFullYear()) + " BC" : date.getFullYear();
+      }
+      return date.toLocaleDateString("en-US", options);
+    }
+
+    const millionSeconds = 1000000 * 1000;
+    const billionSeconds = 1000000000 * 1000;
+    const trillionSeconds = 1000000000000 * 1000;
+
+    document.getElementById("million-past").textContent = formatDate(new Date(now.getTime() - millionSeconds));
+    document.getElementById("million-future").textContent = formatDate(new Date(now.getTime() + millionSeconds));
+
+    document.getElementById("billion-past").textContent = formatDate(new Date(now.getTime() - billionSeconds));
+    document.getElementById("billion-future").textContent = formatDate(new Date(now.getTime() + billionSeconds));
+
+    document.getElementById("trillion-past").textContent = formatDate(new Date(now.getTime() - trillionSeconds));
+    document.getElementById("trillion-future").textContent = formatDate(new Date(now.getTime() + trillionSeconds));
   </script>
 </body>
 
