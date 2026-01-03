@@ -336,12 +336,15 @@
       // Inspired by https://observablehq.com/d/09375f1a53f38932
       var dodgeplot = {
         width: widthMid,
-        height: widthMid / 1.5,
+        height: widthMid > 450 ? widthMid / 1.5 : 900,
         marginLeft: 0,
         marginRight: 0,
         marginTop: 10,
         insetRight: 40,
         padding: 0,
+        style: {
+          overflow: "hidden"
+        },
         r: {
           range: widthMid > 450 ? [0, 80] : [0, 60]
         },
@@ -426,6 +429,7 @@
 
       var barcode = {
         width: widthMid,
+        height: 100,
         marginRight: 0,
         marginLeft: 0,
         x: {
@@ -439,6 +443,7 @@
         marks: [
           Plot.frame({
             stroke: "#DFDFDF",
+            opacity: .25,
             anchor: "bottom"
           }),
           Plot.barX(monthly_sums, {
