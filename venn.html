@@ -46,20 +46,12 @@
 
     main {
       /*  outline: 1px dotted #ccc; */
-      width: calc(100% * var(--venn-width-mult));
+      width: 90%;
       margin: 0 auto;
       padding: 1rem;
     }
 
-    :root {
-      --venn-width-mult: 0.9;
-    }
 
-    @media print {
-      :root {
-        --venn-width-mult: 1;
-      }
-    }
 
     /* Defaults for browsers that do not support shape-outside */
     @media (min-width: 800px) {
@@ -71,7 +63,9 @@
 
       figure.Venn {
         width: 100%;
-        height: 500px;
+        max-width: 500px;
+        margin: 0 auto;
+        aspect-ratio: 1.15;
       }
 
       .circle,
@@ -131,13 +125,14 @@
       .Venn>div {
         box-sizing: border-box;
         border: 0.1em solid rgba(0, 0, 0, 0.5);
-        font-size: calc(2.5vw * var(--venn-width-mult));
+        font-size: 5cqi;
         line-height: 1.3;
-        overflow: hidden;
+
       }
 
       .Venn>.shape {
-        font-size: calc(2.25vw * var(--venn-width-mult));
+        font-size: 4.5cqi;
+        /*Container Query Units*/
         border: initial;
         width: initial;
         margin: initial;
@@ -146,16 +141,22 @@
 
       .Venn>.circle {
         border-radius: 50%;
+        aspect-ratio: 1;
         width: initial;
         margin: initial;
         padding: initial;
       }
 
       /* Grid layout  */
-      .Venn {
+      figure.Venn {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
-        grid-template-rows: repeat(3, calc(28.8vw * var(--venn-width-mult)));
+        grid-template-rows: repeat(2, 1fr);
+        aspect-ratio: 5/3;
+        max-width: 500px;
+        margin: var(--spacer-2) auto;
+        container-type: inline-size;
+        align-content: center;
       }
 
       .Venn>h2 {
@@ -236,12 +237,12 @@
       }
 
       .Venn .circle>span {
-        width: calc(58.5vw * var(--venn-width-mult));
-        height: calc(58.5vw * var(--venn-width-mult));
+        width: 65cqi;
+        height: 65cqi;
       }
 
       .Venn .shape>span {
-        height: calc(29vw * var(--venn-width-mult));
+        height: 32.2cqi;
       }
 
       .Venn .one>span {
@@ -543,6 +544,7 @@
 
     .Venn .one h3 {
       padding-top: 4em;
+      font-size: 5cqi;
     }
 
     .Venn .two {
@@ -551,10 +553,11 @@
 
     .Venn .two h3 {
       padding-top: 4em;
+      font-size: 5cqi;
     }
 
     .Venn .two ul {
-      margin-left: 10.5em;
+      margin-left: 5em;
     }
 
     .Venn .three {
@@ -563,11 +566,12 @@
     }
 
     .Venn .three h3 {
-      padding-top: 9em;
+      padding-top: 4.5em;
+      font-size: 5cqi;
     }
 
     .Venn .three ul {
-      font-size: calc(2.4vw * var(--venn-width-mult));
+      font-size: 5cqi;
     }
 
     .Venn .three li {
@@ -575,19 +579,20 @@
     }
 
     .Venn .onetwo p {
-      margin-top: 8em;
+      margin-top: 6em;
+      font-size: 3cqi;
     }
 
     .Venn .onethree ul {
-      margin-top: 6em;
+      margin-top: 3em;
     }
 
     .Venn .twothree ul {
-      margin-top: 4em;
+      margin-top: 2em;
     }
 
     .Venn .onetwothree li {
-      margin-top: 2em;
+      margin-top: 1em;
       max-width: 5.5em;
     }
 
@@ -622,80 +627,7 @@
       background-size: cover;
     }
 
-    /*    .circle.one li:nth-child(1) em {
-      background-image: url(//upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Richard_Nixon_presidential_portrait.jpg/220px-Richard_Nixon_presidential_portrait.jpg);
-      border-color: #f00;
-    }
 
-    .circle.one li:nth-child(2) em {
-      background-image: url(//upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Bill_Clinton.jpg/220px-Bill_Clinton.jpg);
-      border-color: #00f;
-    }
-
-    .circle.two li:nth-child(1) em {
-      background-image: url(//upload.wikimedia.org/wikipedia/commons/thumb/5/50/President_Rutherford_Hayes_1870_-_1880_Restored.jpg/220px-President_Rutherford_Hayes_1870_-_1880_Restored.jpg);
-      border-color: #f00;
-    }
-
-    .circle.two li:nth-child(2) em {
-      background-image: url(//upload.wikimedia.org/wikipedia/commons/thumb/d/d4/George-W-Bush.jpeg/220px-George-W-Bush.jpeg);
-      border-color: #f00;
-    }
-
-    .circle.three li:nth-child(1) em {
-      background-image: url(//upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Gilbert_Stuart%2C_John_Adams%2C_c._1800-1815%2C_NGA_42933.jpg/220px-Gilbert_Stuart%2C_John_Adams%2C_c._1800-1815%2C_NGA_42933.jpg);
-      border-color: #EA9978;
-    }
-
-    .circle.three li:nth-child(2) em {
-      background-image: url(//upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Martin_Van_Buren.jpg/220px-Martin_Van_Buren.jpg);
-      border-color: #00f;
-    }
-
-    .circle.three li:nth-child(3) em {
-      background-image: url(//upload.wikimedia.org/wikipedia/commons/thumb/4/46/Mathew_Brady_-_Franklin_Pierce_-_alternate_crop.jpg/220px-Mathew_Brady_-_Franklin_Pierce_-_alternate_crop.jpg);
-      border-color: #00f;
-    }
-
-    .circle.three li:nth-child(4) em {
-      background-image: url(//upload.wikimedia.org/wikipedia/commons/thumb/5/59/William_Howard_Taft_-_Harris_and_Ewing.jpg/220px-William_Howard_Taft_-_Harris_and_Ewing.jpg);
-      border-color: #f00;
-    }
-
-    .circle.three li:nth-child(5) em {
-      background-image: url(//upload.wikimedia.org/wikipedia/commons/thumb/5/57/President_Hoover_portrait.jpg/220px-President_Hoover_portrait.jpg);
-      border-color: #00f;
-    }
-
-    .circle.three li:nth-child(6) em {
-      background-image: url(//upload.wikimedia.org/wikipedia/commons/thumb/5/5a/JimmyCarterPortrait2.jpg/220px-JimmyCarterPortrait2.jpg);
-      border-color: #00f;
-    }
-
-    .circle.three li:nth-child(7) em {
-      background-image: url(//upload.wikimedia.org/wikipedia/commons/thumb/e/ee/George_H._W._Bush_presidential_portrait_%28cropped%29.jpg/220px-George_H._W._Bush_presidential_portrait_%28cropped%29.jpg);
-      border-color: #f00;
-    }
-
-    .shape.onethree li:nth-child(1) em {
-      background-image: url(//upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Andrew_Johnson_photo_portrait_head_and_shoulders%2C_c1870-1880-Edit1.jpg/220px-Andrew_Johnson_photo_portrait_head_and_shoulders%2C_c1870-1880-Edit1.jpg);
-      border-color: #f00;
-    }
-
-    .shape.twothree li:nth-child(1) em {
-      background-image: url(//upload.wikimedia.org/wikipedia/commons/thumb/5/51/JQA_Photo.tif/lossy-page1-220px-JQA_Photo.tif.jpg);
-      border-color: #008000;
-    }
-
-    .shape.twothree li:nth-child(2) em {
-      background-image: url(//upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Benjamin_Harrison%2C_head_and_shoulders_bw_photo%2C_1896.jpg/220px-Benjamin_Harrison%2C_head_and_shoulders_bw_photo%2C_1896.jpg);
-      border-color: #F0C862;
-    }
-
-    .shape.onetwothree li:nth-child(1) em {
-      background-image: url(//upload.wikimedia.org/wikipedia/commons/thumb/5/56/Donald_Trump_official_portrait.jpg/220px-Donald_Trump_official_portrait.jpg);
-      border-color: #f00;
-      }*/
 
 
     /* Tool-tips */
@@ -745,8 +677,63 @@
         box-shadow: .15em .15em .5em rgba(0, 0, 0, 1);
       }
     }
-  </style>
 
+    .Venn.cats .one {
+      background-color: rgba(255, 182, 193, 0.6);
+      /* Pink */
+      border: .1em solid #000;
+    }
+
+    .Venn.cats .two {
+      background-color: rgba(173, 216, 230, 0.6);
+      /* Light Blue */
+      border: .1em solid #000;
+    }
+
+
+    .Venn.elements-states .one {
+      background-color: rgba(64, 224, 208, 0.6);
+      /* Turquoise */
+      border: .1em solid #000;
+    }
+
+    .Venn.elements-states .two {
+      background-color: rgba(255, 192, 203, 0.6);
+      /* Pink */
+      border: .1em solid #000;
+    }
+
+    .Venn.elements-states p {
+      font-size: 2.5cqi;
+      line-height: normal;
+      padding-top: 2cqi;
+    }
+
+    .Venn.elements-states h3 {
+      font-size: 4cqi;
+      margin-top: 0;
+    }
+
+    .Venn.elements-states .one>span {
+      width: 20%;
+    }
+
+    .Venn.elements-states .one>span+span {
+      width: 55%;
+    }
+
+    .Venn.simple-white .one,
+    .Venn.simple-white .two {
+      background-color: transparent;
+      border: .1em solid #000;
+    }
+
+    .Venn.simple-white h3 {
+      font-family: sans-serif;
+      font-weight: 700;
+      color: #000;
+    }
+  </style>
 </head>
 
 <body>
@@ -763,12 +750,11 @@
 
   <main role="main">
     <article>
-      <header>
-
-        <h1>Venn diagrams</h1>
-        <h2 class="subtitle"></h2>
-
-      </header>
+      <div class="article-hero">
+        <h2 class="article-category">Post</h2>
+        <h1 class="article-title">Venn Diagrams</h1>
+        <h2 class="article-subtitle">CSS Venn Diagrams</h2>
+      </div>
 
       <figure class="Venn">
         <div class="circle one">
@@ -784,15 +770,15 @@
         </div>
 
         <div class="shape onetwo">
-          <span></span>
-          <span></span>
-          <h3>Assuming something is a date</h3>
-          <p>Assuming something is a date</p>
+          <h3>Incorrectly assuming something is a date</h3>
+          <p>Incorrectly assuming something is a date</p>
         </div>
       </figure>
       <figcaption></figcaption>
 
-      <p>This page is an excuse to learn how to make responsive venn diagrams using CSS.</p>
+      <p>This page explores how to make responsive venn diagrams using CSS. The code on this page relies on
+        a combination of CSS Grid, Container Queries, and the Shape-Outside property to create a responsive,
+        text-wrapping Venn diagram.</p>
 
       <figure class="Venn">
         <div class="circle one">
@@ -814,27 +800,190 @@
           <p>Smart enough to make meth</p>
         </div>
       </figure>
-      <figcaption></figcaption>
 
-    </article>
+      <h2>1. The Layout: CSS Grid</h2>
+      <p>The "canvas" for the diagram is a CSS Grid. The <code>.Venn</code> container is divided into a 5x2 grid:</p>
+      <pre>
+        <code>
+figure.Venn {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  aspect-ratio: 5/3;
+  max-width: 500px;
+  margin: 0 auto;
+  container-type: inline-size;
+  align-content: center;
+}</code>
+      </pre>
+      <p>This specific aspect ratio (5/3 or ~1.67) is critical. Since the grid is 5 columns wide and 2 rows tall, this
+        ratio ensures that a 1x1 unit in the grid is not square, but a 3x2 block (which the circles use) becomes a
+        perfect square.</p>
+      <figure class="Venn">
+        <div class="circle one">
+          <span></span>
+          <span></span>
+          <h3>Drive-time DJs</h3>
+        </div>
+        <div class="circle two">
+          <span></span>
+          <span></span>
+          <h3>Sisyphus</h3>
 
-    <!-- <h2>
-          Sources:
-        </h2>
-        <ul>
-          <li><cite><a href="https://www.washingtonpost.com/history/2020/11/07/one-term-presidents-trump/">Trump just joined history’s club of one-term presidents, rejected by the Americans they led</a></cite>, Washington Post, 7 November 2020;</li>
-          <li><cite><a href="https://www.businessinsider.com/list-of-impeached-us-presidents-2019-12">Here are all the US presidents who have been impeached</a></cite>, Business Insider, 6 February 2020;</li>
-          <li><cite><a href="https://www.history.com/news/presidents-electoral-college-popular-vote">5 Presidents Who Lost the Popular Vote But Won the Election</a></cite>, History.com, 23 July 2020;</li>
-          <li>Based on <cite><a href="http://adrianroselli.com/2018/12/a-css-venn-diagram.html">A CSS Venn Diagram</a></cite>;</li>
-          <li>Forked from my <cite><a href="https://codepen.io/aardrian/pen/KKMGQap">text-only Venn Diagram of U.S. Presidents
-      </a></cite>;</li>
-          <li>With tool-tips from my post <cite><a href="https://adrianroselli.com/2016/12/accessible-emoji-tweaked.html">Accessible Emoji, Tweaked</a></cite>;</li>
-          <li>With <a href="https://en.wikipedia.org/wiki/List_of_presidents_of_the_United_States">public domain images from Wikipedia</a>.</li>
-        </ul> -->
+        </div>
 
+        <div class="shape onetwo">
+          <span></span>
+          <span></span>
+          <h3>Bringing you the same great classic rock night after night</h3>
+          <p>Bringing you the same great classic rock night after night</p>
+        </div>
+      </figure>
+      <h2>2. Positioning: Overlapping Areas</h2>
+      <p>The circles are positioned using grid lines to explicitly overlap each other.</p>
+      <ul>
+        <li>Circle One (Left): Starts at col 1, ends at col 4. Spans rows 1-3.</li>
+        <li>Circle Two (Right): Starts at col 3, ends at col 6. Spans rows 1-3.</li>
+        <li>Intersection (Middle): The overlapping area is explicitly defined as grid-column: 3 / 4.
+        </li>
+      </ul>
+      <p>By placing two generic divs into these overlapping grid areas, they naturally form the visual structure of a
+        Venn diagram.</p>
+      <figure class="Venn elements-states">
+        <div class="circle one">
+          <span></span>
+          <span></span>
+          <h3>Chemical elements</h3>
+          <p>H He Li Be B C N O F Na Mg Si P S Cl K Ti V Cr Fe Ni Cu Zn Ge As Se Br Kr Rb Sr Y Zr Nb Tc Ru Rn Pd Ag Cd
+            Sn Sb Te I Xe Cs Ba Ce Pr Pm Sm Eu Gd Tb Dy Ho Er Tm Yb Lu Hf Ta W Re Os Ir Pt Au Hg Tl Pb Bi Po At Rn Fr Ra
+            Ac Th U Np Pu Am Cm Bk Lv Uup Uut Cn Rg Ds Hs Bh Sg Db Rf Lr No Fm Es Cf Uus Uuo</p>
+        </div>
+        <div class="circle two">
+          <span></span>
+          <span></span>
+          <h3>US States</h3>
+          <p>Ak Az Ct De Hi Id Il Ia Ks Ky Me Ma Mi Ms Nv Nh Nj Nm Ny Nc Oh Ok Or Ri Sd Tn Tx Ut Vt Va Wa Wv Wi Wy</p>
+        </div>
+
+        <div class="shape onetwo">
+          <span></span>
+          <span></span>
+          <p>Ne Al Ar Ca Sc Mn Co Ga Mo In Pa La Nd Mt Md Fl</p>
+        </div>
+      </figure>
+      <h2>3. Rendering Circles</h2>
+      <p>The circles themselves are simple divs turned into circles:</p>
+      <pre>
+        <code>
+.Venn > .circle {
+  border-radius: 50%; /* Makes the square div a circle */
+  aspect-ratio: 1; /* Enforces 1:1 width-to-height ratio */
+}</code>
+      </pre>
+      <figure class="Venn cats">
+        <div class="circle one">
+          <span></span>
+          <span></span>
+          <h3>Strippers</h3>
+        </div>
+        <div class="circle two">
+          <span></span>
+          <span></span>
+          <h3>Cats</h3>
+
+        </div>
+
+        <div class="shape onetwo">
+          <span></span>
+          <span></span>
+          <h3>I'm going to sit on your lap, but you can't touch me.</h3>
+          <p>I'm going to sit on your lap, but you can't touch me.</p>
+        </div>
+      </figure>
+      <h2>4. The "Magic": Text Wrapping
+      </h2>
+      <p>This is the most complex part. Normally, text inside a div flows in a rectangle. To make the text "flow" inside
+        the curves of the circles or the leaf-shape of the intersection, the code uses shape-outside.</p>
+      <p>Inside each <code>.circle</code> or <code>.shape</code> div, there are two empty <span> elements that are
+          floated to the left and right.
+      </p>
+      <pre>
+        <code>
+.Venn .one > span {
+  float: left;
+  width: 32%;
+  shape-outside: polygon(...); /* Defines an invisible jagged line */
+}</code>
+      </pre>
+      <p>These invisible floated spans push the text content away from the edges, effectively "carving out" the negative
+        space so the text appears to fill a circular shape.</p>
+      <figure class="Venn simple-white">
+        <div class="circle one">
+          <span></span>
+          <span></span>
+          <h3>Scooby dooby doo</h3>
+        </div>
+        <div class="circle two">
+          <span></span>
+          <span></span>
+          <h3>Blink 182</h3>
+
+        </div>
+
+        <div class="shape onetwo">
+          <span></span>
+          <span></span>
+          <h3>Where are you?</h3>
+          <p>Where are you?</p>
+        </div>
+      </figure>
+      <h2>5. Scaling: Container Queries (cqi)</h2>
+      <p>Container Queries allow the diagram to scale responsively based on its container size.</p>
+      <ul>
+        <li>Container: The <code>.Venn</code> element is defined as a container (container-type: inline-size).
+        </li>
+        <li>Font Size: Instead of using fixed pixels (px) or viewport width (vw), we use cqi (<a
+            href="https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Containment/Container_queries">Container
+            Queries Inline</a> units). <code>font-size: 5cqi</code> means "5% of the container's current width".
+        </li>
+      </ul>
+      <p>This is why the text size perfectly matches the diagram size. If the diagram creates a 200px wide container,
+        the font is 10px. If it grows to 300px, the font automatically grows to 15px.</p>
+
+      <figure class="Venn simple-white">
+        <div class="circle one">
+          <span></span>
+          <span></span>
+          <h3>Your crush</h3>
+        </div>
+        <div class="circle two">
+          <span></span>
+          <span></span>
+          <h3>Windows 10</h3>
+
+        </div>
+
+        <div class="shape onetwo">
+          <span></span>
+          <span></span>
+          <h3>Not responding</h3>
+          <p>Not responding</p>
+        </div>
+      </figure>
     </article>
   </main>
   <footer>
+    <h2 id="footnote-label">Footnotes</h2>
+    <ol>
+      <li id="css"><a href="https://css-tricks.com/css-container-queries/">CSS Tricks</a>, CSS Container Queries <a
+          href="#css-ref" aria-label="Back to content">↩</a></li>
+    </ol>
+
+    <div>
+      <p>Justin Chill &copy; 2026</p>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
+            alt="GitHub logo" class="icon">Source code</a></span>
+    </div>
   </footer>
 </body>
 
