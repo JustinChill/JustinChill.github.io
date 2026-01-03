@@ -145,7 +145,7 @@
           illegal controlled substance</li>
       </ul>
 
-      <!-- <p>Starting in 2006 we can see a noticeable increase in the number of firearms checked processed for the state of Kansas. This is due to a <a href="https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=47039">policy</a> change that requires automatic monthly background checks on every holder of concealed-carry permits in the commonwealth.</p> -->
+
 
       <h3>Transaction types</h3>
       <p>The <small>FBI</small> categorizes each background check by type of firearm:</p>
@@ -262,61 +262,7 @@
         return i < 37;
       });
 
-      var nics_stackedarea = {
-        width: width,
-        style: {
-          fontSize: size
-        },
-        marginLeft: 20,
-        marginRight: 0,
-        marginTop: 20,
-        x: {
-          label: null,
-          clamp: true,
-          tickSize: 2,
-        },
-        y: {
-          labelOffset: 30,
-          tickSize: 2,
-          grid: true,
-          nice: true,
-          label: "(%)",
-          percent: true,
-        },
-        style: {
-          background: "hsla(209, 23%, 99%, 1)",
-          color: "rgba(0, 0, 0, 0.84)",
-        },
-        color: {
-          scheme: "pastel1",
-          reverse: true,
-        },
-        marks: [
-          // Plot.line(data, {x: "month", y: "totals", z: "state",stroke: "state", strokeWidth: 2, title: "state"}),
-          Plot.areaY(data, Plot.stackY({
-            x: "month",
-            y: "totals",
-            fill: "state",
-            title: "state",
-            order: "month",
-            offset: "expand",
-            curve: "basis",
-            reverse: true
-          })),
-          Plot.text(data, Plot.selectFirst(Plot.stackY({
-            x: "month",
-            y: "totals",
-            // z: "state", 
-            text: d => d.totals > 45000 ? d.state : "",
-            offset: "expand",
-            reverse: true,
-            textAnchor: "start",
-            rotate: width > 450 ? 0 : 30,
-            dx: 5,
-            fill: "state"
-          }))),
-        ]
-      };
+
 
       // Inspired by https://observablehq.com/d/e9f848e0c316f88a
       var barplot = {
@@ -532,7 +478,7 @@
 
       document.getElementById("barplot").appendChild(Plot.plot(barplot));
       document.getElementById("recent").appendChild(Plot.plot(recent));
-      // document.getElementById("nics_stackedarea").appendChild(Plot.plot(nics_stackedarea));
+
       document.getElementById("line").appendChild(Plot.plot(line));
     });
   </script>

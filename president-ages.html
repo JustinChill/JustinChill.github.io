@@ -1230,17 +1230,19 @@
     var scheme = "PuRd";
 
     // Use Promises to async request data
-    var promises = [d3.json("data/agesOfElectedPresidentsVoters.json")];
+    var promises = [d3.json("data/agesOfElectedPresidentsVoters.json"), d3.csv("data/president_ages_2.csv", d3.autoType)];
     myDataPromises = Promise.all(promises);
 
     // After data is successfully fetched, generate viz
     myDataPromises.then(function (data) {
 
       // Define the data
-      var data = data[0];
-      var mean_age = d3.mean(data.map(d => d.age));
+      var data_line = data[0];
+      var data_bar = data[1];
+
+      var mean_age = d3.mean(data_line.map(d => d.age));
       // var born_range = [1732, 1961];
-      var born_range = d3.extent(data.map(d => d.born));
+      var born_range = d3.extent(data_line.map(d => d.born));
       var norm_data = born_range.map(b => ({
         born: b,
         "election year": b + mean_age
@@ -1277,13 +1279,13 @@
           scheme: scheme,
         },
         marks: [
-          Plot.line(data, {
+          Plot.line(data_line, {
             x: "election year",
             y: "born",
             stroke: "lightgrey",
             strokeDasharray: [1, 2]
           }),
-          Plot.dot(data, {
+          Plot.dot(data_line, {
             x: "election year",
             y: "born",
             stroke: "grey",
@@ -1310,7 +1312,19 @@
             stroke: "grey",
             strokeDasharray: [2, 5]
           }),
-          Plot.text(data, {
+          Plot.text(data_line, {
+            filter: (d, i, _) => i % 5 == 0 && d.president != "Barack Obama", // Mess with the filter until only a few text labels appear for highlights
+            x: "election year",
+            y: "born",
+            text: "president",
+            dy: 18,
+            dx: 2,
+            textAnchor: "start",
+            rotate: 0,
+            stroke: "white",
+            strokeWidth: 3,
+          }),
+          Plot.text(data_line, {
             filter: (d, i, _) => i % 5 == 0 && d.president != "Barack Obama", // Mess with the filter until only a few text labels appear for highlights
             x: "election year",
             y: "born",
@@ -1320,7 +1334,19 @@
             textAnchor: "start",
             rotate: 0
           }),
-          Plot.text(data, Plot.selectLast({
+          Plot.text(data_line, Plot.selectLast({
+            filter: (d) => d.president == "Barack Obama", // Mess with the filter until only a few text labels appear for highlights
+            x: "election year",
+            y: "born",
+            text: "president",
+            dy: -16,
+            dx: 4,
+            textAnchor: "end",
+            rotate: 0,
+            stroke: "white",
+            strokeWidth: 3,
+          })),
+          Plot.text(data_line, Plot.selectLast({
             filter: (d) => d.president == "Barack Obama", // Mess with the filter until only a few text labels appear for highlights
             x: "election year",
             y: "born",
@@ -1333,61 +1359,94 @@
         ]
       };
 
+      var highlight_standard = ["Joe Biden", "Ronald Reagan", "James Buchanan"];
+      var highlight_higher = ["William Henry Harrison", "Donald J. Trump"];
+      var bar_color = "#354e6b"; // Matching the dark blue in the image.
+      var muted_color = "#8fa3ad"; // Matching the grey-blue in the image.
+
       var bars = {
         width: width,
-        marginRight: 0,
-        marginTop: 40,
+        marginBottom: 40,
+        height: 400,
         style: {
           fontSize: size,
-          textTransform: "capitalize",
+          fontFamily: "system-ui, sans-serif",
+          paddingBottom: 20,
         },
         y: {
-          tickSize: 0,
           grid: true,
-          ticks: 3,
+          label: null,
           nice: true,
+          ticks: 6,
         },
         x: {
-          tickSize: 0,
-          nice: true,
-          ticks: null,
-          // axis: null,
-          tickFormat: null,
-        },
-        color: {
-          legend: true,
-          label: "Age (avg: " + d3.format('.2f')(mean_age) + ")",
-          scheme: scheme,
+          label: null,
+          axis: null,
         },
         marks: [
-          Plot.barY(data, {
-            x: "election year",
+          Plot.barY(data_bar, {
+            x: "number",
             y: "age",
-            stroke: "lightgrey",
-            strokeWidth: 1,
-            fill: "age",
-            tip: "x",
-            channels: {
-              president: "president"
-            },
-            opacity: .85,
+            fill: d => (d.age >= 65) ? bar_color : muted_color,
+            title: d => `${d.president}\nAge: ${Math.floor(d.age)}`,
           }),
-          // Plot.text(data, Plot.selectFirst({
-          //   x: "election year",
-          //   // y: 105,
-          //   text: "president",
-          //   dy: 0,
-          //   textAnchor: "start",
-          //   rotate: 90
-          // })),
-          // Plot.text(data, Plot.selectLast({
-          //   x: "election year",
-          //   // y: 105,
-          //   text: "president",
-          //   dy: 0,
-          //   textAnchor: "start",
-          //   rotate: 90
-          // })),
+          // Standard Annotations
+          Plot.text(data_bar, {
+            filter: d => highlight_standard.includes(d.president) && d.president !== "Joe Biden",
+            x: "number",
+            y: d => d.age + 2,
+            text: d => `${d.president}, ${Math.floor(d.age)}`,
+            fill: "currentColor",
+            stroke: "white",
+            strokeWidth: 4,
+            dy: -20,
+            fontSize: 13,
+            fontWeight: "bold"
+          }),
+          // Annotation for Joe Biden (anchored end)
+          Plot.text(data_bar, {
+            filter: d => d.president === "Joe Biden",
+            x: "number",
+            y: d => d.age + 2,
+            text: d => `${d.president}, ${Math.floor(d.age)}`,
+            fill: "currentColor",
+            stroke: "white",
+            strokeWidth: 4,
+            dy: -20,
+            dx: -5, // Slight nudge to ensure it doesn't touch the line
+            fontSize: 13,
+            fontWeight: "bold",
+            textAnchor: "end"
+          }),
+          Plot.ruleX(data_bar, {
+            filter: d => highlight_standard.includes(d.president),
+            x: "number",
+            y1: "age",
+            y2: d => d.age + 5,
+            stroke: "#1e334d",
+            strokeWidth: 1
+          }),
+          // Higher Annotations (Harrison & Trump)
+          Plot.text(data_bar, {
+            filter: d => highlight_higher.includes(d.president) && d.number !== 45,
+            x: "number",
+            y: d => d.age + 2,
+            text: d => `${d.president}, ${Math.floor(d.age)}`,
+            fill: "currentColor",
+            stroke: "white",
+            strokeWidth: 4,
+            dy: -35,
+            fontSize: 13,
+            fontWeight: "bold"
+          }),
+          Plot.ruleX(data_bar, {
+            filter: d => highlight_higher.includes(d.president) && d.number !== 45,
+            x: "number",
+            y1: "age",
+            y2: d => d.age + 7.5,
+            stroke: "#1e334d",
+            strokeWidth: 1
+          })
         ]
       };
 

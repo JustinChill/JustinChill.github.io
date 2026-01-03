@@ -39,8 +39,6 @@
   <link rel="preload" href="style.css" as="style" />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="/favicon.ico">
-  <!-- <link rel="icon" href="/imgs/Cannabis_leaf.svg"> -->
-  <!-- <link rel=”mask-icon” href=”/imgs/Cannabis_leaf.svg color="#000000"> -->
   <meta name="theme-color" content="#4C63B6">
 
   <script type="module">
@@ -124,9 +122,8 @@
       <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
       <h3>Legalize it</h3>
       <figure id="stacks" aria-label="Waffle chart showing the breakdown of US states by cannabis legal status">
-      </figure>
-      <figcaption class="right">Data: <a
-          href="https://en.wikipedia.org/wiki/Legality_of_cannabis_by_U.S._jurisdiction">Wikipedia</a>.</figcaption>
+        <figcaption class="right">Data: <a
+            href="https://en.wikipedia.org/wiki/Legality_of_cannabis_by_U.S._jurisdiction">Wikipedia</a>.</figcaption>
       </figure>
 
     </article>
@@ -178,9 +175,6 @@
       var crimmap = new Map(laws.map(d => [d.State, d.Decriminalized]));
       var stateabbr = new Map(stategrid.map(d => [d.name, d.key]));
 
-      var waterColor = "#EAF1F2";
-      var waterGlowColor = "#9fd8e0";
-      var landColor = "#fff6e6";
       // console.log(states);
       var map = {
         width: widthMid,
@@ -192,11 +186,8 @@
           range: range,
         },
         marks: [
-          // Plot.sphere({fill: waterColor, fillOpacity: .65}),
-          // Plot.geo(topojson.mesh(us, us.objects.states, (a, b) => a == b)),
           Plot.geo(states, Plot.centroid({
             fill: d => lawmap.get(d.properties.name) != undefined ? lawmap.get(d.properties.name) : "Mixed", // This is a hack to "hide" undefined values. TODO fix 
-            // fill: landColor,
             stroke: null,
             channels: {
               State: "name",
@@ -242,7 +233,6 @@
               fontSize: width > 450 ? size : size - 4,
               dx: width > 450 ? 0 : 7,
               dy: width > 450 ? 0 : 7,
-              // dx: d => d.properties.name == "Maryland" ? 20 : 10,
             })
           ),
         ]
