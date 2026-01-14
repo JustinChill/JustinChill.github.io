@@ -42,6 +42,15 @@
   </script>
 
   <style type="text/css">
+    #ambulance-chart {
+      flex-direction: column;
+    }
+
+    #ambulance-chart h2 {
+      font-size: calc(var(--type-scale-1) + .25vw);
+      margin: var(--spacer-2) 0 var(--spacer-1);
+    }
+
     #spending [aria-label="x-axis label"],
     #spending [aria-label="y-axis label"] {
       font-family: "Camphor", Arial, Helvetica, sans-serif;
@@ -112,9 +121,12 @@
     .drug-prices {
       font-family: "Camphor", sans-serif;
       max-width: 350px;
-      margin: 3rem auto;
       color: #333;
+      display: inline-flex;
       flex-direction: column;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
     }
 
     .drug-prices h3.graphic-title {
@@ -123,6 +135,8 @@
       margin-bottom: 1.5rem;
       font-weight: 700;
       color: #000;
+      width: 100%;
+      text-align: center;
     }
 
     .drug-prices .subtitle {
@@ -132,6 +146,8 @@
       font-size: 1rem;
       margin-bottom: 0.5rem;
       letter-spacing: 0.5px;
+      width: 100%;
+      text-align: center;
     }
 
     .drug-prices p {
@@ -141,7 +157,11 @@
     }
 
     .drug-group {
-      margin-bottom: 1.5rem;
+      margin-bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 0 1 200px;
     }
 
     .drug-group strong {
@@ -154,6 +174,7 @@
       flex-wrap: wrap;
       gap: 8px;
       margin: 0.75rem 0;
+      justify-content: center;
     }
 
     .pill {
@@ -169,10 +190,116 @@
     }
 
     .drug-prices .separator {
+      display: none;
+    }
+
+    @media screen and (max-width: 680px) {
+      .drug-prices {
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+      }
+
+      .drug-prices .separator {
+        display: block;
+        border: 0;
+        border-top: 1px dashed #ccc;
+        margin: 1.5rem 0;
+        width: 50%;
+      }
+
+      .drug-group {
+        margin-bottom: 1.5rem;
+      }
+    }
+
+    /* Side-by-Side Layout Styles */
+    .side-by-side-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3rem;
+      align-items: flex-start;
+    }
+
+    .side-by-side-text {
+      flex: 1;
+      min-width: 0;
+      /* Allow text to shrink if needed */
+    }
+
+    .side-by-side-text p {
+      margin-top: var(--spacer-2);
+      margin-bottom: var(--spacer-1);
+      line-height: calc(1.5em + .2vw);
+      display: block;
+    }
+
+    .drug-prices {
+      font-family: "Camphor", sans-serif;
+      max-width: none;
+      width: 100%;
+      margin: 0;
+      /* Remove auto margins as flex handles spacing */
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      gap: 0;
+      flex: 0 0 45%;
+      /* Approx half width minus gap */
+    }
+
+    .drug-prices h3.graphic-title,
+    .drug-prices .subtitle {
+      text-align: left;
+      /* Keep left aligned for column view */
+      width: auto;
+    }
+
+    .drug-group {
+      margin-bottom: 1.5rem;
+      flex-direction: column;
+      flex: unset;
+      /* Remove flex sizing from previous row layout */
+      align-items: flex-start;
+      /* Align left */
+    }
+
+    .pill-container {
+      justify-content: flex-start;
+      /* Align left */
+    }
+
+    .drug-prices .separator {
+      display: block;
+      /* Visible again */
       border: 0;
       border-top: 1px dashed #ccc;
       margin: 1.5rem 0;
       width: 50%;
+    }
+
+    @media screen and (max-width: 850px) {
+      .side-by-side-wrapper {
+        flex-direction: column;
+      }
+
+      .drug-prices {
+        max-width: 100%;
+        flex: 1 1 auto;
+        align-items: center;
+        /* Center align when stacked on mobile */
+      }
+
+      .drug-prices h3.graphic-title,
+      .drug-prices .subtitle,
+      .drug-group,
+      .pill-container {
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+      }
     }
   </style>
 </head>
@@ -208,53 +335,161 @@
             Prospects (2024); OECD Health Expenditure Database</a></figcaption>
       </figure>
 
-      <p>The United States, on a per capita basis, spends more on healthcare than any other developed country in the
-        world, yet Americans live longer than only eight other countries. According to a study in <em>Health
-          Affairs</em><a href="#jhph" aria-describedby="footnote-label" id="jhph-ref"></a>, the chief reason is not
-        greater health care utilization, but higher prices.</p>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
-      <figure id="slope-chart" aria-label="Annual health care spending vs Life expectancy"></figure>
-
-      <section class="infant-mortality-stat" aria-label="Infant mortality statistic">
-        <p class="stat-title">Infant<br>mortality is<br>relatively<br>high</p>
-        <div class="stat-number-group">
-          <span class="stat-label">NO.</span>
-          <span class="stat-value">50</span>
-        </div>
-        <p class="stat-caption">U.S. RANK<br>IN THE WORLD,<br>NINE SPOTS<br>BELOW CUBA,<br>2012</p>
-      </section>
-      <p>In 2022, the United States spent an estimated $12,742 per person on healthcare — the highest healthcare costs
-        per capita across similar countries. For comparison, Switzerland was the second highest-spending country with
-        $9,044 in healthcare costs per capita, while the average for wealthy OECD countries, excluding the United
-        States, was only $6,850 per person. And it was more than <strong>double</strong> the $4,559 the U.S. spent per
-        capita on health care in 2000. Such comparisons indicate that the United States spends a disproportionate amount
-        on healthcare. </p>
+      <p>The American health-care system is an anomaly among rich nations. It is a labyrinthine hybrid of public and
+        private ownership, characterized by its staggering expense and its lack of universal coverage. Unlike its
+        European counterparts, the United States has eschewed a single-payer model in favour of a market-based approach,
+        where access is inextricably linked to employment and income.</p>
+      <p>The result is a system of paradoxes: it produces
+        the world’s most advanced medical technology yet leaves millions vulnerable to financial ruin. While private
+        enterprise drives innovation, the absence of a unified safety net creates profound disparities in care.</p>
       <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
       <h3>Health spending has maintained a steep climb</h3>
       <figure id="growth-chart" aria-label="Health spending has maintained a steep climb"></figure>
+
+      <p>Contrary to the myth of unbridled American capitalism, the state is a massive payer in the health economy. The
+        public sector is anchored by two leviathans: Medicare and Medicaid. Medicare, a federal program funded by
+        payroll taxes, provides coverage for those aged 65 and older, as well as younger people with specific
+        disabilities. It acts as a universal entitlements program for the elderly.</p>
       <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
-      <h3>The aging U.S. population will require more care</h3>
+      <h2>Cost control</h2>
+      <figure id="noinsurance"
+        aria-label="A line chart showing the percent of population without healthcare in Texas, Florida, California, and New York.">
+        <figcaption class="right">Data: <a
+            href="https://datacommons.org/tools/statvar#sv=Count_Person_NoHealthInsurance">Data Commons</a></figcaption>
+      </figure>
+      <p>Medicaid, by contrast, is a means-tested safety net for the poor, jointly funded by federal and state
+        governments but administered locally. This results in a patchwork of eligibility; a poor adult may qualify in
+        California but be rejected in Texas. Together, these programs stabilize the market and manage chronic
+        conditions for the most vulnerable, yet they remain under constant budgetary pressure.</p>
+
+      <blockquote>
+        <p>“It’s not that we’re getting more; it’s that we’re paying much more”</p>
+        <cite>&mdash; Gerard F. Anderson, PhD</cite>
+      </blockquote>
+      <p><strong>The Structure of Private Provision</strong>
+        For the working-age population, the private sector reigns supreme. The majority of Americans obtain coverage
+        through employer-sponsored plans—a quirk of history cemented by tax incentives. This market is dominated by a
+        complex alphabet soup of plans. Health Maintenance Organisations (HMOs) act as gatekeepers, requiring referrals
+        to control costs. Preferred Provider Organisations (PPOs) offer greater flexibility at a higher price, while
+        Exclusive Provider Organisations (EPOs) occupy the middle ground. Pharmacy Benefit Managers (PBMs) seem to
+        demand
+        all the money.</p>
+      <p>In this system, insurers and providers engage in a perpetual tug-of-war over reimbursement rates. This dynamic
+        drives the pricing of services and determines the availability of care, often leaving the patient to navigate a
+        bewildering array of networks and deductibles<a href="#jhph" aria-describedby="footnote-label"
+          id="jhph-ref"></a>.</p>
+      <h3 id="part-2-money-and-oversight">Part 2: Money and Oversight</h3>
+      <div class="side-by-side-wrapper">
+        <figure class="drug-prices" aria-label="Infographic comparing US drug prices to other countries">
+          <h3 class="graphic-title">Average drug prices<br>are sky-high</h3>
+
+          <div class="subtitle">THE PRICE OF ...</div>
+
+          <div class="drug-group">
+            <p>One Lipitor pill in the U.S.</p>
+            <div class="pill-container" role="img" aria-label="3 pills">
+              <img src="imgs/pill.jpg" alt="" class="pill">
+              <img src="imgs/pill.jpg" alt="" class="pill">
+              <img src="imgs/pill.jpg" alt="" class="pill">
+            </div>
+            <p>is the same as that of three<br>in <strong>Argentina</strong></p>
+          </div>
+
+          <hr class="separator">
+
+          <div class="drug-group">
+            <p>One Plavix pill in the U.S.</p>
+            <div class="pill-container" role="img" aria-label="4 pills">
+              <img src="imgs/pill.jpg" alt="" class="pill">
+              <img src="imgs/pill.jpg" alt="" class="pill">
+              <img src="imgs/pill.jpg" alt="" class="pill">
+              <img src="imgs/pill.jpg" alt="" class="pill">
+            </div>
+            <p>is the same as that of four<br>in <strong>Spain</strong></p>
+          </div>
+
+          <hr class="separator">
+
+          <div class="drug-group">
+            <p>One Nexium pill in the U.S.</p>
+            <div class="pill-container" role="img" aria-label="8 pills">
+              <img src="imgs/pill.jpg" alt="" class="pill">
+              <img src="imgs/pill.jpg" alt="" class="pill">
+              <img src="imgs/pill.jpg" alt="" class="pill">
+              <img src="imgs/pill.jpg" alt="" class="pill">
+              <img src="imgs/pill.jpg" alt="" class="pill">
+              <img src="imgs/pill.jpg" alt="" class="pill">
+              <img src="imgs/pill.jpg" alt="" class="pill">
+              <img src="imgs/pill.jpg" alt="" class="pill">
+            </div>
+            <p>is the same as that of eight<br>in <strong>France</strong></p>
+          </div>
+        </figure>
+        <div class="side-by-side-text">
+          <p><strong>Funding Sources</strong>
+            Financing American health care is a multifaceted affair, drawing from a blend of taxes, premiums, and
+            out-of-pocket spending. Taxation provides the bedrock, funding Medicare and Medicaid. Private premiums, paid
+            by
+            employers and employees, sustain the commercial market—a burden that has grown heavier despite the subsidies
+            introduced by the Affordable Care Act (<small>ACA</small>).</p>
+
+          <p>Perhaps most punitive are out-of-pocket payments. Deductibles and co-payments have risen sharply, meaning
+            that
+            even the insured often hesitate to seek care for fear of the bill. This reliance on direct consumer payment
+            raises uneasy questions about the trade-off between financial sustainability and equitable access.</p>
+        </div>
+      </div>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <h3>23% of Americans have opted out of an ambulance ride due to the potential cost</h3>
+      <figure id="ambulance-chart"
+        aria-label="Stacked bar chart showing ambulance opt-out rates by demographic. 23% of US adults said Yes.">
+      </figure>
+      <figcaption class="right">Data: <a
+          href="https://today.yougov.com/health/articles/49738-one-quarter-americans-didnt-call-ambulance-medical-emergency-costs-poll">YouGov</a>
+      </figcaption>
+      <p><strong>Government Oversight</strong>
+        While the market drives delivery, Washington casts a long regulatory shadow. The Food and Drug Administration
+        (<small>FDA</small>) serves as the gatekeeper, rigorously testing pharmaceuticals and devices. Its stamp of
+        approval is the
+        gold standard for safety and efficacy, balancing consumer protection with the industry&#39;s hunger for
+        innovation.</p>
+      <p>Meanwhile, the Centers for Medicare &amp; Medicaid Services (<small>CMS</small>) exerts enormous soft power. By
+        setting reimbursement standards for public programs, the <small>CMS</small> effectively sets the price floor for
+        the entire industry. State regulators add another layer of oversight, licensing providers and enforcing local
+        codes. It is a federalist approach to regulation, requiring intricate coordination to maintain standards across
+        fifty states.</p>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <figure id="slope-chart" aria-label="Annual health care spending vs Life expectancy"></figure>
+
+      <!-- <h3 id="part-3-challenges-trends-and-the-future">Part 3: Challenges, Trends, and the Future</h3> -->
+      <p><strong>A System Under Strain</strong>
+        The American system is beset by a chronic ailment: cost disease. Spending has consistently outpaced inflation,
+        <mark>consuming nearly 18% of GDP</mark>, yet health outcomes often lag behind other OECD nations. This economic
+        burden falls heavily on households and businesses alike.
+      </p>
+      <p>Inequality remains the system’s most glaring failure. Access to care is dictated by geography, race, and class.
+        Rural hospitals are shuttering, creating medical deserts, while minority communities face disproportionate
+        barriers to high-quality treatment. Despite the presence of world-class institutions, the uneven quality of
+        care, marred by medical errors and fragmented communication, remains a persistent drag on national well-being.
+      </p>
+
+      <p><strong>Recent Trends</strong>
+        The Covid-19 pandemic acted as an accelerant for structural change. The most significant shift has been the
+        mainstreaming of telemedicine. Digital health platforms, once a fringe convenience, became a lifeline during
+        lockdowns and have since proved vital for reaching rural populations. The pandemic also laid bare the fragility
+        of public health infrastructure, prompting a renewed focus on preparedness and equity.</p>
+      <p>Simultaneously, there is a slow but steady pivot toward &quot;value-based care.&quot; This model seeks to
+        reward providers for patient outcomes rather than the volume of services rendered. It is an attempt to align
+        incentives, encouraging preventative medicine over expensive interventions.</p>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <h2>The aging U.S. population will require more care</h2>
       <figure id="aging-chart" aria-label="The aging U.S. population will require more care"></figure>
 
-      <p>This is not exactly shocking. Uwe Reinhardt, the late Princeton health care economist, came to the same
-        conclusion in the well-known 2003 <a href="https://www.ncbi.nlm.nih.gov/pubmed/12757275" target="_blank"
-          rel="noopener noreferrer" title="(opens in a new window)">study</a>, “<em>It's the prices, stupid: why the
-          United States is so different from other countries</em>.”</p>
-      <p>To understand why life expectancy in the US is lower than these other countries, it makes sense to break the US
-        population down into sub-groups and see if this observation holds universally or varies by group.</p>
-      <h3>Life Expectancy in the US by Race</h3>
-      <p>In <strong>40 US states, Hispanic-Americans enjoy longer life expectancy</strong> than the global average from
-        all countries in our data. For <strong>Asian-Americans, this is the case in 48 states</strong>. </p>
-      <p>Japan is the leader in nation-wide life-expectancy (see top of chart). In 42 US states, Asian-Americans have a
-        longer life expectancy than that of Japan. The same is true for Hispanic-Americans in 25 states.</p>
-      <h2>Salve Lucrum</h2>
-      <p>The amount of resources a country allocates for healthcare varies as each country has its own political,
-        economic, and social attributes that help determine how much it will spend. Generally, wealthier countries —
-        such as the United States — will spend more on healthcare than countries that are less affluent. As such, it
-        helps to compare healthcare spending in the United States to spending in <a
-          href="https://www.healthsystemtracker.org/chart-collection/health-spending-u-s-compare-countries/#item-average-wealthy-countries-spend-half-much-per-person-health-u-s-spends"
-          target="_blank">other comparatively wealthy countries</a> — those with gross domestic product (GDP) and per
-        capita GDP above the median, relative to all OECD countries. </p>
+      <p><strong>Future Directions and Conclusion</strong>
+        The trajectory of American health care points toward a collision of technology and reform. Artificial
+        intelligence promises to revolutionize diagnostics, while the expansion of telehealth could democratize access
+        to specialists. However, technology alone cannot cure structural flaws. Future debates will likely focus on
+        regulatory frameworks to curb costs and the potential expansion of public options to cover the uninsured.</p>
       <figure class="full-bleed">
         <figcaption class="right"><em>Why Health Care is So Expensive</em> by <a
             href="https://www.informationisbeautifulawards.com/showcase/349-why-health-care-is-so-expensive">Heather
@@ -263,224 +498,14 @@
           src="https://iibawards-prod.s3.amazonaws.com/projects/images/000/000/349/large.jpg?1403856485"
           alt="Why is healthcare so expensive infographic by Heather Jones." />
       </figure>
-      <h3>Why do we do this?</h3>
-      <p>Healthcare spending is driven by utilization (the number of services used) and price (the amount charged per
-        service). An increase in either of those factors can result in higher healthcare costs. Despite spending nearly
-        twice as much on healthcare per capita, utilization rates in the United States do not differ significantly from
-        other wealthy OECD countries. Prices, therefore, appear to be the main driver of the cost difference between the
-        United States and other wealthy countries. In fact, prices in the United States tend to be higher regardless of
-        utilization rates. For example, the <a
-          href="https://www.healthsystemtracker.org/chart-collection/how-do-healthcare-prices-and-use-in-the-u-s-compare-to-other-countries/#item-start"
-          target="_blank">Peterson-Kaiser Health System Tracker</a> notes that the United States has shorter hospital
-        stays, fewer angioplasty surgeries, and more knee replacements than comparable countries, yet the prices for
-        each are higher in the United States.</p>
-      <blockquote>
-        <p>“It’s not that we’re getting more; it’s that we’re paying much more”</p>
-        <cite>&mdash; Gerard F. Anderson, PhD</cite>
-      </blockquote>
-
-      <figure class="drug-prices" aria-label="Infographic comparing US drug prices to other countries">
-        <h3 class="graphic-title">Average drug prices<br>are sky-high</h3>
-
-        <div class="subtitle">THE PRICE OF ...</div>
-
-        <div class="drug-group">
-          <p>One Lipitor pill in the U.S.</p>
-          <div class="pill-container" role="img" aria-label="3 pills">
-            <img src="imgs/pill.jpg" alt="" class="pill">
-            <img src="imgs/pill.jpg" alt="" class="pill">
-            <img src="imgs/pill.jpg" alt="" class="pill">
-          </div>
-          <p>is the same as that of three<br>in <strong>Argentina</strong></p>
-        </div>
-
-        <hr class="separator">
-
-        <div class="drug-group">
-          <p>One Plavix pill in the U.S.</p>
-          <div class="pill-container" role="img" aria-label="4 pills">
-            <img src="imgs/pill.jpg" alt="" class="pill">
-            <img src="imgs/pill.jpg" alt="" class="pill">
-            <img src="imgs/pill.jpg" alt="" class="pill">
-            <img src="imgs/pill.jpg" alt="" class="pill">
-          </div>
-          <p>is the same as that of four<br>in <strong>Spain</strong></p>
-        </div>
-
-        <hr class="separator">
-
-        <div class="drug-group">
-          <p>One Nexium pill in the U.S.</p>
-          <div class="pill-container" role="img" aria-label="8 pills">
-            <img src="imgs/pill.jpg" alt="" class="pill">
-            <img src="imgs/pill.jpg" alt="" class="pill">
-            <img src="imgs/pill.jpg" alt="" class="pill">
-            <img src="imgs/pill.jpg" alt="" class="pill">
-            <img src="imgs/pill.jpg" alt="" class="pill">
-            <img src="imgs/pill.jpg" alt="" class="pill">
-            <img src="imgs/pill.jpg" alt="" class="pill">
-            <img src="imgs/pill.jpg" alt="" class="pill">
-          </div>
-          <p>is the same as that of eight<br>in <strong>France</strong></p>
-        </div>
-      </figure>
-
-      <div class="wrapper" tabindex="0" role="region" aria-labelledby="medCostCaption">
-        <table>
-          <caption id="medCostCaption">Medical Procedure Costs Comparison (2013)</caption>
-          <thead>
-            <tr>
-              <th scope="col">Country</th>
-              <th scope="col">CT Scan (Head)</th>
-              <th scope="col">Appendectomy</th>
-              <th scope="col">Coronary Bypass</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">Argentina</th>
-              <td>$78</td>
-              <td>$1,030</td>
-              <td>$9,319</td>
-            </tr>
-            <tr>
-              <th scope="row">Australia</th>
-              <td>$254</td>
-              <td>$4,926</td>
-              <td>$38,891</td>
-            </tr>
-            <tr>
-              <th scope="row">Canada</th>
-              <td>$122</td>
-              <td>$5,606</td>
-              <td>$40,954</td>
-            </tr>
-            <tr>
-              <th scope="row">Chile</th>
-              <td>$184</td>
-              <td>$5,509</td>
-              <td>$20,505</td>
-            </tr>
-            <tr>
-              <th scope="row">France</th>
-              <td>$141</td>
-              <td>$3,164</td>
-              <td>$16,140</td>
-            </tr>
-            <tr>
-              <th scope="row">Germany</th>
-              <td>$272</td>
-              <td>$3,093</td>
-              <td>$16,578</td>
-            </tr>
-            <tr>
-              <th scope="row">India</th>
-              <td>$43</td>
-              <td>$254</td>
-              <td>$4,525</td>
-            </tr>
-            <tr>
-              <th scope="row">Spain</th>
-              <td>$123</td>
-              <td>$2,615</td>
-              <td>$17,908</td>
-            </tr>
-            <tr>
-              <th scope="row">Switzerland</th>
-              <td>$319</td>
-              <td>$5,840</td>
-              <td>$25,486</td>
-            </tr>
-            <tr style="font-weight: 700; background-color: #ffeb3b55;">
-              <th scope="row">U.S.</th>
-              <td>$510</td>
-              <td>$13,003</td>
-              <td>$67,583</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <p>There are many possible factors for <a
-          href="https://www.pgpf.org/blog/2019/03/why-are-americans-paying-more-for-healthcare">why healthcare prices in
-          the United States are higher than other countries</a>, ranging from the consolidation of hospitals — leading
-        to a lack of competition — to the inefficiencies and administrative waste that derive from the complexity of the
-        U.S. healthcare system. In fact, the United States spends over $1,000 per person on administrative costs —
-        almost five times more than the average of other wealthy countries and more than it spends on long-term
-        healthcare. </p>
-
-      <div class="wrapper" tabindex="0" role="region" aria-labelledby="hospitalProfitCaption">
-        <table>
-          <caption id="hospitalProfitCaption">Nonprofit hospitals are making big bucks... Top 10 largest nonprofit
-            hospitals</caption>
-          <thead>
-            <tr style="color: #FF5252;">
-              <th scope="col">HOSPITAL NAME</th>
-              <th scope="col" style="background-color: #f0f0f0;">OPERATING PROFIT</th>
-              <th scope="col">CEO COMPENSATION</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">University of Pittsburgh Medical Center Presbyterian</th>
-              <td style="background-color: #f0f0f0; font-weight: 700;">$769,700,054</td>
-              <td>$5,975,462</td>
-            </tr>
-            <tr>
-              <th scope="row">Cleveland Clinic</th>
-              <td style="background-color: #f0f0f0; font-weight: 700;">$572,298,875</td>
-              <td>$2,564,214</td>
-            </tr>
-            <tr>
-              <th scope="row">Barnes-Jewish Hospital, St. Louis</th>
-              <td style="background-color: #f0f0f0; font-weight: 700;">$489,696,091</td>
-              <td>$2,335,882</td>
-            </tr>
-            <tr>
-              <th scope="row">New York—Presbyterian/Weill Cornell Medical Center</th>
-              <td style="background-color: #f0f0f0; font-weight: 700;">$383,477,548</td>
-              <td>$4,356,039</td>
-            </tr>
-            <tr>
-              <th scope="row">Indiana University Health Methodist Hospital, Indianapolis</th>
-              <td style="background-color: #f0f0f0; font-weight: 700;">$360,836,468</td>
-              <td>$2,080,779</td>
-            </tr>
-            <tr>
-              <th scope="row">Florida Hospital Orlando</th>
-              <td style="background-color: #f0f0f0; font-weight: 700;">$352,017,588</td>
-              <td>$2,925,356</td>
-            </tr>
-            <tr>
-              <th scope="row">Orlando Regional Medical Center</th>
-              <td style="background-color: #f0f0f0; font-weight: 700;">$250,843,745</td>
-              <td>$2,244,110</td>
-            </tr>
-            <tr>
-              <th scope="row">Montefiore Medical Center—Moses Division Hospital, Bronx, N.Y.</th>
-              <td style="background-color: #f0f0f0; font-weight: 700;">$196,868,926</td>
-              <td>$4,065,194</td>
-            </tr>
-            <tr>
-              <th scope="row">Methodist University Hospital, Memphis</th>
-              <td style="background-color: #f0f0f0; font-weight: 700;">$151,910,728</td>
-              <td>$2,180,962</td>
-            </tr>
-            <tr>
-              <th scope="row">Norton Hospital, Louisville, Ky.</th>
-              <td style="background-color: #f0f0f0; font-weight: 700;">$118,101,911</td>
-              <td>$2,206,401</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <h5>Percent of Population Without Health Insurance in US States</h5>
       <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
-      <h2>Cost control</h2>
-      <figure id="noinsurance"
-        aria-label="A line chart showing the percent of population without healthcare in Texas, Florida, California, and New York.">
-        <figcaption class="right">Data: <a
-            href="https://datacommons.org/tools/statvar#sv=Count_Person_NoHealthInsurance">Data Commons</a></figcaption>
+      <h2>Live free and die</h2>
+      <h3>Life expectancy in the US by income</h3>
+      <figure id="income"
+        aria-label="Scatter plot showing life expectancy in the US by income level, broken down by ethnicity. Generally, higher income correlates with longer life expectancy, except for Hispanic-Americans where income has less effect.">
       </figure>
+      <p>In general, higher income leads to longer life expectancy, but income has little effect for life expectancy of
+        Hispanic-Americans.</p>
       <h3>Does this Higher Spending Lead to Better Outcomes?</h3>
       <p>Higher healthcare spending can be beneficial if it results in better health outcomes. However, despite higher
         healthcare spending, America’s health outcomes are not any better than those in other developed countries. The
@@ -492,14 +517,21 @@
         produces higher quality care at a lower cost. For more information on potential reforms, check out the <a
           href="https://www.pgpf.org/finding-solutions/healthcare" target="_blank" rel="noopener">Peterson Center on
           Healthcare</a> recommendations.</p>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
-      <h2>Live free and die</h2>
-      <h3>Life expectancy in the US by income</h3>
-      <figure id="income"
-        aria-label="Scatter plot showing life expectancy in the US by income level, broken down by ethnicity. Generally, higher income correlates with longer life expectancy, except for Hispanic-Americans where income has less effect.">
-      </figure>
-      <p>In general, higher income leads to longer life expectancy, but income has little effect for life expectancy of
-        Hispanic-Americans.</p>
+
+      <p>In conclusion, the United States possesses a health-care system of unique complexity. It is a mesh of public
+        safety nets and private enterprise, producing both miracles and misery. As the nation grapples with an aging
+        population and spiraling costs, the challenge will be to harness the efficiency of the market while ensuring
+        that the fruits of medical progress are not reserved for the few. The path forward requires not just innovation,
+        but a fundamental reckoning with how care is financed and delivered<a href="#generis"
+          aria-describedby="footnote-label" id="generis-ref"></a>.</p>
+
+      <p>In 2022, the United States spent an estimated $12,742 per person on healthcare — the highest healthcare costs
+        per capita across similar countries. For comparison, Switzerland was the second highest-spending country with
+        $9,044 in healthcare costs per capita, while the average for wealthy OECD countries, excluding the United
+        States, was only $6,850 per person. And it was more than <strong>double</strong> the $4,559 the U.S. spent per
+        capita on health care in 2000. Such comparisons indicate that the United States spends a disproportionate amount
+        on healthcare. </p>
+
 
     </article>
   </main>
@@ -513,6 +545,10 @@
       <li id="pete"><strong>Peter G. Peterson Foundation</strong>, “<em><a
             href="https://www.pgpf.org/article/how-does-the-us-healthcare-system-compare-to-other-countries/">How Does
             the U.S. Healthcare System Compare to Other Countries?</a></em>"<a href="#pete-ref"
+          aria-label="Back to content">↩</a></li>
+      <li id="generis"><strong>Generis Global Legal Services</strong>, “<em><a
+            href="https://generisonline.com/an-overview-of-the-healthcare-system-in-the-united-states-of-america/">An
+            Overview of the Healthcare System in the United States of America</a></em>"<a href="#generis-ref"
           aria-label="Back to content">↩</a></li>
     </ol>
     <div>
@@ -823,6 +859,108 @@
 
       document.getElementById("spending").appendChild(Plot.plot(spending));
       document.getElementById("noinsurance").appendChild(Plot.plot(noinsurance));
+
+      // Ambulance Chart Data
+      const dataCitizens = [
+        { category: "U.S. adult citizens", response: "Yes", value: 23 },
+        { category: "U.S. adult citizens", response: "Not sure", value: 5 },
+        { category: "U.S. adult citizens", response: "No", value: 72 },
+      ];
+
+      const dataAge = [
+        { category: "Under 30", response: "Yes", value: 24 },
+        { category: "Under 30", response: "Not sure", value: 5 },
+        { category: "Under 30", response: "No", value: 71 },
+        { category: "30-44", response: "Yes", value: 21 },
+        { category: "30-44", response: "Not sure", value: 9 },
+        { category: "30-44", response: "No", value: 70 },
+        { category: "45-64", response: "Yes", value: 28 },
+        { category: "45-64", response: "Not sure", value: 3 },
+        { category: "45-64", response: "No", value: 69 },
+        { category: "65+", response: "Yes", value: 16 },
+        { category: "65+", response: "Not sure", value: 4 },
+        { category: "65+", response: "No", value: 80 },
+      ];
+
+      const dataGender = [
+        { category: "Men", response: "Yes", value: 24 },
+        { category: "Men", response: "Not sure", value: 4 },
+        { category: "Men", response: "No", value: 72 },
+        { category: "Women", response: "Yes", value: 22 },
+        { category: "Women", response: "Not sure", value: 6 },
+        { category: "Women", response: "No", value: 72 },
+      ];
+
+      const dataRace = [
+        { category: "White", response: "Yes", value: 22 },
+        { category: "White", response: "Not sure", value: 4 },
+        { category: "White", response: "No", value: 74 },
+        { category: "Black", response: "Yes", value: 19 },
+        { category: "Black", response: "Not sure", value: 7 },
+        { category: "Black", response: "No", value: 74 },
+        { category: "Hispanic", response: "Yes", value: 29 },
+        { category: "Hispanic", response: "Not sure", value: 2 },
+        { category: "Hispanic", response: "No", value: 69 },
+      ];
+
+      function createAmbulanceChart(data, title, yDomain, showLegend = false) {
+        return Plot.plot({
+          width: width,
+          height: 10 + (yDomain.length * 40),
+          marginTop: 0,
+          marginRight: 0,
+          title: title,
+          style: {
+            fontSize: "12px",
+            fontFamily: "var(--font-main)"
+          },
+          x: { axis: null },
+          y: {
+            domain: yDomain,
+            label: null,
+            tickSize: 0
+          },
+          color: {
+            domain: ["Yes", "Not sure", "No"],
+            range: ["#ff3d00", "#cfd8dc", "#9847ff"],
+            legend: showLegend ? "swatches" : null
+          },
+          marks: [
+            Plot.barX(data, {
+              y: "category",
+              x: "value",
+              fill: "response",
+              sort: { y: null },
+            }),
+            Plot.text(data, Plot.stackX({
+              y: "category",
+              x: "value",
+              text: "value",
+              z: "response",
+              fill: "white",
+              textAnchor: "middle",
+              // inset: 0.5,
+              fontSize: 14,
+              fontWeight: "bold"
+            })),
+          ]
+        });
+      }
+
+      const container = document.getElementById("ambulance-chart");
+
+      // Append chart for Citizens (with legend)
+      container.appendChild(createAmbulanceChart(dataCitizens, "U.S. adult citizens", ["U.S. adult citizens"], true));
+
+      // Append chart for Age
+      container.appendChild(createAmbulanceChart(dataAge, "Age", ["Under 30", "30-44", "45-64", "65+"]));
+
+      // Append chart for Gender
+      container.appendChild(createAmbulanceChart(dataGender, "Gender", ["Men", "Women"]));
+
+      // Append chart for Race
+      container.appendChild(createAmbulanceChart(dataRace, "Race", ["White", "Black", "Hispanic"]));
+
 
       // --- Chart 1: Slope Chart (Spending vs Life Expectancy) ---
       const slopeData = [

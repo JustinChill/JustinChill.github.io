@@ -37,141 +37,168 @@
 	</script>
 
 	<style type="text/css">
-		.threeholder {
-			position: relative;
+		/* General Layout */
+		.container {
+			max-width: 1200px;
 			margin: 0 auto;
-			width: 800px;
-			height: 280px;
+			padding: 0 20px;
 		}
 
-		.threeone {
-			display: inline-block;
-			width: 33.33333333333%;
-			height: 100%;
-			background: #363636;
-			border-bottom: 15px solid #f5cb22;
-			text-align: center;
-			transition: all 0.25s;
+		/* Filters */
+		.filters {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			gap: 10px;
+			margin: 40px 0;
 		}
 
-		.threetwo {
-			display: inline-block;
-			width: 33.333333333%;
-			height: 100%;
-			background: #333333;
-			border-bottom: 15px solid #f5cb22;
-			transition: all 0.25s;
-		}
-
-		.threethree {
-			display: inline-block;
-			width: 33.333333333%;
-			height: 100%;
-			background: #363636;
-			border-bottom: 15px solid #f5cb22;
-			transition: all 0.25s;
-		}
-
-		.threeone:hover {
-			background: #f5cb22;
-		}
-
-		.threeone:hover .circlepic {
-			background: #5c5c5c;
-		}
-
-		.threeone:hover .circleborder {
-			background: #333333;
-		}
-
-		.threeone:hover svg {
-			fill: #f5cb22;
-		}
-
-		.threeholder h4 {
-			width: 200px;
-			text-align: center;
-			font-size: 13px;
-			margin-left: -55px;
-			font-weight: bold;
-			margin-top: 45px;
-			text-align: center;
+		.filter-btn {
+			padding: 10px 20px;
+			border: none;
+			border-radius: 4px;
 			color: white;
+			cursor: pointer;
+			font-family: var(--font-ui);
+			font-weight: bold;
+			font-size: 0.9em;
+			text-transform: uppercase;
+			opacity: 0.6;
+			transition: all 0.2s ease;
 		}
 
-		.threeholder p {
-			display: inline-block;
-			width: 200px;
+		.filter-btn:hover,
+		.filter-btn.active {
+			opacity: 1;
+			transform: scale(1.05);
+		}
+
+		/* Reset Button */
+		.filter-btn.all {
+			background-color: #999;
+		}
+
+		/* Category Colors */
+		.appeal-to-the-mind {
+			background-color: #8D5B4C;
+			border-color: #8D5B4C;
+		}
+
+		.fallacy-card.appeal-to-the-mind {
+			border-top-color: #8D5B4C;
+		}
+
+		.appeal-to-emotions {
+			background-color: #ED1C24;
+			border-color: #ED1C24;
+		}
+
+		.fallacy-card.appeal-to-emotions {
+			border-top-color: #ED1C24;
+		}
+
+		.faulty-deduction {
+			background-color: #3B3B3B;
+			border-color: #3B3B3B;
+		}
+
+		.fallacy-card.faulty-deduction {
+			border-top-color: #3B3B3B;
+		}
+
+		.manipulating-content {
+			background-color: #5C9C6F;
+			border-color: #5C9C6F;
+		}
+
+		.fallacy-card.manipulating-content {
+			border-top-color: #5C9C6F;
+		}
+
+		.garbled-cause-and-effect,
+		.garbled-cause-&-effect {
+			background-color: #EC008C;
+			border-color: #EC008C;
+		}
+
+		.fallacy-card.garbled-cause-and-effect,
+		.fallacy-card.garbled-cause-&-effect {
+			border-top-color: #EC008C;
+		}
+
+		.on-the-attack {
+			background-color: #0071BC;
+			border-color: #0071BC;
+		}
+
+		.fallacy-card.on-the-attack {
+			border-top-color: #0071BC;
+		}
+
+
+		/* Grid */
+		.fallacy-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+			gap: 30px;
+			margin-bottom: 60px;
+		}
+
+		.fallacy-card {
+			background: white;
+			border-radius: 8px;
+			border-top: 6px solid #ccc;
+			padding: 24px;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+			transition: transform 0.2s ease, box-shadow 0.2s ease;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.fallacy-card:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+		}
+
+		.card-content h3 {
+			margin-top: 0;
+			margin-bottom: 12px;
+			font-family: var(--font-ui);
+			font-size: 1.25rem;
+			font-weight: bold;
+		}
+
+		.definition {
+			font-style: italic;
+			color: #555;
+			margin-bottom: 16px;
+			line-height: 1.5;
+		}
+
+		.example {
+			margin-top: auto;
+			font-size: 0.95em;
+			background: #f9f9f9;
+			padding: 12px;
+			border-radius: 4px;
+			border-left: 3px solid #eee;
+		}
+
+		.article-hero {
 			text-align: center;
-			margin-left: -55px;
-			margin-top: 20px;
-			font-size: 12px;
-			color: #8a8a8a;
-			letter-spacing: 1px;
+			padding: 40px 0 20px;
 		}
 
-		.threeone:hover h4 {
-			color: black;
+		p {
+			max-width: 800px;
+			margin: 0 auto 30px;
+			text-align: center;
+			display: block;
 		}
 
-		.threetwo:hover h4 {
-			color: black;
-		}
-
-		.threethree:hover h4 {
-			color: black;
-		}
-
-		.threeone:hover svg,
-		.threetwo:hover svg,
-		.threethree:hover svg {
-			transition: all 0.65s;
-			transform: rotateY(360deg);
-		}
-
-		.threetwo:hover {
-			background: #f5cb22;
-		}
-
-		.threetwo:hover .circleborder {
-			background: #333333;
-		}
-
-		.threetwo:hover svg {
-			fill: #f5cb22;
-		}
-
-		.threethree:hover {
-			background: #f5cb22;
-		}
-
-		.threethree:hover .circleborder {
-			background: #333333;
-		}
-
-		.threethree:hover svg {
-			fill: #f5cb22;
-		}
-
-		.circleborder {
-			position: absolute;
-			top: 30px;
-			width: 90px;
-			height: 90px;
-			background: #f5cb22;
-			margin-left: 88.33333px;
-			border-radius: 50%;
-		}
-
-		.circlepic {
-			position: absolute;
-			top: -10px;
-			margin-top: 30px;
-			width: 110px;
-			height: 110px;
-			background: #5c5c5c;
-			margin-left: 78.33333px;
-			border-radius: 50%;
+		.nav {
+			position: relative;
+			z-index: 10;
 		}
 	</style>
 
@@ -197,7 +224,10 @@
 				<h1 class="article-title">Common logical fallacies</h1>
 				<h2 class="article-subtitle"></h2>
 			</div>
-			<p>Statememnts that make you stop and think twice about what you just heard or read may contain a logical fallacy. They can sometimes be difficult to recognize, but a logical fallacy is an error in logic that makes an argument invalid. When you hear or read something that seems "off" or doesn't make sense, try reviewing these tips:
+			<p>Statememnts that make you stop and think twice about what you just heard or read may contain a logical
+				fallacy. They can sometimes be difficult to recognize, but a logical fallacy is an error in logic that
+				makes an argument invalid. When you hear or read something that seems "off" or doesn't make sense, try
+				reviewing these tips:
 			<ul>
 				<li>Identify the problem of the position.</li>
 				<li>Look for the lack of logic that prevents a real exploration of issues.</li>
@@ -205,160 +235,15 @@
 			</ul>
 			</p>
 
-
-
 			<div class="container">
-
-				<div class="threeholder">
-					<div class="threeone">
-						<div class="circlepic">
-
-						</div>
-						<div class="circleborder">
-							<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="-9 -10 80 63" enable-background="new 0 0 40 60" xml:space="preserve">
-								<g>
-									<path d="M26.53,10.843c-0.014,0.148-0.033,0.294-0.033,0.444c0,3.495,2.713,6.326,6.058,6.326c3.344,0,6.055-2.832,6.055-6.326   c0-0.151-0.021-0.297-0.031-0.444H26.53z" />
-									<path d="M40.253,8.155c-0.396-3.512-2.425-6.392-5.141-7.519v5.403c0,0.32-0.26,0.579-0.579,0.579c-0.32,0-0.579-0.259-0.579-0.579   V0.272c-0.448-0.097-0.908-0.155-1.38-0.155c-0.468,0-0.924,0.059-1.369,0.156v5.766c0,0.32-0.259,0.579-0.578,0.579   c-0.32,0-0.579-0.259-0.579-0.579V0.638c-2.711,1.133-4.753,4.024-5.175,7.517h-2.001V9.66H42.26V8.155H40.253z" />
-								</g>
-								<g>
-									<path d="M40.712,19.183l-2.604-0.001l-4.02,8.935v-9.111H31.31v9.02l-3.981-8.849l-2.601-0.001c-4.237,0-7.49,3.061-8.182,7.142   L13.21,14.731c-0.081-0.28-0.305-0.495-0.588-0.563l-5.501-1.325c-1.734-0.197-3.134,0.067-4.275,0.81   c-1.344,0.874-2.293,2.117-2.672,3.503c-0.354,1.295-0.161,2.644,0.488,3.865c0.008,0.021,0.005,0.042,0.015,0.063l7.487,16.011   L7.646,37.35c-3.762,1.849-1.076,7.31,2.687,5.459l0.41-0.201l2.608,5.576c0.421,0.902,1.23,1.62,2.219,1.971   c0.465,0.165,0.958,0.246,1.464,0.246c0.776,0,1.583-0.192,2.363-0.573c2.239-1.093,3.236-3.398,2.319-5.363l-0.038-0.08   c0.013-0.106,0.006-0.216-0.025-0.324l-0.547-1.901c0.375-0.492,0.628-1.142,0.628-1.992V28.501h1.697l-0.003,20.775h18.907   l0.007-20.775h1.661v17.825c0,4.065,5.299,4.065,5.288,0V28.07C49.291,23.582,45.966,19.183,40.712,19.183z M2.257,20.593   c-0.618-0.951-0.797-1.992-0.52-3.01c0.273-1.001,0.981-1.914,1.992-2.571c0.825-0.537,1.841-0.714,3.11-0.577l4.944,1.197   l5.686,19.75L9.367,18.054c-0.014-0.03-0.039-0.049-0.056-0.076c-0.1-0.255-0.227-0.504-0.382-0.743   c-1.036-1.593-3.177-2.046-4.772-1.009c-1.349,0.878-1.733,2.69-0.856,4.041C4.055,21.421,5.604,21.749,6.757,21   c0.997-0.65,1.281-1.991,0.634-2.988c-0.122-0.188-0.272-0.35-0.446-0.482c0.245,0.14,0.46,0.337,0.624,0.589   c0.749,1.151,0.422,2.696-0.727,3.443C5.308,22.558,3.252,22.122,2.257,20.593z M18.687,48.371   c-0.895,0.437-1.811,0.524-2.576,0.256c-0.582-0.207-1.053-0.617-1.292-1.129l-2.621-5.605l0.136-0.067   c3.763-1.847,1.077-7.311-2.686-5.458l-0.027,0.014L3.585,23.475c1.352,0.415,2.865,0.273,4.141-0.554   c0.619-0.404,1.078-0.954,1.394-1.57L20.247,45.15C20.78,46.292,20.109,47.677,18.687,48.371z" />
-								</g>
-							</svg>
-							<h4>TITLE 1</h4>
-							<p>Esse tenetur nihil voluptas tempora et soluta obcaecati, quod nemo aperiam animi asperiores voluptatibus, ex repellendus praesentium.</p>
-						</div>
-					</div>
-					<div class="threetwo">
-						<div class="circlepic">
-
-						</div>
-						<div class="circleborder">
-							<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-32 -30 150 120" style="enable-background:new 0 0 84.351 84.351;" xml:space="preserve">
-								<g>
-									<g>
-										<path d="M70.391,81.254c-0.228-0.795-0.516-1.755-0.854-2.852c-0.339-1.096-0.705-2.34-1.136-3.684
-										c-0.432-1.344-0.896-2.8-1.391-4.338c-0.481-1.545-1.045-3.148-1.599-4.822c-0.563-1.667-1.146-3.391-1.737-5.142
-										c-0.61-1.743-1.232-3.513-1.854-5.282c-0.52-1.494-1.048-2.979-1.575-4.447h3.495v-2.839h-4.521
-										c-0.381-1.041-0.76-2.071-1.131-3.077c-1.215-3.297-2.373-6.362-3.375-8.986c-1.012-2.62-1.854-4.804-2.445-6.332
-										c-0.291-0.729-0.491-1.314-0.68-1.709c0.84-1.537,1.317-3.301,1.317-5.174c0-5.177-3.649-9.511-8.513-10.577V0H39.75v11.994
-										c-4.859,1.066-8.512,5.4-8.512,10.577c0,2.084,0.603,4.027,1.626,5.682c-0.026,0.011-0.055,0.022-0.075,0.039
-										c-0.195,0.393-0.401,1.004-0.705,1.764c-0.59,1.528-1.434,3.711-2.444,6.331c-1.003,2.624-2.161,5.69-3.376,8.986
-										c-0.301,0.812-0.604,1.64-0.911,2.477h-4.947v2.84h3.917c-0.602,1.662-1.203,3.352-1.791,5.047
-										c-0.621,1.771-1.243,3.541-1.854,5.282c-0.591,1.751-1.173,3.476-1.737,5.144c-0.554,1.672-1.116,3.277-1.598,4.82
-										c-0.495,1.539-0.959,2.994-1.391,4.338c-0.431,1.344-0.797,2.588-1.136,3.685c-0.338,1.097-0.627,2.056-0.854,2.851
-										c-0.455,1.588-0.717,2.495-0.717,2.495s0.502-0.8,1.378-2.2c0.438-0.699,0.961-1.557,1.548-2.541
-										c0.589-0.984,1.271-2.088,1.98-3.308c0.709-1.219,1.48-2.539,2.296-3.935c0.825-1.392,1.642-2.883,2.517-4.412
-										c0.862-1.534,1.756-3.119,2.662-4.73c0.885-1.619,1.786-3.266,2.687-4.912c1.416-2.562,2.796-5.139,4.111-7.623h8.358v5.158h2.58
-										v-5.158h8.884c1.22,2.299,2.492,4.666,3.793,7.023c0.9,1.646,1.802,3.291,2.687,4.91c0.906,1.611,1.801,3.197,2.662,4.73
-										c0.875,1.529,1.691,3.021,2.518,4.412c0.814,1.396,1.586,2.717,2.296,3.934c0.71,1.221,1.392,2.322,1.979,3.31
-										c0.588,0.985,1.109,1.84,1.549,2.54c0.876,1.4,1.378,2.201,1.378,2.201S70.846,82.842,70.391,81.254z M42.072,14.832
-										c4.266,0,7.738,3.472,7.738,7.739s-3.473,7.738-7.738,7.738c-4.268,0-7.739-3.472-7.739-7.738
-										C34.333,18.304,37.805,14.832,42.072,14.832z M43.363,47.85V43.98h-2.58v3.869h-6.861c1.482-2.818,2.852-5.468,4.027-7.761
-										c1.271-2.503,2.331-4.59,3.072-6.05c0.121-0.245,0.233-0.464,0.341-0.67c0.234,0.016,0.471,0.036,0.711,0.036
-										c0.408,0,0.81-0.027,1.206-0.071c0.018,0.036,0.033,0.067,0.053,0.104c0.741,1.459,1.803,3.546,3.072,6.05
-										c1.26,2.457,2.734,5.313,4.343,8.361L43.363,47.85L43.363,47.85z" />
-										<path d="M42.176,26.494c2.305,0,4.182-1.875,4.182-4.181c0-2.306-1.877-4.181-4.182-4.181s-4.182,1.876-4.182,4.182
-										C37.994,24.62,39.871,26.494,42.176,26.494z M42.176,18.905c1.878,0,3.408,1.529,3.408,3.408c0,1.879-1.529,3.408-3.408,3.408
-										c-1.879,0-3.407-1.528-3.407-3.407C38.769,20.435,40.297,18.905,42.176,18.905z" />
-									</g>
-								</g>
-								<g>
-								</g>
-								<g>
-								</g>
-								<g>
-								</g>
-								<g>
-								</g>
-								<g>
-								</g>
-								<g>
-								</g>
-								<g>
-								</g>
-								<g>
-								</g>
-								<g>
-								</g>
-								<g>
-								</g>
-								<g>
-								</g>
-								<g>
-								</g>
-								<g>
-								</g>
-								<g>
-								</g>
-								<g>
-								</g>
-							</svg>
-
-							<h4>TITLE 2</h4>
-							<p>Enim eveniet, asperiores facere, in nulla eos, corrupti iste voluptas nemo consequatur laboriosam veritatis exercitationem.</p>
-						</div>
-
-					</div>
-					<div class="threethree">
-						<div class="circlepic">
-
-						</div>
-
-
-						<div class="circleborder">
-
-							<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-100 -50 800 600" style="enable-background:new 0 0 592.875 592.875;" xml:space="preserve">
-								<g>
-									<polygon points="66.938,106.688 0,195.936 0,330.604 66.938,297.938 	" />
-									<path d="M512.388,238.173L76.5,106.688v188.859l177.461,20.464L424.575,281.3c0.296-0.066,0.593,0.02,0.898,0.02
-								c0.307,0,0.612-0.096,0.928-0.038l89.505,16.571L512.388,238.173z M162.562,164.857l86.062,23.906v10.547l-86.062-21.841V164.857z
-								M248.625,241.357l-86.062-14.745v-39.273l86.062,21.841V241.357z" />
-									<polygon points="233.086,319.053 72.914,302.318 7.172,332.201 128.692,340.568 	" />
-									<path d="M430.312,291.732v44.619v149.835l127.334-15.329h6.541v-0.784l28.688-3.452V321.835l-76.395-14.152L430.312,291.732z
-								M449.438,338.551v-1.167l54.182,7.421l3.193,0.43v123.003l-57.375,7V338.551z M583.312,458.904l-19.125,2.333V353.086l19.125,2.62
-								V458.904z M554.625,462.404l-38.25,4.666V346.545l38.25,5.24V462.404z" />
-									<polygon points="105.188,356.031 105.188,447.506 200.812,459.22 200.812,380.808 248.625,375.232 248.625,465.082 420.75,486.177 
-								420.75,335.242 420.75,291.828 284.57,319.54 	" />
-									<path d="M95.625,352.12L95.625,352.12L95.625,352.12z" />
-								</g>
-								<g>
-								</g>
-								<g>
-								</g>
-								<g>
-								</g>
-								<g>
-								</g>
-								<g>
-								</g>
-								<g>
-								</g>
-								<g>
-								</g>
-								<g>
-								</g>
-								<g>
-								</g>
-								<g>
-								</g>
-								<g>
-								</g>
-								<g>
-								</g>
-								<g>
-								</g>
-								<g>
-								</g>
-								<g>
-								</g>
-							</svg>
-
-							<h4>TITLE 3</h4>
-							<p>Eum dicta dolore et officia laudantium pariatur deserunt ducimus, impedit, harum magnam veritatis eaque aliquid sit praesentium.</p>
-						</div>
-
-					</div>
+				<div id="filters" class="filters">
+					<!-- Filter buttons will be generated by JS -->
 				</div>
+
+				<div id="fallacy-grid" class="fallacy-grid">
+					<p style="text-align:center; width:100%;">Loading fallacies...</p>
+				</div>
+			</div>
 		</article>
 	</main>
 
@@ -370,7 +255,183 @@
 		<h1 class="visually-hidden">Justin Chill © 2020</h1>
 	</footer>
 	<script type="text/javascript">
+		document.addEventListener("DOMContentLoaded", () => {
+			const container = document.getElementById("fallacy-grid");
+			const filterContainer = document.getElementById("filters");
 
+			// Load data
+			fetch("data/Rhetological_Fallacies.csv")
+				.then((response) => response.text())
+				.then((csvText) => {
+					const data = parseCSV(csvText);
+					// Remove header if present (assuming first row is header)
+					const headers = data[0];
+					const rows = data.slice(1).filter(r => r.length > 1); // Filter empty rows
+
+					const fallacies = rows.map((row) => {
+						// Map based on header indices or assume order: fallacy, definition, example, category
+						return {
+							name: row[0],
+							definition: row[1],
+							example: row[2],
+							category: row[3] ? row[3].trim() : "Uncategorized"
+						};
+					});
+
+					renderFilters(fallacies);
+					renderGrid(fallacies);
+				})
+				.catch((err) => console.error("Error loading CSV:", err));
+
+			function renderFilters(fallacies) {
+				const categories = ["All", ...new Set(fallacies.map((f) => f.category))];
+
+				// Sort categories to match the visual order if possible, or just alpha
+				// Custom order based on the infographic usually: Mind, Emotions, Deduction, Manipulation, Cause&Effect, Attack
+				const order = [
+					"Appeal to the Mind",
+					"Appeal to Emotions",
+					"Faulty Deduction",
+					"Manipulating Content",
+					"Garbled Cause & Effect",
+					"On the Attack"
+				];
+
+				categories.sort((a, b) => {
+					if (a === "All") return -1;
+					if (b === "All") return 1;
+					return order.indexOf(a) - order.indexOf(b);
+				});
+
+				filterContainer.innerHTML = "";
+				categories.forEach((cat) => {
+					if (!cat) return;
+					const btn = document.createElement("button");
+					btn.textContent = cat.toUpperCase();
+					btn.className = `filter-btn ${cat.replace(/\s+/g, "-").toLowerCase()}`;
+					if (cat === "All") btn.classList.add("active");
+
+					btn.addEventListener("click", () => {
+						document.querySelectorAll(".filter-btn").forEach((b) => b.classList.remove("active"));
+						btn.classList.add("active");
+						filterGrid(cat, fallacies);
+					});
+
+					filterContainer.appendChild(btn);
+				});
+			}
+
+
+			// Icons Dictionary
+			const icons = {
+				// Categories
+				"Appeal to the Mind": '<path d="M12 2a9 9 0 0 1 9 9c0 4.97-4.03 9-9 9s-9-4.03-9-9 0-9 9-9zm0 2a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/><path d="M12 6a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm0 2a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>', // Brain/Head abstract
+				"Appeal to Emotions": '<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>', // Heart
+				"Faulty Deduction": '<path d="M9.91,15.51L12,13.42l2.09,2.09l1.41-1.42L13.41,12l2.09-2.09l-1.41-1.42L12,10.59l-2.09-2.09l-1.41,1.42 L10.59,12l-2.09,2.09L9.91,15.51z M19.07,4.93L17.66,6.34C18.5,7.18 19,8.26 19,9.5c0,2.48-2.02,4.5-4.5,4.5S10,11.98,10,9.5 c0-1.24,0.5-2.32,1.34-3.16l-1.41-1.41C8.59,6.28 7.55,7.74 7.23,9.5H3v2h4.23c0.32,1.76 1.36,3.22 2.73,4.56l1.41-1.41 C10.5,13.82 10,12.74 10,11.5c0-2.48,2.02-4.5,4.5-4.5s4.5,2.02,4.5,4.5c0,1.24-0.5,2.32-1.34,3.16l1.41,1.41 c1.37-1.34,2.41-2.8,2.73-4.56H26V9.5h-4.23C21.45,7.74 20.41,6.28 19.07,4.93z"/>', // Broken logic / Puzzle
+				"Manipulating Content": '<path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>', // Pen/Edit
+				"Garbled Cause & Effect": '<path d="M16.24 9.56l-5.6-5.6-.82.82 5.6 5.6-.82.82H6v1.17h8.59l-.82.82 5.6 5.6.82-.82-5.6-5.6.82-.82h-11.2v-1.17H16.24z"/>', // Crossing arrows
+				"Garbled Cause &amp; Effect": '<path d="M16.24 9.56l-5.6-5.6-.82.82 5.6 5.6-.82.82H6v1.17h8.59l-.82.82 5.6 5.6.82-.82-5.6-5.6.82-.82h-11.2v-1.17H16.24z"/>', // Crossing arrows
+				"On the Attack": '<path d="M20 3v2h-9v1h9v2h-9v1h9v2h-9v1h9v2H2V3h18z"/>', // Rough sword/attack shape or fist
+
+				// Specifics
+				"Appeal to Authority": '<path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5m14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/>', // Crown
+				"Appeal to Anonymous Authority": '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>', // Question mark head
+				"Appeal to Money": '<path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>', // Dollar
+				"Appeal to Nature": '<path d="M17,8C8,10,5.9,16.17,3.82,21.34L5.71,22l1-2.3A4.49,4.49,0,0,0,8,20C19,20,22,10,22,10Z"/>', // Tree/Leaf
+				"Appeal to Fear": '<path d="M10 9a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm6-2a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM7 16s2 2 5 2 5-2 5-2-10 0-10 0z"/>', // Spooky face
+				"Appeal to Popular Belief": '<path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>', // Crowd
+				"Appeal to Probability": '<path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-8 14h-2v-2h2v2zm0-4h-2V7h2v6zm6 4h-2v-2h2v2zm0-4h-2V7h2v6z"/>', // Diceish/Stats
+				"Appeal to Tradition": '<path d="M6 10h12v2H6zm0-4h12v2H6zm0 8h12v2H6z M4 22h16v-2H4z M4 6h2v12H4z m14 0h2v12h-2z"/>', // Pillar
+				"Straw Man": '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>', // Scarecrow/Figure
+				"Slippery Slope": '<path d="M6 18l14-14v14z"/>', // Triangle slope
+				"Two Wrongs Make a Right": '<path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l3.59-3.59L17 12l-5 5z"/>' // Wrong/Right check
+			};
+
+			function getIcon(name, category) {
+				if (icons[name]) return icons[name];
+				if (icons[category]) return icons[category];
+				return icons["Appeal to the Mind"];
+			}
+
+			function renderGrid(fallacies) {
+				container.innerHTML = "";
+				fallacies.forEach((item) => {
+					const card = document.createElement("div");
+					card.className = `fallacy-card ${item.category.replace(/\s+/g, "-").toLowerCase()}`;
+
+					const iconSvg = getIcon(item.name, item.category);
+
+					card.innerHTML = `
+					<div class="card-content">
+						<div class="card-icon">
+							 <div class="icon-circle">
+							 	<svg viewBox="0 0 24 24" width="40" height="40" fill="currentColor">
+									${iconSvg}
+								</svg>
+							 </div>
+						</div>
+						<h3>${item.name}</h3>
+						<p class="definition">${item.definition}</p>
+						<div class="example">
+							<strong>Example:</strong> ${item.example}
+						</div>
+					</div>
+				`;
+					container.appendChild(card);
+				});
+			}
+
+			function filterGrid(category, fallacies) {
+				const filtered = category === "All" ? fallacies : fallacies.filter((f) => f.category === category);
+				renderGrid(filtered);
+			}
+
+			// Simple CSV Parser handling quotes and newlines
+			function parseCSV(str) {
+				const arr = [];
+				let quote = false;
+				let col = 0, row = 0;
+
+				for (let c = 0; c < str.length; c++) {
+					let cc = str[c], nc = str[c + 1];
+					arr[row] = arr[row] || [];
+					arr[row][col] = arr[row][col] || "";
+
+					if (cc == '"' && quote && nc == '"') {
+						arr[row][col] += cc;
+						++c;
+						continue;
+					}
+					if (cc == '"') {
+						quote = !quote;
+						continue;
+					}
+					if (cc == "," && !quote) {
+						++col;
+						continue;
+					}
+					if (cc == "\r" && nc == "\n" && !quote) {
+						++row;
+						col = 0;
+						++c;
+						continue;
+					}
+					if (cc == "\n" && !quote) {
+						++row;
+						col = 0;
+						continue;
+					}
+					if (cc == "\r" && !quote) {
+						++row;
+						col = 0;
+						continue;
+					}
+
+					arr[row][col] += cc;
+				}
+				return arr;
+			}
+		});
 	</script>
 	<footer>
 	</footer>
