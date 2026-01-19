@@ -29,8 +29,6 @@
     <meta name="theme-color" content="#4C63B6">
 
     <!-- styles -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="style.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
@@ -46,21 +44,64 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
 
     <style>
-        /* Glassmorphism & Custom Styles */
+        /* CSS Variables & Utilities */
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --primary-color: #4f46e5;
+            /* Indigo 600 */
+            --primary-hover: #4338ca;
+            /* Indigo 700 */
+            --danger-color: #ef4444;
+            /* Red 500 */
+            --success-color: #16a34a;
+            /* Green 600 */
+            --gray-color: #6b7280;
+            /* Gray 500 */
+            --border-color: #e5e7eb;
+            /* Gray 200 */
+        }
+
         body {
             background: #fdfdfd;
-            /* Optional: subtle gradient background for better glass effect */
-            background: linear-gradient(135deg, #fdfdfd 0%, #f3f4f6 100%);
             min-height: 100vh;
         }
 
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            border-radius: 1rem;
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.25rem;
+        }
+
+        header.header-center {
+            text-align: center;
+            max-width: 42rem;
+            margin: 0 auto 2.5rem;
+        }
+
+        .heatmap-figure {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* Components */
+        .card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            width: 100%;
+            position: relative;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
         }
 
         .chart-container {
@@ -69,7 +110,397 @@
             display: flex;
             justify-content: center;
             align-items: center;
+        }
+
+        .export-btn-container {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 10;
+        }
+
+        /* Icons */
+        .icon {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        .icon-sm {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .btn-icon-only {
+            padding: 0.5rem;
+        }
+
+        .btn-white {
+            background-color: #ffffff;
+            color: #374151;
+            border-color: #d1d5db;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-white:hover {
+            background-color: #f9fafb;
+            border-color: #9ca3af;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            width: 100%;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: #9ca3af;
+        }
+
+        .btn-ghost:hover {
+            color: var(--primary-color);
+        }
+
+        .btn-ghost.delete-btn:hover {
+            color: var(--danger-color);
+        }
+
+        /* Forms */
+        .form-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .form-content {
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .form-content.visible {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 0.75rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .form-grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--gray-color);
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+            margin-bottom: 0.25rem;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            background: #ffffff;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            padding: 0.5rem;
+            width: 100%;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Table */
+        .data-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .data-header h2 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .data-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .data-list {
+            overflow-y: auto;
+            max-height: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin-bottom: 1rem;
+        }
+
+        .data-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0;
+            background: white;
+            border-bottom: 1px solid #f3f4f6;
+            transition: background-color 0.2s;
+        }
+
+        .data-item:last-child {
+            border-bottom: none;
+        }
+
+        .data-item:hover {
+            box-shadow: none;
+            background-color: #f9fafb;
+        }
+
+        .data-item-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .company-avatar {
+            width: 3rem;
+            height: 3rem;
+            min-width: 3rem;
+            border-radius: 0.5rem;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .company-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            padding: 0;
+        }
+
+        .company-details p.name {
+            font-weight: 600;
+            color: #111827;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        .company-details p.stats {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin: 0.125rem 0 0 0;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 0.25rem;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        /* Utilities */
+        .hidden {
+            display: none !important;
+        }
+
+        .relative {
             position: relative;
+        }
+
+        .absolute {
+            position: absolute;
+        }
+
+        .w-full {
+            width: 100%;
+        }
+
+        .rotate-180 {
+            transform: rotate(180deg);
+        }
+
+        /* Autocomplete */
+        .autocomplete-dropdown {
+            position: absolute;
+            z-index: 50;
+            width: 100%;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.375rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            margin-top: 0.25rem;
+            max-height: 12rem;
+            overflow-y: auto;
+        }
+
+        .autocomplete-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0.75rem;
+            cursor: pointer;
+            transition: background-color 0.15s;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .autocomplete-item:last-child {
+            border-bottom: none;
+        }
+
+        .autocomplete-item:hover {
+            background-color: #f9fafb;
+        }
+
+        .autocomplete-item img {
+            width: 1.5rem;
+            height: 1.5rem;
+            object-fit: contain;
+            border-radius: 0.25rem;
+        }
+
+        .autocomplete-name {
+            flex: 1;
+            font-size: 0.875rem;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        .autocomplete-item small {
+            color: #9ca3af;
+            margin-left: auto;
+        }
+
+        .data-item:hover .item-actions {
+            opacity: 1;
+        }
+
+        /* Util helpers */
+        .hidden {
+            display: none;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        .border-top {
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+            margin-top: 1rem;
+        }
+
+        .mt-4 {
+            margin-top: 1rem;
+        }
+
+        .mb-1 {
+            margin-bottom: 0.25rem;
+        }
+
+        .mb-2 {
+            margin-bottom: 0.5rem;
+        }
+
+        .mb-3 {
+            margin-bottom: 0.75rem;
+        }
+
+        .w-full {
+            width: 100%;
+        }
+
+        /* Icons */
+        svg.icon {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        svg.icon-sm {
+            width: 1rem;
+            height: 1rem;
+            min-width: 1rem;
+            /* Prevent squeezing */
+        }
+
+        svg.chevron {
+            color: var(--gray-color);
+            transition: transform 0.2s;
         }
 
         /* Quadrant labels styling */
@@ -80,24 +511,6 @@
             fill: #a3a3a3;
             font-size: 14px;
             pointer-events: none;
-        }
-
-        /* Input styling */
-        input[type="text"],
-        input[type="number"] {
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid #e5e7eb;
-            border-radius: 0.375rem;
-            padding: 0.5rem;
-            width: 100%;
-            transition: all 0.2s;
-        }
-
-        input[type="text"]:focus,
-        input[type="number"]:focus {
-            outline: none;
-            border-color: #6366f1;
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
     </style>
 </head>
@@ -115,201 +528,254 @@
         </div>
     </nav>
 
-    <main class="container mx-auto px-5 py-8">
-        <header class="mb-10 text-center max-w-2xl mx-auto">
-            <h1 class="text-4xl font-bold text-gray-900 mb-2">Market Heatmap</h1>
-            <p class="text-gray-500">Compare companies by their execution and market strength.</p>
-        </header>
+    <main class="container">
+        <article>
+            <header class="header-center">
+                <h1>Market Heatmap</h1>
+                <p>Compare companies by their execution and market strength.</p>
+            </header>
 
-        <div class="flex flex-col gap-8 max-w-4xl mx-auto">
+            <figure class="mid-size heatmap-figure">
 
-            <!-- Chart Column -->
-            <div class="glass-panel p-6 shadow-xl relative w-full">
-                <div class="absolute top-6 right-6 z-10">
-                    <button onclick="exportChartImage()"
-                        class="bg-white/80 hover:bg-white text-gray-700 p-2 rounded-lg shadow-sm border border-gray-200 transition-all"
-                        title="Export as PNG">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                <!-- Chart Column -->
+                <div class="card chart-wrapper">
+                    <div class="export-btn-container">
+                        <button onclick="exportChartImage()" class="btn btn-white btn-icon-only" title="Export as PNG"
+                            aria-label="Export Chart Image">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="chart" class="chart-container">
+                        Loading chart...
+                    </div>
+                </div>
+
+                <!-- Chart Options Panel -->
+                <div class="card">
+                    <button class="form-header" onclick="toggleOptions()" aria-expanded="false"
+                        aria-controls="options-content" id="options-toggle">
+                        <h2>Chart Options</h2>
+                        <svg id="options-chevron" xmlns="http://www.w3.org/2000/svg" class="icon chevron" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
-                </div>
-                <div id="chart" class="chart-container text-gray-400 text-sm">
-                    Loading chart...
-                </div>
-            </div>
 
-            <!-- Chart Options Panel -->
-            <div class="glass-panel p-6 shadow-xl w-full">
-                <button class="flex items-center justify-between w-full text-left" onclick="toggleOptions()">
-                    <h2 class="text-xl font-bold text-gray-800">Chart Options</h2>
-                    <svg id="options-chevron" xmlns="http://www.w3.org/2000/svg"
-                        class="h-5 w-5 text-gray-500 transform transition-transform" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                </button>
-
-                <div id="options-content" class="hidden mt-4 space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">X-Axis
-                                Label</label>
-                            <input type="text" id="opt-xaxis" value="MARKET STRENGTH" class="text-sm">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Y-Axis
-                                Label</label>
-                            <input type="text" id="opt-yaxis" value="EXECUTION STRENGTH" class="text-sm">
-                        </div>
-                    </div>
-
-                    <div class="border-t border-gray-100 pt-3">
-                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Axis
-                            Scaling</label>
-                        <div class="grid grid-cols-3 gap-2 mb-2">
-                            <div class="col-span-3 text-xs text-gray-400 font-medium">X-Axis (Market)</div>
-                            <div>
-                                <input type="number" id="opt-xmin" value="6" step="0.5" class="text-sm"
-                                    placeholder="Min">
+                    <div id="options-content" class="form-content" role="region" aria-labelledby="options-toggle">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="opt-xaxis">X-Axis Label</label>
+                                <input type="text" id="opt-xaxis" value="MARKET STRENGTH">
                             </div>
-                            <div>
-                                <input type="number" id="opt-xmax" value="10" step="0.5" class="text-sm"
-                                    placeholder="Max">
-                            </div>
-                            <div>
-                                <input type="number" id="opt-xcross" value="8" step="0.5" class="text-sm"
-                                    placeholder="Crosshair">
+                            <div class="form-group">
+                                <label for="opt-yaxis">Y-Axis Label</label>
+                                <input type="text" id="opt-yaxis" value="EXECUTION STRENGTH">
                             </div>
                         </div>
-                        <div class="grid grid-cols-3 gap-2">
-                            <div class="col-span-3 text-xs text-gray-400 font-medium">Y-Axis (Execution)</div>
-                            <div>
-                                <input type="number" id="opt-ymin" value="7" step="0.5" class="text-sm"
-                                    placeholder="Min">
+
+                        <div class="border-top">
+                            <label class="mb-2">Axis Scaling</label>
+                            <div class="form-grid-3 mb-2">
+                                <div style="grid-column: span 3; font-size: 0.75rem; color: #9ca3af; font-weight: 500;">
+                                    X-Axis (Market)</div>
+                                <div>
+                                    <label for="opt-xmin" class="sr-only">X-Axis Minimum</label>
+                                    <input type="number" id="opt-xmin" value="6" step="0.5" placeholder="Min">
+                                </div>
+                                <div>
+                                    <label for="opt-xmax" class="sr-only">X-Axis Maximum</label>
+                                    <input type="number" id="opt-xmax" value="10" step="0.5" placeholder="Max">
+                                </div>
+                                <div>
+                                    <label for="opt-xcross" class="sr-only">X-Axis Crosshair</label>
+                                    <input type="number" id="opt-xcross" value="8" step="0.5" placeholder="Crosshair">
+                                </div>
                             </div>
-                            <div>
-                                <input type="number" id="opt-ymax" value="10" step="0.5" class="text-sm"
-                                    placeholder="Max">
-                            </div>
-                            <div>
-                                <input type="number" id="opt-ycross" value="8.5" step="0.5" class="text-sm"
-                                    placeholder="Crosshair">
+                            <div class="form-grid-3">
+                                <div style="grid-column: span 3; font-size: 0.75rem; color: #9ca3af; font-weight: 500;">
+                                    Y-Axis (Execution)</div>
+                                <div>
+                                    <label for="opt-ymin" class="sr-only">Y-Axis Minimum</label>
+                                    <input type="number" id="opt-ymin" value="7" step="0.5" placeholder="Min">
+                                </div>
+                                <div>
+                                    <label for="opt-ymax" class="sr-only">Y-Axis Maximum</label>
+                                    <input type="number" id="opt-ymax" value="10" step="0.5" placeholder="Max">
+                                </div>
+                                <div>
+                                    <label for="opt-ycross" class="sr-only">Y-Axis Crosshair</label>
+                                    <input type="number" id="opt-ycross" value="8.5" step="0.5" placeholder="Crosshair">
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="mt-2 space-y-2">
-                        <div class="flex items-center gap-2">
-                            <input type="checkbox" id="opt-bg"
-                                class="rounded text-indigo-600 focus:ring-indigo-500 h-4 w-4">
-                            <label for="opt-bg" class="text-sm text-gray-700">Show Background Logo</label>
+                        <div class="mt-4">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" id="opt-bg">
+                                <label for="opt-bg"
+                                    style="margin:0; text-transform:none; font-weight:400; font-size: 0.875rem; color:#374151;">Show
+                                    Background Logo</label>
+                            </div>
+                            <input type="text" id="opt-bg-url" placeholder="https://example.com/logo.png"
+                                class="hidden mt-4"
+                                value="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Brown_Brothers_Harriman_Logo_1.svg/1200px-Brown_Brothers_Harriman_Logo_1.svg.png">
                         </div>
-                        <input type="text" id="opt-bg-url" placeholder="https://example.com/logo.png"
-                            class="text-sm w-full hidden border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                            value="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Brown_Brothers_Harriman_Logo_1.svg/1200px-Brown_Brothers_Harriman_Logo_1.svg.png">
-                    </div>
 
-                    <div class="border-t border-gray-100 pt-3">
-                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Quadrant
-                            Labels</label>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="block text-xs text-gray-400 mb-1">Top Left (High Y, Low X)</label>
-                                <input type="text" id="opt-q2" value="HIGHFLIER" class="text-sm">
-                            </div>
-                            <div>
-                                <label class="block text-xs text-gray-400 mb-1">Top Right (High Y, High X)</label>
-                                <input type="text" id="opt-q1" value="LEADER" class="text-sm">
-                            </div>
-                            <div>
-                                <label class="block text-xs text-gray-400 mb-1">Bottom Left (Low Y, Low X)</label>
-                                <input type="text" id="opt-q3" value="CHALLENGER" class="text-sm">
-                            </div>
-                            <div>
-                                <label class="block text-xs text-gray-400 mb-1">Bottom Right (Low Y, High X)</label>
-                                <input type="text" id="opt-q4" value="OUTPERFORMER" class="text-sm">
+                        <div class="border-top">
+                            <h3 class="mb-2"
+                                style="font-size:0.75rem; color:var(--gray-color); text-transform:uppercase; letter-spacing:0.025em; font-family:var(--font-ui)">
+                                Quadrant Labels</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="opt-q2" class="mb-1" style="color: #9ca3af; text-transform:none;">Top
+                                        Left (High Y, Low X)</label>
+                                    <input type="text" id="opt-q2" value="HIGHFLIER">
+                                </div>
+                                <div class="form-group">
+                                    <label for="opt-q1" class="mb-1" style="color: #9ca3af; text-transform:none;">Top
+                                        Right (High Y, High X)</label>
+                                    <input type="text" id="opt-q1" value="LEADER">
+                                </div>
+                                <div class="form-group">
+                                    <label for="opt-q3" class="mb-1" style="color: #9ca3af; text-transform:none;">Bottom
+                                        Left (Low Y, Low X)</label>
+                                    <input type="text" id="opt-q3" value="CHALLENGER">
+                                </div>
+                                <div class="form-group">
+                                    <label for="opt-q4" class="mb-1" style="color: #9ca3af; text-transform:none;">Bottom
+                                        Right (Low Y, High X)</label>
+                                    <input type="text" id="opt-q4" value="OUTPERFORMER">
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- Data Table Column -->
-            <div class="glass-panel p-6 shadow-xl w-full">
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-xl font-bold text-gray-800">Company Data</h2>
-                    <div class="flex gap-2">
-                        <input type="file" id="csv-input" accept=".csv" class="hidden">
-                        <button onclick="document.getElementById('csv-input').click()"
-                            class="text-xs bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-1 px-3 rounded shadow-sm transition-colors flex items-center gap-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                            </svg>
-                            Import CSV
-                        </button>
-                        <button onclick="exportTableToCSV()"
-                            class="text-xs bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-1 px-3 rounded shadow-sm transition-colors flex items-center gap-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                            </svg>
-                            Export CSV
-                        </button>
+                    <!-- Data Table Column -->
+                    <div class="card w-full">
+                        <div class="data-header">
+                            <h2>Company Data</h2>
+                            <div class="data-actions">
+                                <input type="file" id="csv-input" accept=".csv" class="hidden">
+                                <button onclick="document.getElementById('csv-input').click()" class="btn btn-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon-sm" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                                    </svg>
+                                    Import CSV
+                                </button>
+                                <button onclick="exportTableToCSV()" class="btn btn-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon-sm" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                    </svg>
+                                    Export CSV
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="data-list" id="company-list">
+                            <!-- Items will be injected here -->
+                        </div>
+
+                        <!-- Add New Row Form -->
+                        <div class="border-top">
+                            <h3 class="mb-3"
+                                style="font-size:0.875rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em;">
+                                Add New Company
+                            </h3>
+                            <form id="add-company-form">
+                                <div class="form-group relative">
+                                    <input type="text" id="input-name" placeholder="Company Name" required
+                                        autocomplete="off">
+                                    <div id="autocomplete-list" class="autocomplete-dropdown hidden">
+                                        <!-- Dropdown items -->
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" id="input-logo" placeholder="Company Domain (e.g. circle.com)"
+                                        aria-label="Company Domain">
+                                </div>
+                                <div class="form-row mb-3">
+                                    <div>
+                                        <label for="input-market">Market Strength (0-10)</label>
+                                        <input type="number" id="input-market" placeholder="8.5" step="0.1" min="0"
+                                            max="10" required>
+                                    </div>
+                                    <div>
+                                        <label for="input-execution">Execution Strength (0-10)</label>
+                                        <input type="number" id="input-execution" placeholder="8.5" step="0.1" min="0"
+                                            max="10" required>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon-sm" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 4v16m8-8H4" />
+                                    </svg>
+                                    Add Company
+                                </button>
+                            </form>
+                        </div>
                     </div>
-                </div>
+            </figure>
+            <p>This visualization is a 2x2 matrix, a standard tool used in business analysis to
+                compare companies. It moves beyond simple rankings to provide a more nuanced view of the competitive
+                landscape. The Gartner Magic Quadrant is a well-known example of this type of visualization.</p>
 
-                <div class="overflow-y-auto max-h-[500px] mb-4 space-y-3" id="company-list">
-                    <!-- Items will be injected here -->
-                </div>
-
-                <!-- Add New Row Form -->
-                <div class="pt-4 border-t border-gray-200">
-                    <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">Add New Company</h3>
-                    <form id="add-company-form" class="space-y-3">
-                        <div class="relative">
-                            <input type="text" id="input-name" placeholder="Company Name" required class="text-sm"
-                                autocomplete="off">
-                            <div id="autocomplete-list"
-                                class="absolute z-10 w-full bg-white border border-gray-200 rounded-md shadow-lg mt-1 max-h-48 overflow-y-auto hidden">
-                                <!-- Dropdown items -->
-                            </div>
-                        </div>
-                        <div>
-                            <input type="text" id="input-logo" placeholder="Company Domain (e.g. circle.com)"
-                                class="text-sm">
-                        </div>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="block text-xs text-gray-500 mb-1">Market Strength (0-10)</label>
-                                <input type="number" id="input-market" placeholder="8.5" step="0.1" min="0" max="10"
-                                    required class="text-sm">
-                            </div>
-                            <div>
-                                <label class="block text-xs text-gray-500 mb-1">Execution Strength (0-10)</label>
-                                <input type="number" id="input-execution" placeholder="8.5" step="0.1" min="0" max="10"
-                                    required class="text-sm">
-                            </div>
-                        </div>
-                        <button type="submit"
-                            class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 rounded-md shadow-md transition-colors flex items-center justify-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 4v16m8-8H4" />
-                            </svg>
-                            Add Company
-                        </button>
-                    </form>
-                </div>
-            </div>
-
-        </div>
+            <p>A linear top-10 list often obscures important details. A large company might be ranked highly simply
+                because it is big, even if it is growing slowly or has outdated technology. Conversely, a small company
+                might be innovative and fast-moving, but lack the visibility to appear on a top-ten list.</p>
+            <p>By using two axes, this chart separates a company’s size from its performance:</p>
+            <ul>
+                <li><strong>The X-Axis (Market Strength):</strong> This measures a company&#39;s dominance. It
+                    typically includes factors like market share, brand recognition, and available capital.</li>
+                <li><strong>The Y-Axis (Execution Strength):</strong> This measures a company&#39;s operational
+                    capability.
+                    It looks at how well a company delivers its product, the speed of its updates, and the quality
+                    of its technology.</li>
+            </ul>
+            <h3 id="the-four-quadrants">The Four Quadrants</h3>
+            <p>The intersecting axes create four categories that help to identify different types of business
+                opportunities:</p>
+            <ul>
+                <li><strong>Leaders (Top Right):</strong> These companies combine a large market presence with
+                    strong
+                    operational performance. In this analysis, <strong>Coinbase</strong> and <strong>Ripple</strong>
+                    appear
+                    here, indicating they are both widely used and effectively managed.</li>
+                <li><strong>Highfliers (Top Left):</strong> These are companies with excellent products and
+                    execution,
+                    but
+                    they have not yet achieved mass market adoption. They are often viewed as promising challengers
+                    with
+                    high growth potential.</li>
+                <li><strong>Outperformers (Bottom Right):</strong> These firms have significant market share but
+                    score
+                    lower
+                    on execution. They are often established players that may be relying on their brand name rather
+                    than
+                    innovation.</li>
+                <li><strong>Challengers (Bottom Left):</strong> These companies are currently lagging in both market
+                    share
+                    and execution. They face the most significant hurdles to growth.</li>
+            </ul>
+            <p>The value of this visualization lies in its ability to show potential. While a standard graph shows
+                who
+                is
+                winning today, a 2x2 matrix offers a view of who might win tomorrow. It highlights which small
+                companies
+                are
+                executing well enough to become future leaders, and which large companies may be vulnerable due to
+                poor
+                performance.</p>
+        </article>
     </main>
 
     <script>
@@ -372,8 +838,14 @@
 
         let editingIndex = null; // Track if we are editing
 
+        // Helper: Manual Overrides
+        const customOverrides = {
+            'bbh.com': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Brown_Brothers_Harriman_Logo_1.svg/1200px-Brown_Brothers_Harriman_Logo_1.svg.png',
+            'brownbrothersharriman.com': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Brown_Brothers_Harriman_Logo_1.svg/1200px-Brown_Brothers_Harriman_Logo_1.svg.png'
+        };
+
         // Helper: Get Logo URL Waterfall
-        const getBrandfetchUrl = (domain) => `https://asset.brandfetch.io/${domain}?types=icon&formats=png,svg`;
+        const getBrandfetchUrl = (domain) => `https://corsproxy.io/?url=${encodeURIComponent(`https://asset.brandfetch.io/${domain}?types=icon&formats=png,svg`)}`;
         const getGoogleUrl = (domain) => `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
         const getInitialsUrl = (name) => `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=fff&rounded=true&bold=true`;
 
@@ -386,7 +858,7 @@
             // 2. brandfetch -> Fail
             // 3. clearbit_logo -> Fail
             // 4. google -> Fail
-            // 5. initials
+            // 5. Company initials
 
             if (currentStep === 'provided_logo') {
                 if (domain) {
@@ -398,7 +870,8 @@
                 }
             } else if (currentStep === 'brandfetch') {
                 if (domain) {
-                    img.src = `https://logo.clearbit.com/${domain}`;
+                    // Use Corsproxy for Clearbit too
+                    img.src = `https://corsproxy.io/?url=${encodeURIComponent(`https://logo.clearbit.com/${domain}`)}`;
                     img.dataset.step = 'clearbit_logo';
                 } else {
                     img.src = getInitialsUrl(name);
@@ -413,6 +886,15 @@
                     img.dataset.step = 'initials';
                 }
             } else if (currentStep === 'google') {
+                // Final hail mary: DuckDuckGo
+                if (domain) {
+                    img.src = `https://icons.duckduckgo.com/ip3/${domain}.ico`;
+                    img.dataset.step = 'ddg';
+                } else {
+                    img.src = getInitialsUrl(name);
+                    img.dataset.step = 'initials';
+                }
+            } else if (currentStep === 'ddg') {
                 img.src = getInitialsUrl(name);
                 img.dataset.step = 'initials';
             }
@@ -440,13 +922,17 @@
             companyList.innerHTML = '';
             companies.forEach((company, index) => {
                 const row = document.createElement('div');
-                row.className = 'flex items-center justify-between p-3 bg-white border border-gray-100 rounded-lg shadow-sm hover:shadow-md transition-shadow group';
+                row.className = 'data-item group';
 
                 // Initial Logo Source determination
                 let startSrc = company.logo;
                 let startStep = 'provided_logo';
 
-                if (!startSrc) {
+                // Check overrides first
+                if (company.domain && customOverrides[company.domain.toLowerCase()]) {
+                    startSrc = customOverrides[company.domain.toLowerCase()];
+                    startStep = 'override'; // Special step that shouldn't error often, but if it does, handleLogoError will default to initials
+                } else if (!startSrc) {
                     if (company.domain) {
                         startSrc = getBrandfetchUrl(company.domain);
                         startStep = 'brandfetch';
@@ -457,28 +943,27 @@
                 }
 
                 row.innerHTML = `
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center overflow-hidden border border-gray-200">
+          <div class="data-item-info">
+            <div class="company-avatar">
               <img src="${startSrc}" 
                    alt="${company.name}" 
-                   class="w-full h-full object-contain p-1" 
                    data-step="${startStep}"
                    onload="handleLogoSuccess(this, '${company.name}')"
                    onerror="handleLogoError(this, '${company.domain || ''}', '${company.name}')">
             </div>
-            <div>
-              <p class="font-bold text-gray-800 text-sm">${company.name}</p>
-              <p class="text-xs text-gray-500">M: ${company.market} | E: ${company.execution}</p>
+            <div class="company-details">
+              <p class="name">${company.name}</p>
+              <p class="stats">M: ${company.market} | E: ${company.execution}</p>
             </div>
           </div>
-          <div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-            <button onclick="editCompany(${index})" class="text-gray-400 hover:text-indigo-600 p-1" title="Edit">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div class="item-actions">
+            <button onclick="editCompany(${index})" class="btn btn-ghost btn-icon-only" title="Edit" aria-label="Edit ${company.name}">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon-sm" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                 </svg>
             </button>
-            <button onclick="deleteCompany(${index})" class="text-gray-400 hover:text-red-500 p-1" title="Remove">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <button onclick="deleteCompany(${index})" class="btn btn-ghost btn-icon-only delete-btn" title="Remove" aria-label="Delete ${company.name}">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon-sm" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                 </svg>
             </button>
@@ -499,6 +984,12 @@
             const plot = Plot.plot({
                 width: chartContainer.clientWidth,
                 height: 600,
+                marginTop: 40,
+                marginRight: 40,
+                marginBottom: 60,
+                marginLeft: 80,
+                ariaLabel: "Market Strength vs Execution Strength Heatmap",
+                ariaDescription: "A quadrant chart comparing companies based on their Market Strength (X-axis) and Execution Strength (Y-axis).",
                 // ... (rest of config)
                 x: {
                     domain: [chartConfig.xMin, chartConfig.xMax],
@@ -594,7 +1085,6 @@
         }
 
         // Add / Update Company Logic
-        // Add / Update Company Logic
         addForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = document.getElementById('input-name').value;
@@ -660,15 +1150,15 @@
 
         function resetFormState(originalContent) {
             btnSubmit.innerHTML = originalContent || `
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon-sm" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                         </svg> Add Company`;
             btnSubmit.disabled = false;
 
             // Re-apply correct styles based on mode (Add vs Edit reset)
             if (editingIndex === null) {
-                btnSubmit.classList.remove('bg-green-600', 'hover:bg-green-700');
-                btnSubmit.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+                btnSubmit.classList.remove('btn-success');
+                btnSubmit.classList.add('btn-primary');
             }
         }
 
@@ -683,8 +1173,8 @@
             editingIndex = index;
             titleForm.textContent = "EDIT COMPANY";
             btnSubmit.textContent = "Update Company";
-            btnSubmit.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
-            btnSubmit.classList.add('bg-green-600', 'hover:bg-green-700');
+            btnSubmit.classList.remove('btn-primary');
+            btnSubmit.classList.add('btn-success');
         };
 
         // Delete Company Logic
@@ -696,9 +1186,9 @@
                     addForm.reset();
                     editingIndex = null;
                     titleForm.textContent = "ADD NEW COMPANY";
-                    btnSubmit.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg> Add Company`;
-                    btnSubmit.classList.remove('bg-green-600', 'hover:bg-green-700');
-                    btnSubmit.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+                    btnSubmit.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="icon-sm" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg> Add Company`;
+                    btnSubmit.classList.remove('btn-success');
+                    btnSubmit.classList.add('btn-primary');
                 }
                 renderTable();
                 renderChart();
@@ -746,38 +1236,37 @@
                 const data = await fetchCompanyData(query);
 
                 autocompleteList.innerHTML = '';
+
                 if (data && data.length > 0) {
                     autocompleteList.classList.remove('hidden');
                     data.forEach(company => {
                         const item = document.createElement('div');
 
-                        // Use unified waterfall logic
-                        let startSrc = company.logo;
-                        let startStep = 'provided_logo';
+                        // Use Initials as immediate placeholder
+                        const initialsUrl = getInitialsUrl(company.name);
 
-                        if (!startSrc) {
-                            if (company.domain) {
-                                startSrc = getBrandfetchUrl(company.domain);
-                                startStep = 'brandfetch';
-                            } else {
-                                startSrc = getInitialsUrl(company.name);
-                                startStep = 'initials';
-                            }
-                        }
-
-                        item.className = 'flex items-center gap-3 p-2 hover:bg-gray-50 cursor-pointer transition-colors border-b border-gray-50 last:border-0';
+                        item.className = 'autocomplete-item';
                         item.innerHTML = `
-                            <div class="w-6 h-6 flex-shrink-0 bg-white rounded-full border border-gray-100 flex items-center justify-center p-0.5 overflow-hidden">
-                                <img src="${startSrc}" 
+                            <div class="company-avatar" style="width:1.5rem; height:1.5rem; min-width:1.5rem; border-radius: 0.25rem;">
+                                <img src="${initialsUrl}" 
                                    class="w-full h-full object-contain" 
-                                   data-step="${startStep}"
-                                   onerror="handleLogoError(this, '${company.domain || ''}', '${company.name}')">
+                                   id="logo-${company.domain || company.name.replace(/\s/g, '')}"
+                                   alt="${company.name}">
                             </div>
-                            <span class="text-xs font-medium text-gray-700">${company.name}</span>
+                            <div class="autocomplete-name">${company.name}</div>
                         `;
+
+                        // Silently hunt for a better logo in background
+                        findBestLogoUrl(company.domain, company.logo).then(betterLogo => {
+                            if (betterLogo) {
+                                const img = item.querySelector('img');
+                                if (img) img.src = betterLogo;
+                            }
+                        });
+
                         item.addEventListener('click', () => {
                             inputName.value = company.name;
-                            inputLogo.value = company.domain; // Populate DOMAIN
+                            inputLogo.value = company.domain;
                             autocompleteList.classList.add('hidden');
                         });
                         autocompleteList.appendChild(item);
@@ -787,6 +1276,59 @@
                 }
             }, 300); // 300ms debounce
         });
+
+        // Helper: Silently check if a logo exists (Prevent Console 404s)
+        async function findBestLogoUrl(domain, providedUrl) {
+
+
+            if (domain && customOverrides[domain.toLowerCase()]) {
+                return customOverrides[domain.toLowerCase()];
+            }
+
+            // Helper to check a single URL via Image object
+            const check = (targetUrl) => {
+                return new Promise(resolve => {
+                    const img = new Image();
+                    img.onload = () => resolve(targetUrl);
+                    img.onerror = () => resolve(null);
+                    img.src = targetUrl;
+                });
+            };
+
+            // 1. Try provided URL (from Clearbit API) via Proxy
+            // Using corsproxy.io as Weserv is being blocked by upstream providers
+            if (providedUrl) {
+                const safeProvided = providedUrl.startsWith('http') ? providedUrl : `https://${providedUrl}`;
+                const proxyUrl = `https://corsproxy.io/?url=${encodeURIComponent(safeProvided)}`;
+                if (await check(proxyUrl)) return proxyUrl;
+            }
+
+            if (!domain) return null;
+
+            // 2. Try Brandfetch via Proxy
+            // Brandfetch often has high quality vector-like PNGs
+            const brandfetchUrl = `https://asset.brandfetch.io/${domain}?types=icon&formats=png,svg`;
+            const bfProxy = `https://corsproxy.io/?url=${encodeURIComponent(brandfetchUrl)}`;
+            if (await check(bfProxy)) return bfProxy;
+
+            // 3. Try Clearbit via Proxy
+            const clearbitUrl = `https://logo.clearbit.com/${domain}`;
+            const cbProxy = `https://corsproxy.io/?url=${encodeURIComponent(clearbitUrl)}`;
+            if (await check(cbProxy)) return cbProxy;
+
+            // 4. Fallback: Google Favicons (Very reliable, rarely blocked, good for small icons)
+            // Requesting large size (128) to get best available quality
+            const googleUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+            // Google usually returns a default globe icon on failure, so we accept it as better than nothing,
+            // or we could check its dimensions. For now, let's try it as a last resort.
+            if (await check(googleUrl)) return googleUrl;
+
+            // 5. Fallback: DuckDuckGo Icons (Alternative coverage)
+            const ddgUrl = `https://icons.duckduckgo.com/ip3/${domain}.ico`;
+            if (await check(ddgUrl)) return ddgUrl;
+
+            return null;
+        }
 
         // Close dropdown when clicking outside
         document.addEventListener('click', (e) => {
@@ -807,76 +1349,82 @@
 
             // Helper: Fetch image via proxy and convert to Base64
             const toBase64 = async (url) => {
-                if (url.startsWith('data:')) return url; // Already base64
-                // Use corsproxy.io to bypass CORS
-                const proxyUrl = `https://corsproxy.io/?url=${encodeURIComponent(url)}`;
-                try {
-                    const response = await fetch(proxyUrl);
-                    if (!response.ok) throw new Error('Network response was not ok');
-                    const blob = await response.blob();
-                    return new Promise((resolve, reject) => {
-                        const reader = new FileReader();
-                        reader.onloadend = () => resolve(reader.result);
-                        reader.onerror = reject;
-                        reader.readAsDataURL(blob);
-                    });
-                } catch (e) {
-                    console.warn('Failed to convert image to base64:', url, e);
-                    return null; // Keep original or empty on failure
+                if (!url || url.startsWith('data:')) return url;
+
+                const needsProxy = /google\.com|clearbit\.com/.test(url);
+                const attempts = [];
+
+                if (!needsProxy) attempts.push({ url, name: 'Direct' });
+                // Proxies
+                const noProto = url.replace(/^https?:\/\//, '');
+                attempts.push({ url: `https://images.weserv.nl/?url=${encodeURIComponent(noProto)}&output=png`, name: 'Weserv' });
+                attempts.push({ url: `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`, name: 'AllOrigins' });
+
+                for (const attempt of attempts) {
+                    try {
+                        const response = await fetch(attempt.url);
+                        if (!response.ok) throw new Error('Response not ok');
+                        const blob = await response.blob();
+                        return await new Promise((resolve, reject) => {
+                            const reader = new FileReader();
+                            reader.onloadend = () => resolve(reader.result);
+                            reader.onerror = reject;
+                            reader.readAsDataURL(blob);
+                        });
+                    } catch (e) { /* continue */ }
                 }
+                return null;
             };
 
             try {
                 const rect = originalNode.getBoundingClientRect();
                 const clonedNode = originalNode.cloneNode(true);
 
-                // Ensure the clone has the same dimensions/layout context
-                clonedNode.style.width = `${rect.width}px`;
-                clonedNode.style.height = `${rect.height}px`;
-                clonedNode.style.position = 'fixed'; // Use fixed to avoid affecting document flow
-                clonedNode.style.left = '-9999px'; // Move off-screen to hide from user
-                clonedNode.style.top = '0';
-                clonedNode.style.zIndex = '-9999';
-                clonedNode.style.backgroundColor = '#ffffff'; // Force white background on the node itself
-                // clonedNode.style.visibility = 'hidden'; // REMOVED: Caused blank export in some browsers/versions
+                // Invisible Overlay Strategy
+                Object.assign(clonedNode.style, {
+                    width: `${rect.width}px`,
+                    height: `${rect.height}px`,
+                    position: 'fixed',
+                    left: '0',
+                    top: '0',
+                    zIndex: '-9999',
+                    opacity: '0', // Completely hidden from user
+                    margin: '0',
+                    pointerEvents: 'none'
+                });
 
                 document.body.appendChild(clonedNode);
 
-                // 2. Find all images in the clone and convert to Base64
+                // Convert images to Base64
                 const images = clonedNode.querySelectorAll('image, img');
-                const diffs = [];
-
-                for (let img of images) {
-                    const src = img.tagName === 'image' ? img.getAttribute('href') : img.getAttribute('src');
+                const diffs = Array.from(images).map(async (img) => {
+                    let src = img.tagName === 'image' ? (img.getAttribute('href') || img.getAttribute('xlink:href')) : img.getAttribute('src');
                     if (src && (src.startsWith('http') || src.startsWith('//'))) {
-                        diffs.push((async () => {
-                            const base64 = await toBase64(src);
-                            if (base64) {
-                                if (img.tagName === 'image') img.setAttribute('href', base64);
-                                else img.setAttribute('src', base64);
+                        const base64 = await toBase64(src);
+                        if (base64) {
+                            if (img.tagName === 'image') {
+                                img.setAttribute('href', base64);
+                                if (img.hasAttribute('xlink:href')) img.setAttribute('xlink:href', base64);
                             } else {
-                                // If failed, remove it so html-to-image doesn't fail on the remote URL
-                                img.remove();
+                                img.setAttribute('src', base64);
                             }
-                        })());
+                        }
                     }
-                }
+                });
 
-                // Wait for all image conversions
                 await Promise.all(diffs);
+                await new Promise(resolve => setTimeout(resolve, 100)); // Paint delay
 
-                // 3. Render the modified clone
                 const dataUrl = await htmlToImage.toPng(clonedNode, {
                     backgroundColor: '#ffffff',
                     pixelRatio: 2,
-                    skipFonts: true, // Still skip fonts to be safe
-                    filter: (node) => node.tagName !== 'BUTTON' // Exclude button (though it's cloned)
+                    skipFonts: true,
+                    filter: (node) => node.tagName !== 'BUTTON',
+                    style: { opacity: '1' } // Force visible capture
                 });
 
-                // Cleanup
                 document.body.removeChild(clonedNode);
 
-                // 4. Download
                 const link = document.createElement('a');
                 link.download = `market-heatmap-${new Date().toISOString().slice(0, 10)}.png`;
                 link.href = dataUrl;
@@ -886,9 +1434,11 @@
 
             } catch (error) {
                 console.error('Export failed:', error);
-                alert('Failed to export chart image. ' + error.message);
+                alert('Failed to export chart image.');
             }
         };
+
+
 
         // CSV Export Logic
         window.exportTableToCSV = () => {
@@ -943,9 +1493,6 @@
             }
 
             // Simple CSV parser assuming "header1,header2" format
-            // NOTE: A robust parser would handle commas inside quotes.
-            // For this simple use case, we will assume standard CSVs or use a basic regex split if needed.
-            // Let's try to detect headers.
             const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/^"|"$/g, ''));
 
             const nameIdx = headers.indexOf('name');
@@ -959,14 +1506,13 @@
             }
 
             let addedCount = 0;
+            let skippedCount = 0;
+
             for (let i = 1; i < lines.length; i++) {
-                // Handle basic comma split, respecting quotes is harder without a lib, 
-                // but we can try a regex split or just split by comma if we assume simple data.
-                // Regex for splitting by comma but ignoring commas within quotes:
-                const row = lines[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
-                // Fallback for simple split if regex misses (e.g. empty fields)
-                // A safer simple approach for now:
-                const cols = lines[i].split(',').map(c => c.trim().replace(/^"|"$/g, ''));
+                // Regex for splitting by comma but ignoring commas within quotes
+                const rowMatch = lines[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
+                // Fallback splitting if match fails
+                const cols = rowMatch ? rowMatch.map(c => c.trim().replace(/^"|"$/g, '')) : lines[i].split(',').map(c => c.trim().replace(/^"|"$/g, ''));
 
                 if (cols.length < headers.length) continue;
 
@@ -976,14 +1522,20 @@
                 const execution = parseFloat(cols[execIdx]);
 
                 if (name && !isNaN(market) && !isNaN(execution)) {
-                    // Check if exists? Optional. Let's just add for now or update?
-                    // Let's push to array.
+                    // Check for duplicates
+                    const exists = companies.some(c => c.name.toLowerCase() === name.toLowerCase());
+                    if (exists) {
+                        skippedCount++;
+                        continue;
+                    }
+
                     companies.push({
                         name,
                         domain,
                         market,
                         execution,
-                        logo: domain ? getBrandfetchUrl(domain) : `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random`
+                        // Set logo to null to trigger renderTable auto-discovery (Overrides -> Proxy -> Fallback)
+                        logo: null
                     });
                     addedCount++;
                 }
@@ -992,7 +1544,9 @@
             if (addedCount > 0) {
                 renderTable();
                 renderChart();
-                alert(`Successfully imported ${addedCount} companies.`);
+                alert(`Successfully imported ${addedCount} companies.${skippedCount > 0 ? ` Skipped ${skippedCount} duplicates.` : ''}`);
+            } else if (skippedCount > 0) {
+                alert(`No new companies imported. Skipped ${skippedCount} duplicates.`);
             } else {
                 alert('No valid companies found to import.');
             }
@@ -1047,7 +1601,9 @@
         // Init
         renderTable();
         renderChart();
+
     </script>
+
 </body>
 
 </html>
