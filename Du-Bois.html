@@ -320,9 +320,9 @@
       var proportionOptions = {
         width: width,
         height: 500,
-        marginTop: 100, // Increased for titles
+        marginTop: 10,
         marginRight: 20,
-        marginBottom: 30,
+        marginBottom: 0,
         marginLeft: 40,
         style: {
           fontSize: 12,
@@ -334,8 +334,9 @@
           label: null,
           tickFormat: d => d.toString(),
           ticks: [1790, 1800, 1810, 1820, 1830, 1840, 1850, 1860, 1870],
-          grid: false, // Manual grid lines for better control
-          inset: 0, // Ensure chart starts flush at the edge
+          tickSize: 0,
+          grid: false,
+          inset: 0,
           domain: [1790, 1870]
         },
         y: {
@@ -349,11 +350,12 @@
             text: "text",
             frameAnchor: "top",
             dy: -70,
+            lineHeight: .4,
             fontSize: 14,
             fontWeight: "bold",
             fontFamily: "Courier New, monospace"
           }),
-          Plot.text([{ text: "PROPORTION DES NÈGRES LIBRES ET DES ESCLAVES EN AMERIQUE ." }], {
+          Plot.text([{ text: "PROPORTION DES NÈGRES LIBRES ET DES ESCLAVES EN AMÉRIQUE ." }], {
             text: "text",
             frameAnchor: "top",
             dy: -50,
@@ -365,7 +367,7 @@
             frameAnchor: "top",
             dy: -30,
             fontSize: 10,
-            fill: "#333", // Darker text on green/paper? 
+            fill: "#333",
             fontFamily: "Courier New, monospace"
           }),
 
@@ -375,6 +377,14 @@
             fill: "#00aa00"
           }),
 
+          // Black Area for Slaves (on top of green)
+          Plot.areaY(proportionData, {
+            x: "year",
+            y: "slaves",
+            fill: "black",
+            curve: "linear"
+          }),
+
           // Grid Lines (Black vertical rules)
           Plot.ruleX([1790, 1800, 1810, 1820, 1830, 1840, 1850, 1860, 1870], {
             stroke: "black",
@@ -382,19 +392,11 @@
             strokeOpacity: 0.3
           }),
 
-          // Black Area for Slaves (on top of green)
-          Plot.areaY(proportionData, {
-            x: "year",
-            y: "slaves",
-            fill: "black",
-            curve: "linear" // Sharp lines between decades matches visual better than smooth curve
-          }),
-
           // Labels (Percentages) - Manual placement based on data
           Plot.text(proportionData, {
             x: "year",
-            y: "slaves", // Position at the boundary
-            text: d => d.year === 1870 ? "100%" : d.free + "%", // 1870 is 100% Free
+            y: "slaves",
+            text: d => d.year === 1870 ? "100%" : d.free + "%",
             dy: -15, // Just above the boundary (in the Green area)
             fill: "black",
             fontSize: 12,
@@ -402,22 +404,32 @@
           }),
 
           // "FREE - LIBRE" Label
-          Plot.text([{ year: 1830, value: 90 }], {
+          Plot.text([{ year: 1830, value: 95 }], {
             x: "year",
             y: "value",
-            text: _ => "FREE - LIBRE",
+            text: _ => "FREE — LIBRE",
             fill: "black",
-            fontSize: 16,
+            fontSize: 24,
             fontFamily: "Courier New, monospace",
             fontWeight: "bold"
           }),
-          // "SLAVES ESCLAVES" Label
-          Plot.text([{ year: 1830, value: 50 }], {
+          // "SLAVES" Label
+          Plot.text([{ year: 1830, value: 60 }], {
             x: "year",
             y: "value",
-            text: _ => "SLAVES\nESCLAVES",
-            fill: "#faeed4", // Paper color for contrast
-            fontSize: 16,
+            text: _ => "SLAVES",
+            fill: "#faeed4", // Paper color for contrast against black
+            fontSize: 42,
+            fontFamily: "Courier New, monospace",
+            fontWeight: "bold"
+          }),
+          // "ESCLAVES" Label
+          Plot.text([{ year: 1830, value: 50 }], { // Slightly below 60
+            x: "year",
+            y: "value",
+            text: _ => "ESCLAVES",
+            fill: "#faeed4",
+            fontSize: 42,
             fontFamily: "Courier New, monospace",
             fontWeight: "bold"
           })
