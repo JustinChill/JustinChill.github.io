@@ -46,25 +46,284 @@
     document.documentElement.classList.remove('no-js');
     document.documentElement.classList.add('js');
   </script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style type="text/css">
-    article>figure,
-    article>figcaption {
+    .tracker-wrapper {
+      --golf-orange: #fe4e1d;
+      --golf-amber: #f5a623;
+      --golf-light: #e8e8e8;
+      --golf-black: #111;
+      --golf-gray: #555;
+      --golf-border: #ddd;
+      --golf-mono: 'DM Mono', monospace;
+      
+      /* property colors */
+      --c-fl:  #fde8e0;   /* Florida */
+      --c-dc:  #e3eaf4;   /* DC area */
+      --c-nj:  #fdf7e3;   /* NJ/NY */
+      --c-wst: #e4f3e4;   /* West */
+      --c-ovs: #ece5f5;   /* Overseas */
+
       grid-column: 2/7;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
     }
 
-    figcaption {
-      margin-bottom: 0;
-      font-size: calc(8px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
-      text-align: right;
+    .tracker-wrapper button {
+      font-family: var(--golf-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.85rem;
+      cursor: pointer;
+      border-radius: 3px;
+      transition: background-color 0.2s, border-color 0.2s, color 0.2s;
     }
 
-    figcaption#cal_legend {
+    /* ── STATS STRIP ── */
+    .tracker-wrapper .stats-strip {
+      padding: 2rem 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1.5rem;
+      border-bottom: 1px solid var(--golf-border);
+      margin-bottom: 2rem;
+    }
+    .tracker-wrapper .stat .num {
+      font-family: var(--golf-mono);
+      font-size: 2.4rem;
+      font-weight: 500;
+      color: var(--golf-orange);
+      line-height: 1;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+    .tracker-wrapper .stat .label-sm {
+      font-family: var(--golf-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--golf-gray);
+    }
+    .tracker-wrapper .stat .sub {
+      font-family: var(--golf-mono);
+      font-size: 0.72rem;
+      color: #999;
+      display: block;
+      margin-top: 0.15rem;
+    }
+
+    /* ── SECTION LABELS ── */
+    .tracker-wrapper .section-heading {
+      font-family: var(--golf-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--golf-gray);
+      margin-bottom: 1.25rem;
+      margin-top: 3rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--golf-border);
+    }
+    .tracker-wrapper .section-heading:first-child { margin-top: 0; }
+
+    /* ── LEGEND ── */
+    .tracker-wrapper .legend {
       display: flex;
-      flex-direction: row-reverse;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.5rem;
+      margin-bottom: 1.5rem;
+      font-family: var(--golf-mono);
+      font-size: 0.72rem;
+      color: var(--golf-gray);
+    }
+    .tracker-wrapper .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .tracker-wrapper .legend-swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 2px;
+      border: 1px solid rgba(0,0,0,0.1);
+      flex-shrink: 0;
+    }
+    .tracker-wrapper .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--golf-orange);
+      flex-shrink: 0;
+    }
+    .tracker-wrapper .legend-swatch.fl  { background: var(--c-fl); }
+    .tracker-wrapper .legend-swatch.dc  { background: var(--c-dc); }
+    .tracker-wrapper .legend-swatch.nj  { background: var(--c-nj); }
+    .tracker-wrapper .legend-swatch.wst { background: var(--c-wst); }
+    .tracker-wrapper .legend-swatch.ovs { background: var(--c-ovs); }
+    .tracker-wrapper .legend-swatch.none { background: #fff; }
+
+    /* ── CALENDAR ── */
+    .tracker-wrapper .calendar-wrap {
+      overflow-x: auto;
+      margin-bottom: 2rem;
+    }
+    .tracker-wrapper .calendar {
+      display: grid;
+      grid-template-columns: 3.5rem repeat(16, 1fr);
+      gap: 2px;
+      min-width: 560px;
+    }
+    .tracker-wrapper .cal-month-label {
+      font-family: var(--golf-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--golf-gray);
+      display: flex;
+      align-items: center;
+      padding-right: 0.5rem;
+      grid-column: 1;
+    }
+    .tracker-wrapper .cal-cell {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 2px;
+      background: #f9f9f9;
+      border: 1px solid var(--golf-border);
+      cursor: default;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.1s;
+    }
+    .tracker-wrapper .cal-cell.weekend { border-radius: 5px; }
+    .tracker-wrapper .cal-cell.future { background: #fff; opacity: 0.35; }
+    .tracker-wrapper .cal-cell.fl  { background: var(--c-fl); border-color: #f4c3b0; }
+    .tracker-wrapper .cal-cell.dc  { background: var(--c-dc); border-color: #b8cce8; }
+    .tracker-wrapper .cal-cell.nj  { background: var(--c-nj); border-color: #f0e0a0; }
+    .tracker-wrapper .cal-cell.wst { background: var(--c-wst); border-color: #aad8aa; }
+    .tracker-wrapper .cal-cell.ovs { background: var(--c-ovs); border-color: #c8b4e8; }
+    .tracker-wrapper .cal-cell.ooc { outline: 2px dashed #999; outline-offset: -2px; }
+
+    .tracker-wrapper .cal-dot {
+      position: absolute;
+      bottom: 3px;
+      right: 3px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--golf-orange);
+    }
+    .tracker-wrapper .cal-day-num {
+      font-family: var(--golf-mono);
+      font-size: 0.52rem;
+      color: rgba(0,0,0,0.35);
+      position: absolute;
+      top: 2px;
+      left: 3px;
     }
 
-    .plot text {
-      pointer-events: none
+    /* Tooltip */
+    .tracker-wrapper .cal-cell:hover::after {
+      content: attr(data-tip);
+      position: absolute;
+      bottom: calc(100% + 5px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--golf-black);
+      color: #fff;
+      font-family: var(--golf-mono);
+      font-size: 0.65rem;
+      padding: 0.3rem 0.55rem;
+      border-radius: 3px;
+      white-space: nowrap;
+      z-index: 50;
+      pointer-events: none;
+    }
+    .tracker-wrapper .cal-cell:hover { z-index: 10; }
+
+    /* ── DONUT CHARTS ── */
+    .tracker-wrapper .donuts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 1rem;
+    }
+    .tracker-wrapper .donut-wrap { text-align: center; }
+    .tracker-wrapper .donut-title {
+      font-family: var(--golf-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--golf-gray);
+      margin-bottom: 1rem;
+    }
+    .tracker-wrapper .donut-chart-container {
+      position: relative;
+      display: inline-block;
+    }
+    .tracker-wrapper .donut-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+    .tracker-wrapper .donut-center .pct {
+      font-family: var(--golf-mono);
+      font-size: 1.6rem;
+      font-weight: 500;
+      color: var(--golf-black);
+      line-height: 1;
+    }
+    .tracker-wrapper .donut-center .pct-label {
+      font-family: var(--golf-mono);
+      font-size: 0.6rem;
+      color: var(--golf-gray);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .tracker-wrapper .donut-legend {
+      display: inline-flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      margin-top: 1rem;
+      align-items: flex-start;
+    }
+    .tracker-wrapper .donut-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--golf-mono);
+      font-size: 0.68rem;
+      color: var(--golf-gray);
+    }
+    .tracker-wrapper .donut-legend-swatch {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    /* ── NOTE ── */
+    .tracker-wrapper .note {
+      font-family: var(--golf-mono);
+      font-size: 0.7rem;
+      color: #aaa;
+      margin-top: 3rem;
+      line-height: 1.6;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--golf-border);
+    }
+    .tracker-wrapper .note a {
+      color: #aaa;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      .tracker-wrapper .donuts { grid-template-columns: 1fr; }
+      .tracker-wrapper .stats-strip { grid-template-columns: 1fr 1fr; }
     }
   </style>
 
@@ -123,17 +382,40 @@
         <h2 class="article-subtitle">150+ outings since inauguration</h2>
       </div>
 
-      <figcaption id="cal_legend"></figcaption>
-      <figure id="golf_cal" aria-label="Calendar heatmap of President Trump's golf outings"></figure>
-      <figcaption>Data: <a href="https://trumpgolfcount.com">Trump Golf Count</a></figcaption>
+      <div class="tracker-wrapper">
+        <p style="margin-bottom:1.5rem;">Below is a day-by-day tracker of President Trump's visits to his properties and golf outings since his second inauguration on January 20, 2025. Data is sourced from public reports, press pool accounts, and social media.</p>
+        <p style="margin-bottom:2rem;">"<i>I'm going to be working for you. I'm not going to have time to go play golf.</i>" --Donald J. Trump, August, 2016</p>
 
-      <p>According to the website <a href="https://trumpgolfcount.com/displayoutings">Trump Golf Count</a>, President
-        Trump has played 298 rounds of golf during his four years as president. Estimated cost to taxpayers:
-        $149,000,000<a href="#est" aria-describedby="footnote-label" id="est-ref"></a>.</p>
-      <p>"<i>I'm going to be working for you. I'm not going to have time to go play golf.</i>" --Donald J. Trump,
-        August, 2016</p>
-      <img src="https://didtrumpgolftoday.com/assets/background.png" alt="Trump Golfing" loading="lazy"
-        title="Trump Golfing">
+        <div style="display:flex; gap:0.5rem; margin-bottom:1.5rem;">
+          <button id="btn-t2" onclick="setTerm('t2')" style="border:1px solid #fe4e1d; background:#fe4e1d; color:#fff;">2nd term</button>
+          <button id="btn-both" onclick="setTerm('both')" style="border:1px solid #ddd; background:#fff; color:#555;">Both terms</button>
+        </div>
+
+        <div class="stats-strip" id="stats-strip">
+          <!-- Filled dynamically by JavaScript -->
+        </div>
+
+        <div id="compare-section" style="display:none; border-top:1px solid #ddd; padding-top:1.5rem; margin-bottom:2rem;">
+          <p style="font-family:var(--golf-mono); font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--golf-gray); margin-bottom:1rem;">Cumulative golf rounds: Trump vs. Obama</p>
+          <div id="golf-chart-wrap"></div>
+          <div style="display:flex; gap:1.5rem; margin-top:0.75rem; flex-wrap:wrap;">
+            <div style="display:flex; align-items:center; gap:0.4rem; font-family:var(--golf-mono); font-size:0.68rem; color:var(--golf-gray);">
+              <span style="display:inline-block; width:24px; height:2px; background:#fe4e1d; vertical-align:middle;"></span> Trump (1st term)
+            </div>
+            <div style="display:flex; align-items:center; gap:0.4rem; font-family:var(--golf-mono); font-size:0.68rem; color:var(--golf-gray);">
+              <span style="display:inline-block; width:24px; height:2px; background:#fe4e1d; opacity:.4; vertical-align:middle;"></span> Trump (2nd term, to date)
+            </div>
+            <div style="display:flex; align-items:center; gap:0.4rem; font-family:var(--golf-mono); font-size:0.68rem; color:var(--golf-gray);">
+              <span style="display:inline-block; width:24px; border-top:2px dashed #888;"></span> Obama (333 rounds, 8 years)
+            </div>
+          </div>
+        </div>
+
+        <div id="tracker-main">
+          <p class="status" style="font-family:var(--golf-mono); font-size:0.8rem; color:var(--golf-gray); padding:2rem 0;">Loading tracker data…</p>
+        </div>
+      </div>
+      <img src="https://didtrumpgolftoday.com/assets/background.png" alt="Trump Golfing" loading="lazy" title="Trump Golfing" style="margin-top: 2rem; width: 100%;">
     </article>
   </main>
   <footer>
@@ -142,7 +424,6 @@
       <li id="est">Cost model for calculating the estimated cost to US tax payers <a
           href="https://trumpgolfcount.com/displaygaoreportcomment">here</a> <a href="#est-ref"
           aria-label="Back to content">↩</a></li>
-
     </ol>
     <div>
       <p>Justin Chill &copy; 2026</p>
@@ -150,313 +431,414 @@
             alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
-  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 
   <script type="text/javascript">
-    // Use Promises to async request data
-    var promises = [d3.csv("data/trumpgolfcountoutings_100821.csv", d3.autoType)];
-    var element = d3.select('figure').node();
-    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+    // First-term totals from pbump.net firstTermGolf/firstTermDays arrays
+    const T1 = { days: 1462, visits: 425, golf: 259 };
 
-    // You can request multiple srcs in a promise
-    myDataPromises = Promise.all(promises);
+    const START_DATE = new Date(2025, 0, 20);
 
-    // Calendar component
-    Calendar = new function () {
-      // default accessors
-      function valueAccessor(d) {
-        return typeof d === "object" && ("value" in d ? d.value : d[1]);
-      }
-
-      function dateAccessor(d) {
-        return typeof d === "object" && ("date" in d ? d.date : d[0]);
-      }
-
-      // https://github.com/d3/d3-time/blob/main/src/utcWeek.js#L4-L13
-      function utcWeekday(i) {
-        return d3.timeInterval(
-          (date) => {
-            date.setUTCDate(date.getUTCDate() - ((date.getUTCDay() + 7 - i) % 7));
-            date.setUTCHours(0, 0, 0, 0);
-          },
-          (date, step) => date.setUTCDate(date.getUTCDate() + step * 7),
-          (start, end) => (end - start) / 604800000 // durationWeek;
-        );
-      }
-
-      return function (
-        data = [], {
-          date = dateAccessor,
-          value = valueAccessor,
-          reduce = (d) => d[0],
-          width = 726,
-          gap = 0.15,
-          color,
-          fill = value || "steelblue",
-          textFill = "white",
-          title,
-          colors = {
-            base: "#eee",
-            today: "red"
-          },
-          weekStart = 0, // 1 for Monday-based weeks.
-          daysToShow = d3.range(7).map((d) => (d + +weekStart) % 7),
-          weekNumber,
-          locale = "en-US",
-          weekNumberFormat = +weekStart === 0 ? "%U" : "%W",
-          dayFormat = (d) =>
-            d.toLocaleString(locale, {
-              weekday: "narrow",
-              timeZone: "UTC"
-            }),
-          monthFormat = (d) =>
-            d.toLocaleString(locale, {
-              month: "short",
-              timeZone: "UTC"
-            }),
-          yearFormat = (d) =>
-            d.toLocaleString(locale, {
-              year: "numeric",
-              timeZone: "UTC"
-            }),
-        } = {}
-      ) {
-        // rollup the data into days
-        data = Array.from(data, (d) => (typeof d === "string" ? [d, ""] : d));
-        const dates = Plot.valueof(data, date);
-        const marked = d3.rollup(data, reduce, (d, i) =>
-          dates[i] instanceof Date ? dates[i] : d3.isoParse(dates[i])
-        );
-        const days = [...marked.keys()].filter((d) => !isNaN(d.getTime())); // filter out invalid dates
-        if (days.length === 0) days.push(new Date());
-        const e = d3.extent(days);
-
-        // responsive
-        const W = width < 726 ? "H" : "Y";
-
-        // sort all days, with days containing information put at the beginning of the
-        // array (so we can pass channels as arrays, e.g. fill: [1, 2, 3] for three events)
-        let fullExtent = [d3.utcYear.floor(e[0]), d3.utcYear.ceil(e[1])];
-        // filter out empty semesters
-        if (W === "H") {
-          if (e[0].getUTCMonth() >= 6)
-            fullExtent[0] = d3.utcMonth.offset(fullExtent[0], 6);
-          if (e[1].getUTCMonth() < 6)
-            fullExtent[1] = d3.utcMonth.offset(fullExtent[1], -6);
-        }
-        const alldays = new Set([...days, ...d3.utcDays(...fullExtent)]);
-
-        // copy the rolled-up data into the days array
-        data = Array.from(alldays, (date) => ({
-          date,
-          ...(marked.has(date) ? {
-            ...marked.get(date),
-            date,
-            foreground: true
-          } : {
-            background: true
-          })
-        }));
-
-        // weekStart and weekNumber
-        const utcWeek = utcWeekday((weekStart = +weekStart));
-        if (typeof weekNumberFormat === "string")
-          weekNumberFormat = d3.utcFormat(weekNumberFormat);
-        if (![0, 1].includes(weekStart))
-          throw new Error("unsupported weekStart value");
-
-        const weekX =
-          W === "H" ?
-            (d) =>
-              +utcWeek.count(d3.utcYear(d), d) -
-              26.2 * (d.getUTCMonth() >= 6) +
-              gap * d.getUTCMonth() :
-            (d) => +utcWeek.count(d3.utcYear(d), d) + gap * +d.getUTCMonth();
-        const height =
-          (d3.utcMonths(...d3.extent(alldays)).length / 12) *
-          (daysToShow.length + 2) *
-          17 *
-          (W === "H" ? 2 : 1);
-
-        // We want the UTC date that corresponds to our local calendar date
-        const now = new Date();
-        const today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
-
-        // formats
-        if (typeof dayFormat !== "function") dayFormat = d3.utcFormat(dayFormat);
-        if (typeof monthFormat !== "function")
-          monthFormat = d3.utcFormat(monthFormat);
-
-        // positions
-        const barOptions = {
-          x1: (d) => -0.45 + weekX(d.date),
-          x2: (d) => 0.5 + weekX(d.date),
-          y: (d) => d.date.getUTCDay(),
-          insetBottom: 1
-        };
-        const textOptions = {
-          x: (d) => weekX(d.date),
-          y: (d) => d.date.getUTCDay(),
-          text: (d) => d.date.getUTCDate(),
-          fontSize: 8
-        };
-
-        // default title
-        if (title === undefined) {
-          const values = Plot.valueof(data, value);
-          const format = d3.format("~f");
-          const formatValue = (d) => (typeof d === "number" ? format(d) : d);
-          title = Plot.valueof(data, (d, i) =>
-            d.foreground ?
-              `${new Intl.DateTimeFormat(locale, { timeZone: "UTC" }).format(
-                d.date
-              )}: ${formatValue(values[i])}` :
-              undefined
-          );
-        }
-
-        const p = Plot.plot({
-          width,
-          marginTop: 0,
-          marginBottom: 0,
-          marginLeft: W === "H" ? 70 : 40,
-          height,
-          facet: {
-            data,
-            y: W === "H" ?
-              (d) =>
-                `${d.date.getUTCFullYear()} H${d.date.getUTCMonth() < 6 ? "1" : "2"
-                }` : (d) => d.date.getUTCFullYear()
-          },
-          y: {
-            // -2/-1 is for the legend/week number, 0=Sun, 1=Mon… 6=Sat
-            domain: weekNumber ? [-2, -1, ...daysToShow] : [-1, ...daysToShow],
-            tickFormat: (day) =>
-              day < 0 ? "" : dayFormat(d3.isoParse(`2000-02-2${day}`)),
-            tickSize: 0
-          },
-          x: {
-            axis: null
-          },
-          fy: {
-            reverse: true,
-            axis: null
-          },
-          color,
-          marks: [
-            // cells
-            [
-              colors.base &&
-              Plot.barX(data, {
-                filter: "background",
-                ...barOptions,
-                fill: colors.base
-              }),
-              Plot.barX(data, {
-                filter: "foreground",
-                ...barOptions,
-                fill,
-                title
-              }),
-              colors.today &&
-              Plot.barX(data, {
-                filter: (d) => +d.date === +today,
-                ...barOptions,
-                fill: "none",
-                stroke: colors.today
-              })
-            ],
-
-            // labels
-            [
-              Plot.text(data, {
-                filter: "background",
-                ...textOptions,
-                fill: "black"
-              }),
-              Plot.text(data, {
-                filter: "foreground",
-                ...textOptions,
-                fill: textFill
-              })
-            ],
-
-            // years and months
-            [
-              Plot.text(
-                data,
-                Plot.selectFirst({
-                  filter: (d) => d.date.getUTCDay() === weekStart,
-                  x: (d) => weekX(d.date),
-                  y: weekNumber ? -2 : -1,
-                  text: (d) => monthFormat(d.date),
-                  z: (d) => d.date.getUTCMonth()
-                })
-              ),
-              Plot.text(
-                data,
-                Plot.selectFirst({
-                  sort: "date",
-                  x: 0,
-                  y: weekNumber ? -2 : -1,
-                  text: W === "H" ? (d) => d.date.getUTCFullYear() + (d.date.getUTCMonth() < 6 ?
-                    " H1" : "H2") : (d) => d.date.getUTCFullYear(),
-                  textAnchor: "end",
-                  fontWeight: "bold",
-                  dx: -14
-                })
-              )
-            ],
-
-            // week numbers
-            weekNumber ?
-              Plot.text(
-                data,
-                Plot.selectFirst({
-                  filter: (d) => d.date.getUTCDay() === (weekStart + 6) % 7,
-                  x: (d) => weekX(d.date),
-                  y: -1,
-                  text: (d) => weekNumberFormat(d.date),
-                  fontSize: 7,
-                  fill: "grey",
-                  z: (d) => weekNumberFormat(d.date)
-                })
-              ) :
-              null
-          ]
-        });
-
-        // p.appendChild(html`<style>.plot text { pointer-events: none }`);
-        return p;
-      };
+    const PROP_MAP = {
+      'MAL':          { cls: 'fl',  label: 'Mar-a-Lago' },
+      'Doral':        { cls: 'fl',  label: 'Trump Doral' },
+      'DC':           { cls: 'dc',  label: 'Trump National (Sterling, VA)' },
+      'Trump Winery': { cls: 'dc',  label: 'Trump Winery (VA)' },
+      'Bedminster':   { cls: 'nj',  label: 'Bedminster' },
+      'Trump Tower':  { cls: 'nj',  label: 'Trump Tower (NYC)' },
+      'Vegas':        { cls: 'wst', label: 'Trump Vegas' },
+      'Turnberry':    { cls: 'ovs', label: 'Turnberry (Scotland)' },
+      'Aberdeen':     { cls: 'ovs', label: 'Trump Aberdeen (Scotland)' },
     };
 
-    // After data is successfully fetched, generate viz
-    myDataPromises.then(function (data) {
-      // Define the data
-      var golf = data[0];
+    const COLOR_LABELS = [
+      { cls: 'fl',   label: 'Florida' },
+      { cls: 'dc',   label: 'DC / Mid-Atlantic' },
+      { cls: 'nj',   label: 'NJ / NY' },
+      { cls: 'wst',  label: 'West' },
+      { cls: 'ovs',  label: 'Overseas' },
+      { cls: 'none', label: 'No property visit' },
+    ];
 
-      var cal = {
-        width,
-        gap: .5,
-        dayFormat: "",
-        date: "Date",
-        fill: "Played",
-        color: {
-          scheme: "Greens",
-          domain: ["Probably Not", "Maybe", "Likely", "Yes"],
-          legend: true
-        },
-        colors: {
-          base: "#eee"
-        }, // no mark for "today"
-        title: (d) => `${d3.timeFormat("%a, %B %d")(d.Date)}\nPlayed? ${d.Played}\n${d.Club}`,
-      };
+    const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-      document.getElementById("golf_cal").appendChild(Calendar(golf, cal));
-      // document.getElementById("cal_legend").appendChild(legend("#cal_legend", cal_legend));
-    });
+    let currentTerm = 't2';
+    let t2Stats = null;
+    let t2GolfCumulative = [];
+
+    function parseCSV(text) {
+      const lines = text.trim().split('\n');
+      const headers = lines[0].split(',').map(h => h.trim());
+      return lines.slice(1).map(line => {
+        const vals = line.split(',');
+        const obj = {};
+        headers.forEach((h, i) => { obj[h] = (vals[i] || '').trim(); });
+        return obj;
+      });
+    }
+
+    function parseDate(str) {
+      const [m, d, y] = str.split('/').map(Number);
+      return new Date(y, m - 1, d);
+    }
+
+    function buildStats(rows, today) {
+      const totalDays = Math.floor((today - START_DATE) / 864e5) + 1;
+      let visits = 0, golf = 0, weekendVisits = 0, weekendGolf = 0, weekendDays = 0;
+      for (const r of rows) {
+        if (!r.Date) continue;
+        const d = parseDate(r.Date);
+        if (d > today) break;
+        const dow = d.getDay();
+        const isWeekend = dow === 0 || dow === 6;
+        if (isWeekend) weekendDays++;
+        if (r['Property visit']) { visits++; if (isWeekend) weekendVisits++; }
+        if ((r['Golf'] || '').toLowerCase() === 'yes') { golf++; if (isWeekend) weekendGolf++; }
+      }
+      return { totalDays, visits, golf, weekendVisits, weekendGolf, weekendDays };
+    }
+
+    function renderStats(mode) {
+      const s = t2Stats;
+      const pct = (n, d) => d ? Math.round(n / d * 100) : 0;
+      const strip = document.getElementById('stats-strip');
+      if (mode === 't2') {
+        strip.innerHTML = `
+          <div class="stat">
+            <span class="num">${s.totalDays}</span>
+            <span class="label-sm">Days in office</span>
+            <span class="sub">2nd term</span>
+          </div>
+          <div class="stat">
+            <span class="num">${s.visits}</span>
+            <span class="label-sm">Property visit days</span>
+            <span class="sub">${pct(s.visits, s.totalDays)}% of days in office</span>
+          </div>
+          <div class="stat">
+            <span class="num">${s.golf}</span>
+            <span class="label-sm">Golf rounds</span>
+            <span class="sub">${pct(s.golf, s.totalDays)}% of days in office</span>
+            <button id="btn-compare" onclick="toggleCompare()" style="margin-top:0.5rem;font-family:var(--golf-mono);font-size:0.62rem;letter-spacing:0.06em;text-transform:uppercase;padding:0.25rem 0.6rem;border:1px solid var(--golf-border);background:#fff;color:var(--golf-gray);cursor:pointer;border-radius:3px;display:block;">Compare →</button>
+          </div>
+          <div class="stat">
+            <span class="num">${pct(s.weekendVisits, s.weekendDays)}%</span>
+            <span class="label-sm">Weekend visit rate</span>
+            <span class="sub">${s.weekendVisits} of ${s.weekendDays} weekend days</span>
+          </div>`;
+      } else {
+        const totalDays  = T1.days + s.totalDays;
+        const totalVisit = T1.visits + s.visits;
+        const totalGolf  = T1.golf + s.golf;
+        strip.innerHTML = `
+          <div class="stat">
+            <span class="num">${totalDays.toLocaleString()}</span>
+            <span class="label-sm">Days in office</span>
+            <span class="sub">Both terms combined</span>
+          </div>
+          <div class="stat">
+            <span class="num">${totalVisit}</span>
+            <span class="label-sm">Property visit days</span>
+            <span class="sub">${pct(totalVisit, totalDays)}% of days in office</span>
+          </div>
+          <div class="stat">
+            <span class="num">${totalGolf}</span>
+            <span class="label-sm">Golf rounds</span>
+            <span class="sub">${pct(totalGolf, totalDays)}% of days in office</span>
+            <button id="btn-compare" onclick="toggleCompare()" style="margin-top:0.5rem;font-family:var(--golf-mono);font-size:0.62rem;letter-spacing:0.06em;text-transform:uppercase;padding:0.25rem 0.6rem;border:1px solid var(--golf-border);background:#fff;color:var(--golf-gray);cursor:pointer;border-radius:3px;display:block;">Compare →</button>
+          </div>
+          <div class="stat">
+            <span class="num">${T1.days.toLocaleString()}</span>
+            <span class="label-sm">1st term days</span>
+            <span class="sub">${T1.visits} visits · ${T1.golf} golf</span>
+          </div>`;
+      }
+    }
+
+    function setTerm(mode) {
+      currentTerm = mode;
+      const on  = 'font-family:var(--golf-mono);font-size:0.72rem;letter-spacing:0.06em;text-transform:uppercase;padding:0.35rem 0.85rem;border:1px solid var(--golf-orange);background:var(--golf-orange);color:#fff;cursor:pointer;border-radius:3px;';
+      const off = 'font-family:var(--golf-mono);font-size:0.72rem;letter-spacing:0.06em;text-transform:uppercase;padding:0.35rem 0.85rem;border:1px solid var(--golf-border);background:#fff;color:var(--golf-gray);cursor:pointer;border-radius:3px;';
+      document.getElementById('btn-t2').style.cssText   = mode === 't2'   ? on : off;
+      document.getElementById('btn-both').style.cssText = mode === 'both' ? on : off;
+      renderStats(mode);
+    }
+
+    function buildDayMap(rows) {
+      const map = {};
+      for (const r of rows) { if (r.Date) map[r.Date] = r; }
+      return map;
+    }
+
+    function renderCalendar(rows, today, actualToday) {
+      actualToday = actualToday || today;
+      const dayMap = buildDayMap(rows);
+      const CELLS_PER_ROW = 16;
+      let grid = '<div class="calendar">';
+
+      // Walk month by month, always from 1st (except the very first partial month)
+      let cursor = new Date(START_DATE.getFullYear(), START_DATE.getMonth(), 1);
+      const endMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+
+      while (cursor < endMonth) {
+        const yr = cursor.getFullYear();
+        const mo = cursor.getMonth();
+        const daysInMonth = new Date(yr, mo + 1, 0).getDate();
+        const dayStart = (yr === START_DATE.getFullYear() && mo === START_DATE.getMonth())
+          ? START_DATE.getDate() : 1;
+
+        const days = [];
+        for (let d = dayStart; d <= daysInMonth; d++) days.push(new Date(yr, mo, d));
+
+        const label = `${MONTHS[mo]}<br>${yr}`;
+
+        for (let chunk = 0; chunk < days.length; chunk += CELLS_PER_ROW) {
+          const slice = days.slice(chunk, chunk + CELLS_PER_ROW);
+          grid += `<div class="cal-month-label">${chunk === 0 ? label : ''}</div>`;
+
+          for (let i = 0; i < CELLS_PER_ROW; i++) {
+            const day = slice[i];
+            if (!day) { grid += '<div></div>'; continue; }
+
+            const isFuture = day > actualToday;
+            const dow = day.getDay();
+            const isWeekend = dow === 0 || dow === 6;
+            const key = `${day.getMonth() + 1}/${day.getDate()}/${day.getFullYear()}`;
+            const row = dayMap[key] || {};
+            const prop = row['Property visit'] || '';
+            const propInfo = PROP_MAP[prop];
+            const cls = propInfo ? propInfo.cls : '';
+            const isGolf = (row['Golf'] || '').toLowerCase() === 'yes';
+            const isOOC = !!(row['Out of country']);
+
+            const tipParts = [`${MONTHS[day.getMonth()]} ${day.getDate()}`];
+            if (prop) {
+              let propLabel = propInfo ? propInfo.label : prop;
+              if (row['Secondary']) propLabel += ` + ${row['Secondary']}`;
+              tipParts.push(propLabel);
+            }
+            if (isGolf) tipParts.push('\u26F3 Golf');
+            if (isOOC) tipParts.push('\u2708 ' + row['Out of country']);
+
+            grid += `<div class="cal-cell${cls ? ' '+cls : ''}${isWeekend ? ' weekend' : ''}${isFuture ? ' future' : ''}${isOOC ? ' ooc' : ''}" data-tip="${tipParts.join(' \u00b7 ')}"><span class="cal-day-num">${day.getDate()}</span>${isGolf ? '<span class="cal-dot"></span>' : ''}</div>`;
+          }
+        }
+        cursor = new Date(yr, mo + 1, 1);
+      }
+      grid += '</div>';
+      return grid;
+    }
+
+    function donutSlices(slices, size, hole) {
+      size = size || 150; hole = hole || 0.6;
+      const r = size / 2, ri = r * hole;
+      let angle = -Math.PI / 2;
+      const total = slices.reduce((s, x) => s + x.value, 0);
+      let paths = '';
+      for (const sl of slices) {
+        if (!sl.value) continue;
+        const sweep = (sl.value / total) * Math.PI * 2;
+        const x1 = r + r * Math.cos(angle),     y1 = r + r * Math.sin(angle);
+        const x2 = r + r * Math.cos(angle+sweep),y2 = r + r * Math.sin(angle+sweep);
+        const xi1= r + ri* Math.cos(angle),      yi1= r + ri* Math.sin(angle);
+        const xi2= r + ri* Math.cos(angle+sweep),yi2= r + ri* Math.sin(angle+sweep);
+        const lg = sweep > Math.PI ? 1 : 0;
+        paths += `<path d="M ${xi1} ${yi1} L ${x1} ${y1} A ${r} ${r} 0 ${lg} 1 ${x2} ${y2} L ${xi2} ${yi2} A ${ri} ${ri} 0 ${lg} 0 ${xi1} ${yi1} Z" fill="${sl.color}" stroke="#fff" stroke-width="1.5"/>`;
+        angle += sweep;
+      }
+      return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">${paths}</svg>`;
+    }
+
+    function renderDonuts(s) {
+      const orange = '#fe4e1d', amber = '#f5a623', light = '#e8e8e8';
+      const pct = (n, d) => d ? Math.round(n / d * 100) : 0;
+
+      function donutHTML(slices, centerPct, centerLabel) {
+        const leg = slices.map(sl => `<div class="donut-legend-item"><span class="donut-legend-swatch" style="background:${sl.color}"></span>${sl.label} (${sl.value})</div>`).join('');
+        return `<div class="donut-chart-container">${donutSlices(slices)}<div class="donut-center"><div class="pct">${centerPct}%</div><div class="pct-label">${centerLabel}</div></div></div><div class="donut-legend">${leg}</div>`;
+      }
+
+      const allSlices = [
+        { label: 'Golf days',         value: s.golf,                color: orange },
+        { label: 'Property, no golf', value: s.visits - s.golf,     color: amber  },
+        { label: 'No property visit', value: s.totalDays - s.visits, color: light },
+      ];
+      const wkSlices = [
+        { label: 'Golf days',         value: s.weekendGolf,                    color: orange },
+        { label: 'Property, no golf', value: s.weekendVisits - s.weekendGolf,  color: amber  },
+        { label: 'No property visit', value: s.weekendDays - s.weekendVisits,  color: light  },
+      ];
+
+      return `<div class="donuts">
+        <div class="donut-wrap"><div class="donut-title">All days in office (2nd term)</div>${donutHTML(allSlices, pct(s.visits, s.totalDays), 'property days')}</div>
+        <div class="donut-wrap"><div class="donut-title">Weekend days (2nd term)</div>${donutHTML(wkSlices, pct(s.weekendVisits, s.weekendDays), 'weekend visits')}</div>
+      </div>`;
+    }
+
+    function renderLegend() {
+      return `<div class="legend">
+        ${COLOR_LABELS.map(c => `<div class="legend-item"><span class="legend-swatch ${c.cls}"></span>${c.label}</div>`).join('')}
+        <div class="legend-item"><span class="legend-dot"></span>Golf round</div>
+        <div class="legend-item" style="opacity:.7">— Overseas travel</div>
+      </div>`;
+    }
+
+    let compareOpen = false;
+    let chartBuilt = false;
+
+    function toggleCompare() {
+      const section = document.getElementById('compare-section');
+      const btn = document.getElementById('btn-compare');
+      compareOpen = !compareOpen;
+      section.style.display = compareOpen ? 'block' : 'none';
+      btn.textContent = compareOpen ? 'Compare ←' : 'Compare →';
+      btn.style.borderColor = compareOpen ? 'var(--golf-orange)' : 'var(--golf-border)';
+      btn.style.color = compareOpen ? 'var(--golf-orange)' : 'var(--golf-gray)';
+      if (compareOpen && !chartBuilt) { buildChart(); chartBuilt = true; }
+    }
+
+    function buildChart() {
+      const wrap = document.getElementById('golf-chart-wrap');
+      const W = wrap.offsetWidth || 800;
+      const H = 260;
+      const pad = { t: 12, r: 24, b: 36, l: 40 };
+      const cw = W - pad.l - pad.r;
+      const ch = H - pad.t - pad.b;
+
+      // X domain: 0..max days across both terms + some future
+      const t1Days = T1_GOLF.length;            // 1462
+      const t2Days = t2GolfCumulative.length;            // current
+      const totalTrumpDays = t1Days + t2Days;
+      const xMax = Math.max(OBAMA_DAYS, totalTrumpDays + 200);
+      // Y domain: 0..max golf
+      const yMax = Math.max(OBAMA_TOTAL, T1_GOLF[t1Days-1] + t2GolfCumulative[t2Days-1]) * 1.08;
+
+      const xS = d => pad.l + (d / xMax) * cw;
+      const yS = v => pad.t + ch - (v / yMax) * ch;
+
+      // Build SVG
+      let svg = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="font-family:var(--golf-mono);overflow:visible;">`;
+
+      // Grid lines
+      const yTicks = [0, 100, 200, 300, 400];
+      for (const v of yTicks) {
+        if (v > yMax) continue;
+        const y = yS(v);
+        svg += `<line x1="${pad.l}" y1="${y}" x2="${W-pad.r}" y2="${y}" stroke="#eee" stroke-width="1"/>`;
+        svg += `<text x="${pad.l-6}" y="${y+4}" text-anchor="end" font-size="9" fill="#aaa">${v}</text>`;
+      }
+
+      // X axis year labels
+      const yearLabels = [
+        { day: 0,    label: '2017' },
+        { day: 365,  label: '2018' },
+        { day: 730,  label: '2019' },
+        { day: 1095, label: '2020' },
+        { day: 1461, label: '2nd term' },
+        { day: 1826, label: '2026' },
+      ];
+      for (const {day, label} of yearLabels) {
+        if (day > xMax) continue;
+        const x = xS(day);
+        svg += `<line x1="${x}" y1="${pad.t}" x2="${x}" y2="${pad.t+ch}" stroke="#eee" stroke-width="1" stroke-dasharray="${day===1461?'4,3':'none'}"/>`;
+        svg += `<text x="${x}" y="${pad.t+ch+14}" text-anchor="middle" font-size="9" fill="#aaa">${label}</text>`;
+      }
+
+      // Obama line (dashed, gray)
+      const ox1 = xS(0), oy1 = yS(0);
+      const ox2 = xS(OBAMA_DAYS), oy2 = yS(OBAMA_TOTAL);
+      svg += `<line x1="${ox1}" y1="${oy1}" x2="${ox2}" y2="${oy2}" stroke="#999" stroke-width="1.5" stroke-dasharray="5,3"/>`;
+      svg += `<text x="${ox2+6}" y="${oy2+4}" font-size="9" fill="#999">Obama (333)</text>`;
+
+      // Trump 1st term line (orange, full opacity)
+      const t1Step = Math.max(1, Math.floor(t1Days / cw));
+      let t1Path = '';
+      for (let i = 0; i < t1Days; i += t1Step) {
+        const x = xS(i), y = yS(T1_GOLF[i]);
+        t1Path += (i === 0 ? `M ${x} ${y}` : ` L ${x} ${y}`);
+      }
+      svg += `<path d="${t1Path}" fill="none" stroke="#fe4e1d" stroke-width="2"/>`;
+
+      // Trump 2nd term line (orange, lower opacity), starting at day t1Days
+      let t2Path = '';
+      for (let i = 0; i < t2Days; i++) {
+        const x = xS(t1Days + i);
+        const y = yS(T1_GOLF[t1Days-1] + t2GolfCumulative[i]);
+        t2Path += (i === 0 ? `M ${x} ${y}` : ` L ${x} ${y}`);
+      }
+      svg += `<path d="${t2Path}" fill="none" stroke="#fe4e1d" stroke-width="2" opacity="0.45"/>`;
+
+      // End dot for current position
+      const lastX = xS(t1Days + t2Days - 1);
+      const lastY = yS(T1_GOLF[t1Days-1] + t2GolfCumulative[t2Days-1]);
+      svg += `<circle cx="${lastX}" cy="${lastY}" r="4" fill="#fe4e1d"/>`;
+      svg += `<text x="${lastX+7}" y="${lastY+4}" font-size="9" fill="#fe4e1d">${T1_GOLF[t1Days-1] + t2GolfCumulative[t2Days-1]}</text>`;
+
+      // Axes
+      svg += `<line x1="${pad.l}" y1="${pad.t}" x2="${pad.l}" y2="${pad.t+ch}" stroke="#ddd" stroke-width="1"/>`;
+      svg += `<line x1="${pad.l}" y1="${pad.t+ch}" x2="${W-pad.r}" y2="${pad.t+ch}" stroke="#ddd" stroke-width="1"/>`;
+
+      svg += '</svg>';
+      wrap.innerHTML = svg;
+    }
+
+    (async function() {
+      const main = document.getElementById('tracker-main');
+      const todayStr = document.getElementById('last-updated');
+      try {
+        let csvText = null;
+        try {
+          const res = await fetch('data/golf.csv?v=' + Date.now(), {cache: 'no-store'});
+          if (res.ok) csvText = await res.text();
+        } catch(e) {}
+
+        if (!csvText) throw new Error('Could not load data/golf.csv — check that the file is uploaded and accessible.');
+
+        const rows = parseCSV(csvText);
+
+        const filled = rows.filter(r => r['Property visit'] || r['Golf'] || r['Out of country']);
+        const lastRow = filled[filled.length - 1];
+        const today = lastRow ? parseDate(lastRow.Date) : new Date();
+        const actualToday = new Date(); actualToday.setHours(0,0,0,0);
+
+        // Build cumulative golf array for compare chart
+        t2GolfCumulative = [];
+        let _golfRunning = 0;
+        for (const r of rows) {
+          const _d = parseDate(r.Date);
+          if (_d > today) break;
+          if ((r['Golf'] || '').toLowerCase() === 'yes') _golfRunning++;
+          t2GolfCumulative.push(_golfRunning);
+        }
+
+        t2Stats = buildStats(rows, today);
+        if (todayStr) {
+          todayStr.textContent = `Data through ${MONTHS[today.getMonth()]}. ${today.getDate()}, ${today.getFullYear()}`;
+        }
+        renderStats('t2');
+
+        main.innerHTML = `
+          <p class="section-heading">Day-by-day calendar (2nd term)</p>
+          ${renderLegend()}
+          <div class="calendar-wrap">${renderCalendar(rows, today, actualToday)}</div>
+          <p class="section-heading">Breakdown (2nd term)</p>
+          ${renderDonuts(t2Stats)}
+          <p class="note">
+            Data from public reporting, White House pool reports, and social media.
+            "Property visit" means an overnight stay or substantive visit to a Trump Organization property.
+            Golf rounds are based on reported outings; actual count may be higher.
+            For details on first-term trips, see the <a href="https://trumpgolfcount.com" target="_blank">Trump Golf Count</a> database.
+          </p>`;
+
+      } catch(err) {
+        main.innerHTML = `<p style="font-family:var(--golf-mono);font-size:0.8rem;color:#c00;padding:2rem 0;">Couldn\u2019t load data. ${err.message}</p>`;
+        if (todayStr) todayStr.textContent = '';
+      }
+    })();
+
+    // ── COMPARE CHART DATA ─────────────────────────────────────────
+    const T1_GOLF = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,2,2,2,2,2,3,4,4,4,4,4,4,5,6,6,6,6,6,6,6,6,6,6,6,6,6,7,8,8,8,8,8,8,9,9,9,9,9,9,9,10,11,11,11,11,11,11,12,12,12,12,12,12,12,12,13,13,13,13,13,13,14,15,15,15,15,15,16,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,18,18,18,18,18,18,19,19,19,19,19,19,19,19,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,21,22,22,22,22,22,22,23,24,24,24,24,24,24,24,24,24,24,24,24,24,25,26,26,26,26,26,26,27,28,29,30,30,30,30,30,31,31,31,31,31,31,31,31,31,31,31,31,31,32,33,33,33,33,33,33,33,34,34,34,34,34,34,35,36,36,37,38,39,40,41,42,42,42,42,43,43,44,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,46,47,47,47,47,47,48,49,50,50,50,50,50,50,51,52,52,52,52,52,52,53,54,55,55,55,55,55,56,57,57,57,57,57,57,58,59,59,59,59,59,59,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,61,62,63,64,65,65,65,65,65,65,65,65,65,65,65,65,65,65,66,66,66,66,66,66,66,66,66,66,66,66,66,67,68,68,69,70,71,72,73,74,75,75,75,75,75,75,75,75,75,75,75,75,76,77,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,78,79,80,80,80,80,80,80,80,80,80,80,80,80,80,80,80,81,81,81,81,81,81,81,81,81,81,81,81,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,83,83,83,83,83,83,84,85,85,85,85,85,86,87,87,87,87,87,87,87,87,87,87,87,87,87,87,87,88,88,88,89,89,90,91,91,91,91,91,91,91,92,92,92,92,92,92,92,92,93,93,93,93,93,93,94,95,95,95,95,95,95,95,95,95,95,95,95,95,96,97,97,97,97,97,97,97,97,97,97,97,97,97,97,97,97,97,97,97,97,98,99,99,99,99,99,99,99,100,100,100,100,100,100,101,102,102,102,103,103,104,105,106,106,106,106,106,106,107,108,108,108,108,108,108,109,110,110,110,110,110,110,111,112,112,112,112,112,113,114,115,116,117,118,119,120,121,122,122,122,122,122,122,123,124,124,124,124,124,124,125,126,126,126,126,126,126,127,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,128,129,130,130,130,130,130,130,131,131,131,131,131,131,131,131,132,132,132,132,132,132,132,133,133,133,133,133,133,133,133,133,133,133,133,133,133,133,133,133,133,133,133,133,133,133,133,133,133,133,133,133,133,133,133,133,133,133,133,133,133,134,134,135,136,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,137,138,138,138,138,138,138,138,138,138,138,138,138,138,138,139,140,141,141,141,141,141,141,141,141,141,141,141,141,141,141,141,141,141,141,141,142,143,143,143,143,143,143,143,143,143,143,143,143,143,144,145,145,145,145,145,145,146,147,147,147,147,147,147,147,148,148,148,148,148,148,149,150,150,150,150,150,151,152,152,152,152,152,152,152,153,154,154,154,154,154,154,155,155,155,155,155,155,155,156,156,156,156,156,156,156,157,158,158,158,158,158,158,159,159,159,159,159,159,159,160,161,161,161,161,162,162,163,164,164,164,164,164,164,165,166,166,166,166,166,166,166,166,166,166,166,166,166,166,166,166,166,166,166,166,167,168,168,168,168,168,168,169,170,170,170,170,170,170,171,172,172,172,172,172,172,173,174,174,174,174,174,174,175,176,176,176,176,176,176,176,176,177,177,177,177,177,178,178,178,178,178,178,178,178,178,178,178,178,178,178,179,179,180,180,180,180,180,181,182,182,182,182,182,182,183,184,184,184,184,184,185,186,186,186,186,186,186,186,187,188,188,188,188,188,188,189,189,189,189,189,189,189,190,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,191,192,192,193,194,195,195,195,195,195,195,195,195,195,195,195,195,195,195,195,195,195,195,195,195,196,197,198,199,199,200,201,202,203,204,205,206,207,207,208,209,209,209,209,209,209,209,209,209,209,209,209,209,210,211,211,211,211,211,211,211,211,211,211,211,211,211,212,213,213,213,213,213,213,213,213,213,213,213,213,213,214,214,214,214,214,214,214,214,214,214,214,214,214,214,214,214,214,214,214,214,214,215,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,216,217,218,218,218,218,218,218,218,218,218,218,218,218,218,218,218,218,218,218,218,218,218,219,219,219,219,219,219,219,220,220,220,220,220,220,221,222,222,222,222,222,223,223,224,224,224,224,224,224,224,225,226,226,226,226,226,227,228,228,228,228,228,228,229,230,230,230,230,230,230,231,232,232,232,232,232,233,234,235,235,235,235,235,235,236,237,237,237,237,237,237,238,239,239,239,239,239,239,239,240,240,240,240,240,240,241,242,242,242,242,242,242,242,242,242,242,242,242,242,242,243,243,243,243,243,243,243,244,244,244,244,244,244,244,244,244,244,244,244,244,244,244,244,244,244,244,244,244,244,244,244,244,244,244,244,244,244,244,244,244,244,244,244,244,244,244,244,244,245,246,246,246,246,246,246,247,248,248,248,248,248,248,249,250,250,250,250,251,252,253,253,253,253,253,253,253,253,253,253,253,253,253,253,253,254,254,254,254,254,254,254,254,254,254,254,255,256,256,257,258,258,259,259,259,259,259,259,259,259,259,259,259,259,259,259,259,259,259,259,259,259,259];
+    // Obama: 333 rounds over 2,922 days (Jan 20, 2009 – Jan 20, 2017)
+    const OBAMA_DAYS = 2922;
+    const OBAMA_TOTAL = 333;
   </script>
 </body>
 
