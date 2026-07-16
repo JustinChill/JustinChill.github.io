@@ -32,7 +32,16 @@
   <meta name="twitter:title" content="Blank page | Justin Chill">
   <meta name="twitter:description" content="This page intentionally left blank.">
   
-  <link type="text/plain" href="humans.txt" rel="author">
+    <script>
+  // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
+  (function () {
+  const savedTheme = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', theme);
+  })();
+  </script>
+<link type="text/plain" href="humans.txt" rel="author">
   <link rel="icon" href="/favicon.ico">
   <meta name="theme-color" content="#777779">
   <meta name="color-scheme" content="light dark">
@@ -129,5 +138,34 @@
 </head>
 <body>
     <h1>This page <a href="https://web.archive.org/web/20180224075941/https://this-page-intentionally-left-blank.org/whythat.html">intentionally</a> left blank.</h1>
+  <script>
+    // Theme toggle functionality
+    const themeToggleBtn = document.getElementById("theme-toggle");
+    const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
+    const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
+
+    function updateIcons(theme) {
+      if (theme === "dark") {
+        themeToggleLightIcon.classList.remove("hidden");
+        themeToggleDarkIcon.classList.add("hidden");
+      } else {
+        themeToggleLightIcon.classList.add("hidden");
+        themeToggleDarkIcon.classList.remove("hidden");
+      }
+    }
+
+    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
+    updateIcons(currentTheme);
+
+    if (themeToggleBtn) {
+      themeToggleBtn.addEventListener("click", () => {
+        const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
+        const newTheme = activeTheme === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", newTheme);
+        localStorage.setItem("theme", newTheme);
+        updateIcons(newTheme);
+      });
+    }
+  </script>
 </body>
 </html>

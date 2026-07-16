@@ -4,7 +4,16 @@
 <head>
 	<title>Logo Grid</title>
 	<meta charset="UTF-8">
-	<link rel="preload" href="style.css" as="style" />
+		<script>
+	// Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
+	(function () {
+	const savedTheme = localStorage.getItem('theme');
+	const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+	const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
+	document.documentElement.setAttribute('data-theme', theme);
+	})();
+	</script>
+<link rel="preload" href="style.css" as="style" />
 	<link rel="stylesheet" href="style.css" />
 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -256,6 +265,35 @@
 	</main>
 	<footer>
 	</footer>
+  <script>
+    // Theme toggle functionality
+    const themeToggleBtn = document.getElementById("theme-toggle");
+    const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
+    const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
+
+    function updateIcons(theme) {
+      if (theme === "dark") {
+        themeToggleLightIcon.classList.remove("hidden");
+        themeToggleDarkIcon.classList.add("hidden");
+      } else {
+        themeToggleLightIcon.classList.add("hidden");
+        themeToggleDarkIcon.classList.remove("hidden");
+      }
+    }
+
+    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
+    updateIcons(currentTheme);
+
+    if (themeToggleBtn) {
+      themeToggleBtn.addEventListener("click", () => {
+        const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
+        const newTheme = activeTheme === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", newTheme);
+        localStorage.setItem("theme", newTheme);
+        updateIcons(newTheme);
+      });
+    }
+  </script>
 </body>
 
 </html>

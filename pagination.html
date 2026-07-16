@@ -32,7 +32,16 @@
     content="Alex Ovechkin of the Washington Capitals celebrates after scoring his 895th career goal during the second period against the New York Islanders."
     property="og:image:alt">
 
-  <link type="text/plain" href="humans.txt" rel="author">
+    <script>
+  // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
+  (function () {
+  const savedTheme = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', theme);
+  })();
+  </script>
+<link type="text/plain" href="humans.txt" rel="author">
   <link rel="preload" href="style.css" as="style" />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="/favicon.ico">
@@ -155,6 +164,22 @@
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
+    
+      <!-- Theme Toggle Button -->
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+        <span id="theme-toggle-light-icon" class="hidden">
+          <!-- Sun Icon -->
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
+          </svg>
+        </span>
+        <span id="theme-toggle-dark-icon" class="hidden">
+          <!-- Moon Icon -->
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+          </svg>
+        </span>
+      </button>
     </div>
     <div class="nav__list">
       <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
@@ -265,6 +290,35 @@
     // immediately call the function to select the first page
     goToPage();
 
+  </script>
+  <script>
+    // Theme toggle functionality
+    const themeToggleBtn = document.getElementById("theme-toggle");
+    const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
+    const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
+
+    function updateIcons(theme) {
+      if (theme === "dark") {
+        themeToggleLightIcon.classList.remove("hidden");
+        themeToggleDarkIcon.classList.add("hidden");
+      } else {
+        themeToggleLightIcon.classList.add("hidden");
+        themeToggleDarkIcon.classList.remove("hidden");
+      }
+    }
+
+    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
+    updateIcons(currentTheme);
+
+    if (themeToggleBtn) {
+      themeToggleBtn.addEventListener("click", () => {
+        const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
+        const newTheme = activeTheme === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", newTheme);
+        localStorage.setItem("theme", newTheme);
+        updateIcons(newTheme);
+      });
+    }
   </script>
 </body>
 
