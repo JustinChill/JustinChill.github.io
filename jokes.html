@@ -23,7 +23,7 @@
 	<meta property="og:country_name" content="USA">
 
 	<meta name="datePublished" content="2025-08-04">
-	<meta name="dateModified" content="2025-08-06">
+	<meta name="dateModified" content="2026-07-16">
 
 	<meta content="https://www.sean.co.uk/raspberry_pi/gfx/dad_joke_big.jpg" property="og:image">
 	<meta content="https://www.sean.co.uk/raspberry_pi/gfx/dad_joke_big.jpg" property="twitter:image">
@@ -40,9 +40,8 @@
 	<meta name="theme-color" content="#4C63B6">
 	<meta name="color-scheme" content="light dark">
 
-	<script type="module">
-		document.documentElement.classList.remove('no-js');
-		document.documentElement.classList.add('js');
+	<script>
+		document.documentElement.classList.replace('no-js', 'js');
 	</script>
 
 	<style type="text/css">
@@ -57,7 +56,7 @@
 		}
 
 		* {
-			-webkit-tap-highlight-color: rbga(0, 0, 0, 0);
+			-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 			-webkit-text-size-adjust: none;
 		}
 
@@ -159,6 +158,7 @@
 			width: 100%;
 			height: 100%;
 			max-width: 768px;
+			margin: 0 auto;
 		}
 
 		.avatar {
@@ -364,16 +364,12 @@
 			font-size: 1.2rem;
 			font-family: "roboto";
 			font-weight: 500;
-			-webkit-user-select: none;
-			-moz-user-select: none;
-			-ms-user-select: none;
-			user-select: none;
 			margin-right: auto;
 			white-space: pre-wrap;
 		}
 	</style>
 
-  <script type="application/ld+json">
+	<script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
@@ -423,16 +419,14 @@
 	<main role="main">
 		<article>
 			<div class="article-hero">
-				<h2 class="article-category"></h2>
 				<h1 class="article-title">Jokes</h1>
-				<h2 class="article-subtitle"></h2>
 			</div>
 
 			<div class="project-container">
 				<div class="chat-bot">
 					<div class="chat-bot__chatter">
 						<div class="avatar">
-							<span class="emoji">🤖</span>
+							<span class="emoji" role="img" aria-label="Robot">🤖</span>
 						</div>
 						<div class="speaker">
 							<span class="speaker__dot"></span>
@@ -444,15 +438,16 @@
 			</div>
 			<p>I love a good joke, and quite a few bad jokes, too. These jokes are served from the <a
 					href="https://icanhazdadjoke.com/api">icanhazdadjoke</a> API, a free resource that delivers a random
-				Dad joke on request.</p>
+				Dad joke on request.<sup><a href="#tribute" id="tribute-ref"
+						aria-describedby="footnote-label">1</a></sup></p>
 		</article>
 	</main>
 
 	<footer>
 		<h2 id="footnote-label">Footnotes</h2>
 		<ol>
-			<li id="tribute">Inspired by <a href="https://codepen.io/alxvtoronto">Alex Vong</a> <a href="#tribute-ref"
-					aria-label="Back to content">↩</a></li>
+			<li id="tribute">Inspired by <a href="https://codepen.io/alxvtoronto" target="_blank">Alex Vong</a> <a
+					href="#tribute-ref" aria-label="Back to content">↩</a></li>
 		</ol>
 		<div>
 			<p>Justin Chill &copy; 2026</p>
@@ -460,7 +455,6 @@
 						src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
 		</div>
 	</footer>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
 	<script src="https://unpkg.com/feather-icons"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js"></script>
 	<script type="text/javascript">
@@ -468,12 +462,88 @@
 		const avatar = $(".avatar");
 		const chatBot = $(".chat-bot");
 		const chatDots = $(".speaker");
-		const actions = Array("😂", "🤣", "😅");
-		const buttonSFX = new Audio("https://facebook.design/public/sounds/Tab 1.mp3");
-		const popSFX = new Audio("https://facebook.design/public/sounds/Tab 2.mp3");
-		const typingSFX = new Audio(
-			"https://facebook.design/public/sounds/Collapse.mp3"
-		);
+		const actions = ["😂", "🤣", "😅"];
+
+		// Web Audio API Sound Synthesizer for UI Effects
+		let audioCtx = null;
+
+		function initAudio() {
+			if (!audioCtx) {
+				audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+			}
+			if (audioCtx.state === 'suspended') {
+				audioCtx.resume();
+			}
+		}
+
+		function playClickSFX() {
+			try {
+				initAudio();
+				const osc = audioCtx.createOscillator();
+				const gain = audioCtx.createGain();
+
+				osc.connect(gain);
+				gain.connect(audioCtx.destination);
+
+				osc.type = "sine";
+				osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
+				osc.frequency.exponentialRampToValueAtTime(400, audioCtx.currentTime + 0.08);
+
+				gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+				gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+
+				osc.start();
+				osc.stop(audioCtx.currentTime + 0.08);
+			} catch (e) {
+				console.warn("Audio play failed:", e);
+			}
+		}
+
+		function playPopSFX() {
+			try {
+				initAudio();
+				const osc = audioCtx.createOscillator();
+				const gain = audioCtx.createGain();
+
+				osc.connect(gain);
+				gain.connect(audioCtx.destination);
+
+				osc.type = "sine";
+				osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+				osc.frequency.exponentialRampToValueAtTime(900, audioCtx.currentTime + 0.15);
+
+				gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+				gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+
+				osc.start();
+				osc.stop(audioCtx.currentTime + 0.15);
+			} catch (e) {
+				console.warn("Audio play failed:", e);
+			}
+		}
+
+		function playTypingSFX() {
+			try {
+				initAudio();
+				const osc = audioCtx.createOscillator();
+				const gain = audioCtx.createGain();
+
+				osc.connect(gain);
+				gain.connect(audioCtx.destination);
+
+				osc.type = "triangle";
+				osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+
+				gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+				gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+
+				osc.start();
+				osc.stop(audioCtx.currentTime + 0.05);
+			} catch (e) {
+				console.warn("Audio play failed:", e);
+			}
+		}
+
 		// Create dynamic elements
 		const chatContainer = createNewElement("div", "chat-bot__messages");
 		const chatBubble = createNewElement("div", "chat-bubble");
@@ -491,19 +561,20 @@
 			emoji.textContent = action;
 			const emojiButton = createNewElement("button", "emoji-action");
 			emojiButton.appendChild(emoji);
-			return (action = emojiButton);
+			return emojiButton;
 		});
 
 		emojiActions.forEach((action) => {
 			chatActions.appendChild(action);
-			console.log(action);
 			action.addEventListener("click", () => getJokes());
 		});
 
+		// Trigger first load
 		getJokes();
 
 		function getJokes() {
-			buttonSFX.play();
+			// Play click sound on user actions
+			playClickSFX();
 			return fetch(JOKES_API, { headers: { Accept: "application/json" } })
 				.then((response) => {
 					if (response.status === 200) {
@@ -513,19 +584,21 @@
 						animateInDots();
 						return response.json();
 					}
-					throw new error(response.error);
+					throw new Error(response.statusText || "Failed to fetch joke");
 				})
 				.then((data) => {
-					let oldtime = Date.now();
 					setTimeout(() => {
 						dadJoke.textContent = data.joke;
-						const timeAgo = moment(oldtime).fromNow();
-						timeReceived.textContent = timeAgo;
+
+						// Render native local time (e.g. 10:45 PM)
+						const now = new Date();
+						timeReceived.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
 						chatContainer.appendChild(messagesInfo);
 						animateOutDots();
-					}, 4000);
+					}, 1200); // Snappier delay
 				})
-				.catch((error) => console.log(error));
+				.catch((error) => console.error(error));
 		}
 
 		// Animations
@@ -535,6 +608,7 @@
 			});
 			tl.to(avatar, { scale: 1.4 }).to(avatar, { scale: 1, delay: 0.1 }, "<");
 		}
+
 		function animateInDots() {
 			animateChatDots();
 			gsap.fromTo(
@@ -546,16 +620,16 @@
 					ease: "elastic",
 					duration: 0.8,
 					onStart: () => {
-						typingSFX.play();
+						playTypingSFX();
 						gsap.to(dadJoke, { opacity: 0 });
 						animateAvatar();
-						console.log("play typing sound");
 						chatDots.style.display = "inline-flex";
 						chatContainer.remove();
 					}
 				}
 			);
 		}
+
 		function animateOutDots() {
 			gsap.fromTo(
 				chatDots,
@@ -566,8 +640,8 @@
 					ease: "back",
 					duration: 0.8,
 					onComplete: (e) => {
-						console.log("done");
 						chatDots.style.display = "none";
+						gsap.killTweensOf(".speaker__dot"); // Pause dots when invisible
 						animateInChat();
 					}
 				}
@@ -588,14 +662,14 @@
 					ease: "elastic",
 					duration: 0.8,
 					onStart: () => {
-						popSFX.play();
-						console.log("play recieve sound");
+						playPopSFX();
 					}
 				}
 			);
 		}
 
 		function animateChatDots() {
+			gsap.killTweensOf(".speaker__dot"); // Kill previous loops to prevent memory leaks
 			const dotsArry = gsap.utils.toArray(".speaker__dot");
 			const tl = gsap.timeline({
 				defaults: { duration: 0.4, ease: "back" }

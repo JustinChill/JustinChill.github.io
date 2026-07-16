@@ -18,6 +18,13 @@
   <meta content="https://www.justinchill.com/blog.html" property="og:see_also">
   <link rel="canonical" href="https://www.justinchill.com/venn.html">
 
+  <meta property="og:locality" content="New York">
+  <meta property="og:region" content="NY">
+  <meta property="og:country_name" content="USA">
+
+  <meta name="datePublished" content="2022-01-06">
+  <meta name="dateModified" content="2026-07-15">
+
   <meta content="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Venn0111.svg/1200px-Venn0111.svg.png"
     property="og:image">
   <meta content="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Venn0111.svg/1200px-Venn0111.svg.png"
@@ -44,15 +51,6 @@
     sup {
       font-size: 60%;
     }
-
-    main {
-      /*  outline: 1px dotted #ccc; */
-      width: 90%;
-      margin: 0 auto;
-      padding: 1rem;
-    }
-
-
 
     /* Defaults for browsers that do not support shape-outside */
     @media (min-width: 800px) {
@@ -132,12 +130,17 @@
       }
 
       .Venn>.shape {
-        font-size: 4.5cqi;
+        font-size: 3.5cqi;
         /*Container Query Units*/
         border: initial;
         width: initial;
         margin: initial;
         padding: initial;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
       }
 
       .Venn>.circle {
@@ -146,6 +149,18 @@
         width: initial;
         margin: initial;
         padding: initial;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        mix-blend-mode: multiply;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        .Venn>.circle {
+          mix-blend-mode: screen;
+        }
       }
 
       /* Grid layout  */
@@ -160,19 +175,14 @@
         align-content: center;
       }
 
-      .Venn>h2 {
-        grid-column-start: 1;
-        grid-column-end: 6;
-        grid-row-start: 0;
-        grid-row-end: 1;
-      }
-
       .Venn>.circle.one {
         /*   outline: .2em solid #f00; */
         grid-column-start: 1;
         grid-column-end: 4;
         grid-row-start: 1;
         grid-row-end: 3;
+        padding-right: 22%;
+        /* Avoid overlapping text in the center */
       }
 
       .Venn>.circle.two {
@@ -181,6 +191,8 @@
         grid-column-end: 6;
         grid-row-start: 1;
         grid-row-end: 3;
+        padding-left: 22%;
+        /* Avoid overlapping text in the center */
       }
 
       .Venn>.circle.three {
@@ -197,6 +209,11 @@
         grid-column-end: 4;
         grid-row-start: 1;
         grid-row-end: 2;
+      }
+
+      /* Span full height for 2-circle diagrams so Flexbox centers text vertically */
+      .Venn:not(:has(.circle.three))>.shape.onetwo {
+        grid-row-end: 3;
       }
 
       .Venn>.shape.onethree {
@@ -231,6 +248,8 @@
 
       .Venn .circle span,
       .Venn .shape span {
+        display: none;
+        /* Hide by default; overridden for wrapped text */
         box-sizing: border-box;
         float: right;
         /*     border: 1px dotted #00f;
@@ -485,12 +504,22 @@
       }
 
       .Venn .circle h3 {
-        margin: 0.5em 0 0 0;
+        margin: 0;
         text-align: center;
+        max-width: 75%;
+        /* Limit text width to prevent overlap */
+        word-wrap: break-word;
+        /* Enable word wrapping */
       }
 
       .Venn .circle h3+* {
         margin-top: 0.2em;
+      }
+
+      .Venn .shape p {
+        max-width: 90%;
+        margin: 0;
+        word-wrap: break-word;
       }
 
       .Venn .shape h3 {
@@ -539,21 +568,22 @@
     }
 
     .Venn .one {
-      background-color: rgba(130, 154, 177, .2);
-      border: .1em solid hsl(201, 79%, 46%);
+      background-color: rgba(0, 180, 216, 0.15);
+      /* Soft cyan-blue */
+      border-color: rgba(0, 180, 216, 0.5);
     }
 
     .Venn .one h3 {
-      padding-top: 4em;
       font-size: 5cqi;
     }
 
     .Venn .two {
-      background-color: rgba(0, 255, 0, .02);
+      background-color: rgba(247, 37, 133, 0.15);
+      /* Soft pink-magenta */
+      border-color: rgba(247, 37, 133, 0.5);
     }
 
     .Venn .two h3 {
-      padding-top: 4em;
       font-size: 5cqi;
     }
 
@@ -562,12 +592,12 @@
     }
 
     .Venn .three {
-      background-color: rgba(51%, 51%, 51%, .02);
-      border: .1em solid hsl(196, 94%, 67%);
+      background-color: rgba(255, 190, 11, 0.15);
+      /* Soft yellow-orange */
+      border-color: rgba(255, 190, 11, 0.5);
     }
 
     .Venn .three h3 {
-      padding-top: 4.5em;
       font-size: 5cqi;
     }
 
@@ -580,20 +610,10 @@
     }
 
     .Venn .onetwo p {
-      margin-top: 6em;
       font-size: 3cqi;
     }
 
-    .Venn .onethree ul {
-      margin-top: 3em;
-    }
-
-    .Venn .twothree ul {
-      margin-top: 2em;
-    }
-
     .Venn .onetwothree li {
-      margin-top: 1em;
       max-width: 5.5em;
     }
 
@@ -691,6 +711,17 @@
       border: .1em solid #000;
     }
 
+
+    .Venn.elements-states .circle,
+    .Venn.elements-states .shape {
+      display: block;
+      padding: initial;
+    }
+
+    .Venn.elements-states .circle span,
+    .Venn.elements-states .shape span {
+      display: block;
+    }
 
     .Venn.elements-states .one {
       background-color: rgba(64, 224, 208, 0.6);
@@ -805,7 +836,7 @@
 
         <div class="shape onetwo">
           <h3>Incorrectly assuming something is a date</h3>
-          <p>Incorrectly assuming something is a date</p>
+          <p aria-hidden="true">Incorrectly assuming something is a date</p>
         </div>
       </figure>
       <figcaption></figcaption>
@@ -831,7 +862,7 @@
           <span></span>
           <span></span>
           <h3>Smart enough to make meth</h3>
-          <p>Smart enough to make meth</p>
+          <p aria-hidden="true">Smart enough to make meth</p>
         </div>
       </figure>
 
@@ -870,7 +901,7 @@ figure.Venn {
           <span></span>
           <span></span>
           <h3>Bringing you the same great classic rock night after night</h3>
-          <p>Bringing you the same great classic rock night after night</p>
+          <p aria-hidden="true">Bringing you the same great classic rock night after night</p>
         </div>
       </figure>
       <h2>2. Positioning: Overlapping Areas</h2>
@@ -931,7 +962,7 @@ figure.Venn {
           <span></span>
           <span></span>
           <h3>I'm going to sit on your lap, but you can't touch me.</h3>
-          <p>I'm going to sit on your lap, but you can't touch me.</p>
+          <p aria-hidden="true">I'm going to sit on your lap, but you can't touch me.</p>
         </div>
       </figure>
       <h2>4. The "Magic": Text Wrapping
@@ -939,7 +970,7 @@ figure.Venn {
       <p>This is the most complex part. Normally, text inside a div flows in a rectangle. To make the text "flow" inside
         the curves of the circles or the leaf-shape of the intersection, the code uses shape-outside.</p>
       <p>Inside each <code>.circle</code> or <code>.shape</code> div, there are two empty &lt;span&gt; elements that are
-          floated to the left and right.
+        floated to the left and right.
       </p>
       <pre>
         <code>
@@ -968,7 +999,7 @@ figure.Venn {
           <span></span>
           <span></span>
           <h3>Where are you?</h3>
-          <p>Where are you?</p>
+          <p aria-hidden="true">Where are you?</p>
         </div>
       </figure>
       <h2>5. Scaling: Container Queries (cqi)</h2>
@@ -1001,7 +1032,7 @@ figure.Venn {
           <span></span>
           <span></span>
           <h3>Not responding</h3>
-          <p>Not responding</p>
+          <p aria-hidden="true">Not responding</p>
         </div>
       </figure>
     </article>
