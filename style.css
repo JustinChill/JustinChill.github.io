@@ -284,13 +284,13 @@ html[data-theme="dark"] .border-gray-300 {
 }
 
 html[data-theme="dark"] a:not([class]),
-html[data-theme="dark"] a.nav__item,
+html[data-theme="dark"] .nav__item,
 html[data-theme="dark"] a.text-black {
   color: var(--link-color) !important;
 }
 
 html[data-theme="dark"] a:not([class]):hover,
-html[data-theme="dark"] a.nav__item:hover,
+html[data-theme="dark"] .nav__item:hover,
 html[data-theme="dark"] a.text-black:hover,
 html[data-theme="dark"] .hover\:text-indigo-600:hover,
 html[data-theme="dark"] .hover\:text-blue-600:hover {
@@ -304,6 +304,39 @@ html[data-theme="dark"] .border-blue-600 {
 html[data-theme="dark"] .text-opacity-40 {
   opacity: 0.65 !important;
   color: var(--heading-color) !important;
+}
+
+html[data-theme="dark"] article p,
+html[data-theme="dark"] article ul,
+html[data-theme="dark"] article ol,
+html[data-theme="dark"] footer>ol,
+html[data-theme="dark"] article cite,
+html[data-theme="dark"] article>aside,
+html[data-theme="dark"] article>aside * {
+  color: var(--text-color);
+}
+
+html[data-theme="dark"] .article-subtitle {
+  color: var(--muted-color);
+}
+
+html[data-theme="dark"] .article-category {
+  color: var(--link-color);
+}
+
+html[data-theme="dark"] article>blockquote,
+html[data-theme="dark"] article>q {
+  background: var(--link-color);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+html[data-theme="dark"] [aria-describedby="footnote-label"]::after {
+  color: var(--link-color);
+}
+
+html[data-theme="dark"] footer :target {
+  background: var(--highlight-color);
 }
 
 html[data-theme="light"] {
@@ -677,9 +710,10 @@ article>p:first-of-type:first-letter {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  align-items: center;
 }
 
-a.nav__item {
+.nav__item {
   display: inline-block;
   margin-right: 0.5em;
   color: var(--muted-color);
@@ -691,9 +725,35 @@ a.nav__item {
   text-decoration: none;
 }
 
-a.nav__item:hover,
+.nav__item:hover,
 a:not([class]):hover {
   color: var(--link-color);
+}
+
+#theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  line-height: 1;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  color: inherit;
+}
+
+#theme-toggle span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#theme-toggle svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  display: block;
+  transform: translateY(-1.5px);
 }
 
 .nav__divider {
@@ -1754,10 +1814,12 @@ svg[class*="plot"][class*="ramp"] text {
 
 @media (min-width: 1024px) {
   .nav {
-    display: block;
+    display: flex;
+    flex-direction: column;
     position: fixed;
     padding: var(--gutter);
     margin: var(--gutter);
+    gap: var(--spacer-1);
   }
 
   .nav * {
@@ -1766,16 +1828,28 @@ svg[class*="plot"][class*="ramp"] text {
   }
 
   .nav__list {
-    display: block;
-    margin-right: 0;
-    margin-bottom: var(--gutter);
-    border: none;
+    display: contents;
   }
 
   a.nav__item {
     display: block;
     border-radius: var(--radius);
     text-decoration: initial;
+    margin-right: 0;
+  }
+
+  .nav__list:nth-of-type(2) a.nav__item:first-of-type {
+    margin-top: var(--gutter);
+  }
+
+  .nav #theme-toggle {
+    order: 99;
+    margin-top: var(--gutter);
+    margin-left: 0;
+    align-self: flex-start;
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
   }
 }
 
@@ -1924,4 +1998,55 @@ article > .visual--full {
   .photo-pack > figure:first-child { grid-column: auto; }
   .photo-pack > figure:first-child img,
   .photo-pack > figure:not(:first-child) img { aspect-ratio: 4 / 3; }
+}
+
+/* Theme Toggle Button styling */
+#theme-toggle {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0 !important;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  color: inherit;
+}
+
+.nav #theme-toggle {
+  color: var(--muted-color);
+  width: 24px;
+  height: 24px;
+  vertical-align: middle;
+  margin-left: 0.5em;
+}
+
+#theme-toggle:hover {
+  color: var(--link-color);
+}
+
+#header #theme-toggle {
+  height: 28px;
+  width: 28px;
+}
+
+@media (min-width: 1024px) {
+  #header #theme-toggle {
+    border-bottom: 2px solid transparent;
+  }
+}
+
+#theme-toggle svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.hidden {
+  display: none !important;
 }

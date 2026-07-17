@@ -33,16 +33,16 @@
   <meta content="https://nownownow.com/images/nowclock.jpg" property="twitter:image">
   <meta content="An analog clock but every hour says 'now'." property="og:image:alt">
 
-    <script>
-  // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
-  (function () {
-  const savedTheme = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
-  document.documentElement.setAttribute('data-theme', theme);
-  })();
+  <script>
+    // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
+    (function () {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
   </script>
-<link type="text/plain" href="humans.txt" rel="author">
+  <link type="text/plain" href="humans.txt" rel="author">
   <link rel="preload" href="style.css" as="style" />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="/favicon.ico">
@@ -58,8 +58,10 @@
   </script>
 
   <style type="text/css">
-    section.mid-size {
-      display: flex;
+    section.shelf {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
     }
 
     pre:before {
@@ -146,22 +148,74 @@
       transform: translateZ(0);
     }
 
+    .literal-widget .literal-book-item__image_cover__outer.no-cover {
+      width: 40px;
+      height: 64px;
+      background: var(--surface-subtle);
+      border: 1px solid var(--rule-color);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .literal-widget .literal-book-item__image_cover__outer.no-cover::after {
+      content: '📚';
+      font-size: 18px;
+    }
+
     .literal-widget .literal-book-item__info {
       flex: 1 0;
     }
 
     .literal-widget .literal-book-item__title {
       font-weight: 400;
-      color: #000000;
+      color: var(--heading-color);
       font-size: 16px;
       line-height: 150%;
     }
 
     .literal-widget .literal-book-item__authors {
       font-size: 14px;
-      color: #9a988b;
+      color: var(--muted-color);
       line-height: 145%;
       margin-top: 4px;
+    }
+
+    /* Leaflet map dark mode integration */
+    html[data-theme="dark"] #map .leaflet-tile-container img {
+      filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+    }
+
+    html[data-theme="dark"] .leaflet-container {
+      background: var(--bg-color);
+    }
+
+    html[data-theme="dark"] .leaflet-bar a,
+    html[data-theme="dark"] .leaflet-popup-content-wrapper,
+    html[data-theme="dark"] .leaflet-popup-tip {
+      background: var(--surface-color);
+      color: var(--text-color);
+      border-color: var(--rule-color);
+    }
+
+    html[data-theme="dark"] .leaflet-popup-content-wrapper {
+      box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
+    }
+
+    html[data-theme="dark"] .leaflet-control-attribution {
+      background: rgba(24, 24, 24, 0.8) !important;
+      color: var(--muted-color) !important;
+    }
+
+    html[data-theme="dark"] .leaflet-control-attribution a {
+      color: var(--link-color) !important;
+    }
+
+    /* Skeleton Loader dark mode compatibility */
+    html[data-theme="dark"] .post .avatar,
+    html[data-theme="dark"] .post .line {
+      background-image: linear-gradient(90deg, #222 0px, rgba(50, 50, 50, 0.8) 40px, #222 80px);
     }
 
     #map a {
@@ -232,8 +286,9 @@
         display: block;
       }
 
-      section.mid-size {
-        display: grid;
+      section.shelf {
+        grid-template-columns: 1fr;
+        gap: 20px;
       }
     }
   </style>
@@ -271,19 +326,23 @@
     <div class="nav__list">
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
-    
+
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
+        aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
+            </path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
@@ -299,7 +358,6 @@
       <div class="article-hero">
         <h2 class="article-category">Now</h2>
         <h1 class="article-title">What's happening?</h1>
-        <h2 class="article-subtitle"></h2>
       </div>
       <h3 class="mid-size">📚 Bookshelf</h3>
       <section class="mid-size shelf">
@@ -373,20 +431,12 @@
         loading="lazy">
       <p>Overseeing Operations and Technology for the Innovation team at <a href="https://www.bbh.com/us/en.html">Brown
           Brothers Harriman</a> (BBH).</p>
-      <br />
-      <a href="https://www.bbh.com/us/en.html" target="_blank" rel="noopener noreferrer"><img
-          src="https://mma.prnewswire.com/media/805904/Brown_Brothers_Harriman_Logo.jpg?p=facebook"
-          alt="Brown Brothers Harriman" loading="lazy" /></a>
 
       <!-- Blake Watson's now: https://now.blakewatson.com/ -->
       <!--  Nick Simson's now: https://nicksimson.com/now/ -->
     </article>
   </main>
   <footer>
-    <h2 class="visually-hidden" id="footnote-label">Footnotes</h2>
-    <ol>
-
-    </ol>
     <div>
       <p>Justin Chill &copy; 2026</p>
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
@@ -499,12 +549,17 @@
             const authors = formatter.format(book.authors.map((a) => a.name));
             const bookItem = document.createElement('div');
             bookItem.classList.add('literal-book-item');
+
+            const hasCover = !!book.cover;
+            const coverOuterClass = hasCover ? 'literal-book-item__image_cover__outer' : 'literal-book-item__image_cover__outer no-cover';
+            const coverImg = hasCover ? `<img src="${book.cover}" alt="${book.title}" onerror="this.style.display='none'; this.parentNode.classList.add('no-cover');" />` : '';
+
             bookItem.innerHTML = `
             <a href="https://literal.club/${variables.handle}/book/${book.slug}?utm_source=${variables.handle}&utm_medium=widget" target="_blank">
               <div class="literal-book-item__inner">
                 <div class="literal-book-item__image">
-                  <div class="literal-book-item__image_cover__outer">
-                    <img src="${book.cover}" alt="${book.title}" />
+                  <div class="${coverOuterClass}">
+                    ${coverImg}
                   </div>
                 </div>
                 <div class="literal-book-item__info">
