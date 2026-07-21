@@ -35,16 +35,16 @@
   <meta name="twitter:title" content="Titanic Survival Analysis | Justin Chill">
   <meta name="twitter:description" content="Data visualizations of the RMS Titanic disaster.">
 
-    <script>
-  // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
-  (function () {
-  const savedTheme = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
-  document.documentElement.setAttribute('data-theme', theme);
-  })();
+  <script>
+    // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
+    (function () {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
   </script>
-<link type="text/plain" href="humans.txt" rel="author">
+  <link type="text/plain" href="humans.txt" rel="author">
   <link rel="preload" href="style.css" as="style" />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="/favicon.ico">
@@ -199,19 +199,23 @@
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-    
+
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
+        aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
+            </path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
@@ -455,6 +459,7 @@
         methods.
       </p>
       <h3>Mosaic plots</h3>
+      <figure id="mosaic_survivors" aria-label="Mosaic plot showing Survivors of Titanic Tragedy"></figure>
       <p>Bron’s chart illustrated some of the challenges in visualizing a table of frequencies of survival, classified
         by two or more factors. Mosaic plots<a href="#Hartigan" aria-describedby="footnote-label" id="Hartigan-ref"></a>
         provided an attractive alternative, where the frequencies in a table were show by areas of “tiles” in a
@@ -462,10 +467,6 @@
       <p>Mosaics are useful for discovering unusually high or small counts and for discovering dependencies between
         variables. In principle, mosaics may be used for any number of cross-classifying variables, but six seems to be
         a practical maximum.</p>
-      <img
-        src="https://d2mvzyuse3lwjc.cloudfront.net/www/resources/graph_gallery/images_galleries_new/Titanic_Mosaic_n2.png"
-        loading="lazy"
-        alt="Mosaic plot showing Titanic data. Left plot: survival by class, with larger survival for 1st and 3rd class. Right plot: survival by gender, with higher female survival; both plots use red for died, teal for survived." />
       <h3>Text plots</h3>
       <p>Brath (2018) created mosaic plots filling the tiles with the names of the victims and survivors among the 1308
         passengers. This highlights the fact that the passengers were people, not statistics. For Brath, it provided an
@@ -510,8 +511,6 @@
         suggests that the procedures for loading the lifeboats may have differed for the port and starboard side of the
         ship</p>
       <h3>Balloon plots</h3>
-      <p>Jain and Warnes (2006) coined this term to refer to a semi-graphic table, in which the size of the cell entry
-        was overlaid with a “balloon” to show the magnitude.</p>
       <img src="imgs/titanic-balloon.ppm.png" loading="lazy"
         alt="Balloon plot showing Titanic survivors by class, sex, and age. Larger circles indicate more passengers. Notable counts: adult male crew 192, adult female 3rd class 80, adult female 1st class 140." />
       <h3>Venn and Euler diagrams</h3>
@@ -1193,6 +1192,125 @@
           ]
         };
 
+        var mosaicData = [
+          { group: "Child", class: "1st Class", value: 6, x1: 0, x2: 57, y1: 0, y2: 6, fill: "#6b9d47" },
+          { group: "Child", class: "2nd Class", value: 24, x1: 0, x2: 57, y1: 6, y2: 30, fill: "#6b9d47" },
+          { group: "Child", class: "3rd Class", value: 27, x1: 0, x2: 57, y1: 30, y2: 57, fill: "#6b9d47" },
+
+          { group: "Female", class: "1st Class", value: 140, x1: 57, x2: 373, y1: 0, y2: 140, fill: "#bed6ab" },
+          { group: "Female", class: "2nd Class", value: 80, x1: 57, x2: 373, y1: 140, y2: 220, fill: "#bed6ab" },
+          { group: "Female", class: "3rd Class", value: 76, x1: 57, x2: 373, y1: 220, y2: 296, fill: "#bed6ab" },
+          { group: "Female", class: "Crew", value: 20, x1: 57, x2: 373, y1: 296, y2: 316, fill: "#bed6ab" },
+
+          { group: "Male", class: "1st Class", value: 57, x1: 373, x2: 711, y1: 0, y2: 57, fill: "#fcb714" },
+          { group: "Male", class: "2nd Class", value: 14, x1: 373, x2: 711, y1: 57, y2: 71, fill: "#fcb714" },
+          { group: "Male", class: "3rd Class", value: 75, x1: 373, x2: 711, y1: 71, y2: 146, fill: "#fcb714" },
+          { group: "Male", class: "Crew", value: 192, x1: 373, x2: 711, y1: 146, y2: 338, fill: "#fcb714" }
+        ];
+
+        mosaicData.forEach(d => {
+          let yTotal = 711;
+          let xTotal = d.class === "1st Class" ? 203 : (d.class === "2nd Class" ? 118 : (d.class === "3rd Class" ? 178 : 212));
+
+          let yOffset = 0;
+          if (d.class === "2nd Class") yOffset = 203;
+          if (d.class === "3rd Class") yOffset = 203 + 118;
+          if (d.class === "Crew") yOffset = 203 + 118 + 178;
+
+          let xOffset = 0;
+          if (d.group === "Female") {
+            if (d.class === "1st Class") xOffset = 6;
+            if (d.class === "2nd Class") xOffset = 24;
+            if (d.class === "3rd Class") xOffset = 27;
+            if (d.class === "Crew") xOffset = 0;
+          }
+          if (d.group === "Male") {
+            if (d.class === "1st Class") xOffset = 6 + 140;
+            if (d.class === "2nd Class") xOffset = 24 + 80;
+            if (d.class === "3rd Class") xOffset = 27 + 76;
+            if (d.class === "Crew") xOffset = 20;
+          }
+
+          d.x1 = xOffset / xTotal;
+          d.x2 = (xOffset + d.value) / xTotal;
+          d.y1 = yOffset / yTotal;
+          d.y2 = (yOffset + d.classTotal) / yTotal;
+          // hardcode classTotal for y2 calculation:
+          let cTotal = d.class === "1st Class" ? 203 : (d.class === "2nd Class" ? 118 : (d.class === "3rd Class" ? 178 : 212));
+          d.y2 = (yOffset + cTotal) / yTotal;
+
+          d.xMid = (d.x1 + d.x2) / 2;
+          d.yMid = (d.y1 + d.y2) / 2;
+        });
+
+        var mosaic_survivors = {
+          width: width,
+          height: 450,
+          marginLeft: 80,
+          marginRight: 10,
+          marginBottom: 40,
+          marginTop: 50,
+          style: {
+            fontSize: size,
+          },
+          x: { axis: null, domain: [0, 1] },
+          y: { axis: null, domain: [0, 1] },
+          marks: [
+            Plot.rect(mosaicData.filter(d => d.value > 0), {
+              x1: "x1",
+              x2: "x2",
+              y1: "y1",
+              y2: "y2",
+              fill: "fill",
+              stroke: "white",
+              strokeWidth: 2,
+            }),
+            Plot.text(mosaicData.filter(d => d.value > 0), {
+              x: "xMid",
+              y: "yMid",
+              text: "value",
+              fill: "black",
+              fontSize: size
+            }),
+            Plot.text([
+              { x: (0 + 27 / 178) / 2, text: "Child" }, // Align with 3rd class child box
+              { x: (27 / 178 + (27 + 76) / 178) / 2, text: "Female" }, // Align with 3rd class female box
+              { x: ((27 + 76) / 178 + 1) / 2, text: "Male" } // Align with 3rd class male box
+            ], {
+              x: "x",
+              y: 0,
+              dy: 20,
+              text: "text",
+              fill: "currentColor",
+              fontSize: size + 2
+            }),
+            Plot.text([
+              { y: (0 + 203 / 711) / 2, text: "1st Class" },
+              { y: (203 / 711 + 321 / 711) / 2, text: "2nd Class" },
+              { y: (321 / 711 + 499 / 711) / 2, text: "3rd Class" },
+              { y: (499 / 711 + 1) / 2, text: "Crew" }
+            ], {
+              x: 0,
+              y: "y",
+              dx: -10,
+              text: "text",
+              textAnchor: "end",
+              fill: "currentColor",
+              fontSize: size + 2
+            }),
+            Plot.text(["Survivors of Titanic Tragedy"], {
+              x: 0.5,
+              y: 1,
+              dy: -30,
+              text: d => d,
+              fill: "currentColor",
+              fontSize: size + 4,
+              fontWeight: "500"
+            })
+          ]
+        };
+
+        document.getElementById("mosaic_survivors").appendChild(Plot.plot(mosaic_survivors));
         document.getElementById("agesFacet").appendChild(Plot.plot(agesFacet));
         document.getElementById("agesline").appendChild(Plot.plot(agesline));
         document.getElementById("classScatter").appendChild(Plot.plot(classScatter));
