@@ -35,16 +35,16 @@
   <meta name="twitter:title" content="Charts & Data | Justin Chill">
   <meta name="twitter:description" content="Exploring charts and data presentation styles">
 
-    <script>
-  // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
-  (function () {
-  const savedTheme = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
-  document.documentElement.setAttribute('data-theme', theme);
-  })();
+  <script>
+    // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
+    (function () {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
   </script>
-<link type="text/plain" href="humans.txt" rel="author">
+  <link type="text/plain" href="humans.txt" rel="author">
   <link rel="preload" href="style.css" as="style" />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="/favicon.ico">
@@ -59,6 +59,24 @@
   <style type="text/css">
     .plot text {
       color: #656568;
+    }
+
+    html[data-theme="dark"] .plot text {
+      color: white;
+      fill: white;
+    }
+
+    html[data-theme="dark"] .alluvial-chart text {
+      fill: white;
+    }
+
+    html[data-theme="dark"] .alluvial-chart text[fill="#888"],
+    html[data-theme="dark"] .alluvial-chart text[fill="#999"] {
+      fill: #aaa;
+    }
+
+    html[data-theme="dark"] #country_emissions svg {
+      filter: invert(0.88) hue-rotate(180deg);
     }
 
     article>figure {
@@ -232,19 +250,23 @@
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-    
+
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
+        aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
+            </path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
@@ -363,12 +385,12 @@
         presenting your data.</p>
 
       <h2>Alluvial diagram</h2>
-      <figure>
-        <figcaption class="right">Source: <a
-            href="https://www.economist.com/graphic-detail/2015/05/12/seeking-safety">The Economist</a></figcaption>
-        <img src="imgs/Asylum_seekers.png"
-          alt="Flowchart illustrating European asylum seeker application decisions in 2012 and 2014. Shows main origin and destination countries, including Afghanistan, Syria, Serbia, and Pakistan, with applications in Germany, Sweden, France, and more. Data source: Eurostat."
-          loading="lazy">
+      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <h3>European asylum seeker application decisions, 2014</h3>
+      <figure id="alluvial_asylum"
+        aria-label="Alluvial diagram showing flows of European asylum seeker applications from origin countries to destination countries, and their acceptance or rejection decisions in 2014.">
+        <figcaption class="right">Data: <a href="https://www.economist.com/graphic-detail/2015/05/12/seeking-safety">The
+            Economist</a> · Eurostat</figcaption>
       </figure>
       <p>An alluvial diagram is useful for showing changes over time across categories. Each group of stacked bars
         represents a variable while the size of each segment represents how many observations in the dataset belong to
@@ -405,7 +427,8 @@
       <figure id="freq_letters"
         aria-label="Bar chart displaying the frequency of letters in the English language, with 'E', 'T', and 'A' being the most frequent.">
         <figcaption>Data: <a
-            href="https://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html">Cornell</a></figcaption>
+            href="https://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html">Cornell</a>
+        </figcaption>
       </figure>
       <p>The classic bar chart, or bar graph, is one of the most commonly used method to present&nbsp;quantitative data.
         In this type of visualization, one axis of the chart shows the categories being compared, and the other, a
@@ -593,8 +616,7 @@
       <h3>Change in state population, 2010–2019 (%)</h3>
       <figure id="diverging"
         aria-label="Diverging bar chart showing the percentage change in state populations from 2010 to 2019, highlighting growth vs decline.">
-        <figcaption class="right">Data: <a
-            href="https://www.census.gov/data/data-tools/quickfacts.html">Census.gov</a>
+        <figcaption class="right">Data: <a href="https://www.census.gov/data/data-tools/quickfacts.html">Census.gov</a>
         </figcaption>
       </figure>
       <p>A diverging bar chart is a bar chart that has the marks for some dimension members pointing up or right, and
@@ -1147,7 +1169,9 @@
       <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
       <h3>WeWork valuation</h3>
       <figure id="wework" aria-label="Step chart visualizing the valuation of WeWork funding rounds from 2009 to 2020.">
-        <figcaption class="right">Data: <a href="https://tracxn.com/d/companies/wework/__lfslu0fQ1U0yjaVY__7ILSWlGIaPCkM8C22WwnwsM0Y/funding-and-investors">Tracxn</a></figcaption>
+        <figcaption class="right">Data: <a
+            href="https://tracxn.com/d/companies/wework/__lfslu0fQ1U0yjaVY__7ILSWlGIaPCkM8C22WwnwsM0Y/funding-and-investors">Tracxn</a>
+        </figcaption>
       </figure>
       <p>A step chart is a type of data visualization that displays data points in a way that emphasizes changes over
         time. Unlike line charts, where data points are connected with straight lines, step charts display horizontal
@@ -1174,7 +1198,8 @@
       <h3>English letter frequency</h3>
       <figure id="example_dot" aria-label="Strip plot showing the frequency of letters in the English language.">
         <figcaption class="right">Data: <a
-            href="https://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html">Cornell</a></figcaption>
+            href="https://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html">Cornell</a>
+        </figcaption>
       </figure>
       <p>Dots are placed along a single continuous scale to show distribution along the corresponding variable. The
         radius of each dot is encoded, so frequent letters are larger than infrequent letters.</p>
@@ -1352,8 +1377,7 @@
       <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
       <h3>World History Timeline</h3>
       <figure id="civilizations" aria-label="Timeline of World History civilizations.">
-        <figcaption class="right">Data: <a
-            href="https://en.wikipedia.org/wiki/Timeline_of_ancient_history">Wikipedia/a>
+        <figcaption class="right">Data: <a href="https://en.wikipedia.org/wiki/Timeline_of_ancient_history">Wikipedia/a>
         </figcaption>
       </figure>
       <p>A timeline shows a list of events in chronological order. The events may be placed on a scale or in
@@ -1396,7 +1420,8 @@
       <h3>Commute time to work</h3>
       <figure id="irregular"
         aria-label="Variable width bar chart showing the distribution of US commute times, where bar width represents the number of people.">
-        <figcaption>Data: <a href="https://www.census.gov/library/publications/2003/dec/phc-2.html">US 2000 census</a></figcaption>
+        <figcaption>Data: <a href="https://www.census.gov/library/publications/2003/dec/phc-2.html">US 2000 census</a>
+        </figcaption>
       </figure>
       <p>A <strong>variable width bar chart</strong> is a type of graphical representation that differs from traditional
         bar charts in that the width of each bar carries significant meaning. Rather than all bars being of uniform
@@ -6528,6 +6553,372 @@
           Plot.dot(radar_points, { x: "x", y: "y", z: "drug", fill: "drug", r: 3, tip: true, title: d => `${d.drug}\n${d.axis}: ${d.value}` }),
         ]
       };
+
+      // ──────────────────────────────────────────────
+      // Alluvial / Sankey diagram: European asylum seekers 2014
+      // ──────────────────────────────────────────────
+      (function renderAlluvialAsylum() {
+        const container = document.getElementById("alluvial_asylum");
+        if (!container) return;
+
+        const alluvialObserver = new IntersectionObserver((entries, obs) => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            obs.unobserve(entry.target);
+            drawAlluvial(entry.target);
+            entry.target.classList.add("animate-in");
+          });
+        }, { rootMargin: "200px" });
+
+        alluvialObserver.observe(container);
+
+        function drawAlluvial(el) {
+          // ── Data: 2014 European asylum seeker flows ──
+          const flows = [
+            { origin: "Syria", destination: "Germany", value: 28000 },
+            { origin: "Syria", destination: "Sweden", value: 14500 },
+            { origin: "Syria", destination: "France", value: 2000 },
+            { origin: "Syria", destination: "Switzerland", value: 2500 },
+            { origin: "Syria", destination: "Britain", value: 1500 },
+            { origin: "Syria", destination: "Italy", value: 1015 },
+            { origin: "Syria", destination: "Belgium", value: 2000 },
+            { origin: "Serbia", destination: "Germany", value: 12000 },
+            { origin: "Serbia", destination: "Sweden", value: 3500 },
+            { origin: "Serbia", destination: "France", value: 4000 },
+            { origin: "Serbia", destination: "Switzerland", value: 500 },
+            { origin: "Serbia", destination: "Belgium", value: 1855 },
+            { origin: "Afghanistan", destination: "Germany", value: 5500 },
+            { origin: "Afghanistan", destination: "Sweden", value: 2800 },
+            { origin: "Afghanistan", destination: "France", value: 800 },
+            { origin: "Afghanistan", destination: "Switzerland", value: 1200 },
+            { origin: "Afghanistan", destination: "Britain", value: 2200 },
+            { origin: "Afghanistan", destination: "Italy", value: 2355 },
+            { origin: "Afghanistan", destination: "Belgium", value: 1000 },
+            { origin: "Eritrea", destination: "Germany", value: 3100 },
+            { origin: "Eritrea", destination: "Sweden", value: 3200 },
+            { origin: "Eritrea", destination: "France", value: 500 },
+            { origin: "Eritrea", destination: "Switzerland", value: 4500 },
+            { origin: "Eritrea", destination: "Britain", value: 2000 },
+            { origin: "Eritrea", destination: "Italy", value: 1555 },
+            { origin: "Eritrea", destination: "Belgium", value: 500 },
+            { origin: "Pakistan", destination: "Germany", value: 4000 },
+            { origin: "Pakistan", destination: "France", value: 3500 },
+            { origin: "Pakistan", destination: "Italy", value: 2500 },
+            { origin: "Pakistan", destination: "Britain", value: 1725 },
+            { origin: "Pakistan", destination: "Belgium", value: 1000 },
+            { origin: "Albania", destination: "Germany", value: 4200 },
+            { origin: "Albania", destination: "France", value: 4500 },
+            { origin: "Albania", destination: "Switzerland", value: 1200 },
+            { origin: "Albania", destination: "Britain", value: 1000 },
+            { origin: "Albania", destination: "Belgium", value: 640 },
+            { origin: "Albania", destination: "Sweden", value: 500 },
+            { origin: "Kosovo", destination: "Germany", value: 2005 },
+            { origin: "Kosovo", destination: "France", value: 1885 },
+            { origin: "Kosovo", destination: "Switzerland", value: 870 },
+            { origin: "Kosovo", destination: "Sweden", value: 1720 },
+            { origin: "Kosovo", destination: "Belgium", value: 1000 },
+            { origin: "Kosovo", destination: "Italy", value: 1095 },
+            { origin: "Kosovo", destination: "Britain", value: 1025 },
+          ];
+
+          // Decision outcomes by origin (from Economist graphic)
+          const decisions = [
+            { origin: "Syria", accepted: 49170, rejected: 2345 },
+            { origin: "Serbia", accepted: 475, rejected: 21380 },
+            { origin: "Afghanistan", accepted: 11535, rejected: 4320 },
+            { origin: "Eritrea", accepted: 13740, rejected: 1615 },
+            { origin: "Pakistan", accepted: 4025, rejected: 8700 },
+            { origin: "Albania", accepted: 1035, rejected: 11005 },
+            { origin: "Kosovo", accepted: 915, rejected: 8685 },
+          ];
+
+          const originOrder = ["Syria", "Serbia", "Afghanistan", "Eritrea", "Pakistan", "Albania", "Kosovo"];
+          const destOrder = ["Germany", "Sweden", "France", "Switzerland", "Britain", "Italy", "Belgium"];
+          const originTotals = { Syria: 51515, Serbia: 21855, Afghanistan: 15855, Eritrea: 15355, Pakistan: 12725, Albania: 12040, Kosovo: 9600 };
+          const destTotals = { Germany: 58805, Sweden: 26220, France: 17185, Switzerland: 10770, Britain: 10450, Italy: 9520, Belgium: 5995 };
+          const totalAccepted = 80895;
+          const totalRejected = 58050;
+
+          // ── Layout ──
+          const W = width;
+          const isMobile = W <= 500;
+          const margin = { top: 38, right: isMobile ? 10 : 16, bottom: 26, left: isMobile ? 6 : 16 };
+          const innerW = W - margin.left - margin.right;
+          const barW = isMobile ? 8 : 12;
+          const gap = isMobile ? 3 : 5; // gap between nodes
+          const fs = isMobile ? 9 : 11;  // font size
+          const fsSmall = isMobile ? 8 : 10;
+
+          // 4 column x-positions
+          const c0 = 0;                          // Origin
+          const c1 = innerW * 0.33;              // Destination
+          const c2 = innerW * 0.67;              // Total decisions
+          const c3 = innerW - barW;              // Decisions by origin
+          const decBarW = isMobile ? 36 : 56;    // Wider bar for decisions
+
+          // Vertical scale: fit tallest column in available height
+          const totalOriginVal = d3.sum(originOrder, d => originTotals[d]);
+          const totalDestVal = d3.sum(destOrder, d => destTotals[d]);
+          const totalDecVal = totalAccepted + totalRejected;
+          const decByOriginTotal = d3.sum(decisions, d => d.accepted + d.rejected);
+          const maxVal = d3.max([totalOriginVal, totalDestVal, totalDecVal, decByOriginTotal]);
+          const availH = isMobile ? 380 : 480;
+          const gapTotal = gap * 6; // 6 gaps for 7 items
+          const yS = (availH - gapTotal) / maxVal;
+          const H = availH + margin.top + margin.bottom;
+
+          // Economist-style blue gradient palette
+          const palette = {
+            "Syria": "#1A5173",
+            "Serbia": "#2677A0",
+            "Afghanistan": "#4A94B8",
+            "Eritrea": "#76B3CE",
+            "Pakistan": "#9CCBE0",
+            "Albania": "#BBDCE8",
+            "Kosovo": "#D5EAF2"
+          };
+          const accColor = "#4DAFA3";
+          const rejColor = "#E8654A";
+
+          // ── Build columns ──
+          function col(order, totals, x) {
+            let y = 0;
+            return order.map(name => {
+              const h = totals[name] * yS;
+              const node = { name, x, y, h, value: totals[name] };
+              y += h + gap;
+              return node;
+            });
+          }
+
+          const oNodes = col(originOrder, originTotals, c0);
+          const dNodes = col(destOrder, destTotals, c1);
+
+          // Decision column (just 2 bars with a larger gap)
+          const accH = totalAccepted * yS;
+          const rejH = totalRejected * yS;
+          const decGap = gap * 4;
+          const decNodes = [
+            { name: "Accepted", x: c2, y: 0, h: accH, value: totalAccepted, color: accColor },
+            { name: "Rejected", x: c2, y: accH + decGap, h: rejH, value: totalRejected, color: rejColor },
+          ];
+
+          // Decisions-by-origin column (right side)
+          const decByOriginTotals = {};
+          decisions.forEach(d => decByOriginTotals[d.origin] = d.accepted + d.rejected);
+          const dboNodes = col(originOrder, decByOriginTotals, c3);
+
+          // ── SVG ──
+          const svg = d3.create("svg")
+            .attr("viewBox", `0 0 ${W} ${H}`)
+            .attr("width", W)
+            .attr("height", H)
+            .attr("class", "alluvial-chart")
+            .style("font-family", "system-ui, -apple-system, sans-serif")
+            .style("overflow", "visible");
+
+          const g = svg.append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+          // ── Headers & Guidelines ──
+          const hFill = "#666";
+          const hFs = isMobile ? 9 : 11;
+          const headers = [
+            { x: c0, label: "Origin", align: "start", colNodes: oNodes },
+            { x: c1, label: "Destination", align: "start", colNodes: dNodes },
+            { x: c2, label: "Total\ndecisions*", align: "start", colNodes: decNodes },
+            { x: c3 + barW, label: "Decisions\nby origin", align: "end", colNodes: dboNodes },
+          ];
+
+          headers.forEach(h => {
+            const lines = h.label.split("\n");
+            lines.forEach((line, i) => {
+              g.append("text").attr("x", h.x).attr("y", -22 + i * (hFs + 1))
+                .attr("font-size", hFs).attr("fill", hFill).attr("text-anchor", h.align)
+                .text(line);
+            });
+            // Dotted vertical line
+            if (h.colNodes && h.colNodes.length > 0) {
+              const startY = -4;
+              const endY = h.colNodes[0].y - 4;
+              g.append("line").attr("x1", h.x).attr("x2", h.x)
+                .attr("y1", startY).attr("y2", endY)
+                .attr("stroke", "#ccc").attr("stroke-dasharray", "2,2");
+            }
+          });
+
+          // ── Flow helper ──
+          function drawFlow(x0, y0, x1, y1, h, color, opacity, title) {
+            const cx = (x0 + x1) / 2;
+            const d = `M${x0},${y0} C${cx},${y0} ${cx},${y1} ${x1},${y1} L${x1},${y1 + h} C${cx},${y1 + h} ${cx},${y0 + h} ${x0},${y0 + h} Z`;
+            const p = flowG.append("path")
+              .attr("d", d)
+              .attr("fill", color)
+              .attr("opacity", opacity)
+              .style("transition", "opacity 0.15s");
+            p.on("mouseenter", function () { d3.select(this).attr("opacity", Math.min(opacity + 0.3, 0.8)); })
+              .on("mouseleave", function () { d3.select(this).attr("opacity", opacity); });
+            if (title) p.append("title").text(title);
+          }
+
+          const flowG = g.append("g");
+
+          // ── Flows: Origin → Destination ──
+          const oOff = {}; originOrder.forEach(n => oOff[n] = 0);
+          const dOff = {}; destOrder.forEach(n => dOff[n] = 0);
+
+          const sortedFlows = [...flows].sort((a, b) => {
+            const oi = originOrder.indexOf(a.origin) - originOrder.indexOf(b.origin);
+            return oi !== 0 ? oi : destOrder.indexOf(a.destination) - destOrder.indexOf(b.destination);
+          });
+
+          for (const f of sortedFlows) {
+            const oN = oNodes.find(n => n.name === f.origin);
+            const dN = dNodes.find(n => n.name === f.destination);
+            if (!oN || !dN) continue;
+            const h = f.value * yS;
+            const y0 = oN.y + oOff[f.origin];
+            const y1 = dN.y + dOff[f.destination];
+            oOff[f.origin] += h;
+            dOff[f.destination] += h;
+            drawFlow(c0 + barW, y0, c1, y1, h, palette[f.origin], 0.3,
+              `${f.origin} → ${f.destination}: ${d3.format(",")(f.value)}`);
+          }
+
+          // ── Flows: Destination → Decision ──
+          // Use proportional split per destination based on overall accepted/rejected ratio
+          const dDecOff = {}; destOrder.forEach(n => dDecOff[n] = 0);
+          const decOff = { "Accepted": 0, "Rejected": 0 };
+          const accRatio = totalAccepted / (totalAccepted + totalRejected);
+
+          for (const dest of destOrder) {
+            const dN = dNodes.find(n => n.name === dest);
+            const val = destTotals[dest];
+            const accVal = Math.round(val * accRatio);
+            const rejVal = val - accVal;
+
+            for (const [decision, dv] of [["Accepted", accVal], ["Rejected", rejVal]]) {
+              const decN = decNodes.find(n => n.name === decision);
+              const h = dv * yS;
+              const y0 = dN.y + dDecOff[dest];
+              const y1 = decN.y + decOff[decision];
+              dDecOff[dest] += h;
+              decOff[decision] += h;
+              const color = decision === "Accepted" ? accColor : rejColor;
+              drawFlow(c1 + barW, y0, c2, y1, h, color, 0.2,
+                `${dest} → ${decision}: ${d3.format(",")(dv)}`);
+            }
+          }
+
+          // ── Flows: Decision → Decisions by origin ──
+          const decOutOff = { "Accepted": 0, "Rejected": 0 };
+          const dboOff = {}; originOrder.forEach(n => dboOff[n] = 0);
+
+          // Draw accepted flows first, then rejected
+          for (const dec of decisions) {
+            const decN = decNodes.find(n => n.name === "Accepted");
+            const dboN = dboNodes.find(n => n.name === dec.origin);
+            const h = dec.accepted * yS;
+            drawFlow(c2 + decBarW, decN.y + decOutOff["Accepted"], c3, dboN.y + dboOff[dec.origin], h, accColor, 0.25,
+              `Accepted → ${dec.origin}: ${d3.format(",")(dec.accepted)}`);
+            decOutOff["Accepted"] += h;
+            dboOff[dec.origin] += h;
+          }
+          for (const dec of decisions) {
+            const decN = decNodes.find(n => n.name === "Rejected");
+            const dboN = dboNodes.find(n => n.name === dec.origin);
+            const h = dec.rejected * yS;
+            drawFlow(c2 + decBarW, decN.y + decOutOff["Rejected"], c3, dboN.y + dboOff[dec.origin], h, rejColor, 0.25,
+              `Rejected → ${dec.origin}: ${d3.format(",")(dec.rejected)}`);
+            decOutOff["Rejected"] += h;
+            dboOff[dec.origin] += h;
+          }
+
+          // ── Bars & Labels ──
+          const barsG = g.append("g");
+
+          // Origin bars (labels to the right)
+          for (const n of oNodes) {
+            barsG.append("rect").attr("x", n.x).attr("y", n.y)
+              .attr("width", barW).attr("height", n.h).attr("fill", palette[n.name]);
+            const centerY = n.y + n.h / 2;
+            barsG.append("text").attr("x", n.x + barW + 5).attr("y", centerY - 7)
+              .attr("dy", "0.35em").attr("font-size", fs).attr("font-weight", "bold").attr("fill", "currentColor")
+              .text(n.name);
+            barsG.append("text").attr("x", n.x + barW + 5).attr("y", centerY + 7)
+              .attr("dy", "0.35em").attr("font-size", fsSmall).attr("fill", "#888")
+              .text(d3.format(",")(n.value));
+          }
+
+          // Destination bars (labels to the right)
+          for (const n of dNodes) {
+            barsG.append("rect").attr("x", n.x).attr("y", n.y)
+              .attr("width", barW).attr("height", n.h).attr("fill", "#E8A94A");
+            const centerY = n.y + n.h / 2;
+            barsG.append("text").attr("x", n.x + barW + 5).attr("y", centerY - 7)
+              .attr("dy", "0.35em").attr("font-size", fs).attr("font-weight", "bold").attr("fill", "currentColor")
+              .text(n.name);
+            barsG.append("text").attr("x", n.x + barW + 5).attr("y", centerY + 7)
+              .attr("dy", "0.35em").attr("font-size", fsSmall).attr("fill", "#888")
+              .text(d3.format(",")(n.value));
+          }
+
+          // Decision bars (label inside, centered, white text)
+          for (const n of decNodes) {
+            barsG.append("rect").attr("x", n.x).attr("y", n.y)
+              .attr("width", decBarW).attr("height", n.h).attr("fill", n.color);
+            // Centered white label
+            const badgeY = n.y + n.h / 2;
+            const badgeX = n.x + decBarW / 2;
+            barsG.append("text").attr("x", badgeX).attr("y", badgeY - 7)
+              .attr("dy", "0.35em").attr("font-size", fs).attr("font-weight", "bold").attr("fill", "white")
+              .attr("text-anchor", "middle")
+              .text(n.name.toUpperCase());
+            barsG.append("text").attr("x", badgeX).attr("y", badgeY + 7)
+              .attr("dy", "0.35em").attr("font-size", fs).attr("font-weight", "bold").attr("fill", "white")
+              .attr("text-anchor", "middle")
+              .text(d3.format(",")(n.value));
+          }
+
+          // Decisions-by-origin bars (stacked accepted/rejected, labels to the left)
+          for (const n of dboNodes) {
+            const dec = decisions.find(d => d.origin === n.name);
+            const accH = dec.accepted * yS;
+            const rejH = dec.rejected * yS;
+
+            barsG.append("rect").attr("x", n.x).attr("y", n.y)
+              .attr("width", barW).attr("height", accH).attr("fill", accColor);
+            barsG.append("rect").attr("x", n.x).attr("y", n.y + accH)
+              .attr("width", barW).attr("height", rejH).attr("fill", rejColor);
+
+            const centerY = n.y + n.h / 2;
+
+            // Country name (right-aligned)
+            barsG.append("text").attr("x", n.x - 5).attr("y", centerY - 7)
+              .attr("dy", "0.35em").attr("font-size", fs).attr("font-weight", "bold").attr("fill", "currentColor")
+              .attr("text-anchor", "end")
+              .text(n.name);
+
+            // Accepted / Rejected counts (right-aligned with multiple colors via tspan)
+            const countLabel = `${d3.format(",")(dec.accepted)}`;
+            const rejLabel = ` / ${d3.format(",")(dec.rejected)}`;
+
+            const textEl = barsG.append("text").attr("x", n.x - 5).attr("y", centerY + 7)
+              .attr("dy", "0.35em").attr("font-size", fsSmall).attr("font-weight", "600")
+              .attr("text-anchor", "end");
+
+            textEl.append("tspan").attr("fill", accColor).text(countLabel);
+            textEl.append("tspan").attr("fill", rejColor).text(rejLabel);
+          }
+
+          // ── Footnote ──
+          barsG.append("text").attr("x", innerW).attr("y", H - margin.top - margin.bottom + 12)
+            .attr("text-anchor", "end").attr("font-size", 9).attr("fill", "#999")
+            .text("*First-instance decisions only");
+
+          el.appendChild(svg.node());
+        }
+      })();
 
       const chartConfigs = {
         "popcorn": popcorn,
