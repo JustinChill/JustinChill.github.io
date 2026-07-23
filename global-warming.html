@@ -210,14 +210,12 @@
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 
   <script type="text/javascript">
-    var elementMid = d3.select('figure.mid-size').node();
-    var widthMid = elementMid.getBoundingClientRect().width; // get width of figure.mid-size so graphic is responsive
-    var element = d3.select('figure:not(.mid-size)').node();
-    var width = element.getBoundingClientRect().width;
-    var size = 12;
     const formatDate = d3.timeFormat("%B %d, %Y");
-    isDarkMode = () =>
-      window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+
+    function isDarkMode() {
+      return document.documentElement.getAttribute("data-theme") === "dark" ||
+        (!document.documentElement.hasAttribute("data-theme") && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    }
 
     // Use Promises to async request data
     var promises = [d3.csv("data/global-temps.csv", d3.autoType), d3.csv("data/emission_pathways_2100.csv", d3.autoType), d3.csv("data/jahr_global_temp.csv", d3.autoType)];
@@ -231,392 +229,435 @@
       var emissions = data[1];
       var global_temp = data[2];
 
-      var temps = {
-        width: widthMid,
-        marginRight: 0,
-        inset: 0,
-        x: {
-          grid: true,
-          nice: true,
-          ticks: 5,
-          tickSize: 0,
-        },
-        y: {
-          grid: true,
-          nice: true,
-          tickFormat: "+f",
-          label: null,
-          tickSize: 0,
-          ticks: 2,
-          domain: [-1, 1],
-          tickFormat: (d) =>
-            `${d.toLocaleString("en", {
-              minimumFractionDigits: "0",
-              maximumFractionDigits: "1"
-            })}°C`
-        },
-        style: {
-          background: "hsla(209, 23%, 99%, 1)",
-          color: "rgba(0, 0, 0, 0.84)",
-          fontSize: size,
-        },
-        color: {
-          range: [
-            "#4F80FF",
-            "#80A3FF",
-            "#B3C8FF",
-            "#ffaf73",
-            "#ff9d63",
-            "#ff8b53",
-            "#ff7842",
-            "#ff6531",
-            "#e84f1c",
-            "#d23b06",
-            "#b82100",
-            "#9c0100",
-            "#780000"
-          ],
-          domain: [
-            -999, -0.3, -0.15, -0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1.05, 1.2, 1.35, 999
-          ],
-          type: "quantile",
-          tickFormat: "+.02f",
-          legend: false,
-          style: {
-            fontSize: size
+      function renderCharts() {
+        // Remove existing SVGs/plots while preserving figure captions
+        ["temps", "stripes", "stripesBar", "paris"].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.querySelectorAll("svg, figure, .plot, div.plot").forEach(child => child.remove());
+          }
+        });
+
+        var elementMid = d3.select('figure.mid-size').node();
+        var widthMid = elementMid ? elementMid.getBoundingClientRect().width : 600;
+        var element = d3.select('figure:not(.mid-size)').node();
+        var width = element ? element.getBoundingClientRect().width : 600;
+        var size = 12;
+
+        const isDark = isDarkMode();
+        const textColor = isDark ? "#e8e8e8" : "rgba(0, 0, 0, 0.84)";
+        const ruleColor = isDark ? "rgba(255, 255, 255, 0.35)" : "rgba(0, 0, 0, 0.3)";
+        const greenColor = isDark ? "#4ade80" : "#238b45";
+        const histColor = isDark ? "#b0b0b0" : "#636363";
+        const pledgesColor = isDark ? "#66b3e0" : "#4C8BB3";
+        const policyColor = isDark ? "#9cd5ed" : "#87C5DF";
+
+        var temps = {
+          width: widthMid,
+          marginRight: 0,
+          inset: 0,
+          x: {
+            grid: true,
+            nice: true,
+            ticks: 5,
+            tickSize: 0,
           },
-          label: "Surface temperature change (°C)",
-        },
-        marks: [
-          Plot.ruleY([0], {
-            stroke: "rgba(0,0,0,.3)",
-            strokeOpacity: .75
-          }),
-          Plot.dot(hadcrut, {
-            x: "date",
-            y: "value",
-            r: width < 500 ? 1 : 3,
-            strokeWidth: 1,
-            strokeOpacity: .85,
-            stroke: "value",
-            fill: "value",
-            title: (d) =>
-              `${d3.timeFormat("%B %d, %Y")(d["date"])} \nTemp: ${d3.format("+.2f")(d["value"])}℃`,
-            tip: true
-          }),
-          Plot.text(hadcrut.filter(d => (d.date == "1889-02-01")), {
-            x: "date",
-            y: "value",
-            dx: 0,
-            dy: -2,
-            text: d => d3.timeFormat("%B %Y")(d.date)
-          })]
-      };
-
-      var stripes = {
-        width: width,
-        marginTop: 10,
-        height: 100,
-        style: {
-          fontSize: size,
-          paddingTop: 20
-        },
-        color: {
-          scheme: "burd",
-          legend: true,
-          tickFormat: "+f",
-          label: "Surface temperature change (°C)",
-          style: {
-            fontSize: size
+          y: {
+            grid: true,
+            nice: true,
+            tickFormat: "+f",
+            label: null,
+            tickSize: 0,
+            ticks: 2,
+            domain: [-1, 1],
+            tickFormat: (d) =>
+              `${d.toLocaleString("en", {
+                minimumFractionDigits: "0",
+                maximumFractionDigits: "1"
+              })}°C`
           },
-        },
-        x: {
-          axis: null
-        },
-        marginRight: 0,
-        marginLeft: 0,
-        marks: [
-          Plot.tickX(hadcrut, {
-            opacity: .8,
-            x: "date",
-            filter: (d) => d["date"].getFullYear() % 10 === 0 && d["date"].getMonth() == 1
-          }),
-          Plot.barX(hadcrut, {
-            x: "date",
-            interval: 1,
-            fill: "value",
-            insetRight: -0.5,
-            insetTop: 11,
-            title: (d) => `${d3.timeFormat("%B %d, %Y")(d["date"])}\n${d3.format("+.0")(d["value"])} ℃`,
-            tip: {
-              opacity: 0.85,
-              r: 5,
-              textPadding: 4
+          style: {
+            background: "transparent",
+            color: textColor,
+            fontSize: size,
+          },
+          color: {
+            range: [
+              "#4F80FF",
+              "#80A3FF",
+              "#B3C8FF",
+              "#ffaf73",
+              "#ff9d63",
+              "#ff8b53",
+              "#ff7842",
+              "#ff6531",
+              "#e84f1c",
+              "#d23b06",
+              "#b82100",
+              "#9c0100",
+              "#780000"
+            ],
+            domain: [
+              -999, -0.3, -0.15, -0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1.05, 1.2, 1.35, 999
+            ],
+            type: "quantile",
+            tickFormat: "+.02f",
+            legend: false,
+            style: {
+              fontSize: size
             },
-          }),
-          Plot.text(hadcrut, {
-            frameAnchor: "top",
-            x: "date",
-            filter: (d) => d["date"].getFullYear() % 10 === 0 && d["date"].getMonth() == 1,
-            text: (d) => [1880, 1900, 2000].includes(d["date"].getFullYear()) ? `${d["date"].getFullYear()}` : `’${d["date"].getFullYear() % 100}`,
-            textAnchor: "start",
-            dx: 3,
-            dy: -4,
-          })
-        ]
-      };
+            label: "Surface temperature change (°C)",
+          },
+          marks: [
+            Plot.ruleY([0], {
+              stroke: ruleColor,
+              strokeOpacity: .75
+            }),
+            Plot.dot(hadcrut, {
+              x: "date",
+              y: "value",
+              r: width < 500 ? 1.5 : 3,
+              strokeWidth: 1,
+              strokeOpacity: .85,
+              stroke: "value",
+              fill: "value",
+              title: (d) =>
+                `${d3.timeFormat("%B %d, %Y")(d["date"])} \nTemp: ${d3.format("+.2f")(d["value"])}℃`,
+              tip: true
+            }),
+            Plot.text(hadcrut.filter(d => (d.date == "1889-02-01")), {
+              x: "date",
+              y: "value",
+              dx: 0,
+              dy: -6,
+              fill: textColor,
+              text: d => d3.timeFormat("%B %Y")(d.date)
+            })
+          ]
+        };
 
-      var stripesBar = {
-        // Adapted from RedaktionsNetzwerk Deutschland: https://observablehq.com/@rnd/warming-stripes
-        width: widthMid,
-        style: {
-          fontSize: size,
-        },
-        height: 350,
-        // marginLeft: 40,
-        marginTop: 50,
-        // marginRight: 10,        
-        color: {
-          range: [
-            "#4F80FF",
-            "#80A3FF",
-            "#B3C8FF",
-            "#ffaf73",
-            "#ff9d63",
-            "#ff8b53",
-            "#ff7842",
-            "#ff6531",
-            "#e84f1c",
-            "#d23b06",
-            "#b82100",
-            "#9c0100",
-            "#780000"
-          ],
-          domain: [
-            -999, -0.3, -0.15, -0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1.05, 1.2, 1.35, 999
-          ],
-          type: "quantile",
-          legend: false
-        },
-        y: {
-          axis: "left",
-          label: "°C",
-          domain: [-0.5, 1.5],
-          ticks: [-0.5, 0, 0.5, 1, 1.5],
-          grid: true,
-          tickFormat: (d) =>
-            `${d.toLocaleString("en", {
-              minimumFractionDigits: "1",
-              maximumFractionDigits: "1"
-            })}`
-        },
-        x: {
-          ticks: [1850, 1900, 1950, 2000],
-          tickFormat: d3.format(""),
-          tickSize: 4,
-          label: null
-        },
-
-        marks: [
-          Plot.barY(global_temp, {
-            y: "degree",
-            x: "jahr",
-            stroke: "#ffffff",
-            strokeWidth: 0.4,
-            fill: "degree",
-            title: (d) => `${d.year}`,
-            sort: {
-              y: "y",
-              reverse: true
+        var stripes = {
+          width: width,
+          marginTop: 10,
+          height: 100,
+          style: {
+            fontSize: size,
+            paddingTop: 20,
+            background: "transparent",
+            color: textColor,
+          },
+          color: {
+            scheme: "burd",
+            legend: true,
+            tickFormat: "+f",
+            label: "Surface temperature change (°C)",
+            style: {
+              fontSize: size,
+              color: textColor,
             },
-            opacity: 1,
-            tip: false
-          }),
+          },
+          x: {
+            axis: null
+          },
+          marginRight: 0,
+          marginLeft: 0,
+          marks: [
+            Plot.tickX(hadcrut, {
+              opacity: .8,
+              x: "date",
+              stroke: textColor,
+              filter: (d) => d["date"].getFullYear() % 10 === 0 && d["date"].getMonth() == 1
+            }),
+            Plot.barX(hadcrut, {
+              x: "date",
+              interval: 1,
+              fill: "value",
+              insetRight: -0.5,
+              insetTop: 11,
+              title: (d) => `${d3.timeFormat("%B %d, %Y")(d["date"])}\n${d3.format("+.0")(d["value"])} ℃`,
+              tip: {
+                opacity: 0.85,
+                r: 5,
+                textPadding: 4
+              },
+            }),
+            Plot.text(hadcrut, {
+              frameAnchor: "top",
+              x: "date",
+              fill: textColor,
+              filter: (d) => d["date"].getFullYear() % 10 === 0 && d["date"].getMonth() == 1,
+              text: (d) => [1880, 1900, 2000].includes(d["date"].getFullYear()) ? `${d["date"].getFullYear()}` : `’${d["date"].getFullYear() % 100}`,
+              textAnchor: "start",
+              dx: 3,
+              dy: -4,
+            })
+          ]
+        };
 
-          // pre-industrial period (1850-1900) Arrow
-          Plot.arrow([0], {
-            y: 0.75,
-            x1: 1850,
-            x2: 1900,
-            opacity: 0.9,
-            // headLength: 4,
-            bend: false,
-            strokeLinejoin: "miter",
-          }),
+        var stripesBar = {
+          // Adapted from RedaktionsNetzwerk Deutschland: https://observablehq.com/@rnd/warming-stripes
+          width: widthMid,
+          style: {
+            fontSize: size,
+            background: "transparent",
+            color: textColor,
+          },
+          height: 350,
+          marginTop: 50,
+          color: {
+            range: [
+              "#4F80FF",
+              "#80A3FF",
+              "#B3C8FF",
+              "#ffaf73",
+              "#ff9d63",
+              "#ff8b53",
+              "#ff7842",
+              "#ff6531",
+              "#e84f1c",
+              "#d23b06",
+              "#b82100",
+              "#9c0100",
+              "#780000"
+            ],
+            domain: [
+              -999, -0.3, -0.15, -0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1.05, 1.2, 1.35, 999
+            ],
+            type: "quantile",
+            legend: false
+          },
+          y: {
+            axis: "left",
+            label: "°C",
+            domain: [-0.5, 1.5],
+            ticks: [-0.5, 0, 0.5, 1, 1.5],
+            grid: true,
+            tickFormat: (d) =>
+              `${d.toLocaleString("en", {
+                minimumFractionDigits: "1",
+                maximumFractionDigits: "1"
+              })}`
+          },
+          x: {
+            ticks: [1850, 1900, 1950, 2000],
+            tickFormat: d3.format(""),
+            tickSize: 4,
+            label: null
+          },
 
-          // pre-industrial period (1850-1900) Text
-          Plot.text([0], {
-            x: 1850,
-            y: 0.75,
-            text: (d) => `Pre-industrial period (1850-1900)`,
-            textAnchor: "start",
-            lineAnchor: "bottom",
-            dy: -10,
-            dx: 0,
-            fontWeight: 700
-          }),
-          Plot.ruleY([0]),
-          Plot.arrow([0], {
-            x1: 2024,
-            x2: 2024,
-            y1: 1.7,
-            y2: 1.6,
-            opacity: 0.7,
-            headLength: 4,
-            bend: false,
-            strokeLinejoin: "miter",
-          }),
-
-          // Temp Text
-          Plot.text([0], {
-            x: 2024,
-            y: 1.75,
-            text: (d) => `1.54 °C in 2024`,
-            fill: isDarkMode() ? "#ffffff" : "#e84f1c",
-            textAnchor: "end",
-            lineAnchor: "bottom",
-            dy: 0,
-            dx: 2,
-            fontWeight: 700
-          }),
-
-          // Tooltip
-          Plot.tip(
-            global_temp,
-            Plot.pointerX({
+          marks: [
+            Plot.barY(global_temp, {
               y: "degree",
               x: "jahr",
-              fill: isDarkMode() ? "#293845" : "#ffffff",
-              fillOpacity: 0.8,
-              strokeOpacity: 0.5,
-              title: (d) =>
-                `${d.jahr}\n${d.degree.toLocaleString("en", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2
-                })} °C`
-            })
-          )
-        ]
-      };
+              stroke: isDark ? "rgba(17,17,17,0.5)" : "#ffffff",
+              strokeWidth: 0.4,
+              fill: "degree",
+              title: (d) => `${d.year}`,
+              sort: {
+                y: "y",
+                reverse: true
+              },
+              opacity: 1,
+              tip: false
+            }),
 
-      var paris = {
-        width: width,
-        style: {
-          fontSize: size,
-          paddingRight: 60,
-          paddingLeft: 16,
-        },
-        marginRight: 0,
-        marginLeft: 0,
-        x: {
-          tickSize: 0,
-          tickPadding: 10,
-          label: null,
-        },
-        y: {
-          domain: [-20, 60],
-          nice: true,
-          grid: true,
-          tickSize: 0,
-          anchor: "left",
-          tickPadding: 3,
-          label: "↑ Global greenhouse gas emissions (GtCO₂e/year)"
-        },
-        marks: [
-          Plot.ruleY([0], {
-            stroke: "#000000",
-            strokeWidth: 2
-          }),
-          Plot.areaY(emissions, {
-            x: "year",
-            y1: "current_policy_lower",
-            y2: "current_policy_higher",
-            fill: "#87C5DF",
-            fillOpacity: 0.6
-          }),
-          Plot.areaY(emissions, {
-            x: "year",
-            y1: "pledges_lower",
-            y2: "pledges_higher",
-            fill: "#4C8BB3",
-            fillOpacity: 0.6
-          }),
-          Plot.areaY(emissions, {
-            x: "year",
-            y1: "paris_lower",
-            y2: "paris_higher",
-            fill: "#99d8c9",
-            fillOpacity: 0.6
-          }),
-          Plot.line(emissions, {
-            x: "year",
-            y: "paris",
-            stroke: "#238b45",
-            strokeDasharray: "2"
-          }),
-          Plot.line(emissions, {
-            x: "year",
-            y: "historical",
-            stroke: "#636363",
-            strokeWidth: 2,
-            tip: true,
-          }),
-          Plot.text(emissions, {
-            x: [new Date(1990, 1, 1)],
-            y: 53,
-            text: () => "Historical emissions",
-            textAnchor: "start",
-            dx: 3,
-            fill: "#636363"
-          }),
-          Plot.text(emissions, Plot.selectLast({
-            x: "year",
-            y: "current_policy_lower",
-            text: () => "Current policies (2.9°C)",
-            textAnchor: "start",
-            dx: 3,
-            dy: -25,
-            fill: "#87C5DF",
-            fontSize: size + 2,
-            lineWidth: 8
-          })),
-          Plot.text(emissions, Plot.selectLast({
-            x: "year",
-            y: "pledges_lower",
-            text: () => "Pledges and targets (2.4°C)",
-            textAnchor: "start",
-            dx: 3,
-            dy: -10,
-            fill: "#4C8BB3",
-            fontSize: size + 2,
-            lineWidth: 8
-          })),
-          Plot.text(emissions, Plot.selectLast({
-            x: "year",
-            y: "paris",
-            text: () => "Below 1.5°C",
-            textAnchor: "start",
-            dx: 3,
-            fill: "#238b45",
-            fontSize: size + 2
-          })),
-          Plot.text(emissions, {
-            x: [new Date(1992, 1, 1)],
-            y: 25.9,
-            text: () => "Emissions must halve by 2030 →",
-            textAnchor: "start",
-            dx: -3,
-            fill: "#238b45",
-            fontWeight: "bold"
-          }),
-        ],
-        caption: "Source: Climate Action Tracker, May 2021",
-      };
+            // pre-industrial period (1850-1900) Arrow
+            Plot.arrow([0], {
+              y: 0.75,
+              x1: 1850,
+              x2: 1900,
+              stroke: textColor,
+              opacity: 0.9,
+              bend: false,
+              strokeLinejoin: "miter",
+            }),
 
-      document.getElementById("temps").appendChild(Plot.plot(temps));
-      document.getElementById("stripes").appendChild(Plot.plot(stripes));
-      document.getElementById("stripesBar").appendChild(Plot.plot(stripesBar));
-      document.getElementById("paris").appendChild(Plot.plot(paris));
+            // pre-industrial period (1850-1900) Text
+            Plot.text([0], {
+              x: 1850,
+              y: 0.75,
+              text: (d) => `Pre-industrial period (1850-1900)`,
+              fill: textColor,
+              textAnchor: "start",
+              lineAnchor: "bottom",
+              dy: -10,
+              dx: 0,
+              fontWeight: 700
+            }),
+            Plot.ruleY([0], { stroke: ruleColor }),
+            Plot.arrow([0], {
+              x1: 2024,
+              x2: 2024,
+              y1: 1.7,
+              y2: 1.6,
+              stroke: isDark ? "#ff7842" : "#e84f1c",
+              opacity: 0.9,
+              headLength: 4,
+              bend: false,
+              strokeLinejoin: "miter",
+            }),
+
+            // Temp Text
+            Plot.text([0], {
+              x: 2024,
+              y: 1.75,
+              text: (d) => `1.54 °C in 2024`,
+              fill: isDark ? "#ff7842" : "#e84f1c",
+              textAnchor: "end",
+              lineAnchor: "bottom",
+              dy: 0,
+              dx: 2,
+              fontWeight: 700
+            }),
+
+            // Tooltip
+            Plot.tip(
+              global_temp,
+              Plot.pointerX({
+                y: "degree",
+                x: "jahr",
+                title: (d) =>
+                  `${d.jahr}\n${d.degree.toLocaleString("en", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                  })} °C`
+              })
+            )
+          ]
+        };
+
+        var paris = {
+          width: width,
+          style: {
+            fontSize: size,
+            paddingRight: 60,
+            paddingLeft: 16,
+            background: "transparent",
+            color: textColor,
+          },
+          marginRight: 0,
+          marginLeft: 0,
+          x: {
+            tickSize: 0,
+            tickPadding: 10,
+            label: null,
+          },
+          y: {
+            domain: [-20, 60],
+            nice: true,
+            grid: true,
+            tickSize: 0,
+            anchor: "left",
+            tickPadding: 3,
+            label: "↑ Global greenhouse gas emissions (GtCO₂e/year)"
+          },
+          marks: [
+            Plot.ruleY([0], {
+              stroke: ruleColor,
+              strokeWidth: 2
+            }),
+            Plot.areaY(emissions, {
+              x: "year",
+              y1: "current_policy_lower",
+              y2: "current_policy_higher",
+              fill: "#87C5DF",
+              fillOpacity: isDark ? 0.45 : 0.6
+            }),
+            Plot.areaY(emissions, {
+              x: "year",
+              y1: "pledges_lower",
+              y2: "pledges_higher",
+              fill: "#4C8BB3",
+              fillOpacity: isDark ? 0.45 : 0.6
+            }),
+            Plot.areaY(emissions, {
+              x: "year",
+              y1: "paris_lower",
+              y2: "paris_higher",
+              fill: "#99d8c9",
+              fillOpacity: isDark ? 0.45 : 0.6
+            }),
+            Plot.line(emissions, {
+              x: "year",
+              y: "paris",
+              stroke: greenColor,
+              strokeDasharray: "2",
+              strokeWidth: 2
+            }),
+            Plot.line(emissions, {
+              x: "year",
+              y: "historical",
+              stroke: histColor,
+              strokeWidth: 2,
+              tip: true,
+            }),
+            Plot.text(emissions, {
+              x: [new Date(1990, 1, 1)],
+              y: 53,
+              text: () => "Historical emissions",
+              textAnchor: "start",
+              dx: 3,
+              fill: histColor
+            }),
+            Plot.text(emissions, Plot.selectLast({
+              x: "year",
+              y: "current_policy_lower",
+              text: () => "Current policies (2.9°C)",
+              textAnchor: "start",
+              dx: 3,
+              dy: -25,
+              fill: policyColor,
+              fontSize: size + 2,
+              lineWidth: 8
+            })),
+            Plot.text(emissions, Plot.selectLast({
+              x: "year",
+              y: "pledges_lower",
+              text: () => "Pledges and targets (2.4°C)",
+              textAnchor: "start",
+              dx: 3,
+              dy: -10,
+              fill: pledgesColor,
+              fontSize: size + 2,
+              lineWidth: 8
+            })),
+            Plot.text(emissions, Plot.selectLast({
+              x: "year",
+              y: "paris",
+              text: () => "Below 1.5°C",
+              textAnchor: "start",
+              dx: 3,
+              fill: greenColor,
+              fontSize: size + 2,
+              fontWeight: "bold"
+            })),
+            Plot.text(emissions, {
+              x: [new Date(1992, 1, 1)],
+              y: 25.9,
+              text: () => "Emissions must halve by 2030 →",
+              textAnchor: "start",
+              dx: -3,
+              fill: greenColor,
+              fontWeight: "bold"
+            }),
+          ],
+          caption: "Source: Climate Action Tracker, May 2021",
+        };
+
+        document.getElementById("temps").appendChild(Plot.plot(temps));
+        document.getElementById("stripes").appendChild(Plot.plot(stripes));
+        document.getElementById("stripesBar").appendChild(Plot.plot(stripesBar));
+        document.getElementById("paris").appendChild(Plot.plot(paris));
+      }
+
+      window.renderCharts = renderCharts;
+      renderCharts();
+    });
+
+    window.addEventListener("resize", () => {
+      if (typeof window.renderCharts === "function") {
+        window.renderCharts();
+      }
     });
   </script>
   <script>
@@ -645,6 +686,9 @@
         document.documentElement.setAttribute("data-theme", newTheme);
         localStorage.setItem("theme", newTheme);
         updateIcons(newTheme);
+        if (typeof window.renderCharts === "function") {
+          window.renderCharts();
+        }
       });
     }
   </script>

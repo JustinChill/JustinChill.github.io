@@ -1024,211 +1024,203 @@
 
       // --- Chart 1: Slope Chart (Spending vs Life Expectancy) ---
       const slopeData = [
-        { country: "U.S.", spending: 8508, life: 79.0, labelPos: 0.25, labelRotation: 28, textDy: -10 },
-        { country: "Denmark", spending: 6000, life: 80.5, labelPos: 0.2, labelRotation: 20, textDy: -6 },
-        { country: "Japan", spending: 3500, life: 83.0, labelPos: 0.15, labelRotation: -28, textDy: -6 },
-        { country: "Spain", spending: 3000, life: 82.4, labelPos: 0.45, labelRotation: -28, textDy: -6 },
-        { country: "U.K.", spending: 3200, life: 80.6, labelPos: 0.2, labelRotation: -22, textDy: 16 },
-        { country: "Australia", spending: 3800, life: 81.8, labelPos: 0.75, labelRotation: -24, textDy: -6 }
+        { country: "Norway", spending: 5388, life: 81.2, textDy: -10, labelRotation: 1, labelPos: 0.1 },
+        { country: "Netherlands", spending: 5050, life: 80.8, textDy: -15, labelRotation: 1, labelPos: 0.1 },
+        { country: "Switzerland", spending: 5270, life: 82.3, textDy: 8, labelRotation: 2, labelPos: 0.1 },
+        { country: "Denmark", spending: 4464, life: 79.3, textDy: -10, labelRotation: 1, labelPos: 0.1 },
+        { country: "Austria", spending: 4395, life: 80.7, textDy: 8, labelRotation: 2, labelPos: 0.1 },
+        { country: "Canada", spending: 4445, life: 81.0, textDy: 4, labelRotation: 2, labelPos: 0.1 },
+        { country: "Germany", spending: 4338, life: 80.5, textDy: -1, labelRotation: 2, labelPos: 0.1 },
+        { country: "France", spending: 3974, life: 81.3, textDy: 14, labelRotation: 3, labelPos: 0.1 },
+        { country: "Ireland", spending: 3718, life: 80.7, textDy: 16, labelRotation: 4, labelPos: 0.1 },
+        { country: "Belgium", spending: 3969, life: 80.3, textDy: 4, labelRotation: 3, labelPos: 0.1 },
+        { country: "Spain", spending: 3076, life: 82.2, textDy: 24, labelRotation: 5, labelPos: 0.1 },
+        { country: "U.S.", spending: 8233, life: 78.7, textDy: -20, labelRotation: -7, labelPos: 0.4 },
+        { country: "Australia", spending: 3800, life: 81.8, textDy: -10, labelRotation: 3, labelPos: 0.1 },
+        { country: "Sweden", spending: 3758, life: 81.5, textDy: 0, labelRotation: 3, labelPos: 0.1 },
+        { country: "U.K.", spending: 3433, life: 80.6, textDy: -8, labelRotation: 4, labelPos: 0.1 },
+        { country: "Japan", spending: 3035, life: 83.0, textDy: 25, labelRotation: 6, labelPos: 0.1 }
       ];
 
-      // Scales matching the visual extent of the reference image
-      const spendingScale = d3.scaleLinear().domain([2000, 9500]).range([1, 0]);
-      const lifeExpScale = d3.scaleLinear().domain([78.5, 83.5]).range([1, 0]);
+      function isDarkMode() {
+        return document.documentElement.getAttribute("data-theme") === "dark" ||
+          (!document.documentElement.hasAttribute("data-theme") && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
+      }
 
-      // Normalize data for plotting on a shared 0-1 y-axis
-      const slopeNormalized = slopeData.flatMap(d => [
-        { ...d, type: 0, value: d.spending, normalized: spendingScale(d.spending), label: d3.format("$,.2s")(d.spending).replace("G", "B") },
-        { ...d, type: 1, value: d.life, normalized: lifeExpScale(d.life), label: d.life }
-      ]);
+      function renderCharts() {
+        ["slope-chart", "growth-chart", "aging-chart", "income"].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.innerHTML = '';
+        });
 
-      // Ticks for the axes
-      const spendingTicks = [2000, 4000, 6000, 8000];
-      const lifeTicks = [79, 80, 81, 82, 83];
+        const isDark = isDarkMode();
+        const textColor = isDark ? "#e8e8e8" : "rgba(0, 0, 0, 0.84)";
+        const ruleColor = isDark ? "rgba(255, 255, 255, 0.35)" : "black";
+        const haloColor = isDark ? "#111111" : "white";
+        const lineDefaultColor = isDark ? "#555555" : "#ccc";
 
-      const axisTicks = [
-        ...spendingTicks.map(v => ({ type: 0, value: v, normalized: spendingScale(v), label: v === 2000 ? "$2K" : d3.format("$.0s")(v) })),
-        ...lifeTicks.map(v => ({ type: 1, value: v, normalized: lifeExpScale(v), label: v }))
-      ];
+        // Spending Scales
+        const spendingScale = d3.scaleLinear().domain([2000, 9000]).range([1, 0]);
+        const lifeExpScale = d3.scaleLinear().domain([78, 84]).range([1, 0]);
 
-      const slopeChart = Plot.plot({
-        width: Math.min(width, 600),
-        height: 600,
-        style: { fontSize: 16, fontFamily: "Camphor, sans-serif" },
-        marginLeft: 60,
-        marginRight: 60,
-        marginTop: 80,
-        x: { axis: null, domain: [0, 1] },
-        y: { axis: null, domain: [1, 0] }, // Inverted so 0 (bottom) is at bottom
-        marks: [
-          // Vertical Axes
-          Plot.ruleX([0, 1], { stroke: "black", strokeWidth: 1.5 }),
+        const slopeNormalized = [];
+        slopeData.forEach(d => {
+          slopeNormalized.push({ country: d.country, type: 0, value: d.spending, normalized: spendingScale(d.spending) });
+          slopeNormalized.push({ country: d.country, type: 1, value: d.life, normalized: lifeExpScale(d.life) });
+        });
 
-          // Axis Ticks
-          Plot.ruleY(axisTicks.filter(d => d.type === 0), { x: 0, y: "normalized", dx: -6, stroke: "black" }),
-          Plot.ruleY(axisTicks.filter(d => d.type === 1), { x: 1, y: "normalized", dx: 6, stroke: "black" }),
+        const spendingTicks = [2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000];
+        const lifeTicks = [78, 79, 80, 81, 82, 83, 84];
 
-          // Axis Labels (Tick Values)
-          Plot.text(axisTicks.filter(d => d.type === 0), { x: 0, y: "normalized", text: "label", dx: -15, textAnchor: "end" }),
-          Plot.text(axisTicks.filter(d => d.type === 1), { x: 1, y: "normalized", text: "label", dx: 15, textAnchor: "start" }),
+        const axisTicks = [
+          ...spendingTicks.map(v => ({ type: 0, value: v, normalized: spendingScale(v), label: v === 2000 ? "$2K" : d3.format("$.0s")(v) })),
+          ...lifeTicks.map(v => ({ type: 1, value: v, normalized: lifeExpScale(v), label: v }))
+        ];
 
-          // Header Labels
-          Plot.text([{ type: 0, text: "Annual health\ncare spending\nper person in U.S.\ndollars, 2010" }, { type: 1, text: "Life\nexpectancy\nat birth, in years" }], {
-            x: "type",
-            y: -0.05,
-            text: "text",
-            textAnchor: "middle",
-            lineHeight: 1.2,
-            fontWeight: "bold",
-            dy: -20
-          }),
+        const slopeChart = Plot.plot({
+          width: Math.min(width, 600),
+          height: 600,
+          style: { fontSize: 16, fontFamily: "Camphor, sans-serif", background: "transparent", color: textColor },
+          marginLeft: 60,
+          marginRight: 60,
+          marginTop: 80,
+          x: { axis: null, domain: [0, 1] },
+          y: { axis: null, domain: [1, 0] },
+          marks: [
+            Plot.ruleX([0, 1], { stroke: ruleColor, strokeWidth: 1.5 }),
+            Plot.ruleY(axisTicks.filter(d => d.type === 0), { x: 0, y: "normalized", dx: -6, stroke: ruleColor }),
+            Plot.ruleY(axisTicks.filter(d => d.type === 1), { x: 1, y: "normalized", dx: 6, stroke: ruleColor }),
+            Plot.text(axisTicks.filter(d => d.type === 0), { x: 0, y: "normalized", text: "label", dx: -15, textAnchor: "end", fill: textColor }),
+            Plot.text(axisTicks.filter(d => d.type === 1), { x: 1, y: "normalized", text: "label", dx: 15, textAnchor: "start", fill: textColor }),
+            Plot.text([{ type: 0, text: "Annual health\ncare spending\nper person in U.S.\ndollars, 2010" }, { type: 1, text: "Life\nexpectancy\nat birth, in years" }], {
+              x: "type",
+              y: -0.05,
+              text: "text",
+              textAnchor: "middle",
+              lineHeight: 1.2,
+              fontWeight: "bold",
+              dy: -20,
+              fill: textColor
+            }),
+            Plot.line(slopeNormalized, {
+              x: "type",
+              y: "normalized",
+              z: "country",
+              stroke: d => d.country === "U.S." ? "#d32f2f" : lineDefaultColor,
+              strokeWidth: d => d.country === "U.S." ? 3 : 2
+            }),
+            Plot.dot(slopeNormalized, {
+              x: "type",
+              y: "normalized",
+              fill: d => d.country === "U.S." ? "#d32f2f" : lineDefaultColor,
+              r: 5
+            }),
+            Plot.text(slopeData, {
+              x: d => d.labelPos,
+              y: d => spendingScale(d.spending) * (1 - d.labelPos) + lifeExpScale(d.life) * d.labelPos,
+              text: d => d.country.toUpperCase(),
+              rotate: d => d.labelRotation,
+              dy: d => d.textDy,
+              fill: d => d.country === "U.S." ? "#d32f2f" : textColor,
+              stroke: haloColor,
+              strokeWidth: 3,
+              fontSize: 14
+            }),
+          ]
+        });
 
-          // Slopes
-          Plot.line(slopeNormalized, {
-            x: "type",
-            y: "normalized",
-            z: "country",
-            stroke: d => d.country === "U.S." ? "#d32f2f" : "#ccc",
-            strokeWidth: d => d.country === "U.S." ? 3 : 2
-          }),
+        // --- Chart 2: Growth Chart ---
+        const growthData = [
+          { year: 1960, value: 0, series: "GDP" }, { year: 1960, value: 0, series: "Health" },
+          { year: 1970, value: 15, series: "GDP" }, { year: 1970, value: 30, series: "Health" },
+          { year: 1980, value: 35, series: "GDP" }, { year: 1980, value: 100, series: "Health" },
+          { year: 1990, value: 60, series: "GDP" }, { year: 1990, value: 250, series: "Health" },
+          { year: 2000, value: 90, series: "GDP" }, { year: 2000, value: 450, series: "Health" },
+          { year: 2010, value: 110, series: "GDP" }, { year: 2010, value: 800, series: "Health" },
+        ];
 
-          // Dots at endpoints
-          Plot.dot(slopeNormalized, {
-            x: "type",
-            y: "normalized",
-            fill: d => d.country === "U.S." ? "#d32f2f" : "#ccc",
-            r: 5
-          }),
+        const growthChart = Plot.plot({
+          width: width,
+          height: 300,
+          marginLeft: 40,
+          style: { fontSize: 11, background: "transparent", color: textColor },
+          y: { grid: true, label: "Percentage growth since 1960", tickFormat: d => d + "%" },
+          x: { tickFormat: "d", label: null },
+          marks: [
+            Plot.areaY(growthData.filter(d => d.series === "Health"), {
+              x: "year", y: "value", fill: isDark ? "#444444" : "#ccc", fillOpacity: 0.5
+            }),
+            Plot.areaY(growthData.filter(d => d.series === "GDP"), {
+              x: "year", y: "value", fill: isDark ? "#666666" : "#666", fillOpacity: 0.8
+            }),
+            Plot.line(growthData, { x: "year", y: "value", stroke: textColor, strokeWidth: 1.5, z: "series" }),
+            Plot.text([{ x: 2005, y: 50, text: "GDP" }], { x: "x", y: "y", text: "text", fill: "white" }),
+            Plot.text([{ x: 2000, y: 240, text: "NATIONAL\nHEALTH CARE\nEXPENDITURES" }], { x: "x", y: "y", text: "text", fill: textColor, textAnchor: "middle", lineHeight: 1.2 }),
+            Plot.text([{ x: 2002, y: 700, text: "NEARLY\nFIVE TIMES\nAS MUCH\nAS GDP" }], { x: "x", y: "y", text: "text", fill: isDark ? "#ef5350" : "red", textAnchor: "middle", fontSize: 10 })
+          ]
+        });
 
-          // Country Labels (angled)
-          Plot.text(slopeData, {
-            x: d => d.labelPos,
-            y: d => spendingScale(d.spending) * (1 - d.labelPos) + lifeExpScale(d.life) * d.labelPos,
-            text: d => d.country.toUpperCase(),
-            rotate: d => d.labelRotation,
-            dy: d => d.textDy,
-            fill: d => d.country === "U.S." ? "#d32f2f" : "#333",
-            stroke: "white",
-            strokeWidth: 3,
-            fontSize: 14
-          }),
-        ]
-      });
+        // --- Chart 3: Aging Chart ---
+        const agingRawData = [
+          { year: 1960, over64: 9, adults: 53, young: 38 },
+          { year: 1970, over64: 10, adults: 54, young: 36 },
+          { year: 1980, over64: 11, adults: 58, young: 31 },
+          { year: 1990, over64: 12, adults: 60, young: 28 },
+          { year: 2000, over64: 12, adults: 61, young: 27 },
+          { year: 2010, over64: 13, adults: 62, young: 25 },
+          { year: 2020, over64: 17, adults: 59, young: 24 },
+          { year: 2030, over64: 21, adults: 56, young: 23 },
+          { year: 2040, over64: 22, adults: 55, young: 23 },
+          { year: 2050, over64: 23, adults: 54, young: 23 },
+          { year: 2060, over64: 25, adults: 53, young: 22 },
+          { year: 2070, over64: 27, adults: 52, young: 21 },
+          { year: 2080, over64: 29, adults: 51, young: 20 },
+          { year: 2090, over64: 31, adults: 50, young: 19 },
+          { year: 2100, over64: 33, adults: 49, young: 18 }
+        ];
 
-      // --- Chart 2: Growth Chart (Spending vs GDP) ---
-      const growthData = [
-        { year: 1960, value: 0, series: "GDP" }, { year: 1960, value: 0, series: "Health" },
-        { year: 1970, value: 15, series: "GDP" }, { year: 1970, value: 30, series: "Health" },
-        { year: 1980, value: 35, series: "GDP" }, { year: 1980, value: 100, series: "Health" },
-        { year: 1990, value: 60, series: "GDP" }, { year: 1990, value: 250, series: "Health" },
-        { year: 2000, value: 90, series: "GDP" }, { year: 2000, value: 450, series: "Health" },
-        { year: 2010, value: 110, series: "GDP" }, { year: 2010, value: 800, series: "Health" },
-      ];
+        const agingData = [];
+        agingRawData.forEach(d => {
+          agingData.push({ year: d.year, group: "Over 64", value: d.over64 });
+          agingData.push({ year: d.year, group: "20-64", value: d.adults });
+          agingData.push({ year: d.year, group: "0-19", value: d.young });
+        });
 
-      const growthChart = Plot.plot({
-        width: width,
-        height: 300,
-        marginLeft: 40,
-        style: { fontSize: 11 },
-        y: { grid: true, label: "Percentage growth since 1960", tickFormat: d => d + "%" },
-        x: { tickFormat: "d", label: null },
-        marks: [
-          Plot.areaY(growthData.filter(d => d.series === "Health"), {
-            x: "year", y: "value", fill: "#ccc", fillOpacity: 0.5
-          }),
-          Plot.areaY(growthData.filter(d => d.series === "GDP"), {
-            x: "year", y: "value", fill: "#666", fillOpacity: 0.8
-          }),
-          Plot.line(growthData, { x: "year", y: "value", stroke: "black", strokeWidth: 1, z: "series" }),
-          Plot.text([{ x: 2005, y: 50, text: "GDP" }], { x: "x", y: "y", text: "text", fill: "white" }),
-          Plot.text([{ x: 2000, y: 240, text: "NATIONAL\nHEALTH CARE\nEXPENDITURES" }], { x: "x", y: "y", text: "text", fill: "#333", textAnchor: "middle", lineHeight: 1.2 }),
-          Plot.text([{ x: 2002, y: 700, text: "NEARLY\nFIVE TIMES\nAS MUCH\nAS GDP" }], { x: "x", y: "y", text: "text", fill: "red", textAnchor: "middle", fontSize: 10 })
-        ]
-      });
+        const agingChart = Plot.plot({
+          width: width,
+          height: 400,
+          style: { fontSize: 13, fontFamily: "Camphor, sans-serif", background: "transparent", color: textColor },
+          x: { type: "band", tickFormat: "d", tickRotate: -90, label: null },
+          y: {
+            percent: null,
+            nice: true,
+            label: "Percentage of total population",
+            labelAnchor: "top",
+            ticks: 4,
+            tickSize: 0,
+            tickFormat: d => d + "%",
+            grid: true,
+          },
+          color: {
+            domain: ["Over 64", "20-64", "0-19"],
+            range: ["#ef3b2c", "#a7a9ac", "#d1d3d4"]
+          },
+          marks: [
+            Plot.barY(agingData, { x: "year", y: "value", fill: "group", tip: true, title: "value", sort: { color: null } }),
+            Plot.text([{ year: 2090, value: 87, text: "OVER 64" }], { x: "year", y: "value", stroke: haloColor, strokeWidth: 4, text: "text", lineHeight: 1.2, letterSpacing: 1.2, fill: textColor, fontWeight: "bold", style: { paintOrder: "stroke" } }),
+            Plot.text([{ year: 2090, value: 45, text: "20—64" }], { x: "year", y: "value", stroke: haloColor, strokeWidth: 4, text: "text", lineHeight: 1.2, letterSpacing: 1.2, fill: textColor, fontWeight: "bold", style: { paintOrder: "stroke" } }),
+            Plot.text([{ year: 2090, value: 10, text: "0—19" }], { x: "year", y: "value", stroke: haloColor, strokeWidth: 4, text: "text", lineHeight: 1.2, letterSpacing: 1.2, fill: textColor, fontWeight: "bold", style: { paintOrder: "stroke" } }),
+          ]
+        });
 
-      // --- Chart 3: Aging Chart ---
-      const agingRawData = [
-        { year: 1960, over64: 9, adults: 53, young: 38 },
-        { year: 1970, over64: 10, adults: 54, young: 36 },
-        { year: 1980, over64: 11, adults: 58, young: 31 },
-        { year: 1990, over64: 12, adults: 60, young: 28 },
-        { year: 2000, over64: 12, adults: 61, young: 27 },
-        { year: 2010, over64: 13, adults: 62, young: 25 },
-        { year: 2020, over64: 17, adults: 59, young: 24 },
-        { year: 2030, over64: 21, adults: 56, young: 23 },
-        { year: 2040, over64: 22, adults: 55, young: 23 },
-        { year: 2050, over64: 23, adults: 54, young: 23 },
-        { year: 2060, over64: 25, adults: 53, young: 22 },
-        { year: 2070, over64: 27, adults: 52, young: 21 },
-        { year: 2080, over64: 29, adults: 51, young: 20 },
-        { year: 2090, over64: 31, adults: 50, young: 19 },
-        { year: 2100, over64: 33, adults: 49, young: 18 }
-      ];
+        document.getElementById("slope-chart").appendChild(slopeChart);
+        document.getElementById("growth-chart").appendChild(growthChart);
+        document.getElementById("aging-chart").appendChild(agingChart);
+        document.getElementById("income").appendChild(Plot.plot(income));
+      }
 
-      const agingData = [];
-      agingRawData.forEach(d => {
-        agingData.push({ year: d.year, group: "Over 64", value: d.over64 });
-        agingData.push({ year: d.year, group: "20-64", value: d.adults });
-        agingData.push({ year: d.year, group: "0-19", value: d.young });
-      });
-
-      const agingChart = Plot.plot({
-        width: width,
-        height: 400,
-        style: { fontSize: 13, fontFamily: "Camphor, sans-serif" },
-        x: {
-          type: "band",
-          tickFormat: "d",
-          tickRotate: -90,
-          label: null
-        },
-        y: {
-          percent: null,
-          nice: true,
-          label: "Percentage of total population",
-          labelAnchor: "top",
-          ticks: 4,
-          tickSize: 0,
-          tickFormat: d => d + "%",
-          grid: true,
-        },
-        color: {
-          domain: ["Over 64", "20-64", "0-19"],
-          range: ["#ef3b2c", "#a7a9ac", "#d1d3d4"]
-        },
-        marks: [
-          Plot.barY(agingData, {
-            x: "year",
-            y: "value",
-            fill: "group",
-            tip: true,
-            title: "value",
-            sort: { color: null } // Stack order: Order of appearance/domain
-          }),
-          // Labels with "halo" to simulate white box
-          Plot.text([{ year: 2090, value: 87, text: "OVER 64" }], { // text on top
-            x: "year", y: "value", stroke: "white", strokeWidth: 4, text: "text", lineHeight: 1.2, letterSpacing: 1.2, fill: "currentColor", fontWeight: "bold", style: {
-              paintOrder: "stroke"
-            }
-          }),
-          Plot.text([{ year: 2090, value: 45, text: "20—64" }], {
-            x: "year", y: "value", stroke: "white", strokeWidth: 4, text: "text", lineHeight: 1.2, letterSpacing: 1.2, fill: "currentColor", fontWeight: "bold", style: {
-              paintOrder: "stroke"
-            }
-          }),
-          Plot.text([{ year: 2090, value: 10, text: "0—19" }], {
-            x: "year", y: "value", stroke: "white", strokeWidth: 4, text: "text", lineHeight: 1.2, letterSpacing: 1.2, fill: "currentColor", fontWeight: "bold", style: {
-              paintOrder: "stroke"
-            }
-          }),
-        ]
-      });
-
-      document.getElementById("slope-chart").appendChild(slopeChart);
-      document.getElementById("growth-chart").appendChild(growthChart);
-      document.getElementById("aging-chart").appendChild(agingChart);
-
-      document.getElementById("income").appendChild(Plot.plot(income));
+      window.renderCharts = renderCharts;
+      renderCharts();
     });
   </script>
   <script>
@@ -1257,6 +1249,9 @@
         document.documentElement.setAttribute("data-theme", newTheme);
         localStorage.setItem("theme", newTheme);
         updateIcons(newTheme);
+        if (typeof window.renderCharts === "function") {
+          window.renderCharts();
+        }
       });
     }
   </script>

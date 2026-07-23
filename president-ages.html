@@ -59,6 +59,22 @@
   </script>
 
   <style type="text/css">
+    :root {
+      --bar-highlight: #354e6b;
+      --bar-muted: #8fa3ad;
+      --rule-pointer: #1e334d;
+    }
+
+    html[data-theme="dark"] {
+      --bar-highlight: #60a5fa;
+      --bar-muted: #334155;
+      --rule-pointer: #94a3b8;
+    }
+
+    html[data-theme="dark"] figure svg {
+      color: var(--text-color, #e8e8e8);
+    }
+
     @media screen and (max-width: 680px) {}
   </style>
 
@@ -1342,13 +1358,13 @@
           Plot.line(data_line, {
             x: "election year",
             y: "born",
-            stroke: "lightgrey",
+            stroke: "var(--rule-color, lightgrey)",
             strokeDasharray: [1, 2]
           }),
           Plot.dot(data_line, {
             x: "election year",
             y: "born",
-            stroke: "grey",
+            stroke: "var(--rule-color, grey)",
             strokeWidth: 1,
             fill: "age",
             tip: true,
@@ -1356,24 +1372,21 @@
             channels: {
               president: "president"
             },
-            // channels: {Weapons: "Weapon_csis", Target: "Target_csis",Orientation: "Orientation_csis", Victims: "vict_killed_csis"},
             tip: {
               format: {
-                // r: null,
                 x: ("Y"),
                 y: ("Y"),
-                // fill: null,
               },
             },
           }),
           Plot.line(norm_data, {
             x: "election year",
             y: "born",
-            stroke: "grey",
+            stroke: "var(--rule-color, grey)",
             strokeDasharray: [2, 5]
           }),
           Plot.text(data_line, {
-            filter: (d, i, _) => i % 5 == 0 && d.president != "Barack Obama", // Mess with the filter until only a few text labels appear for highlights
+            filter: (d, i, _) => i % 5 == 0 && d.president != "Barack Obama",
             x: "election year",
             y: "born",
             text: "president",
@@ -1381,21 +1394,23 @@
             dx: 2,
             textAnchor: "start",
             rotate: 0,
-            stroke: "white",
+            fill: "none",
+            stroke: "var(--bg-color, white)",
             strokeWidth: 3,
           }),
           Plot.text(data_line, {
-            filter: (d, i, _) => i % 5 == 0 && d.president != "Barack Obama", // Mess with the filter until only a few text labels appear for highlights
+            filter: (d, i, _) => i % 5 == 0 && d.president != "Barack Obama",
             x: "election year",
             y: "born",
             text: "president",
             dy: 18,
             dx: 2,
             textAnchor: "start",
-            rotate: 0
+            rotate: 0,
+            fill: "currentColor"
           }),
           Plot.text(data_line, Plot.selectLast({
-            filter: (d) => d.president == "Barack Obama", // Mess with the filter until only a few text labels appear for highlights
+            filter: (d) => d.president == "Barack Obama",
             x: "election year",
             y: "born",
             text: "president",
@@ -1403,26 +1418,26 @@
             dx: 4,
             textAnchor: "end",
             rotate: 0,
-            stroke: "white",
+            fill: "none",
+            stroke: "var(--bg-color, white)",
             strokeWidth: 3,
           })),
           Plot.text(data_line, Plot.selectLast({
-            filter: (d) => d.president == "Barack Obama", // Mess with the filter until only a few text labels appear for highlights
+            filter: (d) => d.president == "Barack Obama",
             x: "election year",
             y: "born",
             text: "president",
             dy: -16,
             dx: 4,
             textAnchor: "end",
-            rotate: 0
+            rotate: 0,
+            fill: "currentColor"
           }))
         ]
       };
 
       var highlight_standard = ["Joe Biden", "Ronald Reagan", "James Buchanan"];
       var highlight_higher = ["William Henry Harrison", "Donald J. Trump"];
-      var bar_color = "#354e6b"; // Matching the dark blue in the image.
-      var muted_color = "#8fa3ad"; // Matching the grey-blue in the image.
 
       var bars = {
         width: width,
@@ -1447,33 +1462,57 @@
           Plot.barY(data_bar, {
             x: "number",
             y: "age",
-            fill: d => (d.age >= 65) ? bar_color : muted_color,
+            fill: d => (d.age >= 65) ? "var(--bar-highlight)" : "var(--bar-muted)",
             title: d => `${d.president}\nAge: ${Math.floor(d.age)}`,
           }),
-          // Standard Annotations
+          // Standard Annotations - Halo stroke layer
+          Plot.text(data_bar, {
+            filter: d => highlight_standard.includes(d.president) && d.president !== "Joe Biden",
+            x: "number",
+            y: d => d.age + 2,
+            text: d => `${d.president}, ${Math.floor(d.age)}`,
+            fill: "none",
+            stroke: "var(--bg-color, white)",
+            strokeWidth: 4,
+            dy: -20,
+            fontSize: 13,
+            fontWeight: "bold"
+          }),
+          // Standard Annotations - Text fill layer
           Plot.text(data_bar, {
             filter: d => highlight_standard.includes(d.president) && d.president !== "Joe Biden",
             x: "number",
             y: d => d.age + 2,
             text: d => `${d.president}, ${Math.floor(d.age)}`,
             fill: "currentColor",
-            stroke: "white",
-            strokeWidth: 4,
             dy: -20,
             fontSize: 13,
             fontWeight: "bold"
           }),
-          // Annotation for Joe Biden (anchored end)
+          // Annotation for Joe Biden (anchored end) - Halo stroke layer
+          Plot.text(data_bar, {
+            filter: d => d.president === "Joe Biden",
+            x: "number",
+            y: d => d.age + 2,
+            text: d => `${d.president}, ${Math.floor(d.age)}`,
+            fill: "none",
+            stroke: "var(--bg-color, white)",
+            strokeWidth: 4,
+            dy: -20,
+            dx: -5,
+            fontSize: 13,
+            fontWeight: "bold",
+            textAnchor: "end"
+          }),
+          // Annotation for Joe Biden (anchored end) - Text fill layer
           Plot.text(data_bar, {
             filter: d => d.president === "Joe Biden",
             x: "number",
             y: d => d.age + 2,
             text: d => `${d.president}, ${Math.floor(d.age)}`,
             fill: "currentColor",
-            stroke: "white",
-            strokeWidth: 4,
             dy: -20,
-            dx: -5, // Slight nudge to ensure it doesn't touch the line
+            dx: -5,
             fontSize: 13,
             fontWeight: "bold",
             textAnchor: "end"
@@ -1483,18 +1522,29 @@
             x: "number",
             y1: "age",
             y2: d => d.age + 5,
-            stroke: "#1e334d",
-            strokeWidth: 1
+            stroke: "var(--rule-pointer)",
+            strokeWidth: 1.5
           }),
-          // Higher Annotations (Harrison & Trump)
+          // Higher Annotations (Harrison & Trump) - Halo stroke layer
+          Plot.text(data_bar, {
+            filter: d => highlight_higher.includes(d.president) && d.number !== 45,
+            x: "number",
+            y: d => d.age + 2,
+            text: d => `${d.president}, ${Math.floor(d.age)}`,
+            fill: "none",
+            stroke: "var(--bg-color, white)",
+            strokeWidth: 4,
+            dy: -35,
+            fontSize: 13,
+            fontWeight: "bold"
+          }),
+          // Higher Annotations (Harrison & Trump) - Text fill layer
           Plot.text(data_bar, {
             filter: d => highlight_higher.includes(d.president) && d.number !== 45,
             x: "number",
             y: d => d.age + 2,
             text: d => `${d.president}, ${Math.floor(d.age)}`,
             fill: "currentColor",
-            stroke: "white",
-            strokeWidth: 4,
             dy: -35,
             fontSize: 13,
             fontWeight: "bold"
@@ -1504,8 +1554,8 @@
             x: "number",
             y1: "age",
             y2: d => d.age + 7.5,
-            stroke: "#1e334d",
-            strokeWidth: 1
+            stroke: "var(--rule-pointer)",
+            strokeWidth: 1.5
           })
         ]
       };
