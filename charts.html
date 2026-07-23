@@ -67,9 +67,20 @@
     }
 
     html[data-theme="dark"] #cartogram text,
-    html[data-theme="dark"] #gridmap text {
+    html[data-theme="dark"] #gridmap text,
+    html[data-theme="dark"] #donut_emissions text,
+    html[data-theme="dark"] #pie_chart text,
+    html[data-theme="dark"] #waffle text {
       fill: unset;
       color: unset;
+    }
+
+    html[data-theme="dark"] #intslope text {
+      stroke: none;
+    }
+
+    html[data-theme="dark"] #intslope g[aria-label="text"] text {
+      stroke: var(--bg-color, #111111);
     }
 
     html[data-theme="dark"] img[src*="ZIP3_zones.svg"] {
@@ -78,7 +89,9 @@
     }
 
     #donut_emissions text,
-    #donut_emissions text tspan {
+    #donut_emissions text tspan,
+    #pie_chart text,
+    #pie_chart text tspan {
       fill: inherit;
     }
 
@@ -619,7 +632,8 @@
       <p>A bump chart is a chart that helps you identify the change in the performance rankings over time rather than
         the magnitude of the values of the elements (categories).</p>
       <h2>Cartogram</h2>
-      <figure id="cartogram" aria-label="Square tile cartogram map of the United States showing state population in 2019.">
+      <figure id="cartogram"
+        aria-label="Square tile cartogram map of the United States showing state population in 2019.">
         <figcaption class="right">Data: <a href="https://www.census.gov/">U.S. Census Bureau</a></figcaption>
       </figure>
       <p>Cartograms distort the shape of geographic regions so that the area directly encodes a data variable. A common
@@ -1054,10 +1068,9 @@
       <h2>Pie chart</h2>
       <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
       <h3>United States population, 2015</h3>
-      <figure>
+      <figure id="pie_chart"
+        aria-label="Pie chart showing the distribution of the US population across 5-year age groups in 2015.">
         <figcaption class="right">Data: <a href="https://www.census.gov/data.html">U.S. Census</a></figcaption>
-        <img src="imgs/pie_chart.svg" loading="lazy"
-          alt="The United States population in 2015, represented in a pie chart.">
       </figure>
       <p>Pie charts are one of the most common and basic data visualization techniques, used across a wide range of
         applications. Pie charts are ideal for illustrating proportions, or part-to-whole comparisons.</p>
@@ -1453,7 +1466,8 @@
       <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
       <h3>World History Timeline</h3>
       <figure id="civilizations" aria-label="Timeline of World History civilizations.">
-        <figcaption class="right">Data: <a href="https://en.wikipedia.org/wiki/Timeline_of_ancient_history">Wikipedia/a>
+        <figcaption class="right">Data: <a
+            href="https://en.wikipedia.org/wiki/Timeline_of_ancient_history">Wikipedia</a>
         </figcaption>
       </figure>
       <p>A timeline shows a list of events in chronological order. The events may be placed on a scale or in
@@ -2960,6 +2974,153 @@
       return svg.node();
     };
 
+    (function renderPieChart() {
+      const container = document.getElementById("pie_chart");
+      if (!container) return;
+
+      const data = [{
+        "name": "<5",
+        "value": 19912018
+      }, {
+        "name": "5-9",
+        "value": 20501982
+      }, {
+        "name": "10-14",
+        "value": 20679786
+      }, {
+        "name": "15-19",
+        "value": 21354481
+      }, {
+        "name": "20-24",
+        "value": 22604232
+      }, {
+        "name": "25-29",
+        "value": 21698010
+      }, {
+        "name": "30-34",
+        "value": 21183639
+      }, {
+        "name": "35-39",
+        "value": 19855782
+      }, {
+        "name": "40-44",
+        "value": 20796128
+      }, {
+        "name": "45-49",
+        "value": 21370368
+      }, {
+        "name": "50-54",
+        "value": 22525490
+      }, {
+        "name": "55-59",
+        "value": 21001947
+      }, {
+        "name": "60-64",
+        "value": 18415681
+      }, {
+        "name": "65-69",
+        "value": 14547446
+      }, {
+        "name": "70-74",
+        "value": 10587721
+      }, {
+        "name": "75-79",
+        "value": 7730129
+      }, {
+        "name": "80-84",
+        "value": 5811429
+      }, {
+        "name": "≥85",
+        "value": 5938752
+      }];
+
+      const height = Math.min(width, 500);
+      const radius = Math.min(width, height) / 2;
+
+      const arc = d3.arc()
+        .innerRadius(0)
+        .outerRadius(radius - 1);
+
+      const pie = d3.pie()
+        .padAngle(1 / radius)
+        .sort(null)
+        .value(d => d.value);
+
+      const color = d3.scaleOrdinal()
+        .domain(data.map(d => d.name))
+        .range(d3.quantize(t => d3.interpolateSpectral(t * 0.8 + 0.1), data.length).reverse());
+
+      const svg = d3.select(container).append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .attr("viewBox", [-width / 2, -height / 2, width, height])
+        .attr("style", "max-width: 100%; height: auto;");
+
+      svg.append("g")
+        .attr("stroke", "white")
+        .attr("stroke-width", "1")
+        .selectAll("path")
+        .data(pie(data))
+        .join("path")
+        .attr("fill", d => color(d.data.name))
+        .attr("d", arc)
+        .append("title")
+        .text(d => `${d.data.name}: ${d.data.value.toLocaleString("en-US")}`);
+
+      const labelRadius = radius * 0.65;
+      const labelArc = d3.arc()
+        .innerRadius(labelRadius)
+        .outerRadius(labelRadius);
+
+      function getContrastColor(colorStr) {
+        const lab = d3.lab(colorStr);
+        return lab.l > 60 ? "#111111" : "#ffffff";
+      }
+
+      function getHaloColor(colorStr) {
+        const lab = d3.lab(colorStr);
+        return lab.l > 60 ? "rgba(255, 255, 255, 0.6)" : "rgba(0, 0, 0, 0.6)";
+      }
+
+      svg.append("g")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", width > 450 ? 12 : 10)
+        .attr("text-anchor", "middle")
+        .selectAll("text")
+        .data(pie(data).filter(d => (d.endAngle - d.startAngle) > 0.12))
+        .join("text")
+        .attr("transform", d => `translate(${labelArc.centroid(d)})`)
+        .each(function (d) {
+          const textEl = d3.select(this);
+          const textColor = getContrastColor(color(d.data.name));
+          const haloColor = getHaloColor(color(d.data.name));
+          const isWide = (d.endAngle - d.startAngle) > 0.22;
+
+          textEl.append("tspan")
+            .attr("x", 0)
+            .attr("y", isWide ? "-0.4em" : "0.35em")
+            .attr("font-weight", "bold")
+            .style("fill", textColor)
+            .style("stroke", haloColor)
+            .style("stroke-width", "2.5px")
+            .style("paint-order", "stroke fill")
+            .style("stroke-linejoin", "round")
+            .text(d.data.name);
+
+          if (isWide) {
+            textEl.append("tspan")
+              .attr("x", 0)
+              .attr("y", "0.7em")
+              .style("fill", textColor)
+              .style("stroke", haloColor)
+              .style("stroke-width", "2.5px")
+              .style("paint-order", "stroke fill")
+              .style("stroke-linejoin", "round")
+              .text(d.data.value.toLocaleString("en-US"));
+          }
+        });
+    })();
+
     var myColors = [{
       group: "Frodo, Sam, Merry, Pippin",
       color: "gold"
@@ -3237,7 +3398,7 @@
             b: "journalist",
             c: "developer",
             fill: group,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             r: 8,
             channels: {
               label: "name",
@@ -3255,10 +3416,16 @@
 
         ternary.ternaryTickLabels(d3.range(0.5, 1, 0.1), {
           fill: "currentColor",
-          stroke: "white"
+          stroke: "var(--bg-color, white)",
+          paintOrder: "stroke",
+          strokeWidth: 3
         }),
         ternary.ternarylabels(ternaryAxes, {
-          fontWeight: "bold"
+          fontWeight: "bold",
+          fill: "currentColor",
+          stroke: "var(--bg-color, white)",
+          paintOrder: "stroke",
+          strokeWidth: 3
         })
       ]
     };
@@ -3325,16 +3492,23 @@
       document.getElementById("packed_bubble").appendChild(svg.node());
     }
 
-    document.getElementById("wework").appendChild(Plot.plot(wework));
-    document.getElementById("animals").appendChild(Plot.plot(animals));
-    document.getElementById("example_dot").appendChild(Plot.plot(example_dot));
-    document.getElementById("network").appendChild(Plot.plot(network));
-    document.getElementById("country_emissions").appendChild(Plot.plot(country_emissions));
-    document.getElementById("ternary").appendChild(Plot.plot(ternary));
-    document.getElementById("gantt").appendChild(Plot.plot(gantt));
-    document.getElementById("bumpGas").appendChild(Plot.plot(bumpGas));
+    const renderPlot = (id, config) => {
+      const container = document.getElementById(id);
+      if (container) container.appendChild(Plot.plot(config));
+    };
 
-    var boxY = function boxY(data, {
+    [
+      ["wework", wework],
+      ["animals", animals],
+      ["example_dot", example_dot],
+      ["network", network],
+      ["country_emissions", country_emissions],
+      ["ternary", ternary],
+      ["gantt", gantt],
+      ["bumpGas", bumpGas]
+    ].forEach(([id, config]) => renderPlot(id, config));
+
+    const boxY = function boxY(data, {
       x = null,
       y = {
         transform: x => x
@@ -3378,80 +3552,57 @@
         }))
       );
     };
-    var outliers = function outliers(values) {
+    const outliers = function outliers(values) {
       const r1 = iqr1(values);
       const r2 = iqr2(values);
       return values.map(v => v < r1 || v > r2 ? v : NaN);
     };
 
-    var iqr1 = V => {
+    const iqr1 = V => {
       const hi = quartile1(V);
       const lo = hi - 1.5 * (quartile3(V) - hi);
       return d3.min(V, v => lo <= v && v <= hi ? v : NaN);
     };
 
-    var iqr2 = V => {
+    const iqr2 = V => {
       const lo = quartile3(V);
       const hi = lo + 1.5 * (lo - quartile1(V));
       return d3.max(V, v => lo <= v && v <= hi ? v : NaN);
     };
 
-    var quartile1 = V => d3.quantile(V, 0.25);
-    var quartile3 = V => d3.quantile(V, 0.75);
+    const quartile1 = V => d3.quantile(V, 0.25);
+    const quartile3 = V => d3.quantile(V, 0.75);
 
     // Formatting functions
-    formatChange = new function () {
-      const format = d3.format("+d");
-      return x => format((x - 1) * 100);
-    };
-
-    formatCurrency = new function () {
-      const format = d3.format("$.2f");
-      return x => format(x);
-    };
-
-    formatPercent = new function () {
-      const format = d3.format(".2%");
-      return x => format(x);
-    };
-
-    formatWhole = new function () {
-      const format = d3.format(",");
-      return x => format(x);
-    };
-
-    formatLog = new function () {
-      const format = d3.format(".2s");
-      return x => format(x);
-    };
-
-
-    parseTime = new function () {
-      const format = d3.timeParse("%Y");
-      return x => format(x);
-    };
-
-    const formatTime = d3.timeFormat("%Y");
-    const formatDate = d3.timeFormat("%B %d, %Y");
-    var formatUS = new Intl.NumberFormat("en-US", {
+    let formatChange = x => d3.format("+d")((x - 1) * 100);
+    let formatCurrency = d3.format("$.2f");
+    let formatPercent = d3.format(".2%");
+    let formatWhole = d3.format(",");
+    let formatLog = d3.format(".2s");
+    let parseTime = d3.timeParse("%Y");
+    let formatTime = d3.timeFormat("%Y");
+    let formatDate = d3.timeFormat("%B %d, %Y");
+    let formatUS = new Intl.NumberFormat("en-US", {
       notation: "compact",
       compactDisplay: "short",
       style: "currency",
       currency: "USD"
     }).format;
 
-
     // Use Promises to async request data
-    var promises = [d3.json("data/drugs.json"), d3.csv("data/aapl.csv", d3.autoType), d3.csv("data/global-temps.csv", d3.autoType), d3.csv("https://gist.githubusercontent.com/JesseCHowe/099f4b8e1a029c0b4af35b1edc1989f7/raw/8c18ed9a0940c734d423c3f2699ee063279533ec/morley.csv", d3.autoType), d3.csv("data/stocks.csv", d3.autoType), d3.csv("data/units.csv", d3.autoType), d3.json("data/qatar.json"), d3.csv("https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv", d3.autoType), d3.csv("data/driving.csv", d3.autoType), d3.csv("data/bls.csv", d3.autoType), d3.csv("data/caltrain.csv"), d3.csv("data/mpg.csv", d3.autoType), d3.csv("data/electricity.csv", d3.autoType), d3.json("data/dogdata.json"), d3.csv("data/google-trends-2020.csv", d3.autoType), d3.csv("data/covid.csv", d3.autoType), d3.csv("data/commute.csv", d3.autoType), d3.csv("data/world-airports.csv", d3.autoType), d3.json("data/geo/land.json"), d3.json("data/geo/statemesh.json"), d3.json("data/geo/nation.json"), d3.csv("data/walmarts.csv", d3.autoType), d3.csv("data/popcornCriteria.csv", d3.autoType), d3.csv("data/state-population-2010-to-2019.csv", d3.autoType), d3.csv("data/geo/us-state-grid.csv", d3.autoType), d3.csv("data/bls_industries.csv", d3.autoType), d3.csv("data/weather.csv", d3.autoType), d3.csv("data/receipts.csv", d3.autoType), d3.csv("data/cancer.csv", d3.autoType), d3.csv("data/us-population-county-2016.csv", d3.autoType), d3.csv("data/hstdebt.csv", d3.autoType), d3.json("data/geo/us-counties-10m.json"), d3.csv("data/us-president-favorability@2.csv", d3.autoType), d3.json("data/civilizations.json")];
-
-    // You can request multiple srcs in a promise
-    myDataPromises = Promise.all(promises);
+    const promises = [d3.json("data/drugs.json"), d3.csv("data/aapl.csv", d3.autoType), d3.csv("data/global-temps.csv", d3.autoType), d3.csv("https://gist.githubusercontent.com/JesseCHowe/099f4b8e1a029c0b4af35b1edc1989f7/raw/8c18ed9a0940c734d423c3f2699ee063279533ec/morley.csv", d3.autoType), d3.csv("data/stocks.csv", d3.autoType), d3.csv("data/units.csv", d3.autoType), d3.json("data/qatar.json"), d3.csv("https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv", d3.autoType), d3.csv("data/driving.csv", d3.autoType), d3.csv("data/bls.csv", d3.autoType), d3.csv("data/caltrain.csv"), d3.csv("data/mpg.csv", d3.autoType), d3.csv("data/electricity.csv", d3.autoType), d3.json("data/dogdata.json"), d3.csv("data/google-trends-2020.csv", d3.autoType), d3.csv("data/covid.csv", d3.autoType), d3.csv("data/commute.csv", d3.autoType), d3.csv("data/world-airports.csv", d3.autoType), d3.json("data/geo/land.json"), d3.json("data/geo/statemesh.json"), d3.json("data/geo/nation.json"), d3.csv("data/walmarts.csv", d3.autoType), d3.csv("data/popcornCriteria.csv", d3.autoType), d3.csv("data/state-population-2010-to-2019.csv", d3.autoType), d3.csv("data/geo/us-state-grid.csv", d3.autoType), d3.csv("data/bls_industries.csv", d3.autoType), d3.csv("data/weather.csv", d3.autoType), d3.csv("data/receipts.csv", d3.autoType), d3.csv("data/cancer.csv", d3.autoType), d3.csv("data/us-population-county-2016.csv", d3.autoType), d3.csv("data/hstdebt.csv", d3.autoType), d3.json("data/geo/us-counties-10m.json"), d3.csv("data/us-president-favorability@2.csv", d3.autoType), d3.json("data/civilizations.json")];
 
     // After data is successfully fetched, generate viz
-    myDataPromises.then(function (data) {
-      var civilizations = data[33];
-
-      var civ_options = {
+    const myDataPromises = Promise.all(promises);
+    myDataPromises.then((data) => {
+      var [
+        drugs, aapl, hadcrut, morley, stocks, units, qatar, gapminder,
+        driving, bls, caltrain, mpg, electric, dogdata, google, covid,
+        commute, airports, land, statemesh, nation, walmarts, popcorndata,
+        statepop, stategrid, industries, weather, receipts, cancer,
+        countypop, hstdebt, counties, presidents, civilizations
+      ] = data;
+      const civ_options = {
         width: width,
         marginRight: 0,
         style: {
@@ -3508,42 +3659,7 @@
         ]
       };
 
-      document.getElementById("civilizations").appendChild(Plot.plot(civ_options));
-
-      // Define the data. There's gotta be a better way to do this:
-      var drugs = data[0];
-      var aapl = data[1];
-      var hadcrut = data[2];
-      var morley = data[3];
-      var stocks = data[4];
-      var units = data[5];
-      var qatar = data[6];
-      var gapminder = data[7];
-      var driving = data[8];
-      var bls = data[9];
-      var caltrain = data[10];
-      var mpg = data[11];
-      var electric = data[12];
-      var dogdata = data[13];
-      var google = data[14];
-      var covid = data[15];
-      var commute = data[16];
-      var airports = data[17];
-      var land = data[18];
-      var statemesh = data[19];
-      var nation = data[20];
-      var walmarts = data[21];
-      var popcorndata = data[22];
-      var statepop = data[23];
-      var stategrid = data[24];
-      var industries = data[25];
-      var weather = data[26];
-      var receipts = data[27];
-      var cancer = data[28];
-      var countypop = data[29];
-      var hstdebt = data[30];
-      var counties = data[31];
-      var presidents = data[32];
+      renderPlot("civilizations", civ_options);
 
       var sortedData = popcorndata.filter(function (d, i) {
         return i < 30; // Top 5 teams
@@ -3731,7 +3847,7 @@
                     "end" : year === "20 Year" ?
                       "start" : "middle",
                   fill: "currentColor",
-                  stroke: "white",
+                  stroke: "var(--bg-color, white)",
                   strokeWidth: 2.5,
                   strokeLinecap: "round",
                   fontSize: 12,
@@ -6216,15 +6332,21 @@
             Plot.stackX({
               y: (_, i) => i % 5,
               fill: "label",
-              title: "group"
+              title: d => `${d.group} (${d.label})`,
+              inset: 0.5
             })
           ),
           Plot.text(
             units,
-            Plot.stackX({
-              y: (_, i) => i % 5,
-              text: "label",
-              fontSize: width > 450 ? 10 : 7
+            colorContrast({
+              luminance: 60,
+              ...Plot.stackX({
+                y: (_, i) => i % 5,
+                text: "label",
+                fill: "label",
+                fontSize: width > 450 ? 10 : 7,
+                fontWeight: "600"
+              })
             })
           )
         ],
@@ -7027,8 +7149,8 @@
         }
       })();
 
-      var statePopMap = new Map(data[23].map(d => [d.State, d["2019"]]));
-      var cartogramData = data[24].map(d => ({
+      var statePopMap = new Map(statepop.map(d => [d.State, d["2019"]]));
+      var cartogramData = stategrid.map(d => ({
         ...d,
         pop2019: statePopMap.get(d.name) || 0
       }));
