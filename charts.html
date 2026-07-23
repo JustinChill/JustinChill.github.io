@@ -47,7 +47,7 @@
   <link type="text/plain" href="humans.txt" rel="author">
   <link rel="preload" href="style.css" as="style" />
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" href="favicon.ico">
   <meta name="theme-color" content="#4C63B6">
   <meta name="color-scheme" content="light dark">
 
@@ -66,6 +66,22 @@
       fill: white;
     }
 
+    html[data-theme="dark"] #cartogram text,
+    html[data-theme="dark"] #gridmap text {
+      fill: unset;
+      color: unset;
+    }
+
+    html[data-theme="dark"] img[src*="ZIP3_zones.svg"] {
+      filter: invert(0.85) hue-rotate(180deg) contrast(1.15) brightness(0.95);
+      transition: filter 0.3s ease;
+    }
+
+    #donut_emissions text,
+    #donut_emissions text tspan {
+      fill: inherit;
+    }
+
     html[data-theme="dark"] .alluvial-chart text {
       fill: white;
     }
@@ -75,8 +91,73 @@
       fill: #aaa;
     }
 
-    html[data-theme="dark"] #country_emissions svg {
-      filter: invert(0.88) hue-rotate(180deg);
+    html[data-theme="dark"] #country_emissions text {
+      fill: white !important;
+      color: white !important;
+    }
+
+    #apple_area {
+      color: rgba(0, 0, 0, 0.75);
+    }
+
+    html[data-theme="dark"] #apple_area {
+      color: #64B5F6;
+    }
+
+    html[data-theme="dark"] #apple_area circle {
+      fill: #64B5F6 !important;
+      stroke: #64B5F6 !important;
+    }
+
+    html[data-theme="dark"] #gradient .stop-top {
+      stop-color: #64B5F6 !important;
+      stop-opacity: 0.45 !important;
+    }
+
+    html[data-theme="dark"] #gradient .stop-bottom {
+      stop-color: #64B5F6 !important;
+      stop-opacity: 0.02 !important;
+    }
+
+    /* Plot Tooltip styling for Light & Dark Mode */
+    [aria-label="tip"] path,
+    [aria-label="tip"] rect,
+    g[aria-label="tip"] path,
+    g[aria-label="tip"] rect,
+    .plot-tip {
+      fill: #ffffff;
+      background-color: #ffffff;
+      stroke: #cccccc;
+    }
+
+    [aria-label="tip"] text,
+    [aria-label="tip"] text tspan,
+    g[aria-label="tip"] text,
+    g[aria-label="tip"] text tspan,
+    .plot-tip,
+    .plot-tip-content {
+      fill: #111111;
+      color: #111111;
+    }
+
+    html[data-theme="dark"] [aria-label="tip"] path,
+    html[data-theme="dark"] [aria-label="tip"] rect,
+    html[data-theme="dark"] g[aria-label="tip"] path,
+    html[data-theme="dark"] g[aria-label="tip"] rect,
+    html[data-theme="dark"] .plot-tip {
+      fill: #1e1e24 !important;
+      background-color: #1e1e24 !important;
+      stroke: #44444c !important;
+    }
+
+    html[data-theme="dark"] [aria-label="tip"] text,
+    html[data-theme="dark"] [aria-label="tip"] text tspan,
+    html[data-theme="dark"] g[aria-label="tip"] text,
+    html[data-theme="dark"] g[aria-label="tip"] text tspan,
+    html[data-theme="dark"] .plot-tip,
+    html[data-theme="dark"] .plot-tip-content {
+      fill: #ffffff !important;
+      color: #ffffff !important;
     }
 
     article>figure {
@@ -538,14 +619,8 @@
       <p>A bump chart is a chart that helps you identify the change in the performance rankings over time rather than
         the magnitude of the values of the elements (categories).</p>
       <h2>Cartogram</h2>
-      <figure class="">
-        <figcaption class="right">Image: <a
-            href="https://www.nytimes.com/interactive/2020/08/11/us/politics/vote-by-mail-us-states.html">New York
-            Times</a></figcaption>
-        <img
-          src="https://static01.nyt.com/newsgraphics/2016/11/01/election-map-forms/738e8fe0f4e6d89ec6cb63555d3deb92e772f916/cartogram.png"
-          alt="A map of the United States uses a square graphic to show voting practices by state. Blue indicates states won by John Kerry and red the states won by Bush, by percent of vote."
-          loading="lazy">
+      <figure id="cartogram" aria-label="Square tile cartogram map of the United States showing state population in 2019.">
+        <figcaption class="right">Data: <a href="https://www.census.gov/">U.S. Census Bureau</a></figcaption>
       </figure>
       <p>Cartograms distort the shape of geographic regions so that the area directly encodes a data variable. A common
         example is to redraw every country in the world sizing it proportionally to population or GDP. Can be done by
@@ -1471,8 +1546,8 @@
     class="visually-hidden">
     <defs>
       <linearGradient id="gradient" gradientTransform="rotate(90)">
-        <stop offset="20%" stop-color="rgba(0, 0, 0, .75)" stop-opacity="0.5" />
-        <stop offset="100%" stop-color="LightSkyBlue" stop-opacity="0" />
+        <stop offset="20%" class="stop-top" stop-color="rgba(0, 0, 0, .75)" stop-opacity="0.5" />
+        <stop offset="100%" class="stop-bottom" stop-color="LightSkyBlue" stop-opacity="0" />
       </linearGradient>
     </defs>
   </svg>
@@ -2431,18 +2506,15 @@
         };
       })
 
-
-
     var country_emissions = {
       width: width,
       marginLeft: 10,
       marginTop: 12,
       style: {
         fontSize: size,
-        backgroundColor: backgroundColor,
         paddingTop: 10,
         paddingLeft: width > 450 ? "6rem" : "4rem",
-        paddingRight: "1.825rem",
+        // paddingRight: "1.825rem",
       },
       color: {
         range: ["#969696", "#4e79a7"]
@@ -2872,14 +2944,17 @@
         .data(pie(data).filter(d => !["80-84", "≥85"].includes(d.data.name)))
         .join("text")
         .attr("transform", d => `translate(${arc.centroid(d)})`)
+        .attr("fill", d => d3.hsl(color(d.data.name)).l > 0.6 ? "#111111" : "#ffffff")
         .call(text => text.append("tspan")
           .attr("y", "-0.4em")
           .attr("font-weight", "bold")
+          .attr("fill", d => d3.hsl(color(d.data.name)).l > 0.6 ? "#111111" : "#ffffff")
           .text(d => d.data.name))
         .call(text => text.filter(d => (d.endAngle - d.startAngle) > 0.25).append("tspan")
           .attr("x", 0)
           .attr("y", "0.7em")
-          .attr("fill-opacity", 0.7)
+          .attr("fill", d => d3.hsl(color(d.data.name)).l > 0.6 ? "#111111" : "#ffffff")
+          .attr("fill-opacity", 0.85)
           .text(d => d.data.value.toLocaleString("en-US")));
 
       return svg.node();
@@ -3754,14 +3829,14 @@
             x: "Date",
             y: "Close",
             title: d => formatCurrency(d.Close),
-            stroke: "rgba(0, 0, 0, .75)",
+            stroke: "currentColor",
             tip: true,
           }),
           Plot.dot(aapl, Plot.selectLast({
             x: "Date",
             y: "Close",
-            fill: "white",
-            stroke: "rgba(0, 0, 0, .75)"
+            fill: "currentColor",
+            stroke: "currentColor"
           })),
           Plot.text(aapl, Plot.selectLast({
             x: "Date",
@@ -3805,7 +3880,15 @@
               x: "First Inauguration Date",
               r: 20, // clip to a circle
               preserveAspectRatio: "xMidYMin slice", // try not to clip heads
-              src: "Portrait URL",
+              src: d => {
+                let url = d["Portrait URL"];
+                if (!url) return "";
+                if (url.includes("File:")) {
+                  const filename = url.split("File:")[1];
+                  return `https://commons.wikimedia.org/wiki/Special:FilePath/${filename}?width=120`;
+                }
+                return url;
+              },
               title: "Name",
               tip: true,
             })
@@ -4023,7 +4106,6 @@
         marginRight: 40,
         style: {
           fontSize: size,
-          backgroundColor: backgroundColor,
         },
         inset: 5,
         color: {
@@ -4287,16 +4369,21 @@
       // https://observablehq.com/@observablehq/plot-bullet-graph
       var bullet = {
         width: width,
-        height: 340,
+        height: 380,
         style: {
           fontSize: size,
           textTransform: "capitalize",
         },
-        marginRight: 0,
+        marginRight: 15,
+        marginBottom: 35,
         x: {
           grid: true,
-          ticks: d3.range(0, 51, 10),
-          tickSize: 0,
+          ticks: 4,
+          tickFormat: d => `${d}%`,
+          label: null,
+        },
+        fx: {
+          padding: 0.22,
         },
         y: {
           label: null,
@@ -4309,37 +4396,56 @@
           label: null,
         },
         color: {
-          scheme: "dark2"
+          scheme: "Tableau10"
         },
         marks: [
-          Plot.axisX({ // Draw second axis for clearer labeling
+          Plot.axisX({
             axis: "top",
-            tickFormat: (d) => (d === 50 ? `${d}%` : `${d}`),
+            tickFormat: d => `${d}%`,
+            tickSize: 0,
           }),
+          // Population share baseline background bar
           Plot.barX(covid, {
             x: "population_percent",
             y: "age",
-            fill: "#ddd",
+            fill: "currentColor",
+            fillOpacity: 0.18,
             insetTop: 2,
-            insetBottom: 2
+            insetBottom: 2,
           }),
+          // Population share baseline target tick mark
+          Plot.tickX(covid, {
+            x: "population_percent",
+            y: "age",
+            stroke: "currentColor",
+            strokeWidth: 2,
+            strokeOpacity: 0.7,
+          }),
+          // COVID cases share inner colored bar
           Plot.barX(covid, {
             x: "cases_percent",
             y: "age",
             fill: "race",
-            sort: {
-              fx: "x",
-              reverse: true
-            },
-            insetTop: 6,
-            insetBottom: 6,
+            insetTop: 5,
+            insetBottom: 5,
             tip: {
-              format: {
-                x: d => d3.format(".2%")(d / 100),
+              channels: {
+                "Age Group": "age",
+                "Race / Ethnicity": "race",
+                "COVID Cases Share": d => `${d.cases_percent}%`,
+                "Population Share": d => `${d.population_percent}%`,
+                "Total Cases": d => d3.format(",")(d.cases_total),
+                "Total Deaths": d => d3.format(",")(d.deaths_total),
               },
-              opacity: 0.9,
+              format: {
+                x: false,
+                y: false,
+                fill: false,
+                fx: false,
+              },
+              opacity: 0.95,
               textPadding: 10,
-              lineHeight: 1.65,
+              lineHeight: 1.6,
             }
           })
         ]
@@ -6921,7 +7027,62 @@
         }
       })();
 
+      var statePopMap = new Map(data[23].map(d => [d.State, d["2019"]]));
+      var cartogramData = data[24].map(d => ({
+        ...d,
+        pop2019: statePopMap.get(d.name) || 0
+      }));
+      var formatPopShort = d => d3.format(".2s")(d).replace("G", "B");
+
+      var cartogram = {
+        width: width,
+        style: {
+          fontSize: size,
+        },
+        aspectRatio: 1,
+        axis: null,
+        color: {
+          scheme: "Blues",
+          legend: true,
+          label: "Population (2019)",
+          tickFormat: "~s"
+        },
+        marks: [
+          Plot.cell(cartogramData, {
+            x: "x",
+            y: "y",
+            fill: "pop2019"
+          }),
+          Plot.text(
+            cartogramData,
+            colorContrast({
+              luminance: 60,
+              x: "x",
+              y: "y",
+              text: "key",
+              dy: -6,
+              fill: "pop2019",
+              fontSize: width > 450 ? 14 : 10,
+              fontWeight: "bold"
+            })
+          ),
+          Plot.text(
+            cartogramData,
+            colorContrast({
+              luminance: 60,
+              x: "x",
+              y: "y",
+              text: d => formatPopShort(d.pop2019),
+              dy: width > 450 ? 10 : 6,
+              fill: "pop2019",
+              fontSize: width > 450 ? 12 : 8
+            })
+          )
+        ]
+      };
+
       const chartConfigs = {
+        "cartogram": cartogram,
         "popcorn": popcorn,
         "anomaly_barcode": anomaly_barcode,
         "anomaly_dot": anomaly_dot,
