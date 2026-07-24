@@ -2,59 +2,61 @@
 <html lang="en" class="no-js">
 
 <head>
-    <title>Market Heatmap | Justin Chill</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description"
-        content="Create your own interactive market heatmap. Compare companies on market and execution strength, export high-quality quadrant charts, and customize your analysis.">
-    <meta name="author" content="Justin Chill">
-
-    <!-- OpenGraph tags -->
-    <meta property="og:locale" content="en_US">
-    <meta property="og:site_name" content="JustinChill">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Market Heatmap | Justin Chill">
-    <meta property="og:description"
-        content="Create your own interactive market heatmap. Compare companies on market and execution strength, export high-quality quadrant charts, and customize your analysis.">
-    <meta property="og:url" content="https://justinchill.com/heatmap.html">
-    <meta property="og:image" content="https://justinchill.com/imgs/heatmap_cover.png">
-    <link rel="canonical" href="https://justinchill.com/heatmap.html">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@JustinChill">
-    <meta name="twitter:creator" content="@JustinChill">
-    <meta name="twitter:title" content="Market Heatmap | Justin Chill">
-    <meta name="twitter:description"
-        content="Create your own interactive market heatmap. Compare companies on market and execution strength, export high-quality quadrant charts, and customize your analysis.">
-
-    <link rel="icon" href="favicon.ico">
-    <meta name="theme-color" content="#4C63B6">
-    <meta name="color-scheme" content="light dark">
-
-    <!-- styles -->
-        <script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
     // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
     (function () {
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', theme);
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+      document.documentElement.classList.remove('no-js');
+      document.documentElement.classList.add('js');
     })();
-    </script>
-<link rel="stylesheet" href="style.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  </script>
 
+  <title>Market Heatmap | Justin Chill</title>
+  <meta name="description"
+    content="Create your own interactive market heatmap. Compare companies on market and execution strength, export high-quality quadrant charts, and customize your analysis.">
+  <meta name="author" content="Justin Chill">
+  <meta name="robots" content="all">
 
-    <script type="module">
-        document.documentElement.classList.remove('no-js');
-        document.documentElement.classList.add('js');
-    </script>
+  <!-- OpenGraph tags -->
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="JustinChill">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Market Heatmap | Justin Chill">
+  <meta property="og:description"
+    content="Create your own interactive market heatmap. Compare companies on market and execution strength, export high-quality quadrant charts, and customize your analysis.">
+  <meta property="og:url" content="https://justinchill.com/heatmap.html">
+  <meta property="og:image" content="https://justinchill.com/imgs/heatmap_cover.png">
 
-    <!-- Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
+  <!-- Twitter tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@JustinChill">
+  <meta name="twitter:creator" content="@JustinChill">
+  <meta name="twitter:title" content="Market Heatmap | Justin Chill">
+  <meta name="twitter:description"
+    content="Create your own interactive market heatmap. Compare companies on market and execution strength, export high-quality quadrant charts, and customize your analysis.">
+  <meta name="twitter:image" content="https://justinchill.com/imgs/heatmap_cover.png">
 
-    <style>
+  <link rel="canonical" href="https://justinchill.com/heatmap.html">
+  <!-- styles -->
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="favicon.ico">
+  <link type="text/plain" href="humans.txt" rel="author">
+
+  <meta name="theme-color" content="#4C63B6">
+  <meta name="color-scheme" content="light dark">
+
+  <!-- Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
+
+  <style>
         /* CSS Variables & Utilities */
         :root {
             --glass-bg: rgba(255, 255, 255, 0.7);
