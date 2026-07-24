@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 
 <head>
-  <title>Women in STEM | Justin Chill</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Women in STEM | Justin Chill</title>
   <meta name="description"
     content="Personal heroes from the fields of science, technology, engineering, and math (STEM). Inspired by the Obama administration.">
   <meta name="author" content="Justin Chill">
+
   <!-- OpenGraph tags -->
   <meta name="robots" content="all">
   <meta content="en_US" property="og:locale">
@@ -37,16 +38,17 @@
   <meta name="twitter:description"
     content="Personal heroes from the fields of science, technology, engineering, and math (STEM). Inspired by the Obama administration.">
 
-    <script>
-  // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
-  (function () {
-  const savedTheme = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
-  document.documentElement.setAttribute('data-theme', theme);
-  })();
+  <script>
+    // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
+    (function () {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
   </script>
-<link type="text/plain" href="humans.txt" rel="author">
+
+  <link type="text/plain" href="humans.txt" rel="author">
   <link rel="preload" href="style.css" as="style" />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico">
@@ -170,7 +172,64 @@
       float: left;
     }
 
-    @media screen and (max-width: 600px) {}
+    article picture img {
+      width: 125px;
+      height: 125px;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    }
+
+    @media screen and (max-width: 600px) {
+      article picture {
+        float: none;
+        display: block;
+        margin: 0 0 1rem 0;
+      }
+    }
+
+    @media screen and (max-width: 768px),
+    (hover: none) {
+      .hero nav ul {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 0.75rem;
+        padding-bottom: 0.5rem;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+      }
+
+      .hero nav ul li {
+        flex: 0 0 110px;
+        scroll-snap-align: start;
+      }
+
+      .hero nav ul li:nth-child(1) {
+        grid-column-start: auto;
+      }
+
+      .hero nav ul li img {
+        filter: none;
+        height: 120px;
+        max-height: 120px;
+      }
+
+      .hero nav ul li a span {
+        opacity: 1;
+        transform: none;
+        font-size: 0.8rem;
+        padding: 0.25em 0.4em;
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+      }
+
+      .hero nav ul li a:before {
+        box-shadow: inset 0 -30px 40px rgba(10, 23, 55, 0.7);
+      }
+    }
   </style>
 
   <script type="application/ld+json">
@@ -214,19 +273,23 @@
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-    
+
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
+        aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
+            </path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
@@ -289,7 +352,7 @@
         <picture>
           <source srcset="imgs/state_anadupreyphoto_square.webp">
           <img src="https://obamawhitehouse.archives.gov/sites/default/files/image/state_anadupreyphoto_square.jpg"
-            alt="Ana Roqué de Duprey">
+            alt="Ana Roqué de Duprey" loading="lazy" decoding="async">
         </picture>
         Ana Roqué de Duprey was born in Puerto Rico in 1853. She started a school in her home at age 13 and wrote a
         geography textbook for her students, which was later adopted by the Department of Education of Puerto Rico.
@@ -304,7 +367,7 @@
           <source srcset="imgs/fbi_lillianmollergilbraith_square.webp">
           <img
             src="https://obamawhitehouse.archives.gov/sites/default/files/image/fbi_lillianmollergilbraith_square.jpg"
-            alt="Lillian Gilbreth">
+            alt="Lillian Gilbreth" loading="lazy" decoding="async">
         </picture>
         Lillian Moller Gilbreth was an American psychologist and industrial engineer at the turn of the 20th century.
         She was an expert in efficiency and organizational psychology, the principles of which she applied not only as a
@@ -318,7 +381,7 @@
         <picture>
           <source srcset="imgs/usda_ruthroganbenerito_square.webp">
           <img src="https://obamawhitehouse.archives.gov/sites/default/files/image/usda_ruthroganbenerito_square.jpg"
-            alt="Ruth Rogan Benerito">
+            alt="Ruth Rogan Benerito" loading="lazy" decoding="async">
         </picture>
         Ruth Rogan Benerito was an American chemist and pioneer in bioproducts. Benerito is credited with saving the
         cotton industry in post-WWII America through her discovery of a process to produce wrinkle-free, stain-free, and
@@ -333,7 +396,7 @@
         <picture>
           <source srcset="imgs/uspto_edithclarke_square.webp">
           <img src="https://obamawhitehouse.archives.gov/sites/default/files/image/uspto_edithclarke_square.jpg"
-            alt="Edith Clarke">
+            alt="Edith Clarke" loading="lazy" decoding="async">
         </picture>
         Edith Clarke was a pioneering electrical engineer at the turn of the 20th century.
         She worked as a “computer,” someone who performed difficult mathematical calculations before modern-day
@@ -347,7 +410,7 @@
         <picture>
           <source srcset="imgs/usda_mollieorshansky_square.webp">
           <img src="https://obamawhitehouse.archives.gov/sites/default/files/image/usda_mollieorshansky_square.jpg"
-            alt="Mollie Orshansky">
+            alt="Mollie Orshansky" loading="lazy" decoding="async">
         </picture>
         Mollie Orshansky was a food economist and statistician whose work on poverty thresholds pioneered the way the
         U.S. Government defines poverty. By using the cost of the cheapest nutritionally adequate diet to calculate a
@@ -361,7 +424,7 @@
         <picture>
           <source srcset="imgs/usda_maryenglepennington_square.webp">
           <img src="https://obamawhitehouse.archives.gov/sites/default/files/image/usda_maryenglepennington_square.jpg"
-            alt="Mary Engle Pennington">
+            alt="Mary Engle Pennington" loading="lazy" decoding="async">
         </picture>
         Mary Engle Pennington was an American chemist at the turn of the 20th century. At a time when few women attended
         college, Pennington completed her PhD and went on to work as a bacteriological chemist at the U.S. Department of
@@ -375,7 +438,7 @@
         <picture>
           <source srcset="imgs/nsf_ellenochoa_square.webp">
           <img src="https://obamawhitehouse.archives.gov/sites/default/files/image/nsf_ellenochoa_square.jpg"
-            alt="Ellen Ochoa">
+            alt="Ellen Ochoa" loading="lazy" decoding="async">
         </picture>
         In 1993, Dr. Ellen Ochoa became the first Hispanic woman to go to space when she served on a nine-day mission
         aboard the space shuttle Discovery. She has flown in space four times, logging nearly 1,000 hours in orbit.
@@ -387,7 +450,7 @@
         <picture>
           <source srcset="imgs/doe_calutronpic_square.webp">
           <img src="https://obamawhitehouse.archives.gov/sites/default/files/image/doe_calutronpic_square.jpg"
-            alt="Calutron Girls">
+            alt="Calutron Girls" loading="lazy" decoding="async">
         </picture>
         Isolating enriched uranium was one of the most difficult aspects of the Manhattan Project, which produced the
         first nuclear bombs during World War II. Wartime labor shortages led the Tennessee Eastman Company to recruit
@@ -401,7 +464,7 @@
         <picture>
           <source srcset="imgs/usda_virginiahholsinger_square.webp">
           <img src="https://obamawhitehouse.archives.gov/sites/default/files/image/usda_virginiahholsinger_square.jpg"
-            alt="Virginia Holsinger">
+            alt="Virginia Holsinger" loading="lazy" decoding="async">
         </picture>
         Virginia H. Holsinger was an American chemist known for her research on dairy products and food security issues.
         Holsinger developed a nutritious and shelf-stable whey and soy drink mixture that is distributed internationally
@@ -415,7 +478,7 @@
         <picture>
           <source srcset="imgs/grace-hopper.webp">
           <img src="https://obamawhitehouse.archives.gov/sites/default/files/women-in-stem/grace-hopper.jpg"
-            alt="Grace Hopper">
+            alt="Grace Hopper" loading="lazy" decoding="async">
         </picture>
         <a href="https://www.history.navy.mil/bios/hopper_grace.htm">Rear Admiral Grace Murray Hopper</a> was at the
         forefront of computer and programming language development from the 1930s through the 1980s. One of the crowning
@@ -429,7 +492,7 @@
         <picture>
           <source srcset="imgs/katherine-johnson.webp">
           <img src="https://obamawhitehouse.archives.gov/sites/default/files/women-in-stem/katherine-johnson.jpg"
-            alt="Katherine Johnson">
+            alt="Katherine Johnson" loading="lazy" decoding="async">
         </picture>
         Katherine Johnson, an African-American space scientist and mathematician, is a leading figure in American space
         history and has made enormous contributions to America’s aeronautics and space programs by her incorporation of
@@ -442,7 +505,7 @@
         <picture>
           <source srcset="imgs/rachel-carson.webp">
           <img src="https://obamawhitehouse.archives.gov/sites/default/files/women-in-stem/rachel-carson.jpg"
-            alt="Rachel Carson">
+            alt="Rachel Carson" loading="lazy" decoding="async">
         </picture>
         Rachel Carson was a marine biologist and environmentalist — whose groundbreaking book, <i>Silent Spring</i>, has
         been credited as the catalyst for the modern environmental movement. Carson passed away in 1964, but her work
@@ -453,7 +516,7 @@
         <picture>
           <source srcset="imgs/maria-klawe.webp">
           <img src="https://obamawhitehouse.archives.gov/sites/default/files/women-in-stem/maria-klawe.jpg"
-            alt="Maria Klawe">
+            alt="Maria Klawe" loading="lazy" decoding="async">
         </picture>
         Despite growing up as a self-described outcast, Maria Klawe pursed her passion for technology and became a
         prominent computer scientist. Klawe is now the first female president of Harvey Mudd College and works hard to
@@ -466,7 +529,7 @@
         <picture>
           <source srcset="imgs/lydia-v-k.webp">
           <img src="https://obamawhitehouse.archives.gov/sites/default/files/women-in-stem/lydia-v-k.jpg"
-            alt="Lydia Villa-Komaroff">
+            alt="Lydia Villa-Komaroff" loading="lazy" decoding="async">
         </picture>
         <a href="https://nihrecord.nih.gov/newsletters/2013/05_10_2013/story2.htm">Lydia Villa-Komaroff is considered to
           be a trailblazer in the field of molecular biology</a>. She faced many adversities throughout her lifetime —
@@ -480,7 +543,7 @@
         <picture>
           <source srcset="imgs/ada-lovelace.webp">
           <img src="https://obamawhitehouse.archives.gov/sites/default/files/women-in-stem/ada-lovelace.jpg"
-            alt="Ada Lovelace">
+            alt="Ada Lovelace" loading="lazy" decoding="async">
         </picture>
         Ada Lovelace is considered to be the founder of scientific computing and the first computer programmer. Her
         algorithm — which history has come to know as the first one designed for a machine to carry out — was intended
@@ -493,7 +556,7 @@
         <picture>
           <source srcset="imgs/sally-ride.webp">
           <img src="https://obamawhitehouse.archives.gov/sites/default/files/women-in-stem/sally-ride.jpg"
-            alt="Sally Ride">
+            alt="Sally Ride" loading="lazy" decoding="async">
         </picture>
         On June 18, 1983, Sally Ride transformed history when she became the first American woman to fly into space.
         After her second shuttle flight, Ride decided to retire from NASA and pursue her passion for education by
@@ -506,7 +569,7 @@
         <picture>
           <source srcset="imgs/barbara-mcclintock.webp">
           <img src="https://obamawhitehouse.archives.gov/sites/default/files/women-in-stem/barbara-mcclintock.jpg"
-            alt="Barbara McClintock">
+            alt="Barbara McClintock" loading="lazy" decoding="async">
         </picture>
         <a href="http://www.nsf.gov/news/special_reports/medalofscience50/mcclintock.jsp">Barbara McClintock was an
           American geneticist</a> and is still considered to be one of the world’s most prestigious cytogeneticists. In
@@ -519,7 +582,7 @@
         <picture>
           <source srcset="imgs/mercury-13.webp">
           <img src="https://obamawhitehouse.archives.gov/sites/default/files/women-in-stem/mercury-13.jpg"
-            alt="The Mercury 13">
+            alt="The Mercury 13" loading="lazy" decoding="async">
         </picture>
         <a href="https://www.nasa.gov/multimedia/imagegallery/image_feature_691.html#.VIiriOZdUkc">The Mercury 13, also
           sometimes known as the “Members of the First Lady Astronaut Trainees” (FLATs)</a>, were a group of women who
@@ -533,7 +596,7 @@
         <picture>
           <source srcset="imgs/eniac.webp">
           <img src="https://obamawhitehouse.archives.gov/sites/default/files/women-in-stem/eniac.png"
-            alt="The ENIAC Programmers">
+            alt="The ENIAC Programmers" loading="lazy" decoding="async">
         </picture>
         As part of a secret World War Two project, six young women programmed the first all-electronic programmable
         computer. When the project was eventually introduced to the public in 1946, the women were never introduced or
@@ -546,7 +609,7 @@
         <picture>
           <source srcset="imgs/rosalind-franklin.webp">
           <img src="https://obamawhitehouse.archives.gov/sites/default/files/women-in-stem/rosalind-franklin.jpg"
-            alt="Rosalind Franklin">
+            alt="Rosalind Franklin" loading="lazy" decoding="async">
         </picture>
         Rosalind Franklin was a British chemist and crystallographer, best known for her research which was essential to
         elucidating the structure of DNA. During her lifetime, Franklin was not credited for her key role and
@@ -575,6 +638,16 @@
     </div>
   </footer>
   <script>
+    // Email link handler
+    document.querySelectorAll('.js-email-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const a = "Justin.richard.hill@";
+        const b = "gmail.com";
+        window.open(`mailto:${a}${b}`, 'email');
+      });
+    });
+
     // Theme toggle functionality
     const themeToggleBtn = document.getElementById("theme-toggle");
     const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
@@ -582,11 +655,13 @@
 
     function updateIcons(theme) {
       if (theme === "dark") {
-        themeToggleLightIcon.classList.remove("hidden");
-        themeToggleDarkIcon.classList.add("hidden");
+        themeToggleLightIcon?.classList.remove("hidden");
+        themeToggleDarkIcon?.classList.add("hidden");
+        themeToggleBtn?.setAttribute("aria-label", "Switch to light theme");
       } else {
-        themeToggleLightIcon.classList.add("hidden");
-        themeToggleDarkIcon.classList.remove("hidden");
+        themeToggleLightIcon?.classList.add("hidden");
+        themeToggleDarkIcon?.classList.remove("hidden");
+        themeToggleBtn?.setAttribute("aria-label", "Switch to dark theme");
       }
     }
 
@@ -602,6 +677,14 @@
         updateIcons(newTheme);
       });
     }
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) {
+        const newTheme = e.matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        updateIcons(newTheme);
+      }
+    });
   </script>
 </body>
 

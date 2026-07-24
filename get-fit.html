@@ -33,16 +33,16 @@
   <meta name="twitter:title" content="Get Fit | Justin Chill">
   <meta name="twitter:description" content="Get fit not fat.">
 
-    <script>
-  // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
-  (function () {
-  const savedTheme = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
-  document.documentElement.setAttribute('data-theme', theme);
-  })();
+  <script>
+    // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
+    (function () {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
   </script>
-<link type="text/plain" href="humans.txt" rel="author">
+  <link type="text/plain" href="humans.txt" rel="author">
   <link rel="preload" href="style.css" as="style" />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico">
@@ -60,30 +60,38 @@
       height: 100%;
     }
 
+    /* Visually hidden helper for screen-reader accessible inputs */
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+
     span {
       font-size: inherit;
       line-height: initial;
       font-family: inherit;
     }
 
-    * {
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
-
-    article>section {
+    article>section.fit-demo {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       font-family: "Raleway", sans-serif;
-      font-size: 72px;
+      font-size: clamp(48px, 8vw, 72px);
+      margin: 2rem 0;
     }
 
-    input[type=radio]:not(.switch) {
-      display: none;
+    .fit-text-container {
+      user-select: none;
+      -webkit-user-select: none;
     }
 
     input+div>span {
@@ -99,7 +107,7 @@
       position: absolute;
       left: 50%;
       text-align: center;
-      color: black;
+      color: var(--heading-color, #242424);
       transform: translateX(-50%);
       transform-origin: left;
       transition: all 0.5s ease-in-out;
@@ -136,44 +144,75 @@
     body input+div+div {
       width: 280px;
       margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
     }
 
     body input+div+div label {
-      display: block;
-      padding: 20px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 10px;
       text-align: center;
-      transition: all 0.15s ease-in-out;
-      background: #fff;
-      border-radius: 10px;
+      transition: all 0.2s ease-in-out;
+      background: var(--surface-color, #ffffff);
+      border: 2px solid transparent;
+      border-radius: 12px;
       box-sizing: border-box;
-      width: 48%;
-      font-size: 64px;
+      width: 46%;
+      font-size: 56px;
       cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      user-select: none;
+      -webkit-user-select: none;
     }
 
-    body input+div+div label:first-child {
-      float: left;
-      box-shadow: inset 0 0 0 4px #1597ff, 0 15px 15px -10px rgba(0, 125, 225, 0.375);
+    body input+div+div label:hover {
+      transform: translateY(-2px);
     }
 
-    body input+div+div label:last-child {
-      float: right;
+    /* Light mode & Dark mode active card styling */
+    body input#fat:checked~div+div label[for="fat"],
+    body input#fit:checked~div+div label[for="fit"] {
+      box-shadow: inset 0 0 0 3px var(--focus-color, #1597ff), 0 10px 20px -5px rgba(21, 151, 255, 0.35);
+      border-color: var(--focus-color, #1597ff);
     }
 
-    body input#fat:checked~div+div label:first-child {
-      box-shadow: inset 0 0 0 4px #1597ff, 0 15px 15px -10px rgba(0, 125, 225, 0.375);
+    html[data-theme="dark"] body input+div+div label {
+      background: var(--surface-subtle, #1e293b);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
 
-    body input#fat:checked~div+div label:last-child {
-      box-shadow: inset 0 0 0 0px #1597ff, 0 10px 15px -20px rgba(21, 151, 255, 0);
+    html[data-theme="dark"] body input#fat:checked~div+div label[for="fat"],
+    html[data-theme="dark"] body input#fit:checked~div+div label[for="fit"] {
+      box-shadow: inset 0 0 0 3px #38bdf8, 0 10px 25px -5px rgba(56, 189, 248, 0.4);
+      border-color: #38bdf8;
     }
 
-    body input#fit:checked~div+div label:first-child {
-      box-shadow: inset 0 0 0 0px #1597ff, 0 10px 15px -20px rgba(21, 151, 255, 0);
+    /* Keyboard focus ring indicators for accessible radio navigation */
+    body input#fat:focus-visible~div+div label[for="fat"],
+    body input#fit:focus-visible~div+div label[for="fit"] {
+      outline: 3px solid var(--focus-color, #1597ff);
+      outline-offset: 4px;
     }
 
-    body input#fit:checked~div+div label:last-child {
-      box-shadow: inset 0 0 0 4px #1597ff, 0 15px 15px -10px rgba(0, 125, 225, 0.375);
+    /* Figure styling */
+    .article-figure {
+      margin: 2rem 0;
+    }
+
+    .article-figure img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius-md, 8px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .article-figcaption {
+      margin-top: 0.75rem;
+      font-size: var(--type-scale--1, 0.9375rem);
+      color: var(--muted-color, #6f6f6f);
+      font-style: italic;
     }
   </style>
 
@@ -218,19 +257,23 @@
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-    
+
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
+        aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
+            </path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
@@ -244,23 +287,26 @@
   <main role="main" id="content">
     <article>
       <div class="article-hero">
-        <p class="article-category">Inspo</p>
-        <h1 class="article-title"></h1>
-        <h2 class="article-subtitle"></h2>
+        <p class="article-category">Flex Appeal</p>
+        <h1 class="article-title">Get Fit</h1>
       </div>
-      <section>
-        <input type="radio" id="fat" name="fatfit">
-        <input type="radio" id="fit" name="fatfit">
-        <div>
+      <section class="fit-demo" aria-label="Interactive Get Fit or Get Fat toggle">
+        <input type="radio" id="fat" name="fatfit" class="visually-hidden" checked>
+        <input type="radio" id="fit" name="fatfit" class="visually-hidden">
+        <div class="fit-text-container" aria-live="polite">
           GET F<span>A<span>A</span><span>I</span></span>T
         </div>
-        <div>
-          <label for="fat">🍕</label>
-          <label for="fit">💪🏼</label>
+        <div class="fit-controls" role="radiogroup" aria-label="Goal selection">
+          <label for="fat" aria-label="Get Fat (Pizza option)">🍕</label>
+          <label for="fit" aria-label="Get Fit (Biceps option)">💪🏼</label>
         </div>
       </section>
       <p>This fun animation was partially inspired by a Gold's Gym ad I like:</p>
-      <img src="imgs/GoldsGymAdvert.jpg" loading="lazy" alt="Gold's Gym advert fat to fit.">
+      <figure class="article-figure">
+        <figcaption class="article-figcaption">Gold's Gym print advert illustrating the "Fat to Fit" concept.
+        </figcaption>
+        <img src="imgs/GoldsGymAdvert.jpg" loading="lazy" alt="Gold's Gym advert: Fat to Fit transformation.">
+      </figure>
     </article>
   </main>
   <footer>
@@ -278,11 +324,11 @@
 
     function updateIcons(theme) {
       if (theme === "dark") {
-        themeToggleLightIcon.classList.remove("hidden");
-        themeToggleDarkIcon.classList.add("hidden");
+        themeToggleLightIcon?.classList.remove("hidden");
+        themeToggleDarkIcon?.classList.add("hidden");
       } else {
-        themeToggleLightIcon.classList.add("hidden");
-        themeToggleDarkIcon.classList.remove("hidden");
+        themeToggleLightIcon?.classList.add("hidden");
+        themeToggleDarkIcon?.classList.remove("hidden");
       }
     }
 
@@ -298,6 +344,15 @@
         updateIcons(newTheme);
       });
     }
+
+    // Listen to system theme preference changes if user hasn't set an explicit preference
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) {
+        const newTheme = e.matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        updateIcons(newTheme);
+      }
+    });
   </script>
 </body>
 

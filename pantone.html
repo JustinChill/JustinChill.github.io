@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 
 <head>
-  <title>Pantone® Color of the Year | Justin Chill</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pantone® Color of the Year | Justin Chill</title>
   <meta name="description" content="Pantone® Color of the Year.">
   <meta name="author" content="Justin Chill">
+
   <!-- OpenGraph tags -->
   <meta name="robots" content="all">
   <meta content="en_US" property="og:locale">
@@ -35,16 +36,17 @@
   <meta name="twitter:title" content="Pantone® Color of the Year | Justin Chill">
   <meta name="twitter:description" content="Pantone® Color of the Year.">
 
-    <script>
-  // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
-  (function () {
-  const savedTheme = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
-  document.documentElement.setAttribute('data-theme', theme);
-  })();
+  <script>
+    // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
+    (function () {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
   </script>
-<link type="text/plain" href="humans.txt" rel="author">
+
+  <link type="text/plain" href="humans.txt" rel="author">
   <link rel="preload" href="style.css" as="style" />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico">
@@ -92,17 +94,19 @@
       inset: -0.5rem;
     }
 
+    .card:focus-visible {
+      outline: 3px solid #4C63B6;
+      outline-offset: 4px;
+      border-radius: 4px;
+    }
+
     .card:hover .inner,
-    .card:active .inner,
-    .card:focus .inner,
-    .card:target .inner,
-    .card:focus-within .inner,
-    .card:focus-within {
+    .card.flipped .inner {
       transform: rotateY(180deg);
     }
 
     .card .inner {
-      transition: 0.6s;
+      transition: transform 0.6s ease;
       transform-style: preserve-3d;
       position: relative;
       cursor: pointer;
@@ -118,13 +122,24 @@
     }
 
     .front,
-    .back {
+    .back,
+    .front *,
+    .back * {
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
+    }
+
+    .front,
+    .back {
       box-shadow: 0 2px 0 rgba(0, 0, 0, 0.06);
       left: 0;
       position: absolute;
       top: 0;
+    }
+
+    html[data-theme="dark"] .front,
+    html[data-theme="dark"] .back {
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
     }
 
     .pantone-tm {
@@ -143,7 +158,8 @@
 
     /*** Card front */
     .front {
-      z-index: 2;
+      transform: rotateY(0deg);
+      background-color: #fff;
     }
 
     .details {
@@ -420,19 +436,19 @@
         <h1 class="article-title">Pantone® Color of the Year</h1>
         <h2 class="article-subtitle"></h2>
       </div>
-      <div class="container mid-size">
-        <div aria-haspopup="true" class="card pt-2024">
+      <div class="container mid-size" role="region" aria-label="Pantone Color of the Year Gallery">
+        <div tabindex="0" role="button" aria-expanded="false" aria-label="2024 Pantone Color of the Year: Peach Fuzz (13-1023), HEX #FFBE98, RGB 255 190 152. Press to flip card." class="card pt-2024">
           <div class="inner">
             <div class="front">
               <div class="details">
-                <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+                <p class="pantone-tm">PANTONE<sup>®</sup></p>
                 <p class="year">2024</p>
                 <p class="color-info">13-1023</p>
                 <p class="color-info">Peach Fuzz</p>
               </div>
             </div> <!-- /.front -->
             <div class="back">
-              <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+              <p class="pantone-tm">PANTONE<sup>®</sup></p>
               <p class="color-info">13-1023</p>
               <p class="color-info">Peach Fuzz</p>
               <ul>
@@ -443,18 +459,18 @@
           </div> <!-- /.inner -->
         </div> <!-- /.card -->
 
-        <div aria-haspopup="true" class="card pt-2023">
+        <div tabindex="0" role="button" aria-expanded="false" aria-label="2023 Pantone Color of the Year: Viva Magenta (18-1750), HEX #be3455, RGB 190 52 85. Press to flip card." class="card pt-2023">
           <div class="inner">
             <div class="front">
               <div class="details">
-                <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+                <p class="pantone-tm">PANTONE<sup>®</sup></p>
                 <p class="year">2023</p>
                 <p class="color-info">18-1750</p>
                 <p class="color-info">Viva Magenta</p>
               </div>
             </div> <!-- /.front -->
             <div class="back">
-              <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+              <p class="pantone-tm">PANTONE<sup>®</sup></p>
               <p class="color-info">18-1750</p>
               <p class="color-info">Viva Magenta</p>
               <ul>
@@ -465,18 +481,18 @@
           </div> <!-- /.inner -->
         </div> <!-- /.card -->
 
-        <div aria-haspopup="true" class="card pt-2022">
+        <div tabindex="0" role="button" aria-expanded="false" aria-label="2022 Pantone Color of the Year: Very Peri (17-3938), HEX #6667ab, RGB 102 103 171. Press to flip card." class="card pt-2022">
           <div class="inner">
             <div class="front">
               <div class="details">
-                <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+                <p class="pantone-tm">PANTONE<sup>®</sup></p>
                 <p class="year">2022</p>
                 <p class="color-info">17-3938</p>
                 <p class="color-info">Very Peri</p>
               </div>
             </div> <!-- /.front -->
             <div class="back">
-              <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+              <p class="pantone-tm">PANTONE<sup>®</sup></p>
               <p class="color-info">17-3938</p>
               <p class="color-info">Very Peri</p>
               <ul>
@@ -487,18 +503,18 @@
           </div> <!-- /.inner -->
         </div> <!-- /.card -->
 
-        <div aria-haspopup="true" class="card pt-2021a">
+        <div tabindex="0" role="button" aria-expanded="false" aria-label="2021 Pantone Color of the Year: Illuminating (13-0647), HEX #f5df4d, RGB 245 223 77. Press to flip card." class="card pt-2021a">
           <div class="inner">
             <div class="front">
               <div class="details">
-                <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+                <p class="pantone-tm">PANTONE<sup>®</sup></p>
                 <p class="year">2021</p>
                 <p class="color-info">13-0647</p>
                 <p class="color-info">Illuminating</p>
               </div>
             </div> <!-- /.front -->
             <div class="back">
-              <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+              <p class="pantone-tm">PANTONE<sup>®</sup></p>
               <p class="color-info">13-0647</p>
               <p class="color-info">Illuminating</p>
               <ul>
@@ -509,18 +525,18 @@
           </div> <!-- /.inner -->
         </div> <!-- /.card -->
 
-        <div aria-haspopup="true" class="card pt-2021b">
+        <div tabindex="0" role="button" aria-expanded="false" aria-label="2021 Pantone Color of the Year: Ultimate Gray (17-5104), HEX #939597, RGB 147 149 151. Press to flip card." class="card pt-2021b">
           <div class="inner">
             <div class="front">
               <div class="details">
-                <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+                <p class="pantone-tm">PANTONE<sup>®</sup></p>
                 <p class="year">2021</p>
                 <p class="color-info">17-5104</p>
                 <p class="color-info">Ultimate Gray</p>
               </div>
             </div> <!-- /.front -->
             <div class="back">
-              <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+              <p class="pantone-tm">PANTONE<sup>®</sup></p>
               <p class="color-info">17-5104</p>
               <p class="color-info">Ultimate Gray</p>
               <ul>
@@ -531,18 +547,18 @@
           </div> <!-- /.inner -->
         </div> <!-- /.card -->
 
-        <div aria-haspopup="true" class="card pt-2020">
+        <div tabindex="0" role="button" aria-expanded="false" aria-label="2020 Pantone Color of the Year: Classic Blue (19-4052), HEX #0f4c81, RGB 15 76 129. Press to flip card." class="card pt-2020">
           <div class="inner">
             <div class="front">
               <div class="details">
-                <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+                <p class="pantone-tm">PANTONE<sup>®</sup></p>
                 <p class="year">2020</p>
                 <p class="color-info">19-4052</p>
                 <p class="color-info">Classic Blue</p>
               </div>
             </div> <!-- /.front -->
             <div class="back">
-              <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+              <p class="pantone-tm">PANTONE<sup>®</sup></p>
               <p class="color-info">19-4052</p>
               <p class="color-info">Classic Blue</p>
               <ul>
@@ -554,18 +570,18 @@
           </div> <!-- /.inner -->
         </div> <!-- /.card -->
 
-        <div aria-haspopup="true" class="card pt-2019">
+        <div tabindex="0" role="button" aria-expanded="false" aria-label="2019 Pantone Color of the Year: Living Coral (16-1546), HEX #ff6f61, RGB 255 111 97. Press to flip card." class="card pt-2019">
           <div class="inner">
             <div class="front">
               <div class="details">
-                <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+                <p class="pantone-tm">PANTONE<sup>®</sup></p>
                 <p class="year">2019</p>
                 <p class="color-info">16-1546</p>
                 <p class="color-info">Living Coral</p>
               </div>
             </div> <!-- /.front -->
             <div class="back">
-              <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+              <p class="pantone-tm">PANTONE<sup>®</sup></p>
               <p class="color-info">16-1546</p>
               <p class="color-info">Living Coral</p>
               <ul>
@@ -577,18 +593,18 @@
           </div> <!-- /.inner -->
         </div> <!-- /.card -->
 
-        <div aria-haspopup="true" class="card pt-2018">
+        <div tabindex="0" role="button" aria-expanded="false" aria-label="2018 Pantone Color of the Year: Ultra Violet (18-3838), HEX #5f4b8b, RGB 95 75 139. Press to flip card." class="card pt-2018">
           <div class="inner">
             <div class="front">
               <div class="details">
-                <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+                <p class="pantone-tm">PANTONE<sup>®</sup></p>
                 <p class="year">2018</p>
                 <p class="color-info">18-3838</p>
                 <p class="color-info">Ultra Violet</p>
               </div>
             </div> <!-- /.front -->
             <div class="back">
-              <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+              <p class="pantone-tm">PANTONE<sup>®</sup></p>
               <p class="color-info">18-3838</p>
               <p class="color-info">Ultra Violet</p>
               <ul>
@@ -600,18 +616,18 @@
           </div> <!-- /.inner -->
         </div> <!-- /.card -->
 
-        <div aria-haspopup="true" class="card pt-2017">
+        <div tabindex="0" role="button" aria-expanded="false" aria-label="2017 Pantone Color of the Year: Greenery (15-0343), HEX #88b04b, RGB 136 176 75. Press to flip card." class="card pt-2017">
           <div class="inner">
             <div class="front">
               <div class="details">
-                <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+                <p class="pantone-tm">PANTONE<sup>®</sup></p>
                 <p class="year">2017</p>
                 <p class="color-info">15-0343</p>
                 <p class="color-info">Greenery</p>
               </div>
             </div> <!-- /.front -->
             <div class="back">
-              <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+              <p class="pantone-tm">PANTONE<sup>®</sup></p>
               <p class="color-info">15-0343</p>
               <p class="color-info">Greenery</p>
               <ul>
@@ -623,18 +639,18 @@
           </div> <!-- /.inner -->
         </div> <!-- /.card -->
 
-        <div aria-haspopup="true" class="card pt-2016-a">
+        <div tabindex="0" role="button" aria-expanded="false" aria-label="2016 Pantone Color of the Year: Rose Quartz (13-1520), HEX #f7cac9, RGB 247 202 201. Press to flip card." class="card pt-2016-a">
           <div class="inner">
             <div class="front">
               <div class="details">
-                <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+                <p class="pantone-tm">PANTONE<sup>®</sup></p>
                 <p class="year">2016</p>
                 <p class="color-info">13-1520</p>
                 <p class="color-info">Rose Quartz</p>
               </div>
             </div> <!-- /.front -->
             <div class="back">
-              <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+              <p class="pantone-tm">PANTONE<sup>®</sup></p>
               <p class="color-info">13-1520</p>
               <p class="color-info">Rose Quartz</p>
               <ul>
@@ -646,18 +662,18 @@
           </div> <!-- /.inner -->
         </div> <!-- /.card -->
 
-        <div aria-haspopup="true" class="card pt-2016-b">
+        <div tabindex="0" role="button" aria-expanded="false" aria-label="2016 Pantone Color of the Year: Serenity (15-3919), HEX #8ca4cf, RGB 140 164 207. Press to flip card." class="card pt-2016-b">
           <div class="inner">
             <div class="front">
               <div class="details">
-                <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+                <p class="pantone-tm">PANTONE<sup>®</sup></p>
                 <p class="year">2016</p>
                 <p class="color-info">15-3919</p>
                 <p class="color-info">Serenity</p>
               </div>
             </div> <!-- /.front -->
             <div class="back">
-              <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+              <p class="pantone-tm">PANTONE<sup>®</sup></p>
               <p class="color-info">15-3919</p>
               <p class="color-info">Serenity</p>
               <ul>
@@ -669,18 +685,18 @@
           </div> <!-- /.inner -->
         </div> <!-- /.card -->
 
-        <div aria-haspopup="true" class="card pt-2015">
+        <div tabindex="0" role="button" aria-expanded="false" aria-label="2015 Pantone Color of the Year: Marsala (18-1438), HEX #955251, RGB 149 182 81. Press to flip card." class="card pt-2015">
           <div class="inner">
             <div class="front">
               <div class="details">
-                <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+                <p class="pantone-tm">PANTONE<sup>®</sup></p>
                 <p class="year">2015</p>
                 <p class="color-info">18-1438</p>
                 <p class="color-info">Marsala</p>
               </div>
             </div> <!-- /.front -->
             <div class="back">
-              <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+              <p class="pantone-tm">PANTONE<sup>®</sup></p>
               <p class="color-info">18-1438</p>
               <p class="color-info">Marsala</p>
               <ul>
@@ -692,18 +708,18 @@
           </div> <!-- /.inner -->
         </div> <!-- /.card -->
 
-        <div aria-haspopup="true" class="card pt-2014">
+        <div tabindex="0" role="button" aria-expanded="false" aria-label="2014 Pantone Color of the Year: Radiant Orchid (18-3224), HEX #b565a7, RGB 181 101 167. Press to flip card." class="card pt-2014">
           <div class="inner">
             <div class="front">
               <div class="details">
-                <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+                <p class="pantone-tm">PANTONE<sup>®</sup></p>
                 <p class="year">2014</p>
                 <p class="color-info">18-3224</p>
                 <p class="color-info">Radiant Orchid</p>
               </div>
             </div> <!-- /.front -->
             <div class="back">
-              <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+              <p class="pantone-tm">PANTONE<sup>®</sup></p>
               <p class="color-info">18-3224</p>
               <p class="color-info">Radiant Orchid</p>
               <ul>
@@ -715,18 +731,18 @@
           </div> <!-- /.inner -->
         </div> <!-- /.card -->
 
-        <div aria-haspopup="true" class="card pt-2013">
+        <div tabindex="0" role="button" aria-expanded="false" aria-label="2013 Pantone Color of the Year: Emerald (17-5641), HEX #169c78, RGB 22 156 120. Press to flip card." class="card pt-2013">
           <div class="inner">
             <div class="front">
               <div class="details">
-                <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+                <p class="pantone-tm">PANTONE<sup>®</sup></p>
                 <p class="year">2013</p>
                 <p class="color-info">17-5641</p>
                 <p class="color-info">Emerald</p>
               </div>
             </div> <!-- /.front -->
             <div class="back">
-              <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+              <p class="pantone-tm">PANTONE<sup>®</sup></p>
               <p class="color-info">17-5641</p>
               <p class="color-info">Emerald</p>
               <ul>
@@ -738,18 +754,18 @@
           </div> <!-- /.inner -->
         </div> <!-- /.card -->
 
-        <div aria-haspopup="true" class="card pt-2012">
+        <div tabindex="0" role="button" aria-expanded="false" aria-label="2012 Pantone Color of the Year: Tangerine Tango (17-1463), HEX #f05442, RGB 240 84 66. Press to flip card." class="card pt-2012">
           <div class="inner">
             <div class="front">
               <div class="details">
-                <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+                <p class="pantone-tm">PANTONE<sup>®</sup></p>
                 <p class="year">2012</p>
                 <p class="color-info">17-1463</p>
                 <p class="color-info">Tangerine Tango</p>
               </div>
             </div> <!-- /.front -->
             <div class="back">
-              <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+              <p class="pantone-tm">PANTONE<sup>®</sup></p>
               <p class="color-info">17-1463</p>
               <p class="color-info">Tangerine Tango</p>
               <ul>
@@ -761,18 +777,18 @@
           </div> <!-- /.inner -->
         </div> <!-- /.card -->
 
-        <div aria-haspopup="true" class="card pt-2011">
+        <div tabindex="0" role="button" aria-expanded="false" aria-label="2011 Pantone Color of the Year: Honeysuckle (18-2120), HEX #da4f70, RGB 218 79 112. Press to flip card." class="card pt-2011">
           <div class="inner">
             <div class="front">
               <div class="details">
-                <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+                <p class="pantone-tm">PANTONE<sup>®</sup></p>
                 <p class="year">2011</p>
                 <p class="color-info">18-2120</p>
                 <p class="color-info">Honeysuckle</p>
               </div>
             </div> <!-- /.front -->
             <div class="back">
-              <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+              <p class="pantone-tm">PANTONE<sup>®</sup></p>
               <p class="color-info">18-2120</p>
               <p class="color-info">Honeysuckle</p>
               <ul>
@@ -784,18 +800,18 @@
           </div> <!-- /.inner -->
         </div> <!-- /.card -->
 
-        <div aria-haspopup="true" class="card pt-2010">
+        <div tabindex="0" role="button" aria-expanded="false" aria-label="2010 Pantone Color of the Year: Turquoise (15-5519), HEX #41b6ab, RGB 65 182 171. Press to flip card." class="card pt-2010">
           <div class="inner">
             <div class="front">
               <div class="details">
-                <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+                <p class="pantone-tm">PANTONE<sup>®</sup></p>
                 <p class="year">2010</p>
                 <p class="color-info">15-5519</p>
                 <p class="color-info">Turquoise</p>
               </div>
             </div> <!-- /.front -->
             <div class="back">
-              <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+              <p class="pantone-tm">PANTONE<sup>®</sup></p>
               <p class="color-info">15-5519</p>
               <p class="color-info">Turquoise</p>
               <ul>
@@ -807,18 +823,18 @@
           </div> <!-- /.inner -->
         </div> <!-- /.card -->
 
-        <div aria-haspopup="true" class="card pt-2009">
+        <div tabindex="0" role="button" aria-expanded="false" aria-label="2009 Pantone Color of the Year: Mimosa (14-0848), HEX #f0bf59, RGB 240 191 89. Press to flip card." class="card pt-2009">
           <div class="inner">
             <div class="front">
               <div class="details">
-                <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+                <p class="pantone-tm">PANTONE<sup>®</sup></p>
                 <p class="year">2009</p>
                 <p class="color-info">14-0848</p>
                 <p class="color-info">Mimosa</p>
               </div>
             </div> <!-- /.front -->
             <div class="back">
-              <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+              <p class="pantone-tm">PANTONE<sup>®</sup></p>
               <p class="color-info">14-0848</p>
               <p class="color-info">Mimosa</p>
               <ul>
@@ -830,18 +846,18 @@
           </div> <!-- /.inner -->
         </div> <!-- /.card -->
 
-        <div aria-haspopup="true" class="card pt-2008">
+        <div tabindex="0" role="button" aria-expanded="false" aria-label="2008 Pantone Color of the Year: Blue Iris (18-3943), HEX #595ca1, RGB 89 92 161. Press to flip card." class="card pt-2008">
           <div class="inner">
             <div class="front">
               <div class="details">
-                <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+                <p class="pantone-tm">PANTONE<sup>®</sup></p>
                 <p class="year">2008</p>
                 <p class="color-info">18-3943</p>
                 <p class="color-info">Blue Iris</p>
               </div>
             </div> <!-- /.front -->
             <div class="back">
-              <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+              <p class="pantone-tm">PANTONE<sup>®</sup></p>
               <p class="color-info">18-3943</p>
               <p class="color-info">Blue Iris</p>
               <ul>
@@ -853,18 +869,18 @@
           </div> <!-- /.inner -->
         </div> <!-- /.card -->
 
-        <div aria-haspopup="true" class="card pt-2007">
+        <div tabindex="0" role="button" aria-expanded="false" aria-label="2007 Pantone Color of the Year: Chili Pepper (19-1557), HEX #9c1b31, RGB 156 27 49. Press to flip card." class="card pt-2007">
           <div class="inner">
             <div class="front">
               <div class="details">
-                <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+                <p class="pantone-tm">PANTONE<sup>®</sup></p>
                 <p class="year">2007</p>
                 <p class="color-info">19-1557</p>
                 <p class="color-info">Chili Pepper</p>
               </div>
             </div> <!-- /.front -->
             <div class="back">
-              <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+              <p class="pantone-tm">PANTONE<sup>®</sup></p>
               <p class="color-info">19-1557</p>
               <p class="color-info">Chili Pepper</p>
               <ul>
@@ -876,18 +892,18 @@
           </div> <!-- /.inner -->
         </div> <!-- /.card -->
 
-        <div aria-haspopup="true" class="card pt-2006">
+        <div tabindex="0" role="button" aria-expanded="false" aria-label="2006 Pantone Color of the Year: Sand Dollar (13-1106), HEX #decdbf, RGB 222 205 191. Press to flip card." class="card pt-2006">
           <div class="inner">
             <div class="front">
               <div class="details">
-                <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+                <p class="pantone-tm">PANTONE<sup>®</sup></p>
                 <p class="year">2006</p>
                 <p class="color-info">13-1106</p>
                 <p class="color-info">Sand Dollar</p>
               </div>
             </div> <!-- /.front -->
             <div class="back">
-              <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+              <p class="pantone-tm">PANTONE<sup>®</sup></p>
               <p class="color-info">13-1106</p>
               <p class="color-info">Sand Dollar</p>
               <ul>
@@ -899,18 +915,18 @@
           </div> <!-- /.inner -->
         </div> <!-- /.card -->
 
-        <div aria-haspopup="true" class="card pt-2005">
+        <div tabindex="0" role="button" aria-expanded="false" aria-label="2005 Pantone Color of the Year: Blue Turquoise (15-5217), HEX #4fb0ae, RGB 79 176 174. Press to flip card." class="card pt-2005">
           <div class="inner">
             <div class="front">
               <div class="details">
-                <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+                <p class="pantone-tm">PANTONE<sup>®</sup></p>
                 <p class="year">2005</p>
                 <p class="color-info">15-5217</p>
                 <p class="color-info">Blue Turquoise</p>
               </div>
             </div> <!-- /.front -->
             <div class="back">
-              <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+              <p class="pantone-tm">PANTONE<sup>®</sup></p>
               <p class="color-info">15-5217</p>
               <p class="color-info">Blue Turquoise</p>
               <ul>
@@ -922,18 +938,18 @@
           </div> <!-- /.inner -->
         </div> <!-- /.card -->
 
-        <div aria-haspopup="true" class="card pt-2004">
+        <div tabindex="0" role="button" aria-expanded="false" aria-label="2004 Pantone Color of the Year: Tigerlily (17-1456), HEX #e4583e, RGB 228 88 62. Press to flip card." class="card pt-2004">
           <div class="inner">
             <div class="front">
               <div class="details">
-                <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+                <p class="pantone-tm">PANTONE<sup>®</sup></p>
                 <p class="year">2004</p>
                 <p class="color-info">17-1456</p>
                 <p class="color-info">Tigerlily</p>
               </div>
             </div> <!-- /.front -->
             <div class="back">
-              <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+              <p class="pantone-tm">PANTONE<sup>®</sup></p>
               <p class="color-info">17-1456</p>
               <p class="color-info">Tigerlily</p>
               <ul>
@@ -945,18 +961,18 @@
           </div> <!-- /.inner -->
         </div> <!-- /.card -->
 
-        <div aria-haspopup="true" class="card pt-2003">
+        <div tabindex="0" role="button" aria-expanded="false" aria-label="2003 Pantone Color of the Year: Aqua Sky (14-4811), HEX #7ac5c5, RGB 122 197 197. Press to flip card." class="card pt-2003">
           <div class="inner">
             <div class="front">
               <div class="details">
-                <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+                <p class="pantone-tm">PANTONE<sup>®</sup></p>
                 <p class="year">2003</p>
                 <p class="color-info">14-4811</p>
                 <p class="color-info">Aqua Sky</p>
               </div>
             </div> <!-- /.front -->
             <div class="back">
-              <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+              <p class="pantone-tm">PANTONE<sup>®</sup></p>
               <p class="color-info">14-4811</p>
               <p class="color-info">Aqua Sky</p>
               <ul>
@@ -968,18 +984,18 @@
           </div> <!-- /.inner -->
         </div> <!-- /.card -->
 
-        <div aria-haspopup="true" class="card pt-2002">
+        <div tabindex="0" role="button" aria-expanded="false" aria-label="2002 Pantone Color of the Year: True Red (19-1664), HEX #c02034, RGB 192 32 52. Press to flip card." class="card pt-2002">
           <div class="inner">
             <div class="front">
               <div class="details">
-                <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+                <p class="pantone-tm">PANTONE<sup>®</sup></p>
                 <p class="year">2002</p>
                 <p class="color-info">19-1664</p>
                 <p class="color-info">True Red</p>
               </div>
             </div> <!-- /.front -->
             <div class="back">
-              <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+              <p class="pantone-tm">PANTONE<sup>®</sup></p>
               <p class="color-info">19-1664</p>
               <p class="color-info">True Red</p>
               <ul>
@@ -991,18 +1007,18 @@
           </div> <!-- /.inner -->
         </div> <!-- /.card -->
 
-        <div aria-haspopup="true" class="card pt-2001">
+        <div tabindex="0" role="button" aria-expanded="false" aria-label="2001 Pantone Color of the Year: Fuchsia Rose (17-2031), HEX #c94476, RGB 201 68 118. Press to flip card." class="card pt-2001">
           <div class="inner">
             <div class="front">
               <div class="details">
-                <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+                <p class="pantone-tm">PANTONE<sup>®</sup></p>
                 <p class="year">2001</p>
                 <p class="color-info">17-2031</p>
                 <p class="color-info">Fuchsia Rose</p>
               </div>
             </div> <!-- /.front -->
             <div class="back">
-              <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+              <p class="pantone-tm">PANTONE<sup>®</sup></p>
               <p class="color-info">17-2031</p>
               <p class="color-info">Fuchsia Rose</p>
               <ul>
@@ -1014,18 +1030,18 @@
           </div> <!-- /.inner -->
         </div> <!-- /.card -->
 
-        <div aria-haspopup="true" class="card pt-2000">
+        <div tabindex="0" role="button" aria-expanded="false" aria-label="2000 Pantone Color of the Year: Cerulean (15-4020), HEX #9bb7d6, RGB 155 183 214. Press to flip card." class="card pt-2000">
           <div class="inner">
             <div class="front">
               <div class="details">
-                <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+                <p class="pantone-tm">PANTONE<sup>®</sup></p>
                 <p class="year">2000</p>
                 <p class="color-info">15-4020</p>
                 <p class="color-info">Cerulean</p>
               </div>
             </div> <!-- /.front -->
             <div class="back">
-              <h3 class="pantone-tm">PANTONE<sup>®</sup></h3>
+              <p class="pantone-tm">PANTONE<sup>®</sup></p>
               <p class="color-info">15-4020</p>
               <p class="color-info">Cerulean</p>
               <ul>
@@ -1115,6 +1131,32 @@
     </div>
   </footer>
   <script>
+    // Card flip interaction for touch & keyboard accessibility (Enter / Space)
+    document.querySelectorAll('.card').forEach(card => {
+      function toggleCard() {
+        const isFlipped = card.classList.toggle('flipped');
+        card.setAttribute('aria-expanded', isFlipped ? 'true' : 'false');
+      }
+
+      card.addEventListener('click', toggleCard);
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggleCard();
+        }
+      });
+    });
+
+    // Email link handler
+    document.querySelectorAll('.js-email-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const a = "Justin.richard.hill@";
+        const b = "gmail.com";
+        window.open(`mailto:${a}${b}`, 'email');
+      });
+    });
+
     // Theme toggle functionality
     const themeToggleBtn = document.getElementById("theme-toggle");
     const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
@@ -1122,11 +1164,13 @@
 
     function updateIcons(theme) {
       if (theme === "dark") {
-        themeToggleLightIcon.classList.remove("hidden");
-        themeToggleDarkIcon.classList.add("hidden");
+        themeToggleLightIcon?.classList.remove("hidden");
+        themeToggleDarkIcon?.classList.add("hidden");
+        themeToggleBtn?.setAttribute("aria-label", "Switch to light theme");
       } else {
-        themeToggleLightIcon.classList.add("hidden");
-        themeToggleDarkIcon.classList.remove("hidden");
+        themeToggleLightIcon?.classList.add("hidden");
+        themeToggleDarkIcon?.classList.remove("hidden");
+        themeToggleBtn?.setAttribute("aria-label", "Switch to dark theme");
       }
     }
 
@@ -1142,6 +1186,14 @@
         updateIcons(newTheme);
       });
     }
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) {
+        const newTheme = e.matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        updateIcons(newTheme);
+      }
+    });
   </script>
 </body>
 

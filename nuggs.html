@@ -1,27 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 
 <head>
-  <title>Nuggs Chicken Nuggets | Justin Chill</title>
   <meta charset="UTF-8">
-    <script>
-  // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
-  (function () {
-  const savedTheme = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
-  document.documentElement.setAttribute('data-theme', theme);
-  })();
-  </script>
-<link rel="preload" href="style.css" as="style" />
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Passion+One:wght@700&family=Roboto&display=swap"
-    rel="stylesheet">
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light dark">
+  <title>Nuggs Chicken Nuggets | Justin Chill</title>
   <meta name="description" content="A lot of work went into these nuggets.">
   <meta name="author" content="Justin Chill">
+
   <!-- OpenGraph tags -->
   <meta name="robots" content="all">
   <meta content="en_US" property="og:locale">
@@ -42,8 +28,29 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Nuggs Chicken Nuggets | Justin Chill">
   <meta name="twitter:description" content="A lot of work went into these nuggets.">
+
+  <script>
+    // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
+    (function () {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+
+  <link rel="preload" href="style.css" as="style" />
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Passion+One:wght@700&family=Roboto&display=swap"
+    rel="stylesheet">
+  <link rel="icon" href="favicon.ico">
   <meta name="theme-color" content="#4C63B6">
   <meta name="color-scheme" content="light dark">
+
+  <script type="module">
+    document.documentElement.classList.remove('no-js');
+    document.documentElement.classList.add('js');
+  </script>
 
   <style type="text/css">
     section {
@@ -82,6 +89,11 @@
       font-family: "Passion One", cursive;
       font-size: 2.4rem;
       text-transform: uppercase;
+    }
+
+    html[data-theme="dark"] .words span {
+      text-shadow: 4px 4px 0 #333333;
+      color: #f5f5f5;
     }
 
     .nugget:hover~.words span {
@@ -199,7 +211,7 @@
 
       <section>
         <div class="packaging">
-          <img class="nugget" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/77020/chicken-nugget.png" alt="A single golden-brown chicken nugget.">
+          <img class="nugget" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/77020/chicken-nugget.png" alt="A single golden-brown chicken nugget." loading="lazy" decoding="async">
           <div class="words">
             <span>look</span>
             <span>at</span>
@@ -210,7 +222,7 @@
         </div>
 
         <div class="packaging">
-          <img class="nugget" src="imgs/potato.webp" alt="A raw Russet potato.">
+          <img class="nugget" src="imgs/potato.webp" alt="A raw Russet potato." loading="lazy" decoding="async">
           <div class="words">
             <span>peep</span>
             <span>that</span>
@@ -219,7 +231,7 @@
         </div>
 
         <div class="packaging">
-          <img class="nugget" src="imgs/Single-Orange-PNG-Image.webp" alt="A whole fresh orange.">
+          <img class="nugget" src="imgs/Single-Orange-PNG-Image.webp" alt="A whole fresh orange." loading="lazy" decoding="async">
           <div class="words">
             <span>observe</span>
             <span>this</span>
@@ -238,6 +250,16 @@
     </div>
   </footer>
   <script>
+    // Email link handler
+    document.querySelectorAll('.js-email-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const a = "Justin.richard.hill@";
+        const b = "gmail.com";
+        window.open(`mailto:${a}${b}`, 'email');
+      });
+    });
+
     // Theme toggle functionality
     const themeToggleBtn = document.getElementById("theme-toggle");
     const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
@@ -245,11 +267,13 @@
 
     function updateIcons(theme) {
       if (theme === "dark") {
-        themeToggleLightIcon.classList.remove("hidden");
-        themeToggleDarkIcon.classList.add("hidden");
+        themeToggleLightIcon?.classList.remove("hidden");
+        themeToggleDarkIcon?.classList.add("hidden");
+        themeToggleBtn?.setAttribute("aria-label", "Switch to light theme");
       } else {
-        themeToggleLightIcon.classList.add("hidden");
-        themeToggleDarkIcon.classList.remove("hidden");
+        themeToggleLightIcon?.classList.add("hidden");
+        themeToggleDarkIcon?.classList.remove("hidden");
+        themeToggleBtn?.setAttribute("aria-label", "Switch to dark theme");
       }
     }
 
@@ -265,6 +289,14 @@
         updateIcons(newTheme);
       });
     }
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) {
+        const newTheme = e.matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        updateIcons(newTheme);
+      }
+    });
   </script>
 </body>
 

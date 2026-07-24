@@ -40,16 +40,16 @@
   <meta name="twitter:description"
     content="Data-driven blog featuring research, visualization, and interactive insights on politics, technology, and history.">
 
-    <script>
-  // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
-  (function () {
-  const savedTheme = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
-  document.documentElement.setAttribute('data-theme', theme);
-  })();
+  <script>
+    // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
+    (function () {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
   </script>
-<link type="text/plain" href="humans.txt" rel="author">
+  <link type="text/plain" href="humans.txt" rel="author">
   <link rel="preload" href="style.css" as="style" />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico">
@@ -325,19 +325,23 @@
     <div class="nav__list">
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-    
+
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
+        aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
+            </path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
@@ -2320,7 +2324,24 @@
               </svg>
             </div>
           </article>
-
+          <article class="card" tabindex="0" aria-label="Article: Calvin & Hobbes">
+            <div class="card-image">
+              <img src="imgs/calvin-tree.png" alt="Calvin and Hobbes relaxing in an autumn tree." loading="lazy">
+            </div>
+            <div class="card-content">
+              <p class="kicker">Tribute</p>
+              <h2>Calvin & Hobbes</h2>
+              <p>If you can't win with reason, go for volume.</p>
+            </div>
+            <div class="card-footer">
+              <a href="calvin.html">
+                <span>Read More</span>
+              </a>
+              <svg width="16" height="16" class="icon">
+                <use href="#arrow-right" />
+              </svg>
+            </div>
+          </article>
           <article class="card" tabindex="0">
             <div class="card-image">
               <img src="imgs/1730031706438"
@@ -2576,7 +2597,7 @@
               </svg>
             </div>
           </article>
-        </section>
+      </section>
       </section>
     </article>
   </main>
@@ -2619,30 +2640,27 @@
     });
 
     // Make cards clickable (supports mouse clicks and keyboard Enter/Space)
-    const container = document.querySelector('.container');
-    if (container) {
-      const handleCardActivate = (card, target) => {
-        const link = card.querySelector('.card-footer a');
-        if (link && target !== link && !link.contains(target)) {
-          link.click();
-        }
-      };
+    const handleCardActivate = (card, target) => {
+      const link = card.querySelector('.card-footer a, a');
+      if (link && target !== link && !link.contains(target)) {
+        link.click();
+      }
+    };
 
-      container.addEventListener('click', (e) => {
+    document.addEventListener('click', (e) => {
+      const card = e.target.closest('.card');
+      if (card) handleCardActivate(card, e.target);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
         const card = e.target.closest('.card');
-        if (card) handleCardActivate(card, e.target);
-      });
-
-      container.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          const card = e.target.closest('.card');
-          if (card && e.target === card) {
-            e.preventDefault();
-            handleCardActivate(card, e.target);
-          }
+        if (card && e.target === card) {
+          e.preventDefault();
+          handleCardActivate(card, e.target);
         }
-      });
-    }
+      }
+    });
   </script>
   <script>
     // Theme toggle functionality

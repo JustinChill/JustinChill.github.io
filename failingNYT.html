@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 
 <head>
-  <title>The 'failing' New York Times | Justin Chill</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The 'failing' New York Times | Justin Chill</title>
   <meta name="description" content="The 'failing' New York Times">
   <meta name="author" content="Justin Chill">
+
   <!-- OpenGraph tags -->
   <meta name="robots" content="all">
   <meta content="en_US" property="og:locale">
@@ -37,21 +38,27 @@
   <meta name="twitter:title" content="The 'failing' New York Times | Justin Chill">
   <meta name="twitter:description" content="The 'failing' New York Times">
 
-    <script>
-  // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
-  (function () {
-  const savedTheme = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
-  document.documentElement.setAttribute('data-theme', theme);
-  })();
+  <script>
+    // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
+    (function () {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
   </script>
-<link type="text/plain" href="humans.txt" rel="author">
+
+  <link type="text/plain" href="humans.txt" rel="author">
   <link rel="preload" href="style.css" as="style" />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico">
   <meta name="theme-color" content="#4C63B6">
   <meta name="color-scheme" content="light dark">
+
+  <script type="module">
+    document.documentElement.classList.remove('no-js');
+    document.documentElement.classList.add('js');
+  </script>
 
   <style type="text/css">
     @font-face {
@@ -70,8 +77,14 @@
       font-size: inherit;
     }
 
-    article>figure#lineChart {
-      margin-top: 0;
+    html[data-theme="dark"] .article-title span {
+      color: #ff6b6b;
+    }
+
+    article>figure {
+      margin: var(--spacer-3) 0 var(--spacer-2);
+      display: flex;
+      flex-direction: column;
     }
   </style>
 
@@ -116,19 +129,23 @@
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-    
+
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
+        aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
+            </path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
@@ -184,9 +201,10 @@
   <footer>
     <h2 id="footnote-label">Footnotes</h2>
     <ol>
-      <li id="font"><a href="https://github.com/ctrlcctrlv/chomsky">Chomsky</a>: A font in the style of the New York
+      <li id="fn-chomsky"><a href="https://github.com/ctrlcctrlv/chomsky">Chomsky</a>: A font in the style of the New
+        York
         Times masthead</li>
-      <li id="font">Fall and rise of The New York Times chart inspired by <a
+      <li id="fn-jtsg">Fall and rise of The New York Times chart inspired by <a
           href="https://www.reddit.com/user/jtsg_/">u/jtsg_</a> on Reddit</li>
     </ol>
 
@@ -196,13 +214,22 @@
             alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
+  <script>
+    // Email link handler
+    document.querySelectorAll('.js-email-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const a = "Justin.richard.hill@";
+        const b = "gmail.com";
+        window.open(`mailto:${a}${b}`, 'email');
+      });
+    });
+  </script>
+
   <script src="https://cdn.jsdelivr.net/npm/d3"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 
   <script type="text/javascript">
-    var element = d3.select('figure').node();
-    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
-    var size = 12;
     const formatDate = d3.timeFormat("%B %d, %Y");
     const formatPercent = d3.format(".0%");
 
@@ -229,12 +256,11 @@
       { year: 2022, category: "Print Circulation / Subscription", value: 0.62 }, { year: 2022, category: "Digital Subscription", value: 0.98 }, { year: 2022, category: "Advertising: Digital & Print", value: 0.62 }, { year: 2022, category: "Other", value: 0.24 }
     ];
 
-    // 2. Define Colors and Order
     const colors = {
-      "Print Circulation / Subscription": "#343f4b", // Dark Slate
-      "Digital Subscription": "#dfae26",             // Mustard/Gold
-      "Advertising: Digital & Print": "#8b8b93",     // Medium Gray
-      "Other": "#dcdce3"                             // Light Gray
+      "Print Circulation / Subscription": "#343f4b",
+      "Digital Subscription": "#dfae26",
+      "Advertising: Digital & Print": "#8b8b93",
+      "Other": "#dcdce3"
     };
 
     const stackOrder = [
@@ -244,61 +270,66 @@
       "Other"
     ];
 
-    // Use Promises to async request data
-    var promises = [d3.csv("data/NYTStock_Full Data_data.csv", function (d) {
-      return { // Accessor function to convert strings to numbers, dates
-        Date: new Date(d.Date), // convert column to Date
-        Close: +d.Close,
-        Growth: +d.Growth,
-      }
-    })];
+    let stocksData = null;
 
-    myDataPromises = Promise.all(promises);
+    function renderPlots() {
+      if (!stocksData) return;
 
-    // After data is successfully fetched, generate viz
-    myDataPromises.then(function (data) {
-      // Define the data. There's gotta be a better way to do this:
-      var stocks = data[0];
+      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+      const containerLine = document.getElementById("lineChart");
+      const containerSub = document.getElementById("subscriptions");
+      if (!containerLine || !containerSub) return;
 
-      var lineChart = {
+      const figcaptionLine = containerLine.querySelector("figcaption");
+      const figcaptionSub = containerSub.querySelector("figcaption");
+
+      const width = containerLine.getBoundingClientRect().width || 600;
+      const size = 12;
+
+      const textColor = isDark ? "#e8e8e8" : "#333333";
+      const arrowColor = isDark ? "#e8e8e8" : "#000000";
+      const textStroke = isDark ? "#121212" : "#ffffff";
+      const digitalSubColor = isDark ? "#facc15" : "#b4860b";
+
+      // Line Chart Config
+      const lineChartSpec = {
         width: width,
         marginRight: 0,
         style: {
           fontSize: size,
           paddingRight: 10,
-          paddingBottom: 10
+          paddingBottom: 10,
+          background: "transparent"
         },
         x: {
           tickSize: 0,
         },
         y: {
           tickSize: 0,
-          // tickFormat: (d, i, _) => (i === _.length - 1 ? `$${d}` : `${d}`), // Show $ on first tick only
           tickFormat: (d) => `$${d.toFixed(2)}`,
           grid: true,
           ticks: 4,
           labelArrow: false,
-          // domain: [0, 60]
         },
         marks: [
           Plot.axisX({
             ticks: "6 months"
           }),
           Plot.axisY({
-            tickSize: 0, // don’t draw ticks
-            dx: 2, // offset right
-            dy: -6, // offset up
-            lineAnchor: "bottom", // draw labels above grid lines
-            tickFormat: (d, i, _) => (i === _.length - 1 ? `$${d}` : d), // Show $ on first tick only,
+            tickSize: 0,
+            dx: 2,
+            dy: -6,
+            lineAnchor: "bottom",
+            tickFormat: (d, i, _) => (i === _.length - 1 ? `$${d}` : d),
             labelOffset: 5,
             ticks: 4,
           }),
-          Plot.areaY(stocks, {
+          Plot.areaY(stocksData, {
             x: "Date",
             y: "Close",
             fill: "url(#gradient)"
           }),
-          Plot.line(stocks, {
+          Plot.line(stocksData, {
             x: "Date",
             y: "Close",
             tip: {
@@ -311,39 +342,40 @@
             sort: "Date",
             title: d => `${formatDate(d.Date)}\nClose: $${d.Close}\nGrowth: ${formatPercent(d.Growth)}`,
           }),
-          Plot.text(stocks, Plot.selectFirst({
+          Plot.text(stocksData, Plot.selectFirst({
             text: d => `Election day, 2016\nClose: $${d.Close}`,
             frameAnchor: "bottom-left",
             fontSize: 14,
             lineHeight: 1.5,
             dx: 6,
             dy: -10,
-            stroke: "currentColor",
-            strokeWidth: .5,
+            stroke: textStroke,
+            strokeWidth: 0.75,
             fill: "currentColor"
           })),
-          Plot.text(stocks, Plot.selectLast({
+          Plot.text(stocksData, Plot.selectLast({
             text: d => `Close: $${d.Close.toFixed(2)}`,
             frameAnchor: "top-right",
             fontSize: 14,
             dx: -6,
             dy: -10,
-            stroke: "currentColor",
-            strokeWidth: .5,
+            stroke: textStroke,
+            strokeWidth: 0.75,
             fill: "currentColor"
           })),
         ]
       };
-      // todo: update with 2024 data: https://www.trendlinehq.com/p/fall-and-rise-of-the-new-york-times?utm_source=reddit&utm_campaign=infographics
-      var subscriptions = {
+
+      // Subscriptions Stacked Bar Chart Config
+      const subscriptionsSpec = {
         width: width,
         height: 500,
         marginTop: 10,
-        marginRight: 100,
+        marginRight: 110,
         style: {
           fontFamily: "Georgia, serif",
           fontSize: size,
-          background: "#f9f9f9"
+          background: "transparent"
         },
         y: {
           grid: true,
@@ -364,30 +396,26 @@
           range: stackOrder.map(k => colors[k])
         },
         marks: [
-          // Stacked Bars
           Plot.barY(NYTdata, {
             x: "year",
             y: "value",
             fill: "category",
-            order: stackOrder, // Ensures correct vertical stacking
+            order: stackOrder,
             title: d => `${d.category}\n$${d.value.toFixed(2)}B`
           }),
-
-          // Annotation: Paywall Arrow
           Plot.text(["Metered paywall\nintroduced in 2011"], {
             x: 2011,
             y: 2.5,
             textAnchor: "middle",
             fontWeight: "bold",
-            lineHeight: 1.2
+            lineHeight: 1.2,
+            fill: "currentColor"
           }),
           Plot.arrow([{ x1: 2011, y1: 2.4, x2: 2011, y2: 1.90 }], {
             x1: "x1", y1: "y1", x2: "x2", y2: "y2",
-            stroke: "black",
-            strokeWidth: 1
+            stroke: arrowColor,
+            strokeWidth: 1.5
           }),
-
-          // Right-side Legends (using 2022 data points)
           Plot.text(NYTdata.filter(d => d.year === 2022), Plot.stackY({
             x: "year",
             y: "value",
@@ -401,18 +429,50 @@
             },
             dx: 35,
             textAnchor: "start",
-            fill: d => d.category === "Digital Subscription" ? "#b4860b" : "#333",
+            fill: d => d.category === "Digital Subscription" ? digitalSubColor : textColor,
             fontWeight: "bold"
           })),
         ]
       };
 
-      document.getElementById("lineChart").appendChild(Plot.plot(lineChart));
-      document.getElementById("subscriptions").appendChild(Plot.plot(subscriptions));
+      const existingSvgLine = containerLine.querySelector("svg");
+      if (existingSvgLine) existingSvgLine.remove();
+      const plotNodeLine = Plot.plot(lineChartSpec);
+      if (figcaptionLine) {
+        containerLine.insertBefore(plotNodeLine, figcaptionLine);
+      } else {
+        containerLine.appendChild(plotNodeLine);
+      }
 
+      const existingSvgSub = containerSub.querySelector("svg");
+      if (existingSvgSub) existingSvgSub.remove();
+      const plotNodeSub = Plot.plot(subscriptionsSpec);
+      if (figcaptionSub) {
+        containerSub.insertBefore(plotNodeSub, figcaptionSub);
+      } else {
+        containerSub.appendChild(plotNodeSub);
+      }
+    }
+
+    d3.csv("data/NYTStock_Full Data_data.csv", function (d) {
+      return {
+        Date: new Date(d.Date),
+        Close: +d.Close,
+        Growth: +d.Growth,
+      };
+    }).then(data => {
+      stocksData = data;
+      renderPlots();
     });
-  </script>
-  <script>
+
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        renderPlots();
+      }, 150);
+    });
+
     // Theme toggle functionality
     const themeToggleBtn = document.getElementById("theme-toggle");
     const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
@@ -420,11 +480,13 @@
 
     function updateIcons(theme) {
       if (theme === "dark") {
-        themeToggleLightIcon.classList.remove("hidden");
-        themeToggleDarkIcon.classList.add("hidden");
+        themeToggleLightIcon?.classList.remove("hidden");
+        themeToggleDarkIcon?.classList.add("hidden");
+        themeToggleBtn?.setAttribute("aria-label", "Switch to light theme");
       } else {
-        themeToggleLightIcon.classList.add("hidden");
-        themeToggleDarkIcon.classList.remove("hidden");
+        themeToggleLightIcon?.classList.add("hidden");
+        themeToggleDarkIcon?.classList.remove("hidden");
+        themeToggleBtn?.setAttribute("aria-label", "Switch to dark theme");
       }
     }
 
@@ -438,8 +500,18 @@
         document.documentElement.setAttribute("data-theme", newTheme);
         localStorage.setItem("theme", newTheme);
         updateIcons(newTheme);
+        renderPlots();
       });
     }
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) {
+        const newTheme = e.matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        updateIcons(newTheme);
+        renderPlots();
+      }
+    });
   </script>
 </body>
 

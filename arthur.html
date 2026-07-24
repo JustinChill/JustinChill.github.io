@@ -25,24 +25,25 @@
   <meta name="datePublished" content="2024-12-06">
   <meta name="dateModified" content="2025-07-06">
 
-  <meta content="https://i0.kym-cdn.com/photos/images/facebook/001/155/527/df0.jpg" property="og:image">
-  <meta content="https://i0.kym-cdn.com/photos/images/facebook/001/155/527/df0.jpg" property="twitter:image">
+  <meta content="https://justinchill.com/imgs/df0.jpg" property="og:image">
+  <meta content="https://justinchill.com/imgs/df0.jpg" property="twitter:image">
   <meta content="Arthur's clenched fist from the children's cartoon Arthur on PBS." property="og:image:alt">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Arthur's fist | Justin Chill">
   <meta name="twitter:description" content="Arthur's fist">
 
-    <script>
-  // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
-  (function () {
-  const savedTheme = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
-  document.documentElement.setAttribute('data-theme', theme);
-  })();
+  <script>
+    // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
+    (function () {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
   </script>
-<link type="text/plain" href="humans.txt" rel="author">
+  <link type="text/plain" href="humans.txt" rel="author">
+  <link rel="preload" href="style.css" as="style" />
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="favicon.ico">
   <meta name="theme-color" content="#4C63B6">
@@ -54,20 +55,55 @@
   </script>
 
   <style type="text/css">
-    section {
+    section.shake-container {
       display: flex;
       flex-direction: column;
+      align-items: center;
       justify-content: center;
+      margin: 2rem 0 3rem;
     }
 
     .shake {
       display: block;
       max-width: 50vw;
       max-height: 50vh;
+      width: auto;
       height: auto;
-      transition: 0.025s transform ease;
       will-change: transform;
-      margin: 0 auto 10vh;
+      margin: 0 auto 2rem;
+    }
+
+    .rage-control {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      width: 100%;
+      max-width: 280px;
+    }
+
+    .rage-label {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-color, #333);
+      user-select: none;
+    }
+
+    .rage-val {
+      font-weight: 600;
+      color: var(--accent-color, #4C63B6);
+    }
+
+    .js-rage {
+      width: 100%;
+      accent-color: var(--accent-color, #4C63B6);
+      cursor: pointer;
+    }
+
+    .js-rage:focus-visible {
+      outline: 2px solid var(--accent-color, #4C63B6);
+      outline-offset: 2px;
+      border-radius: 4px;
     }
   </style>
 
@@ -100,7 +136,7 @@
       ]
     },
     "mainEntityOfPage": "https://justinchill.com/arthur.html",
-    "image": "https://i0.kym-cdn.com/photos/images/facebook/001/155/527/df0.jpg"
+    "image": "https://justinchill.com/imgs/df0.jpg"
   }
   </script>
 </head>
@@ -112,25 +148,30 @@
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-    
+
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
+        aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
+            </path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank"
+        rel="noopener noreferrer">LinkedIn</a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
@@ -140,52 +181,90 @@
       <div class="article-hero">
         <p class="article-category">Fun</p>
         <h1 class="article-title">Arthur's fist</h1>
-        <h2 class="article-subtitle"></h2>
       </div>
 
-      <section>
-        <img class="shake" src="imgs/arthur.png"
-          alt="A close-up of an Arthur the animated TV character's clenched fist, wearing a yellow sleeve and blue pants, against a background with a window and house." />
-        <input class="js-rage" type="range" value="10" min="1" max="100" aria-label="Rage level slider" />
+      <section class="shake-container">
+        <img class="shake" src="imgs/arthur.png" width="600" height="450"
+          alt="A close-up of Arthur the animated TV character's clenched fist, wearing a yellow sleeve and blue pants, against a background with a window and house." />
+        <div class="rage-control">
+          <label for="rage-slider" class="rage-label">Rage level: <span id="rage-val"
+              class="rage-val">10%</span></label>
+          <input id="rage-slider" class="js-rage" type="range" value="10" min="1" max="100"
+            aria-label="Rage level slider" aria-valuenow="10" aria-valuemin="1" aria-valuemax="100" />
+        </div>
       </section>
 
-      <p>Arthur's Fist is a <a href="https://knowyourmeme.com/memes/reaction-images" class="internal-link">reaction
+      <p>Arthur's Fist is a <a href="https://knowyourmeme.com/memes/reaction-images">reaction
           image</a> featuring a screen capture of the protagonist <a
-          href="https://knowyourmeme.com/memes/subcultures/arthur" class="internal-link">Arthur</a> from the titular
-        children's television series holding a clinched fist, which is often accompanied by captions describing various
+          href="https://knowyourmeme.com/memes/subcultures/arthur">Arthur</a> from the titular
+        children's television series holding a clenched fist, which is often accompanied by captions describing various
         infuriating or frustrating circumstances. The image is taken from the <a
-          href="https://knowyourmeme.com/memes/arthur-punches-dw" class="internal-link">Arthur Punches D.W.</a> scene,
-        notable for inspiring a series of <a href="https://knowyourmeme.com/memes/youtube-poop-ytp"
-          class="internal-link">YouTube poop</a> videos.</p>
+          href="https://knowyourmeme.com/memes/arthur-punches-dw">Arthur Punches D.W.</a> scene,
+        notable for inspiring a series of <a href="https://knowyourmeme.com/memes/youtube-poop-ytp">YouTube poop</a>
+        videos.</p>
 
-      <p>Arthur’s Fist was first used by twitter user @<a href="https://twitter.com/AlmostJT">AlmostJT</a> on July 27,
+      <p>Arthur’s Fist was first used by twitter user @<a href="https://twitter.com/AlmostJT" target="_blank"
+          rel="noopener noreferrer">AlmostJT</a> on July 27,
         2016.</p>
-      <img src="https://miro.medium.com/v2/resize:fit:1360/format:webp/1*3Ev6Vef76Eb2jsif6EEwUA.jpeg" loading="lazy"
-        alt="A close-up of an Arthur the animated TV character's clenched fist, wearing a yellow sleeve and blue pants, against a background with a window and house." />
+      <img src="imgs/df0.jpg" loading="lazy" width="680" height="410"
+        alt="Screenshot of Twitter user @AlmostJT's tweet from July 27, 2016 introducing Arthur's fist reaction image with the text: 'This is just a image of a fist but I can think of so many relatable captions for this'" />
 
       <p>Here we use some simple javascript and the <code>Math.random()</code> method to animate Arthur's fist.
-        Inspiration for this implementation comes from <a href="https://codepen.io/daneden">Daniel Eden</a>.</p>
+        Inspiration for this implementation comes from <a href="https://codepen.io/daneden" target="_blank"
+          rel="noopener noreferrer">Daniel Eden</a>.</p>
     </article>
   </main>
   <footer>
     <div>
       <p>Justin Chill &copy; 2026</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
-            alt="GitHub logo" class="icon">Source code</a></span>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"
+          rel="noopener noreferrer"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
 
   <script>
-    let el = document.querySelector('.shake'),
-      rage = document.querySelector('.js-rage');
+    (function () {
+      const el = document.querySelector('.shake');
+      const rage = document.querySelector('.js-rage');
+      const rageVal = document.getElementById('rage-val');
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-    window.setInterval(() => {
-      let randomY = Math.random() * rage.value,
-        randomX = Math.random() * rage.value;
-      el.style.transform = `translateY(${randomY}px) translateX(${randomX}px)`;
-    }, 10);
+      function updateShake() {
+        if (!el || !rage) return;
+        if (prefersReducedMotion.matches) {
+          el.style.transform = 'none';
+          return;
+        }
+        const level = parseFloat(rage.value) || 0;
+        const randomY = (Math.random() - 0.5) * level;
+        const randomX = (Math.random() - 0.5) * level;
+        el.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        requestAnimationFrame(updateShake);
+      }
+
+      if (rage) {
+        rage.addEventListener('input', () => {
+          if (rageVal) rageVal.textContent = `${rage.value}%`;
+          rage.setAttribute('aria-valuenow', rage.value);
+        });
+      }
+
+      if (el && rage) {
+        requestAnimationFrame(updateShake);
+      }
+    })();
   </script>
   <script>
+    // Email link handler
+    document.querySelectorAll('.js-email-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const a = "Justin.richard.hill@";
+        const b = "gmail.com";
+        window.open(`mailto:${a}${b}`, 'email');
+      });
+    });
+
     // Theme toggle functionality
     const themeToggleBtn = document.getElementById("theme-toggle");
     const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
@@ -193,11 +272,13 @@
 
     function updateIcons(theme) {
       if (theme === "dark") {
-        themeToggleLightIcon.classList.remove("hidden");
-        themeToggleDarkIcon.classList.add("hidden");
+        themeToggleLightIcon?.classList.remove("hidden");
+        themeToggleDarkIcon?.classList.add("hidden");
+        themeToggleBtn?.setAttribute("aria-label", "Switch to light theme");
       } else {
-        themeToggleLightIcon.classList.add("hidden");
-        themeToggleDarkIcon.classList.remove("hidden");
+        themeToggleLightIcon?.classList.add("hidden");
+        themeToggleDarkIcon?.classList.remove("hidden");
+        themeToggleBtn?.setAttribute("aria-label", "Switch to dark theme");
       }
     }
 
@@ -213,6 +294,15 @@
         updateIcons(newTheme);
       });
     }
+
+    // Listen to system theme preference changes if user hasn't set an explicit preference
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) {
+        const newTheme = e.matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        updateIcons(newTheme);
+      }
+    });
   </script>
 </body>
 

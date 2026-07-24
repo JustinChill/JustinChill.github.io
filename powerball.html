@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 
 <head>
   <title>Play Powerball | Justin Chill</title>
@@ -23,33 +23,36 @@
   <meta property="og:country_name" content="USA">
 
   <meta name="datePublished" content="2022-12-07">
-  <meta name="dateModified" content="2025-08-06">
+  <meta name="dateModified" content="2026-07-23">
 
-  <meta content="https://uploads.sitepoint.com/wp-content/uploads/2022/09/1663565358random-numbers-js-768x435.jpg"
-    property="og:image">
-  <meta content="https://uploads.sitepoint.com/wp-content/uploads/2022/09/1663565358random-numbers-js-768x435.jpg"
-    property="twitter:image">
+  <meta content="https://justinchill.com/imgs/1663565358random-numbers-js-768x435.jpg" property="og:image">
+  <meta content="https://justinchill.com/imgs/1663565358random-numbers-js-768x435.jpg" property="twitter:image">
   <meta content="An illustration of a pair of dice." property="og:image:alt">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Play Powerball | Justin Chill">
   <meta name="twitter:description" content="The odds in any lottery are about one in 300 million.">
 
-    <script>
-  // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
-  (function () {
-  const savedTheme = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
-  document.documentElement.setAttribute('data-theme', theme);
-  })();
+  <script>
+    // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
+    (function () {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
   </script>
-<link type="text/plain" href="humans.txt" rel="author">
+  <link type="text/plain" href="humans.txt" rel="author">
   <link rel="preload" href="style.css" as="style" />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico">
   <meta name="theme-color" content="#4C63B6">
   <meta name="color-scheme" content="light dark">
+
+  <script type="module">
+    document.documentElement.classList.remove('no-js');
+    document.documentElement.classList.add('js');
+  </script>
 
   <style type="text/css">
     .numbers {
@@ -60,35 +63,47 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
+      gap: 12px;
+      margin-bottom: var(--spacer-2);
     }
 
     .ball {
-      margin: 1px;
-      float: left;
-      height: 50px;
-      width: 50px;
-      background: white;
-      border-radius: 30px;
-      border: 1px solid black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 54px;
+      width: 54px;
+      background: #ffffff;
+      color: #111111;
+      border-radius: 50%;
+      border: 1px solid rgba(0, 0, 0, 0.15);
       position: relative;
-      text-align: center;
-      font-size: 2em;
-      font-weight: bold;
-      line-height: calc(2.35rem + .25vw);
+      font-size: 1.6rem;
+      font-weight: 700;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      user-select: none;
+    }
+
+    [data-theme="dark"] .ball {
+      background: #f0f0f0;
+      color: #000000;
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     }
 
     .ball:before {
       content: "";
       position: absolute;
-      top: 1%;
+      top: 2%;
       left: 5%;
       width: 90%;
       height: 90%;
       border-radius: 50%;
       background: radial-gradient(circle at 50% 0px, #ffffff, rgba(255, 255, 255, 0) 58%);
-      -webkit-filter: blur(5px);
-      filter: blur(5px);
+      filter: blur(4px);
       z-index: 2;
+      pointer-events: none;
     }
 
     .ball:after {
@@ -99,17 +114,47 @@
       height: 100%;
       top: 0;
       left: 0;
-      background: radial-gradient(circle at 50% 30%, rgba(245, 237, 48, 0), rgba(200, 190, 20, 0.2) 50%, #575300 100%);
+      background: radial-gradient(circle at 50% 30%, rgba(245, 237, 48, 0), rgba(200, 190, 20, 0.15) 50%, rgba(0, 0, 0, 0.25) 100%);
+      pointer-events: none;
     }
 
     #num6 {
-      background: red;
-      color: white;
+      background: linear-gradient(135deg, #ff4d4d, #cc0000);
+      color: #ffffff;
+      border-color: #990000;
+    }
+
+    [data-theme="dark"] #num6 {
+      background: linear-gradient(135deg, #ff5252, #d32f2f);
+      color: #ffffff;
+      border-color: #b71c1c;
+      box-shadow: 0 4px 14px rgba(239, 83, 80, 0.4);
+    }
+
+    .ball.roll-anim {
+      animation: ballPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes ballPop {
+      0% {
+        transform: scale(0.7) rotate(-15deg);
+        opacity: 0.5;
+      }
+
+      50% {
+        transform: scale(1.15) rotate(10deg);
+      }
+
+      100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+      }
     }
 
     p img {
       float: left;
-      margin-right: var(--spacer-1);
+      margin-right: var(--spacer-2);
+      margin-bottom: var(--spacer-1);
       max-width: 40%;
       border-radius: 12px;
     }
@@ -137,8 +182,7 @@
       background: hsl(0deg 0% 0% / 0.25);
       will-change: transform;
       transform: translateY(2px);
-      transition:
-        transform 600ms cubic-bezier(.3, .7, .4, 1);
+      transition: transform 600ms cubic-bezier(.3, .7, .4, 1);
     }
 
     .edge {
@@ -149,10 +193,10 @@
       height: 100%;
       border-radius: 12px;
       background: linear-gradient(to left,
-          hsl(262, 36%, 96%) 0%,
-          hsl(260, 4%, 67%) 8%,
-          hsl(260, 4%, 67%) 92%,
-          hsl(262, 36%, 96%) 100%);
+          hsl(262, 36%, 76%) 0%,
+          hsl(260, 4%, 47%) 8%,
+          hsl(260, 4%, 47%) 92%,
+          hsl(262, 36%, 76%) 100%);
     }
 
     .front {
@@ -161,12 +205,27 @@
       padding: 12px 42px;
       border-radius: 12px;
       font-size: 1.25rem;
-      color: #3C3B3D;
-      background: hsl(266, 10%, 86%);
+      font-weight: 600;
+      color: var(--text-color, #3C3B3D);
+      background: var(--surface-subtle, hsl(266, 10%, 86%));
+      border: 1px solid var(--rule-color, rgba(0, 0, 0, 0.1));
       will-change: transform;
       transform: translateY(-4px);
-      transition:
-        transform 600ms cubic-bezier(.3, .7, .4, 1);
+      transition: transform 600ms cubic-bezier(.3, .7, .4, 1);
+    }
+
+    [data-theme="dark"] .front {
+      background: #2a2a30;
+      color: #f0f0f5;
+      border-color: #444450;
+    }
+
+    [data-theme="dark"] .edge {
+      background: linear-gradient(to left,
+          #1a1a20 0%,
+          #3a3a45 8%,
+          #3a3a45 92%,
+          #1a1a20 100%);
     }
 
     .pushable:hover {
@@ -175,8 +234,7 @@
 
     .pushable:hover .front {
       transform: translateY(-6px);
-      transition:
-        transform 250ms cubic-bezier(.3, .7, .4, 1.5);
+      transition: transform 250ms cubic-bezier(.3, .7, .4, 1.5);
     }
 
     .pushable:active .front {
@@ -186,8 +244,7 @@
 
     .pushable:hover .shadow {
       transform: translateY(4px);
-      transition:
-        transform 250ms cubic-bezier(.3, .7, .4, 1.5);
+      transition: transform 250ms cubic-bezier(.3, .7, .4, 1.5);
     }
 
     .pushable:active .shadow {
@@ -197,6 +254,88 @@
 
     .pushable:focus:not(:focus-visible) {
       outline: none;
+    }
+
+    .pushable:focus-visible {
+      outline: none;
+    }
+
+    .pushable:focus-visible .front {
+      outline: 3px solid var(--link-color, #1f6fd1);
+      outline-offset: 3px;
+      transform: translateY(-6px);
+      box-shadow: 0 0 0 4px rgba(31, 111, 209, 0.3);
+    }
+
+    .pushable:focus-visible .shadow {
+      transform: translateY(4px);
+    }
+
+    /* Plot responsiveness & styling */
+    figure#coins {
+      margin: var(--spacer-3) 0;
+      overflow: hidden;
+    }
+
+    figure#coins svg {
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    [data-theme="dark"] figure#coins text {
+      fill: #e8e8e8 !important;
+    }
+
+    [data-theme="dark"] figure#coins line[stroke="#e0e0e0"],
+    [data-theme="dark"] figure#coins path[stroke="#e0e0e0"] {
+      stroke: #333333 !important;
+    }
+
+    /* Powerball logo badge */
+    .powerball-logo-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--surface-subtle, #f5f5f3);
+      padding: 10px 24px;
+      border-radius: 12px;
+      border: 1px solid var(--rule-color, rgba(0, 0, 0, 0.1));
+      margin: var(--spacer-4) auto;
+      user-select: none;
+      font-family: var(--font-ui, sans-serif);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    [data-theme="dark"] .powerball-logo-badge {
+      background: #1e1e24;
+      border-color: #33333d;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .pb-ball {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background: radial-gradient(circle at 35% 35%, #ff4d4d, #cc0000);
+      color: #ffffff;
+      font-size: 1.25rem;
+      font-weight: 900;
+      border-radius: 50%;
+      box-shadow: inset -2px -2px 4px rgba(0, 0, 0, 0.3), 0 2px 5px rgba(0, 0, 0, 0.2);
+      margin-right: 2px;
+      line-height: 1;
+    }
+
+    .pb-text {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: var(--heading-color, #222222);
+      line-height: 1;
     }
   </style>
 
@@ -208,7 +347,7 @@
   "headline": "Play Powerball | Justin Chill",
   "description": "The odds in any lottery are about one in 300 million.",
   "datePublished": "2022-12-07",
-  "dateModified": "2025-08-06",
+  "dateModified": "2026-07-23",
   "author": {
     "@type": "Person",
     "name": "Justin Chill",
@@ -230,7 +369,7 @@
     ]
   },
   "mainEntityOfPage": "https://justinchill.com/powerball.html",
-  "image": "https://uploads.sitepoint.com/wp-content/uploads/2022/09/1663565358random-numbers-js-768x435.jpg"
+  "image": "https://justinchill.com/imgs/1663565358random-numbers-js-768x435.jpg"
 }
   </script>
 </head>
@@ -242,19 +381,23 @@
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-    
+
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
+        aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
+            </path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
@@ -275,7 +418,7 @@
         Powerball, the rules are simple. Choose 5 numbers between 1 and 59, and then choose another number between 1 and
         35 (the "Powerball").</p>
 
-      <section class="numbers">
+      <section class="numbers" aria-live="polite" aria-atomic="true">
         <div class="row">
           <div id="num1" class="ball"><span id="one"></span></div>
           <div id="num2" class="ball"><span id="two"></span></div>
@@ -285,7 +428,7 @@
           <div id="num6" class="ball"><span id="six"></span></div>
         </div>
         <div class="row">
-          <button id="powerball" class="pushable">
+          <button id="powerball" class="pushable" type="button" aria-label="Generate new random Powerball numbers">
             <span class="shadow"></span>
             <span class="edge"></span>
             <span class="front">
@@ -297,7 +440,7 @@
 
       <h2>Randomness in JavaScript</h2>
       <p>In a game of chance it's crucial to generate random numbers.</p>
-      <p><img src="https://uploads.sitepoint.com/wp-content/uploads/2022/09/1663565358random-numbers-js-768x435.jpg"
+      <p><img src="imgs/1663565358random-numbers-js-768x435.jpg"
           alt="Illustration of two ivory-colored dice against a blue background. Each die shows different numbers: one with five and the other with three visible on the top faces."
           loading="lazy" />Unfortunately, it’s actually very hard to create a truly random value (unless you have access
         to some <a href="https://www.bbc.co.uk/bitesize/guides/zcynv9q/revision/7" rel="nofollow">radioactive
@@ -322,110 +465,161 @@
         </figcaption>
       </figure>
 
-      <img
-        src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.mlive.com%2Fresizer%2FZsVXkhOHvjLPcgRcYvrP_xla850%3D%2F1280x0%2Fsmart%2Fcloudfront-us-east-1.images.arcpublishing.com%2Fadvancelocal%2FWY277CP2M5BHNAJ4MXEHWJ6OKQ.png&f=1&nofb=1&ipt=8c7ca7bc658602e6b10a3e2883062c8e45af988936d65fe7d8ea90fae29b9c89&ipo=images"
-        alt="The Powerball logo" />
+      <div style="text-align: center;">
+        <div class="powerball-logo-badge" aria-label="Powerball Logo">
+          <span class="pb-ball">P</span><span class="pb-text">OWERBALL</span>
+        </div>
+      </div>
     </article>
     <script src="https://cdn.jsdelivr.net/npm/d3"></script>
     <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
     <script type="text/javascript">
-      var min = 1;
-      var max = 59;
-      const counters = document.querySelectorAll('.value');
-
-      window.addEventListener("load", random); // Show random numbers on page load
-      document.getElementById("powerball").addEventListener("click", random); // Generate new numbers when the page loads
-
       function getLotteryNumbers(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min
+        return Math.floor(Math.random() * (max - min + 1)) + min;
       }
 
       function random() {
-        // Select each circle on the page
-        var one = document.getElementById('one');
-        var two = document.getElementById('two');
-        var three = document.getElementById('three');
-        var four = document.getElementById('four');
-        var five = document.getElementById('five');
-        var six = document.getElementById('six');
+        const elements = [
+          document.getElementById('one'),
+          document.getElementById('two'),
+          document.getElementById('three'),
+          document.getElementById('four'),
+          document.getElementById('five'),
+          document.getElementById('six')
+        ];
 
-        // Create a random number for each ball
-        var a = getLotteryNumbers(1, 59);
-        var b = getLotteryNumbers(1, 59);
-        var c = getLotteryNumbers(1, 59);
-        var d = getLotteryNumbers(1, 59);
-        var e = getLotteryNumbers(1, 59);
-        var f = getLotteryNumbers(1, 35);
+        // Draw 5 unique numbers between 1 and 59 without replacement
+        const whiteBalls = [];
+        while (whiteBalls.length < 5) {
+          const num = getLotteryNumbers(1, 59);
+          if (!whiteBalls.includes(num)) {
+            whiteBalls.push(num);
+          }
+        }
+        // Sort white balls in ascending order
+        whiteBalls.sort((a, b) => a - b);
 
-        // Add random numbers to each circle on the page
-        one.innerHTML = a;
-        two.innerHTML = b;
-        three.innerHTML = c;
-        four.innerHTML = d;
-        five.innerHTML = e;
+        // The 6th number is the Powerball (1 to 35)
+        const powerball = getLotteryNumbers(1, 35);
+        const allNumbers = [...whiteBalls, powerball];
 
-        // The Sixth number is the Powerball 
-        six.innerHTML = f;
+        // Add trigger pop animation
+        document.querySelectorAll('.ball').forEach(ball => {
+          ball.classList.remove('roll-anim');
+          void ball.offsetWidth; // Force reflow
+          ball.classList.add('roll-anim');
+        });
+
+        // Set numbers
+        elements.forEach((el, idx) => {
+          if (el) el.textContent = allNumbers[idx];
+        });
       }
 
-      // Plot things
-      var element = d3.select('figure:not(.mid-size)').node();
-      var width = element.getBoundingClientRect().width;
-      var size = 12;
-      var flips = 80000;
+      window.addEventListener("load", random);
+      document.getElementById("powerball").addEventListener("click", random);
 
+      // Plot chart logic
       function coinFlipData() {
+        const flips = 80000;
         let data = [];
         let sum = 0;
         for (let n = 1; n <= flips; n++) {
-          let result = Math.round(Math.random());
+          let result = Math.random() < 0.5 ? 0 : 1;
           sum += result;
-          let mean = sum / n;
-          data.push({
-            n,
-            result,
-            sum,
-            mean
-          });
+          // Filter out initial wild fluctuations (n < 50) so vertical overflow lines don't shoot out
+          if (n >= 50) {
+            let mean = sum / n;
+            data.push({ n, mean });
+          }
         }
         return data;
-      };
+      }
 
-      var coins = {
-        width: width,
-        height: 450,
-        style: {
-          fontSize: size,
-          overflow: "hidden"
-        },
-        y: {
-          grid: true,
-          domain: [0.48, 0.52],
-          tickSize: 0,
-        },
-        x: {
-          grid: true,
-          tickSize: 0,
-        },
-        // color: {legend: "true"},
-        marks: [
-          Plot.ruleY([0]),
-          Plot.lineY(coinFlipData(), {
-            x: d => d.n,
-            y: d => d.mean,
-            stroke: "red"
-          }),
-          Plot.lineY(coinFlipData(), {
-            x: d => d.n,
-            y: d => 1 - d.mean,
-            stroke: "blue"
-          })
-        ]
-      };
+      // Cache flip data for fast re-rendering on window resize / theme toggle
+      let cachedCoinData = null;
 
-      document.getElementById("coins").appendChild(Plot.plot(coins));
+      function renderCoinsChart() {
+        const coinsContainer = document.getElementById("coins");
+        if (!coinsContainer) return;
+
+        // Save figcaption before clearing container
+        const figcaption = coinsContainer.querySelector("figcaption");
+        coinsContainer.innerHTML = '';
+        if (figcaption) coinsContainer.appendChild(figcaption);
+
+        const element = d3.select('figure:not(.mid-size)').node();
+        const width = element ? element.getBoundingClientRect().width : 600;
+        const size = 12;
+
+        if (!cachedCoinData) {
+          cachedCoinData = coinFlipData();
+        }
+
+        const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+
+        const coins = {
+          width: width,
+          height: 450,
+          style: {
+            fontSize: size,
+            overflow: "hidden",
+            background: "transparent",
+            color: isDark ? "#e8e8e8" : "#242424"
+          },
+          y: {
+            grid: true,
+            domain: [0.48, 0.52],
+            tickSize: 0,
+            label: "Proportion of Heads"
+          },
+          x: {
+            grid: true,
+            tickSize: 0,
+            label: "Number of Flips"
+          },
+          marks: [
+            Plot.ruleY([0.5], { stroke: isDark ? "#aaaaaa" : "#888888", strokeDasharray: "4 4", strokeWidth: 1.5 }),
+            Plot.lineY(cachedCoinData, {
+              x: d => d.n,
+              y: d => d.mean,
+              stroke: "#e63946",
+              strokeWidth: 1.5,
+              clip: true
+            }),
+            Plot.lineY(cachedCoinData, {
+              x: d => d.n,
+              y: d => 1 - d.mean,
+              stroke: isDark ? "#38beea" : "#1f6fd1",
+              strokeWidth: 1.5,
+              clip: true
+            })
+          ]
+        };
+
+        const chartNode = Plot.plot(coins);
+        if (figcaption) {
+          coinsContainer.appendChild(figcaption);
+        }
+        coinsContainer.appendChild(chartNode);
+      }
+
+      window.addEventListener("load", renderCoinsChart);
+
+      let resizeTimer;
+      window.addEventListener("resize", () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(renderCoinsChart, 250);
+      });
     </script>
   </main>
+  <footer>
+    <div>
+      <p>Justin Chill &copy; 2026</p>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
+            alt="GitHub logo" class="icon">Source code</a></span>
+    </div>
+  </footer>
   <script>
     // Theme toggle functionality
     const themeToggleBtn = document.getElementById("theme-toggle");
@@ -434,11 +628,11 @@
 
     function updateIcons(theme) {
       if (theme === "dark") {
-        themeToggleLightIcon.classList.remove("hidden");
-        themeToggleDarkIcon.classList.add("hidden");
+        themeToggleLightIcon?.classList.remove("hidden");
+        themeToggleDarkIcon?.classList.add("hidden");
       } else {
-        themeToggleLightIcon.classList.add("hidden");
-        themeToggleDarkIcon.classList.remove("hidden");
+        themeToggleLightIcon?.classList.add("hidden");
+        themeToggleDarkIcon?.classList.remove("hidden");
       }
     }
 
@@ -452,8 +646,19 @@
         document.documentElement.setAttribute("data-theme", newTheme);
         localStorage.setItem("theme", newTheme);
         updateIcons(newTheme);
+        if (typeof renderCoinsChart === "function") renderCoinsChart();
       });
     }
+
+    // Listen to system theme preference changes if user hasn't set an explicit preference
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) {
+        const newTheme = e.matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        updateIcons(newTheme);
+        if (typeof renderCoinsChart === "function") renderCoinsChart();
+      }
+    });
   </script>
 </body>
 

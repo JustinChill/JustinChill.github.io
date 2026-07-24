@@ -5,7 +5,7 @@
   <title>Conference Call Bingo | Justin Chill</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Sorry, I was on mute.">
+  <meta name="description" content="Sorry, I was on mute. Interactive Conference Call Bingo game.">
   <meta name="author" content="Justin Chill">
   <!-- OpenGraph tags -->
   <meta name="robots" content="all">
@@ -23,7 +23,7 @@
   <meta property="og:country_name" content="USA">
 
   <meta name="datePublished" content="2024-11-16">
-  <meta name="dateModified" content="2025-08-06">
+  <meta name="dateModified" content="2026-07-23">
 
   <meta content="https://i.pinimg.com/736x/61/9b/8c/619b8cd968105c925c4c342a81bc6a59.jpg" property="og:image">
   <meta content="https://i.pinimg.com/736x/61/9b/8c/619b8cd968105c925c4c342a81bc6a59.jpg" property="twitter:image">
@@ -35,16 +35,16 @@
   <meta name="twitter:title" content="Conference Call Bingo | Justin Chill">
   <meta name="twitter:description" content="Sorry, I was on mute.">
 
-    <script>
-  // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
-  (function () {
-  const savedTheme = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
-  document.documentElement.setAttribute('data-theme', theme);
-  })();
+  <script>
+    // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
+    (function () {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
   </script>
-<link type="text/plain" href="humans.txt" rel="author">
+  <link type="text/plain" href="humans.txt" rel="author">
   <link rel="preload" href="style.css" as="style" />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico">
@@ -57,16 +57,67 @@
   </script>
 
   <style type="text/css">
-    .bingo {
-      background: rgba(255, 244, 196, 1.0);
-      background: -webkit-radial-gradient(center, rgba(255, 244, 196, 1.0), rgba(250, 219, 95, 1.0));
-      background: -moz-radial-gradient(center, rgba(255, 244, 196, 1.0), rgba(250, 219, 95, 1.0));
-      background: radial-gradient(ellipse at center, rgba(255, 244, 196, 1.0), rgba(250, 219, 95, 1.0));
+    :root {
+      --bingo-grid-bg: #e2e8f0;
+      --tile-bg: #ffffff;
+      --tile-bg-hover: #f8fafc;
+      --tile-border: #cbd5e1;
+      --tile-text: #0f172a;
+      --tile-checked-bg: #eef2ff;
+      --tile-checked-border: #6366f1;
+      --tile-checked-text: #312e81;
 
+      --accent-btn-bg: #4f46e5;
+      --accent-btn-hover: #4338ca;
+      --accent-btn-text: #ffffff;
+
+      --secondary-btn-bg: #ffffff;
+      --secondary-btn-border: #cbd5e1;
+      --secondary-btn-text: #334155;
+      --secondary-btn-hover: #f8fafc;
+
+      --win-bg: #ecfdf5;
+      --win-border: #10b981;
+      --win-text: #065f46;
+      --win-toast-bg: #059669;
+    }
+
+    [data-theme="dark"] {
+      --bingo-grid-bg: #1e293b;
+      --tile-bg: #0f172a;
+      --tile-bg-hover: #1e293b;
+      --tile-border: #334155;
+      --tile-text: #f8fafc;
+      --tile-checked-bg: rgba(99, 102, 241, 0.18);
+      --tile-checked-border: #818cf8;
+      --tile-checked-text: #e0e7ff;
+
+      --accent-btn-bg: #6366f1;
+      --accent-btn-hover: #4f46e5;
+      --accent-btn-text: #ffffff;
+
+      --secondary-btn-bg: #1e293b;
+      --secondary-btn-border: #334155;
+      --secondary-btn-text: #cbd5e1;
+      --secondary-btn-hover: #334155;
+
+      --win-bg: rgba(16, 185, 129, 0.15);
+      --win-border: #10b981;
+      --win-text: #a7f3d0;
+      --win-toast-bg: #047857;
+    }
+
+    .bingo {
       display: grid;
-      display: -ms-grid;
       grid-template-columns: repeat(5, 1fr);
-      margin: 1rem 0;
+      gap: 6px;
+      background: var(--bingo-grid-bg);
+      padding: 6px;
+      margin: 1.5rem 0;
+      border-radius: 12px;
+      border: 1px solid var(--tile-border);
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+      transition: all 0.2s ease;
     }
 
     .bingo input[type=checkbox] {
@@ -80,93 +131,307 @@
     }
 
     .bingo label {
-      border: .2rem solid #fff;
-      padding: 1.5rem var(--spacer-2);
+      background: var(--tile-bg);
+      border: 1px solid var(--tile-border);
+      border-radius: 8px;
+      padding: 1.25rem 0.75rem;
       min-width: 50px;
       text-align: center;
-      color: hsl(211, 39%, 23%);
-      text-shadow: 0px 15px 5px rgba(0, 0, 0, 0.1),
-        5px 10px 5px rgba(0, 0, 0, 0.05),
-        -5px 10px 5px rgba(0, 0, 0, 0.05);
+      color: var(--tile-text);
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      -webkit-font-smoothing: antialiased;
     }
 
-    input[type=checkbox]+label,
-    input[type=radio]+label {
+    .bingo label:hover {
+      background: var(--tile-bg-hover);
+      border-color: var(--accent-btn-bg);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      z-index: 1;
+    }
+
+    input[type=checkbox]+label {
       margin-left: 0;
-      font-size: calc(.55rem + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
-      font-family: "Lato", sans-serif;
+      font-size: calc(.65rem + (18 - 14) * ((100vw - 320px) / (1300 - 320)));
+      line-height: 1.35;
+      font-weight: 500;
       align-content: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 90px;
     }
 
     input[type=checkbox]:focus+label {
-      border-color: #8787B2;
+      outline: 2px solid var(--accent-btn-bg);
+      outline-offset: 2px;
+      z-index: 2;
     }
 
     input[type=checkbox]:checked+label {
-      /*background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3e%3ccircle cx='50' cy='50' r='50' fill='#F0B429'/%3e%3c/svg%3e");*/
-
-      /* Background-img url explained here: 
-      https://stackoverflow.com/questions/32870788/css-using-raw-svg-in-the-url-parameter-of-a-background-image-in-ie */
-      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' style='fill:RGBA(240, 180, 41, 1); stroke:none' %3E%3Ccircle cx='50' cy='50' r='50' width='100' height='20' /%3E%3C/svg%3E");
-
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: 30%;
+      background-color: var(--tile-checked-bg);
+      border-color: var(--tile-checked-border);
+      color: var(--tile-checked-text);
+      font-weight: 600;
     }
 
-
-    /* IE11 support */
-    label {
-      display: block;
+    input[type=checkbox]:checked+label::after {
+      content: "";
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 16px;
+      height: 16px;
+      background-color: var(--tile-checked-border);
+      mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'><path fill-rule='evenodd' d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z' clip-rule='evenodd'/></svg>");
+      -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'><path fill-rule='evenodd' d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z' clip-rule='evenodd'/></svg>");
+      mask-repeat: no-repeat;
+      -webkit-mask-repeat: no-repeat;
     }
 
-    label:nth-of-type(5n-4) {
-      -ms-grid-column: 1;
+    /* Free space styling */
+    .bingo-free-space {
+      font-weight: 600;
+      position: relative;
     }
 
-    label:nth-of-type(5n-3) {
-      -ms-grid-column: 2;
+    .bingo-free-space::before {
+      content: "FREE SPACE";
+      display: inline-block;
+      font-size: 0.6em;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-bottom: 4px;
+      background: rgba(99, 102, 241, 0.12);
+      color: var(--accent-btn-bg);
     }
 
-    label:nth-of-type(5n-2) {
-      -ms-grid-column: 3;
+    /* Winning tile highlight animation */
+    @keyframes pulse-win {
+      0% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+      }
+
+      70% {
+        box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+      }
     }
 
-    label:nth-of-type(5n-1) {
-      -ms-grid-column: 4;
+    .bingo label.is-winning {
+      animation: pulse-win 2s infinite;
+      border-color: var(--win-border) !important;
+      background-color: var(--win-bg) !important;
+      color: var(--win-text) !important;
     }
 
-    label:nth-of-type(5n) {
-      -ms-grid-column: 5;
+    /* Controls Toolbar */
+    .bingo-controls {
+      display: flex;
+      gap: 4px;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 1.5rem auto;
+      padding: 4px;
+      width: fit-content;
+      max-width: 100%;
+      background: var(--tile-bg);
+      border: 1px solid var(--tile-border);
+      border-radius: 10px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
 
-    label:nth-of-type(n) {
-      -ms-grid-row: 2;
+    .bingo-btn {
+      background: transparent;
+      color: var(--secondary-btn-text);
+      border: 1px solid transparent;
+      padding: 0.45rem 0.9rem;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
     }
 
-    label:nth-of-type(n+6) {
-      -ms-grid-row: 3;
+    .bingo-btn--primary {
+      background: var(--accent-btn-bg);
+      color: var(--accent-btn-text);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
     }
 
-    label:nth-of-type(n+11) {
-      -ms-grid-row: 4;
+    .bingo-btn--primary:hover {
+      background: var(--accent-btn-hover);
+      transform: translateY(-1px);
     }
 
-    label:nth-of-type(n+16) {
-      -ms-grid-row: 5;
+    .bingo-btn--secondary {
+      background: transparent;
+      color: var(--secondary-btn-text);
     }
 
-    label:nth-of-type(n+21) {
-      -ms-grid-row: 6;
+    .bingo-btn--secondary:hover {
+      background: var(--tile-bg-hover);
+      color: var(--tile-text);
+    }
+
+    .bingo-btn:active {
+      transform: scale(0.98);
+    }
+
+    .bingo-icon {
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+      fill: currentColor;
+    }
+
+    /* Win Banner Alert */
+    .bingo-banner {
+      background: var(--win-toast-bg);
+      color: #ffffff;
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin: 1rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      animation: fadeIn 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+    }
+
+    .bingo-banner.hidden {
+      display: none;
+    }
+
+    .bingo-banner button {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 500;
+      transition: background 0.15s ease;
+    }
+
+    .bingo-banner button:hover {
+      background: rgba(255, 255, 255, 0.35);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Confetti Overlay */
+    #confetti-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 9999;
+      overflow: hidden;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      top: -20px;
+      opacity: 0.9;
+      will-change: transform, opacity;
+      animation: confetti-fall linear forwards;
+    }
+
+    @keyframes confetti-fall {
+      0% {
+        transform: translateY(0) rotate(0deg) translateX(0);
+        opacity: 1;
+      }
+
+      75% {
+        opacity: 0.9;
+      }
+
+      100% {
+        transform: translateY(105vh) rotate(720deg) translateX(var(--drift));
+        opacity: 0;
+      }
     }
 
     @media screen and (max-width: 600px) {
+      .bingo {
+        gap: 4px;
+        padding: 4px;
+      }
+
       .bingo label {
-        padding: 1.15rem var(--spacer-1);
+        padding: 0.75rem 0.25rem;
+        min-height: 70px;
+        border-radius: 6px;
+      }
+    }
+
+    /* Print styles */
+    @media print {
+      body {
+        background: white !important;
+        color: black !important;
+      }
+
+      .nav,
+      footer,
+      .bingo-controls,
+      .bingo-banner,
+      #theme-toggle {
+        display: none !important;
+      }
+
+      .bingo {
+        background: white !important;
+        box-shadow: none !important;
+        border: 2px solid #000;
+      }
+
+      .bingo label {
+        border: 1px solid #000 !important;
+        color: #000 !important;
+        text-shadow: none !important;
+      }
+
+      input[type=checkbox]:checked+label {
+        background-image: none !important;
+        text-decoration: line-through;
+        font-weight: bold;
       }
     }
   </style>
-
 
   <script type="application/ld+json">
 {
@@ -175,7 +440,7 @@
   "headline": "Conference Call Bingo | Justin Chill",
   "description": "Sorry, I was on mute.",
   "datePublished": "2024-11-16",
-  "dateModified": "2025-08-06",
+  "dateModified": "2026-07-23",
   "author": {
     "@type": "Person",
     "name": "Justin Chill",
@@ -209,19 +474,23 @@
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-    
+
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
+        aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
+            </path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
@@ -235,134 +504,44 @@
   <main role="main" id="content">
     <article>
       <div class="article-hero">
-        <p class="article-category">Fun</p>
+        <p class="article-category">Zero-sum game</p>
         <h1 class="article-title">Conference Call Bingo</h1>
       </div>
-      <section class="bingo">
-        <input type="checkbox" name="Bingo" id="B01">
-        <label for="B01">
-          Hi, who just joined?
-        </label>
 
-        <input type="checkbox" name="Bingo" id="B02">
-        <label for="B02">
-          Can you email that to everyone?
-        </label>
+      <div class="bingo-controls" role="toolbar" aria-label="Bingo Card Controls">
+        <button id="btn-shuffle" class="bingo-btn bingo-btn--primary" title="Shuffle phrases for a new card">
+          <svg class="bingo-icon" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd"
+              d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+              clip-rule="evenodd" />
+          </svg>
+          <span>New Card</span>
+        </button>
+        <button id="btn-reset" class="bingo-btn bingo-btn--secondary" title="Uncheck all squares">
+          <svg class="bingo-icon" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd"
+              d="M10 3a7 7 0 106.326 4H14.5a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.581A8.97 8.97 0 0010 1a9 9 0 100 18 9 9 0 000-18z"
+              clip-rule="evenodd" />
+          </svg>
+          <span>Reset Cards</span>
+        </button>
+        <button id="btn-print" class="bingo-btn bingo-btn--secondary" title="Print bingo card">
+          <svg class="bingo-icon" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd"
+              d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z"
+              clip-rule="evenodd" />
+          </svg>
+          <span>Print Card</span>
+        </button>
+      </div>
 
-        <input type="checkbox" name="Bingo" id="B03">
-        <label for="B03">
-          Is ______<br>on the call?
-        </label>
+      <div id="bingo-banner" class="bingo-banner hidden" role="status" aria-live="polite">
+        <span>🎉 <strong>BINGO!</strong> That's 5 in a row!</span>
+        <button id="dismiss-banner" aria-label="Dismiss banner">Dismiss</button>
+      </div>
 
-        <input type="checkbox" name="Bingo" id="B04">
-        <label for="B04">
-          Yes, we can see your screen
-        </label>
-
-        <input type="checkbox" name="Bingo" id="B05">
-        <label for="B05">
-          Sorry, I'm having connection issues
-        </label>
-
-        <input type="checkbox" name="Bingo" id="B06">
-        <label for="B06">
-          I know we're over but...
-        </label>
-
-        <input type="checkbox" name="Bingo" id="B07">
-        <label for="B07">
-          Could you repeat that, please?
-        </label>
-
-        <input type="checkbox" name="Bingo" id="B08">
-        <label for="B08">
-          (Child or animal noises)
-        </label>
-
-        <input type="checkbox" name="Bingo" id="B09">
-        <label for="B09">
-          Hi! Can you hear me?
-        </label>
-
-        <input type="checkbox" name="Bingo" id="B10">
-        <label for="B10">
-          No, it's still loading...
-        </label>
-
-        <input type="checkbox" name="Bingo" id="B11">
-        <label for="B11">
-          Next slide, please
-        </label>
-
-        <input type="checkbox" name="Bingo" id="B12">
-        <label for="B12">
-          Let's circle back to that
-        </label>
-
-        <input type="checkbox" name="Bingo" id="B13" checked>
-        <label for="B13">
-          Sorry, I was on mute
-        </label>
-
-        <input type="checkbox" name="Bingo" id="B14">
-        <label for="B14">
-          Hello? Hello?
-        </label>
-
-        <input type="checkbox" name="Bingo" id="B15">
-        <label for="B15">
-          Sorry I'm late... (some excuse)
-        </label>
-
-        <input type="checkbox" name="Bingo" id="B16">
-        <label for="B16">
-          So (cuts out) by (cuts out) OK?
-        </label>
-
-        <input type="checkbox" name="Bingo" id="B17">
-        <label for="B17">
-          Sorry, you go ahead
-        </label>
-
-        <input type="checkbox" name="Bingo" id="B18">
-        <label for="B18">
-          I have a hard stop at ______
-        </label>
-
-        <input type="checkbox" name="Bingo" id="B19">
-        <label for="B19">
-          * Loud, painful feedback *
-        </label>
-
-        <input type="checkbox" name="Bingo" id="B20">
-        <label for="B20">
-          Let's take this offline
-        </label>
-
-        <input type="checkbox" name="Bingo" id="B21">
-        <label for="B21">
-          I'll get back to you!
-        </label>
-
-        <input type="checkbox" name="Bingo" id="B22">
-        <label for="B22">
-          Can everyone see my screen?
-        </label>
-
-        <input type="checkbox" name="Bingo" id="B23">
-        <label for="B23">
-          Is there a lag?
-        </label>
-
-        <input type="checkbox" name="Bingo" id="B24">
-        <label for="B24">
-          Let's try the phone
-        </label>
-
-        <input type="checkbox" name="Bingo" id="B25">
-        <label for="B25">
-          Have to jump to another call!
-        </label>
+      <section class="bingo" id="bingo-grid" role="grid" aria-label="Conference Call Bingo Grid">
+        <!-- Rendered dynamically via JavaScript -->
       </section>
     </article>
 
@@ -374,7 +553,273 @@
             alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
+
   <script>
+    const PHRASE_POOL = [
+      "Hi, who just joined?",
+      "Can you email that to everyone?",
+      "Is ______ on the call?",
+      "Yes, we can see your screen",
+      "Sorry, I'm having connection issues",
+      "I know we're over but...",
+      "Could you repeat that, please?",
+      "(Child or animal noises)",
+      "Hi! Can you hear me?",
+      "No, it's still loading...",
+      "Next slide, please",
+      "Let's circle back to that",
+      "Hello? Hello?",
+      "Sorry I'm late... (some excuse)",
+      "So (cuts out) by (cuts out) OK?",
+      "Sorry, you go ahead",
+      "I have a hard stop at ______",
+      "* Loud, painful feedback *",
+      "Let's take this offline",
+      "I'll get back to you!",
+      "Can everyone see my screen?",
+      "Is there a lag?",
+      "Let's try the phone",
+      "Have to jump to another call!",
+      "You're still sharing your screen!",
+      "Can everyone mute themselves?",
+      "I'll drop a link in the chat",
+      "Who is presenting?",
+      "Sorry, I had trouble finding the link",
+      "Is this meeting being recorded?",
+      "I'll give everyone 5 minutes back",
+    ];
+
+    const CENTER_PHRASE = "Sorry, I was on mute";
+    const CENTER_INDEX = 12; // 3rd row, 3rd col (0-indexed)
+
+    const STORAGE_KEY_BOARD = "bingo_board_phrases_v1";
+    const STORAGE_KEY_MARKS = "bingo_board_marks_v1";
+
+    const gridContainer = document.getElementById("bingo-grid");
+    const banner = document.getElementById("bingo-banner");
+    const shuffleBtn = document.getElementById("btn-shuffle");
+    const resetBtn = document.getElementById("btn-reset");
+    const printBtn = document.getElementById("btn-print");
+    const dismissBannerBtn = document.getElementById("dismiss-banner");
+
+    let currentBoard = [];
+    let currentMarks = new Array(25).fill(false);
+    let previousWinState = false;
+
+    // Shuffle helper (Fisher-Yates)
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function generateNewBoard() {
+      const poolCopy = shuffleArray(PHRASE_POOL);
+      const selected = poolCopy.slice(0, 24);
+      // Insert Center Phrase at index 12
+      selected.splice(CENTER_INDEX, 0, CENTER_PHRASE);
+
+      currentBoard = selected;
+      currentMarks = new Array(25).fill(false);
+      // Center square checked by default as Free Space
+      currentMarks[CENTER_INDEX] = true;
+
+      saveState();
+      renderBoard();
+      checkWinningLines();
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY_BOARD, JSON.stringify(currentBoard));
+      localStorage.setItem(STORAGE_KEY_MARKS, JSON.stringify(currentMarks));
+    }
+
+    function loadState() {
+      const savedBoard = localStorage.getItem(STORAGE_KEY_BOARD);
+      const savedMarks = localStorage.getItem(STORAGE_KEY_MARKS);
+
+      if (savedBoard && savedMarks) {
+        try {
+          const parsedBoard = JSON.parse(savedBoard);
+          const parsedMarks = JSON.parse(savedMarks);
+          if (Array.isArray(parsedBoard) && parsedBoard.length === 25) {
+            currentBoard = parsedBoard;
+            currentMarks = parsedMarks;
+            renderBoard();
+            checkWinningLines();
+            return;
+          }
+        } catch (e) {
+          console.error("Failed to parse saved bingo state:", e);
+        }
+      }
+
+      // Fallback: Generate fresh board
+      generateNewBoard();
+    }
+
+    function resetMarks() {
+      currentMarks = new Array(25).fill(false);
+      currentMarks[CENTER_INDEX] = true; // Keep center square checked
+      saveState();
+      renderBoard();
+      checkWinningLines();
+    }
+
+    function renderBoard() {
+      gridContainer.innerHTML = "";
+
+      currentBoard.forEach((phrase, idx) => {
+        const id = `B${String(idx + 1).padStart(2, "0")}`;
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.name = "Bingo";
+        checkbox.id = id;
+        checkbox.checked = currentMarks[idx];
+
+        checkbox.addEventListener("change", (e) => {
+          currentMarks[idx] = e.target.checked;
+          saveState();
+          checkWinningLines();
+        });
+
+        const label = document.createElement("label");
+        label.setAttribute("for", id);
+        label.setAttribute("role", "gridcell");
+        label.innerText = phrase;
+
+        if (idx === CENTER_INDEX) {
+          label.classList.add("bingo-free-space");
+        }
+
+        gridContainer.appendChild(checkbox);
+        gridContainer.appendChild(label);
+      });
+    }
+
+    function checkWinningLines() {
+      // 5 Rows, 5 Cols, 2 Diagonals
+      const lines = [
+        // Rows
+        [0, 1, 2, 3, 4],
+        [5, 6, 7, 8, 9],
+        [10, 11, 12, 13, 14],
+        [15, 16, 17, 18, 19],
+        [20, 21, 22, 23, 24],
+        // Columns
+        [0, 5, 10, 15, 20],
+        [1, 6, 11, 16, 21],
+        [2, 7, 12, 17, 22],
+        [3, 8, 13, 18, 23],
+        [4, 9, 14, 19, 24],
+        // Diagonals
+        [0, 6, 12, 18, 24],
+        [4, 8, 12, 16, 20]
+      ];
+
+      const labels = gridContainer.querySelectorAll("label");
+      labels.forEach(lbl => lbl.classList.remove("is-winning"));
+
+      const winningIndices = new Set();
+      let hasWin = false;
+
+      lines.forEach(line => {
+        const isComplete = line.every(idx => currentMarks[idx]);
+        if (isComplete) {
+          hasWin = true;
+          line.forEach(idx => winningIndices.add(idx));
+        }
+      });
+
+      winningIndices.forEach(idx => {
+        if (labels[idx]) {
+          labels[idx].classList.add("is-winning");
+        }
+      });
+
+      if (hasWin) {
+        banner.classList.remove("hidden");
+        if (!previousWinState) {
+          triggerConfetti();
+        }
+      } else {
+        banner.classList.add("hidden");
+      }
+      previousWinState = hasWin;
+    }
+
+    function triggerConfetti() {
+      let container = document.getElementById("confetti-container");
+      if (!container) {
+        container = document.createElement("div");
+        container.id = "confetti-container";
+        document.body.appendChild(container);
+      }
+      container.innerHTML = "";
+
+      const colors = ["#6366f1", "#10b981", "#f59e0b", "#ec4899", "#3b82f6", "#8b5cf6", "#14b8a6"];
+      const particleCount = 50;
+
+      for (let i = 0; i < particleCount; i++) {
+        const piece = document.createElement("div");
+        piece.className = "confetti-piece";
+
+        const width = Math.floor(Math.random() * 6) + 6;
+        const height = Math.floor(Math.random() * 8) + 8;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const left = Math.random() * 100;
+        const duration = (Math.random() * 2 + 2.5).toFixed(2); // 2.5s - 4.5s
+        const delay = (Math.random() * 1.0).toFixed(2); // 0s - 1.0s
+        const drift = (Math.random() * 140 - 70).toFixed(0) + "px";
+        const borderRadius = Math.random() > 0.5 ? "50%" : "2px";
+
+        piece.style.width = `${width}px`;
+        piece.style.height = `${height}px`;
+        piece.style.backgroundColor = color;
+        piece.style.left = `${left}vw`;
+        piece.style.borderRadius = borderRadius;
+        piece.style.setProperty("--drift", drift);
+        piece.style.animationDuration = `${duration}s`;
+        piece.style.animationDelay = `${delay}s`;
+
+        container.appendChild(piece);
+      }
+
+      setTimeout(() => {
+        if (container) {
+          container.innerHTML = "";
+        }
+      }, 5000);
+    }
+
+    // Event Listeners
+    shuffleBtn.addEventListener("click", () => {
+      if (confirm("Are you sure you want to shuffle and start a new Bingo card?")) {
+        generateNewBoard();
+      }
+    });
+
+    resetBtn.addEventListener("click", () => {
+      if (confirm("Reset all marked squares on this card?")) {
+        resetMarks();
+      }
+    });
+
+    printBtn.addEventListener("click", () => {
+      window.print();
+    });
+
+    dismissBannerBtn.addEventListener("click", () => {
+      banner.classList.add("hidden");
+    });
+
+    // Initial Load
+    loadState();
+
     // Theme toggle functionality
     const themeToggleBtn = document.getElementById("theme-toggle");
     const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");

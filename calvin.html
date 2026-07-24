@@ -1,25 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 
 <head>
-  <title>Calvin and Hobbes | Justin Chill</title>
   <meta charset="UTF-8">
-    <script>
-  // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
-  (function () {
-  const savedTheme = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
-  document.documentElement.setAttribute('data-theme', theme);
-  })();
-  </script>
-<link rel="preload" href="style.css" as="style" />
-  <link rel="stylesheet" href="style.css" />
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calvin and Hobbes | Justin Chill</title>
+  
+  <!-- Inline script to prevent FOUC (Flash of Unstyled Content) -->
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+
+  <!-- Preconnect & External Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="preload" href="style.css" as="style" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico">
+  <link type="text/plain" href="humans.txt" rel="author">
+
   <meta name="color-scheme" content="light dark">
-  <meta name="description" content="A tribute to Calvin and Hobbes">
+  <meta name="description" content="A tribute to Calvin and Hobbes by Bill Watterson.">
   <meta name="author" content="Justin Chill">
+
   <!-- OpenGraph tags -->
   <meta name="robots" content="all">
   <meta content="en_US" property="og:locale">
@@ -27,167 +37,223 @@
   <meta content="article" property="og:type">
   <meta content="https://justinchill.com/calvin.html" property="og:url">
   <meta content="Calvin and Hobbes | Justin Chill" property="og:title">
-  <meta content="A tribute to Calvin and Hobbes" property="og:description">
+  <meta content="A tribute to Calvin and Hobbes by Bill Watterson." property="og:description">
   <meta content="https://justinchill.com/blog.html" property="og:see_also">
   <link rel="canonical" href="https://justinchill.com/calvin.html">
 
-  <meta content="https://s3-us-west-2.amazonaws.com/s.cdpn.io/5175/calvin-and-hobbes-main.jpg" property="og:image">
-  <meta content="https://s3-us-west-2.amazonaws.com/s.cdpn.io/5175/calvin-and-hobbes-main.jpg" property="twitter:image">
+  <meta content="https://justinchill.com/imgs/calvin-tree.png" property="og:image">
+  <meta content="https://justinchill.com/imgs/calvin-tree.png" property="twitter:image">
   <meta content="Calvin and Hobbes relaxing in a tree." property="og:image:alt">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Calvin and Hobbes | Justin Chill">
-  <meta name="twitter:description" content="A tribute to Calvin and Hobbes">
+  <meta name="twitter:description" content="A tribute to Calvin and Hobbes by Bill Watterson.">
   <meta name="theme-color" content="#4C63B6">
-  <meta name="color-scheme" content="light dark">
+
+  <script type="module">
+    document.documentElement.classList.remove('no-js');
+    document.documentElement.classList.add('js');
+  </script>
 
   <style type="text/css">
-    @import url('https://fonts.googleapis.com/css2?family=Cabin+Sketch&display=swap');
-
-    .tribute-container {}
-
-    .tribute-container section {
-      height: 110vh;
-      width: 100%;
-      display: table;
-    }
-
-    .tribute-container p {
-      display: table-cell;
-      vertical-align: middle;
+    .tribute-header {
       text-align: center;
-      font-family: "Cabin Sketch", cursive;
-      font-size: 2.4em;
+      margin-bottom: 2rem;
     }
 
+    .tribute-header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .tribute-header .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary, #666);
+      font-style: italic;
+    }
+
+    .tribute-header time {
+      display: block;
+      margin-top: 0.5rem;
+      font-weight: 600;
+      color: var(--accent-color, #4C63B6);
+    }
+
+    .person {
+      margin: 3rem 0;
+    }
+
+    .person__header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .person__name {
+      font-family: "Cabin Sketch", cursive;
+      font-size: 2.8rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .person__title {
+      font-weight: 500;
+      color: var(--text-secondary, #666);
+    }
+
+    /* Fixed percentage bug: 1fr 1fr 1.5fr instead of 29% 29% 43.5% (which totaled 101.5%) */
     .cats {
       display: grid;
-      grid-auto-flow: dense;
+      gap: 12px;
       overflow: hidden;
+      margin: 1.5rem 0 3rem;
+      border-radius: 12px;
     }
 
     @media screen and (min-width: 45em) {
       .cats {
-        height: 100vh;
-        grid-template-columns: 29% 29% 43.5%;
-        grid-template-rows: 50% 16% 34%;
+        min-height: 80vh;
+        grid-template-columns: 1fr 1fr 1.5fr;
+        grid-template-rows: 1fr 0.35fr 0.65fr;
+      }
+
+      .cat.cat--1 {
+        grid-column: 1 / 3;
+        grid-row: 1 / 3;
+      }
+
+      .cat.cat--2 {
+        grid-column: 1 / 2;
+        grid-row: 3 / 4;
+      }
+
+      .cat.cat--3 {
+        grid-column: 2 / 3;
+        grid-row: 3 / 4;
+      }
+
+      .cat.cat--4 {
+        grid-column: 3 / 4;
+        grid-row: 1 / 2;
+      }
+
+      .cat.cat--5 {
+        grid-column: 3 / 4;
+        grid-row: 2 / 4;
       }
     }
 
-    @media screen and (max-width: 45em) and (min-width: 25em) {
+    @media screen and (max-width: 45em) and (min-width: 30em) {
       .cats {
-        grid-template-columns: repeat(2, 50vw);
-        grid-template-rows: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 240px;
+      }
+
+      .cat.cat--1 {
+        grid-column: 1 / 3;
       }
     }
 
-    @media screen and (max-width: 25em) {
+    @media screen and (max-width: 30em) {
       .cats {
-        grid-template-columns: 100vw;
-        grid-template-rows: repeat(5, 1fr);
+        grid-template-columns: 1fr;
+        grid-auto-rows: 220px;
       }
+    }
+
+    .cat {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      background-color: var(--card-bg, rgba(0, 0, 0, 0.05));
     }
 
     .cat img {
       width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease, filter 0.4s ease;
     }
 
-    .cat.cat--1 {
-      grid-column-start: 1;
-      grid-column-end: 3;
-      grid-row-start: 1;
-      grid-row-end: 3;
+    .cat img:hover {
+      transform: scale(1.03);
     }
 
-    .cat.cat--2 {
-      grid-column-start: 1;
-      grid-column-end: 2;
-      grid-row-start: 3;
-      grid-row-end: 4;
+    /* Quotes Showcase Section */
+    .quote-box {
+      background: var(--card-bg, rgba(76, 99, 182, 0.06));
+      border: 2px dashed var(--accent-color, #4C63B6);
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      margin: 3rem 0;
+      text-align: center;
+      position: relative;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
     }
 
-    .cat.cat--3 {
-      grid-column-start: 2;
-      grid-column-end: 3;
-      grid-row-start: 3;
-      grid-row-end: 4;
+    .quote-text {
+      font-family: "Cabin Sketch", cursive;
+      font-size: 2.2rem;
+      line-height: 1.35;
+      color: var(--text-color, #222);
+      margin-bottom: 1.5rem;
+      min-height: 3.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.3s ease;
     }
 
-    .cat.cat--4 {
-      grid-column-start: 3;
-      grid-column-end: 4;
-      grid-row-start: 1;
-      grid-row-end: 2;
+    .quote-author {
+      font-size: 1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent-color, #4C63B6);
+      margin-bottom: 1.5rem;
     }
 
-    .cat.cat--5 {
-      grid-column-start: 3;
-      grid-column-end: 4;
-      grid-row-start: 2;
-      grid-row-end: 4;
+    .quote-btn {
+      background-color: var(--accent-color, #4C63B6);
+      color: #ffffff;
+      border: none;
+      padding: 0.6rem 1.4rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
-    @media screen and (max-width: 45em) and (min-width: 25em) {
-      .cat.cat--4 {
-        grid-column-start: 1;
-        grid-column-end: 2;
-        grid-row-start: 4;
-        grid-row-end: 5;
-      }
-
-      .cat.cat--5 {
-        grid-column-start: 2;
-        grid-column-end: 3;
-        grid-row-start: 4;
-        grid-row-end: 5;
-      }
+    .quote-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(76, 99, 182, 0.3);
     }
 
-    @media screen and (max-width: 25em) {
-      .cat.cat--1 {
-        grid-column-start: 1;
-        grid-column-end: 2;
-        grid-row-start: 1;
-        grid-row-end: 2;
-      }
+    .quote-btn:active {
+      transform: translateY(0);
+    }
 
-      .cat.cat--2 {
-        grid-column-start: 1;
-        grid-column-end: 2;
-        grid-row-start: 2;
-        grid-row-end: 3;
-      }
+    .featured-gif {
+      text-align: center;
+      margin: 3rem 0 1rem;
+    }
 
-      .cat.cat--3 {
-        grid-column-start: 1;
-        grid-column-end: 2;
-        grid-row-start: 3;
-        grid-row-end: 4;
-      }
-
-      .cat.cat--4 {
-        grid-column-start: 1;
-        grid-column-end: 2;
-        grid-row-start: 4;
-        grid-row-end: 5;
-      }
-
-      .cat.cat--5 {
-        grid-column-start: 1;
-        grid-column-end: 2;
-        grid-row-start: 5;
-        grid-row-end: 6;
-      }
+    .featured-gif img {
+      max-width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     }
   </style>
-
 
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   "headline": "Calvin and Hobbes | Justin Chill",
-  "description": "A tribute to Calvin and Hobbes",
+  "description": "A tribute to Calvin and Hobbes by Bill Watterson",
   "datePublished": "2021-03-24",
   "dateModified": "2026-01-03",
   "author": {
@@ -211,7 +277,7 @@
     ]
   },
   "mainEntityOfPage": "https://justinchill.com/calvin.html",
-  "image": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/5175/calvin-and-hobbes-main.jpg"
+  "image": "https://justinchill.com/imgs/calvin-tree.png"
 }
   </script>
 </head>
@@ -241,81 +307,93 @@
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
+
   <main role="main" id="content">
     <article>
-      <header>
-        <h1>A tribute to Calvin & Hobbes</h1>
-        <h2 class="subtitle">All credit to Bill Waterson</h2>
-        <time date="1995-11-01">1985 - 1995</time>
-      </header>
+      <div class="article-hero">
+        <p class="article-category">Tribute</p>
+        <h1 class="article-title">A tribute to Calvin & Hobbes</h1>
+        <h2 class="article-subtitle">All credit to Bill Watterson</h2>
+      </div>
+
       <figure>
-        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/5175/calvin-and-hobbes-main.jpg"
+        <img src="imgs/calvin-tree.png"
           alt="A boy and a tiger relax on a tree branch surrounded by bright yellow and orange autumn leaves, with the tiger lying sprawled out and the boy leaning back, both appearing content and peaceful.">
       </figure>
 
-      <div class="person">
+      <section class="person" aria-labelledby="spiff-title">
         <header class="person__header">
-          <h1 class="person__name">Spaceman Spiff</h1>
-          <h3 class="person__title">Amateur Astronaut</h3>
+          <h2 id="spiff-title" class="person__name">Spaceman Spiff</h2>
+          <p class="person__title">Amateur Astronaut & Intergalactic Explorer</p>
         </header>
 
         <div class="cats">
           <div class="cat cat--1">
             <img src="https://i.pinimg.com/originals/a7/e1/82/a7e1820fde03895da57f1cb27df18e8c.jpg"
-              alt="A cartoon-style red flying saucer with two characters inside speeds off the edge of a cliff in a canyon landscape, leaving a trail of smoke behind it.">
+              alt="A cartoon-style red flying saucer with two characters inside speeds off the edge of a cliff in a canyon landscape, leaving a trail of smoke behind it." loading="lazy">
           </div>
           <div class="cat cat--2">
             <img src="https://i1.sndcdn.com/avatars-000315738619-ftl05f-t500x500.jpg"
-              alt="Cartoon boy with spiky blonde hair and goggles grins while piloting a red spaceship against a starry black sky and a blue planet.">
+              alt="Cartoon boy with spiky blonde hair and goggles grins while piloting a red spaceship against a starry black sky and a blue planet." loading="lazy">
           </div>
           <div class="cat cat--3">
             <img
               src="https://bencantwellart.com/cdn/shop/products/Special_Forces_Calvin_and_Hobbes_v002.png?v=1750713384"
-              alt="Two cartoon characters dressed in military uniforms and helmets stand with rifles in front of a brick wall; illustration style resembles watercolor.">
+              alt="Two cartoon characters dressed in military uniforms and helmets stand with rifles in front of a brick wall; illustration style resembles watercolor." loading="lazy">
           </div>
           <div class="cat cat--4">
             <img src="https://i.imgur.com/Fw06doH.gif"
-              alt="Cartoon character with spiky hair and glasses excitedly points a ray gun, firing a bright blast against an orange background.">
+              alt="Cartoon character with spiky hair and glasses excitedly points a ray gun, firing a bright blast against an orange background." loading="lazy">
           </div>
           <div class="cat cat--5">
             <img
               src="https://static.squarespace.com/static/51b3dc8ee4b051b96ceb10de/51ce6099e4b0d911b4489b79/51ce61d1e4b0d911b44a23c8/1357671326707/1000w/xSpacemanSpiff1280x1024.jpeg"
-              alt="A cartoon boy with goggles stands near a crashed red rocket in a sandy wasteland, holding a blaster. Smoke rises from the rocket, and large bones are scattered on the ground. Loose city outlines appear in the background.">
+              alt="A cartoon boy with goggles stands near a crashed red rocket in a sandy wasteland, holding a blaster." loading="lazy">
           </div>
         </div>
-      </div>
+      </section>
 
+      <!-- Calvin & Hobbes Wisdom & Quotes Section -->
+      <section class="quote-box" aria-labelledby="quote-heading">
+        <h2 id="quote-heading" class="screen-reader-text">Calvin and Hobbes Wisdom</h2>
+        <div id="quote-display" class="quote-text">
+          "It's a magical world, Hobbes, ol' buddy... Let's go exploring!"
+        </div>
+        <div class="quote-author">— Calvin & Hobbes</div>
+        <button id="next-quote-btn" class="quote-btn" aria-label="Show another quote">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+          </svg>
+          Shuffle Quote
+        </button>
+      </section>
 
-        <!-- 
-      <main class="person__main">
-        <p class="person__bio">Another day, another mind-boggling adventure for fearless explorer Spaceman Spiff!</p>
-      </main>
-    </div>
-
-      <div class="tribute-container">
-    <section class="quote1"><p>If you can't win with reason, go for volume.</p></section>
-    <section class="quote2"><p>I've got plenty of common sense! I just choose to ignore it.</p></section>
-    <section class="quote3"><p>Where do we keep all our chainsaws, Mom?</p></section>
-    <section class="quote4"><p>It's never so bad that it can't get worse.</p></section>
-    <section class="quote5"><p>People pay more attention when they think you're up to something.</p></section>
-    <section class="quote6"><p>I'm killing time while I wait for life to shower me with meaning and happiness.</p></section>
-    <section class="quote7"><p>Homework, I command thee, <br/>BE DONE!</p></section>
-    <section class="quote8"><p>Reality continues to ruin my life.</p></section>
-    <section class="quote9"><p>Life is full of surprises, <br/>but never when you need one.</p></section>
-    <section class="quote10"><p>The surest sign that intelligent life exists elsewhere in the universe is that it has never tried to contact us.</p></section>
-    <section class="quote11"><p>Van Gogh would've sold more than one painting if he'd put tigers in them.</p></section>
-  </div> -->
+      <figure class="featured-gif">
         <img src="https://media.giphy.com/media/20Gn7CnbXYdzy/giphy.gif"
-          alt="Calvin and Hobbes hide behind a tree in the snow, looking startled and tense, as if something is chasing them. Calvin crouches while Hobbes clings to the tree, peeking around it. The scene is set in a snowy forest.">
+          alt="Calvin and Hobbes hide behind a tree in the snow, looking startled and tense, as if something is chasing them." loading="lazy">
+      </figure>
     </article>
   </main>
+
   <footer>
+    <p>Justin Chill &copy; 2026</p>
   </footer>
+
   <script>
+    // Email link handler
+    document.querySelectorAll('.js-email-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const a = "Justin.richard.hill@";
+        const b = "gmail.com";
+        window.open(`mailto:${a}${b}`, 'email');
+      });
+    });
+
     // Theme toggle functionality
     const themeToggleBtn = document.getElementById("theme-toggle");
     const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
@@ -323,11 +401,13 @@
 
     function updateIcons(theme) {
       if (theme === "dark") {
-        themeToggleLightIcon.classList.remove("hidden");
-        themeToggleDarkIcon.classList.add("hidden");
+        themeToggleLightIcon?.classList.remove("hidden");
+        themeToggleDarkIcon?.classList.add("hidden");
+        themeToggleBtn?.setAttribute("aria-label", "Switch to light theme");
       } else {
-        themeToggleLightIcon.classList.add("hidden");
-        themeToggleDarkIcon.classList.remove("hidden");
+        themeToggleLightIcon?.classList.add("hidden");
+        themeToggleDarkIcon?.classList.remove("hidden");
+        themeToggleBtn?.setAttribute("aria-label", "Switch to dark theme");
       }
     }
 
@@ -341,6 +421,52 @@
         document.documentElement.setAttribute("data-theme", newTheme);
         localStorage.setItem("theme", newTheme);
         updateIcons(newTheme);
+      });
+    }
+
+    // System theme preference change listener
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) {
+        const newTheme = e.matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        updateIcons(newTheme);
+      }
+    });
+
+    // Interactive Calvin & Hobbes Quote Generator
+    const calvinQuotes = [
+      "It's a magical world, Hobbes, ol' buddy... Let's go exploring!",
+      "If you can't win with reason, go for volume.",
+      "I've got plenty of common sense! I just choose to ignore it.",
+      "Where do we keep all our chainsaws, Mom?",
+      "It's never so bad that it can't get worse.",
+      "People pay more attention when they think you're up to something.",
+      "I'm killing time while I wait for life to shower me with meaning and happiness.",
+      "Homework, I command thee, BE DONE!",
+      "Reality continues to ruin my life.",
+      "Life is full of surprises, but never when you need one.",
+      "The surest sign that intelligent life exists elsewhere in the universe is that it has never tried to contact us.",
+      "Van Gogh would've sold more than one painting if he'd put tigers in them.",
+      "There's never enough time to do all the nothing you want."
+    ];
+
+    const quoteDisplay = document.getElementById("quote-display");
+    const nextQuoteBtn = document.getElementById("next-quote-btn");
+    let currentQuoteIndex = 0;
+
+    if (nextQuoteBtn && quoteDisplay) {
+      nextQuoteBtn.addEventListener("click", () => {
+        quoteDisplay.style.opacity = "0";
+        setTimeout(() => {
+          let newIndex;
+          do {
+            newIndex = Math.floor(Math.random() * calvinQuotes.length);
+          } while (newIndex === currentQuoteIndex && calvinQuotes.length > 1);
+          
+          currentQuoteIndex = newIndex;
+          quoteDisplay.textContent = `"${calvinQuotes[currentQuoteIndex]}"`;
+          quoteDisplay.style.opacity = "1";
+        }, 250);
       });
     }
   </script>
