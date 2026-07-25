@@ -140,7 +140,7 @@
         solely on basic descriptive statistics to summarize data.</p>
       <p>The data in all of the graphs in the quartet are virtually identical when using standard descriptive methods,
         like mean, sample variance, and linear regression. The graphs reveal the truth. </p>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h3>The same data graphed</h3>
       <figure id="Anscombe"
         aria-label="Four scatter plots with green dots, each labeled 1 to 4, titled The same data graphed. A trend line with a shaded confidence interval is present in each plot. The x-axis ranges from 5 to 20, and the y-axis ranges from 4 to 12.">
@@ -176,7 +176,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 
   <script>
-    var anscombe = [{
+    const anscombeData = [{
       "series": 1,
       "x": 10,
       "y": 8.04
@@ -354,69 +354,76 @@
       "y": 6.89
     }];
 
-    var element = d3.select('p').node();
-    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
-    var size = 12;
+    const size = 12;
 
-    // Thicken the plot
-    var Anscombe = {
-      width: width,
-      marginRight: 0,
-      marginLeft: 10,
-      height: 240,
-      style: {
-        fontSize: size,
-        textTransform: "capitalize",
-      },
-      grid: true,
-      inset: 10, // Inset the chart by 10px so outliers don't appear on the edges
-      facet: {
-        data: anscombe,
-        x: "series",
-        label: null,
-      },
-      x: {
-        nice: true, // Nice is a convenience function that automatically rounds to the nearest whole number
-        ticks: 3,
-        label: null
-      },
-      y: {
-        nice: true,
-        ticks: 3,
-        label: null,
-      },
-      marks: [
-        Plot.frame(),
-        Plot.axisFx({
-          tickFormat: d => "Series " + d,
-        }),
-        Plot.linearRegressionY(anscombe, {
-          x: "x",
-          y: "y",
-          stroke: "hsl(122, 73%, 35%)",
-          ci: 0.95
-        }),
-        Plot.dot(anscombe, {
-          x: "x",
-          y: "y",
-          fill: "hsl(122, 73%, 35%)",
-          tip: {
-            channels: {
-              'Series': 'series'
+    function renderAnscombeChart() {
+      const container = document.getElementById("Anscombe");
+      if (!container) return;
+
+      container.querySelectorAll("svg").forEach(svg => svg.remove());
+      const width = container.getBoundingClientRect().width || 600;
+
+      const anscombeConfig = {
+        width: width,
+        marginRight: 0,
+        marginLeft: 10,
+        height: 240,
+        style: {
+          fontSize: size + "px",
+          textTransform: "capitalize",
+          background: "transparent"
+        },
+        grid: true,
+        inset: 10, // Inset the chart by 10px so outliers don't appear on the edges
+        facet: {
+          data: anscombeData,
+          x: "series",
+          label: null,
+        },
+        x: {
+          nice: true,
+          ticks: 3,
+          label: null
+        },
+        y: {
+          nice: true,
+          ticks: 3,
+          label: null,
+        },
+        marks: [
+          Plot.frame(),
+          Plot.axisFx({
+            tickFormat: d => "Series " + d,
+          }),
+          Plot.linearRegressionY(anscombeData, {
+            x: "x",
+            y: "y",
+            stroke: "hsl(122, 73%, 35%)",
+            ci: 0.95
+          }),
+          Plot.dot(anscombeData, {
+            x: "x",
+            y: "y",
+            fill: "hsl(122, 73%, 35%)",
+            tip: {
+              channels: {
+                'Series': 'series'
+              },
+              format: {
+                fx: false,
+                y: true,
+                x: true
+              }
             },
-            format: {
-              // x: (d) => `${d.getUTCFullYear()}`,
-              fx: false,
-              y: true,
-              x: true
-            }
-          },
-        })
-      ]
-    };
+          })
+        ]
+      };
 
-    // // Draw the plot
-    document.getElementById("Anscombe").appendChild(Plot.plot(Anscombe));
+      container.appendChild(Plot.plot(anscombeConfig));
+    }
+
+    renderAnscombeChart();
+    window.addEventListener("resize", renderAnscombeChart);
   </script>
   <script>
     // Theme toggle functionality

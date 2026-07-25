@@ -39,7 +39,7 @@
     property="og:image:alt">
 
   <meta name="datePublished" content="2025-06-16">
-  <meta name="dateModified" content="2025-08-06">
+  <meta name="dateModified" content="2026-07-16">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -49,6 +49,9 @@
   <meta content="https://www.arin.net/blog/2023/04/21/customer-satisfaction-survey/css.png" property="twitter:image">
 
   <link rel="canonical" href="https://justinchill.com/csat.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500&family=Ubuntu:wght@500&family=Roboto+Mono:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="preload" href="style.css" as="style" />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico">
@@ -58,8 +61,6 @@
   <meta name="color-scheme" content="light dark">
 
   <style type="text/css">
-    @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500&family=Ubuntu:wght@500&display=swap');
-
     :root {
       --normal: #ECEAF3;
       --normal-shadow: #D9D8E3;
@@ -71,26 +72,56 @@
       --active-eye: #313036;
       --active-tear: #76b5e7;
       --active-shadow-angry: #e94f1d;
+      --panel-bg: #ffffff;
+      --panel-text: #242424;
+      --panel-border: transparent;
+      --panel-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --plot-text-color: #656568;
+      --plot-rule-color: rgba(0, 0, 0, .75);
+      --plot-line-color: hsl(125, 86%, 20%);
+      --plot-area-fill: hsl(122, 42%, 75%);
+    }
+
+    [data-theme="dark"] {
+      --normal: #2a3342;
+      --normal-shadow: #1e2634;
+      --normal-mouth: #94a3b8;
+      --normal-eye: #cbd5e1;
+      --active: #F8DA69;
+      --active-shadow: #F4B555;
+      --active-mouth: #F05136;
+      --active-eye: #313036;
+      --panel-bg: #1e2430;
+      --panel-text: #f1f5f9;
+      --panel-border: #334155;
+      --panel-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 15px rgba(139, 92, 246, 0.15);
+      --plot-text-color: #cbd5e1;
+      --plot-rule-color: rgba(255, 255, 255, 0.5);
+      --plot-line-color: hsl(125, 80%, 55%);
+      --plot-area-fill: rgba(34, 197, 94, 0.25);
     }
 
     .panel-container {
-      background-color: #fff;
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-      border-radius: 4px;
+      background-color: var(--panel-bg);
+      color: var(--panel-text);
+      box-shadow: var(--panel-shadow);
+      border: 1px solid var(--panel-border);
+      border-radius: 8px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: var(--spacer-2);
+      padding: var(--spacer-3);
       margin: var(--spacer-4) auto;
-      max-width: 400px;
+      max-width: 420px;
       text-align: center;
       row-gap: var(--spacer-2);
+      transition: background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
     }
 
     .feedback {
       margin: var(--spacer-2) auto;
-      padding: var(--spacer-2) auto;
+      padding: 0;
       list-style: none;
       display: flex;
     }
@@ -102,6 +133,11 @@
       box-shadow: inset 3px -3px 4px var(--sh, var(--normal-shadow));
       transition: background 0.4s, box-shadow 0.4s, transform 0.3s;
       -webkit-tap-highlight-color: transparent;
+    }
+
+    .feedback li:focus-visible {
+      outline: 2px solid var(--active);
+      outline-offset: 4px;
     }
 
     .feedback li:not(:last-child) {
@@ -478,56 +514,6 @@
       }
     }
 
-    .ratings-container {
-      display: flex;
-      margin: 20px 0;
-    }
-
-    .rating {
-      cursor: pointer;
-      flex: 1;
-      padding: 20px;
-      margin: 10px 5px;
-    }
-
-    .rating.active,
-    .rating:hover {
-      border-radius: 4px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .rating img,
-    #panel img {
-      width: 60px;
-    }
-
-    .rating small {
-      color: #555;
-      display: inline-block;
-      font-family: var(--font-ui);
-    }
-
-    .rating.active small,
-    .rating:hover small {
-      color: #111;
-    }
-
-    .btn {
-      background-color: #302d2b;
-      border: 0;
-      border-radius: 4px;
-      color: #fff;
-      cursor: pointer;
-      padding: 12px 30px;
-    }
-
-    /*  .fa-heart {
-    color: red;
-    font-size: 30px;
-    margin-bottom: 10px;
-  }
-  */
-    /*For the button*/
     .pushable {
       position: relative;
       border: none;
@@ -548,8 +534,7 @@
       background: hsl(0deg 0% 0% / 0.25);
       will-change: transform;
       transform: translateY(2px);
-      transition:
-        transform 600ms cubic-bezier(.3, .7, .4, 1);
+      transition: transform 600ms cubic-bezier(.3, .7, .4, 1);
     }
 
     .edge {
@@ -576,8 +561,7 @@
       background: hsl(345deg 100% 47%);
       will-change: transform;
       transform: translateY(-4px);
-      transition:
-        transform 600ms cubic-bezier(.3, .7, .4, 1);
+      transition: transform 600ms cubic-bezier(.3, .7, .4, 1);
     }
 
     .pushable:hover {
@@ -586,8 +570,7 @@
 
     .pushable:hover .front {
       transform: translateY(-6px);
-      transition:
-        transform 250ms cubic-bezier(.3, .7, .4, 1.5);
+      transition: transform 250ms cubic-bezier(.3, .7, .4, 1.5);
     }
 
     .pushable:active .front {
@@ -597,8 +580,7 @@
 
     .pushable:hover .shadow {
       transform: translateY(4px);
-      transition:
-        transform 250ms cubic-bezier(.3, .7, .4, 1.5);
+      transition: transform 250ms cubic-bezier(.3, .7, .4, 1.5);
     }
 
     .pushable:active .shadow {
@@ -619,7 +601,6 @@
 
     .scale li {
       counter-increment: my-awesome-counter;
-      /* margin: 0.25rem; */
     }
 
     .scale li::before {
@@ -635,7 +616,6 @@
       margin-right: 0.5rem;
     }
 
-    /* There's probably a better way to interpolate bt. colors  */
     .scale li:first-child:before {
       background: #ef4e4e;
     }
@@ -657,17 +637,13 @@
     }
 
     .plot text {
-      color: #656568;
+      fill: var(--plot-text-color) !important;
       font-family: 'Ubuntu', sans-serif;
       pointer-events: none;
-      font-size: calc(5px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+      font-size: clamp(12px, 1.1vw, 15px);
     }
 
     @media screen and (max-width: 900px) {
-      ul>li {
-        /*padding-left: .5rem;*/
-      }
-
       ul {
         padding-left: 1rem;
       }
@@ -681,7 +657,7 @@
   "headline": "Customer Satisfaction (CSAT) Surveys | Justin Chill",
   "description": "Understanding how surveys can be used to effectively measure customer satisfaction",
   "datePublished": "2025-06-16",
-  "dateModified": "2025-08-06",
+  "dateModified": "2026-07-16",
   "author": {
     "@type": "Person",
     "name": "Justin Chill",
@@ -753,8 +729,8 @@
 
       <div id="panel" class="panel-container">
         <p>How satisfied were you with our customer support performance?</p>
-        <ul class="feedback">
-          <li class="angry">
+        <ul class="feedback" role="radiogroup" aria-label="Satisfaction Rating">
+          <li class="angry" role="radio" aria-checked="false" tabindex="0" aria-label="Very Dissatisfied">
             <div>
               <svg class="eye left">
                 <use xlink:href="#eye">
@@ -767,7 +743,7 @@
               </svg>
             </div>
           </li>
-          <li class="sad">
+          <li class="sad" role="radio" aria-checked="false" tabindex="0" aria-label="Dissatisfied">
             <div>
               <svg class="eye left">
                 <use xlink:href="#eye">
@@ -780,10 +756,10 @@
               </svg>
             </div>
           </li>
-          <li class="ok">
+          <li class="ok" role="radio" aria-checked="false" tabindex="0" aria-label="Neutral">
             <div></div>
           </li>
-          <li class="good active">
+          <li class="good active" role="radio" aria-checked="true" tabindex="0" aria-label="Satisfied">
             <div>
               <svg class="eye left">
                 <use xlink:href="#eye">
@@ -796,7 +772,7 @@
               </svg>
             </div>
           </li>
-          <li class="happy">
+          <li class="happy" role="radio" aria-checked="false" tabindex="0" aria-label="Very Satisfied">
             <div>
               <svg class="eye left">
                 <use xlink:href="#eye">
@@ -807,8 +783,7 @@
             </div>
           </li>
         </ul>
-        <!-- <button class="btn" id="send">Submit review</button> -->
-        <button class="pushable" id="send">
+        <button class="pushable" id="send" aria-label="Submit review">
           <span class="shadow"></span>
           <span class="edge"></span>
           <span class="front">
@@ -828,7 +803,7 @@
       <ul>
         <li>Polarized results- those who submit tend to skew highly positive or negative. This is called <a
             href="https://link.springer.com/article/10.1007%2FBF02723476">response bias</a>.</li>
-        <li>"Satisfed" is subjective, and may mean different things to different people.</li>
+        <li>"Satisfied" is subjective, and may mean different things to different people.</li>
         <li>Surveys are limited in the information they capture.</li>
       </ul>
 
@@ -902,150 +877,213 @@
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 
   <script type="text/javascript">
-    const ratingsEl = document.querySelectorAll('.rating');
-    const sendBtn = document.querySelector('#send');
     const panel = document.querySelector('#panel');
+    const originalPanelHTML = panel ? panel.innerHTML : '';
 
-    ratingsEl.forEach(el => {
-      el.addEventListener('click', () => {
-        ratingsEl.forEach(innerEl => {
-          innerEl.classList.remove('active');
+    function bindSurveyEvents() {
+      const feedbackItems = document.querySelectorAll('.feedback li');
+      feedbackItems.forEach(entry => {
+        entry.addEventListener('click', e => {
+          selectFeedback(entry);
         });
-
-        el.classList.add('active');
+        entry.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            selectFeedback(entry);
+          }
+        });
       });
-    });
 
-    sendBtn.addEventListener('click', () => {
-      panel.innerHTML = `
-    <img src="imgs/heart.svg">
-    <p>Thank you!</p>
-    <p>We'll use your feedback to improve our customer support experience.</p> 
-    `;
-    });
-
-    // Plot things
-    var element = d3.select('figure').node();
-    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
-    var size = 12;
-
-    // Use Promises to async request data
-    var promises = [d3.csv("data/aapl.csv", d3.autoType)];
-    myDataPromises = Promise.all(promises);
-
-    // After data is successfully fetched, generate viz
-    myDataPromises.then(function (data) {
-
-      // Define the data
-      var aapl = data[0];
-      const tinyapple = aapl.slice(0, 320);
-      const marker = aapl.slice(80, 81);
-      const marker2 = aapl.slice(200, 201);
-
-      var csat = {
-        width: width,
-        marginLeft: 0,
-        marginRight: 0,
-        style: {
-          fontSize: size,
-          paddingLeft: 24,
-          paddingRight: 10
-        },
-        y: {
-          grid: true,
-          nice: true,
-          label: null,
-          tickSize: 0,
-          tickFormat: d => d + "%",
-          tickFormat: (d, i, _) => (i === _.length - 1 ? `${d}%` : `${d}`) // Show % on first tick only
-        },
-        marks: [
-          Plot.areaY(tinyapple, {
-            x: "Date",
-            y: "Close",
-            fill: "hsl(122, 42%, 75%)",
-            fillOpacity: .8
-          }),
-          Plot.lineY(tinyapple, {
-            x: "Date",
-            y: "Close",
-            title: "Close",
-            stroke: "hsl(125, 86%, 14%)",
-            curve: "catmull-rom-open"
-          }),
-          Plot.dot(tinyapple, Plot.selectLast({
-            x: "Date",
-            y: "Close",
-            fill: "white",
-            stroke: "rgba(0, 0, 0, .75)"
-          })),
-          Plot.dot(tinyapple, Plot.selectFirst({
-            x: "Date",
-            y: "Close",
-            fill: "white",
-            stroke: "rgba(0, 0, 0, .75)"
-          })),
-
-          Plot.text(marker, {
-            x: "Date",
-            y: "Close",
-            text: d => `Bug reported`,
-            dy: -50,
-            dx: 10,
-            rotate: 270
-          }),
-          Plot.ruleX(marker, {
-            x: "Date",
-            strokeDasharray: [2, 2],
-            strokeWidth: 0.5,
-            stroke: "rgba(0, 0, 0, .75)"
-          }),
-          Plot.text(marker2, {
-            x: "Date",
-            y: "Close",
-            text: d => `New hire`,
-            dy: -50,
-            dx: 10,
-            rotate: 270
-          }),
-          Plot.ruleX(marker2, {
-            x: "Date",
-            strokeDasharray: [2, 2],
-            strokeWidth: 0.5,
-            stroke: "rgba(0, 0, 0, .75)"
-          }),
-          Plot.text(tinyapple, Plot.selectLast({
-            x: "Date",
-            y: "Close",
-            text: d => `${d3.format(".2f")(d.Close)}%`,
-            dy: -10,
-            dx: -6,
-            fontWeight: 700,
-            fontSize: 14
-          })),
-          Plot.text(tinyapple, Plot.selectFirst({
-            x: "Date",
-            y: "Close",
-            text: d => `CSAT: ${d3.format(".2f")(d.Close)}%`,
-            dy: -10,
-            dx: 48,
-            fontWeight: 700,
-            fontSize: 14
-          })),
-        ]
-      };
-
-      document.getElementById("csat").appendChild(Plot.plot(csat));
-    });
-
-    // From Aaron Iker: https://codepen.io/aaroniker/pen/mdyYBPP
-    document.querySelectorAll('.feedback li').forEach(entry => entry.addEventListener('click', e => {
-      if (!entry.classList.contains('active')) {
-        document.querySelector('.feedback li.active').classList.remove('active');
-        entry.classList.add('active');
+      const sendBtn = document.querySelector('#send');
+      if (sendBtn) {
+        sendBtn.addEventListener('click', submitSurvey);
       }
-      e.preventDefault();
-    }));
+    }
+
+    function selectFeedback(targetEntry) {
+      const feedbackItems = document.querySelectorAll('.feedback li');
+      feedbackItems.forEach(item => {
+        item.classList.remove('active');
+        item.setAttribute('aria-checked', 'false');
+      });
+      targetEntry.classList.add('active');
+      targetEntry.setAttribute('aria-checked', 'true');
+
+      const ratingClass = Array.from(targetEntry.classList).find(c => ['angry', 'sad', 'ok', 'good', 'happy'].includes(c));
+      if (ratingClass) {
+        localStorage.setItem('csat_last_rating', ratingClass);
+      }
+    }
+
+    function restoreSavedRating() {
+      const savedRating = localStorage.getItem('csat_submitted_rating') || localStorage.getItem('csat_last_rating');
+      if (savedRating) {
+        const targetEntry = document.querySelector(`.feedback li.${savedRating}`);
+        if (targetEntry) {
+          selectFeedback(targetEntry);
+        }
+      }
+    }
+
+    function submitSurvey() {
+      const activeRating = document.querySelector('.feedback li.active');
+      const ratingClass = activeRating ? Array.from(activeRating.classList).find(c => ['angry', 'sad', 'ok', 'good', 'happy'].includes(c)) : 'good';
+      const ratingText = activeRating ? activeRating.getAttribute('aria-label') : 'Feedback';
+
+      if (ratingClass) {
+        localStorage.setItem('csat_submitted_rating', ratingClass);
+        localStorage.setItem('csat_submitted_time', new Date().toISOString());
+      }
+
+      panel.innerHTML = `
+        <img src="imgs/heart.svg" alt="Heart" style="width: 60px;">
+        <p style="font-weight: 700; font-size: 1.2rem; margin: 0.5rem 0 0.25rem 0;">Thank you!</p>
+        <p style="margin-bottom: 1rem;">We'll use your feedback (${ratingText}) to improve our customer support experience.</p> 
+        <button class="pushable" id="reset-survey">
+          <span class="shadow"></span>
+          <span class="edge"></span>
+          <span class="front" style="padding: 10px 24px; font-size: 1rem;">
+            Submit another response
+          </span>
+        </button>
+      `;
+
+      const resetBtn = document.querySelector('#reset-survey');
+      if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+          panel.innerHTML = originalPanelHTML;
+          bindSurveyEvents();
+          restoreSavedRating();
+        });
+      }
+    }
+
+    bindSurveyEvents();
+    restoreSavedRating();
+
+    // Plot chart renderer
+    window.renderCsatChart = function() {
+      const chartContainer = document.getElementById("csat");
+      if (!chartContainer) return;
+
+      var element = d3.select('figure#csat').node();
+      var width = element ? element.getBoundingClientRect().width : 700;
+      var size = 12;
+
+      d3.csv("data/aapl.csv", d3.autoType).then(function (aapl) {
+        const tinyapple = aapl.slice(0, 320);
+        const marker = aapl.slice(80, 81);
+        const marker2 = aapl.slice(200, 201);
+
+        var csat = {
+          width: width,
+          marginLeft: 0,
+          marginRight: 0,
+          style: {
+            fontSize: size,
+            paddingLeft: 24,
+            paddingRight: 10,
+            background: "transparent",
+            color: "var(--plot-text-color)"
+          },
+          y: {
+            grid: true,
+            nice: true,
+            label: null,
+            tickSize: 0,
+            tickFormat: (d, i, _) => (i === _.length - 1 ? `${d}%` : `${d}`)
+          },
+          marks: [
+            Plot.areaY(tinyapple, {
+              x: "Date",
+              y: "Close",
+              fill: "var(--plot-area-fill)",
+              fillOpacity: .8
+            }),
+            Plot.lineY(tinyapple, {
+              x: "Date",
+              y: "Close",
+              title: "Close",
+              stroke: "var(--plot-line-color)",
+              strokeWidth: 2,
+              curve: "catmull-rom-open"
+            }),
+            Plot.dot(tinyapple, Plot.selectLast({
+              x: "Date",
+              y: "Close",
+              fill: "var(--panel-bg)",
+              stroke: "var(--plot-line-color)"
+            })),
+            Plot.dot(tinyapple, Plot.selectFirst({
+              x: "Date",
+              y: "Close",
+              fill: "var(--panel-bg)",
+              stroke: "var(--plot-line-color)"
+            })),
+
+            Plot.text(marker, {
+              x: "Date",
+              y: "Close",
+              text: d => `Bug reported`,
+              dy: -55,
+              dx: 12,
+              rotate: 270,
+              fontSize: 14,
+              fontWeight: 600,
+              fill: "var(--plot-text-color)"
+            }),
+            Plot.ruleX(marker, {
+              x: "Date",
+              strokeDasharray: [3, 3],
+              strokeWidth: 1,
+              stroke: "var(--plot-rule-color)"
+            }),
+            Plot.text(marker2, {
+              x: "Date",
+              y: "Close",
+              text: d => `New hire`,
+              dy: -55,
+              dx: 12,
+              rotate: 270,
+              fontSize: 14,
+              fontWeight: 600,
+              fill: "var(--plot-text-color)"
+            }),
+            Plot.ruleX(marker2, {
+              x: "Date",
+              strokeDasharray: [3, 3],
+              strokeWidth: 1,
+              stroke: "var(--plot-rule-color)"
+            }),
+            Plot.text(tinyapple, Plot.selectLast({
+              x: "Date",
+              y: "Close",
+              text: d => `${d3.format(".2f")(d.Close)}%`,
+              dy: -10,
+              dx: -6,
+              fontWeight: 700,
+              fontSize: 14,
+              fill: "var(--plot-text-color)"
+            })),
+            Plot.text(tinyapple, Plot.selectFirst({
+              x: "Date",
+              y: "Close",
+              text: d => `CSAT: ${d3.format(".2f")(d.Close)}%`,
+              dy: -10,
+              dx: 48,
+              fontWeight: 700,
+              fontSize: 14,
+              fill: "var(--plot-text-color)"
+            })),
+          ]
+        };
+
+        chartContainer.innerHTML = '<figcaption class="right">Fictional data</figcaption>';
+        chartContainer.appendChild(Plot.plot(csat));
+      });
+    };
+
+    window.renderCsatChart();
   </script>
   <script>
     // Theme toggle functionality
@@ -1058,6 +1096,7 @@
         themeToggleLightIcon.classList.remove("hidden");
         themeToggleDarkIcon.classList.add("hidden");
       } else {
+        themeToggleLightIcon.ariaHidden = "false";
         themeToggleLightIcon.classList.add("hidden");
         themeToggleDarkIcon.classList.remove("hidden");
       }
@@ -1073,6 +1112,9 @@
         document.documentElement.setAttribute("data-theme", newTheme);
         localStorage.setItem("theme", newTheme);
         updateIcons(newTheme);
+        setTimeout(() => {
+          if (window.renderCsatChart) window.renderCsatChart();
+        }, 50);
       });
     }
   </script>

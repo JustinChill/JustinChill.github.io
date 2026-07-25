@@ -2,59 +2,92 @@
 <html lang="en" class="no-js">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script>
-    // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
-    (function () {
-      const savedTheme = localStorage.getItem('theme');
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', theme);
-      document.documentElement.classList.remove('no-js');
-      document.documentElement.classList.add('js');
-    })();
-  </script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script>
+		// Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
+		(function () {
+			const savedTheme = localStorage.getItem('theme');
+			const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+			const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
+			document.documentElement.setAttribute('data-theme', theme);
+			document.documentElement.classList.remove('no-js');
+			document.documentElement.classList.add('js');
+		})();
+	</script>
 
-  <title>Joke generator | Justin Chill</title>
-  <meta name="description" content="Dad joke generator.">
-  <meta name="author" content="Justin Chill">
-  <meta name="robots" content="all">
+	<title>Joke generator | Justin Chill</title>
+	<meta name="description" content="Dad joke generator.">
+	<meta name="author" content="Justin Chill">
+	<meta name="robots" content="all">
 
-  <!-- OpenGraph tags -->
-  <meta content="en_US" property="og:locale">
-  <meta content="JustinChill" property="og:site_name">
-  <meta content="article" property="og:type">
-  <meta content="https://justinchill.com/jokes.html" property="og:url">
-  <meta content="Joke generator | Justin Chill" property="og:title">
-  <meta content="Dad joke generator" property="og:description">
-  <meta content="https://justinchill.com/blog.html" property="og:see_also">
-  <meta property="og:locality" content="NY">
-  <meta property="og:region" content="NY">
-  <meta property="og:country_name" content="USA">
-  <meta content="https://www.sean.co.uk/raspberry_pi/gfx/dad_joke_big.jpg" property="og:image">
-  <meta content="A computer-generated image of a man laughing with his son." property="og:image:alt">
+	<!-- OpenGraph tags -->
+	<meta content="en_US" property="og:locale">
+	<meta content="JustinChill" property="og:site_name">
+	<meta content="article" property="og:type">
+	<meta content="https://justinchill.com/jokes.html" property="og:url">
+	<meta content="Joke generator | Justin Chill" property="og:title">
+	<meta content="Dad joke generator" property="og:description">
+	<meta content="https://justinchill.com/blog.html" property="og:see_also">
+	<meta property="og:locality" content="NY">
+	<meta property="og:region" content="NY">
+	<meta property="og:country_name" content="USA">
+	<meta content="https://www.sean.co.uk/raspberry_pi/gfx/dad_joke_big.jpg" property="og:image">
+	<meta content="A computer-generated image of a man laughing with his son." property="og:image:alt">
 
-  <meta name="datePublished" content="2025-08-04">
-  <meta name="dateModified" content="2026-07-16">
+	<meta name="datePublished" content="2025-08-04">
+	<meta name="dateModified" content="2026-07-16">
 
-  <!-- Twitter tags -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Dad joke generator | Justin Chill">
-  <meta name="twitter:description" content="Silly jokes for serious people.">
-  <meta content="https://www.sean.co.uk/raspberry_pi/gfx/dad_joke_big.jpg" property="twitter:image">
+	<!-- Twitter tags -->
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Dad joke generator | Justin Chill">
+	<meta name="twitter:description" content="Silly jokes for serious people.">
+	<meta content="https://www.sean.co.uk/raspberry_pi/gfx/dad_joke_big.jpg" property="twitter:image">
 
-  <link rel="canonical" href="https://justinchill.com/jokes.html">
-  <link rel="preload" href="style.css" as="style" />
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="favicon.ico">
-  <link type="text/plain" href="humans.txt" rel="author">
+	<link rel="canonical" href="https://justinchill.com/jokes.html">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&family=Roboto:wght@400;500;700&display=swap"
+		rel="stylesheet">
+	<link rel="preload" href="style.css" as="style" />
+	<link rel="stylesheet" href="style.css" />
+	<link rel="icon" href="favicon.ico">
+	<link type="text/plain" href="humans.txt" rel="author">
 
-  <meta name="theme-color" content="#4C63B6">
-  <meta name="color-scheme" content="light dark">
+	<meta name="theme-color" content="#4C63B6">
+	<meta name="color-scheme" content="light dark">
 
-  <style type="text/css">
-		@import url("https://fonts.googleapis.com/css?family=Roboto+Mono:500|Roboto:400,500,700&display=swap");
+	<style type="text/css">
+		:root {
+			--joke-bg: #f7f5fc;
+			--joke-card-border: transparent;
+			--joke-card-shadow: 0px 18px 24px -15px rgba(89, 31, 249, 0.25), 0px 15px 20px -25px rgba(89, 31, 249, 0.25);
+			--joke-avatar-bg: #ffffff;
+			--joke-avatar-shadow: 0px 11px 10px -10px rgba(89, 31, 249, 0.65);
+			--joke-actions-bg: #ffffff;
+			--joke-actions-shadow: 0px 11px 10px -10px rgba(89, 31, 249, 0.15);
+			--joke-text-color: #202020;
+			--joke-info-color: rgba(32, 32, 32, 0.65);
+			--joke-dot-color: #591ff9;
+			--joke-border-hover: rgba(89, 31, 249, 0.25);
+			--joke-action-hover-bg: #f7f5fc;
+		}
+
+		[data-theme="dark"] {
+			--joke-bg: #1e1b2e;
+			--joke-card-border: rgba(139, 92, 246, 0.25);
+			--joke-card-shadow: 0px 18px 30px -10px rgba(0, 0, 0, 0.6), 0px 0px 20px 0px rgba(139, 92, 246, 0.15);
+			--joke-avatar-bg: #27233d;
+			--joke-avatar-shadow: 0px 8px 16px -4px rgba(0, 0, 0, 0.5), 0px 0px 12px rgba(139, 92, 246, 0.4);
+			--joke-actions-bg: #27233d;
+			--joke-actions-shadow: 0px 8px 16px -4px rgba(0, 0, 0, 0.5);
+			--joke-text-color: #f1f1f6;
+			--joke-info-color: rgba(241, 241, 246, 0.7);
+			--joke-dot-color: #a78bfa;
+			--joke-border-hover: rgba(167, 139, 250, 0.4);
+			--joke-action-hover-bg: #342e50;
+		}
 
 		html {
 			box-sizing: border-box;
@@ -66,27 +99,12 @@
 
 		* {
 			-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-			-webkit-text-size-adjust: none;
 		}
 
 		body {
 			font-family: "Roboto", "Helvetica Neue", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-			/* line-height: 1.4; */
-			/* font-weight: 400; */
 			min-height: 80vh;
-			/* -webkit-font-smoothing: antialiased; */
-			/* -moz-osx-font-smoothing: grayscale; */
-			/* color: #202020; */
-			-ms-scroll-chaining: none;
 			overscroll-behavior: none;
-			/* font-size: 1rem; */
-			/* background-color: #ece7fd; */
-			/* position: relative; */
-			/* display: flex; */
-			/* align-items: flex-start; */
-			/* justify-content: center; */
-			/* height: 100vh; */
-			/* width: 100vw; */
 		}
 
 		img {
@@ -100,56 +118,16 @@
 			width: auto;
 		}
 
-		a:active,
-		a:focus,
-		button:active,
-		button:focus,
-		select:active,
-		select:focus,
-		textarea:active,
-		textarea:focus {
-			outline: -webkit-focus-ring-color auto 5px;
-		}
-
-		.brand-group {
-			position: absolute;
-			bottom: 1.25rem;
-			right: 1.25rem;
-			display: inline-flex;
-			align-items: center;
-			align-self: flex-end;
-			margin-top: 1.25rem;
-		}
-
-		@media (min-width: 576px) {
-			.brand-group {
-				bottom: 3.25rem;
-				right: 3.25rem;
-			}
-		}
-
-		.dribbble-logo {
-			display: block;
-			height: 18px;
-			width: auto;
-			fill: #202020;
-			margin-right: 0.5rem;
-		}
-
-		.alxv-brand {
-			display: block;
-			height: 18px;
-			width: auto;
-			fill: #202020;
+		a:focus-visible,
+		button:focus-visible {
+			outline: 2px solid var(--joke-dot-color);
+			outline-offset: 2px;
 		}
 
 		.emoji {
 			display: inline-block;
 			white-space: nowrap;
 			font-size: 2.074rem;
-			-webkit-user-select: none;
-			-moz-user-select: none;
-			-ms-user-select: none;
 			user-select: none;
 		}
 
@@ -170,22 +148,50 @@
 			margin: 0 auto;
 		}
 
+		.controls-bar {
+			display: flex;
+			align-items: center;
+			justify-content: flex-start;
+			width: 100%;
+			margin-bottom: 0.75rem;
+		}
+
+		.sfx-toggle-btn {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.35rem;
+			padding: 0.4rem 0.8rem;
+			border-radius: 20px;
+			border: 1px solid var(--joke-card-border);
+			background-color: var(--joke-avatar-bg);
+			color: var(--joke-text-color);
+			font-family: "Roboto Mono", monospace;
+			font-size: 0.85rem;
+			font-weight: 500;
+			cursor: pointer;
+			box-shadow: var(--joke-actions-shadow);
+			transition: all 175ms ease-out;
+		}
+
+		.sfx-toggle-btn:hover {
+			transform: translateY(-1px);
+			background-color: var(--joke-action-hover-bg);
+		}
+
 		.avatar {
 			align-self: flex-start;
 			position: relative;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			background-color: #ffffff;
+			background-color: var(--joke-avatar-bg);
 			height: 58px;
 			width: 58px;
 			flex-shrink: 0;
 			border-radius: 90px;
-			-webkit-user-select: none;
-			-moz-user-select: none;
-			-ms-user-select: none;
 			user-select: none;
-			box-shadow: 0px 11px 10px -10px rgba(89, 31, 249, 0.65);
+			box-shadow: var(--joke-avatar-shadow);
+			transition: background-color 200ms ease, box-shadow 200ms ease;
 		}
 
 		.avatar .emoji {
@@ -197,6 +203,7 @@
 			position: relative;
 			display: flex;
 			flex-direction: column;
+			width: 100%;
 		}
 
 		@media (min-width: 768px) {
@@ -237,11 +244,11 @@
 			width: 100%;
 			display: flex;
 			align-items: center;
-			color: #202020;
-			opacity: 0.65;
+			color: var(--joke-info-color);
 			padding-right: 1.25rem;
 		}
 
+		.chat-bot__messages-info svg,
 		.chat-bot__messages-info .feather {
 			display: block;
 			height: 22px;
@@ -264,7 +271,7 @@
 			width: 12px;
 			border-radius: 90px;
 			margin: 0.5rem;
-			background-color: #591ff9;
+			background-color: var(--joke-dot-color);
 		}
 
 		.chat-bubble {
@@ -273,13 +280,13 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			background-color: #f7f5fc;
+			background-color: var(--joke-bg);
 			padding: 1.25rem;
 			border-radius: 1.25rem;
 			border-bottom-left-radius: 0;
-			transition: all 175ms ease-out;
-			border: 3px solid transparent;
-			box-shadow: 0px 18px 24px -15px rgba(89, 31, 249, 0.25), 0px 15px 20px -25px rgba(89, 31, 249, 0.25);
+			transition: background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+			border: 3px solid var(--joke-card-border);
+			box-shadow: var(--joke-card-shadow);
 		}
 
 		@media (min-width: 768px) {
@@ -298,9 +305,9 @@
 			right: -8px;
 			width: 160px;
 			height: 48px;
-			background-color: #ffffff;
+			background-color: var(--joke-actions-bg);
 			border-radius: 0.625rem;
-			box-shadow: 0px 11px 10px -10px rgba(89, 31, 249, 0.15);
+			box-shadow: var(--joke-actions-shadow);
 			transition: all 175ms ease-out;
 			opacity: 0;
 			visibility: hidden;
@@ -310,15 +317,8 @@
 		.chat-bubble__actions .emoji-action {
 			cursor: pointer;
 			border: none;
-			-webkit-user-select: none;
-			-moz-user-select: none;
-			-ms-user-select: none;
 			user-select: none;
 			min-width: 0;
-			background-color: inherit;
-			-webkit-tap-highlight-color: transparent;
-			-webkit-font-smoothing: antialiased;
-			-moz-osx-font-smoothing: grayscale;
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -332,15 +332,11 @@
 			transform: scale(1);
 		}
 
-		.chat-bubble__actions .emoji-action::-moz-focus-inner {
-			border: 0;
-		}
-
 		.chat-bubble__actions .emoji-action:hover,
 		.chat-bubble__actions .emoji-action:focus {
 			outline: none;
 			transform: scale(1.2);
-			background-color: #f7f5fc;
+			background-color: var(--joke-action-hover-bg);
 		}
 
 		.chat-bubble__actions .emoji-action:active {
@@ -350,7 +346,7 @@
 		.chat-bubble:hover,
 		.chat-bubble:focus {
 			outline: none;
-			border: 3px solid rgba(89, 31, 249, 0.25);
+			border: 3px solid var(--joke-border-hover);
 		}
 
 		.chat-bubble:hover .chat-bubble__actions,
@@ -363,29 +359,45 @@
 		.time-received {
 			display: block;
 			font-size: 0.833rem;
-			font-family: "Roboto Mono";
+			font-family: "Roboto Mono", monospace;
 			font-weight: 500;
+			color: var(--joke-info-color);
 		}
 
 		.chat-message {
 			margin: 0;
-			line-height: 1.2;
-			font-size: 1.2rem;
-			font-family: "roboto";
+			line-height: 1.4;
+			font-size: 1.25rem;
+			font-family: "Roboto", sans-serif;
 			font-weight: 500;
 			margin-right: auto;
 			white-space: pre-wrap;
+			color: var(--joke-text-color);
+		}
+
+		.offline-tag {
+			display: inline-block;
+			font-size: 0.7rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: 0.05em;
+			background: #ef4444;
+			color: #ffffff;
+			padding: 0.1rem 0.4rem;
+			border-radius: 4px;
+			margin-left: 0.5rem;
+			vertical-align: middle;
 		}
 	</style>
 
-  <script type="application/ld+json">
+	<script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   "headline": "Joke generator | Justin Chill",
   "description": "Dad joke generator.",
   "datePublished": "2025-08-04",
-  "dateModified": "2025-08-06",
+  "dateModified": "2026-07-16",
   "author": {
     "@type": "Person",
     "name": "Justin Chill",
@@ -413,29 +425,36 @@
 </head>
 
 <body>
-  <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+	<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
 	<nav class="nav" role="navigation">
 		<div class="nav__list">
 			<a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
 			<a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
 			<a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-		
-      <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
-        <span id="theme-toggle-light-icon" class="hidden">
-          <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
-          </svg>
-        </span>
-        <span id="theme-toggle-dark-icon" class="hidden">
-          <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
-          </svg>
-        </span>
-      </button>
-    </div>
+
+			<!-- Theme Toggle Button -->
+			<button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
+				aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+				<span id="theme-toggle-light-icon" class="hidden">
+					<!-- Sun Icon -->
+					<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+						xmlns="http://www.w3.org/2000/svg">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+							d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
+						</path>
+					</svg>
+				</span>
+				<span id="theme-toggle-dark-icon" class="hidden">
+					<!-- Moon Icon -->
+					<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+						xmlns="http://www.w3.org/2000/svg">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+							d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+						</path>
+					</svg>
+				</span>
+			</button>
+		</div>
 		<div class="nav__list">
 			<a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
 			<a href="#" class="nav__item js-email-link">Email</a>
@@ -449,7 +468,13 @@
 			</div>
 
 			<div class="project-container">
-				<div class="chat-bot">
+				<div class="controls-bar">
+					<button id="sfx-toggle" class="sfx-toggle-btn" aria-label="Toggle Sound Effects"
+						title="Toggle Sound Effects (Key: M)">
+						<span id="sfx-icon">🔔</span>
+					</button>
+				</div>
+				<div class="chat-bot" aria-live="polite">
 					<div class="chat-bot__chatter">
 						<div class="avatar">
 							<span class="emoji" role="img" aria-label="Robot">🤖</span>
@@ -481,14 +506,75 @@
 						src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
 		</div>
 	</footer>
-	<script src="https://unpkg.com/feather-icons"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 	<script type="text/javascript">
+		// Helper functions
+		function $(element) {
+			return document.querySelector(element);
+		}
+
+		function createNewElement(element, cssClass = null) {
+			const newElement = document.createElement(element);
+			if (cssClass) {
+				newElement.className = cssClass;
+			}
+			return newElement;
+		}
+
 		const JOKES_API = "https://icanhazdadjoke.com/";
 		const avatar = $(".avatar");
 		const chatBot = $(".chat-bot");
 		const chatDots = $(".speaker");
 		const actions = ["😂", "🤣", "😅"];
+
+		// Offline joke fallback pool
+		const FALLBACK_JOKES = [
+			"I'm reading a book on anti-gravity. It's impossible to put down!",
+			"Why don't scientists trust atoms? Because they make up everything!",
+			"Did you hear about the mathematician who's afraid of negative numbers? He'll stop at nothing to avoid them!",
+			"Why do cows have hooves instead of feet? Because they lactose!",
+			"What do you call a fake noodle? An impasta!",
+			"Why did the scarecrow win an award? Because he was outstanding in his field!",
+			"How does a penguin build its house? Igloos it together!",
+			"What do you call a belt made out of watches? A waist of time!",
+			"Why can't your nose be 12 inches long? Because then it would be a foot!",
+			"What standard metric unit is used to measure dad jokes? A sigh-o-meter!",
+			"What did one wall say to the other? I'll meet you at the corner!",
+			"Why don't eggs tell jokes? They'd crack each other up!",
+			"I used to play piano by ear, but now I use my hands.",
+			"What do you call a sleeping bull? A bulldozer!",
+			"Why did the bicycle fall over? Because it was two-tired!",
+			"What's orange and sounds like a parrot? A carrot!",
+			"What do you call cheese that isn't yours? Nacho cheese!",
+			"How do you organize a space party? You planet!",
+			"Why did the golf ball wear two pairs of pants? In case he got a hole in one!",
+			"What do you call a fish with no eyes? A fsh!"
+		];
+
+		let lastJoke = "";
+		let isFetching = false;
+
+		// Audio SFX Manager
+		let soundEnabled = localStorage.getItem("jokes_sfx") !== "false";
+		const sfxBtn = document.getElementById("sfx-toggle");
+		const sfxIcon = document.getElementById("sfx-icon");
+
+		function updateSfxUI() {
+			if (sfxIcon && sfxBtn) {
+				sfxIcon.textContent = soundEnabled ? "🔔" : "🔕";
+				sfxBtn.setAttribute("aria-label", soundEnabled ? "Mute Sound Effects" : "Enable Sound Effects");
+			}
+		}
+		updateSfxUI();
+
+		if (sfxBtn) {
+			sfxBtn.addEventListener("click", () => {
+				soundEnabled = !soundEnabled;
+				localStorage.setItem("jokes_sfx", soundEnabled ? "true" : "false");
+				updateSfxUI();
+				if (soundEnabled) playPopSFX();
+			});
+		}
 
 		// Web Audio API Sound Synthesizer for UI Effects
 		let audioCtx = null;
@@ -503,6 +589,7 @@
 		}
 
 		function playClickSFX() {
+			if (!soundEnabled) return;
 			try {
 				initAudio();
 				const osc = audioCtx.createOscillator();
@@ -526,6 +613,7 @@
 		}
 
 		function playPopSFX() {
+			if (!soundEnabled) return;
 			try {
 				initAudio();
 				const osc = audioCtx.createOscillator();
@@ -549,6 +637,7 @@
 		}
 
 		function playTypingSFX() {
+			if (!soundEnabled) return;
 			try {
 				initAudio();
 				const osc = audioCtx.createOscillator();
@@ -576,7 +665,11 @@
 		const messagesInfo = createNewElement("div", "chat-bot__messages-info");
 		const timeReceived = createNewElement("span", "time-received");
 		const infoIcon = createNewElement("div");
-		infoIcon.innerHTML = feather.icons.check.toSvg();
+
+		// Inline check SVG fallback for robust offline rendering
+		const checkSvgIcon = `<svg class="feather feather-check" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+		infoIcon.innerHTML = checkSvgIcon;
+
 		messagesInfo.appendChild(timeReceived);
 		messagesInfo.appendChild(infoIcon);
 		const dadJoke = createNewElement("h1", "chat-message");
@@ -586,6 +679,7 @@
 			const emoji = createNewElement("span", "emoji emoji--small");
 			emoji.textContent = action;
 			const emojiButton = createNewElement("button", "emoji-action");
+			emojiButton.setAttribute("aria-label", "Get another joke");
 			emojiButton.appendChild(emoji);
 			return emojiButton;
 		});
@@ -598,33 +692,67 @@
 		// Trigger first load
 		getJokes();
 
+		function getFallbackJoke() {
+			let joke = FALLBACK_JOKES[Math.floor(Math.random() * FALLBACK_JOKES.length)];
+			if (joke === lastJoke && FALLBACK_JOKES.length > 1) {
+				joke = FALLBACK_JOKES[(FALLBACK_JOKES.indexOf(joke) + 1) % FALLBACK_JOKES.length];
+			}
+			lastJoke = joke;
+			return joke;
+		}
+
 		function getJokes() {
-			// Play click sound on user actions
+			if (isFetching) return;
+			isFetching = true;
+
 			playClickSFX();
-			return fetch(JOKES_API, { headers: { Accept: "application/json" } })
+			chatBubble.setAttribute("tabindex", "0");
+			chatContainer.appendChild(chatBubble);
+			dadJoke.remove();
+			animateInDots();
+
+			const controller = new AbortController();
+			const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+			fetch(JOKES_API, {
+				headers: { Accept: "application/json" },
+				signal: controller.signal
+			})
 				.then((response) => {
-					if (response.status === 200) {
-						chatBubble.setAttribute("tabindex", 0);
-						chatContainer.appendChild(chatBubble);
-						dadJoke.remove();
-						animateInDots();
+					clearTimeout(timeoutId);
+					if (response.ok) {
 						return response.json();
 					}
-					throw new Error(response.statusText || "Failed to fetch joke");
+					throw new Error("Failed to fetch joke");
 				})
 				.then((data) => {
-					setTimeout(() => {
-						dadJoke.textContent = data.joke;
-
-						// Render native local time (e.g. 10:45 PM)
-						const now = new Date();
-						timeReceived.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-						chatContainer.appendChild(messagesInfo);
-						animateOutDots();
-					}, 1200); // Snappier delay
+					const jokeText = data && data.joke ? data.joke : getFallbackJoke();
+					displayJoke(jokeText, false);
 				})
-				.catch((error) => console.error(error));
+				.catch((error) => {
+					clearTimeout(timeoutId);
+					console.warn("Using fallback joke due to fetch error:", error);
+					displayJoke(getFallbackJoke(), true);
+				});
+		}
+
+		function displayJoke(jokeText, isOffline) {
+			setTimeout(() => {
+				dadJoke.textContent = jokeText;
+
+				const now = new Date();
+				timeReceived.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+				if (isOffline) {
+					const tag = document.createElement("span");
+					tag.className = "offline-tag";
+					tag.textContent = "Offline";
+					timeReceived.appendChild(tag);
+				}
+
+				chatContainer.appendChild(messagesInfo);
+				animateOutDots();
+			}, 1000);
 		}
 
 		// Animations
@@ -689,6 +817,9 @@
 					duration: 0.8,
 					onStart: () => {
 						playPopSFX();
+					},
+					onComplete: () => {
+						isFetching = false;
 					}
 				}
 			);
@@ -716,48 +847,51 @@
 			});
 		}
 
-		// Helper functions
-		function $(element) {
-			return document.querySelector(element);
+		// Keyboard Navigation Shortcuts
+		document.addEventListener("keydown", (e) => {
+			const activeEl = document.activeElement;
+			const isInputActive = activeEl && (activeEl.tagName === "INPUT" || activeEl.tagName === "TEXTAREA" || activeEl.isContentEditable);
+
+			if (isInputActive) return;
+
+			if (e.code === "Space" || e.key.toLowerCase() === "n") {
+				e.preventDefault();
+				getJokes();
+			} else if (e.key.toLowerCase() === "m") {
+				e.preventDefault();
+				if (sfxBtn) sfxBtn.click();
+			}
+		});
+	</script>
+	<script>
+		// Theme toggle functionality
+		const themeToggleBtn = document.getElementById("theme-toggle");
+		const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
+		const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
+
+		function updateIcons(theme) {
+			if (theme === "dark") {
+				themeToggleLightIcon.classList.remove("hidden");
+				themeToggleDarkIcon.classList.add("hidden");
+			} else {
+				themeToggleLightIcon.classList.add("hidden");
+				themeToggleDarkIcon.classList.remove("hidden");
+			}
 		}
 
-		function createNewElement(element, cssClass = null) {
-			const newElement = document.createElement(element);
-			if (cssClass) {
-				newElement.className = cssClass;
-			}
-			return newElement;
+		const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
+		updateIcons(currentTheme);
+
+		if (themeToggleBtn) {
+			themeToggleBtn.addEventListener("click", () => {
+				const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
+				const newTheme = activeTheme === "dark" ? "light" : "dark";
+				document.documentElement.setAttribute("data-theme", newTheme);
+				localStorage.setItem("theme", newTheme);
+				updateIcons(newTheme);
+			});
 		}
 	</script>
-  <script>
-    // Theme toggle functionality
-    const themeToggleBtn = document.getElementById("theme-toggle");
-    const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
-    const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
-
-    function updateIcons(theme) {
-      if (theme === "dark") {
-        themeToggleLightIcon.classList.remove("hidden");
-        themeToggleDarkIcon.classList.add("hidden");
-      } else {
-        themeToggleLightIcon.classList.add("hidden");
-        themeToggleDarkIcon.classList.remove("hidden");
-      }
-    }
-
-    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
-    updateIcons(currentTheme);
-
-    if (themeToggleBtn) {
-      themeToggleBtn.addEventListener("click", () => {
-        const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
-        const newTheme = activeTheme === "dark" ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
-        updateIcons(newTheme);
-      });
-    }
-  </script>
 </body>
 
 </html>

@@ -102,19 +102,23 @@
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-    
+
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
+        aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
+            </path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
@@ -132,7 +136,7 @@
         <h1 class="article-title">State of the Unions</h1>
         <h2 class="article-subtitle">A brief examination of union membership in the US</h2>
       </div>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h2>Labored Unions</h2>
       <h3>U.S. union membership rate, 1964-2018</h3>
       <figure id="line"
@@ -188,7 +192,8 @@
             Economist</a></figcaption>
         <img
           src="https://www.economist.com/cdn-cgi/image/width=834,quality=80,format=auto/sites/default/files/images/print-edition/20180721_USP001_0.jpg"
-          alt="People standing together, one holding a sign that reads Unions: The Freedom to Unite for a Better Life. A cane and a bag with an American flag design are visible. The setting appears to be a rally or protest." />
+          alt="People standing together, one holding a sign that reads Unions: The Freedom to Unite for a Better Life. A cane and a bag with an American flag design are visible. The setting appears to be a rally or protest."
+          loading="lazy" />
       </figure>
     </article>
   </main>
@@ -215,19 +220,10 @@
 
   <script type="text/javascript">
     var size = 12;
-    var element = d3.select('figure').node();
-    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+    var rawUnionData = null;
 
-    // Use Promises to async request data
-    var promises = [d3.csv("data/union_membership.csv", d3.autoType)];
-    myDataPromises = Promise.all(promises);
-
-    // After data is successfully fetched, generate viz
-    myDataPromises.then(function (data) {
-
-      // Define the data
-      var data = data[0];
-      var tips = [{
+    const tips = [
+      {
         x1: 1983,
         x2: 1983,
         y1: 24,
@@ -271,17 +267,26 @@
         title: "2018: Janus v. AFSCME",
         text: "Landmark supreme court case restricts ability of unions to collect dues from non-members"
       }
-      ];
-      const years = [1964, 1981, 2018, 1970, 1993];
+    ];
+    const years = [1964, 1981, 2018, 1970, 1993];
 
-      var line = {
-        aspectRatio: .65,
+    function renderLineChart() {
+      if (!rawUnionData) return;
+      const container = document.getElementById("line");
+      if (!container) return;
+
+      container.querySelectorAll("svg").forEach(svg => svg.remove());
+      const width = container.getBoundingClientRect().width || 600;
+
+      const lineConfig = {
+        aspectRatio: 0.65,
         width: width,
-        height: Math.max(width, 400), // minHeight is 500, otherwise width
+        height: Math.max(width * 0.65, 400),
         marginRight: 0,
         style: {
-          fontSize: size + 1,
-          paddingRight: width > 450 ? 0 : "1em",
+          fontSize: (size + 1) + "px",
+          paddingRight: width > 450 ? "0" : "1em",
+          background: "transparent"
         },
         y: {
           tickSize: 0,
@@ -300,21 +305,12 @@
           Plot.ruleY([0], {
             stroke: "rgb(146,146,151)"
           }),
-          // Plot.arrow(tips, {
-          //   filter: (d,i) => i == 2,
-          //   x1: "x1",
-          //   y1: "y1",
-          //   x2: "x2",
-          //   y2: "y2",
-          //   bend: true,
-          //   stroke: "#aaa"
-          // }),
-          Plot.line(data, {
+          Plot.line(rawUnionData, {
             x: "year",
             y: "value",
             stroke: "lightgrey",
           }),
-          Plot.dot(data, {
+          Plot.dot(rawUnionData, {
             filter: (d) => years.indexOf(d.year) >= 0,
             x: "year",
             y: "value",
@@ -322,14 +318,14 @@
             strokeWidth: 1,
             r: 2,
           }),
-          Plot.text(data, {
+          Plot.text(rawUnionData, {
             filter: (d) => years.indexOf(d.year) >= 0,
             x: "year",
             y: "value",
             fill: "grey",
             text: d => d.value + "%",
             dy: -10,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             strokeWidth: 1.5,
           }),
           Plot.text(tips, {
@@ -338,7 +334,7 @@
             y: "y1",
             fill: "currentColor",
             text: "title",
-            dy: -10,
+            dy: -16,
             dx: 20,
             fontWeight: 700,
             textAnchor: "start",
@@ -359,13 +355,12 @@
             x: "x1",
             y: "y2",
             fill: "currentColor",
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             text: "text",
             lineWidth: 18,
             dy: width > 450 ? -10 : -4,
             dx: 22,
             textAnchor: "start",
-            // fontSize: width > 450 ? size - 1 : size - 2,
           }),
           Plot.text(tips, {
             filter: (d, i) => i == 2,
@@ -383,32 +378,37 @@
             x: "x1",
             y: "y1",
             fill: "currentColor",
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             text: "text",
             lineWidth: 18,
             dy: 20,
             dx: -10,
             textAnchor: "end",
-            // fontSize: width > 450 ? size - 1 : size - 2,
           }),
           Plot.text(tips, {
             filter: (d, i) => i == 3,
             x: "x1",
             y: "y1",
             fill: "currentColor",
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             text: "text",
             lineWidth: 18,
             dy: 14,
             dx: -20,
             textAnchor: "start",
-            // fontSize: width > 450 ? size - 1 : size - 2,
           }),
         ]
       };
 
-      document.getElementById("line").appendChild(Plot.plot(line));
+      container.appendChild(Plot.plot(lineConfig));
+    }
+
+    d3.csv("data/union_membership.csv", d3.autoType).then(function (data) {
+      rawUnionData = data;
+      renderLineChart();
     });
+
+    window.addEventListener("resize", renderLineChart);
   </script>
   <script>
     // Theme toggle functionality

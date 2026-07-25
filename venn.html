@@ -189,8 +189,8 @@
         grid-column-end: 4;
         grid-row-start: 1;
         grid-row-end: 3;
-        padding-right: 22%;
-        /* Avoid overlapping text in the center */
+        padding: 5% 36% 5% 10%;
+        /* Keep text strictly inside left crescent and clear of center lens */
       }
 
       .Venn>.circle.two {
@@ -199,8 +199,8 @@
         grid-column-end: 6;
         grid-row-start: 1;
         grid-row-end: 3;
-        padding-left: 22%;
-        /* Avoid overlapping text in the center */
+        padding: 5% 10% 5% 36%;
+        /* Keep text strictly inside right crescent and clear of center lens */
       }
 
       .Venn>.circle.three {
@@ -514,10 +514,11 @@
       .Venn .circle h3 {
         margin: 0;
         text-align: center;
-        max-width: 75%;
+        max-width: 90%;
         /* Limit text width to prevent overlap */
         word-wrap: break-word;
         /* Enable word wrapping */
+        line-height: 1.15;
       }
 
       .Venn .circle h3+* {
@@ -722,49 +723,65 @@
 
     .Venn.elements-states .circle,
     .Venn.elements-states .shape {
-      display: block;
-      padding: initial;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
     }
 
     .Venn.elements-states .circle span,
     .Venn.elements-states .shape span {
-      display: block;
+      display: none;
     }
 
     .Venn.elements-states .one {
       background-color: rgba(64, 224, 208, 0.6);
       /* Turquoise */
       border: .1em solid #000;
+      padding: 4% 36% 4% 10%;
     }
 
     .Venn.elements-states .two {
       background-color: rgba(255, 192, 203, 0.6);
       /* Pink */
       border: .1em solid #000;
+      padding: 4% 10% 4% 36%;
     }
 
-    .Venn.elements-states p {
-      font-size: 2.5cqi;
-      line-height: normal;
-      padding-top: 2cqi;
+    .Venn.elements-states .onetwo {
+      padding: 0 10%;
     }
 
     .Venn.elements-states h3 {
-      font-size: 4cqi;
-      margin-top: 0;
+      font-size: 3.5cqi;
+      margin: 0 0 0.2em 0;
+      line-height: 1.1;
+      max-width: 90%;
     }
 
-    .Venn.elements-states .one>span {
-      width: 20%;
+    .Venn.elements-states p {
+      font-size: 2.0cqi;
+      line-height: 1.25;
+      margin: 0;
+      padding: 0;
+      max-width: 90%;
     }
 
-    .Venn.elements-states .one>span+span {
-      width: 55%;
+    .Venn.elements-states .onetwo p {
+      font-size: 2.2cqi;
+      line-height: 1.3;
+      margin: 0;
+      max-width: 85%;
     }
 
-    .Venn.simple-white .one,
+    .Venn.simple-white .one {
+      background-color: rgba(100, 149, 237, 0.2);
+      border: .1em solid #000;
+    }
+
     .Venn.simple-white .two {
-      background-color: transparent;
+      background-color: rgba(255, 182, 193, 0.4);
       border: .1em solid #000;
     }
 
@@ -815,19 +832,23 @@
     <div class="nav__list">
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
-    
+
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
+        aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
+            </path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
@@ -866,9 +887,9 @@
       </figure>
       <figcaption></figcaption>
 
-      <p>This page explores how to make responsive venn diagrams using CSS. The code on this page relies on
-        a combination of CSS Grid, Container Queries, and the Shape-Outside property to create a responsive,
-        text-wrapping Venn diagram.</p>
+      <p>This page explores how to make responsive Venn diagrams using CSS. The code on this page relies on
+        a combination of CSS Grid for positioning, Flexbox with crescent padding for text centering, and Container Queries
+        for responsive font scaling.</p>
 
       <figure class="Venn">
         <div class="circle one">
@@ -986,8 +1007,8 @@ figure.Venn {
         <div class="shape onetwo">
           <span></span>
           <span></span>
-          <h3>I'm going to sit on your lap, but you can't touch me.</h3>
-          <p aria-hidden="true">I'm going to sit on your lap, but you can't touch me.</p>
+          <h3>I'm going to sit on your lap, but don't touch me.</h3>
+          <p aria-hidden="true">I'm going to sit on your lap, but don't touch me.</p>
         </div>
       </figure>
       <h2>4. The "Magic": Text Wrapping
@@ -1007,7 +1028,7 @@ figure.Venn {
       </pre>
       <p>These invisible floated spans push the text content away from the edges, effectively "carving out" the negative
         space so the text appears to fill a circular shape.</p>
-      <figure class="Venn simple-white">
+      <figure class="Venn">
         <div class="circle one">
           <span></span>
           <span></span>
@@ -1040,7 +1061,7 @@ figure.Venn {
       <p>This is why the text size perfectly matches the diagram size. If the diagram creates a 200px wide container,
         the font is 10px. If it grows to 300px, the font automatically grows to 15px.</p>
 
-      <figure class="Venn simple-white">
+      <figure class="Venn">
         <div class="circle one">
           <span></span>
           <span></span>

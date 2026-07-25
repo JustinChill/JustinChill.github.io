@@ -56,6 +56,10 @@
   <meta name="color-scheme" content="light dark">
 
   <style type="text/css">
+    html, body {
+      overflow-x: hidden;
+    }
+
     .center {
       margin: 0 auto;
     }
@@ -68,55 +72,45 @@
       flex: 1 1 0%;
     }
 
-    .hero {
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-    }
-
-    .bg-cover {
-      height: 100%;
-      width: 100%;
-      position: relative;
-      /* background: url('https://zeroindent.com/content/images/size/w2000/2021/09/060520-Grand-Theft-Auto-V-Rockstar-Games.jpeg') center/cover no-repeat; */
-      background-position: center;
-    }
-
-    .hero-content {
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.96);
+    .caffeine-banner {
+      background-color: #4e342e;
+      color: #fff;
+      padding: 3rem 1rem 2.5rem;
       text-align: center;
-      color: #fff;
-      background-blend-mode: multiply;
+      position: relative;
+      overflow: hidden;
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      margin-bottom: 2rem;
+    }
+
+    .caffeine-banner .article-hero {
+      position: relative;
       z-index: 2;
-      align-content: center;
+      margin: 0 auto;
+      text-align: center;
     }
 
-    .hero-title {
-      color: #fff;
-      font-size: 3em;
-      margin-bottom: 20px;
-      margin: 0 var(--spacer-2);
+    .caffeine-banner .article-category {
+      color: rgba(255, 255, 255, 0.7);
     }
 
-    .hero-subtitle {
-      color: #fff;
-      font-size: 1.5em;
-      margin-bottom: 30px;
+    .caffeine-banner .article-title {
+      color: #ffffff;
     }
 
-    section:first-of-type {
-      background: #4e342e;
-      width: 100%;
-      height: 100%;
+    .caffeine-banner .article-subtitle {
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .coffee-cup-wrapper {
+      position: relative;
       display: flex;
       justify-content: center;
       align-items: center;
-      margin: 0 auto;
-      overflow: hidden;
+      margin: 0 auto 1.5rem auto;
+      z-index: 2;
+      width: 100%;
     }
 
     #caffeine_bar {
@@ -124,15 +118,15 @@
     }
 
     #plate {
-      width: 50vmin;
-      height: 50vmin;
+      width: 220px;
+      height: 220px;
       border-radius: 50%;
       display: flex;
       justify-content: center;
       align-items: center;
       background-color: #ffffff;
       position: relative;
-      box-shadow: -2vmin 2vmin 5vmin 2vmin rgba(0, 0, 0, 0.2), inset 0 0 0 0.2vmin #cccccc, inset 0 0 0 0.5vmin #fafafa, inset 0 0 10vmin 0.1vmin rgba(0, 0, 0, 0.2);
+      box-shadow: -2vmin 2vmin 5vmin 2vmin rgba(0, 0, 0, 0.3), inset 0 0 0 0.2vmin #cccccc, inset 0 0 0 0.5vmin #fafafa, inset 0 0 10vmin 0.1vmin rgba(0, 0, 0, 0.2);
     }
 
     #handle {
@@ -767,26 +761,27 @@
     }
 
     #steamWrapper {
-      width: 50%;
-      height: 50%;
+      width: 100%;
+      height: 100%;
       position: absolute;
-      transform: translate(-50%, -50%);
-      top: 50%;
-      left: 50%;
+      top: 0;
+      left: 0;
       z-index: 10;
       display: flex;
       justify-content: center;
       align-items: center;
+      pointer-events: none;
+      overflow: hidden;
     }
 
     #steam {
-      width: 100%;
-      height: 100%;
+      width: 80%;
+      height: 80%;
+      max-width: 380px;
+      max-height: 380px;
       border-radius: 50%;
-      box-shadow: -156px 492px 123px -252px #fff;
+      box-shadow: -100px 300px 100px -180px #fff;
       filter: url(#fog);
-      min-width: 600px;
-      min-height: 600px;
       animation-name: steamAnimation;
       animation-duration: 4s;
       animation-direction: normal;
@@ -798,15 +793,15 @@
 
     @media (max-width: 600px) {
       #steam {
-        top: -80%;
-        box-shadow: -156px 492px 123px -252px #fff;
+        top: -20%;
+        box-shadow: -100px 300px 100px -180px #fff;
       }
     }
 
     @media (max-width: 480px) {
       #steam {
-        top: -160%;
-        box-shadow: -166px 492px 53px -272px #fff;
+        top: -40%;
+        box-shadow: -100px 300px 50px -180px #fff;
       }
     }
 
@@ -882,13 +877,9 @@
   </nav>
 
   <main role="main" id="content">
-    <header class="hero flex h-screen">
-      <div class="hero-content flex-1">
-        <h1 class="hero-title">Caffeine Overload</h1>
-        <p class="hero-subtitle mt-2">Analyzing caffeine in foods</p>
-      </div>
-      <div class="flex-1 bg-cover">
-        <section>
+    <article>
+      <div class="caffeine-banner">
+        <div class="coffee-cup-wrapper">
           <div id="plate">
             <div id="cup">
               <div id="cupInner"></div>
@@ -954,12 +945,16 @@
           <div id="steamWrapper">
             <div id="steam"></div>
           </div>
-        </section>
-      </div>
-    </header>
-    <article>
+        </div>
 
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+        <div class="article-hero mid-size">
+          <p class="article-category">Post</p>
+          <h1 class="article-title">Caffeine Overload</h1>
+          <h2 class="article-subtitle">Analyzing caffeine in foods</h2>
+        </div>
+      </div>
+
+      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h2>Trouble brewing</h2>
       <h4>Amount of caffeine (mg.) in different foods</h4>
       <figure id="caffeine_bar"
@@ -972,21 +967,21 @@
         challenges us to visualize the amount of caffeine in different foods. Data provided by the <a
           href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4462044/table/T2/?report=objectonly">National Center for
           Biotechnology Information</a>.</p>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h3>Caffeine distribution by class</h3>
       <figure id="caffeine_box"
         aria-label="Box plot compares caffeine content (mg) across five classes: Energy Drink, Medication, Hot Drink, Soft Drink, and Chocolate. Ranges vary, with Energy Drinks showing the highest and most variable caffeine levels.">
       </figure>
       <p>It's clear that energy drinks contain the most amount of caffeine, on average, than any other category.</p>
 
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h3>Caffeine in the "Hot Drink" class</h3>
       <figure id="caffeine_class"
         aria-label="Bar chart comparing caffeine levels in different hot drinks, specifically highlighting the difference between teas and coffees.">
       </figure>
       <p>Looking at the difference in caffeine levels between teas and coffee.</p>
 
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h3>Caffeine amount by class</h3>
       <figure id="caffeine_facet"
         aria-label="Facet plot showing the distribution of caffeine content within each food category (Energy Drink, Medication, Hot Drink, Soft Drink, Chocolate).">
@@ -1034,14 +1029,11 @@
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 
   <script type="text/javascript">
-    // Use Promises to async request data
-    var promises = [d3.csv("data/caffeine.csv", d3.autoType)];
-    var element = d3.select('figure').node();
-    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
-    var size = 12;
-    var scheme = "tableau10";
+    const size = 12;
+    const scheme = "tableau10";
+    let caffeineData = null;
 
-    var boxY = function boxY(data, {
+    const boxY = function boxY(data, {
       x = null,
       y = {
         transform: x => x
@@ -1085,39 +1077,48 @@
         }))
       );
     };
-    var outliers = function outliers(values) {
+
+    const outliers = function outliers(values) {
       const r1 = iqr1(values);
       const r2 = iqr2(values);
       return values.map(v => v < r1 || v > r2 ? v : NaN);
     };
 
-    var iqr1 = V => {
+    const iqr1 = V => {
       const hi = quartile1(V);
       const lo = hi - 1.5 * (quartile3(V) - hi);
       return d3.min(V, v => lo <= v && v <= hi ? v : NaN);
     };
 
-    var iqr2 = V => {
+    const iqr2 = V => {
       const lo = quartile3(V);
       const hi = lo + 1.5 * (lo - quartile1(V));
       return d3.max(V, v => lo <= v && v <= hi ? v : NaN);
     };
-    var quartile1 = V => d3.quantile(V, 0.25);
-    var quartile3 = V => d3.quantile(V, 0.75);
 
-    // You can request multiple srcs in a promise
-    myDataPromises = Promise.all(promises);
+    const quartile1 = V => d3.quantile(V, 0.25);
+    const quartile3 = V => d3.quantile(V, 0.75);
 
-    // After data is successfully fetched, generate viz
-    myDataPromises.then(function (data) {
-      // Define the data
-      var caffeine = data[0];
+    function renderCaffeineCharts() {
+      if (!caffeineData) return;
 
-      var caffeine_bar = {
+      const barContainer = document.getElementById("caffeine_bar");
+      const boxContainer = document.getElementById("caffeine_box");
+      const classContainer = document.getElementById("caffeine_class");
+      const facetContainer = document.getElementById("caffeine_facet");
+
+      [barContainer, boxContainer, classContainer, facetContainer].forEach(container => {
+        if (container) container.querySelectorAll("svg").forEach(svg => svg.remove());
+      });
+
+      const width = barContainer ? (barContainer.getBoundingClientRect().width || 600) : 600;
+
+      const caffeine_bar = {
         width: width,
         style: {
-          fontSize: size,
+          fontSize: size + "px",
           paddingLeft: 60,
+          background: "transparent",
         },
         x: {
           labelOffset: 40,
@@ -1132,7 +1133,7 @@
         y: {
           label: null,
           reverse: true,
-          domain: d3.sort(caffeine, d => -d["Caffeine (mg)"]).map(d => d.Item),
+          domain: d3.sort(caffeineData, d => -d["Caffeine (mg)"]).map(d => d.Item),
           tickSize: 0,
         },
         marks: [
@@ -1142,7 +1143,7 @@
             lineWidth: 10,
             tickSize: 0
           }),
-          Plot.barX(caffeine, {
+          Plot.barX(caffeineData, {
             x: "Caffeine (mg)",
             inset: 1,
             y: "Item",
@@ -1153,23 +1154,24 @@
               lineHeight: 1.65,
             },
           }),
-          Plot.text(caffeine, {
+          Plot.text(caffeineData, {
             x: "Caffeine (mg)",
             y: "Item",
             text: (d) => `${d["Caffeine (mg)"]} mg`,
             textAnchor: "start",
+            fill: "currentColor",
             dx: 5
           }),
         ]
       };
 
-      var caffeine_box = {
+      const caffeine_box = {
         width: width,
         style: {
-          fontSize: size,
+          fontSize: size + "px",
           paddingBottom: 10,
+          background: "transparent",
         },
-        // marginLeft:0,
         y: {
           grid: true,
           inset: 6,
@@ -1182,14 +1184,14 @@
           label: width > 450 ? "Class" : "",
           labelOffset: 50,
           tickRotate: width > 450 ? 0 : -30,
-          domain: d3.sort(caffeine, d => -d["Caffeine (mg)"]).map(d => d.Class),
+          domain: d3.sort(caffeineData, d => -d["Caffeine (mg)"]).map(d => d.Class),
         },
         color: {
           type: "categorical",
           scheme: scheme,
         },
         marks: [
-          boxY(caffeine, {
+          boxY(caffeineData, {
             x: "Class",
             y: "Caffeine (mg)",
             fill: "Class"
@@ -1197,12 +1199,13 @@
         ]
       };
 
-      var caffeine_class = {
+      const caffeine_class = {
         width: width,
         style: {
-          fontSize: size,
+          fontSize: size + "px",
           paddingBottom: 30,
-          paddingLeft: 20
+          paddingLeft: 20,
+          background: "transparent",
         },
         x: {
           tickRotate: -35,
@@ -1219,7 +1222,7 @@
           nice: true,
         },
         marks: [
-          Plot.barY(caffeine.filter(d => (d.Class === "Hot Drink")), {
+          Plot.barY(caffeineData.filter(d => (d.Class === "Hot Drink")), {
             x: "Item",
             y: "Caffeine (mg)",
             fill: "Class",
@@ -1227,23 +1230,20 @@
               opacity: 1,
               textPadding: 10,
               lineHeight: 1.65,
-              format: {
-                // fx: true,
-              },
             },
             sort: {
               x: "-y"
             }
-          },)
+          })
         ]
       };
 
-      var caffeine_facet = {
-        width: width - 20,
+      const caffeine_facet = {
+        width: Math.max(width - 20, 300),
         style: {
-          fontSize: size
+          fontSize: size + "px",
+          background: "transparent",
         },
-        // y: {label: "↑ Highway mpg", ticks: 6, labelOffset: 90},
         color: {
           type: "categorical",
           scheme: scheme,
@@ -1262,12 +1262,12 @@
           tickSize: 4,
         },
         facet: {
-          data: caffeine,
+          data: caffeineData,
           x: "Class",
           label: null,
         },
         marks: [
-          Plot.dot(caffeine, {
+          Plot.dot(caffeineData, {
             x: "Class",
             y: "Caffeine (mg)",
             stroke: "Class",
@@ -1283,25 +1283,33 @@
             },
           }),
           Plot.frame({
-            stroke: "#ccc"
+            stroke: "currentColor",
+            strokeOpacity: 0.3
           }),
         ]
       };
 
-      document.getElementById("caffeine_bar").appendChild(Plot.plot(caffeine_bar));
-      document.getElementById("caffeine_box").appendChild(Plot.plot(caffeine_box));
-      document.getElementById("caffeine_class").appendChild(Plot.plot(caffeine_class));
-      document.getElementById("caffeine_facet").appendChild(Plot.plot(caffeine_facet));
+      if (barContainer) barContainer.appendChild(Plot.plot(caffeine_bar));
+      if (boxContainer) boxContainer.appendChild(Plot.plot(caffeine_box));
+      if (classContainer) classContainer.appendChild(Plot.plot(caffeine_class));
+      if (facetContainer) facetContainer.appendChild(Plot.plot(caffeine_facet));
+    }
+
+    d3.csv("data/caffeine.csv", d3.autoType).then(function (data) {
+      caffeineData = data;
+      renderCaffeineCharts();
     });
 
     function resize() {
-      if (window.innerWidth <= 800) {
-        console.log('set to 4');
-        document.getElementById('blurFilter').setAttribute('stdDeviation', 4);
-      } else {
-        console.log('set to 10');
-        document.getElementById('blurFilter').setAttribute('stdDeviation', 8);
+      const filter = document.getElementById('blurFilter');
+      if (filter) {
+        if (window.innerWidth <= 800) {
+          filter.setAttribute('stdDeviation', 4);
+        } else {
+          filter.setAttribute('stdDeviation', 8);
+        }
       }
+      renderCaffeineCharts();
     }
 
     window.addEventListener("resize", resize);
@@ -1333,6 +1341,9 @@
         document.documentElement.setAttribute("data-theme", newTheme);
         localStorage.setItem("theme", newTheme);
         updateIcons(newTheme);
+        if (typeof renderCaffeineCharts === "function") {
+          renderCaffeineCharts();
+        }
       });
     }
   </script>

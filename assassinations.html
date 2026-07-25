@@ -116,19 +116,23 @@
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-    
+
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
+        aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
+            </path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
@@ -146,13 +150,13 @@
         <h1 class="article-title">Days since a U.S. President was last shot</h1>
         <h2 class="article-subtitle"></h2>
       </div>
-      <span class="header-tag mid-size"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <span class="header-tag mid-size"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h3 class="mid-size">United States presidential assassination attempts</h3>
       <span id="legend" class="float-right"
-        aria-label="An unfilled circle (⭕) represents a sucessful landing with debris. A filled circle (⚫) represents an unsuccessful landing. "></span>
+        aria-label="Circle legend: an unfilled circle represents an injured President, while a filled circle represents a killed President."></span>
       <figure class="mid-size" id="line"
         aria-label="Timeline showing days since a U.S. President was last shot. Key events include Lincoln, Garfield, McKinley, and Kennedy assassinations, and recent attempts on Reagan and Trump.">
-        <figcaption>Data: <a
+        <figcaption class="right">Data: <a
             href="https://en.wikipedia.org/wiki/List_of_United_States_presidential_assassination_attempts_and_plots">Wikipedia</a>
         </figcaption>
       </figure>
@@ -176,7 +180,7 @@
         measures over time. Each of the assassinated presidents belonged to one of the two major political parties of
         their time. Here's a breakdown:</p>
 
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h2 class="">Violence and voters</h2>
       <figure id="imgs"
         aria-label="Portraits of U.S. Presidents involved in assassination attempts, arranged by party and outcome.">
@@ -257,12 +261,8 @@
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 
   <script type="text/javascript">
-    var size = 12;
-    var elementMid = d3.select('figure.mid-size').node();
-    var widthMid = elementMid.getBoundingClientRect().width; // get width of figure.mid-size so graphic is responsive
-    var element = d3.select('figure:not(.mid-size)').node();
-    var width = element.getBoundingClientRect().width;
-    var data = d3.csvParse(`President,Year,Party,Outcome,Won_Election_After,image
+    const size = 12;
+    const presidentsData = d3.csvParse(`President,Year,Party,Outcome,Won_Election_After,image
 Abraham Lincoln,1865,Republican,Assassinated,N/A,https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Abraham_Lincoln_O-77_matte_collodion_print.jpg/330px-Abraham_Lincoln_O-77_matte_collodion_print.jpg
 James A. Garfield,1881,Republican,Assassinated,N/A,https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/James_Abram_Garfield%2C_photo_portrait_seated.jpg/330px-James_Abram_Garfield%2C_photo_portrait_seated.jpg
 William McKinley,1901,Republican,Assassinated,N/A,https://hips.hearstapps.com/hmg-prod/images/william-mckinley.jpg
@@ -277,13 +277,14 @@ Bill Clinton,1994,Democratic,Survived,Yes,https://upload.wikimedia.org/wikipedia
 George W. Bush,2005,Republican,Survived,No (Term limited),https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/George-W-Bush.jpeg/330px-George-W-Bush.jpeg
 Barack Obama,2011,Democratic,Survived,Yes,https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/President_Barack_Obama.jpg/330px-President_Barack_Obama.jpg
 Donald J. Trump,2024,Republican,Survived,Yes,https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Official_Presidential_Portrait_of_President_Donald_J._Trump_%282025%29.jpg/330px-Official_Presidential_Portrait_of_President_Donald_J._Trump_%282025%29.jpg`, d3.autoType);
-    var xy = ({
+
+    const xy = ({
       x1: -100,
       y1: 200,
       x2: 200,
       y2: -300
     });
-    var shootings = [
+    const shootings = [
       ["Abraham Lincoln", new Date(1865, 3, 14), true, true],
       ["James A. Garfield", new Date(1881, 6, 2), true, true],
       ["William McKinley", new Date(1901, 8, 6), true, true],
@@ -300,195 +301,217 @@ Donald J. Trump,2024,Republican,Survived,Yes,https://upload.wikimedia.org/wikipe
       }))
       .sort((a, b) => d3.ascending(a.date, b.date));
 
-
-    // Define the data
-    var origin = new Date(1789, 3, 30);
-    var daysSinceOrigin = d3.timeDay.count(origin, shootings[0].date); // April 30, 1789: George Washington became 1st President
-    var originalSin = [shootings[0].date, daysSinceOrigin];
-    var // TODO clean this up…
-      daysSince = [
-        originalSin,
-        [shootings[0].date, 0],
-        ...d3.pairs(shootings.map((d) => d.date)).flatMap(([a, b]) => [
-          [b, d3.timeDay.count(a, b)],
-          [b, 0]
-        ]),
-        (date => [date, d3.timeDay.count(shootings.at(-1).date, date)])(new Date())
-      ];
-    var shootingsAnnotated = shootings.map((d) => ({
+    const origin = new Date(1789, 3, 30);
+    const daysSinceOrigin = d3.timeDay.count(origin, shootings[0].date);
+    const originalSin = [shootings[0].date, daysSinceOrigin];
+    const daysSince = [
+      originalSin,
+      [shootings[0].date, 0],
+      ...d3.pairs(shootings.map((d) => d.date)).flatMap(([a, b]) => [
+        [b, d3.timeDay.count(a, b)],
+        [b, 0]
+      ]),
+      (date => [date, d3.timeDay.count(shootings.at(-1).date, date)])(new Date())
+    ];
+    const shootingsAnnotated = shootings.map((d) => ({
       ...d,
       daysSince: daysSince.find((e) => +e[0] === +d.date)[1]
     }));
 
-    var line = {
-      width: widthMid,
-      marginRight: 0,
-      style: {
-        fontSize: size,
-        paddingBottom: 0,
-        paddingRight: 10,
-      },
-      y: {
-        tickSize: 4,
-        tickFormat: d => d.toLocaleString("en"),
-        nice: true,
-        label: "Days",
-        labelOffset: 0,
-        ticks: 5,
-      },
-      x: {
-        tickSize: 0,
-        nice: true,
-      },
-      color: {
-        legend: true,
-      },
-      marks: [
-        Plot.ruleY([0]),
-        Plot.lineY([
-          [origin, 0], originalSin
-        ], {
-          x: "0",
-          y: "1",
-          strokeDasharray: "2,4"
-        }),
-        Plot.lineY(daysSince, {
-          x: "0",
-          y: "1"
-        }),
-        Plot.dot(shootingsAnnotated, {
-          x: "date",
-          y: "daysSince",
-          fill: (d) => (d.killed ? "black" : "white"),
-          stroke: "black"
-        }),
-        Plot.text(shootingsAnnotated, occlusionY({
-          filter: width > 450 ? null : d => d.name !== "James A. Garfield", // Hide "James A. Garfield" on smaller screens
-          x: "date",
-          y: "daysSince",
-          text: (d) => `${d.name}${d.killed ? "\nkilled" : "\ninjured"}${d.inOffice ? " in office" : ""}`,
-          fill: "black",
-          stroke: "white",
-          dy: -16,
-        })),
-        Plot.text(
-          [{
-            date: origin,
-            daysSince: 0,
-            text: "The first\ninauguration"
-          }], {
-          x: "date",
-          y: "daysSince",
-          text: "text",
-          dy: -14,
-          dx: 10,
-          fill: "black",
-          stroke: "white"
-        }
-        )
-      ]
-    };
+    function isDarkMode() {
+      return document.documentElement.getAttribute("data-theme") === "dark" ||
+        (!document.documentElement.hasAttribute("data-theme") && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    }
 
-    // Inspired by Deepali: https://observablehq.com/d/04d1e523beb2062e
-    var imgs = {
-      width: width,
-      height: 420,
-      style: {
-        fontSize: size,
-        paddingBottom: "1em",
-        paddingLeft: "3rem",
-        marginLeft: 0,
-        textTransform: "capitalize",
-      },
-      y: {
-        type: "point",
-        domain: data.map((d) => d.President),
-        label: null,
-        tickSize: 0,
-        paddingOuter: 5
-      },
-      x: {
-        type: "linear",
-        domain: d3.extent(data, (d) => d.Year),
-        label: "Year",
-        labelOffset: 45,
-        labelAnchor: "center",
-        className: "x-axis",
-        tickFormat: d3.format("d"),
-        tickSize: 4,
-        paddingOuter: 1,
-        inset: 12,
-      },
-      color: {
-        legend: true,
-        type: "categorical",
-        domain: ["Republican", "Democratic", "Progressive"],
-        range: ["#c1121f", "#003566", "#ffb703"]
-      },
-      marks: [
-        Plot.ruleY(data, {
-          y: "President",
-          x1: d3.min(data, (d) => d.Year),
-          x2: "Year",
-          stroke: "#ced4da"
-        }), // Set the line color to gray
-        Plot.dot(data, {
-          x: "Year",
-          y: "President",
-          fill: "Party",
-          strokeWidth: 2,
-          r: 15
-        }),
-        Plot.image(data, {
-          x: "Year",
-          y: "President",
-          src: "image", // Assuming 'image' is the column name in your dataset
-          preserveAspectRatio: "xMidYMin slice", // try not to clip heads
-          r: 13,
-          tip: true,
-          title: (d) => `${d.President}\nYear: ${d.Year}\nParty: ${d.Party}\nOutcome: ${d.Outcome}`
-        }),
-        Plot.text(
-          data.filter((d) => d.Outcome === "Assassinated"), {
-          x: "Year",
-          y: "President",
-          text: () => "Assassinated",
-          dx: 20,
-          textAnchor: "start",
-          dy: -5, // Adjust this value to position the text above the dot
-          fill: "red",
-        }
-        ),
-        Plot.link({
-          length: 1
-        }, {
-          markerStart: "dot",
-          markerEnd: "arrow",
-          strokeWidth: 1.5,
-          ...xy
-        })
-      ]
-    };
+    function renderAssassinationCharts() {
+      const lineContainer = document.getElementById("line");
+      const imgsContainer = document.getElementById("imgs");
 
-    document.getElementById("line").appendChild(Plot.plot(line));
-    document.getElementById("imgs").appendChild(Plot.plot(imgs));
-    // Circle legend from https://observablehq.com/@chris-creditdesign/nature-lunar-crash-landings-graphic
-    const svg_width = 16;
-    const legend = document.querySelector('#legend');
+      if (lineContainer) lineContainer.querySelectorAll("svg").forEach(svg => svg.remove());
+      if (imgsContainer) imgsContainer.querySelectorAll("svg").forEach(svg => svg.remove());
 
-    const empty_circle = `
-        <svg viewport="0 0 ${svg_width} ${svg_width}"  width="${svg_width}" height="${svg_width}">
-          <circle r="${(svg_width - 6) / 2}" cx="${svg_width / 2}" cy="${svg_width / 2
-      }" stroke="#000" stroke-width="3" fill="#fff"/>
-        </svg>`;
+      const widthMid = lineContainer ? (lineContainer.getBoundingClientRect().width || 600) : 600;
+      const width = imgsContainer ? (imgsContainer.getBoundingClientRect().width || 600) : 600;
 
-    const filled_circle = `
-        <svg viewport="0 0 ${svg_width} ${svg_width}"  width="${svg_width}" height="${svg_width}">
-          <circle r="${(svg_width - 6) / 2}" cx="${svg_width / 2}" cy="${svg_width / 2
-      }" stroke="#000" stroke-width="3" fill="#000"/>
-        </svg>`;
+      const isDark = isDarkMode();
+      const textColor = isDark ? "#e0e0e0" : "black";
+      const strokeHalo = isDark ? "#111" : "white";
 
-    legend.innerHTML = `<div style="font-family: sans-serif; font-size: 12px; display: flex; align-items: center; gap: 0.5em; justify-content: end">${empty_circle}<p>Injured</p>${filled_circle} <p>Killed</p></div>`;
+      const lineConfig = {
+        width: widthMid,
+        marginRight: 0,
+        style: {
+          fontSize: size + "px",
+          paddingBottom: 0,
+          paddingRight: 10,
+          background: "transparent"
+        },
+        y: {
+          tickSize: 4,
+          tickFormat: d => d.toLocaleString("en"),
+          nice: true,
+          label: "Days",
+          labelOffset: 0,
+          ticks: 5,
+        },
+        x: {
+          tickSize: 0,
+          nice: true,
+        },
+        color: {
+          legend: true,
+        },
+        marks: [
+          Plot.ruleY([0]),
+          Plot.lineY([
+            [origin, 0], originalSin
+          ], {
+            x: "0",
+            y: "1",
+            strokeDasharray: "2,4"
+          }),
+          Plot.lineY(daysSince, {
+            x: "0",
+            y: "1"
+          }),
+          Plot.dot(shootingsAnnotated, {
+            x: "date",
+            y: "daysSince",
+            fill: (d) => (d.killed ? textColor : "var(--bg-color, white)"),
+            stroke: textColor
+          }),
+          Plot.text(shootingsAnnotated, occlusionY({
+            filter: widthMid > 450 ? null : d => d.name !== "James A. Garfield",
+            x: "date",
+            y: "daysSince",
+            text: (d) => `${d.name}${d.killed ? "\nkilled" : "\ninjured"}${d.inOffice ? " in office" : ""}`,
+            fill: textColor,
+            stroke: strokeHalo,
+            dy: -16,
+          })),
+          Plot.text(
+            [{
+              date: origin,
+              daysSince: 0,
+              text: "The first\ninauguration"
+            }], {
+            x: "date",
+            y: "daysSince",
+            text: "text",
+            dy: -14,
+            dx: 10,
+            fill: textColor,
+            stroke: strokeHalo
+          }
+          )
+        ]
+      };
+
+      const imgsConfig = {
+        width: width,
+        height: 420,
+        style: {
+          fontSize: size + "px",
+          paddingBottom: "1em",
+          paddingLeft: "3rem",
+          marginLeft: 0,
+          textTransform: "capitalize",
+          background: "transparent"
+        },
+        y: {
+          type: "point",
+          domain: presidentsData.map((d) => d.President),
+          label: null,
+          tickSize: 0,
+          paddingOuter: 5
+        },
+        x: {
+          type: "linear",
+          domain: d3.extent(presidentsData, (d) => d.Year),
+          label: "Year",
+          labelOffset: 45,
+          labelAnchor: "center",
+          className: "x-axis",
+          tickFormat: d3.format("d"),
+          tickSize: 4,
+          paddingOuter: 1,
+          inset: 12,
+        },
+        color: {
+          legend: true,
+          type: "categorical",
+          domain: ["Republican", "Democratic", "Progressive"],
+          range: ["#c1121f", "#003566", "#ffb703"]
+        },
+        marks: [
+          Plot.ruleY(presidentsData, {
+            y: "President",
+            x1: d3.min(presidentsData, (d) => d.Year),
+            x2: "Year",
+            stroke: isDark ? "#444" : "#ced4da"
+          }),
+          Plot.dot(presidentsData, {
+            x: "Year",
+            y: "President",
+            fill: "Party",
+            strokeWidth: 2,
+            r: 15
+          }),
+          Plot.image(presidentsData, {
+            x: "Year",
+            y: "President",
+            src: "image",
+            preserveAspectRatio: "xMidYMin slice",
+            r: 13,
+            tip: true,
+            title: (d) => `${d.President}\nYear: ${d.Year}\nParty: ${d.Party}\nOutcome: ${d.Outcome}`
+          }),
+          Plot.text(
+            presidentsData.filter((d) => d.Outcome === "Assassinated"), {
+            x: "Year",
+            y: "President",
+            text: () => "Assassinated",
+            dx: 20,
+            textAnchor: "start",
+            dy: -5,
+            fill: "red",
+          }
+          ),
+          Plot.link({
+            length: 1
+          }, {
+            markerStart: "dot",
+            markerEnd: "arrow",
+            strokeWidth: 1.5,
+            ...xy
+          })
+        ]
+      };
+
+      if (lineContainer) lineContainer.appendChild(Plot.plot(lineConfig));
+      if (imgsContainer) imgsContainer.appendChild(Plot.plot(imgsConfig));
+
+      // Legend update
+      const svg_width = 16;
+      const legend = document.querySelector('#legend');
+      if (legend) {
+        const strokeColor = isDark ? "#e0e0e0" : "#000";
+        const empty_circle = `
+          <svg viewport="0 0 ${svg_width} ${svg_width}" width="${svg_width}" height="${svg_width}">
+            <circle r="${(svg_width - 6) / 2}" cx="${svg_width / 2}" cy="${svg_width / 2}" stroke="${strokeColor}" stroke-width="3" fill="var(--bg-color, #fff)"/>
+          </svg>`;
+
+        const filled_circle = `
+          <svg viewport="0 0 ${svg_width} ${svg_width}" width="${svg_width}" height="${svg_width}">
+            <circle r="${(svg_width - 6) / 2}" cx="${svg_width / 2}" cy="${svg_width / 2}" stroke="${strokeColor}" stroke-width="3" fill="${strokeColor}"/>
+          </svg>`;
+
+        legend.innerHTML = `<div style="font-family: sans-serif; font-size: 12px; display: flex; align-items: center; gap: 0.5em; justify-content: end">${empty_circle}<p>Injured</p>${filled_circle} <p>Killed</p></div>`;
+      }
+    }
+
+    renderAssassinationCharts();
+    window.addEventListener("resize", renderAssassinationCharts);
   </script>
   <script>
     // Theme toggle functionality
@@ -516,6 +539,9 @@ Donald J. Trump,2024,Republican,Survived,Yes,https://upload.wikimedia.org/wikipe
         document.documentElement.setAttribute("data-theme", newTheme);
         localStorage.setItem("theme", newTheme);
         updateIcons(newTheme);
+        if (typeof renderAssassinationCharts === "function") {
+          renderAssassinationCharts();
+        }
       });
     }
   </script>

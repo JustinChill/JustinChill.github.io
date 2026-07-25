@@ -311,6 +311,15 @@
         justify-content: center;
       }
     }
+    /* Dark Mode Overrides for Infographic Legibility */
+    [data-theme="dark"] .infant-mortality-stat .stat-title,
+    [data-theme="dark"] .infant-mortality-stat .stat-label,
+    [data-theme="dark"] .infant-mortality-stat .stat-value,
+    [data-theme="dark"] .drug-prices,
+    [data-theme="dark"] .drug-prices h3.graphic-title,
+    [data-theme="dark"] .drug-group strong {
+      color: var(--text-color, #e0e0e0);
+    }
   </style>
 
   <script type="application/ld+json">
@@ -385,7 +394,7 @@
         <h2 class="article-subtitle"></h2>
       </div>
 
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h2>Under the microscope</h2>
       <h4>Life expectancy vs. health expenditure, 1970 to 2022</h4>
       <figure id="spending"
@@ -402,7 +411,7 @@
       <p>The result is a system of paradoxes: it produces
         the world’s most advanced medical technology yet leaves millions vulnerable to financial ruin. While private
         enterprise drives innovation, the absence of a unified safety net creates profound disparities in care.</p>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h3>Health spending has maintained a steep climb</h3>
       <figure id="growth-chart" aria-label="Health spending has maintained a steep climb"></figure>
 
@@ -410,7 +419,7 @@
         public sector is anchored by two leviathans: Medicare and Medicaid. Medicare, a federal program funded by
         payroll taxes, provides coverage for those aged 65 and older, as well as younger people with specific
         disabilities. It acts as a universal entitlements program for the elderly.</p>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h2>Cost control</h2>
       <figure id="noinsurance"
         aria-label="A line chart showing the percent of population without healthcare in Texas, Florida, California, and New York.">
@@ -499,7 +508,7 @@
             raises uneasy questions about the trade-off between financial sustainability and equitable access.</p>
         </div>
       </div>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h3>23% of Americans have opted out of an ambulance ride due to the potential cost</h3>
       <figure id="ambulance-chart"
         aria-label="Stacked bar chart showing ambulance opt-out rates by demographic. 23% of US adults said Yes.">
@@ -518,7 +527,7 @@
         the entire industry. State regulators add another layer of oversight, licensing providers and enforcing local
         codes. It is a federalist approach to regulation, requiring intricate coordination to maintain standards across
         fifty states.</p>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <figure id="slope-chart" aria-label="Annual health care spending vs Life expectancy"></figure>
 
       <!-- <h3 id="part-3-challenges-trends-and-the-future">Part 3: Challenges, Trends, and the Future</h3> -->
@@ -541,7 +550,7 @@
       <p>Simultaneously, there is a slow but steady pivot toward &quot;value-based care.&quot; This model seeks to
         reward providers for patient outcomes rather than the volume of services rendered. It is an attempt to align
         incentives, encouraging preventative medicine over expensive interventions.</p>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h2>The aging U.S. population will require more care</h2>
       <figure id="aging-chart" aria-label="The aging U.S. population will require more care"></figure>
 
@@ -556,9 +565,9 @@
             Jones</a></figcaption>
         <img class="full-bleed"
           src="https://iibawards-prod.s3.amazonaws.com/projects/images/000/000/349/large.jpg?1403856485"
-          alt="Why is healthcare so expensive infographic by Heather Jones." />
+          alt="Why is healthcare so expensive infographic by Heather Jones." loading="lazy" />
       </figure>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h2>Live free and die</h2>
       <h3>Life expectancy in the US by income</h3>
       <figure id="income"
@@ -622,11 +631,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 
   <script type="text/javascript">
-    var size = width > 450 ? 16 : 12;
-    var element = d3.select('figure:not(.mid-size)').node();
-    var width = element.getBoundingClientRect().width;
-
-    var stateInsurance = d3.csvParse(`entity__dcid,entity__name,entity__isoCode,variable__dcid,variable__value,variable__date,variable__unit,variable__unitDisplayName,variable__name,perCapita__value,perCapita__date,perCapita__populationVariable,perCapita__populationValue
+    const stateInsurance = d3.csvParse(`entity__dcid,entity__name,entity__isoCode,variable__dcid,variable__value,variable__date,variable__unit,variable__unitDisplayName,variable__name,perCapita__value,perCapita__date,perCapita__populationVariable,perCapita__populationValue
     geoId/06,California,US-CA,Count_Person_NoHealthInsurance,4041396,2017,,,Population Without Health Insurance,0.10371810554101452,2017,Count_Person,38965193
     geoId/06,California,US-CA,Count_Person_NoHealthInsurance,3280167,2018,,,Population Without Health Insurance,0.0841819774894994,2018,Count_Person,38965193
     geoId/06,California,US-CA,Count_Person_NoHealthInsurance,2915070,2019,,,Population Without Health Insurance,0.0748121535032561,2019,Count_Person,38965193
@@ -651,7 +656,7 @@
     geoId/48,Texas,US-TX,Count_Person_NoHealthInsurance,4877069,2020,,,Population Without Health Insurance,0.15988659719156298,2020,Count_Person,30503301
     geoId/48,Texas,US-TX,Count_Person_NoHealthInsurance,4995381,2021,,,Population Without Health Insurance,0.16376525937307573,2021,Count_Person,30503301
     geoId/48,Texas,US-TX,Count_Person_NoHealthInsurance,5056008,2022,,,Population Without Health Insurance,0.16575281475273773,2022,Count_Person,30503301`, d3.autoType);
-    var oecd = [{
+    const oecd = [{
       "cty": "AUS",
       "life expectancy": 82.7,
       "country": "Australia"
@@ -741,306 +746,18 @@
       "country": "Israel"
     }];
 
-    // Use Promises to async request data
-    var promises = [d3.csv("data/life-expectancy-vs-health-expenditure@1.csv", d3.autoType), d3.csv("data/american-sickness-states.csv", d3.autoType)];
-    myDataPromises = Promise.all(promises);
-
-    // After data is successfully fetched, generate viz
-    myDataPromises.then(function (data) {
-      var rawdata = data[0];
-      var states = data[1];
-      var lifeVsMoney = rawdata.filter(d => d.Year >= 1970 && d.LifeExpectancy >= 70 && d.HealthExpenditure > 0);
-      var annotatedCountries = ["United States", "Japan", "Spain", "Israel", "Portugal", "Switzerland", "Germany", "Denmark", "United Kingdom", "Norway", "New Zealand", "South Korea", "Australia", "Ireland", "Belgium", "Finland", "Netherlands", "Canada", "Austria", "Chile"];
+    Promise.all([
+      d3.csv("data/life-expectancy-vs-health-expenditure@1.csv", d3.autoType),
+      d3.csv("data/american-sickness-states.csv", d3.autoType)
+    ]).then(function (data) {
+      const rawdata = data[0];
+      const states = data[1];
+      const lifeVsMoney = rawdata.filter(d => d.Year >= 1970 && d.LifeExpectancy >= 70 && d.HealthExpenditure > 0);
+      const annotatedCountries = ["United States", "Japan", "Spain", "Israel", "Portugal", "Switzerland", "Germany", "Denmark", "United Kingdom", "Norway", "New Zealand", "South Korea", "Australia", "Ireland", "Belgium", "Finland", "Netherlands", "Canada", "Austria", "Chile"];
 
       function color(country) {
-        return country === 'United States' ? 1 : 0
+        return country === 'United States' ? 1 : 0;
       }
-      // Inspired by https://observablehq.com/d/8e1bd1f9a5b1ee81
-      var spending = {
-        width: width,
-        height: width * 1.2,
-        aspectRatio: 1,
-        style: {
-          fontSize: size,
-        },
-        marginBottom: 50,
-        color: {
-          legend: false,
-          range: ["rgba(226, 226, 226, .85)", "rgb(229, 110, 90)"]
-        },
-        grid: true,
-        x: {
-          nice: true,
-          tickFormat: "$f",
-          tickFormat: d => d % 1000 === 0 ? d3.format("$")(d) : "", // Show numbers divisible by 1000
-          label: "Health Expenditure per capita",
-          lineWidth: 8,
-          labelAnchor: "center",
-          tickSize: 0,
-          ticks: 4,
-          // labelOffset: width > 450 ? 55 : 44,
-        },
-        y: {
-          // nice: true,
-          ticks: 6,
-          label: "Life Expectancy",
-          lineWidth: 8,
-          labelAnchor: "center",
-          labelOffset: width > 450 ? 50 : 44,
-          tickFormat: d => Number.isInteger(d) ? d : "", // Show only whole numbers
-          tickSize: 0,
-          lineWidth: 8,
-          domain: [70, 85]
-        },
-        marks: [
-          Plot.line(lifeVsMoney, {
-            x: "HealthExpenditure",
-            y: "LifeExpectancy",
-            stroke: d => color(d.Entity),
-            z: "Entity",
-            title: "Entity",
-            tip: true,
-            markerEnd: "arrow"
-          }),
-          Plot.text(lifeVsMoney, occlusionY(Plot.selectLast({
-            filter: d => annotatedCountries.includes(d.Entity),
-            x: "HealthExpenditure",
-            y: "LifeExpectancy",
-            z: "Entity",
-            text: "Entity",
-            fill: "black",
-            dy: -2,
-            dx: 10,
-            fontSize: width > 500 ? size - 2 : size,
-            textAnchor: "start"
-          }))),
-        ],
-      };
-
-      // Inspired by https://observablehq.com/d/583a958bacfc3f71
-      var noinsurance = {
-        width: width,
-        style: {
-          fontSize: size,
-        },
-        y: {
-          grid: true,
-          label: null,
-          tickFormat: ".0%",
-          nice: true,
-          ticks: 4,
-        },
-        x: {
-          label: null,
-          type: "point",
-          tickFormat: "Y",
-        },
-        marks: [
-          Plot.ruleY([0]),
-          Plot.line(stateInsurance, {
-            x: "variable__date",
-            y: "perCapita__value",
-            stroke: "entity__name"
-          }),
-          Plot.text(stateInsurance, Plot.selectLast({
-            x: "variable__date",
-            y: "perCapita__value",
-            z: "entity__name",
-            text: "entity__name",
-            textAnchor: "start",
-            dx: 3
-          }))
-        ]
-      };
-
-      // Inspired by https://observablehq.com/@ciyer/life-expectancy-in-the-us
-      var cohort_mean = d3.mean(oecd.filter((d) => d.country !== "USA"), (d) => d["life expectancy"]);
-
-      var income = {
-        width: width,
-        height: 250,
-        marginRight: 0,
-        style: {
-          fontSize: size,
-          paddingTop: ".75rem",
-          paddingBottom: ".75rem",
-        },
-        // marginLeft: 0, 
-        grid: true,
-        color: {
-          domain: ["Above average", "Below average"],
-          range: ["steelblue", "gray"],
-          legend: true
-        },
-        fx: {
-          label: "Ethnicity",
-          labelOffset: 40
-        },
-        y: {
-          nice: true,
-          labelAnchor: "center",
-          labelOffset: 45,
-          frameAnchor: "left",
-          label: "Life expectancy (yrs.)",
-        },
-        x: {
-          nice: false,
-          labelOffset: 45,
-          frameAnchor: "right",
-          label: "Income ($)",
-          ticks: 2,
-        },
-        facet: {
-          data: states,
-          x: "group",
-        },
-        marks: [
-          Plot.frame(),
-          Plot.dot(states, {
-            x: "income (k$)",
-            y: "life expectancy",
-            fill: d => d["life expectancy"] >= cohort_mean ? "Above average" : "Below average",
-            fillOpacity: 0.5,
-            sort: {
-              fx: "y",
-              reduce: "mean"
-            },
-            title: (d) =>
-              `${d.State}\nPopulation: ${d.population.toLocaleString()} people\nLife Expectancy: ${d["life expectancy"].toFixed(1)} years\nIncome: $${d['income (k$)']}k`
-          }),
-          Plot.linearRegressionY(states, {
-            x: "income (k$)",
-            y: "life expectancy",
-            stroke: "red",
-            ci: 0.95
-          })
-        ]
-      };
-
-      document.getElementById("spending").appendChild(Plot.plot(spending));
-      document.getElementById("noinsurance").appendChild(Plot.plot(noinsurance));
-
-      // Ambulance Chart Data
-      const dataCitizens = [
-        { category: "U.S. adult citizens", response: "Yes", value: 23 },
-        { category: "U.S. adult citizens", response: "Not sure", value: 5 },
-        { category: "U.S. adult citizens", response: "No", value: 72 },
-      ];
-
-      const dataAge = [
-        { category: "Under 30", response: "Yes", value: 24 },
-        { category: "Under 30", response: "Not sure", value: 5 },
-        { category: "Under 30", response: "No", value: 71 },
-        { category: "30-44", response: "Yes", value: 21 },
-        { category: "30-44", response: "Not sure", value: 9 },
-        { category: "30-44", response: "No", value: 70 },
-        { category: "45-64", response: "Yes", value: 28 },
-        { category: "45-64", response: "Not sure", value: 3 },
-        { category: "45-64", response: "No", value: 69 },
-        { category: "65+", response: "Yes", value: 16 },
-        { category: "65+", response: "Not sure", value: 4 },
-        { category: "65+", response: "No", value: 80 },
-      ];
-
-      const dataGender = [
-        { category: "Men", response: "Yes", value: 24 },
-        { category: "Men", response: "Not sure", value: 4 },
-        { category: "Men", response: "No", value: 72 },
-        { category: "Women", response: "Yes", value: 22 },
-        { category: "Women", response: "Not sure", value: 6 },
-        { category: "Women", response: "No", value: 72 },
-      ];
-
-      const dataRace = [
-        { category: "White", response: "Yes", value: 22 },
-        { category: "White", response: "Not sure", value: 4 },
-        { category: "White", response: "No", value: 74 },
-        { category: "Black", response: "Yes", value: 19 },
-        { category: "Black", response: "Not sure", value: 7 },
-        { category: "Black", response: "No", value: 74 },
-        { category: "Hispanic", response: "Yes", value: 29 },
-        { category: "Hispanic", response: "Not sure", value: 2 },
-        { category: "Hispanic", response: "No", value: 69 },
-      ];
-
-      function createAmbulanceChart(data, title, yDomain, showLegend = false) {
-        return Plot.plot({
-          width: width,
-          height: 10 + (yDomain.length * 40),
-          marginTop: 0,
-          marginRight: 0,
-          title: title,
-          style: {
-            fontSize: "12px",
-            fontFamily: "var(--font-main)"
-          },
-          x: { axis: null },
-          y: {
-            domain: yDomain,
-            label: null,
-            tickSize: 0
-          },
-          color: {
-            domain: ["Yes", "Not sure", "No"],
-            range: ["#ff3d00", "#cfd8dc", "#9847ff"],
-            legend: showLegend ? "swatches" : null
-          },
-          marks: [
-            Plot.barX(data, {
-              y: "category",
-              x: "value",
-              fill: "response",
-              sort: { y: null },
-            }),
-            Plot.text(data, Plot.stackX({
-              y: "category",
-              x: "value",
-              text: "value",
-              z: "response",
-              fill: "white",
-              textAnchor: "middle",
-              // inset: 0.5,
-              fontSize: 14,
-              fontWeight: "bold"
-            })),
-          ]
-        });
-      }
-
-      const container = document.getElementById("ambulance-chart");
-
-      // Append chart for Citizens (with legend)
-      container.appendChild(createAmbulanceChart(dataCitizens, "U.S. adult citizens", ["U.S. adult citizens"], true));
-
-      // Append chart for Age
-      container.appendChild(createAmbulanceChart(dataAge, "Age", ["Under 30", "30-44", "45-64", "65+"]));
-
-      // Append chart for Gender
-      container.appendChild(createAmbulanceChart(dataGender, "Gender", ["Men", "Women"]));
-
-      // Append chart for Race
-      container.appendChild(createAmbulanceChart(dataRace, "Race", ["White", "Black", "Hispanic"]));
-
-
-      // --- Chart 1: Slope Chart (Spending vs Life Expectancy) ---
-      const slopeData = [
-        { country: "Norway", spending: 5388, life: 81.2, textDy: -10, labelRotation: 1, labelPos: 0.1 },
-        { country: "Netherlands", spending: 5050, life: 80.8, textDy: -15, labelRotation: 1, labelPos: 0.1 },
-        { country: "Switzerland", spending: 5270, life: 82.3, textDy: 8, labelRotation: 2, labelPos: 0.1 },
-        { country: "Denmark", spending: 4464, life: 79.3, textDy: -10, labelRotation: 1, labelPos: 0.1 },
-        { country: "Austria", spending: 4395, life: 80.7, textDy: 8, labelRotation: 2, labelPos: 0.1 },
-        { country: "Canada", spending: 4445, life: 81.0, textDy: 4, labelRotation: 2, labelPos: 0.1 },
-        { country: "Germany", spending: 4338, life: 80.5, textDy: -1, labelRotation: 2, labelPos: 0.1 },
-        { country: "France", spending: 3974, life: 81.3, textDy: 14, labelRotation: 3, labelPos: 0.1 },
-        { country: "Ireland", spending: 3718, life: 80.7, textDy: 16, labelRotation: 4, labelPos: 0.1 },
-        { country: "Belgium", spending: 3969, life: 80.3, textDy: 4, labelRotation: 3, labelPos: 0.1 },
-        { country: "Spain", spending: 3076, life: 82.2, textDy: 24, labelRotation: 5, labelPos: 0.1 },
-        { country: "U.S.", spending: 8233, life: 78.7, textDy: -20, labelRotation: -7, labelPos: 0.4 },
-        { country: "Australia", spending: 3800, life: 81.8, textDy: -10, labelRotation: 3, labelPos: 0.1 },
-        { country: "Sweden", spending: 3758, life: 81.5, textDy: 0, labelRotation: 3, labelPos: 0.1 },
-        { country: "U.K.", spending: 3433, life: 80.6, textDy: -8, labelRotation: 4, labelPos: 0.1 },
-        { country: "Japan", spending: 3035, life: 83.0, textDy: 25, labelRotation: 6, labelPos: 0.1 }
-      ];
 
       function isDarkMode() {
         return document.documentElement.getAttribute("data-theme") === "dark" ||
@@ -1048,10 +765,15 @@
       }
 
       function renderCharts() {
-        ["slope-chart", "growth-chart", "aging-chart", "income"].forEach(id => {
+        const figureIds = ["spending", "noinsurance", "ambulance-chart", "slope-chart", "growth-chart", "aging-chart", "income"];
+        figureIds.forEach(id => {
           const el = document.getElementById(id);
           if (el) el.innerHTML = '';
         });
+
+        const spendingEl = document.getElementById('spending');
+        const width = spendingEl ? spendingEl.getBoundingClientRect().width : 600;
+        const size = width > 450 ? 16 : 12;
 
         const isDark = isDarkMode();
         const textColor = isDark ? "#e8e8e8" : "rgba(0, 0, 0, 0.84)";
@@ -1059,7 +781,281 @@
         const haloColor = isDark ? "#111111" : "white";
         const lineDefaultColor = isDark ? "#555555" : "#ccc";
 
-        // Spending Scales
+        // Main spending chart
+        const spendingPlot = Plot.plot({
+          width: width,
+          height: width * 1.2,
+          aspectRatio: 1,
+          style: {
+            fontSize: size + "px",
+            background: "transparent"
+          },
+          marginBottom: 50,
+          color: {
+            legend: false,
+            range: ["rgba(226, 226, 226, .85)", "rgb(229, 110, 90)"]
+          },
+          grid: true,
+          x: {
+            nice: true,
+            tickFormat: d => d % 1000 === 0 ? d3.format("$")(d) : "",
+            label: "Health Expenditure per capita",
+            lineWidth: 8,
+            labelAnchor: "center",
+            tickSize: 0,
+            ticks: 4,
+          },
+          y: {
+            ticks: 6,
+            label: "Life Expectancy",
+            lineWidth: 8,
+            labelAnchor: "center",
+            labelOffset: width > 450 ? 50 : 44,
+            tickFormat: d => Number.isInteger(d) ? d : "",
+            tickSize: 0,
+            domain: [70, 85]
+          },
+          marks: [
+            Plot.line(lifeVsMoney, {
+              x: "HealthExpenditure",
+              y: "LifeExpectancy",
+              stroke: d => color(d.Entity),
+              z: "Entity",
+              title: "Entity",
+              tip: true,
+              markerEnd: "arrow"
+            }),
+            Plot.text(lifeVsMoney, occlusionY(Plot.selectLast({
+              filter: d => annotatedCountries.includes(d.Entity),
+              x: "HealthExpenditure",
+              y: "LifeExpectancy",
+              z: "Entity",
+              text: "Entity",
+              fill: "currentColor",
+              dy: -2,
+              dx: 10,
+              fontSize: width > 500 ? size - 2 : size,
+              textAnchor: "start"
+            }))),
+          ],
+        });
+
+        // Uninsured chart
+        const noinsurancePlot = Plot.plot({
+          width: width,
+          style: {
+            fontSize: size + "px",
+            background: "transparent"
+          },
+          y: {
+            grid: true,
+            label: null,
+            tickFormat: ".0%",
+            nice: true,
+            ticks: 4,
+          },
+          x: {
+            label: null,
+            type: "point",
+            tickFormat: "Y",
+          },
+          marks: [
+            Plot.ruleY([0]),
+            Plot.line(stateInsurance, {
+              x: "variable__date",
+              y: "perCapita__value",
+              stroke: "entity__name"
+            }),
+            Plot.text(stateInsurance, Plot.selectLast({
+              x: "variable__date",
+              y: "perCapita__value",
+              z: "entity__name",
+              text: "entity__name",
+              textAnchor: "start",
+              fill: "currentColor",
+              dx: 3
+            }))
+          ]
+        });
+
+        // Income chart
+        const cohort_mean = d3.mean(oecd.filter((d) => d.country !== "USA"), (d) => d["life expectancy"]);
+        const incomePlot = Plot.plot({
+          width: width,
+          height: 250,
+          marginRight: 0,
+          style: {
+            fontSize: size + "px",
+            paddingTop: ".75rem",
+            paddingBottom: ".75rem",
+            background: "transparent"
+          },
+          grid: true,
+          color: {
+            domain: ["Above average", "Below average"],
+            range: ["steelblue", "gray"],
+            legend: true
+          },
+          fx: {
+            label: "Ethnicity",
+            labelOffset: 40
+          },
+          y: {
+            nice: true,
+            labelAnchor: "center",
+            labelOffset: 45,
+            frameAnchor: "left",
+            label: "Life expectancy (yrs.)",
+          },
+          x: {
+            nice: false,
+            labelOffset: 45,
+            frameAnchor: "right",
+            label: "Income ($)",
+            ticks: 2,
+          },
+          facet: {
+            data: states,
+            x: "group",
+          },
+          marks: [
+            Plot.frame(),
+            Plot.dot(states, {
+              x: "income (k$)",
+              y: "life expectancy",
+              fill: d => d["life expectancy"] >= cohort_mean ? "Above average" : "Below average",
+              fillOpacity: 0.5,
+              sort: {
+                fx: "y",
+                reduce: "mean"
+              },
+              title: (d) =>
+                `${d.State}\nPopulation: ${d.population.toLocaleString()} people\nLife Expectancy: ${d["life expectancy"].toFixed(1)} years\nIncome: $${d['income (k$)']}k`
+            }),
+            Plot.linearRegressionY(states, {
+              x: "income (k$)",
+              y: "life expectancy",
+              stroke: "red",
+              ci: 0.95
+            })
+          ]
+        });
+
+        // Ambulance Chart Data
+        const dataCitizens = [
+          { category: "U.S. adult citizens", response: "Yes", value: 23 },
+          { category: "U.S. adult citizens", response: "Not sure", value: 5 },
+          { category: "U.S. adult citizens", response: "No", value: 72 },
+        ];
+
+        const dataAge = [
+          { category: "Under 30", response: "Yes", value: 24 },
+          { category: "Under 30", response: "Not sure", value: 5 },
+          { category: "Under 30", response: "No", value: 71 },
+          { category: "30-44", response: "Yes", value: 21 },
+          { category: "30-44", response: "Not sure", value: 9 },
+          { category: "30-44", response: "No", value: 70 },
+          { category: "45-64", response: "Yes", value: 28 },
+          { category: "45-64", response: "Not sure", value: 3 },
+          { category: "45-64", response: "No", value: 69 },
+          { category: "65+", response: "Yes", value: 16 },
+          { category: "65+", response: "Not sure", value: 4 },
+          { category: "65+", response: "No", value: 80 },
+        ];
+
+        const dataGender = [
+          { category: "Men", response: "Yes", value: 24 },
+          { category: "Men", response: "Not sure", value: 4 },
+          { category: "Men", response: "No", value: 72 },
+          { category: "Women", response: "Yes", value: 22 },
+          { category: "Women", response: "Not sure", value: 6 },
+          { category: "Women", response: "No", value: 72 },
+        ];
+
+        const dataRace = [
+          { category: "White", response: "Yes", value: 22 },
+          { category: "White", response: "Not sure", value: 4 },
+          { category: "White", response: "No", value: 74 },
+          { category: "Black", response: "Yes", value: 19 },
+          { category: "Black", response: "Not sure", value: 7 },
+          { category: "Black", response: "No", value: 74 },
+          { category: "Hispanic", response: "Yes", value: 29 },
+          { category: "Hispanic", response: "Not sure", value: 2 },
+          { category: "Hispanic", response: "No", value: 69 },
+        ];
+
+        function createAmbulanceChart(data, title, yDomain, showLegend = false) {
+          return Plot.plot({
+            width: width,
+            height: 10 + (yDomain.length * 40),
+            marginTop: 0,
+            marginRight: 0,
+            title: title,
+            style: {
+              fontSize: "12px",
+              fontFamily: "var(--font-main)",
+              background: "transparent"
+            },
+            x: { axis: null },
+            y: {
+              domain: yDomain,
+              label: null,
+              tickSize: 0
+            },
+            color: {
+              domain: ["Yes", "Not sure", "No"],
+              range: ["#ff3d00", "#cfd8dc", "#9847ff"],
+              legend: showLegend ? "swatches" : null
+            },
+            marks: [
+              Plot.barX(data, {
+                y: "category",
+                x: "value",
+                fill: "response",
+                sort: { y: null },
+              }),
+              Plot.text(data, Plot.stackX({
+                y: "category",
+                x: "value",
+                text: "value",
+                z: "response",
+                fill: "white",
+                textAnchor: "middle",
+                fontSize: 14,
+                fontWeight: "bold"
+              })),
+            ]
+          });
+        }
+
+        const ambContainer = document.getElementById("ambulance-chart");
+        if (ambContainer) {
+          ambContainer.appendChild(createAmbulanceChart(dataCitizens, "U.S. adult citizens", ["U.S. adult citizens"], true));
+          ambContainer.appendChild(createAmbulanceChart(dataAge, "Age", ["Under 30", "30-44", "45-64", "65+"]));
+          ambContainer.appendChild(createAmbulanceChart(dataGender, "Gender", ["Men", "Women"]));
+          ambContainer.appendChild(createAmbulanceChart(dataRace, "Race", ["White", "Black", "Hispanic"]));
+        }
+
+        // Slope Chart
+        const slopeData = [
+          { country: "Norway", spending: 5388, life: 81.2, textDy: -10, labelRotation: 1, labelPos: 0.1 },
+          { country: "Netherlands", spending: 5050, life: 80.8, textDy: -15, labelRotation: 1, labelPos: 0.1 },
+          { country: "Switzerland", spending: 5270, life: 82.3, textDy: 8, labelRotation: 2, labelPos: 0.1 },
+          { country: "Denmark", spending: 4464, life: 79.3, textDy: -10, labelRotation: 1, labelPos: 0.1 },
+          { country: "Austria", spending: 4395, life: 80.7, textDy: 8, labelRotation: 2, labelPos: 0.1 },
+          { country: "Canada", spending: 4445, life: 81.0, textDy: 4, labelRotation: 2, labelPos: 0.1 },
+          { country: "Germany", spending: 4338, life: 80.5, textDy: -1, labelRotation: 2, labelPos: 0.1 },
+          { country: "France", spending: 3974, life: 81.3, textDy: 14, labelRotation: 3, labelPos: 0.1 },
+          { country: "Ireland", spending: 3718, life: 80.7, textDy: 16, labelRotation: 4, labelPos: 0.1 },
+          { country: "Belgium", spending: 3969, life: 80.3, textDy: 4, labelRotation: 3, labelPos: 0.1 },
+          { country: "Spain", spending: 3076, life: 82.2, textDy: 24, labelRotation: 5, labelPos: 0.1 },
+          { country: "U.S.", spending: 8233, life: 78.7, textDy: -20, labelRotation: -7, labelPos: 0.4 },
+          { country: "Australia", spending: 3800, life: 81.8, textDy: -10, labelRotation: 3, labelPos: 0.1 },
+          { country: "Sweden", spending: 3758, life: 81.5, textDy: 0, labelRotation: 3, labelPos: 0.1 },
+          { country: "U.K.", spending: 3433, life: 80.6, textDy: -8, labelRotation: 4, labelPos: 0.1 },
+          { country: "Japan", spending: 3035, life: 83.0, textDy: 25, labelRotation: 6, labelPos: 0.1 }
+        ];
+
         const spendingScale = d3.scaleLinear().domain([2000, 9000]).range([1, 0]);
         const lifeExpScale = d3.scaleLinear().domain([78, 84]).range([1, 0]);
 
@@ -1077,7 +1073,7 @@
           ...lifeTicks.map(v => ({ type: 1, value: v, normalized: lifeExpScale(v), label: v }))
         ];
 
-        const slopeChart = Plot.plot({
+        const slopeChartPlot = Plot.plot({
           width: Math.min(width, 600),
           height: 600,
           style: { fontSize: 16, fontFamily: "Camphor, sans-serif", background: "transparent", color: textColor },
@@ -1129,7 +1125,7 @@
           ]
         });
 
-        // --- Chart 2: Growth Chart ---
+        // Growth Chart
         const growthData = [
           { year: 1960, value: 0, series: "GDP" }, { year: 1960, value: 0, series: "Health" },
           { year: 1970, value: 15, series: "GDP" }, { year: 1970, value: 30, series: "Health" },
@@ -1139,7 +1135,7 @@
           { year: 2010, value: 110, series: "GDP" }, { year: 2010, value: 800, series: "Health" },
         ];
 
-        const growthChart = Plot.plot({
+        const growthChartPlot = Plot.plot({
           width: width,
           height: 300,
           marginLeft: 40,
@@ -1160,7 +1156,7 @@
           ]
         });
 
-        // --- Chart 3: Aging Chart ---
+        // Aging Chart
         const agingRawData = [
           { year: 1960, over64: 9, adults: 53, young: 38 },
           { year: 1970, over64: 10, adults: 54, young: 36 },
@@ -1186,7 +1182,7 @@
           agingData.push({ year: d.year, group: "0-19", value: d.young });
         });
 
-        const agingChart = Plot.plot({
+        const agingChartPlot = Plot.plot({
           width: width,
           height: 400,
           style: { fontSize: 13, fontFamily: "Camphor, sans-serif", background: "transparent", color: textColor },
@@ -1213,14 +1209,28 @@
           ]
         });
 
-        document.getElementById("slope-chart").appendChild(slopeChart);
-        document.getElementById("growth-chart").appendChild(growthChart);
-        document.getElementById("aging-chart").appendChild(agingChart);
-        document.getElementById("income").appendChild(Plot.plot(income));
+        const spendingContainer = document.getElementById("spending");
+        if (spendingContainer) spendingContainer.appendChild(spendingPlot);
+
+        const noinsuranceContainer = document.getElementById("noinsurance");
+        if (noinsuranceContainer) noinsuranceContainer.appendChild(noinsurancePlot);
+
+        const slopeContainer = document.getElementById("slope-chart");
+        if (slopeContainer) slopeContainer.appendChild(slopeChartPlot);
+
+        const growthContainer = document.getElementById("growth-chart");
+        if (growthContainer) growthContainer.appendChild(growthChartPlot);
+
+        const agingContainer = document.getElementById("aging-chart");
+        if (agingContainer) agingContainer.appendChild(agingChartPlot);
+
+        const incomeContainer = document.getElementById("income");
+        if (incomeContainer) incomeContainer.appendChild(incomePlot);
       }
 
       window.renderCharts = renderCharts;
       renderCharts();
+      window.addEventListener("resize", renderCharts);
     });
   </script>
   <script>

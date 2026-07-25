@@ -74,22 +74,10 @@
     #path4,
     #path5 {
       stroke-width: 1;
-      stroke-dasharray: 80;
-      stroke-dashoffset: 80;
-      stroke: #000;
-      fill: #fff;
-    }
-
-    #path1,
-    #path2,
-    #path3,
-    #path4,
-    #path5 {
-      stroke-width: 1;
       stroke-dasharray: 220;
       stroke-dashoffset: 220;
-      stroke: #000;
-      fill: #fff;
+      stroke: currentColor;
+      fill: var(--bg-color, #fff);
       animation:
         logoStroke 1.2s linear forwards,
         logoStrokeFill 0.5s cubic-bezier(0.445, 0.050, 0.550, 0.950) 1.2s forwards;
@@ -103,8 +91,8 @@
 
     @keyframes logoStrokeFill {
       to {
-        stroke: #000;
-        fill: #000;
+        stroke: currentColor;
+        fill: currentColor;
       }
     }
 
@@ -118,6 +106,11 @@
       background: hsl(221, 68%, 93%);
       border-left: 8px solid hsl(227, 42%, 51%);
       padding: 0 var(--spacer-1);
+    }
+
+    [data-theme="dark"] article>blockquote {
+      background: rgba(76, 99, 182, 0.15);
+      border-left-color: #637edb;
     }
 
     article>blockquote:before {
@@ -196,7 +189,7 @@
         <h1 class="article-title">Work in progress</h1>
         <h2 class="article-subtitle"></h2>
       </div>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h3>WeWork valuation</h3>
       <figure id="wework"
         aria-label="Graph titled Work in progress showing WeWork funding rounds from 2010 to 2023. Financial growth starts at $0B in 2010 and reaches $45B by 2021, with notable increases marked D, F, and the epic SoftBank round at G in 2019.">
@@ -255,12 +248,9 @@
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 
   <script type="text/javascript">
-    // TODO: Incorporate this timeline: https://codepen.io/jkantner/pen/NWoVGXx
-    var element = d3.select('figure').node();
-    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
-    var size = 12;
+    const size = 12;
 
-    var wework = [
+    const weworkData = [
       // https://craft.co/wework/funding-rounds
       [0.097, '01/04/2009', 'A'],
       [0.440, '01/11/2010', 'B'],
@@ -280,53 +270,67 @@
       label
     }));
 
-    var wework = {
-      width: width,
-      style: {
-        fontSize: size
-      },
-      marginTop: 30,
-      y: {
-        grid: true,
-        tickFormat: d => `$${d}B`,
-        label: "Value ↑",
-        tickSize: 0,
-      },
-      marks: [
-        Plot.lineY(wework, {
-          x: "date",
-          y: "value",
-          curve: "step-after",
-          strokeWidth: 2,
-          stroke: "steelblue"
-        }),
-        Plot.ruleY([0]),
-        Plot.text(wework.filter(d => (d.label !== "E" && d.label !== "C")), {
-          x: "date",
-          y: "value",
-          text: "label",
-          dx: 0,
-          dy: -12
-        }),
-        Plot.text(wework.filter(d => (d.label === "E" || d.label === "C")), {
-          x: "date",
-          y: "value",
-          text: "label",
-          dx: -11,
-          dy: -1
-        }),
-        Plot.dot(wework, {
-          x: "date",
-          y: "value",
-          r: width < 500 ? 3 : 4,
-          fill: "white",
-          stroke: "black",
-          title: d => d3.format("$")(d.value) + `B`,
-        })
-      ]
-    };
+    function renderWeworkChart() {
+      const container = document.getElementById("wework");
+      if (!container) return;
 
-    document.getElementById("wework").appendChild(Plot.plot(wework));
+      container.querySelectorAll("svg").forEach(svg => svg.remove());
+      const width = container.getBoundingClientRect().width || 600;
+
+      const weworkConfig = {
+        width: width,
+        style: {
+          fontSize: size + "px",
+          background: "transparent"
+        },
+        marginTop: 30,
+        y: {
+          grid: true,
+          tickFormat: d => `$${d}B`,
+          label: "Value ↑",
+          tickSize: 0,
+        },
+        marks: [
+          Plot.lineY(weworkData, {
+            x: "date",
+            y: "value",
+            curve: "step-after",
+            strokeWidth: 2,
+            stroke: "steelblue"
+          }),
+          Plot.ruleY([0], { stroke: "rgb(146, 146, 151)" }),
+          Plot.text(weworkData.filter(d => (d.label !== "E" && d.label !== "C")), {
+            x: "date",
+            y: "value",
+            text: "label",
+            fill: "currentColor",
+            dx: 0,
+            dy: -12
+          }),
+          Plot.text(weworkData.filter(d => (d.label === "E" || d.label === "C")), {
+            x: "date",
+            y: "value",
+            text: "label",
+            fill: "currentColor",
+            dx: -11,
+            dy: -1
+          }),
+          Plot.dot(weworkData, {
+            x: "date",
+            y: "value",
+            r: width < 500 ? 3 : 4,
+            fill: "var(--bg-color, white)",
+            stroke: "currentColor",
+            title: d => d3.format("$")(d.value) + `B`,
+          })
+        ]
+      };
+
+      container.appendChild(Plot.plot(weworkConfig));
+    }
+
+    renderWeworkChart();
+    window.addEventListener("resize", renderWeworkChart);
   </script>
   <script>
     // Theme toggle functionality
