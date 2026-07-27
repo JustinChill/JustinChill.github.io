@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+  <title>Progress | Justin Chill</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="How long until the next minute? Christmas? Death of the universe?">
+  <meta name="author" content="Justin Chill">
+  <meta name="robots" content="all">
+  <meta content="en_US" property="og:locale">
+  <meta content="JustinChill" property="og:site_name">
+  <meta content="article" property="og:type">
+  <meta content="https://justinchill.com/progress.html" property="og:url">
+  <meta content="Progress | Justin Chill" property="og:title">
+  <meta content="Visualizing the world with progress bars." property="og:description">
+  <meta content="https://justinchill.com/blog.html" property="og:see_also">
+  <link rel="canonical" href="https://justinchill.com/progress.html">
+
+  <meta property="og:locality" content="NY">
+  <meta property="og:region" content="NY">
+  <meta property="og:country_name" content="USA">
+
+  <meta name="datePublished" content="2026-07-26">
+  <meta name="dateModified" content="2026-07-26">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Progress | Justin Chill">
+  <meta name="twitter:description" content="Visualizing the world with progress bars.">
+
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+  <link type="text/plain" href="humans.txt" rel="author">
+  <link rel="preload" href="style.css" as="style" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="/favicon.ico">
+  <meta name="theme-color" content="#4C63B6">
+  <meta name="color-scheme" content="light dark">
+
+  <script type="module">
+    document.documentElement.classList.remove('no-js');
+    document.documentElement.classList.add('js');
+  </script>
+
+  <style type="text/css">
+    /* Use site theme variables so the bars adapt to light/dark mode. */
+    .progress-bars {
+      padding: 30px;
+      background: var(--surface-color);
+      border: 1px solid var(--rule-color);
+      border-radius: calc(var(--radius) * 3);
+      color: var(--text-color);
+      font-family: var(--font-main);
+    }
+
+    .progress-item {
+      margin-bottom: 35px;
+    }
+    .progress-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .progress-info {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      margin-bottom: 10px;
+      overflow: auto;
+      font-weight: var(--weight-bold);
+    }
+
+    .progress-title {
+      font-size: var(--type-scale-2);
+      font-weight: var(--weight-bold);
+      color: var(--heading-color);
+      line-height: 1.2;
+    }
+
+    /* `display: flex` removes baseline alignment for inline children such as
+       <sup>, so the label is wrapped in a <span> that re-establishes an
+       inline formatting context. */
+    .progress-left {
+      align-items: flex-end;
+      display: flex;
+      font-size: var(--type-scale-0);
+      justify-content: flex-end;
+      color: var(--muted-color);
+    }
+    .progress-left > span {
+      display: inline;
+      text-align: right;
+    }
+    .progress-left sup {
+      font-size: 0.75em;
+      vertical-align: super;
+      line-height: 0;
+    }
+
+    .progress-bar-wrapper {
+      background-color: var(--surface-subtle);
+      border-radius: var(--radius);
+      height: 45px;
+      overflow: hidden;
+    }
+
+    .progress-bar-inner {
+      background-color: var(--green);
+      height: 45px;
+      transition: width .3s var(--ease-out);
+    }
+
+    /* Mobile label: shown *below* the bar, right-aligned, only once. */
+    .progress-left-mobile {
+      display: none;
+    }
+
+    @media only screen and (max-width: 600px) {
+      .progress-bars {
+        padding: 20px 15px;
+      }
+      .progress-item {
+        margin-bottom: 32px;
+      }
+      .progress-info {
+        grid-template-columns: repeat(1, 1fr);
+        margin-bottom: 5px;
+      }
+      .progress-title {
+        font-size: var(--type-scale-0);
+      }
+      /* Hide the in-grid label so the time-remaining only renders once,
+         directly under the bar, right-aligned. */
+      .progress-left {
+        display: none;
+      }
+      .progress-left-mobile {
+        display: block;
+        font-weight: var(--weight-bold);
+        font-size: var(--type-scale--1);
+        color: var(--muted-color);
+        margin-top: 6px;
+        text-align: right;
+      }
+      .progress-left-mobile sup {
+        font-size: 0.75em;
+        vertical-align: super;
+        line-height: 0;
+      }
+    }
+  </style>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Progress | Justin Chill",
+  "description": "How long until the next minute? Christmas? Death of the universe?",
+  "datePublished": "2026-07-26",
+  "dateModified": "2026-07-26",
+  "author": {
+    "@type": "Person",
+    "name": "Justin Chill",
+    "url": "https://justinchill.com/now.html",
+    "image": "https://justinchill.com/imgs/memoji.png",
+    "sameAs": [
+      "https://www.linkedin.com/in/justinrichardhill/",
+      "https://github.com/JustinChill"
+    ]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Justin Chill",
+    "url": "https://justinchill.com/now.html",
+    "image": "https://justinchill.com/imgs/memoji.png",
+    "sameAs": [
+      "https://www.linkedin.com/in/justinrichardhill/",
+      "https://github.com/JustinChill"
+    ]
+  },
+  "mainEntityOfPage": "https://justinchill.com/progress.html"
+}
+  </script>
+</head>
+
+<body>
+  <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+  <nav class="nav" role="navigation">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
+      <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
+      <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
+      <button id="theme-toggle" class="nav__item" aria-label="Toggle theme"
+        style="background: transparent; border: none; cursor: pointer;">
+        <span id="theme-toggle-light-icon" class="hidden">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
+          </svg>
+        </span>
+        <span id="theme-toggle-dark-icon" class="hidden">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+          </svg>
+        </span>
+      </button>
+    </div>
+    <div class="nav__list">
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+
+  <main role="main" id="content">
+    <article>
+      <div class="article-hero">
+        <p class="article-category">Fun</p>
+        <h1 class="article-title">Progress</h1>
+        <h2 class="article-subtitle">How long until the next minute? Christmas? The death of the universe?</h2>
+      </div>
+
+      <div class="progress-bars" id="progress-bars">
+        <!-- progress items are injected by JavaScript -->
+      </div>
+
+      <p>Since the ‘80s, different types of progress bars have been suggested, but the horizontal form prevails. There have been some refinements: Bars now pulse in color, or show an animated gradient that slides back and forth. Because people hate to see a progress bar reach a standstill, some inch forever forward even while a task is stalling out. These tricks raise a funny question: Do users really want the truth, or do they want the more relaxed, more comfortable experience?</p>
+      <p>Its predecessor, the pen-and-paper “progress chart,” appeared in the early 20th century and was hailed at the time as a major innovation. It “refers all facts to the irreducible and final element of human life — time,” wrote Walter Polakov, an early pioneer in project management (and dedicated Marxist), in 1923. “Because it is true to the human dimension, it is both human and humane; hence it obliterates conflicts between men and management, promotes the fullest exercise of man’s creative forces and places work in its proper relation to life.”</p>
+      <p>At a 1985 conference on the nascent field of computer-human interactions, a graduate student named Brad A. Myers presented a paper on the importance of what he called “percent-done progress indicators.” He told his colleagues that progress bars made computer users less anxious and more efficient, and could even help them to “relax effectively” at work.</p>
+      <img src="https://static01.nyt.com/images/2014/03/09/magazine/09WMT1/09WMT1-superJumbo-v2.png?quality=75&auto=webp" alt="Progress bar art illustration." loading="lazy" class="rounded">
+    </article>
+  </main>
+
+  <footer>
+    <div>
+      <p>Justin Chill &copy; 2026</p>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
+            alt="GitHub logo" class="icon">Source code</a></span>
+    </div>
+  </footer>
+
+  <script type="text/javascript">
+    "use strict";
+
+    // --- Date helpers -------------------------------------------------------
+
+    const DAY_MS = 1000 * 60 * 60 * 24;
+
+    function pad(n) { return n < 10 ? "0" + n : "" + n; }
+
+    function nthWeekday(year, month, weekday, n) {
+      const d = new Date(year, month, 1, 0, 0, 0, 0);
+      let count = 0;
+      while (d.getMonth() === month) {
+        if (d.getDay() === weekday) {
+          count++;
+          if (count === n) return d;
+        }
+        d.setDate(d.getDate() + 1);
+      }
+      return d;
+    }
+
+    // Meeus/Jones/Butcher algorithm for the Gregorian Easter date.
+    function easter(year) {
+      const a = year % 19;
+      const b = Math.floor(year / 100);
+      const c = year % 100;
+      const d = Math.floor(b / 4);
+      const e = b % 4;
+      const f = Math.floor((b + 8) / 25);
+      const g = Math.floor((b - f + 1) / 3);
+      const h = (19 * a + b - d - g + 15) % 30;
+      const i = Math.floor(c / 4);
+      const k = c % 4;
+      const l = (32 + 2 * e + 2 * i - h - k) % 7;
+      const m = Math.floor((a + 11 * h + 22 * l) / 451);
+      const month = Math.floor((h + l - 7 * m + 114) / 31) - 1;
+      const day = ((h + l - 7 * m + 114) % 31) + 1;
+      return new Date(year, month, day, 0, 0, 0, 0);
+    }
+
+    // Returns the next upcoming occurrence of a holiday given its year calculator.
+    function nextOccurrence(makeForYear, now) {
+      const thisYear = makeForYear(now.getFullYear());
+      if (thisYear && thisYear.getTime() > now.getTime()) return thisYear;
+      return makeForYear(now.getFullYear() + 1);
+    }
+
+    function fixedHoliday(month, day) {
+      return function (year) { return new Date(year, month, day, 0, 0, 0, 0); };
+    }
+
+    // --- Moon phases --------------------------------------------------------
+
+    // Reference new moon: 2000-01-06 18:14 UTC (JD 2451550.1).
+    const MOON_REF = Date.UTC(2000, 0, 6, 18, 14, 0);
+    const SYNODIC = 29.530588853; // days
+
+    const MOON_PHASES = [
+      { name: "Next New Moon", icon: "\uD83C\uDF11", offset: 0 },
+      { name: "Next Waxing Crescent", icon: "\uD83C\uDF12", offset: SYNODIC * 1 / 8 },
+      { name: "Next Quarter Moon", icon: "\uD83C\uDF13", offset: SYNODIC * 2 / 8 },
+      { name: "Next Waxing Gibbous", icon: "\uD83C\uDF14", offset: SYNODIC * 3 / 8 },
+      { name: "Next Full Moon", icon: "\uD83C\uDF15", offset: SYNODIC * 4 / 8 },
+      { name: "Next Waning Gibbous", icon: "\uD83C\uDF16", offset: SYNODIC * 5 / 8 },
+      { name: "Next Last Quarter Moon", icon: "\uD83C\uDF17", offset: SYNODIC * 6 / 8 },
+      { name: "Next Waning Crescent", icon: "\uD83C\uDF18", offset: SYNODIC * 7 / 8 }
+    ];
+
+    function moonCycleAge(now) {
+      const elapsedDays = (now.getTime() - MOON_REF) / DAY_MS;
+      let age = elapsedDays % SYNODIC;
+      if (age < 0) age += SYNODIC;
+      return age;
+    }
+
+    // --- Bar definitions ----------------------------------------------------
+
+    // Each bar is described by { id, icon, title, compute(now) -> { leftHTML, leftText, progress } }.
+    // progress is a number 0..100.
+    const BARS = [
+      {
+        icon: "\uD83D\uDD58", title: "Next minute",
+        compute: now => {
+          const sec = now.getSeconds() + now.getMilliseconds() / 1000;
+          const left = 60 - sec;
+          return { leftText: Math.ceil(left) + " seconds left", progress: (sec / 60) * 100 };
+        }
+      },
+      {
+        icon: "\uD83D\uDD58", title: "Next hour",
+        compute: now => {
+          const min = now.getMinutes() + now.getSeconds() / 60;
+          const left = 60 - min;
+          return { leftText: Math.ceil(left) + " minutes left", progress: (min / 60) * 100 };
+        }
+      },
+      {
+        icon: "\uD83C\uDF05", title: "Next day",
+        compute: () => {
+          const now = new Date();
+          const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+          const end = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+          const leftms = end - now;
+          const leftHours = leftms / DAY_MS * 24;
+          return { leftText: Math.ceil(leftHours) + " hours left", progress: ((now - start) / (end - start)) * 100 };
+        }
+      },
+      {
+        icon: "\uD83D\uDCC5", title: "Next month",
+        compute: () => {
+          const now = new Date();
+          const start = new Date(now.getFullYear(), now.getMonth(), 1);
+          const end = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+          const leftms = end - now;
+          return { leftText: Math.ceil(leftms / DAY_MS) + " days left", progress: ((now - start) / (end - start)) * 100 };
+        }
+      },
+      {
+        icon: "\uD83C\uDF86", title: "Next year",
+        compute: () => {
+          const now = new Date();
+          const start = new Date(now.getFullYear(), 0, 1);
+          const end = new Date(now.getFullYear() + 1, 0, 1);
+          return { leftText: Math.ceil((end - now) / DAY_MS) + " days left", progress: ((now - start) / (end - start)) * 100 };
+        }
+      },
+      {
+        icon: "\uD83D\uDC91", title: "Next Valentine's Day",
+        compute: now => holidayBar(now, fixedHoliday(1, 14), ["days", "day"])
+      },
+      {
+        icon: "\uD83C\uDF40", title: "Next Saint Patrick's Day",
+        compute: now => holidayBar(now, fixedHoliday(2, 17), ["days", "day"])
+      },
+      {
+        icon: "\uD83D\uDC07", title: "Next Easter",
+        compute: now => holidayBar(now, y => easter(y), ["days", "day"])
+      },
+      {
+        icon: "\uD83D\uDC69", title: "Next Mother's Day",
+        compute: now => holidayBar(now, y => nthWeekday(y, 4, 0, 2), ["days", "day"])
+      },
+      {
+        icon: "\uD83D\uDC68", title: "Next Father's Day",
+        compute: now => holidayBar(now, y => nthWeekday(y, 5, 0, 3), ["days", "day"])
+      },
+      {
+        icon: "\uD83D\uDC7B", title: "Next Halloween",
+        compute: now => holidayBar(now, fixedHoliday(9, 31), ["days", "day"])
+      },
+      {
+        icon: "\uD83E\uDD83", title: "Next Thanksgiving",
+        compute: now => holidayBar(now, y => nthWeekday(y, 10, 4, 4), ["days", "day"])
+      },
+      {
+        icon: "\uD83C\uDF85", title: "Next Christmas",
+        compute: now => holidayBar(now, fixedHoliday(11, 25), ["days", "day"])
+      },
+      {
+        icon: "\uD83D\uDCBB", title: "End of this page",
+        compute: () => {
+          const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+          const scrolled = window.scrollY || document.documentElement.scrollTop || 0;
+          const remainingPx = Math.max(0, maxScroll - scrolled);
+          return { leftText: Math.round(remainingPx) + " pixels left", progress: (scrolled / maxScroll) * 100 };
+        }
+      },
+      ...MOON_PHASES.map(p => ({
+        icon: p.icon, title: p.name,
+        compute: (now) => moonPhaseBar(now, p.offset)
+      })),
+      {
+        icon: "\uD83D\uDCC5", title: "Next decade",
+        compute: () => bigWesternClock(2020, 2030, "years")
+      },
+      {
+        icon: "\uD83D\uDCC5", title: "Next century",
+        compute: () => bigWesternClock(2000, 2100, "years")
+      },
+      {
+        icon: "\uD83D\uDCC5", title: "Next millennium",
+        compute: () => bigWesternClock(2000, 3000, "years")
+      },
+      {
+        icon: "\u2604\uFE0F", title: "Halley's Comet returns",
+        compute: () => {
+          // Last perihelion: 1986-02-09. Next predicted perihelion: 2061-07-28.
+          const start = new Date(Date.UTC(1986, 1, 9));
+          const end = new Date(Date.UTC(2061, 6, 28));
+          return longTermBar(start, end, "years");
+        }
+      },
+      {
+        icon: "\uD83C\uDFED", title: "Chernobyl is fully safe again",
+        compute: () => {
+          // The Exclusion Zone is expected to remain unsafe for roughly two centuries.
+          const start = new Date(Date.UTC(1986, 3, 26));
+          const end = new Date(Date.UTC(2200, 0, 1));
+          return longTermBar(start, end, "years");
+        }
+      },
+      {
+        icon: "\uD83D\uDEF0\uFE0F", title: "Voyager 1 reaches the Oort Cloud",
+        compute: () => {
+          // Launched 1977-09-05; ~300 years of travel before reaching the inner Oort cloud.
+          const start = new Date(Date.UTC(1977, 8, 5));
+          const end = new Date(Date.UTC(2310, 0, 1));
+          return longTermBar(start, end, "years");
+        }
+      },
+      {
+        icon: "\uD83C\uDF0C", title: "Milky Way collides with Andromeda",
+        compute: () => {
+          // Reference frame: the universe 13.8 billion years ago; collision ~4 billion years from now.
+          const totalYears = 13.8e9 + 4e9;
+          const elapsedYears = 13.8e9 + (Date.now() - Date.UTC(2000, 0, 1)) / DAY_MS / 365.25;
+          return { leftText: "4 billion years left", progress: (elapsedYears / totalYears) * 100 };
+        }
+      },
+{
+        icon: "\u2604\uFE0F", title: "The Sun dies",
+        compute: () => {
+          // Sun formed ~4.6 billion years ago; main-sequence lifetime ~9.6 billion years.
+          const startYears = 4.6e9;
+          const totalYears = 9.6e9;
+          const elapsedYears = startYears + (Date.now() - Date.UTC(2000, 0, 1)) / DAY_MS / 365.25;
+          const remaining = totalYears - elapsedYears;
+          return { leftText: Math.round(remaining / 1e9) + " billion years left", progress: (elapsedYears / totalYears) * 100 };
+        }
+      },
+      {
+        icon: "\u2744\uFE0F", title: "Heat Death of the Universe",
+        compute: () => {
+          return {
+            leftTextSup: "10<sup>100</sup> years left",
+            leftText: "10^100 years left",
+            progress: 0
+          };
+        }
+      }
+    ];
+
+    function longTermBar(start, end, unit) {
+      const now = Date.now();
+      const elapsed = now - start.getTime();
+      const span = end.getTime() - start.getTime();
+      const remaining = end.getTime() - now;
+      const remainingUnit = remaining / DAY_MS / 365.25;
+      return {
+        leftText: Math.ceil(remainingUnit) + " " + unit + " left",
+        progress: (elapsed / span) * 100
+      };
+    }
+
+    function bigWesternClock(startYear, endYear, unit) {
+      const now = new Date();
+      const start = new Date(startYear, 0, 1);
+      const end = new Date(endYear, 0, 1);
+      const remaining = (end - now) / DAY_MS / 365.25;
+      return {
+        leftText: Math.ceil(remaining) + " " + unit + " left",
+        progress: ((now - start) / (end - start)) * 100
+      };
+    }
+
+    function holidayBar(now, makeForYear, units) {
+      const next = nextOccurrence(makeForYear, now);
+      const last = makeForYear(next.getFullYear() - 1);
+      const total = (next - last) || DAY_MS;
+      const elapsed = now - last;
+      const daysLeft = Math.ceil((next - now) / DAY_MS);
+      const unit = daysLeft === 1 ? units[1] : units[0];
+      return {
+        leftText: daysLeft + " " + unit + " left",
+        progress: (elapsed / total) * 100
+      };
+    }
+
+    function moonPhaseBar(now, offset) {
+      const age = moonCycleAge(now);
+      let daysLeft;
+      if (offset >= age) {
+        daysLeft = offset - age;
+      } else {
+        daysLeft = offset + SYNODIC - age;
+      }
+      const progress = ((SYNODIC - daysLeft) / SYNODIC) * 100;
+      return {
+        leftText: Math.round(daysLeft) + " days left",
+        progress: progress
+      };
+    }
+
+    // --- Rendering ----------------------------------------------------------
+
+    const container = document.getElementById("progress-bars");
+
+    function createItem(index, bar) {
+      const item = document.createElement("div");
+      item.className = "progress-item";
+
+      const info = document.createElement("div");
+      info.className = "progress-info";
+
+      const title = document.createElement("div");
+      title.className = "progress-title";
+      title.textContent = bar.icon + " " + bar.title;
+
+      const desktopLeft = document.createElement("div");
+      desktopLeft.className = "progress-left";
+      const desktopLeftSpan = document.createElement("span");
+      desktopLeft.appendChild(desktopLeftSpan);
+
+      const wrapper = document.createElement("div");
+      wrapper.className = "progress-bar-wrapper";
+
+      const inner = document.createElement("div");
+      inner.className = "progress-bar-inner";
+      inner.style.width = "0%";
+      inner.setAttribute("role", "progressbar");
+      inner.setAttribute("aria-valuemin", "0");
+      inner.setAttribute("aria-valuemax", "100");
+
+      const mobileLeft = document.createElement("div");
+      mobileLeft.className = "progress-left-mobile";
+      const mobileLeftSpan = document.createElement("span");
+      mobileLeft.appendChild(mobileLeftSpan);
+
+      info.appendChild(title);
+      info.appendChild(desktopLeft);
+      wrapper.appendChild(inner);
+
+      item.appendChild(info);
+      item.appendChild(wrapper);
+      item.appendChild(mobileLeft);
+
+      return { item, inner, desktopLeftSpan, mobileLeftSpan };
+    }
+
+    const rendered = BARS.map((bar, i) => {
+      const r = createItem(i, bar);
+      container.appendChild(r.item);
+      return r;
+    });
+
+    function updateBars() {
+      const now = new Date();
+      BARS.forEach((bar, i) => {
+        const r = rendered[i];
+        const result = bar.compute(now);
+        if (result.leftTextSup) {
+          r.inner.setAttribute("aria-valuetext", result.leftText);
+          r.desktopLeftSpan.innerHTML = result.leftTextSup;
+          r.mobileLeftSpan.innerHTML = result.leftTextSup;
+        } else {
+          const label = result.leftText;
+          r.inner.setAttribute("aria-valuetext", label);
+          r.desktopLeftSpan.textContent = label;
+          r.mobileLeftSpan.textContent = label;
+        }
+        const pct = Math.max(0, Math.min(100, result.progress));
+        r.inner.style.width = pct.toFixed(4) + "%";
+        r.inner.setAttribute("aria-valuenow", pct.toFixed(2));
+      });
+    }
+
+    updateBars();
+
+    // Tick fast for short-term bars, slow otherwise.
+    setInterval(updateBars, 1000);
+    window.addEventListener("scroll", updateBars, { passive: true });
+    window.addEventListener("resize", updateBars);
+    document.addEventListener("DOMContentLoaded", updateBars);
+  </script>
+
+  <script>
+    // Theme toggle functionality
+    const themeToggleBtn = document.getElementById("theme-toggle");
+    const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
+    const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
+
+    function updateIcons(theme) {
+      if (theme === "dark") {
+        themeToggleLightIcon.classList.remove("hidden");
+        themeToggleDarkIcon.classList.add("hidden");
+      } else {
+        themeToggleLightIcon.classList.add("hidden");
+        themeToggleDarkIcon.classList.remove("hidden");
+      }
+    }
+
+    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
+    updateIcons(currentTheme);
+
+    if (themeToggleBtn) {
+      themeToggleBtn.addEventListener("click", () => {
+        const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
+        const newTheme = activeTheme === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", newTheme);
+        localStorage.setItem("theme", newTheme);
+        updateIcons(newTheme);
+      });
+    }
+  </script>
+</body>
+
+</html>
