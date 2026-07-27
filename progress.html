@@ -2,12 +2,26 @@
 <html lang="en" class="no-js">
 
 <head>
-  <title>Progress | Justin Chill</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
+    (function () {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+      document.documentElement.classList.remove('no-js');
+      document.documentElement.classList.add('js');
+    })();
+  </script>
+
+  <title>Progress | Justin Chill</title>
   <meta name="description" content="How long until the next minute? Christmas? Death of the universe?">
   <meta name="author" content="Justin Chill">
   <meta name="robots" content="all">
+
+  <!-- OpenGraph tags -->
   <meta content="en_US" property="og:locale">
   <meta content="JustinChill" property="og:site_name">
   <meta content="article" property="og:type">
@@ -15,38 +29,32 @@
   <meta content="Progress | Justin Chill" property="og:title">
   <meta content="Visualizing the world with progress bars." property="og:description">
   <meta content="https://justinchill.com/blog.html" property="og:see_also">
-  <link rel="canonical" href="https://justinchill.com/progress.html">
-
-  <meta property="og:locality" content="NY">
+  <meta property="og:locality" content="New York">
   <meta property="og:region" content="NY">
   <meta property="og:country_name" content="USA">
+  <meta
+    content="https://static01.nyt.com/images/2014/03/09/magazine/09WMT1/09WMT1-superJumbo-v2.png?quality=75&auto=webp"
+    property="og:image">
+  <meta content="Illustration of progress indicators across user interfaces." property="og:image:alt">
 
   <meta name="datePublished" content="2026-07-26">
   <meta name="dateModified" content="2026-07-26">
 
+  <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Progress | Justin Chill">
   <meta name="twitter:description" content="Visualizing the world with progress bars.">
+  <meta
+    content="https://static01.nyt.com/images/2014/03/09/magazine/09WMT1/09WMT1-superJumbo-v2.png?quality=75&auto=webp"
+    property="twitter:image">
 
-  <script>
-    (function () {
-      const savedTheme = localStorage.getItem('theme');
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', theme);
-    })();
-  </script>
+  <link rel="canonical" href="https://justinchill.com/progress.html">
   <link type="text/plain" href="humans.txt" rel="author">
   <link rel="preload" href="style.css" as="style" />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="/favicon.ico">
   <meta name="theme-color" content="#4C63B6">
   <meta name="color-scheme" content="light dark">
-
-  <script type="module">
-    document.documentElement.classList.remove('no-js');
-    document.documentElement.classList.add('js');
-  </script>
 
   <style type="text/css">
     /* Use site theme variables so the bars adapt to light/dark mode. */
@@ -62,6 +70,7 @@
     .progress-item {
       margin-bottom: 35px;
     }
+
     .progress-item:last-child {
       margin-bottom: 0;
     }
@@ -91,10 +100,12 @@
       justify-content: flex-end;
       color: var(--muted-color);
     }
-    .progress-left > span {
+
+    .progress-left>span {
       display: inline;
       text-align: right;
     }
+
     .progress-left sup {
       font-size: 0.75em;
       vertical-align: super;
@@ -114,7 +125,12 @@
       transition: width .3s var(--ease-out);
     }
 
-    /* Mobile label: shown *below* the bar, right-aligned, only once. */
+    @media (prefers-reduced-motion: reduce) {
+      .progress-bar-inner {
+        transition: none;
+      }
+    }
+
     .progress-left-mobile {
       display: none;
     }
@@ -123,21 +139,24 @@
       .progress-bars {
         padding: 20px 15px;
       }
+
       .progress-item {
         margin-bottom: 32px;
       }
+
       .progress-info {
         grid-template-columns: repeat(1, 1fr);
         margin-bottom: 5px;
       }
+
       .progress-title {
         font-size: var(--type-scale-0);
       }
-      /* Hide the in-grid label so the time-remaining only renders once,
-         directly under the bar, right-aligned. */
+
       .progress-left {
         display: none;
       }
+
       .progress-left-mobile {
         display: block;
         font-weight: var(--weight-bold);
@@ -146,6 +165,7 @@
         margin-top: 6px;
         text-align: right;
       }
+
       .progress-left-mobile sup {
         font-size: 0.75em;
         vertical-align: super;
@@ -199,7 +219,8 @@
         <span id="theme-toggle-light-icon" class="hidden">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
+            </path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
@@ -211,7 +232,8 @@
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank"
+        rel="noopener noreferrer">LinkedIn</a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
@@ -224,22 +246,39 @@
         <h2 class="article-subtitle">How long until the next minute? Christmas? The death of the universe?</h2>
       </div>
 
-      <div class="progress-bars" id="progress-bars">
+      <section class="progress-bars" id="progress-bars" aria-label="Progress visualization bars">
         <!-- progress items are injected by JavaScript -->
-      </div>
+      </section>
 
-      <p>Since the ‘80s, different types of progress bars have been suggested, but the horizontal form prevails. There have been some refinements: Bars now pulse in color, or show an animated gradient that slides back and forth. Because people hate to see a progress bar reach a standstill, some inch forever forward even while a task is stalling out. These tricks raise a funny question: Do users really want the truth, or do they want the more relaxed, more comfortable experience?</p>
-      <p>Its predecessor, the pen-and-paper “progress chart,” appeared in the early 20th century and was hailed at the time as a major innovation. It “refers all facts to the irreducible and final element of human life — time,” wrote Walter Polakov, an early pioneer in project management (and dedicated Marxist), in 1923. “Because it is true to the human dimension, it is both human and humane; hence it obliterates conflicts between men and management, promotes the fullest exercise of man’s creative forces and places work in its proper relation to life.”</p>
-      <p>At a 1985 conference on the nascent field of computer-human interactions, a graduate student named Brad A. Myers presented a paper on the importance of what he called “percent-done progress indicators.” He told his colleagues that progress bars made computer users less anxious and more efficient, and could even help them to “relax effectively” at work.</p>
-      <img src="https://static01.nyt.com/images/2014/03/09/magazine/09WMT1/09WMT1-superJumbo-v2.png?quality=75&auto=webp" alt="Progress bar art illustration." loading="lazy" class="rounded">
+      <p>Since the ‘80s, different types of progress bars have been suggested, but the horizontal form prevails. There
+        have been some refinements: Bars now pulse in color, or show an animated gradient that slides back and forth.
+        Because people hate to see a progress bar reach a standstill, some inch forever forward even while a task is
+        stalling out. These tricks raise a funny question: Do users really want the truth, or do they want the more
+        relaxed, more comfortable experience?</p>
+      <p>Its predecessor, the pen-and-paper “progress chart,” appeared in the early 20th century and was hailed at the
+        time as a major innovation. It “refers all facts to the irreducible and final element of human life — time,”
+        wrote Walter Polakov, an early pioneer in project management (and dedicated Marxist), in 1923. “Because it is
+        true to the human dimension, it is both human and humane; hence it obliterates conflicts between men and
+        management, promotes the fullest exercise of man’s creative forces and places work in its proper relation to
+        life.”</p>
+      <p>At a 1985 conference on the nascent field of computer-human interactions, a graduate student named Brad A.
+        Myers presented a paper on the importance of what he called “percent-done progress indicators.” He told his
+        colleagues that progress bars made computer users less anxious and more efficient, and could even help them to
+        “relax effectively” at work.</p>
+      <figure>
+        <img
+          src="https://static01.nyt.com/images/2014/03/09/magazine/09WMT1/09WMT1-superJumbo-v2.png?quality=75&auto=webp"
+          alt="Illustration of progress indicators across user interfaces." loading="lazy" class="rounded">
+        <figcaption class="screen-reader-text">Illustration of progress indicators across user interfaces.</figcaption>
+      </figure>
     </article>
   </main>
 
   <footer>
     <div>
       <p>Justin Chill &copy; 2026</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
-            alt="GitHub logo" class="icon">Source code</a></span>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"
+          rel="noopener noreferrer"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
 
@@ -249,8 +288,6 @@
     // --- Date helpers -------------------------------------------------------
 
     const DAY_MS = 1000 * 60 * 60 * 24;
-
-    function pad(n) { return n < 10 ? "0" + n : "" + n; }
 
     function nthWeekday(year, month, weekday, n) {
       const d = new Date(year, month, 1, 0, 0, 0, 0);
@@ -342,8 +379,7 @@
       },
       {
         icon: "\uD83C\uDF05", title: "Next day",
-        compute: () => {
-          const now = new Date();
+        compute: now => {
           const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
           const end = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
           const leftms = end - now;
@@ -353,8 +389,7 @@
       },
       {
         icon: "\uD83D\uDCC5", title: "Next month",
-        compute: () => {
-          const now = new Date();
+        compute: now => {
           const start = new Date(now.getFullYear(), now.getMonth(), 1);
           const end = new Date(now.getFullYear(), now.getMonth() + 1, 1);
           const leftms = end - now;
@@ -363,8 +398,7 @@
       },
       {
         icon: "\uD83C\uDF86", title: "Next year",
-        compute: () => {
-          const now = new Date();
+        compute: now => {
           const start = new Date(now.getFullYear(), 0, 1);
           const end = new Date(now.getFullYear() + 1, 0, 1);
           return { leftText: Math.ceil((end - now) / DAY_MS) + " days left", progress: ((now - start) / (end - start)) * 100 };
@@ -417,59 +451,59 @@
       })),
       {
         icon: "\uD83D\uDCC5", title: "Next decade",
-        compute: () => bigWesternClock(2020, 2030, "years")
+        compute: (now) => bigWesternClock(now, 2020, 2030, "years")
       },
       {
         icon: "\uD83D\uDCC5", title: "Next century",
-        compute: () => bigWesternClock(2000, 2100, "years")
+        compute: (now) => bigWesternClock(now, 2000, 2100, "years")
       },
       {
         icon: "\uD83D\uDCC5", title: "Next millennium",
-        compute: () => bigWesternClock(2000, 3000, "years")
+        compute: (now) => bigWesternClock(now, 2000, 3000, "years")
       },
       {
         icon: "\u2604\uFE0F", title: "Halley's Comet returns",
-        compute: () => {
+        compute: (now) => {
           // Last perihelion: 1986-02-09. Next predicted perihelion: 2061-07-28.
           const start = new Date(Date.UTC(1986, 1, 9));
           const end = new Date(Date.UTC(2061, 6, 28));
-          return longTermBar(start, end, "years");
+          return longTermBar(now, start, end, "years");
         }
       },
       {
         icon: "\uD83C\uDFED", title: "Chernobyl is fully safe again",
-        compute: () => {
+        compute: (now) => {
           // The Exclusion Zone is expected to remain unsafe for roughly two centuries.
           const start = new Date(Date.UTC(1986, 3, 26));
           const end = new Date(Date.UTC(2200, 0, 1));
-          return longTermBar(start, end, "years");
+          return longTermBar(now, start, end, "years");
         }
       },
       {
         icon: "\uD83D\uDEF0\uFE0F", title: "Voyager 1 reaches the Oort Cloud",
-        compute: () => {
+        compute: (now) => {
           // Launched 1977-09-05; ~300 years of travel before reaching the inner Oort cloud.
           const start = new Date(Date.UTC(1977, 8, 5));
           const end = new Date(Date.UTC(2310, 0, 1));
-          return longTermBar(start, end, "years");
+          return longTermBar(now, start, end, "years");
         }
       },
       {
         icon: "\uD83C\uDF0C", title: "Milky Way collides with Andromeda",
-        compute: () => {
+        compute: (now) => {
           // Reference frame: the universe 13.8 billion years ago; collision ~4 billion years from now.
           const totalYears = 13.8e9 + 4e9;
-          const elapsedYears = 13.8e9 + (Date.now() - Date.UTC(2000, 0, 1)) / DAY_MS / 365.25;
+          const elapsedYears = 13.8e9 + (now.getTime() - Date.UTC(2000, 0, 1)) / DAY_MS / 365.25;
           return { leftText: "4 billion years left", progress: (elapsedYears / totalYears) * 100 };
         }
       },
-{
+      {
         icon: "\u2604\uFE0F", title: "The Sun dies",
-        compute: () => {
+        compute: (now) => {
           // Sun formed ~4.6 billion years ago; main-sequence lifetime ~9.6 billion years.
           const startYears = 4.6e9;
           const totalYears = 9.6e9;
-          const elapsedYears = startYears + (Date.now() - Date.UTC(2000, 0, 1)) / DAY_MS / 365.25;
+          const elapsedYears = startYears + (now.getTime() - Date.UTC(2000, 0, 1)) / DAY_MS / 365.25;
           const remaining = totalYears - elapsedYears;
           return { leftText: Math.round(remaining / 1e9) + " billion years left", progress: (elapsedYears / totalYears) * 100 };
         }
@@ -486,11 +520,11 @@
       }
     ];
 
-    function longTermBar(start, end, unit) {
-      const now = Date.now();
-      const elapsed = now - start.getTime();
+    function longTermBar(now, start, end, unit) {
+      const nowMs = now.getTime();
+      const elapsed = nowMs - start.getTime();
       const span = end.getTime() - start.getTime();
-      const remaining = end.getTime() - now;
+      const remaining = end.getTime() - nowMs;
       const remainingUnit = remaining / DAY_MS / 365.25;
       return {
         leftText: Math.ceil(remainingUnit) + " " + unit + " left",
@@ -498,23 +532,22 @@
       };
     }
 
-    function bigWesternClock(startYear, endYear, unit) {
-      const now = new Date();
+    function bigWesternClock(now, startYear, endYear, unit) {
       const start = new Date(startYear, 0, 1);
       const end = new Date(endYear, 0, 1);
-      const remaining = (end - now) / DAY_MS / 365.25;
+      const remaining = (end.getTime() - now.getTime()) / DAY_MS / 365.25;
       return {
         leftText: Math.ceil(remaining) + " " + unit + " left",
-        progress: ((now - start) / (end - start)) * 100
+        progress: ((now.getTime() - start.getTime()) / (end.getTime() - start.getTime())) * 100
       };
     }
 
     function holidayBar(now, makeForYear, units) {
       const next = nextOccurrence(makeForYear, now);
       const last = makeForYear(next.getFullYear() - 1);
-      const total = (next - last) || DAY_MS;
-      const elapsed = now - last;
-      const daysLeft = Math.ceil((next - now) / DAY_MS);
+      const total = (next.getTime() - last.getTime()) || DAY_MS;
+      const elapsed = now.getTime() - last.getTime();
+      const daysLeft = Math.ceil((next.getTime() - now.getTime()) / DAY_MS);
       const unit = daysLeft === 1 ? units[1] : units[0];
       return {
         leftText: daysLeft + " " + unit + " left",
@@ -548,8 +581,10 @@
       const info = document.createElement("div");
       info.className = "progress-info";
 
+      const titleId = `progress-title-${index}`;
       const title = document.createElement("div");
       title.className = "progress-title";
+      title.id = titleId;
       title.textContent = bar.icon + " " + bar.title;
 
       const desktopLeft = document.createElement("div");
@@ -564,6 +599,7 @@
       inner.className = "progress-bar-inner";
       inner.style.width = "0%";
       inner.setAttribute("role", "progressbar");
+      inner.setAttribute("aria-labelledby", titleId);
       inner.setAttribute("aria-valuemin", "0");
       inner.setAttribute("aria-valuemax", "100");
 
@@ -580,7 +616,7 @@
       item.appendChild(wrapper);
       item.appendChild(mobileLeft);
 
-      return { item, inner, desktopLeftSpan, mobileLeftSpan };
+      return { item, inner, desktopLeftSpan, mobileLeftSpan, lastText: "", lastWidth: "" };
     }
 
     const rendered = BARS.map((bar, i) => {
@@ -594,19 +630,29 @@
       BARS.forEach((bar, i) => {
         const r = rendered[i];
         const result = bar.compute(now);
-        if (result.leftTextSup) {
-          r.inner.setAttribute("aria-valuetext", result.leftText);
-          r.desktopLeftSpan.innerHTML = result.leftTextSup;
-          r.mobileLeftSpan.innerHTML = result.leftTextSup;
-        } else {
-          const label = result.leftText;
-          r.inner.setAttribute("aria-valuetext", label);
-          r.desktopLeftSpan.textContent = label;
-          r.mobileLeftSpan.textContent = label;
+        const textVal = result.leftTextSup || result.leftText;
+
+        if (r.lastText !== textVal) {
+          r.lastText = textVal;
+          if (result.leftTextSup) {
+            r.inner.setAttribute("aria-valuetext", result.leftText);
+            r.desktopLeftSpan.innerHTML = result.leftTextSup;
+            r.mobileLeftSpan.innerHTML = result.leftTextSup;
+          } else {
+            const label = result.leftText;
+            r.inner.setAttribute("aria-valuetext", label);
+            r.desktopLeftSpan.textContent = label;
+            r.mobileLeftSpan.textContent = label;
+          }
         }
+
         const pct = Math.max(0, Math.min(100, result.progress));
-        r.inner.style.width = pct.toFixed(4) + "%";
-        r.inner.setAttribute("aria-valuenow", pct.toFixed(2));
+        const widthStr = pct.toFixed(4) + "%";
+        if (r.lastWidth !== widthStr) {
+          r.lastWidth = widthStr;
+          r.inner.style.width = widthStr;
+          r.inner.setAttribute("aria-valuenow", pct.toFixed(2));
+        }
       });
     }
 
@@ -614,7 +660,18 @@
 
     // Tick fast for short-term bars, slow otherwise.
     setInterval(updateBars, 1000);
-    window.addEventListener("scroll", updateBars, { passive: true });
+
+    let scrollTicking = false;
+    window.addEventListener("scroll", () => {
+      if (!scrollTicking) {
+        requestAnimationFrame(() => {
+          updateBars();
+          scrollTicking = false;
+        });
+        scrollTicking = true;
+      }
+    }, { passive: true });
+
     window.addEventListener("resize", updateBars);
     document.addEventListener("DOMContentLoaded", updateBars);
   </script>
@@ -627,11 +684,13 @@
 
     function updateIcons(theme) {
       if (theme === "dark") {
-        themeToggleLightIcon.classList.remove("hidden");
-        themeToggleDarkIcon.classList.add("hidden");
+        themeToggleLightIcon?.classList.remove("hidden");
+        themeToggleDarkIcon?.classList.add("hidden");
+        themeToggleBtn?.setAttribute("aria-label", "Switch to light theme");
       } else {
-        themeToggleLightIcon.classList.add("hidden");
-        themeToggleDarkIcon.classList.remove("hidden");
+        themeToggleLightIcon?.classList.add("hidden");
+        themeToggleDarkIcon?.classList.remove("hidden");
+        themeToggleBtn?.setAttribute("aria-label", "Switch to dark theme");
       }
     }
 
@@ -647,6 +706,24 @@
         updateIcons(newTheme);
       });
     }
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) {
+        const newTheme = e.matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        updateIcons(newTheme);
+      }
+    });
+
+    // Email link handler
+    document.querySelectorAll('.js-email-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const a = "Justin.richard.hill@";
+        const b = "gmail.com";
+        window.open(`mailto:${a}${b}`, 'email');
+      });
+    });
   </script>
 </body>
 
