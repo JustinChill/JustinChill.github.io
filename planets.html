@@ -1,16 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="en" class="no-js" data-theme="dark">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script>
-    // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
+    // Inline script to enforce dark theme immediately
     (function () {
-      const savedTheme = localStorage.getItem('theme');
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', theme);
+      document.documentElement.setAttribute('data-theme', 'dark');
       document.documentElement.classList.remove('no-js');
       document.documentElement.classList.add('js');
     })();
@@ -32,9 +29,9 @@
   <meta property="og:locality" content="NY">
   <meta property="og:region" content="NY">
   <meta property="og:country_name" content="USA">
-  <meta content="https://planets.htmlforpeople.com/PIA06193~large.jpg" property="og:image">
+  <meta content="https://justinchill.com/imgs/OSC_Astro_07_01_Orbits-1.jpg" property="og:image">
   <meta
-    content="An image of Saturn, showcasing its iconic rings. The planet appears with a smooth, yellowish surface, partially in shadow, against a black background. The rings are clearly visible, casting shadows on the planet."
+    content="An image showing orbits of planets and dwarf planets in our solar system."
     property="og:image:alt">
 
   <meta name="datePublished" content="2021-01-30">
@@ -44,7 +41,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Planets of our Solar System | Justin Chill">
   <meta name="twitter:description" content="A tour of our solar system.">
-  <meta content="https://planets.htmlforpeople.com/PIA06193~large.jpg" property="twitter:image">
+  <meta content="https://justinchill.com/imgs/OSC_Astro_07_01_Orbits-1.jpg" property="twitter:image">
 
   <link rel="canonical" href="https://justinchill.com/planets.html">
   <link rel="preload" href="style.css" as="style" />
@@ -114,10 +111,10 @@
       }
     }
 
-    html {
-      color-scheme: dark;
-    }
-
+    html,
+    body,
+    .nav,
+    .nav__list,
     article,
     footer,
     footer *,
@@ -125,52 +122,82 @@
     article>aside,
     article>aside *,
     thead th,
-    tfoot th,
-    html,
-    .nav {
-      background: #000000;
+    tfoot th {
+      background: #000000 !important;
       color: rgb(221, 221, 221);
     }
 
-    td,
-    thead,
-    th,
-    thead th:not(:first-child) {
-      border: none;
-      text-align: start;
+    html {
+      color-scheme: dark;
+      background-color: #000000 !important;
+    }
+
+    body {
+      background-color: #000000 !important;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin: var(--spacer-4) 0;
+      width: 100%;
+    }
+
+    table {
+      width: 100%;
+      min-width: max-content;
+      table-layout: auto;
+      border-collapse: collapse;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+      margin: var(--spacer-4) 0;
+    }
+
+    .table-wrapper table {
+      margin: 0;
+    }
+
+    thead tr:first-child {
+      border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+    }
+
+    th:first-child {
+      position: static;
+      width: auto;
     }
 
     th:first-child::after {
       content: none;
     }
 
-    th p {
-      font-size: inherit;
-    }
-
-    table {
-      width: 100%;
-      margin: var(--spacer-4) 0;
-      border-bottom: 2px solid white;
-    }
-
-    thead tr:first-child {
-      border-bottom: 2px solid white;
-    }
-
-    table th:first-child {
-      position: relative;
-    }
-
     td,
     th {
+      padding: 0.5rem 0.75rem;
+      border: none;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    td:first-child,
+    th:first-child,
+    thead tr:first-child th {
+      text-align: left;
       padding-left: 0;
+    }
+
+    td:last-child,
+    th:last-child {
       padding-right: 0;
     }
 
-    table:first-of-type tr th:nth-of-type(2),
-    table:first-of-type tr td:nth-of-type(2) {
-      text-align: right;
+    thead th {
+      vertical-align: bottom;
+    }
+
+    th small {
+      font-weight: normal;
+      font-size: 0.85em;
+      opacity: 0.85;
+      display: block;
     }
 
     .icon {
@@ -252,7 +279,7 @@
 
     .card-container.all {
       grid-template-columns: repeat(auto-fit, minmax(min(100%/2, max(190px, 100%/5)), 1fr));
-      grid-template-rows: repeat(auto-fill, 400px);
+      grid-auto-rows: 400px;
       grid-gap: 40px;
       padding: 0 2rem;
       width: 100%;
@@ -513,7 +540,11 @@
 
     .info__title {
       text-align: center;
-      font-size: 28px;
+      font-size: clamp(1.15rem, 3.5vw, 1.4rem);
+      font-family: "Major Mono Display", monospace;
+      text-transform: lowercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
     }
 
     .info__form {
@@ -584,7 +615,7 @@
     ]
   },
   "mainEntityOfPage": "https://justinchill.com/planets.html",
-  "image": "https://planets.htmlforpeople.com/PIA06193~large.jpg"
+  "image": "https://justinchill.com/imgs/OSC_Astro_07_01_Orbits-1.jpg"
 }
   </script>
 </head>
@@ -596,22 +627,6 @@
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-    
-      <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
-        <span id="theme-toggle-light-icon" class="hidden">
-          <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
-          </svg>
-        </span>
-        <span id="theme-toggle-dark-icon" class="hidden">
-          <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
-          </svg>
-        </span>
-      </button>
     </div>
     <div class="nav__list">
       <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
@@ -628,7 +643,7 @@
       <figure>
         <figcaption class="right">Credit: NASA/JPL</figcaption>
         <img src="https://www.nasa.gov/wp-content/uploads/2023/03/224333main_PIA01341_full.jpg?w=1041"
-          alt="This 1997 montage of planetary images was taken by spacecraft managed by NASA's Jet Propulsion Laboratory. Included are (from top to bottom) images of Mercury, Venus, Earth (and moon), Mars, Jupiter, Saturn, Uranus and Neptune.">
+          alt="This 1997 montage of planetary images was taken by spacecraft managed by NASA's Jet Propulsion Laboratory. Included are (from top to bottom) images of Mercury, Venus, Earth (and moon), Mars, Jupiter, Saturn, Uranus and Neptune." loading="lazy" decoding="async">
       </figure>
 
       <!-- <p>The universe is filled with billions of star systems. Located inside galaxies, these cosmic arrangements are made up of at least one star and all the objects that travel around it, including planets, dwarf planets, moons, asteroids, comets, and meteoroids. The star system we’re most familiar with, of course, is our own.</p> -->
@@ -658,18 +673,18 @@
             </div>
           </div>
           <div class="card__info">
-            <h2 class="info__title">The Sun</h2>
+            <div class="info__title">The Sun</div>
             <div class="info__form">
               <div class="info__item">
-                <label class="info__label">tilt</label><span class="info__line"></span><i
-                  class="tilt__icon fas fa-long-arrow-alt-right"></i><span class="info__detail">0°</span>
+                <span class="info__label">tilt</span><span class="info__line"></span><i
+                  class="tilt__icon fas fa-long-arrow-alt-right" aria-hidden="true"></i><span class="info__detail">0°</span>
               </div>
               <div class="info__item">
-                <label class="info__label">day</label><span class="info__line"></span><span class="info__detail">~600
+                <span class="info__label">day</span><span class="info__line"></span><span class="info__detail">~600
                   hours</span>
               </div>
               <div class="info__item">
-                <label class="info__label">year</label><span class="info__line"></span><span class="info__detail">0
+                <span class="info__label">year</span><span class="info__line"></span><span class="info__detail">0
                   days</span>
               </div>
             </div>
@@ -686,48 +701,48 @@
         core into helium. This process gives out huge amounts of radiation, or energy. Living things on Earth depend on
         this energy in the form of light and heat<a href="#comp" aria-describedby="footnote-label" id="comp-ref"></a>.
       </p>
-      <table
-        aria-label="This table has 2 columns and 8 rows. The first row is a header row and labels each column, “Object” and “Percentage of Total Mass of Solar System”. Under the “Object” column are the values, “Sun”, “Jupiter”, “Comets”, “All other planets and dwarf planets”, “Moons and rings”, “Asteroids”, and “Cosmic dust”. Under the “Percentage of Total Mass of Solar System” column are the values, “99.80”, “0.10”, “0.0005–0.03 (estimate)”, “0.04”, “0.00005”, “0.000002 (estimate)”, and “0.0000001 (estimate)”.">
-        <thead>
-          <tr>
-            <th colspan="2">Mass of Members of the Solar System</th>
-          </tr>
-          <tr>
-            <th>Object</th>
-            <th>Percentage of Total Mass</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Sun</td>
-            <td>99.80%</td>
-          </tr>
-          <tr>
-            <td>Jupiter</td>
-            <td>0.10%</td>
-          </tr>
-          <tr>
-            <td>Comets</td>
-            <td>0.0005–0.03% (estimate)</td>
-          </tr>
-          <tr>
-            <td>All other planets and dwarf planets</td>
-            <td>0.04%</td>
-          </tr>
-          <tr>
-            <td>Moons and rings</td>
-            <td>0.00005%</td>
-          </tr>
-          <tr>
-            <td>Asteroids</td>
-            <td>0.000002% (estimate)</td>
-          </tr>
-          <tr>
-            <td>Cosmic dust</td>
-            <td>0.0000001% (estimate)</td>
-          </tr>
-        </tbody>
-      </table>
+      <h3>Mass of Members of the Solar System</h3>
+      <div class="table-wrapper" style="overflow-x: auto;">
+        <table
+          aria-label="Mass of Members of the Solar System">
+          <thead>
+            <tr>
+              <th scope="col">Object</th>
+              <th scope="col">Percentage of Total Mass</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Sun</td>
+              <td>99.80%</td>
+            </tr>
+            <tr>
+              <td>Jupiter</td>
+              <td>0.10%</td>
+            </tr>
+            <tr>
+              <td>Comets</td>
+              <td>0.0005–0.03% (estimate)</td>
+            </tr>
+            <tr>
+              <td>All other planets and dwarf planets</td>
+              <td>0.04%</td>
+            </tr>
+            <tr>
+              <td>Moons and rings</td>
+              <td>0.00005%</td>
+            </tr>
+            <tr>
+              <td>Asteroids</td>
+              <td>0.000002% (estimate)</td>
+            </tr>
+            <tr>
+              <td>Cosmic dust</td>
+              <td>0.0000001% (estimate)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <p>This table also shows that most mass in our solar system is actually concentrated in the largest planet,
         Jupiter, which is more massive than all the rest of the planets combined. Astronomers were able to determine the
         masses of the planets centuries ago using <strong>Kepler’s</strong> laws of planetary motion and
@@ -777,18 +792,18 @@
             </div>
           </div>
           <div class="card__info">
-            <h2 class="info__title">Mercury</h2>
+            <div class="info__title">Mercury</div>
             <div class="info__form">
               <div class="info__item">
-                <label class="info__label">tilt</label><span class="info__line"></span><i
-                  class="tilt__icon fas fa-long-arrow-alt-right"></i><span class="info__detail">0.034°</span>
+                <span class="info__label">tilt</span><span class="info__line"></span><i
+                  class="tilt__icon fas fa-long-arrow-alt-right" aria-hidden="true"></i><span class="info__detail">0.034°</span>
               </div>
               <div class="info__item">
-                <label class="info__label">day</label><span class="info__line"></span><span class="info__detail">1,407
+                <span class="info__label">day</span><span class="info__line"></span><span class="info__detail">1,407
                   hours</span>
               </div>
               <div class="info__item">
-                <label class="info__label">year</label><span class="info__line"></span><span class="info__detail">88
+                <span class="info__label">year</span><span class="info__line"></span><span class="info__detail">88
                   days</span>
               </div>
             </div>
@@ -829,18 +844,18 @@
             </div>
           </div>
           <div class="card__info">
-            <h2 class="info__title">Venus</h2>
+            <div class="info__title">Venus</div>
             <div class="info__form">
               <div class="info__item">
-                <label class="info__label">tilt</label><span class="info__line"></span><i
-                  class="tilt__icon fas fa-long-arrow-alt-right"></i><span class="info__detail">177.3°</span>
+                <span class="info__label">tilt</span><span class="info__line"></span><i
+                  class="tilt__icon fas fa-long-arrow-alt-right" aria-hidden="true"></i><span class="info__detail">177.3°</span>
               </div>
               <div class="info__item">
-                <label class="info__label">day</label><span class="info__line"></span><span class="info__detail">5,832
+                <span class="info__label">day</span><span class="info__line"></span><span class="info__detail">5,832
                   hours</span>
               </div>
               <div class="info__item">
-                <label class="info__label">year</label><span class="info__line"></span><span class="info__detail">224.7
+                <span class="info__label">year</span><span class="info__line"></span><span class="info__detail">224.7
                   days</span>
               </div>
             </div>
@@ -857,7 +872,7 @@
         mapped Venus with a powerful imaging radar. <em>Magellan</em> produced images with a resolution of 100 meters,
         much better than that of previous missions, yielding our first detailed look at the surface of our sister
         planet.</p>
-      <p>The <em>Magellan</em> spacecraft returned returned 1,200 gigabits of data, far exceeding the 900 gigabits of
+      <p>The <em>Magellan</em> spacecraft returned 1,200 gigabits of data, far exceeding the 900 gigabits of
         data from <strong>all</strong> NASA planetary missions combined at the time<a href="#Magellan"
           aria-describedby="footnote-label" id="Magellan-ref"></a>. Each 100 minutes of data transmission from the
         spacecraft provided enough information, if translated into characters, to fill two 30-volume encyclopedias.</p>
@@ -870,25 +885,25 @@
             </div>
           </div>
           <div class="card__info">
-            <h2 class="info__title">Earth</h2>
+            <div class="info__title">Earth</div>
             <div class="info__form">
               <div class="info__item">
-                <label class="info__label">tilt</label><span class="info__line"></span><i
-                  class="tilt__icon fas fa-long-arrow-alt-right"></i><span class="info__detail">23.26°</span>
+                <span class="info__label">tilt</span><span class="info__line"></span><i
+                  class="tilt__icon fas fa-long-arrow-alt-right" aria-hidden="true"></i><span class="info__detail">23.26°</span>
               </div>
               <div class="info__item">
-                <label class="info__label">day</label><span class="info__line"></span><span class="info__detail">23.9
+                <span class="info__label">day</span><span class="info__line"></span><span class="info__detail">23.9
                   hours</span>
               </div>
               <div class="info__item">
-                <label class="info__label">year</label><span class="info__line"></span><span class="info__detail">365.2
+                <span class="info__label">year</span><span class="info__line"></span><span class="info__detail">365.2
                   days</span>
               </div>
             </div>
           </div>
         </section>
       </div>
-      <blockquote cite="">
+      <blockquote cite="https://www.youtube.com/watch?v=wupToqz1e2g">
         <p>The Earth is a very small stage in a vast cosmic arena. Think of the rivers of blood spilled by all those
           generals and emperors so that in glory and triumph they could become the momentary masters of a fraction of a
           dot.</p>
@@ -897,7 +912,7 @@
       <p>Earth is a medium-size planet with a diameter of about 12,760 kilometers. As one of the terrestrial planets,
         Earth is composed primarily of heavy elements like iron, silicon, and oxygen— very different than the
         composition of the Sun and stars, which are made of the lighter elements hydrogen and helium. Earth’s orbit is
-        nearly circular, and you've probably noticed its warm enough to support liquid water on the surface. Earth is
+        nearly circular, and you've probably noticed it's warm enough to support liquid water on the surface. Earth is
         the only planet in our solar system that is neither too hot nor too cold, but “just right” for the development
         of life as we know it. </p>
       <h3>Look inside yourself</h3>
@@ -916,20 +931,18 @@
         is defined as the zone within which Earth’s magnetic field is stronger than the faint magnetic field from the
         Sun.</p>
       <figure>
+        <figcaption>A cross-sectional view of our magnetosphere (or zone of magnetic influence), as revealed by numerous spacecraft missions. Note how the wind of charged particles from the Sun “blows” the magnetic field outward like a wind sock.</figcaption>
         <img loading="lazy" decoding="async"
           src="imgs/OSC_Astro_08_01_Magnetosph-1.jpg"
           alt="Illustration of the Earth’s Magnetosphere. At left an arrow points leftward indicating the direction of the Sun. The Solar wind is drawn as numerous particles coming from the left. Slightly off-center to the right the Earth is shown, with an arrow for the north pole pointing upward, and one pointing down for the south pole. To the left and right of the Earth are two nested purple crescents with their points touching the poles of the Earth. These areas are labeled as the Van Allen belts. Outside the Van Allen belts the lines of the magnetic field are drawn in white. On the left side of the Earth (facing the Sun in this diagram), the lines originate at the north pole and curve out away from the surface then curve back to end at the south pole. Four of these curves are shown, each extending further out into space than the one proceeding it. On the right side of the Earth (facing away from the Sun), the magnetic field lines are also drawn, but have very different shapes than those on the left. The innermost line on the right looks very similar to the innermost line of the left. But each successive line moves further and further out into space before returning to the poles. Thus the magnetic field is much more elongated in shape on the side of the Earth facing away from the Sun.">
       </figure>
-      <p>A cross-sectional view of our magnetosphere (or zone of magnetic influence), as revealed by numerous spacecraft
-        missions. Note how the wind of charged particles from the Sun “blows” the magnetic field outward like a wind
-        sock.</p>
 
       <h3>Our cratered Moon</h3>
       <figure>
         <figcaption class="right">Credit: modification of work by NASA/GSFC/Arizona State University</figcaption>
         <img src="imgs/OSC_Astro_07_03_CratedMoon-1.jpg"
           alt="Image of the Moon taken by the Lunar Reconnaissance Orbiter. This composite image shows the Lunar surface not seen from Earth. This region is so heavily cratered that most overlap. Only one small mare (Lunar “sea”) is seen at upper left."
-          loading="lazy">
+          loading="lazy" decoding="async">
       </figure>
       <p>This composite image of the Moon’s surface was made from many smaller images taken between November 2009 and
         February 2011 by the Lunar Reconnaissance Orbiter (LRO) and shows craters of many different sizes. </p>
@@ -953,18 +966,18 @@
             </div>
           </div>
           <div class="card__info">
-            <h2 class="info__title">Mars</h2>
+            <div class="info__title">Mars</div>
             <div class="info__form">
               <div class="info__item">
-                <label class="info__label">tilt</label><span class="info__line"></span><i
-                  class="tilt__icon fas fa-long-arrow-alt-right"></i><span class="info__detail">25.2°</span>
+                <span class="info__label">tilt</span><span class="info__line"></span><i
+                  class="tilt__icon fas fa-long-arrow-alt-right" aria-hidden="true"></i><span class="info__detail">25.2°</span>
               </div>
               <div class="info__item">
-                <label class="info__label">day</label><span class="info__line"></span><span class="info__detail">24.6
+                <span class="info__label">day</span><span class="info__line"></span><span class="info__detail">24.6
                   hours</span>
               </div>
               <div class="info__item">
-                <label class="info__label">year</label><span class="info__line"></span><span class="info__detail">687
+                <span class="info__label">year</span><span class="info__line"></span><span class="info__detail">687
                   days</span>
               </div>
             </div>
@@ -985,7 +998,7 @@
       <figure>
         <figcaption class="right">Credit: NASA/JPL</figcaption>
         <img src="imgs/OSC_Astro_10_04_Pathfinder-1.jpg"
-          alt="Surface view from Mars Pathfinder. At the lower left in this image, a portion of the lander and the ramp used to deploy the Sojourner rover is seen. Tracks lead away from the ramp to the large boulder at the upper right of this image. The rover is positioned immediately to the left of the boulder.">
+          alt="Surface view from Mars Pathfinder. At the lower left in this image, a portion of the lander and the ramp used to deploy the Sojourner rover is seen. Tracks lead away from the ramp to the large boulder at the upper right of this image. The rover is positioned immediately to the left of the boulder." loading="lazy" decoding="async">
       </figure>
       <p>The scene from the US <em>Pathfinder</em> lander shows a windswept plain, sculpted long ago when water flowed
         out of the martian highlands and into the depression where the spacecraft landed. In this photo, you can see the
@@ -1011,79 +1024,60 @@
         away as Jupiter (almost 10 AU) and takes nearly 30 years to complete one orbit. Uranus orbits at 19 AU with a
         period of 84 years, while Neptune, at 30 AU, requires 165 years for each trip around the Sun. These long
         timescales make it difficult for us short-lived humans to study seasonal change on the outer planets.</p>
-      <table
-        aria-label="This table contains seven columns and five rows. The first row is a header row and labels each column, “Planet”, “Distance (AU)”, “Period (years)”, “Diameter (km)”, “Mass (Earth = 1)”, “Density (g/cm3)” and “Rotation (hours)”. Under the “Planet” column are the values: “Jupiter”, “Saturn”, “Uranus” and “Neptune”. Under the “Distance (AU)” column are the values: “5.2”, “9.5”, “19.2” and “30.0”. Under the “Period (years)” column are the values: “11.9”, “29.5”, “84.1” and “164.8”. Under the “Diameter (km)” column are the values: “142,800”, “120,450”, “51,200” and “49,500”. Under the “Mass (Earth = 1)” column are the values: “318”, “95”, “14” and “17”. Under the “Density (g/cm3)” column are the values: “1.3”, “0.7”, “1.3” and “1.6”. Finally, under the “Rotation (hours)” column are the values: “9.9”, “10.7”, “17.2” and “16.1”.">
-        <thead>
-          <tr>
-            <th colspan="7">Basic Properties of the Jovian Planets</th>
-          </tr>
-          <tr>
-            <th>Planet</th>
-            <th>Distance<p></p>
-              <div></div>
-              <p>(AU)</p>
-            </th>
-            <th>Period<p></p>
-              <div></div>
-              <p>(years)</p>
-            </th>
-            <th>Diameter<p></p>
-              <div></div>
-              <p>(km)</p>
-            </th>
-            <th>Mass<p></p>
-              <div></div>
-              <p>(Earth = 1)</p>
-            </th>
-            <th>Density<p></p>
-              <div></div>
-              <p>(g/cm<sup>3</sup>)</p>
-            </th>
-            <th>Rotation<p></p>
-              <div></div>
-              <p>(hours)</p>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Jupiter</td>
-            <td>5.2</td>
-            <td>11.9</td>
-            <td>142,800</td>
-            <td>318</td>
-            <td>1.3</td>
-            <td>9.9</td>
-          </tr>
-          <tr>
-            <td>Saturn</td>
-            <td>9.5</td>
-            <td>29.5</td>
-            <td>120,540</td>
-            <td>95</td>
-            <td>0.7</td>
-            <td>10.7</td>
-          </tr>
-          <tr>
-            <td>Uranus</td>
-            <td>19.2</td>
-            <td>84.1</td>
-            <td>51,200</td>
-            <td>14</td>
-            <td>1.3</td>
-            <td>17.2</td>
-          </tr>
-          <tr>
-            <td>Neptune</td>
-            <td>30.0</td>
-            <td>164.8</td>
-            <td>49,500</td>
-            <td>17</td>
-            <td>1.6</td>
-            <td>16.1</td>
-          </tr>
-        </tbody>
-      </table>
+      <h3>Basic Properties of the Jovian Planets</h3>
+      <div class="table-wrapper" style="overflow-x: auto;">
+        <table aria-label="Basic Properties of the Jovian Planets">
+          <thead>
+            <tr>
+              <th scope="col">Planet</th>
+              <th scope="col">Distance<br><small>(AU)</small></th>
+              <th scope="col">Period<br><small>(years)</small></th>
+              <th scope="col">Diameter<br><small>(km)</small></th>
+              <th scope="col">Mass<br><small>(Earth = 1)</small></th>
+              <th scope="col">Density<br><small>(g/cm<sup>3</sup>)</small></th>
+              <th scope="col">Rotation<br><small>(hours)</small></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Jupiter</td>
+              <td>5.2</td>
+              <td>11.9</td>
+              <td>142,800</td>
+              <td>318</td>
+              <td>1.3</td>
+              <td>9.9</td>
+            </tr>
+            <tr>
+              <td>Saturn</td>
+              <td>9.5</td>
+              <td>29.5</td>
+              <td>120,540</td>
+              <td>95</td>
+              <td>0.7</td>
+              <td>10.7</td>
+            </tr>
+            <tr>
+              <td>Uranus</td>
+              <td>19.2</td>
+              <td>84.1</td>
+              <td>51,200</td>
+              <td>14</td>
+              <td>1.3</td>
+              <td>17.2</td>
+            </tr>
+            <tr>
+              <td>Neptune</td>
+              <td>30.0</td>
+              <td>164.8</td>
+              <td>49,500</td>
+              <td>17</td>
+              <td>1.6</td>
+              <td>16.1</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <h2>Jupiter</h2>
       <div class="card-container">
         <section class="card card--jupiter">
@@ -1093,18 +1087,18 @@
             </div>
           </div>
           <div class="card__info">
-            <h2 class="info__title">Jupiter</h2>
+            <div class="info__title">Jupiter</div>
             <div class="info__form">
               <div class="info__item">
-                <label class="info__label">tilt</label><span class="info__line"></span><i
-                  class="tilt__icon fas fa-long-arrow-alt-right"></i><span class="info__detail">3.1°</span>
+                <span class="info__label">tilt</span><span class="info__line"></span><i
+                  class="tilt__icon fas fa-long-arrow-alt-right" aria-hidden="true"></i><span class="info__detail">3.1°</span>
               </div>
               <div class="info__item">
-                <label class="info__label">day</label><span class="info__line"></span><span class="info__detail">9.9
+                <span class="info__label">day</span><span class="info__line"></span><span class="info__detail">9.9
                   hours</span>
               </div>
               <div class="info__item">
-                <label class="info__label">year</label><span class="info__line"></span><span class="info__detail">4,331
+                <span class="info__label">year</span><span class="info__line"></span><span class="info__detail">4,331
                   days</span>
               </div>
             </div>
@@ -1158,18 +1152,18 @@
             </div>
           </div>
           <div class="card__info">
-            <h2 class="info__title">Saturn</h2>
+            <div class="info__title">Saturn</div>
             <div class="info__form">
               <div class="info__item">
-                <label class="info__label">tilt</label><span class="info__line"></span><i
-                  class="tilt__icon fas fa-long-arrow-alt-right"></i><span class="info__detail">26.7°</span>
+                <span class="info__label">tilt</span><span class="info__line"></span><i
+                  class="tilt__icon fas fa-long-arrow-alt-right" aria-hidden="true"></i><span class="info__detail">26.7°</span>
               </div>
               <div class="info__item">
-                <label class="info__label">day</label><span class="info__line"></span><span class="info__detail">10.7
+                <span class="info__label">day</span><span class="info__line"></span><span class="info__detail">10.7
                   hours</span>
               </div>
               <div class="info__item">
-                <label class="info__label">year</label><span class="info__line"></span><span class="info__detail">10,747
+                <span class="info__label">year</span><span class="info__line"></span><span class="info__detail">10,747
                   days</span>
               </div>
             </div>
@@ -1204,18 +1198,18 @@
             </div>
           </div>
           <div class="card__info">
-            <h2 class="info__title">Uranus</h2>
+            <div class="info__title">Uranus</div>
             <div class="info__form">
               <div class="info__item">
-                <label class="info__label">tilt</label><span class="info__line"></span><i
-                  class="tilt__icon fas fa-long-arrow-alt-right"></i><span class="info__detail">97.8°</span>
+                <span class="info__label">tilt</span><span class="info__line"></span><i
+                  class="tilt__icon fas fa-long-arrow-alt-right" aria-hidden="true"></i><span class="info__detail">97.8°</span>
               </div>
               <div class="info__item">
-                <label class="info__label">day</label><span class="info__line"></span><span class="info__detail">17.2
+                <span class="info__label">day</span><span class="info__line"></span><span class="info__detail">17.2
                   hours</span>
               </div>
               <div class="info__item">
-                <label class="info__label">year</label><span class="info__line"></span><span class="info__detail">30,589
+                <span class="info__label">year</span><span class="info__line"></span><span class="info__detail">30,589
                   days</span>
               </div>
             </div>
@@ -1250,18 +1244,18 @@
             </div>
           </div>
           <div class="card__info">
-            <h2 class="info__title">Neptune</h2>
+            <div class="info__title">Neptune</div>
             <div class="info__form">
               <div class="info__item">
-                <label class="info__label">tilt</label><span class="info__line"></span><i
-                  class="tilt__icon fas fa-long-arrow-alt-right"></i><span class="info__detail">28.3°</span>
+                <span class="info__label">tilt</span><span class="info__line"></span><i
+                  class="tilt__icon fas fa-long-arrow-alt-right" aria-hidden="true"></i><span class="info__detail">28.3°</span>
               </div>
               <div class="info__item">
-                <label class="info__label">day</label><span class="info__line"></span><span class="info__detail">16.1
+                <span class="info__label">day</span><span class="info__line"></span><span class="info__detail">16.1
                   hours</span>
               </div>
               <div class="info__item">
-                <label class="info__label">year</label><span class="info__line"></span><span class="info__detail">59,800
+                <span class="info__label">year</span><span class="info__line"></span><span class="info__detail">59,800
                   days</span>
               </div>
             </div>
@@ -1308,18 +1302,18 @@
             </div>
           </div>
           <div class="card__info">
-            <h2 class="info__title">Pluto</h2>
+            <div class="info__title">Pluto</div>
             <div class="info__form">
               <div class="info__item">
-                <label class="info__label">tilt</label><span class="info__line"></span><i
-                  class="tilt__icon fas fa-long-arrow-alt-right"></i><span class="info__detail">122.5°</span>
+                <span class="info__label">tilt</span><span class="info__line"></span><i
+                  class="tilt__icon fas fa-long-arrow-alt-right" aria-hidden="true"></i><span class="info__detail">122.5°</span>
               </div>
               <div class="info__item">
-                <label class="info__label">day</label><span class="info__line"></span><span class="info__detail">153.3
+                <span class="info__label">day</span><span class="info__line"></span><span class="info__detail">153.3
                   hours</span>
               </div>
               <div class="info__item">
-                <label class="info__label">year</label><span class="info__line"></span><span class="info__detail">90,560
+                <span class="info__label">year</span><span class="info__line"></span><span class="info__detail">90,560
                   days</span>
               </div>
             </div>
@@ -1341,7 +1335,7 @@
         planets.</p>
       <figure>
         <figcaption class="right">Photo: modification of work by NASA</figcaption>
-        <img decoding="async"
+        <img decoding="async" loading="lazy"
           src="imgs/OSC_Astro_12_03_DwarfScale-1.jpg"
           alt="An image showing the comparison of the sizes of Pluto, Charon, and Earth. Earth is roughly six times larger than Pluto, and Pluto is roughly three times larger than its moon, Charon.">
       </figure>
@@ -1374,105 +1368,89 @@
       <p>This intriguing image from the New Horizons spacecraft, taken when it flew by the dwarf planet in July 2015,
         shows some of its complex surface features. The rounded white area is temporarily being called the Sputnik
         Plain, after humanity’s first spacecraft. </p>
-      <table
-        aria-label="This table has 6 columns and 9 rows. The first row is a header row and it labels each column, “Name”, “Distance From Sun (AU)”, “Revolution Period (Years)”, “Diameter (km)”, “Mass (1023 kg)”, “Density (g/cm3)”. A footnote in the “Distance From Sun (AU)” column reads “An AU (or astronomical unit) is the distance from Earth to the Sun”. A footnote in the “Density (g/cm3)” reads “We give densities in units where the density of water is 1 g/cm3. To get densities in units of kg/m3, multiply the given value by 1000”. Under the “Name” column are the values, “Mercury”, “Venus”, “Earth”, “Mars”, “Jupiter”, “Saturn”, “Uranus”, and “Neptune”. Under the “Distance From Sun (AU)2” column are the values, “0.39”, “0.72”, “1.00”, “1.52”, “5.20”, “9.54”, “19.18”, and “30.06”. Under the “Revolution Period (Years)” column are the values, “0.24”, “0.62”, “1.00”, “1.88”, “11.86”, “29.46”, “84.07”, and “164.82”. Under the “Diameter (km)” column are the values, “4,878”, “12,120”, “12,756”, “6,787”, “142,984”, “120,536”, “51,118”, and “49,660”. Under the “Mass (1023 kg)” column are the values, “3.3”, “48.7”, “59.8”, “6.4”, “18,991”, “5,686”, “866”, and “1,030”. Finally, under the “Density (g/cm3)3” column are the values, “5.4”, “5.2”, “5.5”, “3.9”, “1.3”, “0.7”, “1.3”, and “1.6”.">
-        <thead>
-          <tr>
-            <th colspan="6">The Planets</th>
-          </tr>
-          <tr>
-            <th>Name</th>
-            <th>Distance from Sun<p></p>
-              <div></div>
-              <p>(AU)</p>
-            </th>
-            <th>Revolution Period<p></p>
-              <div></div>
-              <p>(y)</p>
-            </th>
-            <th>Diameter<p></p>
-              <div></div>
-              <p>(km)</p>
-            </th>
-            <th>Mass<p></p>
-              <div></div>
-              <p>(10<sup>23</sup> kg)</p>
-            </th>
-            <th>Density<p></p>
-              <div></div>
-              <p>(g/cm<sup>3</sup>)</p>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Mercury</td>
-            <td>0.39</td>
-            <td>0.24</td>
-            <td>4,878</td>
-            <td>3.3</td>
-            <td>5.4</td>
-          </tr>
-          <tr>
-            <td>Venus</td>
-            <td>0.72</td>
-            <td>0.62</td>
-            <td>12,120</td>
-            <td>48.7</td>
-            <td>5.2</td>
-          </tr>
-          <tr>
-            <td>Earth</td>
-            <td>1.00</td>
-            <td>1.00</td>
-            <td>12,756</td>
-            <td>59.8</td>
-            <td>5.5</td>
-          </tr>
-          <tr>
-            <td>Mars</td>
-            <td>1.52</td>
-            <td>1.88</td>
-            <td>6,787</td>
-            <td>6.4</td>
-            <td>3.9</td>
-          </tr>
-          <tr>
-            <td>Jupiter</td>
-            <td>5.20</td>
-            <td>11.86</td>
-            <td>142,984</td>
-            <td>18,991</td>
-            <td>1.3</td>
-          </tr>
-          <tr>
-            <td>Saturn</td>
-            <td>9.54</td>
-            <td>29.46</td>
-            <td>120,536</td>
-            <td>5686</td>
-            <td>0.7</td>
-          </tr>
-          <tr>
-            <td>Uranus</td>
-            <td>19.18</td>
-            <td>84.07</td>
-            <td>51,118</td>
-            <td>866</td>
-            <td>1.3</td>
-          </tr>
-          <tr>
-            <td>Neptune</td>
-            <td>30.06</td>
-            <td>164.82</td>
-            <td>49,660</td>
-            <td>1030</td>
-            <td>1.6</td>
-          </tr>
-        </tbody>
-      </table>
+      <h3>The Planets</h3>
+      <div class="table-wrapper" style="overflow-x: auto;">
+        <table aria-label="The Planets">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Distance from Sun<br><small>(AU)</small></th>
+              <th scope="col">Revolution Period<br><small>(y)</small></th>
+              <th scope="col">Diameter<br><small>(km)</small></th>
+              <th scope="col">Mass<br><small>(10<sup>23</sup> kg)</small></th>
+              <th scope="col">Density<br><small>(g/cm<sup>3</sup>)</small></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Mercury</td>
+              <td>0.39</td>
+              <td>0.24</td>
+              <td>4,878</td>
+              <td>3.3</td>
+              <td>5.4</td>
+            </tr>
+            <tr>
+              <td>Venus</td>
+              <td>0.72</td>
+              <td>0.62</td>
+              <td>12,120</td>
+              <td>48.7</td>
+              <td>5.2</td>
+            </tr>
+            <tr>
+              <td>Earth</td>
+              <td>1.00</td>
+              <td>1.00</td>
+              <td>12,756</td>
+              <td>59.8</td>
+              <td>5.5</td>
+            </tr>
+            <tr>
+              <td>Mars</td>
+              <td>1.52</td>
+              <td>1.88</td>
+              <td>6,787</td>
+              <td>6.4</td>
+              <td>3.9</td>
+            </tr>
+            <tr>
+              <td>Jupiter</td>
+              <td>5.20</td>
+              <td>11.86</td>
+              <td>142,984</td>
+              <td>18,991</td>
+              <td>1.3</td>
+            </tr>
+            <tr>
+              <td>Saturn</td>
+              <td>9.54</td>
+              <td>29.46</td>
+              <td>120,536</td>
+              <td>5,686</td>
+              <td>0.7</td>
+            </tr>
+            <tr>
+              <td>Uranus</td>
+              <td>19.18</td>
+              <td>84.07</td>
+              <td>51,118</td>
+              <td>866</td>
+              <td>1.3</td>
+            </tr>
+            <tr>
+              <td>Neptune</td>
+              <td>30.06</td>
+              <td>164.82</td>
+              <td>49,660</td>
+              <td>1,030</td>
+              <td>1.6</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <h2>Smaller members of the solar system</h2>
-      <p>Most of the planets are accompanied by one or more moons- only Mercury and Venus travel through space alone.
+      <p>Most of the planets are accompanied by one or more moons—only Mercury and Venus travel through space alone.
         There are more than 180 known moons orbiting planets and dwarf planets, and undoubtedly many other small ones
         remain undiscovered. The largest of the moons are as big as small planets and just as interesting. In addition
         to our Moon, they include the four largest moons of Jupiter (called the Galilean moons, after their discoverer)
@@ -1533,18 +1511,18 @@
             </div>
           </div>
           <div class="card__info">
-            <h2 class="info__title">Mercury</h2>
+            <div class="info__title">Mercury</div>
             <div class="info__form">
               <div class="info__item">
-                <label class="info__label">tilt</label><span class="info__line"></span><i
-                  class=" tilt__icon fas fa-long-arrow-alt-right"></i><span class="info__detail">0.034° </span>
+                <span class="info__label">tilt</span><span class="info__line"></span><i
+                  class=" tilt__icon fas fa-long-arrow-alt-right" aria-hidden="true"></i><span class="info__detail">0.034° </span>
               </div>
               <div class="info__item">
-                <label class="info__label">day</label><span class="info__line"></span><span class="info__detail">1,407
+                <span class="info__label">day</span><span class="info__line"></span><span class="info__detail">1,407
                   hours</span>
               </div>
               <div class="info__item">
-                <label class="info__label">year</label><span class="info__line"></span><span class="info__detail">88
+                <span class="info__label">year</span><span class="info__line"></span><span class="info__detail">88
                   days</span>
               </div>
             </div>
@@ -1557,18 +1535,18 @@
             </div>
           </div>
           <div class="card__info">
-            <h2 class="info__title">Venus</h2>
+            <div class="info__title">Venus</div>
             <div class="info__form">
               <div class="info__item">
-                <label class="info__label">tilt</label><span class="info__line"></span><i
-                  class=" tilt__icon fas fa-long-arrow-alt-right"></i><span class="info__detail">177.3° </span>
+                <span class="info__label">tilt</span><span class="info__line"></span><i
+                  class=" tilt__icon fas fa-long-arrow-alt-right" aria-hidden="true"></i><span class="info__detail">177.3° </span>
               </div>
               <div class="info__item">
-                <label class="info__label">day</label><span class="info__line"></span><span class="info__detail">5,832
+                <span class="info__label">day</span><span class="info__line"></span><span class="info__detail">5,832
                   hours</span>
               </div>
               <div class="info__item">
-                <label class="info__label">year</label><span class="info__line"></span><span class="info__detail">224.7
+                <span class="info__label">year</span><span class="info__line"></span><span class="info__detail">224.7
                   days</span>
               </div>
             </div>
@@ -1581,18 +1559,18 @@
             </div>
           </div>
           <div class="card__info">
-            <h2 class="info__title">Earth</h2>
+            <div class="info__title">Earth</div>
             <div class="info__form">
               <div class="info__item">
-                <label class="info__label">tilt</label><span class="info__line"></span><i
-                  class=" tilt__icon fas fa-long-arrow-alt-right"></i><span class="info__detail">23.26° </span>
+                <span class="info__label">tilt</span><span class="info__line"></span><i
+                  class=" tilt__icon fas fa-long-arrow-alt-right" aria-hidden="true"></i><span class="info__detail">23.26° </span>
               </div>
               <div class="info__item">
-                <label class="info__label">day</label><span class="info__line"></span><span class="info__detail">23.9
+                <span class="info__label">day</span><span class="info__line"></span><span class="info__detail">23.9
                   hours</span>
               </div>
               <div class="info__item">
-                <label class="info__label">year</label><span class="info__line"></span><span class="info__detail">365.2
+                <span class="info__label">year</span><span class="info__line"></span><span class="info__detail">365.2
                   days</span>
               </div>
             </div>
@@ -1605,18 +1583,18 @@
             </div>
           </div>
           <div class="card__info">
-            <h2 class="info__title">Mars</h2>
+            <div class="info__title">Mars</div>
             <div class="info__form">
               <div class="info__item">
-                <label class="info__label">tilt</label><span class="info__line"></span><i
-                  class=" tilt__icon fas fa-long-arrow-alt-right"></i><span class="info__detail">25.2° </span>
+                <span class="info__label">tilt</span><span class="info__line"></span><i
+                  class=" tilt__icon fas fa-long-arrow-alt-right" aria-hidden="true"></i><span class="info__detail">25.2° </span>
               </div>
               <div class="info__item">
-                <label class="info__label">day</label><span class="info__line"></span><span class="info__detail">24.6
+                <span class="info__label">day</span><span class="info__line"></span><span class="info__detail">24.6
                   hours</span>
               </div>
               <div class="info__item">
-                <label class="info__label">year</label><span class="info__line"></span><span class="info__detail">687
+                <span class="info__label">year</span><span class="info__line"></span><span class="info__detail">687
                   days</span>
               </div>
             </div>
@@ -1629,18 +1607,18 @@
             </div>
           </div>
           <div class="card__info">
-            <h2 class="info__title">Jupiter</h2>
+            <div class="info__title">Jupiter</div>
             <div class="info__form">
               <div class="info__item">
-                <label class="info__label">tilt</label><span class="info__line"></span><i
-                  class=" tilt__icon fas fa-long-arrow-alt-right"></i><span class="info__detail">3.1° </span>
+                <span class="info__label">tilt</span><span class="info__line"></span><i
+                  class=" tilt__icon fas fa-long-arrow-alt-right" aria-hidden="true"></i><span class="info__detail">3.1° </span>
               </div>
               <div class="info__item">
-                <label class="info__label">day</label><span class="info__line"></span><span class="info__detail">9.9
+                <span class="info__label">day</span><span class="info__line"></span><span class="info__detail">9.9
                   hours</span>
               </div>
               <div class="info__item">
-                <label class="info__label">year</label><span class="info__line"></span><span class="info__detail">4,331
+                <span class="info__label">year</span><span class="info__line"></span><span class="info__detail">4,331
                   days</span>
               </div>
             </div>
@@ -1653,18 +1631,18 @@
             </div>
           </div>
           <div class="card__info">
-            <h2 class="info__title">Saturn</h2>
+            <div class="info__title">Saturn</div>
             <div class="info__form">
               <div class="info__item">
-                <label class="info__label">tilt</label><span class="info__line"></span><i
-                  class=" tilt__icon fas fa-long-arrow-alt-right"></i><span class="info__detail">26.7° </span>
+                <span class="info__label">tilt</span><span class="info__line"></span><i
+                  class=" tilt__icon fas fa-long-arrow-alt-right" aria-hidden="true"></i><span class="info__detail">26.7° </span>
               </div>
               <div class="info__item">
-                <label class="info__label">day</label><span class="info__line"></span><span class="info__detail">10.7
+                <span class="info__label">day</span><span class="info__line"></span><span class="info__detail">10.7
                   hours</span>
               </div>
               <div class="info__item">
-                <label class="info__label">year</label><span class="info__line"></span><span class="info__detail">10,747
+                <span class="info__label">year</span><span class="info__line"></span><span class="info__detail">10,747
                   days</span>
               </div>
             </div>
@@ -1677,18 +1655,18 @@
             </div>
           </div>
           <div class="card__info">
-            <h2 class="info__title">Uranus</h2>
+            <div class="info__title">Uranus</div>
             <div class="info__form">
               <div class="info__item">
-                <label class="info__label">tilt</label><span class="info__line"></span><i
-                  class=" tilt__icon fas fa-long-arrow-alt-right"></i><span class="info__detail">97.8° </span>
+                <span class="info__label">tilt</span><span class="info__line"></span><i
+                  class=" tilt__icon fas fa-long-arrow-alt-right" aria-hidden="true"></i><span class="info__detail">97.8° </span>
               </div>
               <div class="info__item">
-                <label class="info__label">day</label><span class="info__line"></span><span class="info__detail">17.2
+                <span class="info__label">day</span><span class="info__line"></span><span class="info__detail">17.2
                   hours</span>
               </div>
               <div class="info__item">
-                <label class="info__label">year</label><span class="info__line"></span><span class="info__detail">30,589
+                <span class="info__label">year</span><span class="info__line"></span><span class="info__detail">30,589
                   days</span>
               </div>
             </div>
@@ -1701,18 +1679,18 @@
             </div>
           </div>
           <div class="card__info">
-            <h2 class="info__title">Neptune</h2>
+            <div class="info__title">Neptune</div>
             <div class="info__form">
               <div class="info__item">
-                <label class="info__label">tilt</label><span class="info__line"></span><i
-                  class=" tilt__icon fas fa-long-arrow-alt-right"></i><span class="info__detail">28.3° </span>
+                <span class="info__label">tilt</span><span class="info__line"></span><i
+                  class=" tilt__icon fas fa-long-arrow-alt-right" aria-hidden="true"></i><span class="info__detail">28.3° </span>
               </div>
               <div class="info__item">
-                <label class="info__label">day</label><span class="info__line"></span><span class="info__detail">16.1
+                <span class="info__label">day</span><span class="info__line"></span><span class="info__detail">16.1
                   hours</span>
               </div>
               <div class="info__item">
-                <label class="info__label">year</label><span class="info__line"></span><span class="info__detail">59,800
+                <span class="info__label">year</span><span class="info__line"></span><span class="info__detail">59,800
                   days</span>
               </div>
             </div>
@@ -1725,18 +1703,18 @@
             </div>
           </div>
           <div class="card__info">
-            <h2 class="info__title">Pluto</h2>
+            <div class="info__title">Pluto</div>
             <div class="info__form">
               <div class="info__item">
-                <label class="info__label">tilt</label><span class="info__line"></span><i
-                  class=" tilt__icon fas fa-long-arrow-alt-right"></i><span class="info__detail">122.5° </span>
+                <span class="info__label">tilt</span><span class="info__line"></span><i
+                  class=" tilt__icon fas fa-long-arrow-alt-right" aria-hidden="true"></i><span class="info__detail">122.5° </span>
               </div>
               <div class="info__item">
-                <label class="info__label">day</label><span class="info__line"></span><span class="info__detail">153.3
+                <span class="info__label">day</span><span class="info__line"></span><span class="info__detail">153.3
                   hours</span>
               </div>
               <div class="info__item">
-                <label class="info__label">year</label><span class="info__line"></span><span class="info__detail">90,560
+                <span class="info__label">year</span><span class="info__line"></span><span class="info__detail">90,560
                   days</span>
               </div>
             </div>
@@ -1749,18 +1727,18 @@
             </div>
           </div>
           <div class="card__info">
-            <h2 class="info__title">The Sun</h2>
+            <div class="info__title">The Sun</div>
             <div class="info__form">
               <div class="info__item">
-                <label class="info__label">tilt</label><span class="info__line"></span><i
-                  class=" tilt__icon fas fa-long-arrow-alt-right"></i><span class="info__detail">0° </span>
+                <span class="info__label">tilt</span><span class="info__line"></span><i
+                  class=" tilt__icon fas fa-long-arrow-alt-right" aria-hidden="true"></i><span class="info__detail">0° </span>
               </div>
               <div class="info__item">
-                <label class="info__label">day</label><span class="info__line"></span><span class="info__detail">~600
+                <span class="info__label">day</span><span class="info__line"></span><span class="info__detail">~600
                   hours</span>
               </div>
               <div class="info__item">
-                <label class="info__label">year</label><span class="info__line"></span><span class="info__detail">0
+                <span class="info__label">year</span><span class="info__line"></span><span class="info__detail">0
                   days</span>
               </div>
             </div>
@@ -1794,35 +1772,6 @@
             alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
-  <script>
-    // Theme toggle functionality
-    const themeToggleBtn = document.getElementById("theme-toggle");
-    const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
-    const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
-
-    function updateIcons(theme) {
-      if (theme === "dark") {
-        themeToggleLightIcon.classList.remove("hidden");
-        themeToggleDarkIcon.classList.add("hidden");
-      } else {
-        themeToggleLightIcon.classList.add("hidden");
-        themeToggleDarkIcon.classList.remove("hidden");
-      }
-    }
-
-    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
-    updateIcons(currentTheme);
-
-    if (themeToggleBtn) {
-      themeToggleBtn.addEventListener("click", () => {
-        const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
-        const newTheme = activeTheme === "dark" ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
-        updateIcons(newTheme);
-      });
-    }
-  </script>
 </body>
 
 </html>

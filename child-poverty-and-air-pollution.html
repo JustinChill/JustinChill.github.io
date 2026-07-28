@@ -63,6 +63,17 @@
   <meta name="color-scheme" content="light dark">
 
   <style type="text/css">
+    #scatter {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: auto;
+    }
+
+    #scatter svg {
+      max-width: 100%;
+      height: auto;
+    }
+
     g[aria-label*="tip"] {
       text-transform: capitalize;
     }
@@ -72,14 +83,16 @@
       font-size: calc(var(--type-scale--2) + .25vw);
       letter-spacing: -0.03px;
       line-height: calc(1.5em + .2vw);
+      color: var(--text-color);
     }
 
     div[class*="swatch"] svg {
       border-radius: 50%;
     }
 
-    g[aria-label*="x-axis"] path {
-      stroke: rgb(146, 146, 151)
+    g[aria-label*="x-axis"] path,
+    g[aria-label*="y-axis"] path {
+      stroke: rgb(146, 146, 151);
     }
 
     @media screen and (max-width: 680px) {
@@ -153,8 +166,9 @@
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
-      <a href="#" class="nav__item js-email-link">Email</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer"
+        aria-label="LinkedIn profile">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link" aria-label="Email contact">Email</a>
     </div>
   </nav>
 
@@ -167,12 +181,12 @@
       </div>
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h3>Children from low-income households are more likely to live in areas of high air pollution</h3>
-      <figure id="scatter"
+      <figure id="scatter" role="region"
         aria-label="Scatter plot showing a positive correlation between child poverty rates and air pollution levels across UK local authorities.">
-        <figcaption>Source: Department for Environment Food & Rural Affairs (<small>Defra</small>), End Child Poverty
+        <figcaption>Source: Department for Environment, Food & Rural Affairs (<small>Defra</small>), End Child Poverty
           coalition data.</figcaption>
       </figure>
-      <p>“T<em>he centralisation of population in great cities exercises of itself an unfavourable influence,</em>”
+      <p>“<em>The centralisation of population in great cities exercises of itself an unfavourable influence,</em>”
         wrote Friedrich Engels in 1844. “<em>All putrefying vegetable and animal substances give off gases decidedly
           injurious to health, and if these gases have no free way of escape, they inevitably poison the
           atmosphere.</em> [The poor] <em>are obliged to throw all offal and garbage, all dirty water, often all
@@ -186,7 +200,7 @@
         United Kingdom towns and cities, children are breathing unsafe levels of air pollution.</p>
       <p>Five London boroughs rank worst for child poverty and worst for dirty air, according to government data,
         comparing areas with high levels of poverty with air pollution measurements. The analysis showed that the higher
-        the rate of child poverty in a given area, the dirtier the air there was on average, with most of the 50 most
+        the rate of child poverty in a given area, the dirtier the air was on average, with most of the 50 most
         polluted areas in the UK also showing the highest rates of child poverty<a href="#grd"
           aria-describedby="footnote-label" id="grd-ref"></a>.</p>
       <p>Boroughs in <em>Birmingham</em>, <em>Southampton</em>, <em>Portsmouth</em>, <em>Sandwell</em> and
@@ -210,7 +224,7 @@
           the second highest rate of child poverty of any region, after London.</li>
         <li><strong>Most children in poverty have working parents. </strong>Three out of four children who live in
           poverty have at least one working adult in their household. Yet, low-paid jobs and a freeze in in-work
-          benefits, mean their wages are no longer enough to keep their families out of poverty. There are other costs.
+          benefits mean their wages are no longer enough to keep their families out of poverty. There are other costs.
           As one young person put it, “parents working full time to stay out of poverty means you personally lose out on
           interactions and a sense of attachment.”</li>
         <li><strong>High housing costs and low wages both have an impact on child poverty. </strong>These factors
@@ -221,14 +235,17 @@
           the impact of the pandemic on jobs and household income.</li>
       </ol>
       <h3>About the data</h3>
-      <p>These <a href="https://uk-air.defra.gov.uk/data/pcm-data">data</a> are population-weighted annual mean
-        concentrations (<small>µg m<sup>-3</sup></small>) for each Local Authority in the United Kingdom. It was
-        compiled by the Department for Environment Food & Rural Affairs (<small>Defra</small>) to estimate the burden of
+      <p>These <a href="https://uk-air.defra.gov.uk/data/pcm-data" target="_blank" rel="noopener noreferrer">data</a>
+        are population-weighted annual mean
+        concentrations (<small>µg m<sup>-3</sup></small>) for each Local Authority in the United Kingdom. They were
+        compiled by the Department for Environment, Food & Rural Affairs (<small>Defra</small>) to estimate the burden
+        of
         mortality attributable to long-term exposure to particulate air pollution. <small>Defra</small>'s air quality
-        modeling produces a number of meteorological simulations, gridded outputs and concentrations maps.</p>
+        modeling produces a number of meteorological simulations, gridded outputs and concentration maps.</p>
       <p>I've used this data to reproduce a graphic from <a
-          href="https://www.theguardian.com/environment/2021/dec/28/labour-highlights-link-between-child-poverty-and-air-pollution">The
-          Guardian</a>, originally published in December of 2021.</p>
+          href="https://www.theguardian.com/environment/2021/dec/28/labour-highlights-link-between-child-poverty-and-air-pollution"
+          target="_blank" rel="noopener noreferrer">The
+          Guardian</a>, originally published in December 2021.</p>
     </article>
   </main>
   <footer>
@@ -245,8 +262,8 @@
 
     <div>
       <p>Justin Chill &copy; 2026</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
-            alt="GitHub logo" class="icon">Source code</a></span>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"
+          rel="noopener noreferrer"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
   <script type="text/javascript" src="js/occlusionY.js"></script>
@@ -254,46 +271,30 @@
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 
   <script type="text/javascript">
-    var element = d3.select('figure').node();
-    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
-    var size = 12;
+    const formatPercent = (x) => d3.format(".2%")(x / 100);
+    let mappedData = [];
 
-    formatPercent = new function () {
-      const format = d3.format(".2%");
-      return x => format(x / 100);
-    };
+    function renderScatterChart() {
+      const container = document.getElementById("scatter");
+      if (!container || !mappedData.length) return;
 
-    // Use Promises to async request data
-    var promises = [d3.csv("data/child_poverty_and_particulate_matter.csv", d3.autoType)];
+      const figcaption = container.querySelector("figcaption");
+      container.querySelectorAll("svg, div.plot").forEach(el => el.remove());
 
-    var annotatedboroughs = ["Birmingham", "Cardiff", "Luton", "Manchester", "Newcastle upon Tyne", "Lewisham", "Newham", "Tower Hamlets", "Glasgow", "Northumberland", "Anglesey", "Belfast", "Kensington and Chelsea", "Richmond upon Thames", "City of London", "Elmbridge", "Rushcliffe", "Edinburgh", "Isles of Scilly", "Shetland", "Na h-Eileanan Siar"];
+      const width = container.getBoundingClientRect().width || 600;
+      const isMobile = width <= 500;
+      const size = isMobile ? 10 : 12;
 
-    // You can request multiple srcs in a promise
-    myDataPromises = Promise.all(promises);
-
-    // After data is successfully fetched, generate viz
-    myDataPromises.then(function (data) {
-      // Define the data. There's gotta be a better way to do this:
-      var rawdata = data[0];
-      var mapped = rawdata.map(d => ({
-        area_code: d.area_code,
-        area_name: d.area_name,
-        country_region: d.country_region,
-        child_poverty: +d.child_poverty,
-        air_pollution: +d.air_pollution,
-        grouping: d.grouping
-      }));
-
-      var scatter = {
+      const scatter = {
         width: width,
-        marginRight: 0,
+        marginRight: isMobile ? 10 : 0,
         style: {
-          fontFamily: "Noto Sans, san-serif",
-          fontSize: "14px",
-          color: "#222222",
+          fontFamily: "Noto Sans, sans-serif",
+          fontSize: isMobile ? "12px" : "14px",
+          color: "currentColor",
+          background: "transparent",
           paddingBottom: "1rem",
-          paddingRight: width > 450 ? 0 : 14,
-          // textTransform: "capitalize",
+          paddingRight: width > 450 ? 0 : 10,
         },
         x: {
           domain: [1, 10],
@@ -313,7 +314,7 @@
         },
         color: {
           legend: true,
-          columns: 2,
+          columns: width > 480 ? 2 : 1,
           domain: ["London", "South East and East of England", "Midlands and North of England", "Wales and South West", "Scotland and Northern Ireland"],
           range: ["#EEAEB1", "#FFD5AB", "#DCDCDE", "#ADCFE0", "#CDF0FE"],
         },
@@ -327,30 +328,30 @@
             stroke: "rgb(146,146,151)",
           }),
           Plot.axisY({
-            dy: -4, // offset up
-            lineAnchor: "bottom", // draw labels above grid lines
+            dy: -4,
+            lineAnchor: "bottom",
             ticks: 6,
             tickSize: 0,
             labelOffset: -10,
           }),
           Plot.axisY({
-            dx: -10, // shift left
-            lineAnchor: "bottom", // draw labels above grid lines
+            dx: -10,
+            lineAnchor: "bottom",
             ticks: 6,
             tickSize: 12,
             label: null,
             stroke: "rgb(146,146,151)",
             strokeWidth: 2,
-            tickFormat: d => ``,
+            tickFormat: () => ``,
           }),
-          Plot.dot(mapped, {
+          Plot.dot(mappedData, {
             x: "air_pollution",
             y: "child_poverty",
             stroke: "grouping",
             strokeOpacity: 1,
             fill: "grouping",
             fillOpacity: 0.5,
-            r: 5,
+            r: isMobile ? 4 : 5,
             tip: {
               format: {
                 y: (d) => formatPercent(d),
@@ -361,13 +362,13 @@
               region: "grouping",
             },
           }),
-          Plot.linearRegressionY(mapped, {
+          Plot.linearRegressionY(mappedData, {
             x: "air_pollution",
             y: "child_poverty",
             stroke: "grouping"
           }),
-          Plot.text(mapped, occlusionY(Plot.selectLast({
-            filter: d => annotatedboroughs.includes(d.area_name) && d.area_name == "Birmingham" || d.area_name == "Manchester" || d.area_name == "Luton" || d.area_name == "Newcastle upon Tyne" || d.area_name == "Belfast",
+          Plot.text(mappedData, occlusionY(Plot.selectLast({
+            filter: d => ["Birmingham", "Manchester", "Luton", "Newcastle upon Tyne", "Belfast"].includes(d.area_name),
             x: "air_pollution",
             y: "child_poverty",
             z: "area_name",
@@ -378,8 +379,8 @@
             fontSize: size - 1,
             textAnchor: "end"
           }))),
-          Plot.text(mapped, occlusionY(Plot.selectLast({
-            filter: d => annotatedboroughs.includes(d.area_name) && d.area_name == "Northumberland" || d.area_name == "Rushcliffe" || d.area_name == "Newham" || d.area_name == "Isle of Anglesey",
+          Plot.text(mappedData, occlusionY(Plot.selectLast({
+            filter: d => ["Northumberland", "Rushcliffe", "Newham", "Isle of Anglesey"].includes(d.area_name),
             x: "air_pollution",
             y: "child_poverty",
             z: "area_name",
@@ -390,8 +391,8 @@
             fontSize: size - 1,
             textAnchor: "end"
           }))),
-          Plot.text(mapped, occlusionY(Plot.selectLast({
-            filter: d => annotatedboroughs.includes(d.area_name) && d.area_name == "Elmbridge" || d.area_name == "City of London",
+          Plot.text(mappedData, occlusionY(Plot.selectLast({
+            filter: d => ["Elmbridge", "City of London"].includes(d.area_name),
             x: "air_pollution",
             y: "child_poverty",
             z: "area_name",
@@ -403,8 +404,8 @@
             fontSize: size - 2,
             textAnchor: "middle"
           }))),
-          Plot.text(mapped, occlusionY(Plot.selectLast({
-            filter: d => annotatedboroughs.includes(d.area_name) && d.area_name == "Kensington and Chelsea" || d.area_name == "City of Edinburgh" || d.area_name == "Tower Hamlets" || d.area_name == "Shetland Islands",
+          Plot.text(mappedData, occlusionY(Plot.selectLast({
+            filter: d => ["Kensington and Chelsea", "City of Edinburgh", "Tower Hamlets", "Shetland Islands"].includes(d.area_name),
             x: "air_pollution",
             y: "child_poverty",
             z: "area_name",
@@ -416,8 +417,8 @@
             fontSize: size - 1,
             textAnchor: "middle"
           }))),
-          Plot.text(mapped, occlusionY(Plot.selectLast({
-            filter: d => annotatedboroughs.includes(d.area_name) && d.area_name == "Lewisham" || d.area_name == "Isles of Scilly" || d.area_name == "Na h-Eileanan Siar",
+          Plot.text(mappedData, occlusionY(Plot.selectLast({
+            filter: d => ["Lewisham", "Isles of Scilly", "Na h-Eileanan Siar"].includes(d.area_name),
             x: "air_pollution",
             y: "child_poverty",
             z: "area_name",
@@ -429,44 +430,59 @@
             fontSize: size - 2,
             textAnchor: "start"
           }))),
-          width > 500 ?
+          !isMobile ?
             Plot.text(
-              [
-                `London boroughs`
-              ], {
+              [`London boroughs`], {
               frameAnchor: "top-right",
-              dx: -184,
+              dx: width > 600 ? -184 : -120,
               dy: -22,
               fontSize: 12,
               fontWeight: "bold",
               lineWidth: 10,
               lineHeight: 1.3,
               fill: "#EEAEB1",
-              stroke: "white",
+              stroke: "var(--bg-color, white)",
               strokeWidth: 3,
               textAnchor: "start"
             }
             ) : null,
-          width > 500 ?
+          !isMobile ?
             Plot.text(
-              [
-                `make up the top five worst ranked areas for both pollution and child poverty`
-              ], {
+              [`make up the top five worst ranked areas for both pollution and child poverty`], {
               frameAnchor: "top-right",
-              dx: -184,
+              dx: width > 600 ? -184 : -120,
               dy: -8,
               fontSize: 12,
               lineWidth: 10,
               lineHeight: 1.3,
-              fill: "black",
-              stroke: "white",
+              fill: "currentColor",
+              stroke: "var(--bg-color, white)",
               strokeWidth: 3,
               textAnchor: "start"
             }
             ) : null,
         ],
       };
-      document.getElementById("scatter").appendChild(Plot.plot(scatter));
+
+      const chartElement = Plot.plot(scatter);
+      container.appendChild(chartElement);
+      if (figcaption) {
+        container.insertBefore(figcaption, chartElement);
+      }
+    }
+
+    d3.csv("data/child_poverty_and_particulate_matter.csv", d3.autoType).then(function (data) {
+      mappedData = data.map(d => ({
+        area_code: d.area_code,
+        area_name: d.area_name,
+        country_region: d.country_region,
+        child_poverty: +d.child_poverty,
+        air_pollution: +d.air_pollution,
+        grouping: d.grouping
+      }));
+
+      renderScatterChart();
+      window.addEventListener("resize", renderScatterChart);
     });
   </script>
   <script>
@@ -495,6 +511,7 @@
         document.documentElement.setAttribute("data-theme", newTheme);
         localStorage.setItem("theme", newTheme);
         updateIcons(newTheme);
+        if (typeof renderScatterChart === "function") renderScatterChart();
       });
     }
   </script>

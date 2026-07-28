@@ -64,6 +64,16 @@
       border-radius: 50%;
       overflow: hidden;
     }
+
+    .nav__item:focus-visible,
+    #theme-toggle:focus-visible {
+      outline: 2px solid var(--accent-color, #4C63B6);
+      outline-offset: 2px;
+    }
+
+    html[data-theme="dark"] figure svg {
+      color: var(--text-color, #e8e8e8);
+    }
   </style>
 
   <script type="application/ld+json">
@@ -129,7 +139,7 @@
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener">LinkedIn</a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
@@ -141,31 +151,31 @@
         <h1 class="article-title">Corrosive Corruption</h1>
       </div>
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
-      <h3>A correlation between corruption and development</h3>
+      <h2>A correlation between corruption and development</h2>
       <figure id="corruption"
         aria-label="A scatter plot showing the relationship between the Human Development Index (vertical axis) and Corruption Perceptions Index (horizontal axis) for various countries. A red trend line indicates a positive correlation, with high HDI linked to low corruption.">
         <figcaption class="right">Data: <a
-            href="https://www.economist.com/graphic-detail/2011/12/02/corrosive-corruption">The Economist</a>
+            href="https://www.economist.com/graphic-detail/2011/12/02/corrosive-corruption" target="_blank" rel="noopener">The Economist</a>
         </figcaption>
       </figure>
       <p>Transparency International's annual <strong>Corruption Perceptions Index</strong> measures how citizens from
         across the globe feel about corruption. The results are given on a scale of 0 (highly corrupt) to 100 (very
         clean). Comparing the corruption index (<abbr title="Corruption Perceptions Index">CPI</abbr>) with the UN's
-        <strong>Human Development Index</strong>, a measure combining health, wealth and education, demonstrates an
-        interesting connection. As the corruption index rises beyond 4.0 a strong connection with the human development
-        index can be seen. Notable outliers include small but well-run poorer countries such as Bhutan and Cape Verde,
+        <strong>Human Development Index</strong>, a measure combining health, wealth, and education, demonstrates an
+        interesting connection. As the corruption index rises beyond 4.0, a strong connection with the Human Development
+        Index can be seen. Notable outliers include small but well-run poorer countries such as Bhutan and Cape Verde,
         while Greece and Italy stand out among the richer countries.
       </p>
 
-      <h3>Original graphic</h3>
-      <a href="https://www.economist.com/graphic-detail/2011/12/02/corrosive-corruption"><img
+      <h2>Original graphic</h2>
+      <a href="https://www.economist.com/graphic-detail/2011/12/02/corrosive-corruption" target="_blank" rel="noopener"><img
           src="https://i0.wp.com/flowingdata.com/wp-content/uploads/2011/12/Corruption-vs-human-development.gif"
           alt="A scatter plot chart showing the correlation of corruption and development for 196 countries in the world."
           loading="lazy"></a>
 
-      <p>In the original visualization from the Economist, the graphic starts at .2 on the Human Development Index. I've
-        recreated that here by setting the domain of the y-axis to <code>[.2, 1]</code>. Each country is color coded
-        based on region using the <a href="https://observablehq.com/@observablehq/plot-cheatsheets-colors">tableau10
+      <p>In the original visualization from the Economist, the graphic starts at 0.2 on the Human Development Index. I've
+        recreated that here by setting the domain of the y-axis to <code>[0.2, 1]</code>. Each country is color-coded
+        based on region using the <a href="https://observablehq.com/@observablehq/plot-cheatsheets-colors" target="_blank" rel="noopener">tableau10
           color scheme</a> provided by Plot. I've plotted each of the 28 text labels by manually tweaking their position
         on the chart. My version allows you to hover over any dot on the chart and see the name of the country, the CPI
         score, and the HDI score.</p>
@@ -175,16 +185,13 @@
     <h2 class="visually-hidden" id="footnote-label">Footnotes</h2>
     <div>
       <p>Justin Chill &copy; 2026</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener"><img src="imgs/github.svg"
             alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/d3"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
   <script type="text/javascript">
-    var element = d3.select('figure').node();
-    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
-    var size = 12;
     var labels = ["Venezuela", "Iraq", "Myanmar", "Sudan",
       "Afghanistan", "Congo", "Greece", "Argentina",
       "India", "Italy",
@@ -193,18 +200,15 @@
       "New Zealand", "Singapore", "Russia", "Brazil", "Spain", "Germany", "Japan", "China", "South Africa"
     ];
 
-    // TODO - Add more charts and maps: https://observablehq.com/d/ecd79356f6fb8c0c
+    function renderPlot(data) {
+      const container = document.getElementById("corruption");
+      if (!container) return;
 
-    // Use Promises to async request data
-    var promises = [d3.csv("https://raw.githubusercontent.com/alokkshukla/RGraphics/master/dataSets/EconomistData.csv", d3.autoType)];
-    // var promises = [d3.csv("data/Corruption_Perceptions_Index.csv", d3.autoType)];
-    myDataPromises = Promise.all(promises);
+      container.querySelectorAll("svg").forEach(svg => svg.remove());
+      container.querySelectorAll(".plot-legend").forEach(el => el.remove());
 
-    // After data is successfully fetched, generate viz
-    myDataPromises.then(function (data) {
-
-      // Define the data
-      var data = data[0];
+      const width = container.getBoundingClientRect().width || 600;
+      const size = width < 500 ? 10 : 12;
 
       var corruption = {
         inset: 6,
@@ -223,11 +227,11 @@
           labelOffset: 45,
           frameAnchor: "left",
           grid: true,
-          domain: [.2, 1],
+          domain: [0.2, 1],
         },
         style: {
-          background: "hsla(209, 23%, 99%, 1)",
-          color: "rgba(0, 0, 0, 0.84)",
+          background: "transparent",
+          color: "currentColor",
           fontSize: size
         },
         color: {
@@ -242,141 +246,141 @@
             stroke: "crimson",
             ci: 0.95
           }),
-          Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Venezuela"), {
+          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Venezuela"), {
             x: "CPI",
             y: "HDI",
             text: "Country",
             dy: -4,
             dx: -35,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             fill: "currentColor",
             paintOrder: "stroke"
           }),
-          Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Iraq"), {
+          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Iraq"), {
             x: "CPI",
             y: "HDI",
             text: "Country",
             dx: -20,
             dy: -1,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             fill: "currentColor",
             paintOrder: "stroke"
           }),
-          Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Myanmar"), {
+          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Myanmar"), {
             x: "CPI",
             y: "HDI",
             text: "Country",
             dy: -18,
             dx: -20,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             fill: "currentColor",
             paintOrder: "stroke"
           }),
-          Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Sudan"), {
+          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Sudan"), {
             x: "CPI",
             y: "HDI",
             text: d => `${d.Country}`,
             dy: -12,
             dx: -22,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             fill: "currentColor",
             paintOrder: "stroke"
           }),
-          Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Afghanistan"), {
+          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Afghanistan"), {
             x: "CPI",
             y: "HDI",
             text: "Country",
             dy: 15,
             dx: -8,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             fill: "currentColor",
             paintOrder: "stroke"
           }),
-          Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Congo"), {
+          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Congo"), {
             x: "CPI",
             y: "HDI",
             text: "Country",
             dy: 15,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             fill: "currentColor",
             paintOrder: "stroke"
           }),
-          Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Greece"), {
+          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Greece"), {
             x: "CPI",
             y: "HDI",
             text: "Country",
             dy: -1,
             dx: -32,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             fill: "currentColor",
             paintOrder: "stroke"
           }),
-          Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Argentina"), {
+          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Argentina"), {
             x: "CPI",
             y: "HDI",
             text: "Country",
             dy: -12,
             dx: -32,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             fill: "currentColor",
             paintOrder: "stroke"
           }),
-          Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "India"), {
+          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "India"), {
             x: "CPI",
             y: "HDI",
             text: "Country",
             dy: 0,
             dx: 22,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             fill: "currentColor",
             paintOrder: "stroke"
           }),
-          Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Italy"), {
+          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Italy"), {
             x: "CPI",
             y: "HDI",
             text: "Country",
             dy: -14,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             fill: "currentColor",
             paintOrder: "stroke"
           }),
-          Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Botswana"), {
+          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Botswana"), {
             x: "CPI",
             y: "HDI",
             text: "Country",
             dx: 36,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             fill: "currentColor",
             paintOrder: "stroke"
           }),
-          Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Cape Verde"), {
+          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Cape Verde"), {
             x: "CPI",
             y: "HDI",
             text: "Country",
             dx: 42,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             fill: "currentColor",
             paintOrder: "stroke"
           }),
-          Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Bhutan"), {
+          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Bhutan"), {
             x: "CPI",
             y: "HDI",
             text: "Country",
             dx: 32,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             fill: "currentColor",
             paintOrder: "stroke"
           }),
-          Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Rwanda"), {
+          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Rwanda"), {
             x: "CPI",
             y: "HDI",
             text: "Country",
             dx: 32,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             fill: "currentColor",
             paintOrder: "stroke"
           }),
-          Plot.arrow(data.filter(d => labels.includes(d.Country) & d.Country == "France"), {
+          Plot.arrow(data.filter(d => labels.includes(d.Country) && d.Country == "France"), {
             x1: d => d.CPI - .07,
             y1: d => d.HDI + .012,
             x2: d => d.CPI - .25,
@@ -384,105 +388,105 @@
             bend: false,
             strokeLinejoin: "miter",
             headLength: 0,
-            stroke: "#aaa"
+            stroke: "var(--muted-color, #aaa)"
           }),
-          Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "France"), {
+          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "France"), {
             x: "CPI",
             y: "HDI",
             text: "Country",
             dy: -26,
             dx: -34,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             fill: "currentColor",
             paintOrder: "stroke"
           }),
-          Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "United States"), {
+          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "United States"), {
             x: "CPI",
             y: "HDI",
-            text: d => "Country" == "United States" ? null : "US",
+            text: d => "US",
             dy: -14,
             dx: 0,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             fill: "currentColor",
             paintOrder: "stroke"
           }),
-          Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Britain"), {
+          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Britain"), {
             x: "CPI",
             y: "HDI",
             text: "Country",
             dy: 12,
             dx: 0,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             fill: "currentColor",
             paintOrder: "stroke"
           }),
-          Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Barbados"), {
+          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Barbados"), {
             x: "CPI",
             y: "HDI",
             text: "Country",
             dy: 14,
             dx: 4,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             fill: "currentColor",
             paintOrder: "stroke"
           }),
-          Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Norway"), {
+          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Norway"), {
             x: "CPI",
             y: "HDI",
             text: "Country",
             dy: -12,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             fill: "currentColor",
             paintOrder: "stroke"
           }),
-          Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "New Zealand"), {
+          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "New Zealand"), {
             x: "CPI",
             y: "HDI",
             text: "Country",
             dy: -12,
             dx: 24,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             fill: "currentColor",
             paintOrder: "stroke"
           }),
-          Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Singapore"), {
+          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Singapore"), {
             x: "CPI",
             y: "HDI",
             text: "Country",
             dy: 14,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             fill: "currentColor",
             paintOrder: "stroke"
           }),
-          Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Russia"), {
+          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Russia"), {
             x: "CPI",
             y: "HDI",
             text: "Country",
             dy: -20,
             dx: -60,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             fill: "currentColor",
             paintOrder: "stroke"
           }),
-          Plot.arrow(data.filter(d => labels.includes(d.Country) & d.Country == "Russia"), {
+          Plot.arrow(data.filter(d => labels.includes(d.Country) && d.Country == "Russia"), {
             x2: d => d.CPI - .1,
             y2: d => d.HDI + .015,
             x1: d => d.CPI - .65,
             y1: d => d.HDI + .0475,
             bend: true,
-            stroke: "#aaa"
+            stroke: "var(--muted-color, #aaa)"
           }),
-          Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Brazil"), {
+          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Brazil"), {
             x: "CPI",
             y: "HDI",
             text: "Country",
             dy: -11,
             dx: -2,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             fill: "currentColor",
             paintOrder: "stroke"
           }),
-          Plot.arrow(data.filter(d => labels.includes(d.Country) & d.Country == "Spain"), {
+          Plot.arrow(data.filter(d => labels.includes(d.Country) && d.Country == "Spain"), {
             x1: d => d.CPI - .07,
             y1: d => d.HDI + .012,
             x2: d => d.CPI - .25,
@@ -490,19 +494,19 @@
             bend: false,
             strokeLinejoin: "miter",
             headLength: 0,
-            stroke: "#aaa"
+            stroke: "var(--muted-color, #aaa)"
           }),
-          Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Spain"), {
+          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Spain"), {
             x: "CPI",
             y: "HDI",
             text: "Country",
             dy: -26,
             dx: -34,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             fill: "currentColor",
             paintOrder: "stroke"
           }),
-          Plot.arrow(data.filter(d => labels.includes(d.Country) & d.Country == "Germany"), {
+          Plot.arrow(data.filter(d => labels.includes(d.Country) && d.Country == "Germany"), {
             x1: d => d.CPI,
             y1: d => d.HDI + .01,
             x2: d => d.CPI,
@@ -510,39 +514,39 @@
             bend: false,
             strokeLinejoin: "miter",
             headLength: 0,
-            stroke: "#aaa"
+            stroke: "var(--muted-color, #aaa)"
           }),
-          Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Germany"), {
+          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Germany"), {
             x: "CPI",
             y: "HDI",
             text: "Country",
             dy: -20,
             dx: -2,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             fill: "currentColor",
             paintOrder: "stroke"
           }),
-          Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "Japan"), {
+          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Japan"), {
             x: "CPI",
             y: "HDI",
             text: d => `${d.Country}`,
             dy: 12,
             dx: 6,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             fill: "currentColor",
             paintOrder: "stroke"
           }),
-          Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "China"), {
+          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "China"), {
             x: "CPI",
             y: "HDI",
             text: d => `${d.Country}`,
             dy: 12,
             dx: 4,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             fill: "currentColor",
             paintOrder: "stroke"
           }),
-          Plot.arrow(data.filter(d => labels.includes(d.Country) & d.Country == "South Africa"), {
+          Plot.arrow(data.filter(d => labels.includes(d.Country) && d.Country == "South Africa"), {
             x1: d => d.CPI - .007,
             y1: d => d.HDI - .012,
             x2: d => d.CPI + .11,
@@ -550,16 +554,16 @@
             bend: false,
             strokeLinejoin: "miter",
             headLength: 0,
-            stroke: "#aaa"
+            stroke: "var(--muted-color, #aaa)"
           }),
-          Plot.text(data.filter(d => labels.includes(d.Country) & d.Country == "South Africa"), {
+          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "South Africa"), {
             x: "CPI",
             y: "HDI",
             text: d => `${d.Country}`,
             dy: 24,
             dx: 24,
             lineWidth: 4,
-            stroke: "white",
+            stroke: "var(--bg-color, white)",
             fill: "currentColor",
             paintOrder: "stroke"
           }),
@@ -579,7 +583,25 @@
         ]
       };
 
-      document.getElementById("corruption").appendChild(Plot.plot(corruption));
+      container.appendChild(Plot.plot(corruption));
+    }
+
+    // Use Promises to async request data
+    var promises = [d3.csv("https://raw.githubusercontent.com/alokkshukla/RGraphics/master/dataSets/EconomistData.csv", d3.autoType)];
+    const myDataPromises = Promise.all(promises);
+
+    // After data is successfully fetched, generate viz
+    myDataPromises.then(function (results) {
+      const data = results[0];
+      renderPlot(data);
+
+      let resizeTimer;
+      window.addEventListener("resize", function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () {
+          renderPlot(data);
+        }, 150);
+      });
     });
   </script>
   <script>
