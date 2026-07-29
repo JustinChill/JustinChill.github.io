@@ -28,18 +28,14 @@
   <meta content="https://justinchill.com/penguins.html" property="og:url">
   <meta content="Palmer's Penguins" property="og:title">
   <meta content="Data visualizations of penguins from the Palmer Station in Antarctica." property="og:description">
-  <meta property="og:image"
-    content="https://public.tableau.com/static/images/Pe/PenguinsatPalmerStationAntarcticaLTER/Week28/4_3_hd.png"
-    data-rh="true">
-  <meta content="1200" property="og:image:width">
-  <meta content="630" property="og:image:height">
-  <meta content="Penguins at Palmer Station Antarctica" property="og:image:alt">
+  <meta content="https://justinchill.com/imgs/lter_penguins.png" property="og:image">
+  <meta content="1800" property="og:image:width">
+  <meta content="1074" property="og:image:height">
+  <meta content="The Palmer Archipelago penguins. Artwork by @allison_horst." property="og:image:alt">
   <meta content="https://justinchill.com/blog.html" property="og:see_also">
   <meta property="og:locality" content="NY">
   <meta property="og:region" content="NY">
   <meta property="og:country_name" content="USA">
-  <meta content="https://justinchill.com/imgs/lter_penguins.png" property="og:image">
-  <meta content="The Palmer Archipelago penguins. Artwork by @allison_horst." property="og:image:alt">
 
   <meta name="datePublished" content="2021-01-30">
   <meta name="dateModified" content="2025-08-06">
@@ -48,12 +44,10 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Palmer's Penguins | Justin Chill">
   <meta name="twitter:description" content="Data visualizations of penguins from the Palmer Station in Antarctica.">
-  <meta content="https://justinchill.com/imgs/lter_penguins.png" property="twitter:image">
-  <meta name="twitter:image"
-    content="https://public.tableau.com/static/images/Pe/PenguinsatPalmerStationAntarcticaLTER/Week28/4_3_hd.png">
-  <meta name="twitter:image:width" content="800">
-  <meta name="twitter:image:height" content="418">
-  <meta name="twitter:image:alt" content="Penguins at Palmer Station Antarctica">
+  <meta name="twitter:image" content="https://justinchill.com/imgs/lter_penguins.png">
+  <meta name="twitter:image:width" content="1800">
+  <meta name="twitter:image:height" content="1074">
+  <meta name="twitter:image:alt" content="The Palmer Archipelago penguins. Artwork by @allison_horst.">
 
   <link rel="canonical" href="https://justinchill.com/penguins.html">
   <link rel="preload" href="style.css" as="style" />
@@ -61,7 +55,8 @@
   <link rel="icon" href="favicon.ico">
   <link type="text/plain" href="humans.txt" rel="author">
 
-  <meta name="theme-color" content="#4C63B6">
+  <meta name="theme-color" content="#4C63B6" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)">
   <meta name="color-scheme" content="light dark">
 
   <style type="text/css">
@@ -81,9 +76,41 @@
       font-size: 18.9px;
     }
 
-    #waffle>figure>div>span {
-      text-transform: lowercase;
-      /* CSS Capitalize is not working here?  */
+    /* Theme-aware species highlight colors (sufficient contrast in both modes) */
+    .species {
+      font-weight: bold;
+    }
+
+    .species--adelie {
+      color: #0000ff;
+    }
+
+    .species--chinstrap {
+      color: #b35c00;
+    }
+
+    .species--gentoo {
+      color: #c22600;
+    }
+
+    html[data-theme="dark"] .species--adelie {
+      color: #82b4ff;
+    }
+
+    html[data-theme="dark"] .species--chinstrap {
+      color: #ffa500;
+    }
+
+    html[data-theme="dark"] .species--gentoo {
+      color: #ff6a33;
+    }
+
+    /* style.css forces figure text white in dark mode; keep map labels dark on the light sphere */
+    html[data-theme="dark"] #map svg text {
+      fill: #222 !important;
+    }
+    html[data-theme="dark"] a:not([class]) {
+      color: var(--link-color) !important;
     }
   </style>
 
@@ -123,69 +150,53 @@
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-  <nav class="nav" role="navigation">
+  <nav class="nav">
     <div class="nav__list">
-      <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
-      <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
-      <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+      <a href="now.html" class="nav__item">Now</a>
     
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" aria-pressed="false" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new tab)</span></a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
 
-  <main role="main" id="content">
+  <main id="content">
     <article>
       <div class="article-hero">
         <p class="article-category">Post</p>
         <h1 class="article-title">Palmer's Penguins</h1>
-        <h2 class="article-subtitle">Penguins at the Palmer Station Antarctica Long-Term Ecological Research site</h2>
+        <p class="article-subtitle">Penguins at the Palmer Station Antarctica Long-Term Ecological Research site</p>
       </div>
-      <!-- <img src="https://impact.economist.com/ocean/images/macaroni-penguins-on-their-voyage?f=auto&w=1920" loading="lazy" alt="Macaroni Penguins on their voyage"> -->
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
-      <h2>Diplomacy on ice</h2>
-      <figure id="map"
-        aria-label="Map showing the location of Palmer Station in Antarctica and the research islands: Dream, Torgersen, and Biscoe.">
-        <figcaption class="right">Research stations in Antarctica</figcaption>
-      </figure>
-      <p>The Palmer Penguins dataset contains size measurements, clutch observations, and blood isotope ratios for 344
-        penguins of 3 penguin species observed on three islands in the <strong>Palmer Archipelago</strong>, Antarctica
-        over a study period of three years.</p>
-      <p>This dataset is commonly used when introducing students to new data science concepts because it is easy to
-        understand and work with. It contains variables such as island name (Dream, Torgersen, or Biscoe), species name
-        (Adelie, Chinstrap, or Gentoo), bill length (mm), bill depth (mm), flipper length (mm), body mass (g), and sex.
-      </p>
-      <p>The canonical paper from Gorman et al. presents the research in detail<a href="#gorman"
-          aria-describedby="footnote-label" id="gorman-ref"></a>. Palmer's Penguins is an alternative to the <a
-          href="https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/iris.html">Iris</a> sample dataset.</p>
-      <h2>Meet the penguins</h2>
-      <img src="imgs/lter_penguins.webp" alt="The Palmer Archipelago penguins. Artwork by @allison_horst.">
+     
+      <img src="imgs/lter_penguins.webp" alt="The Palmer Archipelago penguins. Artwork by @allison_horst." fetchpriority="high">
       <p>In the icy realm of Antarctica, there are seven magnificent types of penguins that call the frozen wilderness
-        their home: Gentoo, King, Adélie, Chinstrap, Southern Rockhopper, Emperor, and Macaroni Penguins. Each of these
+        their home: Gentoo, King, Adélie, Chinstrap, Southern Rockhopper, Emperor, and Macaroni penguins. Each of these
         penguin species possesses its own distinct characteristics, from size and coloration to unique adaptations that
         enable them to thrive in this harsh environment.</p>
-      <p> While the <strong style="color: orangered">Gentoo</strong> penguin demonstrates impressive swimming abilities,
-        the King Penguin claims the title of the second largest penguin species. <strong
-          style="color: blue">Adélie</strong> penguins, on the other hand, are known for their extensive range and their
-        ability to survive in extreme cold with their thick layer of fat. The <strong
-          style="color: orange">Chinstrap</strong> penguin reveals its feisty side, amidst the freezing waters it calls
+        <h2>Meet the penguins</h2>
+      <p>While the <span class="species species--gentoo">Gentoo</span> penguin demonstrates impressive swimming abilities,
+        the King Penguin claims the title of the second largest penguin species. <span
+          class="species species--adelie">Adélie</span> penguins, on the other hand, are known for their extensive range and their
+        ability to survive in extreme cold with their thick layer of fat. The <span
+          class="species species--chinstrap">Chinstrap</span> penguin reveals its feisty side, amidst the freezing waters it calls
         its playground. Southern Rockhopper penguins display their striking yellow eyebrows and complex hunting
         behaviors. Emperor Penguins, the heavyweight champions, have developed extraordinary adaptations to endure the
         most extreme conditions. Lastly, the Macaroni penguins show off their distinctive crests and large breeding
@@ -193,84 +204,84 @@
         to the effects of climate change and human activities, conservation efforts now play a crucial role in ensuring
         their survival.</p>
       <aside>Fun fact! The <a href="https://wiki.gentoo.org/wiki/FAQ">Gentoo</a> Linux distribution is named after this
-        penguin species &#129299;</aside>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+        penguin species <span aria-hidden="true">&#129299;</span></aside>
+      <span class="header-tag"><img src="imgs/tag.svg" alt=""></span>
       <h3>Bill length vs. body mass</h3>
       <figure id="facets"
-        aria-label="Scatter plots showing the relationship between bill length and body mass for Adelie, Chinstrap, and Gentoo penguins. Gentoo penguins are generally larger.">
+        aria-label="Scatter plots showing the relationship between bill length and body mass for Adélie, Chinstrap, and Gentoo penguins. Gentoo penguins are generally larger.">
         <figcaption>Source: Structural size measurements and isotopic signatures</figcaption>
       </figure>
-      <p>The data included in <em>Palmer's Penguins</em> were collected from 2007 - 2009 by Dr.&nbsp;Kristen Gorman with
-        the <a href="https://pal.lternet.edu/" class="external-link">Palmer Station Long Term Ecological Research
-          Program</a>, part of the <a href="https://lternet.edu/" class="external-link">US Long Term Ecological Research
+      <p>The data included in <em>Palmer's Penguins</em> were collected from 2007–2009 by Dr.&nbsp;Kristen Gorman with
+        the <a href="https://pal.lternet.edu/">Palmer Station Long Term Ecological Research
+          Program</a>, part of the <a href="https://lternet.edu/">US Long Term Ecological Research
           Network</a>.<img src="imgs/penguin-bill.jpg" loading="lazy" class="float-right"
           alt="Inset clarifying that in the raw data, bill dimensions are recorded as 'culmen length' and 'culmen depth'. The culmen is the dorsal ridge atop the bill.">
       </p>
-      <p>At the Palmer Station, three species of Penguins were measured on various structural aspects like body mass,
-        bill Length, bill depth and flipper length. PAL scientists have documented an 85 percent reduction in Adélie
+      <p>At the Palmer Station, three species of penguins were measured on various structural aspects like body mass,
+        bill length, bill depth and flipper length. Palmer LTER scientists have documented an 85 percent reduction in Adélie
         penguin populations along the western Antarctic Peninsula since 1974.</p>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <span class="header-tag"><img src="imgs/tag.svg" alt=""></span>
       <h3>Penguins by island</h3>
       <figure id="islands"
-        aria-label="Bar chart showing the distribution of penguin species across the three islands. Adelie penguins are found on all three, while Chinstrap and Gentoo have specific habitats.">
+        aria-label="Faceted scatter plots of flipper length versus body mass for penguins observed on Biscoe, Dream, and Torgersen islands. Gentoo penguins are generally the largest.">
         <figcaption>Source: <a href="https://environmentaldatainitiative.org/">Environmental Data Initiative</a>
         </figcaption>
       </figure>
       <p>The penguins were studied on three islands: Biscoe, Dream, and Torgersen.</p>
       <p>Most penguins spend the majority of their life at sea and return to land to reproduce. Getting to and from
-        their reproductive areas (called rookeries) on land can be quite a walk but when there is snow to traverse, they
+        their reproductive areas (called rookeries) on land can be quite a walk, but when there is snow to traverse, they
         often sled downhill to make quick descents.</p>
       <p>Penguins are unique birds in that they do not fly. Their wings are adapted as swimming flippers by their wing
         bones being flattened and rather solidly joined so that they are very useful for swimming (up to 30 miles per
         hour). Penguins often look like they are flying when viewed under water.</p>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <span class="header-tag"><img src="imgs/tag.svg" alt=""></span>
       <h2>Island time</h2>
-      <figure id="waffle" class=""
-        aria-label="Waffle chart illustrating the proportion of each penguin species in the dataset. Adelie penguins are the most numerous.">
+      <figure id="waffle"
+        aria-label="Bar chart showing penguin counts by island, species, and sex. While Chinstrap and Gentoo penguins were each observed on only one island, Adélie penguins were observed on all three.">
       </figure>
 
-      <p>The Adelie penguin (<em>Pygoscelis adeliae</em>) was named after the wife of one of the early Antarctic
+      <p>The Adélie penguin (<em>Pygoscelis adeliae</em>) was named after the wife of one of the early Antarctic
         explorers (Dumont D'Urville). This small penguin (rarely over 11 pounds) nests on rocky areas that are free of
         snow in the summer. Adults return to the same rookery (nesting area) where they were born and build nests out of
         pebbles. The giving of pebbles to the female by the male is part of the nesting courtship. Nesting pairs may
         stay together for six years although each year about half the birds change their mate. Eggs are laid in November
         and chicks hatch in December. The females lay two eggs and the parents take turns incubating the eggs. When they
-        hatch they are fed by the parents who take turns both feeding and watching the chicks very closely for their
+        hatch, they are fed by the parents who take turns both feeding and watching the chicks very closely for their
         first several weeks. Unattended chicks are vulnerable to predators, especially the Skua. The rookeries are busy
-        places as parents attend their chicks keeping them well fed, protected, and their nests in order.</p>
-      <p>The <strong style="color: blue">Adelies</strong> have an all black head. After only four weeks, the chicks molt
+        places as parents attend their chicks, keeping them well fed, protected, and their nests in order.</p>
+      <p>The <span class="species species--adelie">Adélies</span> have an all black head. After only four weeks, the chicks molt
         their charcoal downy coat and grow the dense, waterproof feathers that allow them to leave the rookery and begin
         their lives feeding for themselves.</p>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
-      <h3>Bill Length vs. Bill Depth</h3>
-      <figure id="scatter" class=""
+      <span class="header-tag"><img src="imgs/tag.svg" alt=""></span>
+      <h3>Bill length vs. bill depth</h3>
+      <figure id="scatter"
         aria-label="Scatter plot of bill length versus bill depth. Different species cluster in distinct areas of the plot.">
         <figcaption>Source: Structural size measurements and isotopic signatures</figcaption>
       </figure>
-      <p>With a distinctive thin black stripe under their chin, the <strong style="color: orange">chinstrap</strong>
-        penguin resembles the numerous Adelie penguins but is easily distinguished by their "chinstrap." These penguins
-        also feed on krill. They are scientifically named <em>Pygoscelis antarctica</em>. Their chicks take about nine
-        weeks before they are ready to go to sea. Chinstraps are more aggressive than the Adelies in their breeding
+      <p>With a distinctive thin black stripe under their chin, the <span class="species species--chinstrap">Chinstrap</span>
+        penguin resembles the numerous Adélie penguins but is easily distinguished by its "chinstrap." These penguins
+        also feed on krill. They are scientifically named <em>Pygoscelis antarcticus</em>. Their chicks take about nine
+        weeks before they are ready to go to sea. Chinstraps are more aggressive than the Adélies in their breeding
         behavior.</p>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <span class="header-tag"><img src="imgs/tag.svg" alt=""></span>
       <h3>Enough to break the ice</h3>
-      <figure id="density" class=""
-        aria-label="Density plot showing the distribution of flipper lengths for each species. Gentoo penguins have the longest flippers.">
+      <figure id="density"
+        aria-label="Density plot showing the distribution of culmen length for each species, split by sex.">
       </figure>
-      <p>The colorful orange bill (and white spot on the head) of the <strong style="color: orangered">gentoo</strong>
-        penguin, <em>Pygoscelis papua</em>, sets them apart from other penguin species. Their breeding habits are
-        similar to Adelies and chinstraps - they return to the same rookeries each year, building nests of pebbles on
-        bare ground, and laying two eggs. The chicks are ready to go to sea at eight weeks but they return each evening
+      <p>The colorful orange bill (and white spot on the head) of the <span class="species species--gentoo">Gentoo</span>
+        penguin, <em>Pygoscelis papua</em>, set it apart from other penguin species. Their breeding habits are
+        similar to Adélies and Chinstraps — they return to the same rookeries each year, building nests of pebbles on
+        bare ground, and laying two eggs. The chicks are ready to go to sea at eight weeks, but they return each evening
         to be fed by their parents for an additional two weeks.</p>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <span class="header-tag"><img src="imgs/tag.svg" alt=""></span>
       <h3>Simpson's Paradox</h3>
       <figure id="regression"
         aria-label="Scatter plot with regression lines demonstrating Simpson's Paradox in bill dimensions. The overall trend differs from the trend within each species.">
       </figure>
       <p>If you measure the relationship between culmen depth and length in a mixed population of penguins, it is <a
           href="https://observablehq.com/plot/marks/linear-regression">positively correlated</a> in each of the three
-        species (bigger penguins with the longer culmens also tend to have the deeper ones); however, the <strong
-          style="color: orangered">Gentoo</strong> population has a smaller aspect ratio of depth against length, and
+        species (bigger penguins with the longer culmens also tend to have the deeper ones); however, the <span
+          class="species species--gentoo">Gentoo</span> population has a smaller aspect ratio of depth against length, and
         the overall correlation across the three species is negative. This is called <a
           href="https://en.wikipedia.org/wiki/Simpson%27s_paradox">Simpson’s paradox</a>, and it applies to any data
         that contains underlying populations with different properties or outcomes.</p>
@@ -287,18 +298,7 @@
         lead to population declines and decreased reproductive success. Rising sea temperatures and ocean acidification
         further compound the challenges facing penguins, as they are highly sensitive to these changes.</p>
       <div class="videoContainer">
-        <video controls="" height="360" id="sunVideo"
-          poster="https://antarcticsun.usap.gov/science/images8/lteranniversary-banner.jpg" preload="none" width="100%">
-          <source src="https://antarcticsun.usap.gov/science/images8/lteranniversary.mp4" type="video/mp4">
-          <source src="https://antarcticsun.usap.gov/science/images8/lteranniversary.mp4" type="video/webm">
-        </video>
-
-        <div id="videoButton" style="visibility: visible;">&nbsp;</div>
-
-        <div class="videoText visually-hidden">Produced by Lauren Lipuma for the U.S. Antarctic Program. This animation
-          shows how the populations of Adélie, Chinstrap, and Gentoo penguins around Anvers Island have changed from
-          1980 to 2020. One penguin represents 500 breeding pairs. Data courtesy of Bill Fraser. Numbers of penguins are
-          estimates.</div>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/oXnLxR2g2z4?si=GtAks_GaQQmEBuMZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
       <h3>Conservation Efforts</h3>
       <p>Conservation efforts are essential to mitigating the impacts of climate change on penguin populations.
@@ -306,10 +306,10 @@
         foraging grounds and prey species. Monitoring and research programs can provide valuable data on the status and
         trends of penguin populations, enabling informed conservation strategies. Education and awareness campaigns can
         also encourage public support and involvement in penguin conservation.</p>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <span class="header-tag"><img src="imgs/tag.svg" alt=""></span>
       <h3>Penguin body mass</h3>
       <figure id="weightBars"
-        aria-label="Histogram of body mass for all penguins. The distribution separates the larger Gentoo penguins from the smaller Adelie and Chinstrap penguins.">
+        aria-label="Histogram of body mass for all penguins. The distribution separates the larger Gentoo penguins from the smaller Adélie and Chinstrap penguins.">
         <figcaption>Source: <a href="https://environmentaldatainitiative.org/">Environmental Data Initiative</a>
         </figcaption>
       </figure>
@@ -333,64 +333,86 @@
         ecological damage are crucial to protect penguin habitats and ensure their long-term survival.</p>
       <img src="https://impact.economist.com/ocean/images/more-penguins?f=auto&w=1920" loading="lazy"
         alt="Two king penguins face each other on a sandy beach near the ocean.">
+        <p>The Palmer Penguins dataset contains size measurements, clutch observations, and blood isotope ratios for 344
+          penguins of three species observed on three islands in the <strong>Palmer Archipelago</strong>, Antarctica
+          over a study period of three years.</p>
+        <p>This dataset is commonly used when introducing students to new data science concepts because it is easy to
+          understand and work with. It contains variables such as island name (Dream, Torgersen, or Biscoe), species name
+          (Adélie, Chinstrap, or Gentoo), bill length (mm), bill depth (mm), flipper length (mm), body mass (g), and sex.
+        </p>
+        <p>The canonical paper from Gorman et al. presents the research in detail<a href="#gorman"
+            aria-describedby="footnote-label" id="gorman-ref"></a>. Palmer's Penguins is an alternative to the <a
+            href="https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/iris.html">Iris</a> sample dataset.</p>
+        <span class="header-tag"><img src="imgs/tag.svg" alt=""></span>
+        <h2>Diplomacy on ice</h2>
+        <figure id="map"
+          aria-label="Map of Antarctica showing the location of Palmer Research Station and five Chinese research stations: Great Wall, Zhongshan, Kunlun, Taishan, and Ross Sea.">
+          <figcaption class="right">Research stations in Antarctica</figcaption>
+        </figure>
       <h2>References</h2>
       <p>Individual data can be accessed directly via the <a
-          href="https://environmentaldatainitiative.org/">Environmental Data Initiative</a>:</p>
+          href="https://environmentaldatainitiative.org/">Environmental Data Initiative</a> or downloaded as a <a
+          href="data/penguins.csv">CSV file</a>:</p>
       <ul>
         <li>
           <p>Palmer Station Antarctica LTER and K. Gorman, 2020. Structural size measurements and isotopic signatures of
             foraging among adult male and female Adélie penguins (<em>Pygoscelis adeliae</em>) nesting along the Palmer
-            Archipelago near Palmer Station, 2007-2009 ver 5. Environmental Data Initiative. <a
-              href="https://doi.org/10.6073/pasta/98b16d7d563f265cb52372c8ca99e60f">doi.org</a>.</p>
+            Archipelago near Palmer Station, 2007–2009 ver 5. Environmental Data Initiative. <a
+              href="https://doi.org/10.6073/pasta/98b16d7d563f265cb52372c8ca99e60f">doi:10.6073/pasta/98b16d7d563f265cb52372c8ca99e60f</a>.</p>
         </li>
         <li>
           <p>Palmer Station Antarctica LTER and K. Gorman, 2020. Structural size measurements and isotopic signatures of
             foraging among adult male and female Gentoo penguin (<em>Pygoscelis papua</em>) nesting along the Palmer
-            Archipelago near Palmer Station, 2007-2009 ver 5. Environmental Data Initiative. <a
-              href="https://doi.org/10.6073/pasta/7fca67fb28d56ee2ffa3d9370ebda689">doi.org</a>.</p>
+            Archipelago near Palmer Station, 2007–2009 ver 5. Environmental Data Initiative. <a
+              href="https://doi.org/10.6073/pasta/7fca67fb28d56ee2ffa3d9370ebda689">doi:10.6073/pasta/7fca67fb28d56ee2ffa3d9370ebda689</a>.</p>
         </li>
         <li>
           <p>Palmer Station Antarctica LTER and K. Gorman, 2020. Structural size measurements and isotopic signatures of
             foraging among adult male and female Chinstrap penguin (<em>Pygoscelis antarcticus</em>) nesting along the
-            Palmer Archipelago near Palmer Station, 2007-2009 ver 6. Environmental Data Initiative. <a
-              href="https://doi.org/10.6073/pasta/c14dfcfada8ea13a17536e73eb6fbe9e">doi.org</a>.</p>
+            Palmer Archipelago near Palmer Station, 2007–2009 ver 6. Environmental Data Initiative. <a
+              href="https://doi.org/10.6073/pasta/c14dfcfada8ea13a17536e73eb6fbe9e">doi:10.6073/pasta/c14dfcfada8ea13a17536e73eb6fbe9e</a>.</p>
         </li>
       </ul>
-      <img src="https://education.rstudio.com/blog/2020/07/palmerpenguins-cran/antarctica-map.png"
-        alt="3 study sites on a map of Antarctic Peninsula">
+      <img src="https://education.rstudio.com/blog/2020/07/palmerpenguins-cran/antarctica-map.png" loading="lazy"
+        alt="Three study sites on a map of the Antarctic Peninsula">
     </article>
   </main>
   <footer>
     <h2 id="footnote-label">Footnotes</h2>
     <ol>
       <li id="gorman"><a href="https://doi.org/10.1371/journal.pone.0090081">Kristen Gorman, Tony Williams, William
-          Fraser, <i>Ecological sexual dimorphism and environmental variability within a community of Antarctic penguins
-            (genus Pygoscelis)</i> </a> <a href="#gorman-ref" aria-label="Back to content">↩</a></li>
+          Fraser, <cite>Ecological sexual dimorphism and environmental variability within a community of Antarctic penguins
+            (genus Pygoscelis)</cite> </a> <a href="#gorman-ref" aria-label="Back to content">↩</a></li>
     </ol>
 
     <div>
       <p>Justin Chill &copy; 2026</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
-            alt="GitHub logo" class="icon">Source code</a></span>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
+            alt="" class="icon">Source code<span class="visually-hidden"> (opens in new tab)</span></a></span>
     </div>
   </footer>
-  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"
+    integrity="sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i"
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.17/dist/plot.umd.min.js"
+    integrity="sha384-JUpn2GgRr0gxU0xOBd8D8P634jhRCwobtG8G2MMEkX1RnGJ7/FJNnuukpfT+H2w1"
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"
     integrity="sha512-iBAeBWWWFb8HqSBcrqcz98iIpuVH1la39dEYHtyQ/pGpeCQTQVvLJOWAuhv2Q7JSHp9k7hWA7sGxU3hHJe+tFg=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/topojson@3.0.2/dist/topojson.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson@3.0.2/dist/topojson.min.js"
+    integrity="sha384-9dCJK6nh7skY14HrcvlLYlFga9/MehJjL9ONWRflmiXNRuf8p2jiF4Y5PR881PTq"
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
   <script>
-    var element = d3.select('figure').node();
-    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
-    var size = 12;
+    const element = d3.select('figure').node();
+    const width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+    const size = 12;
 
     // Use Promises to async request data
-    // Todo remove "State laws" from .csv
-    var promises = [d3.csv("data/penguins.csv", d3.autoType), d3.json("data/geo/land.json"),];
+    const promises = [d3.csv("data/penguins.csv", d3.autoType), d3.json("data/geo/land.json"),];
 
-    myDataPromises = Promise.all(promises);
+    const myDataPromises = Promise.all(promises);
 
     // After data is successfully fetched, generate viz
     myDataPromises.then(function (data) {
@@ -593,6 +615,7 @@
         },
         color: {
           legend: true,
+          domain: ["Female", "Male", "Null"],
           range: ["hsl(360, 91%, 69%)", "hsl(245, 79%, 52%)", "rgba(226, 226, 226, .85)"]
         },
         x: {
@@ -611,10 +634,11 @@
           }, {
             fy: "species",
             y: "island",
-            fill: "sex",
+            // Title-case for display: CSV stores "FEMALE"/"MALE", empty cells become null
+            fill: (d) => d.sex ? d.sex.charAt(0) + d.sex.slice(1).toLowerCase() : "Null",
             tip: true
           })),
-          Plot.text([`While Chinstrap and Gentoo penguins were each observed on only one island, Adelie penguins were observed on all three islands.`], {
+          Plot.text([`While Chinstrap and Gentoo penguins were each observed on only one island, Adélie penguins were observed on all three islands.`], {
             fy: ["Adelie"],
             frameAnchor: "top-right",
             lineWidth: 18,
@@ -811,7 +835,7 @@
         name: "Zhongshan Station",
         lat: -69.37333,
         lon: 76.37778,
-        comment: "Zhongshan Station is the second \nChinese research station in Antarctica \n nd was opened on February 26, 1989.",
+        comment: "Zhongshan Station is the second \nChinese research station in Antarctica \nand was opened on February 26, 1989.",
         dx: 170,
         dy: -80
       },
@@ -827,7 +851,7 @@
         name: "Taishan Station",
         lat: -73.85,
         lon: 76.9667,
-        comment: "Taishan station serve as a \nrelay point between Kunlun \nstation and Zhongshan station.",
+        comment: "Taishan Station serves as a \nrelay point between Kunlun \nStation and Zhongshan Station.",
         dx: 150,
         dy: 150
       },
@@ -835,7 +859,7 @@
         name: "Ross Sea Station",
         lat: -74.91667,
         lon: 163.7,
-        comment: "The Ross Sea Station is China's \nfifth Antarctic research station, \nexpected to be completed in 2024.",
+        comment: "The Ross Sea Station is China's \nfifth Antarctic research station, \nopened in February 2024.",
         dx: -150,
         dy: 50
       }
@@ -954,6 +978,11 @@
       document.getElementById("islands").appendChild(Plot.plot(islands));
       document.getElementById("weightBars").appendChild(Plot.plot(weightBars));
       document.getElementById("map").appendChild(Plot.plot(map));
+    }).catch(function (error) {
+      console.error("Failed to load chart data:", error);
+      document.querySelectorAll("main figure").forEach(function (fig) {
+        fig.insertAdjacentHTML("beforeend", "<p>Sorry, this chart failed to load. Please try refreshing the page.</p>");
+      });
     });
   </script>
   <script>
@@ -970,6 +999,7 @@
         themeToggleLightIcon.classList.add("hidden");
         themeToggleDarkIcon.classList.remove("hidden");
       }
+      themeToggleBtn.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
     }
 
     const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
@@ -984,6 +1014,20 @@
         updateIcons(newTheme);
       });
     }
+
+    /**
+     * Activate email links designated with .js-email-link classes.
+     * We're avoiding putting our email in the href to prevent harvesting for
+     * spam. This tip from Lokesh Dhakar.
+     */
+    document.querySelectorAll('.js-email-link').forEach(link => {
+      link.addEventListener('click', event => {
+        const a = "Justin.richard.hill@";
+        const b = "gmail.com";
+        window.open(`mailto:${a}${b}`, 'email');
+        return false;
+      });
+    });
   </script>
 </body>
 

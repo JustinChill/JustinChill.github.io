@@ -51,7 +51,6 @@
   <meta content="https://justinchill.com/imgs/cover/solar_cover.png" property="twitter:image">
 
   <link rel="canonical" href="https://justinchill.com/solar-system.html">
-  <link rel="preload" href="style.css" as="style" />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico">
   <link type="text/plain" href="humans.txt" rel="author">
@@ -59,9 +58,19 @@
   <meta name="theme-color" content="#4C63B6">
   <meta name="color-scheme" content="light dark">
 
-  <style type="text/css">
+  <style>
     :root {
-      --background-color: floralwhite;
+      --chart-background: floralwhite;
+      --chart-subtext: #606060;
+      --chart-orbit: rgba(0, 0, 0, 0.15);
+      --chart-suborbit: rgba(0, 0, 0, 0.1);
+    }
+
+    html[data-theme="dark"] {
+      --chart-background: var(--surface-color);
+      --chart-subtext: var(--muted-color);
+      --chart-orbit: rgba(255, 255, 255, 0.25);
+      --chart-suborbit: rgba(255, 255, 255, 0.15);
     }
 
     figure {
@@ -74,49 +83,45 @@
       text-align: right;
     }
 
-    svg {
+    #solar_system {
       font-family: sans-serif;
       font-weight: lighter;
       font-size: 14px;
       width: 100%;
       height: 100%;
-      background: var(--background-color);
+      background: var(--chart-background);
     }
 
-    text {
+    #solar_system text {
       pointer-events: none;
     }
 
     .planet .halo,
     .subplanet .halo {
-      fill: var(--background-color);
-    }
-
-    .planet line {
-      stroke: #000;
+      fill: var(--chart-background);
     }
 
     .subplanet text {
       font-size: 11px;
-      fill: #606060;
+      fill: var(--chart-subtext);
     }
 
     .orbit circle {
       fill: transparent;
-      stroke: rgba(0, 0, 0, 0.15);
+      stroke: var(--chart-orbit);
       stroke-width: 1;
       stroke-dasharray: 2;
     }
 
     .suborbit circle {
       fill: transparent;
-      stroke: rgba(0, 0, 0, 0.1);
+      stroke: var(--chart-suborbit);
       stroke-width: 1;
       stroke-dasharray: 5;
     }
 
     .legend rect {
-      fill: var(--background-color);
+      fill: var(--chart-background);
       fill-opacity: 0.8;
     }
 
@@ -161,35 +166,35 @@
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-  <nav class="nav" role="navigation">
+  <nav class="nav">
     <div class="nav__list">
-      <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
-      <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
-      <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-    
+      <a href="index.html" class="nav__item">Home</a>
+      <a href="blog.html" class="nav__item">Blog</a>
+      <a href="now.html" class="nav__item">Now</a>
+
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item" aria-label="Toggle dark mode" aria-pressed="false">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
 
-  <main role="main" id="content">
+  <main id="content" tabindex="-1">
     <article>
       <div class="article-hero">
         <p class="article-category">Post</p>
@@ -202,7 +207,7 @@
         <figcaption>Data: <a
             href="https://en.wikipedia.org/wiki/List_of_gravitationally_rounded_objects_of_the_Solar_System">Wikipedia</a>
         </figcaption>
-        <svg id="solar_system"></svg>
+        <svg id="solar_system" aria-hidden="true"></svg>
       </figure>
       <p>Our solar system formed about 4.6 billion years ago. The four planets closest to the Sun — Mercury, Venus,
         Earth, and Mars — are called the terrestrial planets because they have solid, rocky surfaces. Two of the outer
@@ -216,21 +221,17 @@
     </article>
   </main>
   <footer>
-    <!-- <h2 id="footnote-label">Footnotes</h2> -->
-    <ol>
-
-    </ol>
     <div>
       <p>Justin Chill &copy; 2026</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
-            alt="GitHub logo" class="icon">Source code</a></span>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img
+            src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
-  <!-- <script src="https://cdn.jsdelivr.net/npm/d3"></script> -->
-  <script src="https://d3js.org/d3.v4.min.js"></script>
-  <script src="https://d3js.org/d3-selection-multi.v0.4.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"
+    integrity="sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i"
+    crossorigin="anonymous"></script>
 
-  <script type="text/javascript">
+  <script>
     // Recreated from Fabiovalse: https://gist.github.com/fabiovalse/96f1c7575f6a66facc34a7d8408287f0
     (function () {
       var celestial_body_types, color, height, margin, sun_radius, svg, vis, width;
@@ -250,11 +251,11 @@
       }, {
         label: 'Gas giant',
         value: 'gas_giant',
-        color: 'hsl(210, 16%, 82%)' //lightgray 
+        color: 'hsl(210, 16%, 82%)' //lightgray
       }, {
         label: 'Ice giant',
         value: 'ice_giant',
-        color: 'hsl(210, 22%, 49%)' //#b3cde3 
+        color: 'hsl(210, 22%, 49%)' //#b3cde3
       }, {
         label: 'Asteroid',
         value: 'asteroid',
@@ -275,17 +276,16 @@
         return d.color;
       }));
 
-      svg = d3.select('svg');
+      svg = d3.select('#solar_system');
 
       width = svg.node().getBoundingClientRect().width;
 
       height = svg.node().getBoundingClientRect().height;
 
-      vis = svg.append('g').attrs({
-        transform: "translate(0, " + (height / 2) + ")"
-      });
+      vis = svg.append('g')
+        .attr('transform', "translate(0, " + (height / 2) + ")");
 
-      d3.csv('https://gist.githubusercontent.com/fabiovalse/96f1c7575f6a66facc34a7d8408287f0/raw/15a23da6279096ba0fea962e50a24524bf4f5a64/data.csv', function (data) {
+      d3.csv('data/solar-system.csv', d3.autoType).then(function (data) {
         var all_legend, all_orbits, all_planets, all_suborbits, all_subplanets, angles, distance, en_legend, en_orbits, en_planets, en_suborbits, en_subplanets, leg, legend, orbits, planets, radius, solar_system, suborbits, subplanets;
         data = data.sort(function (a, b) {
           return a.distance_from_primary_km - b.distance_from_primary_km;
@@ -303,7 +303,6 @@
             return d.primary;
           }
         }))(data);
-        // console.log(data);
 
         // Calculate planet dimensions.
         // Except the sun, planet dimensions have been computed using the same scale (i.e., power scale with a 0.4 exponent). Also the planet distance from the sun and the moon distance from their primary planet have been calculated using the same scale (i.e., power scale with a 0.33 exponent).
@@ -320,28 +319,23 @@
 
         /* Sun
          */
-        vis.append('circle').attrs({
-          r: sun_radius * 2,
-          cx: -sun_radius / 1.5,
-          fill: function (d) {
-            return color(solar_system.data.subtype);
-          },
-          stroke: '#ffe27a', // Two tone sun
-          'stroke-width': '5px'
-        });
+        vis.append('circle')
+          .attr('r', sun_radius * 2)
+          .attr('cx', -sun_radius / 1.5)
+          .attr('fill', color(solar_system.data.subtype))
+          .attr('stroke', '#ffe27a') // Two tone sun
+          .attr('stroke-width', '5px');
 
         /* Orbits
          */
         orbits = vis.selectAll('.orbit').data(solar_system.children);
-        en_orbits = orbits.enter().append('g').attrs({
-          "class": 'orbit'
-        });
+        en_orbits = orbits.enter().append('g')
+          .attr('class', 'orbit');
         all_orbits = en_orbits.merge(orbits);
-        all_orbits.append('circle').attrs({
-          r: function (d) {
+        all_orbits.append('circle')
+          .attr('r', function (d) {
             return distance(d.data.distance_from_primary_km);
-          }
-        });
+          });
         orbits.exit().remove();
 
         /* Sub-orbits
@@ -354,62 +348,57 @@
             return [];
           }
         });
-        en_suborbits = suborbits.enter().append('g').attrs({
-          "class": 'suborbit',
-          transform: function (d) {
+        en_suborbits = suborbits.enter().append('g')
+          .attr('class', 'suborbit')
+          .attr('transform', function (d) {
             var i, x, y;
             i = d.parent.parent.children.indexOf(d.parent);
             x = distance(d.parent.data.distance_from_primary_km) * Math.cos(angles[i] * Math.PI / 180);
             y = distance(d.parent.data.distance_from_primary_km) * Math.sin(angles[i] * Math.PI / 180);
             return "translate(" + x + ", " + y + ")";
-          }
-        });
+          });
         all_suborbits = en_suborbits.merge(suborbits);
-        all_suborbits.append('circle').attrs({
-          r: function (d, i) {
+        all_suborbits.append('circle')
+          .attr('r', function (d) {
             return radius(d.data.distance_from_primary_km);
-          }
-        });
+          });
         suborbits.exit().remove();
 
         /* Planets
          */
         planets = vis.selectAll('.planet').data(solar_system.children);
-        en_planets = planets.enter().append('g').attrs({
-          "class": 'planet',
-          transform: function (d, i) {
+        en_planets = planets.enter().append('g')
+          .attr('class', 'planet')
+          .attr('transform', function (d, i) {
             var x, y;
             x = distance(d.data.distance_from_primary_km) * Math.cos(angles[i] * Math.PI / 180);
             y = distance(d.data.distance_from_primary_km) * Math.sin(angles[i] * Math.PI / 180);
             return "translate(" + x + ", " + y + ")";
-          }
-        });
+          });
         all_planets = en_planets.merge(planets);
-        all_planets.append('circle').attrs({
-          "class": 'halo',
-          r: function (d) {
+        all_planets.append('circle')
+          .attr('class', 'halo')
+          .attr('r', function (d) {
             return radius(d.data.equatorial_radius_km) + 3;
-          }
-        });
-        all_planets.append('circle').attrs({
-          r: function (d) {
+          });
+        all_planets.append('circle')
+          .attr('r', function (d) {
             return radius(d.data.equatorial_radius_km);
-          }
-        }).styles({
-          fill: function (d) {
+          })
+          .attr('fill', function (d) {
             return color(d.data.subtype);
-          }
-        }).append('title').text(function (d) {
-          return `${d.data.label}\nDistance from sun: ${d3.format(",")(d.data.distance_from_primary_km)}km\nType: ${d.data.type}`;
-        });
-        all_planets.append('text').attrs({
-          'text-anchor': 'middle',
-          y: function (d, i) {
+          })
+          .append('title').text(function (d) {
+            return `${d.data.label}\nDistance from sun: ${d3.format(",")(d.data.distance_from_primary_km)}km\nType: ${d.data.type}`;
+          });
+        all_planets.append('text')
+          .attr('text-anchor', 'middle')
+          .attr('y', function (d) {
             return -radius(d.data.equatorial_radius_km) - 5;
-          }
-        }).text(function (d) {
-          return d.id;
-        });
+          })
+          .text(function (d) {
+            return d.id;
+          });
         planets.exit().remove();
 
         /* Sub-planets
@@ -421,53 +410,50 @@
             return [];
           }
         });
-        en_subplanets = subplanets.enter().append('g').attrs({
-          "class": 'subplanet'
-        });
+        en_subplanets = subplanets.enter().append('g')
+          .attr('class', 'subplanet');
         all_subplanets = en_subplanets.merge(subplanets);
-        all_subplanets.append('circle').attrs({
-          "class": 'halo',
-          r: function (d) {
+        all_subplanets.append('circle')
+          .attr('class', 'halo')
+          .attr('r', function (d) {
             return radius(d.data.equatorial_radius_km);
-          },
-          cx: function (d, i) {
+          })
+          .attr('cx', function (d, i) {
             var a, r;
             r = radius(d.data.distance_from_primary_km);
             a = Math.cos((i * 30 + 60) * Math.PI / 180);
             return r * a;
-          },
-          cy: function (d, i) {
+          })
+          .attr('cy', function (d, i) {
             var a, r;
             r = radius(d.data.distance_from_primary_km);
             a = Math.sin((i * 30 + 60) * Math.PI / 180);
             return r * a;
-          }
-        });
-        all_subplanets.append('circle').attrs({
-          r: function (d) {
+          });
+        all_subplanets.append('circle')
+          .attr('r', function (d) {
             return radius(d.data.equatorial_radius_km);
-          },
-          cx: function (d, i) {
+          })
+          .attr('cx', function (d, i) {
             var a, r;
             r = radius(d.data.distance_from_primary_km);
             a = Math.cos((i * 30 + 60) * Math.PI / 180);
             return r * a;
-          },
-          cy: function (d, i) {
+          })
+          .attr('cy', function (d, i) {
             var a, r;
             r = radius(d.data.distance_from_primary_km);
             a = Math.sin((i * 30 + 60) * Math.PI / 180);
             return r * a;
-          }
-        }).styles({
-          fill: function (d) {
+          })
+          .attr('fill', function (d) {
             return color(d.data.type);
-          }
-        }).append('title').text(function (d) {
-          return `${d.data.label}\nDistance from sun: ${d3.format(",")(d.data.distance_from_primary_km)}km\nType: ${d.data.type}`;
-        });
-        all_subplanets.append('text').attrs({
-          'text-anchor': function (d, i) {
+          })
+          .append('title').text(function (d) {
+            return `${d.data.label}\nDistance from sun: ${d3.format(",")(d.data.distance_from_primary_km)}km\nType: ${d.data.type}`;
+          });
+        all_subplanets.append('text')
+          .attr('text-anchor', function (d, i) {
             var a, r;
             r = radius(d.data.distance_from_primary_km);
             a = Math.cos((i * 30 + 60) * Math.PI / 180);
@@ -476,62 +462,63 @@
             } else {
               return 'start';
             }
-          },
-          x: function (d, i) {
+          })
+          .attr('x', function (d, i) {
             var a, r;
             r = radius(d.data.distance_from_primary_km);
             a = Math.cos((i * 30 + 60) * Math.PI / 180);
             return r * a;
-          },
-          y: function (d, i) {
+          })
+          .attr('y', function (d, i) {
             var a, r;
             r = radius(d.data.distance_from_primary_km);
             a = Math.sin((i * 30 + 60) * Math.PI / 180);
             return r * a + 15;
-          }
-        }).text(function (d) {
-          return d.id;
-        });
+          })
+          .text(function (d) {
+            return d.id;
+          });
         subplanets.exit().remove();
 
         /* Legend
          */
-        leg = vis.append('g').attrs({
-          "class": 'legend',
-          transform: "translate(15, " + (height / 2 - 105) + ")"
-        });
-        leg.insert('rect').attrs({
-          x: -7,
-          y: -7,
-          width: 105,
-          height: 110
-        });
+        leg = vis.append('g')
+          .attr('class', 'legend')
+          .attr('transform', "translate(15, " + (height / 2 - 105) + ")");
+        leg.insert('rect')
+          .attr('x', -7)
+          .attr('y', -7)
+          .attr('width', 105)
+          .attr('height', 110);
         legend = leg.selectAll('.item').data(celestial_body_types.slice(1));
-        en_legend = legend.enter().append('g').attrs({
-          "class": 'item'
-        });
+        en_legend = legend.enter().append('g')
+          .attr('class', 'item');
         all_legend = en_legend.merge(legend);
-        all_legend.append('circle').attrs({
-          r: 7,
-          cx: 0,
-          cy: function (d, i) {
+        all_legend.append('circle')
+          .attr('r', 7)
+          .attr('cx', 0)
+          .attr('cy', function (d, i) {
             return i * 18;
-          }
-        }).styles({
-          fill: function (d) {
+          })
+          .attr('fill', function (d) {
             return d.color;
-          }
-        });
-        all_legend.append('text').attrs({
-          x: 12,
-          y: function (d, i) {
+          });
+        all_legend.append('text')
+          .attr('x', 12)
+          .attr('y', function (d, i) {
             return i * 18;
-          },
-          dy: '0.35em'
-        }).text(function (d) {
-          return d.label.toUpperCase();
-        });
-        return legend.exit().remove();
+          })
+          .attr('dy', '0.35em')
+          .text(function (d) {
+            return d.label.toUpperCase();
+          });
+        legend.exit().remove();
+      }).catch(function (error) {
+        console.error('Failed to load solar system data:', error);
+        svg.append('text')
+          .attr('x', 15)
+          .attr('y', 30)
+          .text('Unable to load the diagram data. Please try again later.');
       });
 
     }).call(this);
@@ -543,12 +530,11 @@
     const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
 
     function updateIcons(theme) {
-      if (theme === "dark") {
-        themeToggleLightIcon.classList.remove("hidden");
-        themeToggleDarkIcon.classList.add("hidden");
-      } else {
-        themeToggleLightIcon.classList.add("hidden");
-        themeToggleDarkIcon.classList.remove("hidden");
+      const isDark = theme === "dark";
+      themeToggleLightIcon.classList.toggle("hidden", !isDark);
+      themeToggleDarkIcon.classList.toggle("hidden", isDark);
+      if (themeToggleBtn) {
+        themeToggleBtn.setAttribute("aria-pressed", String(isDark));
       }
     }
 
@@ -564,6 +550,20 @@
         updateIcons(newTheme);
       });
     }
+
+    /**
+     * Activate email links designated with .js-email-link classes.
+     * We're avoiding putting our email in the href to prevent harvesting for
+     * spam. This tip from Lokesh Dhakar.
+     */
+    [...document.getElementsByClassName('js-email-link')].forEach(link => {
+      link.addEventListener('click', event => {
+        event.preventDefault();
+        const a = "Justin.richard.hill@";
+        const b = "gmail.com";
+        window.open(`mailto:${a}${b}`, 'email');
+      });
+    });
   </script>
 </body>
 
