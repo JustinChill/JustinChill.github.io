@@ -420,6 +420,9 @@
       var penguins = data[0];
       var land = data[1];
 
+      // Title-case sex for display: CSV stores "FEMALE"/"MALE", empty cells become null
+      const titleCaseSex = (d) => d.sex ? d.sex.charAt(0) + d.sex.slice(1).toLowerCase() : "Null";
+
       var scatter = {
         width: width,
         marginRight: 0,
@@ -531,7 +534,7 @@
             x: "culmen_length_mm",
             y: "body_mass_g",
             stroke: "species",
-            symbol: "sex",
+            symbol: titleCaseSex,
             tip: {
               opacity: 0.9,
               textPadding: 10,
@@ -558,7 +561,7 @@
           label: "Culmen length (mm)"
         },
         fy: {
-          domain: ["FEMALE", "MALE"],
+          domain: ["Female", "Male"],
           label: null
         }, // excludes N/A
         color: {
@@ -566,7 +569,7 @@
         },
         facet: {
           data: penguins,
-          y: "sex"
+          y: titleCaseSex
         },
         marks: [
           Plot.areaY(
@@ -634,8 +637,7 @@
           }, {
             fy: "species",
             y: "island",
-            // Title-case for display: CSV stores "FEMALE"/"MALE", empty cells become null
-            fill: (d) => d.sex ? d.sex.charAt(0) + d.sex.slice(1).toLowerCase() : "Null",
+            fill: titleCaseSex,
             tip: true
           })),
           Plot.text([`While Chinstrap and Gentoo penguins were each observed on only one island, Adélie penguins were observed on all three islands.`], {
