@@ -43,6 +43,8 @@
 
   <link rel="canonical" href="https://justinchill.com/BLS-tech.html">
   <link rel="preload" href="style.css" as="style" />
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico">
   <link type="text/plain" href="humans.txt" rel="author">
@@ -53,6 +55,10 @@
   <style type="text/css">
     g[aria-label*="tip"] {
       color: hsl(210, 24%, 16%);
+    }
+
+    html[data-theme="dark"] g[aria-label*="tip"] {
+      color: hsl(210, 36%, 96%);
     }
   </style>
 
@@ -103,7 +109,8 @@
         aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
             </path>
@@ -111,7 +118,8 @@
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
@@ -119,7 +127,8 @@
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank"
+        rel="noopener noreferrer">LinkedIn</a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
@@ -134,9 +143,10 @@
 
       <span class="header-tag mid-size"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h2 class="mid-size">Year-over-Year Change in US Tech Employment</h2>
-      <figure class="mid-size" id="stackedJobs"
+      <figure class="mid-size" id="stackedJobs" style="max-width: 100%; overflow-x: auto; touch-action: manipulation;"
         aria-label="Stacked bar chart showing trends in US tech employment by sector from 2018 to 2024. Software publishers show growth while other sectors fluctuate.">
-        <figcaption class="right">Data: <a href="https://data.bls.gov/pdq/SurveyOutputServlet">BLS</a></figcaption>
+        <figcaption class="right">Data: <a href="https://data.bls.gov/pdq/SurveyOutputServlet" target="_blank"
+            rel="noopener noreferrer">BLS</a></figcaption>
       </figure>
 
       <p>The US tech sector has officially stopped bleeding. For the first time since August 2023, the industry has
@@ -168,8 +178,8 @@
   <footer>
     <div>
       <p>Justin Chill &copy; 2026</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
-            alt="GitHub logo" class="icon">Source code</a></span>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"
+          rel="noopener noreferrer"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/d3"></script>
@@ -2307,18 +2317,21 @@
 
       container.querySelectorAll("svg").forEach(svg => svg.remove());
       const width = container.getBoundingClientRect().width || 900;
+      const isMobile = width < 560;
 
       const stackedJobsConfig = {
         width: width,
-        height: 500,
-        marginRight: 0,
+        height: isMobile ? 360 : 500,
+        marginRight: 10,
+        marginLeft: isMobile ? 35 : 45,
         marginTop: 30,
+        marginBottom: isMobile ? 40 : 30,
         style: {
-          fontSize: size + "px",
+          fontSize: isMobile ? "10px" : size + "px",
           background: "hsl(209, 61%, 16%)",
           color: "hsl(210, 36%, 96%)",
           fontFamily: "system-ui, sans-serif",
-          padding: "10px"
+          padding: isMobile ? "6px" : "10px"
         },
 
         color: {
@@ -2329,11 +2342,11 @@
 
         y: {
           grid: true,
-          label: "Year-on-Year Change, Thousands of Jobs",
+          label: isMobile ? "YoY Change (k jobs) ↑" : "Year-on-Year Change, Thousands of Jobs",
           tickFormat: "s",
           line: true,
           nice: true,
-          ticks: 8,
+          ticks: isMobile ? 5 : 8,
           tickSize: 0,
         },
 
@@ -2342,7 +2355,7 @@
           tickFormat: "%Y",
           interval: "month",
           nice: true,
-          ticks: 6,
+          ticks: isMobile ? 4 : 6,
           tickSize: 0,
         },
 
@@ -2363,7 +2376,7 @@
             x: d => new Date(d.date),
             y: "value",
             stroke: "#FF5252",
-            strokeWidth: 4,
+            strokeWidth: isMobile ? 2.5 : 4,
             curve: "natural"
           }))
         ]
@@ -2401,8 +2414,21 @@
         document.documentElement.setAttribute("data-theme", newTheme);
         localStorage.setItem("theme", newTheme);
         updateIcons(newTheme);
+        if (typeof renderStackedJobsChart === "function") {
+          renderStackedJobsChart();
+        }
       });
     }
+
+    // Email link handler
+    document.querySelectorAll('.js-email-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const a = "Justin.richard.hill@";
+        const b = "gmail.com";
+        window.open(`mailto:${a}${b}`, 'email');
+      });
+    });
   </script>
 </body>
 

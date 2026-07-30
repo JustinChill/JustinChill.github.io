@@ -60,9 +60,45 @@
   <meta name="color-scheme" content="light dark">
 
   <style type="text/css">
+    :root {
+      --bg-page: #f4f2ee;
+      --bg-card: #ffffff;
+      --bg-header: #ffffff;
+      --bg-hover: #ebebeb;
+      --bg-search: #edf3f8;
+      --bg-avatar-placeholder: #666666;
+      --border-color: #dfdeda;
+      --border-subtle: #e8e8e8;
+      --text-main: #000000;
+      --text-muted: #666666;
+      --btn-color: #0a66c2;
+      --btn-hover-bg: rgba(11, 102, 194, 0.08);
+      --header-icon-color: #666666;
+      --linkedin-blue: #0a66c2;
+    }
+
+    [data-theme="dark"] {
+      --bg-page: #000000;
+      --bg-card: #1d2226;
+      --bg-header: #1d2226;
+      --bg-hover: #2b3137;
+      --bg-search: #283038;
+      --bg-avatar-placeholder: #525a62;
+      --border-color: #38434f;
+      --border-subtle: #2f3539;
+      --text-main: #ffffff;
+      --text-muted: #949ca3;
+      --btn-color: #70b5f9;
+      --btn-hover-bg: rgba(112, 181, 249, 0.15);
+      --header-icon-color: #949ca3;
+      --linkedin-blue: #70b5f9;
+    }
+
     body,
     footer {
-      background-color: #f4f2ee;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     nav.nav {
@@ -71,8 +107,8 @@
 
     .card {
       border-radius: 0.8rem;
-      background-color: white;
-      border: 1px solid #dfdeda;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
       list-style-type: none;
       max-width: 35rem;
       margin-inline: auto;
@@ -82,29 +118,30 @@
     .notification {
       display: grid;
       grid-template-columns: auto 1fr auto;
-      align-items: center;
-      gap: 0 14px;
+      align-items: start;
+      gap: 0.25rem 14px;
       padding: 1rem 1rem 1rem 1.5rem;
       font-size: 0.875rem;
       line-height: 1.425;
+      color: var(--text-main);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       transition: background-color 0.3s ease;
     }
 
     .notification:hover {
-      background-color: #ebebeb;
+      background-color: var(--bg-hover);
     }
 
     .notification__interactive {
-      height: 100%;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      align-items: flex-end;
+      gap: 0.5rem;
     }
 
     .notification__time {
-      color: #666666;
+      color: var(--text-muted);
       text-align: right;
     }
 
@@ -112,19 +149,20 @@
       width: 3rem;
       height: 3rem;
       border-radius: 3rem;
+      object-fit: cover;
     }
 
     header {
       height: 53px;
-      border-bottom: 1px solid #dfdeda;
-      background: white;
+      border-bottom: 1px solid var(--border-color);
+      background: var(--bg-header);
       display: flex;
       align-items: stretch;
       padding: 8px;
     }
 
     .header__search {
-      background: #edf3f8;
+      background: var(--bg-search);
       width: 100%;
       height: 100%;
       border-radius: 5px;
@@ -149,14 +187,15 @@
       width: 100%;
     }
 
-    header svg {
+    header svg.mercado-logo {
+      fill: var(--linkedin-blue);
       width: 37px;
       height: auto;
     }
 
     .header__buttons {
       gap: 8px;
-      color: #666666;
+      color: var(--header-icon-color);
       height: 24px;
       justify-content: end;
     }
@@ -169,7 +208,7 @@
       width: auto;
       height: 100%;
       aspect-ratio: 1 / 1;
-      background: #666666;
+      background: var(--bg-avatar-placeholder);
       border-radius: 24px;
       margin-left: 10px;
     }
@@ -184,32 +223,47 @@
     }
 
     .notification__button {
+      grid-column: 2;
       background: transparent;
-      color: #0a66c2;
+      color: var(--btn-color);
       border: 1px solid currentColor;
       font: inherit;
       font-weight: bold;
       border-radius: 100px;
-      padding: 5px 10px;
+      padding: 5px 16px;
       display: inline-block;
-      font-size: 1rem;
-      margin-top: 0;
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
       width: max-content;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .notification__button:hover,
+    .notification__button:focus-visible {
+      background-color: var(--btn-hover-bg);
     }
 
     .shared-post {
-      border: 1px solid #e8e8e8;
-      padding: 8px;
+      grid-column: 2;
+      border: 1px solid var(--border-subtle);
+      padding: 8px 12px;
       border-radius: 8px;
-      margin-top: 4px;
-      background-color: white;
+      margin-top: 6px;
+      background-color: var(--bg-card);
+      color: var(--text-main);
     }
 
-    .social-counts,
+    .social-counts {
+      grid-column: 2;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
     .social-counts span {
       font-size: 0.75rem;
-      color: #666666;
-      margin-top: 4px;
+      color: var(--text-muted);
     }
 
     @media screen and (max-width: 680px) {
@@ -284,42 +338,43 @@
   </nav>
 
   <main role="main" id="content">
+    <h1 class="screen-reader-text">Honest LinkedIn</h1>
     <header>
       <div class="wrapper">
         <div class="header__content">
-          <svg viewBox="0 0 24 24" fill="#2D64BC" class="mercado-match">
+          <svg viewBox="0 0 24 24" class="mercado-logo" role="img" aria-label="LinkedIn logo">
             <path
               d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z">
             </path>
           </svg>
-          <div class="header__search"></div>
+          <div class="header__search" role="search" aria-label="Search"></div>
         </div>
 
         <div class="header__content header__buttons">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor"
-            class="mercado-match" width="24" height="24" focusable="false">
+            class="mercado-match" width="24" height="24" focusable="false" aria-hidden="true">
             <path d="M23 9v2h-2v7a3 3 0 01-3 3h-4v-6h-4v6H6a3 3 0 01-3-3v-7H1V9l11-7 5 3.18V2h3v5.09z"></path>
           </svg>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor"
-            class="mercado-match" width="24" height="24" focusable="false">
+            class="mercado-match" width="24" height="24" focusable="false" aria-hidden="true">
             <path
               d="M12 16v6H3v-6a3 3 0 013-3h3a3 3 0 013 3zm5.5-3A3.5 3.5 0 1014 9.5a3.5 3.5 0 003.5 3.5zm1 2h-2a2.5 2.5 0 00-2.5 2.5V22h7v-4.5a2.5 2.5 0 00-2.5-2.5zM7.5 2A4.5 4.5 0 1012 6.5 4.49 4.49 0 007.5 2z">
             </path>
           </svg>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor"
-            class="mercado-match" width="24" height="24" focusable="false">
+            class="mercado-match" width="24" height="24" focusable="false" aria-hidden="true">
             <path
               d="M17 6V5a3 3 0 00-3-3h-4a3 3 0 00-3 3v1H2v4a3 3 0 003 3h14a3 3 0 003-3V6zM9 5a1 1 0 011-1h4a1 1 0 011 1v1H9zm10 9a4 4 0 003-1.38V17a3 3 0 01-3 3H5a3 3 0 01-3-3v-4.38A4 4 0 005 14z">
             </path>
           </svg>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor"
-            class="mercado-match" width="24" height="24" focusable="false">
+            class="mercado-match" width="24" height="24" focusable="false" aria-hidden="true">
             <path
               d="M16 4H8a7 7 0 000 14h4v4l8.16-5.39A6.78 6.78 0 0023 11a7 7 0 00-7-7zm-8 8.25A1.25 1.25 0 119.25 11 1.25 1.25 0 018 12.25zm4 0A1.25 1.25 0 1113.25 11 1.25 1.25 0 0112 12.25zm4 0A1.25 1.25 0 1117.25 11 1.25 1.25 0 0116 12.25z">
             </path>
           </svg>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor"
-            class="mercado-match" width="24" height="24" focusable="false">
+            class="mercado-match" width="24" height="24" focusable="false" aria-hidden="true">
             <path
               d="M22 19h-8.28a2 2 0 11-3.44 0H2v-1a4.52 4.52 0 011.17-2.83l1-1.17h15.7l1 1.17A4.42 4.42 0 0122 18zM18.21 7.44A6.27 6.27 0 0012 2a6.27 6.27 0 00-6.21 5.44L5 13h14z">
             </path>
@@ -337,7 +392,7 @@
             alt="A person with long brown hair smiles in front of a window. The background is a combination of an orange wall and an out-of-focus building exterior. The person is wearing a gray jacket." />
 
           <div class="notification__body">
-            Congratulate <strong>a near-stranger</strong> for two years at <strong>a job you didn't know they
+            Congratulate <strong>a near-stranger</strong> on two years at <strong>a job you didn't know they
               had</strong>.
           </div>
 
@@ -349,8 +404,7 @@
               </path>
             </svg>
           </div>
-          <div></div>
-          <button class="notification__button">
+          <button type="button" class="notification__button">
             Say congrats
           </button>
         </li>
@@ -426,11 +480,8 @@
               </path>
             </svg>
           </div>
-          <div></div>
           <div class="shared-post">"You should be writing code 24/7, especially nights and weekends."</div>
-          <div></div>
-          <div></div>
-          <section class="social-counts">
+          <div class="social-counts">
             <span>
               6,146 Reactions
             </span>
@@ -438,7 +489,7 @@
             <span>
               524 Comments
             </span>
-          </section>
+          </div>
         </li>
 
         <li class="notification">
@@ -462,8 +513,8 @@
           <img class="notification__avatar square" src="https://assets.codepen.io/240751/1674590195758.jpg"
             alt="The image shows a stylized representation of the LinkedIn logo, with the letters in in a brown square. Below it, the words User Experience are written in brown text on a light blue background with abstract black patterns." />
           <div class="notification__body">
-            You’re <strong>one of a few experts</strong> invited to <strike>do free unpaid labor</strike> start an
-            internship at a billion dollar company.
+            You’re <strong>one of a few experts</strong> invited to <s>do free unpaid labor</s> start an
+            internship at a billion-dollar company.
           </div>
           <div class="notification__interactive">
             <div class="notification__time">1w</div>
@@ -481,7 +532,7 @@
             alt="A person with shoulder-length brown hair smiles at the camera. They are wearing a dark blazer, earrings, and a pearl necklace. The background is softly blurred, suggesting an outdoor setting." />
 
           <div class="notification__body">
-            <strong>Kris</strong>, <strong>Taylor</strong>, and 36 others at <strong>soul-sucking corporation</strong>
+            <strong>Kris</strong>, <strong>Taylor</strong>, and 36 others at <strong>a soul-sucking corporation</strong>
             shared <strong>this post from the CEO</strong> in hopes of avoiding the next round of layoffs.
           </div>
           <div class="notification__interactive">
@@ -492,12 +543,9 @@
               </path>
             </svg>
           </div>
-          <div></div>
           <div class="shared-post">"We sucked more souls than ever in Q3, and we couldn't do it without our people!!
-            We're truly family here! Teamwork makes the dreamwork. #LFG 🚀💸📈"</div>
-          <div></div>
-          <div></div>
-          <section class="social-counts">
+            We're truly family here! Teamwork makes the dream work. #LFG 🚀💸📈"</div>
+          <div class="social-counts">
             <span>
               715 Reactions
             </span>
@@ -505,7 +553,7 @@
             <span>
               83 Comments
             </span>
-          </section>
+          </div>
         </li>
 
         <li class="notification">
@@ -513,7 +561,7 @@
             alt="A blue spiral icon with a gray center is displayed in the top left. Below and to the right is a logo with two overlapping V shapes, one in dark green and the other in bright green. The background is white." />
 
           <div class="notification__body">
-            <strong>You appeared in 28 searches this week</strong>. …Is that good? I have no idea either. Try Premium,
+            <strong>You appeared in 28 searches this week</strong>. … Is that good? I have no idea either. Try Premium,
             maybe.
           </div>
           <div class="notification__interactive">
@@ -541,8 +589,7 @@
               </path>
             </svg>
           </div>
-          <div></div>
-          <button class="notification__button">
+          <button type="button" class="notification__button">
             Say happy birthday
           </button>
         </li>
@@ -586,5 +633,4 @@
     }
   </script>
 </body>
-
 </html>

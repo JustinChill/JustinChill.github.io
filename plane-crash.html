@@ -42,6 +42,8 @@
 
   <link rel="canonical" href="https://justinchill.com/plane-crash.html">
   <link rel="preload" href="style.css" as="style" />
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico">
   <link type="text/plain" href="humans.txt" rel="author">
@@ -52,6 +54,12 @@
   <style type="text/css">
     [class*="-swatches-wrap"] span {
       text-transform: capitalize;
+    }
+    g[aria-label*="tip"] {
+      color: hsl(210, 24%, 16%);
+    }
+    html[data-theme="dark"] g[aria-label*="tip"] {
+      color: hsl(210, 36%, 96%);
     }
   </style>
 
@@ -101,20 +109,20 @@
       <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
@@ -126,14 +134,14 @@
         <h1 class="article-title">Aircraft safety</h1>
         <h2 class="article-subtitle">Air travel is getting safer</h2>
       </div>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h3>Safer skies</h3>
-      <figure id="plane_line"
+      <figure id="plane_line" style="max-width: 100%; overflow-x: auto; touch-action: manipulation;"
         aria-label="Line chart showing the annual number of people killed in air accidents since 1969. The number of deaths has significantly decreased over time.">
       </figure>
       <figcaption>Sources: World Bank; Aviation Safety Network<br>*Excluding ground casualties</figcaption>
       <p>The recent disappearance of flight <a
-          href="https://en.wikipedia.org/wiki/Malaysia_Airlines_Flight_370">MH370</a> has understandably gripped the
+          href="https://en.wikipedia.org/wiki/Malaysia_Airlines_Flight_370" target="_blank" rel="noopener noreferrer">MH370</a> has understandably gripped the
         world's attention, reigniting primal
         fears about the dangers of air travel. While such mysteries are terrifying, a look at the data reveals a
         reassuring truth: flying has become historically safe, even as our skies become more crowded.
@@ -155,7 +163,7 @@
         <li><strong>Accidents (Pink):</strong> The vast majority of incidents remain accidental. Engineering
           and protocol advances have drastically reduced their frequency relative to the number of flights (despite
           recent high-profile <a
-            href="https://www.ntsb.gov/investigations/AccidentReports/Reports/AIR2504.pdf">incidents</a>).</li>
+            href="https://www.ntsb.gov/investigations/AccidentReports/Reports/AIR2504.pdf" target="_blank" rel="noopener noreferrer">incidents</a>).</li>
         <li><strong>Hostile Acts (Brown/Red):</strong> Hijackings and bombings, which caused visible spikes in
           fatalities during the 70s, 80s, and 90s, have become statistically negligible in recent years.</li>
       </ul>
@@ -175,12 +183,12 @@
   <footer>
     <h2 id="footnote-label">Footnotes</h2>
     <ol>
-      <li><strong>The Economist</strong>, <a href="https://www.economist.com/graphic-detail/2014/03/25/safe-skies">Safe
+      <li><strong>The Economist</strong>, <a href="https://www.economist.com/graphic-detail/2014/03/25/safe-skies" target="_blank" rel="noopener noreferrer">Safe
           Skies: Despite a recent tragedy, air flights are getting safer</a>. March 25th 2014</li>
     </ol>
     <div>
       <p>Justin Chill &copy; 2026</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
             alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
@@ -188,32 +196,43 @@
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 
   <script type="text/javascript">
-    // Use Promises to async request data
-    var promises = [d3.csv("data/economist_plane_crashes.csv", d3.autoType)];
-    var element = d3.select('figure').node();
-    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
-    var size = 12;
+    let rawDataset = null;
 
-    // After data is successfully fetched, generate viz
-    Promise.all(promises).then(function (data) {
-      var rawData = data[0];
+    function renderPlaneChart() {
+      if (!rawDataset) return;
+      const container = document.getElementById("plane_line");
+      if (!container) return;
 
-      // Pivot for stacked bars and convert Year to Date
-      var casualties = [];
-      rawData.forEach(d => {
-        var date = new Date(Date.UTC(d.Year, 0, 1));
-        d.Date = date; // Add Date object to rawData for the line chart
+      container.querySelectorAll("svg").forEach(svg => svg.remove());
+      const width = container.getBoundingClientRect().width || 600;
+      const isMobile = width < 560;
+      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+
+      const casualties = [];
+      rawDataset.forEach(d => {
+        const date = d.Date || new Date(Date.UTC(d.Year, 0, 1));
+        d.Date = date;
         casualties.push({ Date: date, Type: "accident", Count: d.Accident });
         casualties.push({ Date: date, Type: "hijacking", Count: d.Hijacking });
         casualties.push({ Date: date, Type: "bombing", Count: d.Bombing });
       });
 
-      var plot = Plot.plot({
+      const plot = Plot.plot({
         width: width,
-        style: { fontSize: size, fontFamily: "sans-serif" },
+        height: isMobile ? 320 : 400,
+        marginLeft: isMobile ? 35 : 45,
+        marginRight: isMobile ? 45 : 55,
+        marginTop: 30,
+        marginBottom: isMobile ? 35 : 30,
+        style: {
+          fontSize: isMobile ? 10 : 12,
+          fontFamily: "system-ui, sans-serif",
+          background: "transparent",
+          color: isDark ? "#e8e8e8" : "currentColor",
+        },
         color: {
           domain: ["accident", "hijacking", "bombing"],
-          range: ["#EFB29D", "#5C321F", "#E74C23"],
+          range: isDark ? ["#f3a993", "#c67a5b", "#ff5c33"] : ["#EFB29D", "#5C321F", "#E74C23"],
           legend: true,
           label: "Casualties* due to:"
         },
@@ -224,38 +243,49 @@
         },
         x: {
           label: null,
-          tickFormat: "%Y" // Format as Year
+          tickFormat: "%Y",
+          ticks: isMobile ? 5 : 8,
         },
         marks: [
-          // Stacked bars with rectY for time scale
-          Plot.rectY(casualties, { x: "Date", y: "Count", tip: true, fill: "Type", order: ["accident", "hijacking", "bombing"], interval: "1 year" }),
-
-          // Line for passengers (scaled x1000)
-          Plot.lineY(rawData, { x: "Date", y: d => d.Passengers * 1000, stroke: "#0099CC", strokeWidth: 3 }),
-          // Right left for casualties
+          Plot.rectY(casualties, {
+            x: "Date",
+            y: "Count",
+            tip: true,
+            fill: "Type",
+            order: ["accident", "hijacking", "bombing"],
+            interval: "1 year"
+          }),
+          Plot.lineY(rawDataset, {
+            x: "Date",
+            y: d => d.Passengers * 1000,
+            stroke: isDark ? "#38bdf8" : "#0099CC",
+            strokeWidth: isMobile ? 2 : 3
+          }),
           Plot.axisY({
             anchor: "left",
-            // tickFormat: d => d,
             label: "Casualties*",
-            // color: "#0099CC",
-            ticks: 6,
+            ticks: isMobile ? 4 : 6,
           }),
-          // Right axis for passengers
           Plot.axisY({
             anchor: "right",
             tickFormat: d => d / 1000,
-            label: "Aircraft passengers carried, bn",
-            color: "#0099CC",
-            ticks: 6,
+            label: isMobile ? "Passengers (bn)" : "Aircraft passengers carried, bn",
+            color: isDark ? "#38bdf8" : "#0099CC",
+            ticks: isMobile ? 4 : 6,
           }),
-
-          // Add a rule at y=0
-          Plot.ruleY([0])
+          Plot.ruleY([0], { stroke: isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)" })
         ]
       });
-      document.getElementById("plane_line").appendChild(plot);
+
+      container.appendChild(plot);
+    }
+
+    d3.csv("data/economist_plane_crashes.csv", d3.autoType).then(function (data) {
+      rawDataset = data;
+      renderPlaneChart();
     });
 
+    window.addEventListener("resize", renderPlaneChart);
   </script>
   <script>
     // Theme toggle functionality
@@ -283,8 +313,21 @@
         document.documentElement.setAttribute("data-theme", newTheme);
         localStorage.setItem("theme", newTheme);
         updateIcons(newTheme);
+        if (typeof renderPlaneChart === "function") {
+          renderPlaneChart();
+        }
       });
     }
+
+    // Email link handler
+    document.querySelectorAll('.js-email-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const a = "Justin.richard.hill@";
+        const b = "gmail.com";
+        window.open(`mailto:${a}${b}`, 'email');
+      });
+    });
   </script>
 </body>
 
