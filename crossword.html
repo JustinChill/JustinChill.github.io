@@ -59,6 +59,54 @@
     figcaption {
       text-align: right;
     }
+
+    figure {
+      overflow-x: auto;
+      max-width: 100%;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    figure svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Prevent SVG clipping of legend tick text like '0' on left edge */
+    .plot-legend,
+    .plot-legend-ramp,
+    .plot-legend svg {
+      overflow: visible !important;
+    }
+
+    /* Clean legend styling: align ramp at 60px so it matches the chart grid */
+    #calendar .plot-legend,
+    figure .plot-legend {
+      --length: clamp(260px, 60vw, 420px);
+      margin-left: 45px !important;
+      margin-top: 4px !important;
+      margin-bottom: 14px !important;
+      font-size: 11px !important;
+      overflow: visible !important;
+    }
+
+    #calendar .plot-legend svg,
+    figure .plot-legend svg {
+      overflow: visible !important;
+      min-width: auto !important;
+    }
+
+    #calendar .plot-legend text,
+    figure .plot-legend text {
+      font-size: 11px !important;
+    }
+
+    /* On mobile viewports (< 640px), enforce min-width 600px for heatmap SVG with horizontal scroll */
+    @media (max-width: 639px) {
+      #calendar svg:not(.plot-legend) {
+        min-width: 600px;
+        max-width: none !important;
+      }
+    }
   </style>
 
   <script type="application/ld+json">
@@ -108,7 +156,8 @@
         aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
             </path>
@@ -116,7 +165,8 @@
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
@@ -124,7 +174,8 @@
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank"
+        rel="noopener noreferrer">LinkedIn</a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
@@ -138,19 +189,20 @@
       </div>
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h2>Get a clue</h2>
-      <figure id="calendar"
-        aria-label="A heatmap showing daily activity from 2019 to August 2023, with months listed horizontally. Color intensity ranges from light yellow indicating less time to dark red indicating more time spent. Activity varies across different months and years.">
-        <figcaption>Data: <a href="https://www.nytimes.com/crosswords">NYT Crossword</a> app</figcaption>
+      <figure id="calendar" role="img"
+        aria-label="A heatmap showing daily activity from 2019 to July 2026, with months listed horizontally. Color intensity ranges from light yellow indicating less time to dark red indicating more time spent. Activity varies across different months and years.">
+        <figcaption>Data: <a href="https://www.nytimes.com/crosswords" target="_blank" rel="noopener noreferrer">NYT
+            Crossword</a> app</figcaption>
       </figure>
 
-      <p>The New York Times crossword puzzle app doesn't show much you information about your solve times. I learned
-        it's possible to download your own stats (see <a
-          href="https://github.com/mattdodge/nyt-crossword-stats">here</a>) and decided to do my own analysis. The
-        dataset shown on this page includes <span id="puzzleCount">1,000</span> puzzles solved since 2019.</p>
+      <p>The New York Times crossword puzzle app doesn't show much information about your solve times. I learned
+        it's possible to download your own stats (see <a href="https://github.com/mattdodge/nyt-crossword-stats"
+          target="_blank" rel="noopener noreferrer">here</a>) and decided to do my own analysis. The
+        dataset shown on this page includes <span id="puzzleCount">1,897</span> puzzles solved since 2019.</p>
 
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h3>Average time by day of week</h3>
-      <figure id="weekbox"
+      <figure id="weekbox" role="img"
         aria-label="Box plot showing average crossword solve time by day of the week. Times increase throughout the week, with Saturday being the highest.">
       </figure>
 
@@ -160,7 +212,7 @@
         Wednesday puzzles to solving Thursday and beyond.</p>
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h3>Puzzles over time</h3>
-      <figure id="alltime"
+      <figure id="alltime" role="img"
         aria-label="Line chart showing crossword completion times over the years. A dotted line marks the 1-hour mark, and a trend line shows solve times.">
       </figure>
       <p>A noticeable uptick in puzzle activity since the onset of the pandemic.</p>
@@ -168,12 +220,14 @@
         that time to solve increases as the week goes on, as puzzles become more challenging later in the week.</p>
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h3>Puzzle constructors</h3>
-      <figure id="constructors"
+      <figure id="constructors" role="img"
         aria-label="Bar chart showing the top 20 most frequent crossword puzzle constructors in the dataset."></figure>
       <p>Top 20 crossword puzzle constructors in the dataset. I'm glad <a
-          href="https://en.wikipedia.org/wiki/Erik_Agard">Erik Agard</a> is on the list- he's one of my personal
+          href="https://en.wikipedia.org/wiki/Erik_Agard" target="_blank" rel="noopener noreferrer">Erik Agard</a> is on
+        the list — he's one of my personal
         favorites. I highly recommend his <a
-          href="https://www.amazon.com/Food-Thought-Crosswords-Erik-Agard/dp/1454916311/ref=sr_1_1?dchild=1&qid=1635195835&refinements=p_27%3AErik+Agard&s=books&sr=1-1">food-themed
+          href="https://www.amazon.com/Food-Thought-Crosswords-Erik-Agard/dp/1454916311/ref=sr_1_1?dchild=1&qid=1635195835&refinements=p_27%3AErik+Agard&s=books&sr=1-1"
+          target="_blank" rel="noopener noreferrer">food-themed
           puzzle book</a> 🤓</p>
     </article>
   </main>
@@ -181,8 +235,8 @@
     <h2 class="visually-hidden" id="footnote-label">Footnotes</h2>
     <div>
       <p>Justin Chill &copy; 2026</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
-            alt="GitHub logo" class="icon">Source code</a></span>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"
+          rel="noopener noreferrer"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/d3"></script>
@@ -190,217 +244,241 @@
 
   <script type="text/javascript">
     // Use Promises to async request data
-    var promises = [d3.csv("data/xwstats-2-2024.csv", d3.autoType)];
-    var element = d3.select('figure').node();
-    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
-    var size = 12;
+    const promises = [d3.csv("data/xwstats-2-2024.csv", d3.autoType)];
 
-    // Stats section
-    // document.getElementById("puzzleCount").appendChild(xword_data.length);
+    Promise.all(promises).then(function (data) {
+      const xword_data = data[0];
+      document.getElementById("puzzleCount").textContent = d3.format(",")(xword_data.length);
+      const solved_data = xword_data.filter(d => d.Solved === "True" && d["Time Taken"] > 0);
 
-    // And the plot thickens...
-    myDataPromises = Promise.all(promises);
+      function renderAllCharts() {
+        const elementMid = d3.select('figure.mid-size').node() || d3.select('figure').node();
+        const width = elementMid ? elementMid.getBoundingClientRect().width : 680;
+        const calWidth = width;
+        const size = 12;
+        const legendWidth = calWidth > 500 ? Math.min(Math.round(calWidth * 0.62), 420) : 260;
 
-    // After data is successfully fetched, generate viz
-    myDataPromises.then(function (data) {
-      // Define the data
-      var xword_data = data[0];
-      const start = d3.utcDay.offset(d3.min(xword_data, (d) => d["Puzzle Date"])); // exclusive
-      const end = d3.utcDay.offset(d3.max(xword_data, (d) => d["Puzzle Date"])); // exclusive
+        // Clear existing SVGs
+        document.getElementById("calendar").innerHTML = '<figcaption>Data: <a href="https://www.nytimes.com/crosswords" target="_blank" rel="noopener noreferrer">NYT Crossword</a> app</figcaption>';
+        document.getElementById("weekbox").innerHTML = '';
+        document.getElementById("alltime").innerHTML = '';
+        document.getElementById("constructors").innerHTML = '';
 
-      var calendar = {
-        width: width,
-        height: width / 1.5,
-        style: {
-          fontSize: size,
-          paddingTop: 40
-        },
-        x: {
-          tickFormat: Plot.formatWeekday("en", "narrow"),
-          tickSize: 0,
-          domain: [1, 2, 3, 4, 5, 6, 0], // monday-based 
-          axis: "top",
-          tickFormat: null // Hide MTW...
-        },
-        y: {
-          axis: null,
-        },
-        fy: {
-          tickFormat: "",
-        },
-        color: {
-          scheme: "YlOrRd",
-          legend: true,
-          nice: true,
-          clamp: true,
-          transform: d => d / 60, // turn seconds into minutes
-          label: "Time taken (minutes)",
-          unknown: "#efefef",
-        },
-        facet: {
-          data: xword_data,
-          x: (d) => d["Puzzle Date"].getUTCMonth(),
-          y: (d) => d["Puzzle Date"].getUTCFullYear(),
-        },
-        marks: [
-          Plot.cell(xword_data, {
-            // lay the days out in the x direction based on the week of the year
-            // x: d => d3.utcWeek.count(d3.utcYear(d.date), d.date),
-
-            y: (d) => d3.timeMonday.count(d3.utcMonth(d["Puzzle Date"]), d["Puzzle Date"]), // monday-based layout
-            // lay the days out in the x direction based on day of the week
-            x: (d) => d["Puzzle Date"].getUTCDay(),
-            stroke: "currentColor",
-            strokeOpacity: .2,
-            fill: "Time Taken",
-            title: (d) => `${d3.timeFormat("%B %d, %Y")(d["Puzzle Date"])} (${d["Day of Week"]}.)\nTime Taken: ${d3.format(".0f")(d["Time Taken"] / 60)} minutes`,
-            tip: true,
-          }),
-          Plot.axisFx({
+        const calendar = {
+          width: calWidth,
+          height: Math.max(calWidth / 2.2, 280),
+          marginTop: 45,
+          marginLeft: 60,
+          marginRight: 20,
+          style: {
+            fontSize: size
+          },
+          x: {
+            tickSize: 0,
+            domain: [1, 2, 3, 4, 5, 6, 0], // monday-based 
             axis: "top",
-            dy: -14,
-            tickFormat: Plot.formatMonth("en", "long"),
-            tickRotate: 35
-          }),
-        ]
-      };
+            tickFormat: null // Hide MTW...
+          },
+          y: {
+            axis: null,
+          },
+          fy: {
+            tickFormat: "",
+          },
+          color: {
+            scheme: "YlOrRd",
+            legend: true,
+            width: legendWidth,
+            marginLeft: 15,
+            marginRight: 15,
+            nice: true,
+            clamp: true,
+            transform: d => d / 60, // turn seconds into minutes
+            label: "Time taken (minutes)",
+            unknown: "var(--surface-subtle, #efefef)",
+          },
+          facet: {
+            data: solved_data,
+            x: (d) => d["Puzzle Date"].getUTCMonth(),
+            y: (d) => d["Puzzle Date"].getUTCFullYear(),
+          },
+          marks: [
+            Plot.cell(solved_data, {
+              y: (d) => d3.timeMonday.count(d3.utcMonth(d["Puzzle Date"]), d["Puzzle Date"]), // monday-based layout
+              x: (d) => d["Puzzle Date"].getUTCDay(),
+              stroke: "currentColor",
+              strokeOpacity: .2,
+              fill: "Time Taken",
+              title: (d) => `${d3.timeFormat("%B %d, %Y")(d["Puzzle Date"])} (${d["Day of Week"]})\nTime Taken: ${d3.format(".1f")(d["Time Taken"] / 60)} minutes`,
+              tip: true,
+            }),
+            Plot.axisFx({
+              axis: "top",
+              dy: -10,
+              tickFormat: Plot.formatMonth("en", "short"),
+              tickRotate: 0
+            }),
+          ]
+        };
 
-      var weekbox = {
-        width: width,
-        style: {
-          fontSize: size
-        },
-        color: {
-          scheme: "PuBuGn",
-          reverse: true,
-        },
-        y: {
-          label: null,
-          domain: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
-          tickFormat: d => `${d}. -`,
-          tickSize: 0,
-          anchor: "left"
-        },
-        x: {
-          grid: true,
-          nice: true,
-          transform: d => d / 60, // turn seconds into minutes,
-          label: `Average time taken (minutes)`,
-          labelOffset: 34,
-          anchor: "bottom"
-        },
-        marks: [
-          Plot.boxX(xword_data, {
-            x: "Time Taken",
-            y: "Day of Week",
-            fill: "Day of Week",
-            stroke: "#333",
-            strokeWidth: 1,
-            r: 0.5,
-          })
-        ],
-      };
+        const weekbox = {
+          width: width,
+          height: 280,
+          style: {
+            fontSize: size
+          },
+          color: {
+            scheme: "PuBuGn",
+            reverse: true,
+          },
+          y: {
+            label: null,
+            domain: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
+            tickFormat: d => ({ Mo: "Mon", Tu: "Tue", We: "Wed", Th: "Thu", Fr: "Fri", Sa: "Sat", Su: "Sun" }[d] || d),
+            tickSize: 0,
+            anchor: "left"
+          },
+          x: {
+            grid: true,
+            nice: true,
+            transform: d => d / 60, // turn seconds into minutes
+            label: `Solve time distribution (minutes)`,
+            labelOffset: 34,
+            anchor: "bottom"
+          },
+          marks: [
+            Plot.boxX(
+              solved_data,
+              {
+                x: "Time Taken",
+                y: "Day of Week",
+                fill: "Day of Week",
+                fillOpacity: 0.7,
+                stroke: "currentColor",
+                strokeWidth: 1,
+                r: 1.5,
+                tip: true,
+              }
+            )
+          ],
+        };
 
-      var alltime = {
-        width: width,
-        style: {
-          fontSize: size
-        },
-        color: {
-          scheme: "GnBu",
-          reverse: false,
-        },
-        y: {
-          labelAnchor: "Top",
-          label: `Average time (minutes)`,
-          transform: d => d / 60, // turn seconds into minutes
-          grid: true,
-          domain: [0, 90],
-          tickSize: 0,
-          anchor: "left",
-        },
-        x: {
-          label: null,
-          // nice: true,
-          clamp: true,
-        },
-        marks: [
-          Plot.ruleY([60 * 60], {
-            stroke: "#DFDFDF",
-            strokeWidth: 2,
-            strokeLinecap: "round",
-            strokeDasharray: [10, 10],
-            opacity: .7,
-          }),
-          Plot.text(xword_data, {
-            y: 60 * 60,
-            text: ["1 hour"],
-            dy: 8,
-            dx: 0,
-            textAnchor: "left"
-          }),
-          Plot.line(xword_data.filter(d => (d.Solved === "True")), {
-            x: "Puzzle Date",
-            y: "Time Taken",
-            curve: "bump-x",
-            stroke: "hsl(230, 49%, 41%)",
-            opacity: .8
-          }),
-          Plot.dot(xword_data.filter(d => (d.Solved === "True")), {
-            x: "Puzzle Date",
-            y: "Time Taken",
-            fill: "hsl(230, 49%, 41%)",
-            strokeWidth: 0,
-            r: 1,
-            title: d => `${d3.timeFormat("%A %B %d, %Y")(d["Puzzle Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time Taken"] / 60)} min to solve`
-          }),
+        const alltime = {
+          width: width,
+          height: 360,
+          style: {
+            fontSize: size
+          },
+          color: {
+            scheme: "GnBu",
+            reverse: false,
+          },
+          y: {
+            labelAnchor: "top",
+            label: `Solve time (minutes)`,
+            transform: d => d / 60, // turn seconds into minutes
+            grid: true,
+            domain: [0, 90],
+            tickSize: 0,
+            anchor: "left",
+          },
+          x: {
+            label: null,
+            grid: true,
+            clamp: true,
+          },
+          marks: [
+            Plot.ruleY([60 * 60], {
+              stroke: "var(--rule-color, #cbd5e1)",
+              strokeWidth: 1.5,
+              strokeLinecap: "round",
+              strokeDasharray: [6, 6],
+              opacity: .7,
+            }),
+            Plot.text(["1 hour"], {
+              y: 60 * 60,
+              x: d3.min(solved_data, d => d["Puzzle Date"]),
+              text: d => d,
+              dy: -8,
+              dx: 10,
+              fill: "var(--muted-color, #6f6f6f)",
+              textAnchor: "start"
+            }),
+            // Individual puzzle solve dots (subtle background points)
+            Plot.dot(solved_data, {
+              x: "Puzzle Date",
+              y: "Time Taken",
+              fill: "var(--link-color, #1f6fd1)",
+              opacity: 0.25,
+              r: 2,
+              title: d => `${d3.timeFormat("%A %B %d, %Y")(d["Puzzle Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".1f")(d["Time Taken"] / 60)} min to solve`,
+              tip: true
+            }),
+            // Rolling 30-day moving average trend line
+            Plot.line(
+              solved_data,
+              Plot.windowY(30, {
+                x: "Puzzle Date",
+                y: "Time Taken",
+                stroke: "var(--link-color, #1f6fd1)",
+                strokeWidth: 2.5,
+                strokeLinecap: "round"
+              })
+            ),
+          ]
+        };
 
-          // Plot.text(marker, {x: "Puzzle Date", y: "Time Taken", text: d => `COVID-19 Pandemic`, dy: -200, dx: -8, rotate: 270}),
-          // Plot.ruleX(marker, {x: "Puzzle Date", strokeDasharray: [2, 2], strokeWidth: 0.5,stroke: "rgba(0, 0, 0, .75)"}),
-        ]
-      };
+        const constructors = {
+          width: width,
+          height: 480,
+          marginLeft: 150,
+          style: {
+            fontSize: size
+          },
+          x: {
+            grid: true,
+            label: "# of puzzles",
+            axis: "top",
+            tickSize: 0,
+            nice: true,
+            labelOffset: 40,
+          },
+          y: {
+            labelAnchor: "top",
+            tickSize: 0,
+            label: null,
+          },
+          marks: [
+            Plot.barX(solved_data, {
+              y: "Constructor",
+              x: 1,
+              inset: 0.5,
+              tip: true,
+              title: d => `${d3.timeFormat("%A %B %d, %Y")(d["Puzzle Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".1f")(d["Time Taken"] / 60)} min to solve`,
+              fill: d => d.Constructor === "Erik Agard" ? "var(--green, #22c55e)" : "var(--muted-color, #94a3b8)",
+              sort: {
+                y: "x",
+                reverse: true,
+                limit: 20
+              }
+            }),
+          ]
+        };
 
-      var constructors = {
-        width: width,
-        style: {
-          fontSize: size,
-          paddingLeft: 60
-        },
-        x: {
-          grid: true,
-          label: "# of puzzles",
-          axis: "top",
-          tickSize: 0,
-          nice: true,
-          labelOffset: 40,
-        },
-        y: {
-          labelAnchor: "top",
-          tickSize: 0,
-          label: null,
-        },
-        marks: [
-          // Plot.barY(xword_data, Plot.groupX({y: "count"}, {x: "Constructor"})),
-          Plot.barX(xword_data, {
-            y: "Constructor",
-            x: 1,
-            inset: 0.5,
-            tip: true,
-            title: d => `${d3.timeFormat("%A %B %d, %Y")(d["Puzzle Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".4r")(d["Time Taken"] / 60)} min to solve`,
-            fill: d => d.Constructor === "Erik Agard" ? "hsl(123, 35%, 51%)" : "rgba(204,204,204,.8)",
-            sort: {
-              y: "x",
-              reverse: true,
-              limit: 20
-            }
-          }),
-        ]
-      };
+        document.getElementById("calendar").appendChild(Plot.plot(calendar));
+        document.getElementById("weekbox").appendChild(Plot.plot(weekbox));
+        document.getElementById("alltime").appendChild(Plot.plot(alltime));
+        document.getElementById("constructors").appendChild(Plot.plot(constructors));
+      }
 
-      document.getElementById("calendar").appendChild(Plot.plot(calendar));
-      document.getElementById("weekbox").appendChild(Plot.plot(weekbox));
-      document.getElementById("alltime").appendChild(Plot.plot(alltime));
-      document.getElementById("constructors").appendChild(Plot.plot(constructors));
+      renderAllCharts();
+
+      // Responsive redraw on window resize
+      let resizeTimeout;
+      window.addEventListener("resize", () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(renderAllCharts, 150);
+      });
     });
   </script>
   <script>

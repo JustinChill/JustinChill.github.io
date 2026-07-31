@@ -62,6 +62,30 @@
   <meta name="color-scheme" content="light dark">
 
   <style type="text/css">
+    .hidden {
+      display: none !important;
+    }
+
+    button#theme-toggle {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0.125rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: inherit;
+    }
+
+    button#theme-toggle:focus {
+      outline: none;
+    }
+
+    button#theme-toggle svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
     #country {
       display: flex;
       flex-direction: column;
@@ -69,10 +93,28 @@
 
     select#countrySelect {
       width: fit-content;
+      margin-bottom: 1rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: var(--radius-sm, 4px);
+      border: 1px solid var(--rule-color, #ccc);
+      background-color: var(--surface-color, #fff);
+      color: var(--text-color, #242424);
     }
 
     #changes div[class*="swatch"] span {
       font-size: 1.0125rem;
+    }
+
+    g[aria-label*="tip"] {
+      color: hsl(210, 24%, 16%);
+    }
+
+    html[data-theme="dark"] g[aria-label*="tip"] {
+      color: hsl(210, 36%, 96%);
+    }
+
+    html[data-theme="dark"] figure svg {
+      color: var(--text-color, #e8e8e8);
     }
   </style>
 
@@ -117,25 +159,25 @@
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-    
+
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item" aria-label="Toggle theme">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
@@ -147,38 +189,38 @@
         <h1 class="article-title">Growth areas</h1>
         <h2 class="article-subtitle">UN Population Projections 2022</h2>
       </div>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h2>The Road to 10 Billion</h2>
-      <figure id="total"
+      <figure id="total" style="max-width: 100%; overflow-x: auto; touch-action: manipulation;"
         aria-label="A line chart showing the current world population as a solid line to 2022 and projections of the world population to 2100 as a cone of uncertainty.">
-        <figcaption class="right">Data: <a href="https://population.un.org/wpp/">United Nations</a></figcaption>
+        <figcaption class="right">Data: <a href="https://population.un.org/wpp/" target="_blank" rel="noopener noreferrer">United Nations</a></figcaption>
       </figure>
 
-      <p>The United Nations Population Division recently released <a href="https://population.un.org/wpp/">World
+      <p>The United Nations Population Division recently released <a href="https://population.un.org/wpp/" target="_blank" rel="noopener noreferrer">World
           Population Prospects 2022</a>, which includes yearly population projections to 2100. The probabilistic
         projections are based on a hierarchical Bayesian model.</p>
-      <p>The solid line in the figure above shows historical world population from 1949-2021 and the posterior median
-        population projection from 2022-2100. The shaded regions illustrate the posterior 80% and 95% credible intervals
-        for population projections from 2022-2100.</p>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <p>The solid line in the figure above shows historical world population from 1949–2021 and the posterior median
+        population projection from 2022–2100. The shaded regions illustrate the posterior 80% and 95% credible intervals
+        for population projections from 2022–2100.</p>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h3>Country Projections</h3>
-      <figure id="country"
+      <figure id="country" style="max-width: 100%; overflow-x: auto; touch-action: manipulation;"
         aria-label="A line chart showing the current population of the selected country as a solid line to 2022 and projections of the population to 2100 as a cone of uncertainty.">
-        <figcaption class="right">Data: <a href="https://population.un.org/wpp/">United Nations</a></figcaption>
+        <figcaption class="right">Data: <a href="https://population.un.org/wpp/" target="_blank" rel="noopener noreferrer">United Nations</a></figcaption>
       </figure>
-      <p>The solid line shows historical population of <span id="countryLabel">Afghanistan</span> from 1949-2021 and the
-        posterior median population projection from 2022-2100. The shaded regions illustrate the posterior 80% and 95%
-        credible intervals for population projections from 2022-2100.</p>
+      <p>The solid line shows historical population of <span id="countryLabel">Afghanistan</span> from 1949–2021 and the
+        posterior median population projection from 2022–2100. The shaded regions illustrate the posterior 80% and 95%
+        credible intervals for population projections from 2022–2100.</p>
       <h3>Changes in Population</h3>
-      <p>Let's take a quick look to at which countries are projected to have the largest change in population from
-        2022-2100.</p>
-      <p>The plot below compares the percent change in population from 2022-2100 to the 2022 population (log scale) for
+      <p>Let's take a quick look at which countries are projected to have the largest change in population from
+        2022–2100.</p>
+      <p>The plot below compares the percent change in population from 2022–2100 to the 2022 population (log scale) for
         every country.</p>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h3>Africa on the rise</h3>
-      <figure id="changes"
+      <figure id="changes" style="max-width: 100%; overflow-x: auto; touch-action: manipulation;"
         aria-label="A scatter plot showing each country compared to the percent of population change from 2022 - 2100 on the y-axis and the 2022 population (log scale) on the x-axis.">
-        <figcaption class="right">Data: <a href="https://population.un.org/wpp/">United Nations</a></figcaption>
+        <figcaption class="right">Data: <a href="https://population.un.org/wpp/" target="_blank" rel="noopener noreferrer">United Nations</a></figcaption>
       </figure>
     </article>
   </main>
@@ -186,59 +228,35 @@
 
     <div>
       <p>Justin Chill &copy; 2026</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
             alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/d3"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
   <script type="text/javascript">
-    var element = d3.select('figure:not(.mid-size)').node();
-    var width = element.getBoundingClientRect().width;
-    var size = 12;
+    // Global references for data and state
+    let globalRawData = null;
+    let globalChangeData = null;
+    let globalWorldData = null;
+    let globalSelectedCountry = "Afghanistan";
+    let selectElement = null;
+    let labelElement = null;
 
-    // Use Promises to async request data
-    var promises = [d3.csv("data/wpp2022_projections@3.csv", d3.autoType), d3.csv("data/UN_percent_change.csv", d3.autoType)];
-    myDataPromises = Promise.all(promises);
+    // Helper functions to create charts with dark mode awareness
+    function renderTotalPlot(world_data, isDark, width) {
+      const isMobile = width < 560;
+      const size = isMobile ? 10 : 12;
+      const lineColor = isDark ? "#82b4ff" : "rgba(0, 0, 0, 0.85)";
+      const bandFill = isDark ? "rgba(130, 180, 255, 0.2)" : "rgba(0, 50, 100, 0.1)";
+      const textColor = isDark ? "#e8e8e8" : "#242424";
 
-    // After data is successfully fetched, generate viz
-    myDataPromises.then(function (data) {
-
-      // Define the data
-      var rawdata = data[0];
-      var change_data = data[1];
-      var world_data = rawdata.filter(d => d.name == "World");
-      let area = "Afghanistan";
-      var areas = [...new Set(rawdata.map(d => d.name))].filter(d => d != "World").sort();
-      var area_data = rawdata.filter(d => d.name == area);
-
-      // Create a label for the dropdown
-      const label = document.createElement("label");
-      label.textContent = "Country: ";
-      label.setAttribute("for", "countrySelect");
-
-      // Create the select dropdown
-      const select = document.createElement("select");
-      select.id = "countrySelect";
-      // Populate the dropdown with options
-      areas.forEach(area => {
-        const option = document.createElement("option");
-        option.value = area;
-        option.textContent = area;
-        select.appendChild(option);
-      });
-      // Append the label and select to the document
-      document.getElementById("country").appendChild(label);
-      document.getElementById("country").appendChild(select);
-      select.addEventListener("change", event => {
-        document.getElementById('countryLabel').innerText = event.target.value;
-      });
-
-      // Inspired by https://observablehq.com/d/20d13d84dd44a84e
-      var total = {
+      return Plot.plot({
         width: width,
         style: {
-          fontSize: size
+          fontSize: size + "px",
+          background: "transparent",
+          color: textColor,
         },
         x: {
           type: "time",
@@ -251,125 +269,132 @@
           label: "World population (Billions)",
           labelArrow: null,
           tickSize: 0,
-          ticks: 4,
+          ticks: isMobile ? 4 : 5,
           nice: true,
         },
         color: {
           legend: true
         },
         marks: [
-          //Plot.ruleX([new Date("2021-12-31")], { strokeDasharray: "2, 2", stroke: "rgba(0, 0, 0, 0.5)" }),
           Plot.areaY(world_data, {
             x: "date",
             y1: "pop_95l",
             y2: "pop_95u",
-            fill: "rgba(0, 50, 100, 0.1)"
+            fill: bandFill
           }),
           Plot.areaY(world_data, {
             x: "date",
             y1: "pop_80l",
             y2: "pop_80u",
-            fill: "rgba(0, 50, 100, 0.1)"
+            fill: bandFill
           }),
           Plot.lineY(world_data, {
             x: "date",
             y: "pop",
-            stroke: "rgba(0, 0, 0, 0.75)"
+            stroke: lineColor,
+            strokeWidth: 2
           }),
           Plot.dot(world_data.filter(d => d.year % 10 == 0), {
             x: "date",
             y: "pop",
-            r: 1
+            r: isMobile ? 1.5 : 2,
+            fill: lineColor
           }),
           Plot.text(world_data.filter(d => d.year % 10 == 0), {
             x: "date",
             y: "pop",
             text: d => d3.format(".1f")(d.pop / 1e6) + "B",
             dy: -15,
+            fill: textColor,
             format: "%f"
           })
         ]
-      };
-
-      // Function to render the country chart
-      function renderCountryChart(area) {
-        area_data = rawdata.filter(d => d.name == area);
-        const countryChart = {
-          width: width,
-          margin: 10,
-          marginLeft: 15,
-          style: {
-            paddingTop: "1rem",
-          },
-          x: {
-            type: "time",
-            label: "Year",
-            grid: true
-          },
-          y: {
-            grid: true,
-            transform: d => d / 1e3,
-            label: "Population of " + area + " (Millions)",
-            labelArrow: null,
-            tickSize: 0,
-          },
-          color: {
-            legend: true
-          },
-          marks: [
-            Plot.areaY(area_data, {
-              x: "date",
-              y1: "pop_95l",
-              y2: "pop_95u",
-              fill: "rgba(0, 50, 100, 0.1)"
-            }),
-            Plot.areaY(area_data, {
-              x: "date",
-              y1: "pop_80l",
-              y2: "pop_80u",
-              fill: "rgba(0, 50, 100, 0.1)"
-            }),
-            Plot.lineY(area_data, {
-              x: "date",
-              y: "pop",
-              stroke: "rgba(0, 0, 0, 0.75)"
-            }),
-            Plot.dot(area_data.filter(d => d.year % 10 == 0), {
-              x: "date",
-              y: "pop",
-              r: 1
-            }),
-            Plot.text(area_data.filter(d => d.year % 10 == 0), {
-              x: "date",
-              y: "pop",
-              text: d => d3.format(".1f")(d.pop / 1e3) + "M",
-              dy: -15,
-              format: "%f"
-            })
-          ]
-        };
-
-        // Clear existing chart
-        const countryContainer = document.getElementById("country");
-        countryContainer.innerHTML = ""; // Clear existing chart
-        countryContainer.appendChild(label); // Re-add label
-        countryContainer.appendChild(select); // Re-add dropdown
-        countryContainer.appendChild(Plot.plot(countryChart)); // Add new chart
-      } //renderCountryChart
-
-      // Initial render
-      renderCountryChart(area);
-      // Event listener for dropdown change
-      select.addEventListener("change", event => {
-        const selectedCountry = event.target.value;
-        renderCountryChart(selectedCountry);
       });
+    }
 
-      var changes = {
+    function renderCountryPlot(area, rawdata, isDark, width) {
+      const isMobile = width < 560;
+      const size = isMobile ? 10 : 12;
+      const area_data = rawdata.filter(d => d.name == area);
+      const lineColor = isDark ? "#82b4ff" : "rgba(0, 0, 0, 0.85)";
+      const bandFill = isDark ? "rgba(130, 180, 255, 0.2)" : "rgba(0, 50, 100, 0.1)";
+      const textColor = isDark ? "#e8e8e8" : "#242424";
+
+      return Plot.plot({
         width: width,
-        marginLeft: 20,
+        margin: 10,
+        marginLeft: isMobile ? 35 : 45,
+        style: {
+          paddingTop: "1rem",
+          background: "transparent",
+          color: textColor,
+          fontSize: size + "px"
+        },
+        x: {
+          type: "time",
+          label: "Year",
+          grid: true
+        },
+        y: {
+          grid: true,
+          transform: d => d / 1e3,
+          label: "Population of " + area + " (Millions)",
+          labelArrow: null,
+          tickSize: 0,
+        },
+        color: {
+          legend: true
+        },
+        marks: [
+          Plot.areaY(area_data, {
+            x: "date",
+            y1: "pop_95l",
+            y2: "pop_95u",
+            fill: bandFill
+          }),
+          Plot.areaY(area_data, {
+            x: "date",
+            y1: "pop_80l",
+            y2: "pop_80u",
+            fill: bandFill
+          }),
+          Plot.lineY(area_data, {
+            x: "date",
+            y: "pop",
+            stroke: lineColor,
+            strokeWidth: 2
+          }),
+          Plot.dot(area_data.filter(d => d.year % 10 == 0), {
+            x: "date",
+            y: "pop",
+            r: isMobile ? 1.5 : 2,
+            fill: lineColor
+          }),
+          Plot.text(area_data.filter(d => d.year % 10 == 0), {
+            x: "date",
+            y: "pop",
+            text: d => d3.format(".1f")(d.pop / 1e3) + "M",
+            dy: -15,
+            fill: textColor,
+            format: "%f"
+          })
+        ]
+      });
+    }
+
+    function renderChangesPlot(change_data, isDark, width) {
+      const isMobile = width < 560;
+      const size = isMobile ? 10 : 12;
+      const textColor = isDark ? "#e8e8e8" : "#242424";
+
+      return Plot.plot({
+        width: width,
+        marginLeft: isMobile ? 35 : 45,
         style: {
           paddingTop: ".5rem",
+          background: "transparent",
+          color: textColor,
+          fontSize: size + "px"
         },
         x: {
           label: "2022 Population (Millions)",
@@ -386,7 +411,7 @@
           labelOffset: 2,
           tickSize: 0,
           labelArrow: null,
-          ticks: 4,
+          ticks: isMobile ? 4 : 6,
         },
         color: {
           legend: true
@@ -395,17 +420,83 @@
           Plot.dot(change_data, {
             x: "year2022",
             y: "percent_change",
-            stroke: "rgba(0, 0, 50, 0.75)",
-            r: 3,
+            r: isMobile ? 2.5 : 3.5,
             title: (d) => `${d.name} \n% Change in Pop.: ${d3.format(".2%")(d["percent_change"])}\n2022 Pop. (M): ${d3.format(".2f")(d["year2022"])}`,
             stroke: "area_name",
             tip: true
           })
         ]
-      };
+      });
+    }
 
-      document.getElementById("total").appendChild(Plot.plot(total));
-      document.getElementById("changes").appendChild(Plot.plot(changes));
+    function renderAllCharts() {
+      if (!globalRawData || !globalChangeData) return;
+
+      const isDark = (document.documentElement.getAttribute("data-theme") || "light") === "dark";
+
+      // Render Total chart
+      const totalContainer = document.getElementById("total");
+      if (totalContainer) {
+        totalContainer.querySelectorAll("svg").forEach(svg => svg.remove());
+        const totalWidth = totalContainer.getBoundingClientRect().width || 600;
+        totalContainer.appendChild(renderTotalPlot(globalWorldData, isDark, totalWidth));
+      }
+
+      // Render Country chart
+      const countryContainer = document.getElementById("country");
+      if (countryContainer) {
+        countryContainer.querySelectorAll("svg").forEach(svg => svg.remove());
+        if (labelElement) countryContainer.appendChild(labelElement);
+        if (selectElement) countryContainer.appendChild(selectElement);
+        const countryWidth = countryContainer.getBoundingClientRect().width || 600;
+        countryContainer.appendChild(renderCountryPlot(globalSelectedCountry, globalRawData, isDark, countryWidth));
+        const countryLabelSpan = document.getElementById('countryLabel');
+        if (countryLabelSpan) countryLabelSpan.innerText = globalSelectedCountry;
+      }
+
+      // Render Changes chart
+      const changesContainer = document.getElementById("changes");
+      if (changesContainer) {
+        changesContainer.querySelectorAll("svg").forEach(svg => svg.remove());
+        const changesWidth = changesContainer.getBoundingClientRect().width || 600;
+        changesContainer.appendChild(renderChangesPlot(globalChangeData, isDark, changesWidth));
+      }
+    }
+
+    // Load data
+    const promises = [d3.csv("data/wpp2022_projections@3.csv", d3.autoType), d3.csv("data/UN_percent_change.csv", d3.autoType)];
+    Promise.all(promises).then(function (data) {
+      globalRawData = data[0];
+      globalChangeData = data[1];
+      globalWorldData = globalRawData.filter(d => d.name == "World");
+
+      const areas = [...new Set(globalRawData.map(d => d.name))].filter(d => d != "World").sort();
+
+      // Create label for dropdown
+      labelElement = document.createElement("label");
+      labelElement.textContent = "Country: ";
+      labelElement.setAttribute("for", "countrySelect");
+
+      // Create select dropdown
+      selectElement = document.createElement("select");
+      selectElement.id = "countrySelect";
+      areas.forEach(area => {
+        const option = document.createElement("option");
+        option.value = area;
+        option.textContent = area;
+        selectElement.appendChild(option);
+      });
+
+      selectElement.addEventListener("change", event => {
+        globalSelectedCountry = event.target.value;
+        renderAllCharts();
+      });
+
+      renderAllCharts();
+    });
+
+    window.addEventListener("resize", () => {
+      renderAllCharts();
     });
   </script>
   <script>
@@ -434,8 +525,21 @@
         document.documentElement.setAttribute("data-theme", newTheme);
         localStorage.setItem("theme", newTheme);
         updateIcons(newTheme);
+        if (typeof renderAllCharts === "function") {
+          renderAllCharts();
+        }
       });
     }
+
+    // Email link handler
+    document.querySelectorAll('.js-email-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const a = "Justin.richard.hill@";
+        const b = "gmail.com";
+        window.open(`mailto:${a}${b}`, 'email');
+      });
+    });
   </script>
 </body>
 
