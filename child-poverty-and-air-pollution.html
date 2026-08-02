@@ -273,15 +273,17 @@
   <script type="text/javascript">
     const formatPercent = (x) => d3.format(".2%")(x / 100);
     let mappedData = [];
+    let lastRenderedWidth = 0;
 
     function renderScatterChart() {
       const container = document.getElementById("scatter");
       if (!container || !mappedData.length) return;
 
       const figcaption = container.querySelector("figcaption");
-      container.querySelectorAll("svg, div.plot").forEach(el => el.remove());
+      container.querySelectorAll("svg, figure, .plot, div.plot, .plot-legend").forEach(el => el.remove());
 
       const width = container.getBoundingClientRect().width || 600;
+      lastRenderedWidth = width;
       const isMobile = width <= 500;
       const size = isMobile ? 10 : 12;
 
@@ -482,7 +484,14 @@
       }));
 
       renderScatterChart();
-      window.addEventListener("resize", renderScatterChart);
+      window.addEventListener("resize", () => {
+        const container = document.getElementById("scatter");
+        if (!container) return;
+        const newWidth = container.getBoundingClientRect().width;
+        if (newWidth !== lastRenderedWidth) {
+          renderScatterChart();
+        }
+      });
     });
   </script>
   <script>

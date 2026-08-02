@@ -248,16 +248,19 @@
   <script type="text/javascript">
     let rawOvechkinData = null;
 
+    let lastRenderedWidth = 0;
+
     function renderOvechkinCharts() {
       if (!rawOvechkinData) return;
       const stepContainer = document.getElementById("step_chart");
       const ageContainer = document.getElementById("age_chart");
       if (!stepContainer || !ageContainer) return;
 
-      stepContainer.querySelectorAll("svg").forEach(svg => svg.remove());
-      ageContainer.querySelectorAll("svg").forEach(svg => svg.remove());
+      stepContainer.innerHTML = "";
+      ageContainer.innerHTML = "";
 
       const width = stepContainer.getBoundingClientRect().width || 600;
+      lastRenderedWidth = width;
       const isMobile = width < 560;
       const isDark = document.documentElement.getAttribute("data-theme") === "dark";
 
@@ -407,7 +410,14 @@
       renderOvechkinCharts();
     });
 
-    window.addEventListener("resize", renderOvechkinCharts);
+    window.addEventListener("resize", () => {
+      const stepContainer = document.getElementById("step_chart");
+      if (!stepContainer) return;
+      const newWidth = stepContainer.getBoundingClientRect().width;
+      if (newWidth !== lastRenderedWidth) {
+        renderOvechkinCharts();
+      }
+    });
   </script>
   <script>
     // Theme toggle functionality

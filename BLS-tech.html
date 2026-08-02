@@ -2311,12 +2311,15 @@
     // 3. Render
     const size = 12;
 
+    let lastRenderedWidth = 0;
+
     function renderStackedJobsChart() {
       const container = document.getElementById('stackedJobs');
       if (!container) return;
 
-      container.querySelectorAll("svg").forEach(svg => svg.remove());
+      container.innerHTML = "";
       const width = container.getBoundingClientRect().width || 900;
+      lastRenderedWidth = width;
       const isMobile = width < 560;
 
       const stackedJobsConfig = {
@@ -2386,7 +2389,14 @@
     }
 
     renderStackedJobsChart();
-    window.addEventListener("resize", renderStackedJobsChart);
+    window.addEventListener("resize", () => {
+      const container = document.getElementById("stackedJobs");
+      if (!container) return;
+      const newWidth = container.getBoundingClientRect().width;
+      if (newWidth !== lastRenderedWidth) {
+        renderStackedJobsChart();
+      }
+    });
   </script>
   <script>
     // Theme toggle functionality

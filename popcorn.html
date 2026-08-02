@@ -210,15 +210,14 @@
   <script type="text/javascript">
     d3.csv("data/popcornCriteria.csv", d3.autoType).then(function (popcorn) {
       const heatmapEl = document.getElementById("heatmap");
+      let lastRenderedWidth = 0;
 
       function drawHeatmap() {
-        // Clear existing chart if re-drawing
-        const existingSvg = heatmapEl.querySelector("svg");
-        if (existingSvg) existingSvg.remove();
-        const existingLegend = heatmapEl.querySelector(".plot-legend");
-        if (existingLegend) existingLegend.remove();
+        if (!heatmapEl) return;
+        heatmapEl.innerHTML = "";
 
         const width = heatmapEl.getBoundingClientRect().width || 700;
+        lastRenderedWidth = width;
         const isMobile = width < 500;
         const marginLeft = isMobile ? 150 : 210;
 

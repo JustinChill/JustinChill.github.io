@@ -197,14 +197,16 @@
 
   <script type="text/javascript">
     let rawDataset = null;
+    let lastRenderedWidth = 0;
 
     function renderPlaneChart() {
       if (!rawDataset) return;
       const container = document.getElementById("plane_line");
       if (!container) return;
 
-      container.querySelectorAll("svg").forEach(svg => svg.remove());
+      container.innerHTML = "";
       const width = container.getBoundingClientRect().width || 600;
+      lastRenderedWidth = width;
       const isMobile = width < 560;
       const isDark = document.documentElement.getAttribute("data-theme") === "dark";
 
@@ -285,7 +287,14 @@
       renderPlaneChart();
     });
 
-    window.addEventListener("resize", renderPlaneChart);
+    window.addEventListener("resize", () => {
+      const container = document.getElementById("plane_line");
+      if (!container) return;
+      const newWidth = container.getBoundingClientRect().width;
+      if (newWidth !== lastRenderedWidth) {
+        renderPlaneChart();
+      }
+    });
   </script>
   <script>
     // Theme toggle functionality

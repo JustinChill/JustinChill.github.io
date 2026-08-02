@@ -220,6 +220,7 @@
     var range = ["#1a5d1a", "#388e3c", "#66bb6a", "#a5d6a7", "#bdbdbd", "#ef6c00"];
 
     var globalData = null;
+    let lastRenderedWidth = 0;
 
     function renderCharts() {
       if (!globalData) return;
@@ -243,10 +244,11 @@
       var lawmap = new Map(laws.map(d => [d.State, d.LegalStatus]));
       var medmap = new Map(laws.map(d => [d.State, d.Medicinal]));
       var crimmap = new Map(laws.map(d => [d.State, d.Decriminalized]));
-      var stateabbr = new Map(stategrid.map(d => [d.name, d.key]));
-
-      d3.select('#map').selectAll('svg').remove();
-      d3.select('#stacks').selectAll('svg').remove();
+      const mapEl = document.getElementById("map");
+      const stacksEl = document.getElementById("stacks");
+      if (mapEl) mapEl.innerHTML = "";
+      if (stacksEl) stacksEl.innerHTML = "";
+      lastRenderedWidth = widthMid;
 
       var map = {
         width: widthMid,
@@ -360,12 +362,19 @@
 
     Promise.all(promises).then(function (data) {
       globalData = data;
-      renderCharts();
+    renderCharts();
     }).catch(function (error) {
       console.error("Error loading chart data:", error);
     });
 
-    window.addEventListener("resize", renderCharts);
+    window.addEventListener("resize", () => {
+      const mapEl = document.getElementById("map");
+      if (!mapEl) return;
+      const newWidth = mapEl.getBoundingClientRect().width;
+      if (newWidth !== lastRenderedWidth) {
+        renderCharts();
+      }
+    });
   </script>
   <script>
     // Theme toggle functionality

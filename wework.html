@@ -270,12 +270,15 @@
       label
     }));
 
+    let lastRenderedWidth = 0;
+
     function renderWeworkChart() {
       const container = document.getElementById("wework");
       if (!container) return;
 
-      container.querySelectorAll("svg").forEach(svg => svg.remove());
+      container.innerHTML = "";
       const width = container.getBoundingClientRect().width || 600;
+      lastRenderedWidth = width;
 
       const weworkConfig = {
         width: width,
@@ -330,7 +333,14 @@
     }
 
     renderWeworkChart();
-    window.addEventListener("resize", renderWeworkChart);
+    window.addEventListener("resize", () => {
+      const container = document.getElementById("wework");
+      if (!container) return;
+      const newWidth = container.getBoundingClientRect().width;
+      if (newWidth !== lastRenderedWidth) {
+        renderWeworkChart();
+      }
+    });
   </script>
   <script>
     // Theme toggle functionality

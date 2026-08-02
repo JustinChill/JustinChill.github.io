@@ -270,13 +270,16 @@
     ];
     const years = [1964, 1981, 2018, 1970, 1993];
 
+    let lastRenderedWidth = 0;
+
     function renderLineChart() {
       if (!rawUnionData) return;
       const container = document.getElementById("line");
       if (!container) return;
 
-      container.querySelectorAll("svg").forEach(svg => svg.remove());
+      container.innerHTML = "";
       const width = container.getBoundingClientRect().width || 600;
+      lastRenderedWidth = width;
 
       const lineConfig = {
         aspectRatio: 0.65,
@@ -408,7 +411,14 @@
       renderLineChart();
     });
 
-    window.addEventListener("resize", renderLineChart);
+    window.addEventListener("resize", () => {
+      const container = document.getElementById("line");
+      if (!container) return;
+      const newWidth = container.getBoundingClientRect().width;
+      if (newWidth !== lastRenderedWidth) {
+        renderLineChart();
+      }
+    });
   </script>
   <script>
     // Theme toggle functionality

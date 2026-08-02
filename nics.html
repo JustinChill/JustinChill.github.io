@@ -318,6 +318,7 @@
     let globalRollup = null;
     let globalMax = 0;
     let globalRecent = [];
+    let lastRenderedWidth = 0;
 
     function renderCharts() {
       if (!globalRollup) return;
@@ -336,10 +337,13 @@
       const width = element ? element.getBoundingClientRect().width : 600;
       const size = 12;
 
-      // Clear existing Plot graphics before re-rendering
-      d3.select('#barplot').selectAll('svg').remove();
-      d3.select('#recent').selectAll('svg').remove();
-      d3.select('#line').selectAll('svg').remove();
+      const barEl = document.getElementById("barplot");
+      const recentEl = document.getElementById("recent");
+      const lineEl = document.getElementById("line");
+      if (barEl) barEl.innerHTML = "";
+      if (recentEl) recentEl.innerHTML = "";
+      if (lineEl) lineEl.innerHTML = "";
+      lastRenderedWidth = widthMid;
 
       var barplot = {
         width: widthMid,
@@ -577,7 +581,12 @@
     window.addEventListener("resize", () => {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
-        renderCharts();
+        const barEl = document.getElementById("barplot");
+        if (!barEl) return;
+        const newWidth = barEl.getBoundingClientRect().width;
+        if (newWidth !== lastRenderedWidth) {
+          renderCharts();
+        }
       }, 150);
     });
   </script>

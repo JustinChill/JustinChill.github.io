@@ -234,6 +234,7 @@
 
   <script type="text/javascript">
     let rawData = null;
+    let lastRenderedWidth = 0;
 
     function renderPlot() {
       if (!rawData) return;
@@ -241,6 +242,7 @@
       const container = document.getElementById("economist_plot");
       if (!container) return;
 
+      container.querySelectorAll("svg, figure, .plot, div.plot, .plot-legend").forEach(el => el.remove());
       const figcaption = container.querySelector("figcaption");
       const isDark = document.documentElement.getAttribute("data-theme") === "dark";
 
@@ -252,6 +254,7 @@
       const arrowStroke = isDark ? "#888888" : "#aaaaaa";
 
       const width = container.getBoundingClientRect().width || 600;
+      lastRenderedWidth = width;
       const size = 12;
 
       const data_updated = rawData.map((d, index) => ({
@@ -415,8 +418,6 @@
         ]
       };
 
-      const existingSvg = container.querySelector("svg");
-      if (existingSvg) existingSvg.remove();
       const plotNode = Plot.plot(economist_plot);
       if (figcaption) {
         container.insertBefore(plotNode, figcaption);
@@ -434,7 +435,12 @@
     window.addEventListener("resize", () => {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
-        renderPlot();
+        const container = document.getElementById("economist_plot");
+        if (!container) return;
+        const newWidth = container.getBoundingClientRect().width;
+        if (newWidth !== lastRenderedWidth) {
+          renderPlot();
+        }
       }, 150);
     });
 

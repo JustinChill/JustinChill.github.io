@@ -668,15 +668,18 @@
 
     const color_scale_domain = [...new Set(data.map((d) => d.nation))];
 
+    let lastRenderedWidth = 0;
+
     function renderCrashesChart() {
       const container = document.getElementById("crashes");
       const legendContainer = document.getElementById("legend");
       if (!container || !legendContainer) return;
 
-      container.querySelectorAll("svg").forEach(svg => svg.remove());
-      legendContainer.querySelectorAll("div, svg, figure, .plot-legend").forEach(el => el.remove());
+      container.innerHTML = "";
+      legendContainer.innerHTML = "";
 
       const width = container.getBoundingClientRect().width || 600;
+      lastRenderedWidth = width;
 
       const crashes = {
         width: width,
@@ -808,7 +811,14 @@
     }
 
     renderCrashesChart();
-    window.addEventListener("resize", renderCrashesChart);
+    window.addEventListener("resize", () => {
+      const container = document.getElementById("crashes");
+      if (!container) return;
+      const newWidth = container.getBoundingClientRect().width;
+      if (newWidth !== lastRenderedWidth) {
+        renderCrashesChart();
+      }
+    });
   </script>
   <script>
     // Theme toggle functionality

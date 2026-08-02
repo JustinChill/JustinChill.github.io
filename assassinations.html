@@ -323,14 +323,17 @@ Donald J. Trump,2024,Republican,Survived,Yes,https://upload.wikimedia.org/wikipe
         (!document.documentElement.hasAttribute("data-theme") && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
     }
 
+    let lastRenderedWidth = 0;
+
     function renderAssassinationCharts() {
       const lineContainer = document.getElementById("line");
       const imgsContainer = document.getElementById("imgs");
 
-      if (lineContainer) lineContainer.querySelectorAll("svg").forEach(svg => svg.remove());
-      if (imgsContainer) imgsContainer.querySelectorAll("svg").forEach(svg => svg.remove());
+      if (lineContainer) lineContainer.innerHTML = "";
+      if (imgsContainer) imgsContainer.innerHTML = "";
 
       const widthMid = lineContainer ? (lineContainer.getBoundingClientRect().width || 600) : 600;
+      lastRenderedWidth = widthMid;
       const width = imgsContainer ? (imgsContainer.getBoundingClientRect().width || 600) : 600;
 
       const isDark = isDarkMode();
@@ -511,7 +514,14 @@ Donald J. Trump,2024,Republican,Survived,Yes,https://upload.wikimedia.org/wikipe
     }
 
     renderAssassinationCharts();
-    window.addEventListener("resize", renderAssassinationCharts);
+    window.addEventListener("resize", () => {
+      const lineContainer = document.getElementById("line");
+      if (!lineContainer) return;
+      const newWidth = lineContainer.getBoundingClientRect().width;
+      if (newWidth !== lastRenderedWidth) {
+        renderAssassinationCharts();
+      }
+    });
   </script>
   <script>
     // Theme toggle functionality

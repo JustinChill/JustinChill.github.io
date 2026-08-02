@@ -429,6 +429,8 @@
       });
     }
 
+    let lastRenderedWidth = 0;
+
     function renderAllCharts() {
       if (!globalRawData || !globalChangeData) return;
 
@@ -437,15 +439,16 @@
       // Render Total chart
       const totalContainer = document.getElementById("total");
       if (totalContainer) {
-        totalContainer.querySelectorAll("svg").forEach(svg => svg.remove());
+        totalContainer.innerHTML = "";
         const totalWidth = totalContainer.getBoundingClientRect().width || 600;
+        lastRenderedWidth = totalWidth;
         totalContainer.appendChild(renderTotalPlot(globalWorldData, isDark, totalWidth));
       }
 
       // Render Country chart
       const countryContainer = document.getElementById("country");
       if (countryContainer) {
-        countryContainer.querySelectorAll("svg").forEach(svg => svg.remove());
+        countryContainer.innerHTML = "";
         if (labelElement) countryContainer.appendChild(labelElement);
         if (selectElement) countryContainer.appendChild(selectElement);
         const countryWidth = countryContainer.getBoundingClientRect().width || 600;
@@ -457,7 +460,7 @@
       // Render Changes chart
       const changesContainer = document.getElementById("changes");
       if (changesContainer) {
-        changesContainer.querySelectorAll("svg").forEach(svg => svg.remove());
+        changesContainer.innerHTML = "";
         const changesWidth = changesContainer.getBoundingClientRect().width || 600;
         changesContainer.appendChild(renderChangesPlot(globalChangeData, isDark, changesWidth));
       }
@@ -496,7 +499,12 @@
     });
 
     window.addEventListener("resize", () => {
-      renderAllCharts();
+      const totalContainer = document.getElementById("total");
+      if (!totalContainer) return;
+      const newWidth = totalContainer.getBoundingClientRect().width;
+      if (newWidth !== lastRenderedWidth) {
+        renderAllCharts();
+      }
     });
   </script>
   <script>

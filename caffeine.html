@@ -1099,6 +1099,8 @@
     const quartile1 = V => d3.quantile(V, 0.25);
     const quartile3 = V => d3.quantile(V, 0.75);
 
+    let lastRenderedWidth = 0;
+
     function renderCaffeineCharts() {
       if (!caffeineData) return;
 
@@ -1108,10 +1110,11 @@
       const facetContainer = document.getElementById("caffeine_facet");
 
       [barContainer, boxContainer, classContainer, facetContainer].forEach(container => {
-        if (container) container.querySelectorAll("svg").forEach(svg => svg.remove());
+        if (container) container.innerHTML = "";
       });
 
       const width = barContainer ? (barContainer.getBoundingClientRect().width || 600) : 600;
+      lastRenderedWidth = width;
 
       const caffeine_bar = {
         width: width,
@@ -1301,6 +1304,8 @@
     });
 
     function resize() {
+      const barContainer = document.getElementById("caffeine_bar");
+      const newWidth = barContainer ? barContainer.getBoundingClientRect().width : window.innerWidth;
       const filter = document.getElementById('blurFilter');
       if (filter) {
         if (window.innerWidth <= 800) {
@@ -1309,7 +1314,9 @@
           filter.setAttribute('stdDeviation', 8);
         }
       }
-      renderCaffeineCharts();
+      if (newWidth !== lastRenderedWidth) {
+        renderCaffeineCharts();
+      }
     }
 
     window.addEventListener("resize", resize);

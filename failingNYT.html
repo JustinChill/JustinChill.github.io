@@ -267,7 +267,7 @@
       "Other"
     ];
 
-    let stocksData = null;
+    let lastRenderedWidth = 0;
 
     function renderPlots() {
       if (!stocksData) return;
@@ -277,10 +277,14 @@
       const containerSub = document.getElementById("subscriptions");
       if (!containerLine || !containerSub) return;
 
+      containerLine.querySelectorAll("svg, figure, .plot, div.plot, .plot-legend").forEach(el => el.remove());
+      containerSub.querySelectorAll("svg, figure, .plot, div.plot, .plot-legend").forEach(el => el.remove());
+
       const figcaptionLine = containerLine.querySelector("figcaption");
       const figcaptionSub = containerSub.querySelector("figcaption");
 
-      const width = containerLine.getBoundingClientRect().width || 600;
+      const widthLine = containerLine.getBoundingClientRect().width || 600;
+      lastRenderedWidth = widthLine;
       const size = 12;
 
       const textColor = isDark ? "#e8e8e8" : "#333333";
@@ -432,8 +436,6 @@
         ]
       };
 
-      const existingSvgLine = containerLine.querySelector("svg");
-      if (existingSvgLine) existingSvgLine.remove();
       const plotNodeLine = Plot.plot(lineChartSpec);
       if (figcaptionLine) {
         containerLine.insertBefore(plotNodeLine, figcaptionLine);
@@ -441,8 +443,6 @@
         containerLine.appendChild(plotNodeLine);
       }
 
-      const existingSvgSub = containerSub.querySelector("svg");
-      if (existingSvgSub) existingSvgSub.remove();
       const plotNodeSub = Plot.plot(subscriptionsSpec);
       if (figcaptionSub) {
         containerSub.insertBefore(plotNodeSub, figcaptionSub);
@@ -466,7 +466,12 @@
     window.addEventListener("resize", () => {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
-        renderPlots();
+        const containerLine = document.getElementById("lineChart");
+        if (!containerLine) return;
+        const newWidth = containerLine.getBoundingClientRect().width;
+        if (newWidth !== lastRenderedWidth) {
+          renderPlots();
+        }
       }, 150);
     });
 

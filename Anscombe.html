@@ -355,13 +355,15 @@
     }];
 
     const size = 12;
+    let lastRenderedWidth = 0;
 
     function renderAnscombeChart() {
       const container = document.getElementById("Anscombe");
       if (!container) return;
 
-      container.querySelectorAll("svg").forEach(svg => svg.remove());
+      container.innerHTML = "";
       const width = container.getBoundingClientRect().width || 600;
+      lastRenderedWidth = width;
 
       const anscombeConfig = {
         width: width,
@@ -423,7 +425,14 @@
     }
 
     renderAnscombeChart();
-    window.addEventListener("resize", renderAnscombeChart);
+    window.addEventListener("resize", () => {
+      const container = document.getElementById("Anscombe");
+      if (!container) return;
+      const newWidth = container.getBoundingClientRect().width;
+      if (newWidth !== lastRenderedWidth) {
+        renderAnscombeChart();
+      }
+    });
   </script>
   <script>
     // Theme toggle functionality

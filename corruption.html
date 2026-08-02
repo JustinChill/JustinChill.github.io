@@ -200,14 +200,16 @@
       "New Zealand", "Singapore", "Russia", "Brazil", "Spain", "Germany", "Japan", "China", "South Africa"
     ];
 
+    let lastRenderedWidth = 0;
+
     function renderPlot(data) {
       const container = document.getElementById("corruption");
       if (!container) return;
 
-      container.querySelectorAll("svg").forEach(svg => svg.remove());
-      container.querySelectorAll(".plot-legend").forEach(el => el.remove());
+      container.innerHTML = "";
 
       const width = container.getBoundingClientRect().width || 600;
+      lastRenderedWidth = width;
       const size = width < 500 ? 10 : 12;
 
       var corruption = {
@@ -599,7 +601,12 @@
       window.addEventListener("resize", function () {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(function () {
-          renderPlot(data);
+          const container = document.getElementById("corruption");
+          if (!container) return;
+          const newWidth = container.getBoundingClientRect().width;
+          if (newWidth !== lastRenderedWidth) {
+            renderPlot(data);
+          }
         }, 150);
       });
     });

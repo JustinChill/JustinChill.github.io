@@ -235,12 +235,15 @@
       { substance: "Psychoactive drugs", users: 0.3 }
     ];
 
+    let lastRenderedWidth = 0;
+
     function renderUsageChart() {
       const container = document.getElementById("usage_bars");
       if (!container) return;
-      container.querySelectorAll("svg").forEach(svg => svg.remove());
+      container.innerHTML = "";
 
       const width = container.getBoundingClientRect().width || 600;
+      lastRenderedWidth = width;
 
       const usage_bars = Plot.plot({
         width: width,
@@ -277,7 +280,14 @@
     }
 
     renderUsageChart();
-    window.addEventListener("resize", renderUsageChart);
+    window.addEventListener("resize", () => {
+      const container = document.getElementById("usage_bars");
+      if (!container) return;
+      const newWidth = container.getBoundingClientRect().width;
+      if (newWidth !== lastRenderedWidth) {
+        renderUsageChart();
+      }
+    });
   </script>
   <script>
     // Theme toggle functionality
