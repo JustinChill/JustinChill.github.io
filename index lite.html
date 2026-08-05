@@ -1,0 +1,2431 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
+    (function () {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+      document.documentElement.classList.remove('no-js');
+      document.documentElement.classList.add('js');
+    })();
+  </script>
+
+  <title>Justin Chill</title>
+  <meta name="description"
+    content="Personal blog featuring research, visualization, and interactive insights on politics, technology, and history.">
+  <meta name="author" content="Justin Chill">
+  <meta name="keywords"
+    content="data visualization, design, HTML, blog, Justin, Chill, personal, website, portfolio, CSS">
+  <meta name="robots" content="all">
+
+  <!-- OpenGraph tags -->
+  <meta content="en_US" property="og:locale">
+  <meta content="JustinChill" property="og:site_name">
+  <meta content="website" property="og:type">
+  <meta content="https://justinchill.com/" property="og:url">
+  <meta content="Justin Chill" property="og:title">
+  <meta
+    content="Personal blog featuring research, visualization, and interactive insights on politics, technology, and history."
+    property="og:description">
+  <meta content="https://justinchill.com/blog.html" property="og:see_also">
+  <meta property="og:locality" content="New York">
+  <meta property="og:region" content="NY">
+  <meta property="og:country_name" content="USA">
+  <meta content="https://justinchill.com/imgs/cover/index_cover.png" property="og:image">
+  <meta content="1280" property="og:image:width">
+  <meta content="1280" property="og:image:height">
+  <meta content="Justin Chill website homepage. July 2026." property="og:image:alt">
+
+  <meta name="datePublished" content="2018-01-30">
+  <meta name="dateModified" content="2026-07-14">
+
+  <!-- Twitter tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@JustinChill">
+  <meta name="twitter:creator" content="@JustinChill">
+  <meta name="twitter:title" content="Justin Chill">
+  <meta name="twitter:description"
+    content="Personal blog featuring research, visualization, and interactive insights on politics, technology, and history.">
+  <meta content="https://justinchill.com/imgs/cover/index_cover.png" property="twitter:image">
+
+  <link rel="canonical" href="https://justinchill.com/">
+  <link rel="preload" href="style.css" as="style" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico">
+  <link type="text/plain" href="humans.txt" rel="author">
+
+  <meta name="theme-color" content="#4C63B6">
+  <meta name="color-scheme" content="light dark">
+
+  <style>
+    /*--------------------------------------------------------------
+    1. Base Resets & Typography
+    --------------------------------------------------------------*/
+    html,
+    body {
+      font-family: var(--font-main), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
+    a,
+    a:not([class]) {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    a:hover,
+    a:focus,
+    a:active {
+      text-decoration: none;
+    }
+
+    button {
+      font-family: inherit;
+      font-size: 100%;
+      line-height: inherit;
+      color: inherit;
+      margin: 0;
+      padding: 0;
+      border: none;
+      background: none;
+      box-shadow: none;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+      box-sizing: border-box;
+    }
+
+    .sr-only,
+    .screen-reader-text {
+      clip: rect(1px, 1px, 1px, 1px);
+      position: absolute !important;
+      height: 1px;
+      width: 1px;
+      overflow: hidden;
+    }
+
+    .screen-reader-text:hover,
+    .screen-reader-text:active,
+    .screen-reader-text:focus {
+      background-color: var(--surface-color);
+      border-radius: 3px;
+      box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+      clip: auto !important;
+      color: var(--link-color);
+      display: block;
+      font-size: 14px;
+      font-weight: bold;
+      height: auto;
+      left: 5px;
+      line-height: normal;
+      padding: 15px 23px 14px;
+      top: 5px;
+      width: auto;
+      z-index: 100000;
+    }
+
+    /*--------------------------------------------------------------
+    2. Header & Navigation
+    --------------------------------------------------------------*/
+    .site-header {
+      background-color: var(--surface-color);
+      margin-bottom: 1rem;
+    }
+
+    .site-nav {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 0;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .nav-avatar {
+      width: 3rem;
+      height: 3rem;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .nav-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0;
+      color: var(--heading-color);
+      cursor: default;
+      text-align: center;
+      flex-grow: 1;
+    }
+
+    .menu-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 3rem;
+      height: 3rem;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .menu-hamburger {
+      width: 1.25rem;
+      height: 1.25rem;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .hamburger-line {
+      display: block;
+      background-color: #1d4ed8;
+      position: absolute;
+      height: 2px;
+      width: 1.25rem;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .hamburger-line-top {
+      top: 50%;
+      left: 0;
+      transform: translateY(-4px);
+    }
+
+    .hamburger-line-bot {
+      top: 50%;
+      left: 0;
+      transform: translateY(4px);
+    }
+
+    .menu-button.active .hamburger-line-top {
+      transform: translateY(0) rotate(45deg);
+    }
+
+    .menu-button.active .hamburger-line-bot {
+      transform: translateY(0) rotate(-45deg);
+    }
+
+    .responsive-menu {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.4s ease-out, opacity 0.4s ease-out, visibility 0.4s ease-out;
+      opacity: 0;
+      visibility: hidden;
+      width: 100%;
+    }
+
+    .responsive-menu.opened {
+      grid-template-rows: 1fr;
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .responsive-menu.opened .menu-inner {
+      overflow: visible;
+    }
+
+    .menu-inner {
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      padding-top: 1rem;
+      padding-bottom: 0.5rem;
+      width: 100%;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 1.25rem;
+      width: 100%;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .nav-link,
+    #theme-toggle {
+      color: var(--heading-color);
+      font-size: 1.125rem;
+      line-height: 1.5rem;
+      text-transform: capitalize;
+      text-align: right;
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      align-self: flex-end;
+      margin-left: auto;
+      border: none;
+      background: transparent;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .nav-link:hover,
+    #theme-toggle:hover {
+      color: #2563eb;
+      transform: translateY(-1px);
+    }
+
+    .nav-link:focus-visible,
+    #theme-toggle:focus-visible {
+      outline: 2px solid var(--focus-color, #2563eb);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+
+    .nav-link.active-link {
+      border-bottom: 2px solid #2563eb;
+    }
+
+    #theme-toggle span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    @media (min-width: 1024px) {
+      .site-nav {
+        flex-wrap: nowrap;
+      }
+
+      .nav-brand {
+        width: auto;
+        justify-content: flex-start;
+        gap: 0.5rem;
+      }
+
+      .nav-title {
+        text-align: left;
+        flex-grow: 0;
+      }
+
+      .menu-button {
+        display: none;
+      }
+
+      .responsive-menu {
+        display: flex;
+        grid-template-rows: unset;
+        opacity: 1;
+        visibility: visible;
+        width: auto;
+        margin-left: auto;
+      }
+
+      .menu-inner {
+        flex-direction: row;
+        align-items: center;
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
+        overflow: visible;
+      }
+
+      .nav-links {
+        flex-direction: row;
+        align-items: center;
+        gap: 2rem;
+        font-weight: 400;
+        font-size: 1.125rem;
+      }
+    }
+
+    /*--------------------------------------------------------------
+    3. Top 3-Column Hero Grid
+    --------------------------------------------------------------*/
+    .top-hero-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      padding: 1rem 0;
+    }
+
+    .col-center {
+      order: 1;
+    }
+
+    .col-left {
+      order: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .col-right {
+      order: 3;
+    }
+
+    @media (min-width: 1024px) {
+      .top-hero-grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        padding: 1.5rem 0;
+      }
+
+      .col-left {
+        grid-column: span 3;
+        order: 1;
+        padding: 1.5rem 0;
+        gap: 2rem;
+      }
+
+      .col-center {
+        grid-column: span 6;
+        order: 2;
+      }
+
+      .col-right {
+        grid-column: span 3;
+        order: 3;
+      }
+    }
+
+    .featured-mini-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mini-badge {
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      font-family: var(--font-ui);
+      font-weight: 400;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      color: var(--muted-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .badge-dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      background-color: #ef4444;
+      margin-right: 0.625rem;
+      flex-shrink: 0;
+    }
+
+    .mini-title {
+      font-weight: 500;
+      font-size: 1.125rem;
+      color: var(--heading-color);
+      transition: color 0.3s ease;
+    }
+
+    .mini-title:hover {
+      color: #4f46e5;
+      text-decoration: none;
+    }
+
+    .mini-meta {
+      color: var(--muted-color);
+      font-size: 0.75rem;
+      margin-top: 0.5rem;
+      font-family: var(--font-ui);
+    }
+
+    .mini-meta a {
+      color: #60a5fa;
+      font-size: 0.75rem;
+      text-transform: capitalize;
+      transition: color 0.2s ease;
+    }
+
+    .mini-meta a:hover {
+      color: #3b82f6;
+      text-decoration: none;
+    }
+
+    .all-posts-link {
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding-top: 1.25rem;
+      display: flex;
+      width: 100%;
+      align-items: center;
+      color: var(--heading-color);
+      border-top: 2px solid rgba(180, 83, 9, 0.1);
+      margin-top: auto;
+      transition: color 0.3s;
+    }
+
+    .all-posts-link:hover {
+      color: #4f46e5;
+      text-decoration: none;
+    }
+
+    .all-posts-icon {
+      width: 0.875rem;
+      margin-left: auto;
+      color: #ef4444;
+    }
+
+    /* Main Center Hero Card */
+    .main-hero-card {
+      position: relative;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      display: flex;
+      border-radius: var(--radius);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      min-height: 220px;
+      width: 100%;
+      overflow: hidden;
+      background-color: var(--surface-color);
+    }
+
+    .hero-tag {
+      font-size: 0.75rem;
+      font-family: var(--font-ui);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: #ffffff;
+      position: absolute;
+      right: 1.25rem;
+      top: 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #ef4444;
+      text-transform: uppercase;
+      z-index: 2;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      align-items: center;
+      justify-content: flex-end;
+      text-align: center;
+      padding: 5rem 1.25rem 1.75rem;
+      background:
+        radial-gradient(circle at top right, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.08) 35%, transparent 65%),
+        linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.45) 60%, rgba(0, 0, 0, 0.15) 100%);
+      border-radius: var(--radius);
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .hero-title {
+      color: #ffffff;
+      font-size: 1.5rem;
+      line-height: 2rem;
+      transition: color 0.2s ease;
+    }
+
+    .hero-title:hover {
+      color: #93c5fd;
+      text-decoration: none;
+    }
+
+    .hero-meta {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.75rem;
+      margin-top: 0.75rem;
+      font-family: var(--font-ui);
+    }
+
+    .hero-meta a {
+      color: #60a5fa;
+      font-size: 0.75rem;
+    }
+
+    @media (min-width: 768px) {
+      .main-hero-card {
+        min-height: 320px;
+      }
+
+      .hero-content {
+        padding: 10rem 2.5rem 2.5rem;
+      }
+
+      .hero-title {
+        font-size: 2rem;
+        line-height: 2.5rem;
+      }
+    }
+
+    /* Right Sidebar Tabs */
+    .sidebar-tabs {
+      padding: 1rem 0;
+    }
+
+    .tab-header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 1.25rem;
+      padding: 4px 4px;
+      margin-top: -4px;
+      margin-bottom: calc(1.25rem - 4px);
+      overflow-x: auto;
+      white-space: nowrap;
+      scrollbar-width: none;
+    }
+
+    .tab-header::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-btn {
+      font-size: 0.75rem;
+      font-weight: 700;
+      font-family: var(--font-ui);
+      padding: 2px 4px 0.75rem 4px;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--muted-color);
+      flex-shrink: 0;
+      border-radius: 4px 4px 0 0;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .tab-btn:focus-visible {
+      outline: 2px solid var(--focus-color, #2563eb);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+
+    .tab-btn.active {
+      border-bottom-color: #ef4444;
+      color: var(--heading-color);
+    }
+
+    .tab-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      opacity: 1;
+      transform: translateY(0);
+      will-change: opacity, transform;
+    }
+
+    .tab-panel.hidden {
+      display: none !important;
+      opacity: 0;
+      transform: translateY(6px);
+    }
+
+    .tab-panel.entering {
+      animation: tabFadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    @keyframes tabFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 1023px) {
+      .tab-panel {
+        flex-direction: row;
+        overflow-x: auto;
+        gap: 1rem;
+        padding-bottom: 0.5rem;
+        scrollbar-width: none;
+      }
+
+      .tab-panel::-webkit-scrollbar {
+        display: none;
+      }
+
+      .tab-article-card {
+        flex-shrink: 0;
+        width: 18rem;
+        padding: 0.75rem;
+        background-color: var(--surface-color);
+        border-radius: var(--radius);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    .tab-article-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .tab-article-card>a {
+      flex-shrink: 0;
+      display: block;
+      width: 5rem;
+      height: 5rem;
+      line-height: 0;
+      border-radius: var(--radius);
+      overflow: hidden;
+      outline: none;
+    }
+
+    .tab-thumb {
+      width: 100%;
+      height: 100%;
+      flex-shrink: 0;
+      margin-right: 0;
+      border-radius: var(--radius);
+      object-fit: cover;
+      background-color: #ffffff;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .tab-thumb:hover {
+      transform: translateY(-2px);
+    }
+
+    .tab-article-info {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      min-width: 0;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+
+    .tab-article-title {
+      font-size: 1.125rem;
+      line-height: 1.35;
+      margin-bottom: 0.25rem;
+      color: var(--heading-color);
+      transition: color 0.2s ease;
+    }
+
+    .tab-article-title:hover {
+      color: #4f46e5;
+      text-decoration: none;
+    }
+
+    /*--------------------------------------------------------------
+    4. Section Headings with Extending Line
+    --------------------------------------------------------------*/
+    .section-heading {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--heading-color);
+    }
+
+    .section-heading::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background-color: var(--rule-color);
+    }
+
+    /*--------------------------------------------------------------
+    5. Hero Intro Section & Asymmetric Card Grid
+    --------------------------------------------------------------*/
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      padding: 2rem 0;
+      align-items: center;
+    }
+
+    @media (min-width: 1024px) {
+      .intro-grid {
+        grid-template-columns: 1fr 1fr;
+        max-width: 1280px;
+        margin: 0 auto;
+      }
+    }
+
+    .intro-text-box h2 {
+      font-size: 1.875rem;
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--heading-color);
+    }
+
+    @media (min-width: 1280px) {
+      .intro-text-box h2 {
+        font-size: 3rem;
+      }
+    }
+
+    .text-chill {
+      color: #a855f7;
+      font-family: "Camphor Heavy", var(--font-main);
+      font-size: inherit;
+      line-height: inherit;
+    }
+
+    .intro-desc {
+      font-size: 1rem;
+      line-height: 1.75;
+      margin-top: 0.75rem;
+      margin-bottom: 2.5rem;
+      color: var(--text-color);
+    }
+
+    @media (min-width: 1280px) {
+      .intro-desc {
+        font-size: 1.125rem;
+        line-height: 2.25rem;
+      }
+    }
+
+    .btn-primary {
+      font-family: var(--font-ui), var(--font-main), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #a855f7;
+      color: #ffffff;
+      border-radius: 0.5rem;
+      padding: 0.875rem 1.25rem;
+      font-size: 1.125rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease;
+      display: inline-block;
+      text-decoration: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #6b21a8;
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .btn-secondary {
+      font-family: var(--font-ui), var(--font-main), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 1.125rem;
+      font-weight: 500;
+      text-transform: capitalize;
+      letter-spacing: 0.03em;
+      margin-left: 1.25rem;
+      color: var(--heading-color);
+      transition: color 0.3s ease;
+      display: inline-block;
+      text-decoration: none;
+    }
+
+    .btn-secondary:hover {
+      color: #a855f7;
+      text-decoration: none;
+    }
+
+    .stats-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 24rem;
+      margin-top: 2.5rem;
+      text-align: center;
+    }
+
+    @media (min-width: 1024px) {
+      .stats-container {
+        text-align: left;
+        margin-left: 0;
+      }
+    }
+
+    .stat-number {
+      font-size: 1.875rem;
+      font-weight: 600;
+      color: var(--heading-color);
+    }
+
+    .stat-label {
+      text-transform: capitalize;
+      margin-top: 0.5rem;
+      color: var(--muted-color);
+    }
+
+    .stat-divider {
+      width: 2px;
+      height: 3rem;
+      background-color: var(--rule-color);
+    }
+
+    /* Asymmetric Card Grid */
+    .card__grid {
+      display: grid;
+      width: 100%;
+      place-content: center;
+      gap: 1.25em 0;
+    }
+
+    @media (min-width: 1024px) {
+      .card__grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: 7.375em 12em 7.375em;
+        column-gap: 2em;
+        row-gap: 2.1em;
+      }
+
+      .card--1 {
+        grid-row: 1 / 3;
+      }
+
+      .card--2 {
+        grid-row: 1 / 2;
+      }
+
+      .card--3 {
+        grid-row: 2 / 4;
+      }
+
+      .card--4 {
+        grid-row: 3 / 4;
+      }
+    }
+
+    .card-box {
+      background-color: var(--surface-color);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      border-radius: 1.5rem;
+      padding: 1.25rem;
+      transition: transform 0.3s ease;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .card-box:hover {
+      transform: translateY(-2px);
+    }
+
+    .card-box img {
+      border-radius: 1rem;
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+
+    .card-img-wrap {
+      width: 100%;
+      height: 10rem;
+    }
+
+    @media (min-width: 1024px) {
+      .card-img-wrap {
+        height: 12rem;
+      }
+    }
+
+    .card-small-thumb {
+      width: 5rem;
+      height: 5rem;
+      flex-shrink: 0;
+    }
+
+    .card-title {
+      font-weight: 600;
+      font-size: 1.125rem;
+      margin-top: 0.75rem;
+      color: var(--heading-color);
+    }
+
+    .card-title a:hover {
+      color: #a855f7;
+    }
+
+    .card-category {
+      color: var(--muted-color);
+      font-size: 0.75rem;
+      font-family: var(--font-ui);
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.25rem;
+    }
+
+    .flex-row-center {
+      display: flex;
+      align-items: center;
+    }
+
+    .star-rating {
+      display: flex;
+      align-items: center;
+      color: #facc15;
+    }
+
+    /*--------------------------------------------------------------
+    6. Media Grid & Category Sections
+    --------------------------------------------------------------*/
+    .site-section {
+      padding: 2.5rem 0;
+    }
+
+    .media-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      padding: 2.5rem 0;
+    }
+
+    @media (min-width: 640px) {
+      .media-grid {
+        grid-template-columns: repeat(12, 1fr);
+      }
+
+      .media-featured-col {
+        grid-column: span 5;
+      }
+
+      .media-thumb-col {
+        grid-column: span 7;
+      }
+    }
+
+    .media-banner {
+      background-size: cover;
+      background-position: center;
+      min-height: 250px;
+      border-radius: var(--radius);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    @media (min-width: 768px) {
+      .media-banner {
+        min-height: 300px;
+      }
+    }
+
+    .media-banner:hover {
+      transform: translateY(-2px);
+    }
+
+    .media-thumb-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 1024px) {
+      .media-thumb-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .media-thumb-card {
+      transition: transform 0.3s ease;
+    }
+
+    .media-thumb-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .media-thumb-box {
+      height: 9rem;
+      background-size: cover;
+      background-position: center;
+      border-radius: var(--radius);
+    }
+
+    .media-thumb-link {
+      color: var(--heading-color);
+      display: inline-block;
+      font-size: 1rem;
+      margin: 0.5rem 0;
+      transition: color 0.3s ease;
+    }
+
+    .media-thumb-link:hover {
+      color: #4f46e5;
+    }
+
+    /* Opinion Grid */
+    .opinion-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .opinion-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .opinion-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .opinion-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 9rem;
+    }
+
+    .opinion-header,
+    .side-story-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.75rem;
+      width: 100%;
+      margin-bottom: 0.5rem;
+    }
+
+    .opinion-card h3 {
+      font-weight: 700;
+      font-size: 1.125rem;
+      margin: 0;
+      line-height: 1.3;
+    }
+
+    .opinion-card h3 a:hover {
+      color: #4f46e5;
+    }
+
+    .opinion-card p {
+      color: var(--text-color);
+      font-size: 0.875rem;
+      margin: 0;
+    }
+
+    .opinion-tag {
+      font-size: 0.6875rem;
+      font-family: var(--font-ui);
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted-color);
+      background-color: var(--surface-subtle);
+      padding: 0.15rem 0.5rem;
+      border-radius: 9999px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      display: inline-block;
+      line-height: 1.4;
+    }
+
+    /* Visual Journalism Grid */
+    .journalism-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .journalism-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .journalism-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .journalism-card {
+      display: block;
+    }
+
+    .journalism-img-wrap {
+      overflow: hidden;
+      border-radius: var(--radius);
+      margin-bottom: 0.75rem;
+      height: 12rem;
+    }
+
+    .journalism-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .journalism-card:hover .journalism-img-wrap img {
+      transform: scale(1.05);
+    }
+
+    .journalism-card h3 {
+      font-size: 1.125rem;
+      color: var(--heading-color);
+      transition: color 0.3s ease;
+    }
+
+    .journalism-card:hover h3 {
+      color: #818cf8;
+    }
+
+    /* Life & Arts Grid */
+    .life-arts-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      width: 100%;
+      min-width: 0;
+    }
+
+    @media (min-width: 1024px) {
+      .life-arts-grid {
+        grid-template-columns: 2fr 1fr;
+      }
+    }
+
+    .life-arts-feature {
+      position: relative;
+      height: 20rem;
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .life-arts-feature {
+        height: 24rem;
+      }
+    }
+
+    .life-arts-feature > a {
+      display: block;
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .life-arts-feature img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.9);
+      transition: filter 0.3s ease;
+    }
+
+    .life-arts-feature:hover img {
+      filter: brightness(1);
+    }
+
+    .life-arts-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 1.5rem;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+      color: #ffffff;
+      box-sizing: border-box;
+    }
+
+    .life-arts-side {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1.5rem;
+      min-width: 0;
+    }
+
+    .side-story {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      min-width: 0;
+    }
+
+    .side-story-img {
+      width: 6rem;
+      height: 6rem;
+      object-fit: cover;
+      flex-shrink: 0;
+      border-radius: var(--radius);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .side-story:hover .side-story-img {
+      transform: translateY(-2px);
+    }
+
+    .side-story > div {
+      min-width: 0;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .side-story h4 {
+      font-weight: 700;
+      font-size: 1.125rem;
+      margin: 0;
+      line-height: 1.25;
+      transition: color 0.3s ease;
+    }
+
+    .side-story:hover h4 {
+      color: #4f46e5;
+    }
+
+    .side-story p {
+      color: var(--muted-color);
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+    }
+
+    /*--------------------------------------------------------------
+    7. Interactive 3D Perspective Articles
+    --------------------------------------------------------------*/
+    h2 {
+      margin: 0;
+    }
+
+    footer {
+      display: block;
+    }
+
+    .articles {
+      perspective: 500px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      padding: 3rem 0;
+    }
+
+    @media (min-width: 768px) {
+      .articles {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .articles {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .article {
+      display: flex;
+      flex-direction: column;
+      height: 300px;
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      background-color: var(--surface-color);
+      border-radius: 7px;
+      overflow: hidden;
+      padding: 1em;
+      transform: rotateX(0deg) rotateY(0deg);
+      transition: transform 0.2s linear;
+      will-change: transform;
+      text-align: left;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    .article:nth-child(5n+1) {
+      background-image: url("imgs/cover/inequality_cover.png");
+      background-position: top;
+    }
+
+    .article:nth-child(5n+2) {
+      background-image: url("imgs/cover/feelwheel_cover.png");
+    }
+
+    .article:nth-child(5n+3) {
+      background-image: url("imgs/cover/congress_cover.webp");
+    }
+
+    .article:nth-child(5n+4) {
+      background-image: url("imgs/cover/extremism_cover.webp");
+    }
+
+    .article:nth-child(5n+5) {
+      background-image: url("imgs/cover/charts_cover.png");
+    }
+
+    .article:nth-child(5n+6) {
+      background-image: url("imgs/lter_penguins.webp");
+    }
+
+    .overlay {
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, 0.4) 50%);
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 1;
+    }
+
+    .title {
+      font-size: 1.5em;
+      margin-top: auto;
+      transition: all 0.3s;
+      position: relative;
+      z-index: 2;
+      pointer-events: none;
+      transform: translateY(-20px);
+      color: #fff;
+    }
+
+    .article span.cat {
+      letter-spacing: 2px;
+      font-weight: bold;
+      font-family: 'Lato', sans-serif;
+      position: relative;
+      z-index: 2;
+      pointer-events: none;
+      overflow: hidden;
+      color: #fff;
+    }
+
+    @media screen and (min-width: 1000px) {
+      .title {
+        transform: translateY(0px);
+      }
+
+      .title:hover {
+        transform: translateY(-20px);
+      }
+
+      .article span.cat {
+        color: transparent;
+      }
+
+      .article span.cat::before,
+      .article span.cat::after {
+        content: attr(data-hover);
+        position: absolute;
+        display: inline-block;
+        left: 0;
+        top: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        max-width: 0%;
+        transition: max-width 300ms ease-out;
+      }
+
+      .article span.cat::before {
+        color: yellow;
+        transition-delay: 100ms;
+      }
+
+      .article span.cat::after {
+        color: white;
+      }
+
+      .article:hover span.cat:after,
+      .article:hover span.cat:before {
+        max-width: 100%;
+      }
+
+      .article:hover span.cat:after {
+        transition-delay: 300ms;
+      }
+    }
+
+    /*--------------------------------------------------------------
+    8. Footer & Floating Actions
+    --------------------------------------------------------------*/
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+
+    .site-wrapper {
+      position: relative;
+      z-index: 2;
+      background-color: var(--bg-color);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      flex: 1 0 auto;
+    }
+
+    .site-footer {
+      position: sticky;
+      bottom: 0;
+      z-index: 1;
+      background-color: var(--surface-subtle);
+      border-top: 1px solid var(--rule-color);
+      padding-top: 1.75rem;
+      width: 100%;
+    }
+
+    .footer-header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 640px) {
+      .footer-header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+
+    .footer-brand-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .footer-avatar {
+      width: 2.25rem;
+      height: 2.25rem;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .footer-brand {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--heading-color);
+      margin: 0;
+    }
+
+    .footer-social-links {
+      display: flex;
+      gap: 1.25rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      align-items: center;
+    }
+
+    .footer-social-links a {
+      color: var(--muted-color);
+      transition: color 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .footer-social-links a:hover {
+      color: var(--link-color, #2563eb);
+    }
+
+    /* Integrated Metadata Section */
+    .footer-metadata-section {
+      border-top: 1px solid var(--rule-color);
+      padding: 1.5rem 0 2rem 0;
+    }
+
+    .metadata-heading {
+      font-size: 0.8125rem;
+      font-weight: 700;
+      font-family: var(--font-ui);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted-color);
+      margin-bottom: 1rem;
+    }
+
+    .metadata-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem 1.5rem;
+      width: 100%;
+    }
+
+    @media (min-width: 640px) {
+      .metadata-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .metadata-grid {
+        grid-template-columns: repeat(6, 1fr);
+      }
+    }
+
+    .metadata-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .metadata-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      font-family: var(--font-ui);
+      color: var(--heading-color);
+    }
+
+    .metadata-value {
+      font-size: 0.875rem;
+      font-family: monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+      color: var(--muted-color);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      word-break: break-all;
+    }
+
+    .metadata-link {
+      color: var(--link-color);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      transition: color 0.2s ease, opacity 0.2s ease;
+    }
+
+    .metadata-link:hover {
+      color: var(--link-color);
+      opacity: 0.8;
+      text-decoration: underline;
+    }
+
+    .external-icon {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .footer-bottom {
+      background-color: var(--rule-color);
+      padding: 1rem 0;
+    }
+
+    .footer-bottom-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.875rem;
+      color: var(--muted-color);
+    }
+
+    .floating-github-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      background-color: var(--surface-color);
+      border: 1px solid var(--rule-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--heading-color);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      transition: color 0.3s ease, transform 0.3s ease;
+      z-index: 99;
+    }
+
+    .floating-github-btn:hover {
+      color: #2563eb;
+      transform: translateY(-2px);
+    }
+  </style>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Justin Chill",
+  "alternateName": [
+    "Justin's Blog",
+    "JustinChill"
+  ],
+  "url": "https://justinchill.com/",
+  "description": "Personal blog featuring research, visualization, and interactive insights on politics, technology, and history.",
+  "author": {
+    "@type": "Person",
+    "name": "Justin Chill",
+    "url": "https://justinchill.com/now.html",
+    "image": "https://justinchill.com/imgs/memoji.png",
+    "sameAs": [
+      "https://www.linkedin.com/in/justinrichardhill/",
+      "https://github.com/JustinChill"
+    ]
+  }
+}
+  </script>
+</head>
+
+<body>
+  <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+  <div class="site-wrapper">
+    <header class="site-header" id="header">
+    <div class="container">
+      <nav class="site-nav" role="navigation">
+        <div class="nav-brand">
+          <img src="imgs/memoji.png" alt="Justin Chill logo featuring memoji 3D avatar profile picture." loading="lazy"
+            fetchpriority="high" class="nav-avatar" />
+          <h1 class="nav-title">Justin Chill</h1>
+          <button class="menu-button" id="menu-button" aria-expanded="false" aria-controls="responsive-menu">
+            <span class="sr-only">Open Menu</span>
+            <div class="menu-hamburger">
+              <span aria-hidden="true" class="hamburger-line hamburger-line-top" id="top-hamburger-icon"></span>
+              <span aria-hidden="true" class="hamburger-line hamburger-line-bot" id="bot-hamburger-icon"></span>
+            </div>
+          </button>
+        </div>
+        <!-- Mobile & Desktop Menu -->
+        <div id="responsive-menu" class="responsive-menu">
+          <div class="menu-inner">
+            <div class="nav-links">
+              <a href="index.html" class="nav-link" aria-label="Homepage">home</a>
+              <a href="blog.html" class="nav-link" aria-label="Blog section">blog</a>
+              <a href="now.html" class="nav-link" aria-label="Now page">now</a>
+              <!-- Theme Toggle Button -->
+              <button id="theme-toggle" class="nav-link" aria-label="Toggle theme">
+                <span id="theme-toggle-light-icon" class="hidden">
+                  <!-- Sun Icon -->
+                  <svg style="width:1.5rem; height:1.5rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
+                    </path>
+                  </svg>
+                </span>
+                <span id="theme-toggle-dark-icon" class="hidden">
+                  <!-- Moon Icon -->
+                  <svg style="width:1.5rem; height:1.5rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                  </svg>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="content" role="main">
+    <div class="container">
+      <!-- Top 3-Column Hero Grid -->
+      <section class="top-hero-grid">
+        <!-- Center Column: Main Hero Card (First on Mobile) -->
+        <div class="col-center main-hero-card"
+          style="background-image:url('https://miro.medium.com/v2/0*n1DCGYyv2qTfIymi.jpg')">
+          <span class="hero-tag">Sloptimism</span>
+          <span class="screen-reader-text">The state of generative AI in 2025.</span>
+          <div class="hero-content">
+            <a href="AI-2025.html" class="hero-title">AI eats the world</a>
+            <p class="hero-meta">A post by <a href="blog.html">Justin Chill</a></p>
+          </div>
+        </div>
+
+        <!-- Left Column: Featured Mini Items -->
+        <div class="col-left">
+          <div class="featured-mini-item">
+            <h3 class="mini-badge">
+              <span class="badge-dot"></span>
+              Message Received
+            </h3>
+            <a href="grim-beeper.html" class="mini-title">Operation Grim Beeper</a>
+            <p class="mini-meta">Filed under <a href="blog.html">Post</a></p>
+          </div>
+          <div class="featured-mini-item">
+            <h3 class="mini-badge">
+              <span class="badge-dot"></span>
+              Lit Crit
+            </h3>
+            <a href="drunk.html" class="mini-title">A history of getting hammered</a>
+            <p class="mini-meta">Filed under <a href="blog.html">Review</a></p>
+          </div>
+          <div class="featured-mini-item">
+            <h3 class="mini-badge">
+              <span class="badge-dot"></span>
+              Business
+            </h3>
+            <a href="wework.html" class="mini-title">WeWork Fundraising</a>
+            <p class="mini-meta">Filed under <a href="blog.html">Analysis</a></p>
+          </div>
+          <a href="blog.html" class="all-posts-link">ALL POSTS
+            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"
+              stroke-linejoin="round" class="all-posts-icon">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Right Column: Sidebar Tabs -->
+        <div class="col-right sidebar-tabs">
+          <div class="tab-header">
+            <button class="tab-btn active" onclick="showSection('latest')">LATEST</button>
+            <button class="tab-btn" onclick="showSection('popular')">POPULAR</button>
+            <button class="tab-btn" onclick="showSection('hot')">HOT TOPIC</button>
+          </div>
+
+          <div class="tab-panel" id="latest">
+            <div class="tab-article-card">
+              <a href="venn.html"><img
+                  src="https://images.squarespace-cdn.com/content/v1/5a5331d3b1ffb6ca7203df4e/1739804430641-9NABM9HTR8H8TQLCVJVN/guide-7Things.png?format=750w"
+                  alt="Three overlapping circles creating a Venn diagram." loading="lazy" class="tab-thumb" /></a>
+              <div class="tab-article-info">
+                <a href="venn.html" class="tab-article-title">Venn diagrams in CSS</a>
+                <p class="mini-meta">Filed under <a href="blog.html">Code</a></p>
+              </div>
+            </div>
+            <div class="tab-article-card">
+              <a href="careless-people.html"><img
+                  src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhqOPz4MO3ilRo5Tv111WubRd3vLublWBSuxj0ajUN-ojP-wX-tTrnY0PX_-5N0KT0LrjYioaKpKW8yfNYm6FAEBi_6zEClJ7fTBoM3-2n2sKdXVuS26nxNqrITWvML_ORRLlUbLE3iqnbV3r03zpN7txERJssqX0hSbn2mNfo2Z4BpKOXitfTxzTj6-BAO/w1200-h630-p-k-no-nu/1.jpg"
+                  alt="Cover of Careless People book by Sarah Wynn-Williams, featuring a shark fin." class="tab-thumb"
+                  loading="lazy"></a>
+              <div class="tab-article-info">
+                <a href="careless-people.html" class="tab-article-title">Review: &ldquo;Careless People&rdquo;</a>
+                <p class="mini-meta">Filed under <a href="blog.html">Book Review</a></p>
+              </div>
+            </div>
+            <div class="tab-article-card">
+              <a href="demon.html"><img
+                  src="https://hips.hearstapps.com/hmg-prod/images/opr080122readingroom-012-1659546778.png?resize=980:*"
+                  alt="Book cover of Demon Copperhead by Barbara Kingsolver." class="tab-thumb" loading="lazy" /></a>
+              <div class="tab-article-info">
+                <a href="demon.html" class="tab-article-title">Review: &ldquo;Demon Copperhead&rdquo;</a>
+                <p class="mini-meta">Filed under <a href="blog.html">Book Review</a></p>
+              </div>
+            </div>
+            <div class="tab-article-card">
+              <a href="stack-overflow.html"><img
+                  src="https://www.economist.com/cdn-cgi/image/width=1424,quality=80,format=auto/content-assets/images/20241005_WBD002.jpg"
+                  alt="Illustration of a digital brain and a globe with a large HTML code symbol." class="tab-thumb"
+                  loading="lazy" /></a>
+              <div class="tab-article-info">
+                <a href="stack-overflow.html" class="tab-article-title">The demise of Stack Overflow</a>
+                <p class="mini-meta">Filed under <a href="blog.html">Code</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-panel hidden" id="popular">
+            <div class="tab-article-card">
+              <a href="popcorn.html"><img src="imgs/cover/popcorn_cover.png"
+                  alt="Data visualization of popcorn ratings by arena." class="tab-thumb" loading="lazy" /></a>
+              <div class="tab-article-info">
+                <a href="popcorn.html" class="tab-article-title">Steph Curry's popcorn problem</a>
+                <p class="mini-meta">Filed under <a href="blog.html">Data Viz</a></p>
+              </div>
+            </div>
+            <div class="tab-article-card">
+              <a href="planets.html"><img
+                  src="https://static9.depositphotos.com/1320606/1103/v/950/depositphotos_11033234-stock-illustration-solar-system-illustration.jpg"
+                  alt="The planets of our solar system." class="tab-thumb" loading="lazy" /></a>
+              <div class="tab-article-info">
+                <a href="planets.html" class="tab-article-title">Our Solar System</a>
+                <p class="mini-meta">Filed under <a href="blog.html">Astronomy</a></p>
+              </div>
+            </div>
+            <div class="tab-article-card">
+              <a href="inf-hoe-graphic.html"><img src="imgs/ZIP3_zones.svg"
+                  alt="Map of the contiguous United States showing area codes." class="tab-thumb" loading="lazy" /></a>
+              <div class="tab-article-info">
+                <a href="inf-hoe-graphic.html" class="tab-article-title">Where rapper Ludacris claims hoes</a>
+                <p class="mini-meta">Filed under <a href="blog.html">Data Viz</a></p>
+              </div>
+            </div>
+            <div class="tab-article-card">
+              <a href="paved-paradise.html"><img
+                  src="https://www.glastuinbouwnederland.nl/content/_processed_/d/d/csm_Paved_Paradise_d97c13becc.jpg"
+                  alt="An image of a vibrant jungle." class="tab-thumb" loading="lazy" /></a>
+              <div class="tab-article-info">
+                <a href="paved-paradise.html" class="tab-article-title">Paved Paradise</a>
+                <p class="mini-meta">Filed under <a href="blog.html">Book Review</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-panel hidden" id="hot">
+            <div class="tab-article-card">
+              <a href="black-sea-fleet.html"><img src="imgs/cover/blacksea_cover.png"
+                  alt="Map depicting strikes in Black Sea." class="tab-thumb" loading="lazy" /></a>
+              <div class="tab-article-info">
+                <a href="black-sea-fleet.html" class="tab-article-title">Losses in the Black Sea</a>
+                <p class="mini-meta">Filed under <a href="blog.html">Russo-Ukraine War</a></p>
+              </div>
+            </div>
+            <div class="tab-article-card">
+              <a href="drones.html"><img src="https://images.wsj.net/im-970318/?width=1280&height=1280"
+                  alt="Ukrainian soldiers launching drones." class="tab-thumb" loading="lazy" /></a>
+              <div class="tab-article-info">
+                <a href="drones.html" class="tab-article-title">Drones in Ukraine</a>
+                <p class="mini-meta">Filed under <a href="blog.html">Warfare</a></p>
+              </div>
+            </div>
+            <div class="tab-article-card">
+              <a href="renewables.html"><img
+                  src="https://static.observableusercontent.com/thumbnail/7871f04941fa7bfc051ca7f5f42a1b073fe3ecbb26c5d93b05deb9f8b44bbee5.jpg"
+                  alt="Global renewables growth chart." class="tab-thumb" loading="lazy" /></a>
+              <div class="tab-article-info">
+                <a href="renewables.html" class="tab-article-title">Renewable Energy Capacity</a>
+                <p class="mini-meta">Filed under <a href="blog.html">Energy</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Hero Intro & Asymmetric Card Grid -->
+      <section class="intro-grid">
+        <div class="intro-text-box">
+          <h2>A pretty <span class="text-chill">chill</span> blog</h2>
+          <p class="intro-desc">A personal blog featuring research, data visualizations, and interactive insights on
+            politics, technology, and history. Thanks for visiting!</p>
+          <form action="blog.html" style="display:inline-block;">
+            <button class="btn-primary">Blog</button>
+          </form>
+          <form action="now.html" style="display:inline-block;">
+            <button class="btn-secondary">learn more</button>
+          </form>
+          <div class="stats-container">
+            <div>
+              <span class="stat-number">100&nbsp;+</span>
+              <p class="stat-label">Articles</p>
+            </div>
+            <div class="stat-divider"></div>
+            <div>
+              <span class="stat-number">9&nbsp;+</span>
+              <p class="stat-label">Years running</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card__grid">
+          <div class="card-box card--1">
+            <div class="card-img-wrap">
+              <a href="gta.html"><img src="imgs/4k-gta-5-logo-on-shack-jl79veutkt7ze70s.jpg" alt="GTA 5 cover art"
+                  loading="lazy"></a>
+            </div>
+            <div>
+              <h3 class="card-title"><a href="gta.html">GTA V turns 10</a></h3>
+              <p class="card-category">Gaming <span class="star-rating card-category"><svg
+                    style="width:1.25rem; height:1.25rem; margin-right:0.25rem;" fill="currentColor" viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                    </path>
+                  </svg>5.0</span></p>
+            </div>
+          </div>
+
+          <div class="card-box card--2 flex-row-center">
+            <div class="card-small-thumb">
+              <a href="css-selectors.html"><img
+                  src="https://images.seeklogo.com/logo-png/18/1/css3-logo-png_seeklogo-186678.png" alt="CSS 3 logo"
+                  loading="lazy"></a>
+            </div>
+            <div style="margin-left: 1rem;">
+              <h3 class="card-title" style="margin-top:0;"><a href="css-selectors.html">CSS selectors</a></h3>
+              <p class="card-category">Code</p>
+            </div>
+          </div>
+
+          <div class="card-box card--3">
+            <div class="card-img-wrap">
+              <a href="renewables.html"><img src="imgs/-1x-1.webp" loading="lazy" alt="Galaxy Abstract Paint"></a>
+            </div>
+            <div>
+              <h3 class="card-title"><a href="renewables.html">Charging ahead</a></h3>
+              <p class="card-category">Renewables</p>
+            </div>
+          </div>
+
+          <div class="card-box card--4 flex-row-center">
+            <div class="card-small-thumb">
+              <a href="child-poverty-and-air-pollution.html"><img src="imgs/_117546233_whitechapel-mediasizefile-13.jpg"
+                  alt="Sign stating Breathing kills" loading="lazy"></a>
+            </div>
+            <div style="margin-left: 1rem;">
+              <h3 class="card-title" style="margin-top:0;"><a href="child-poverty-and-air-pollution.html">Choked up</a>
+              </h3>
+              <p class="card-category">Smog</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Media Grid Section -->
+      <section class="media-grid">
+        <div class="media-featured-col">
+          <a href="snl.html">
+            <div class="media-banner" style="background-image: url('imgs/Belushi.jpg')" title="John Belushi"></div>
+          </a>
+          <div style="margin-top: 0.75rem;">
+            <a href="snl.html"
+              style="font-size:0.75rem; color:#4f46e5; text-transform:uppercase; font-weight:500;">TV</a>
+            <a href="snl.html"
+              style="display:block; font-size:1.5rem; font-weight:700; color:var(--heading-color); margin:0.25rem 0 0.5rem;">SNL</a>
+            <p style="color:var(--text-color);">Visualizing 50 years of Saturday Night Live.</p>
+          </div>
+        </div>
+
+        <div class="media-thumb-col media-thumb-grid">
+          <div class="media-thumb-card">
+            <a href="nics.html">
+              <div class="media-thumb-box" style="background-image: url('imgs/cover/nics_cover.png')"
+                title="FBI checks"></div>
+            </a>
+            <a href="nics.html" class="media-thumb-link">FBI background checks</a>
+          </div>
+          <div class="media-thumb-card">
+            <a href="weedlaws.html">
+              <div class="media-thumb-box" style="background-image: url('imgs/cover/weedlaws_cover.png')"
+                title="Map of legal states"></div>
+            </a>
+            <a href="weedlaws.html" class="media-thumb-link">Altered states</a>
+          </div>
+          <div class="media-thumb-card">
+            <a href="president-ages.html">
+              <div class="media-thumb-box" style="background-image: url('imgs/presidents.webp')"
+                title="U.S. Presidents"></div>
+            </a>
+            <a href="president-ages.html" class="media-thumb-link">U.S. Presidents by age</a>
+          </div>
+          <div class="media-thumb-card">
+            <a href="nexus.html">
+              <div class="media-thumb-box"
+                style="background-image: url('https://www.economist.com/cdn-cgi/image/width=1424,quality=80,format=auto/content-assets/images/20240914_CUD001.jpg')"
+                title="Nexus media"></div>
+            </a>
+            <a href="nexus.html" class="media-thumb-link">My review of Nexus</a>
+          </div>
+          <div class="media-thumb-card">
+            <a href="shootings.html">
+              <div class="media-thumb-box"
+                style="background-image: url('https://humanitou.com/wp-content/uploads/2023/04/ThoughtsPrayers-1024x819.jpg')"
+                title="Thoughts and prayers"></div>
+            </a>
+            <a href="shootings.html" class="media-thumb-link">Thoughts and prayers</a>
+          </div>
+          <div class="media-thumb-card">
+            <a href="global-warming.html">
+              <div class="media-thumb-box" style="background-image: url('imgs/cover/temps_cover.png')"
+                title="Global temperatures"></div>
+            </a>
+            <a href="global-warming.html" class="media-thumb-link">Global temperature trends</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Opinion Section -->
+      <section class="site-section">
+        <h2 class="section-heading">Opinion</h2>
+        <div class="opinion-grid">
+          <div class="opinion-card">
+            <div class="opinion-header">
+              <h3><a href="AI-trends.html">AI Trends</a></h3>
+              <span class="opinion-tag">Analysis</span>
+            </div>
+            <p>Making sense of the rapidly developing generative AI space</p>
+          </div>
+          <div class="opinion-card">
+            <div class="opinion-header">
+              <h3><a href="assassinations.html">Assassinations</a></h3>
+              <span class="opinion-tag">History</span>
+            </div>
+            <p>A visual history of political violence and its impact on society.</p>
+          </div>
+          <div class="opinion-card">
+            <div class="opinion-header">
+              <h3><a href="corruption.html">Corrosive Corruption</a></h3>
+              <span class="opinion-tag">Data</span>
+            </div>
+            <p>Visualizing the Corruption Perceptions Index and global trends.</p>
+          </div>
+          <div class="opinion-card">
+            <div class="opinion-header">
+              <h3><a href="bank-failures.html">Bank Failures</a></h3>
+              <span class="opinion-tag">Finance</span>
+            </div>
+            <p>A comprehensive look at the history of bank failures in the United States.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Visual Journalism Section -->
+      <section class="site-section">
+        <h2 class="section-heading">Visual Journalism</h2>
+        <div class="journalism-grid">
+          <a href="charts.html" class="journalism-card">
+            <div class="journalism-img-wrap">
+              <img src="imgs/cover/charts_cover.png" alt="Charts cover">
+            </div>
+            <h3>Charts & Data Visualizations</h3>
+          </a>
+          <a href="solar-system.html" class="journalism-card">
+            <div class="journalism-img-wrap">
+              <img src="imgs/cover/solar_cover.png" alt="Solar system cover">
+            </div>
+            <h3>Our Solar System</h3>
+          </a>
+          <a href="population.html" class="journalism-card">
+            <div class="journalism-img-wrap">
+              <img src="imgs/cover/population_cover.webp" alt="Population cover">
+            </div>
+            <h3>World Population</h3>
+          </a>
+          <a href="flights.html" class="journalism-card">
+            <div class="journalism-img-wrap">
+              <img src="imgs/cover/flights_cover.webp" alt="Flights cover">
+            </div>
+            <h3>Flights</h3>
+          </a>
+        </div>
+      </section>
+
+      <!-- Life & Arts Section -->
+      <section class="site-section">
+        <h2 class="section-heading">Life & Arts</h2>
+        <div class="life-arts-grid">
+          <div class="life-arts-feature">
+            <a href="drones.html">
+              <img src="imgs/downloaded_image.jpg" alt="Ukrainian soldiers launching drones in a field.">
+              <div class="life-arts-caption">
+                <span
+                  style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em;">Buzzkill</span>
+                <h3 style="font-size:1.875rem; font-weight:700; margin-top:0.25rem;">Drones in Ukraine</h3>
+                <p style="font-size:1.125rem; opacity:0.9; margin-top:0.25rem;">A thousand snipers in the sky</p>
+              </div>
+            </a>
+          </div>
+
+          <div class="life-arts-side">
+            <a href="simpsons.html" class="side-story">
+              <img src="imgs/cover/simpsons_cover.png" alt="Simpsons" class="side-story-img">
+              <div>
+                <div class="side-story-header">
+                  <h4>The Simpsons</h4>
+                  <span class="opinion-tag">TV</span>
+                </div>
+                <p>Analysis of the longest-running scripted primetime TV show.</p>
+              </div>
+            </a>
+            <a href="dating.html" class="side-story">
+              <img src="imgs/cover/dating_cover.png" alt="Dating" class="side-story-img">
+              <div>
+                <div class="side-story-header">
+                  <h4>Dating Advice</h4>
+                  <span class="opinion-tag">Culture</span>
+                </div>
+                <p>Advice for modern romance.</p>
+              </div>
+            </a>
+            <a href="crossword.html" class="side-story">
+              <img src="imgs/cover/crossword_cover.png" alt="Crossword" class="side-story-img">
+              <div>
+                <div class="side-story-header">
+                  <h4>Crossword Stats</h4>
+                  <span class="opinion-tag">Games</span>
+                </div>
+                <p>The history and evolution of the crossword puzzle.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3D Perspective Articles Section -->
+      <section class="articles">
+        <button class="article" onclick="window.location.href='inequality.html';">
+          <span class="overlay"></span>
+          <span class="wrap-cat"><span class="cat" data-hover="Data viz">Data viz</span></span>
+          <span class="title">4 Decades of Inequality</span>
+        </button>
+        <button class="article" onclick="window.location.href='feeling-wheel.html';">
+          <span class="overlay"></span>
+          <span class="wrap-cat"><span class="cat" data-hover="Design">Design</span></span>
+          <span class="title">The Feeling Wheel</span>
+        </button>
+        <button class="article" onclick="window.location.href='congress.html';">
+          <span class="overlay"></span>
+          <span class="wrap-cat"><span class="cat" data-hover="Data viz">Data viz</span></span>
+          <span class="title">How Democratic is Congress?</span>
+        </button>
+        <button class="article" onclick="window.location.href='domestic-extremism.html';">
+          <span class="overlay"></span>
+          <span class="wrap-cat"><span class="cat" data-hover="Data Viz">Data Viz</span></span>
+          <span class="title">Domestic Extremism in America</span>
+        </button>
+        <button class="article" onclick="window.location.href='charts.html';">
+          <span class="overlay"></span>
+          <span class="wrap-cat"><span class="cat" data-hover="Data viz">Data viz</span></span>
+          <span class="title">Charts &amp; Data Visualizations</span>
+        </button>
+        <button class="article" onclick="window.location.href='penguins.html';">
+          <span class="overlay"></span>
+          <span class="wrap-cat"><span class="cat" data-hover="Data viz">Data viz</span></span>
+          <span class="title">Palmer's Penguins</span>
+        </button>
+      </section>
+    </div>
+  </main>
+  </div><!-- /.site-wrapper -->
+
+  <footer class="site-footer" aria-label="Footer">
+    <div class="container">
+      <div class="footer-header">
+        <div class="footer-brand-header">
+          <img src="imgs/memoji.png" alt="Justin Chill avatar" class="footer-avatar" />
+          <h4 class="footer-brand">Justin&nbsp;Chill</h4>
+        </div>
+        <ul class="footer-social-links">
+          <li>
+            <a href="https://www.linkedin.com/in/justinrichardhill/" aria-label="LinkedIn Profile">
+              <svg viewBox="0 50 512 512" style="width:1.35rem; height:1.35rem; fill:currentColor;"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M150.65,100.682c0,27.992-22.508,50.683-50.273,50.683c-27.765,0-50.273-22.691-50.273-50.683
+              C50.104,72.691,72.612,50,100.377,50C128.143,50,150.65,72.691,150.65,100.682z M143.294,187.333H58.277V462h85.017V187.333z
+              M279.195,187.333h-81.541V462h81.541c0,0,0-101.877,0-144.181c0-38.624,17.779-61.615,51.807-61.615
+              c31.268,0,46.289,22.071,46.289,61.615c0,39.545,0,144.181,0,144.181h84.605c0,0,0-100.344,0-173.915
+              s-41.689-109.131-99.934-109.131s-82.768,45.369-82.768,45.369V187.333z" />
+              </svg>
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/JustinChill" aria-label="GitHub Profile">
+              <svg viewBox="0 0 24 24" style="width:1.35rem; height:1.35rem; fill:currentColor;"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Integrated Metadata Section -->
+      <div class="footer-metadata-section">
+        <h5 class="metadata-heading">Metadata</h5>
+        <div class="metadata-grid">
+          <div class="metadata-item">
+            <span class="metadata-label">Commit</span>
+            <span class="metadata-value">
+              <a href="https://github.com/JustinChill/JustinChill.github.io/commit/main" target="_blank" rel="noopener" class="metadata-link" id="meta-commit">
+                <code>025cd92</code>
+                <svg class="external-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+            </span>
+          </div>
+          <div class="metadata-item">
+            <span class="metadata-label">Browser</span>
+            <span class="metadata-value" id="meta-browser">Web Browser</span>
+          </div>
+          <div class="metadata-item">
+            <span class="metadata-label">Current Time</span>
+            <span class="metadata-value" id="meta-time">Local Time</span>
+          </div>
+          <div class="metadata-item">
+            <span class="metadata-label">Dimensions</span>
+            <span class="metadata-value" id="meta-dimensions">Responsive</span>
+          </div>
+          <div class="metadata-item">
+            <span class="metadata-label">Source</span>
+            <span class="metadata-value">
+              <a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener" class="metadata-link" id="meta-source">
+                <code>blog</code>
+                <svg class="external-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+            </span>
+          </div>
+          <div class="metadata-item">
+            <span class="metadata-label">Last Updated</span>
+            <span class="metadata-value" id="meta-updated">N/A</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p>© 2026 Justin Chill</p>
+        <span>Thanks for visiting!</span>
+      </div>
+    </div>
+  </footer>
+
+  <a href="https://github.com/JustinChill" class="floating-github-btn" target="_blank" aria-label="GitHub Profile">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path
+        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+      </path>
+    </svg>
+  </a>
+
+  <script>
+    // Responsive mobile header menu
+    const menuButton = document.getElementById("menu-button");
+    const responsiveMenu = document.getElementById("responsive-menu");
+    let isMenuOpened = false;
+
+    if (menuButton && responsiveMenu) {
+      menuButton.addEventListener("click", () => {
+        isMenuOpened = !isMenuOpened;
+        menuButton.setAttribute("aria-expanded", isMenuOpened);
+        menuButton.classList.toggle("active", isMenuOpened);
+        responsiveMenu.classList.toggle("opened", isMenuOpened);
+      });
+    }
+
+    // Tab switcher with smooth fade & slide animation
+    function showSection(sectionId) {
+      const sections = ['latest', 'popular', 'hot'];
+      sections.forEach(id => {
+        const panel = document.getElementById(id);
+        if (panel) {
+          if (id === sectionId) {
+            panel.classList.remove('hidden');
+            panel.classList.remove('entering');
+            void panel.offsetWidth; // Trigger reflow to restart CSS animation
+            panel.classList.add('entering');
+          } else {
+            panel.classList.add('hidden');
+            panel.classList.remove('entering');
+          }
+        }
+      });
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('onclick').includes(sectionId));
+      });
+    }
+
+    // Theme toggle functionality
+    const themeToggleBtn = document.getElementById("theme-toggle");
+    const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
+    const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
+
+    function updateIcons(theme) {
+      if (theme === "dark") {
+        themeToggleLightIcon.classList.remove("hidden");
+        themeToggleDarkIcon.classList.add("hidden");
+      } else {
+        themeToggleLightIcon.classList.add("hidden");
+        themeToggleDarkIcon.classList.remove("hidden");
+      }
+    }
+
+    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
+    updateIcons(currentTheme);
+
+    if (themeToggleBtn) {
+      themeToggleBtn.addEventListener("click", () => {
+        const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
+        const newTheme = activeTheme === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", newTheme);
+        localStorage.setItem("theme", newTheme);
+        updateIcons(newTheme);
+      });
+    }
+
+    // 3D card tilt effect
+    document.querySelectorAll(".article").forEach(card => {
+      card.addEventListener("mousemove", e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const overlay = card.querySelector(".overlay");
+        if (overlay) {
+          overlay.style.backgroundImage = `radial-gradient(circle at ${(x / rect.width) * 100}% ${(y / rect.height) * 100}%, rgba(0,0,0,0.2) 20%, rgba(0,0,0,0.3) 50%)`;
+        }
+        card.style.transform = `rotateY(${(((x / rect.width) - 0.5) * 2)}deg) rotateX(${(((y / rect.height) - 0.5) * -2)}deg)`;
+      });
+
+      card.addEventListener("mouseleave", () => {
+        card.style.transform = "rotateX(0deg) rotateY(0deg)";
+        const overlay = card.querySelector(".overlay");
+        if (overlay) {
+          overlay.style.backgroundImage = "radial-gradient(circle at 50% 50%, rgba(0,0,0,0.2) 20%, rgba(0,0,0,0.3) 50%)";
+        }
+      });
+    });
+
+    // Dynamic Footer Metadata Updater
+    (function initFooterMetadata() {
+      function getBrowserName() {
+        const ua = navigator.userAgent;
+        if (ua.includes("Firefox/") && !ua.includes("Seamonkey/")) return "Firefox";
+        if (ua.includes("Seamonkey/")) return "Seamonkey";
+        if (ua.includes("Chrome/") && !ua.includes("Chromium/")) {
+          if (ua.includes("Edg/")) return "Edge";
+          if (ua.includes("OPR/") || ua.includes("Opera/")) return "Opera";
+          return "Chrome";
+        }
+        if (ua.includes("Safari/") && !ua.includes("Chrome/")) return "Safari";
+        if (ua.includes("Edg/")) return "Edge";
+        return "Browser";
+      }
+
+      const browserEl = document.getElementById("meta-browser");
+      if (browserEl) {
+        browserEl.textContent = getBrowserName();
+      }
+
+      const timeEl = document.getElementById("meta-time");
+      function updateClock() {
+        if (!timeEl) return;
+        const now = new Date();
+        timeEl.textContent = now.toLocaleTimeString([], {
+          hour: 'numeric',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true
+        });
+      }
+      updateClock();
+      setInterval(updateClock, 1000);
+
+      const dimEl = document.getElementById("meta-dimensions");
+      function updateDimensions() {
+        if (!dimEl) return;
+        dimEl.textContent = `${window.innerWidth}x${window.innerHeight}`;
+      }
+      updateDimensions();
+      window.addEventListener("resize", updateDimensions);
+
+      const updatedEl = document.getElementById("meta-updated");
+      if (updatedEl && document.lastModified) {
+        const modDate = new Date(document.lastModified);
+        if (!isNaN(modDate.getTime())) {
+          updatedEl.textContent = modDate.toLocaleDateString(undefined, {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+          });
+        }
+      }
+    })();
+  </script>
+</body>
+
+</html>
