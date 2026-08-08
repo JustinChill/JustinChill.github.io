@@ -16,8 +16,8 @@
     })();
   </script>
 
-  <title>Bayes’ Theorem</title>
-  <meta name="description" content="Exploring Bayes’ Theorem.">
+  <title>Bayes’ Theorem: Intuition, Math &amp; Examples | Justin Chill</title>
+  <meta name="description" content="An intuitive guide to Bayes’ Theorem with interactive calculators, medical diagnosis examples, the Blue Cab problem, and real-world applications.">
   <meta name="author" content="Justin Chill">
   <meta name="robots" content="all">
 
@@ -26,8 +26,8 @@
   <meta content="JustinChill" property="og:site_name">
   <meta content="article" property="og:type">
   <meta content="https://justinchill.com/Bayes.html" property="og:url">
-  <meta content="Bayes’ Theorem" property="og:title">
-  <meta content="Exploring Bayes’ Theorem." property="og:description">
+  <meta content="Bayes’ Theorem: Intuition, Math &amp; Examples" property="og:title">
+  <meta content="An intuitive guide to Bayes’ Theorem with interactive calculators, medical diagnosis examples, the Blue Cab problem, and real-world applications." property="og:description">
   <meta content="https://justinchill.com/blog.html" property="og:see_also">
   <meta property="og:locality" content="New York">
   <meta property="og:region" content="NY">
@@ -42,8 +42,8 @@
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Bayes’ Theorem">
-  <meta name="twitter:description" content="Exploring Bayes’ Theorem.">
+  <meta name="twitter:title" content="Bayes’ Theorem: Intuition, Math &amp; Examples">
+  <meta name="twitter:description" content="An intuitive guide to Bayes’ Theorem with interactive calculators, medical diagnosis examples, the Blue Cab problem, and real-world applications.">
   <meta
     content="https://ik.imagekit.io/upgrad1/abroad-images/imageCompo/images/Importance_of_Bayes_Theorem_visual_selection_3_AA5S99.png"
     property="twitter:image">
@@ -69,24 +69,69 @@
       content: none;
     }
 
-    form {
-      border-radius: 5px;
-      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-      background-color: var(--gold);
-      border: 1px var(--darkGrey) solid;
-      padding: 10px;
-      font-size: 18px;
+    form#bayesForm {
+      border-radius: 8px;
+      box-shadow: var(--shadow, 0 4px 12px rgba(0, 0, 0, 0.1));
+      background-color: var(--lightGrey);
+      border: 1px solid var(--medGrey);
+      padding: 20px;
+      margin: 1.5rem 0;
+      max-width: 480px;
     }
 
-    @media screen and (max-width: 680px) {}
+    .form-group {
+      margin-bottom: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .form-group input {
+      padding: 8px 12px;
+      border: 1px solid var(--darkGrey);
+      border-radius: 4px;
+      font-size: 1rem;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .btn-calculate {
+      padding: 8px 16px;
+      background-color: var(--theme-color, #4C63B6);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    .btn-calculate:hover {
+      opacity: 0.9;
+    }
+
+    #result {
+      font-weight: 500;
+      margin-top: 12px;
+      padding: 12px 16px;
+      background-color: rgba(76, 99, 182, 0.08);
+      border-left: 4px solid var(--theme-color, #4C63B6);
+      border-radius: 4px;
+    }
   </style>
 
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "Bayes’ Theorem",
-  "description": "Exploring Bayes’ Theorem.",
+  "headline": "Bayes’ Theorem: Intuition, Math & Examples",
+  "description": "An intuitive guide to Bayes’ Theorem with interactive calculators, medical diagnosis examples, the Blue Cab problem, and real-world applications.",
   "datePublished": "2024-05-16",
   "dateModified": "2025-08-06",
   "author": {
@@ -150,13 +195,12 @@
       <div class="article-hero">
         <p class="article-category">Post</p>
         <h1 class="article-title">What is Bayes’ Theorem?</h1>
-        <h2 class="article-subtitle"></h2>
       </div>
       <img
         src="https://ik.imagekit.io/upgrad1/abroad-images/imageCompo/images/Importance_of_Bayes_Theorem_visual_selection_3_AA5S99.png"
-        alt="Importance of Bayes Theorem" loading="lazy" class="rounded">
-      <p>Bayes' Theorem is a way of finding a probability when we know certain other probabilities. </p>
-      <p>Suppose a patient goes to see their doctor. The doctor performs a test with 99 percent reliability&mdash; that
+        alt="Importance of Bayes Theorem visual diagram" loading="lazy" class="rounded">
+      <p>Bayes’ Theorem is a way of finding a probability when we know certain other probabilities. </p>
+      <p>Suppose a patient goes to see their doctor. The doctor performs a test with 99 percent reliability&mdash;that
         is, 99% of people who are sick test positive and 99% of healthy people test negative. The doctor knows that only
         1% of the people in the country are sick. Now the question is: if the patient tests positive, what are the
         chances the patient is sick?</p>
@@ -164,7 +208,7 @@
         framework to understand why. He stated the defining relationship expressing the probability you test positive
         AND are sick as the product of the likelihood that you test positive GIVEN that you are sick and the "prior"
         probability that you are sick. Said another way, the probability the patient is sick, prior to specifying a
-        particular patient and administering the test. Bayes's theorem defines the relationship between <em>what we
+        particular patient and administering the test. Bayes’s theorem defines the relationship between <em>what we
           know</em> and <em>what we want to know</em> in this problem. What we are given (what we know) is
         <code>p(+|s)</code>, which a mathematician would read as "<em>the probability of testing positive given that you
           are sick</em>". What we want to know is <code>p(s|+)</code>, or "<em>the probability of being sick given that
@@ -191,22 +235,25 @@
         city, however, we suppose that only one in every 200 people is sick. If a new patient tests positive, it is
         actually more probable that the patient is healthy than sick. The doctor needs to update the prior.</p>
       <form id="bayesForm">
-        <label for="probDisease">P(D): Probability of Disease (%): </label>
-        <input type="number" id="probDisease" name="probDisease" value="1" min="0" max="100" required>
-        <br><br>
+        <div class="form-group">
+          <label for="probDisease">P(D): Probability of Disease (%)</label>
+          <input type="number" id="probDisease" name="probDisease" value="1" min="0" max="100" step="any" required>
+        </div>
 
-        <label for="truePositive">P(T | D): True Positive Rate (%): </label>
-        <input type="number" id="truePositive" name="truePositive" value="99" min="0" max="100" required>
-        <br><br>
+        <div class="form-group">
+          <label for="truePositive">P(T | D): True Positive Rate (%)</label>
+          <input type="number" id="truePositive" name="truePositive" value="99" min="0" max="100" step="any" required>
+        </div>
 
-        <label for="falsePositive">P(T | ~D): False Positive Rate (%): </label>
-        <input type="number" id="falsePositive" name="falsePositive" value="1" min="0" max="100" required>
-        <br><br>
+        <div class="form-group">
+          <label for="falsePositive">P(T | ~D): False Positive Rate (%)</label>
+          <input type="number" id="falsePositive" name="falsePositive" value="1" min="0" max="100" step="any" required>
+        </div>
 
-        <button type="button" onclick="calculateBayes()">Calculate</button>
+        <button type="button" class="btn-calculate" onclick="calculateBayes()">Calculate</button>
       </form>
       <p id="result"></p>
-      <h3>What is the probability of the existence of God? What scientific value does it have?</h3>
+      <h2>What is the probability of the existence of God? What scientific value does it have?</h2>
       <p>Scientific analysis of religion is always a popular topic. In Richard Dawkins's book, <em>The God
           Delusion,</em> he argues specifically <strong>against</strong> the use of Bayes's theorem for assigning a
         probability to God's existence. Arguments employing Bayes's theorem calculate the probability of God given our
@@ -249,58 +296,56 @@
         the prior can mean the difference between more-than-likely and less-than-likely prognosis. In the case of model
         selection, particularly when two disputants have strong prior beliefs that are diametrically opposed (belief
         versus nonbelief), Bayes's theorem can lead to more conflict than clarity.</p>
-      <h3>Blue Cab Hit and Run</h3>
-      <p>Another practical example of using Bayes' Theorem comes from Daniel Kahneman's book, <em>Thinking Fast and
+      <h2>Blue Cab Hit and Run</h2>
+      <p>Another practical example of using Bayes’ Theorem comes from Daniel Kahneman's book, <em>Thinking Fast and
           Slow</em>.</p>
       <p><em>A cab was involved in a hit and run accident at night. Two cab companies, the Green and the Blue, operate
           in the city. 85% of the cabs in the city are Green and 15% are Blue. A witness identified the cab as Blue. The
           court tested the reliability of the witness under the same circumstances that existed on the night of the
-          accident and concluded that the witness correctly identified each one of the two colours 80% of the time and
+          accident and concluded that the witness correctly identified each one of the two colors 80% of the time and
           failed 20% of the time. What is the probability that the cab involved in the accident was Blue rather than
           Green knowing that this witness identified it as Blue?</em></p>
 
-      <h3>How it Works</h3>
+      <h2>How it Works</h2>
       <ul>
 
         <li>The base rate (Bayesian prior) probability is 0.15 because 15% of the cars are blue.</li>
         <li>The hit rate is 0.80 because the reliability of the witness is 80% correct identification.</li>
         <li>The false alarm rate is 0.20 because the witness is incorrect 20% of the time.</li>
         <li>
-          Bayes formula: <code> (x*y) / (x*y) + (z*1 - z*x) <br>
-            x = base rate <br>
-            y = hit rate<br>
-            z = false alarm rate<br>
-          </code>
-
+          Bayes’ formula: <code>(x * y) / ((x * y) + z * (1 - x))</code><br>
+          x = base rate<br>
+          y = hit rate<br>
+          z = false alarm rate
         </li>
 
       </ul>
 
       <p>
-        If we plug the base rate for the blue cabs (15%), 80% hit rate and 20% miss rate, we see the probability the hit
-        and run cab was blue is only 41%. Thus, Even though the witness is correct 80% of the time the actually
+        If we plug the base rate for the blue cabs (15%), 80% hit rate, and 20% miss rate, we see the probability the hit-and-run
+        cab was blue is only 41%. Thus, even though the witness is correct 80% of the time, the actual
         probability the cab was blue is 41%. The theorem results are most influenced and weighted by the base rate
         (prior probability). The result is more likely to be near the base rate. This is true even if an evidence event
-        seems to be high proof of the hypothesis. A base rate of 1% will result in 3.88% probability of hypothesis with
-        a hit rate at 80%. If a base rate probability is less than 1%, even with a 90% hit rate probability, the result
+        seems to be strong proof of the hypothesis. A base rate of 1% will result in 3.88% probability of hypothesis with
+        a hit rate at 80%. If a base rate probability is less than 1%, even with a 90% hit rate probability, the resulting
         probability will only be 8.3%. It will take many new evidence events to even increase the hypothesis probability
         to greater than 50%. <br> <br>
 
         If the result hypothesis is entered as the new base rate, and the other variables remain the same, one can get
         an intuition of how the probability of the hypothesis becomes more certain given the mounting evidence. The base
-        rate must be as accurate, and relevant to the real life situation, as possible. If one doesn't know the hit
-        rate, or false alarm rate, estimates can be supplied for these variables. <br>
+        rate must be as accurate, and relevant to the real-life situation, as possible. If one doesn't know the hit
+        rate, or false alarm rate, estimates can be supplied for these variables.
       </p>
-      <p>More generally, Bayes's theorem is used in any calculation in which a "marginal" probability is calculated
+      <p>More generally, Bayes’s theorem is used in any calculation in which a "marginal" probability is calculated
         (e.g., <code>p(+)</code>, the probability of testing positive in the example) from likelihoods (e.g.,
         <code>p(+|s)</code> and <code>p(+|h)</code>, the probability of testing positive given being sick or healthy)
         and prior probabilities <code>p(s)</code> and <code>p(h)</code>: <code>p(+)=p(+|s)p(s)+p(+|h)p(h)</code>. Such a
-        calculation is so general that almost every application of probability or statistics must invoke Bayes's theorem
-        at some point. In that sense Bayes's theorem is at the heart of everything from genetics to Google, from health
+        calculation is so general that almost every application of probability or statistics must invoke Bayes’s theorem
+        at some point. In that sense, Bayes’s theorem is at the heart of everything from genetics to Google, from health
         insurance to hedge funds. It is a central relationship for thinking concretely about uncertainty, and--given
         quantitative data, which is sadly not always a given--for using mathematics as a tool for thinking clearly about
         the world.</p>
-      <h3>TL;DR</h3>
+      <h2>TL;DR</h2>
       <ul>
         <li>
           <p><strong>Tests are distinct from the event.</strong> We have a cancer <em>test</em>, separate from the
@@ -317,7 +362,7 @@
             somebody in the 999,999.</p>
         </li>
         <li>
-          <p><strong>People prefer natural numbers.</strong> Saying “100 in 10,000″ rather than “1%” helps people work
+          <p><strong>People prefer natural numbers.</strong> Saying “100 in 10,000” rather than “1%” helps people work
             through the numbers with fewer errors, especially with multiple percentages (“Of those 100, 80 will test
             positive” rather than “80% of the 1% will test positive”).</p>
         </li>
@@ -328,65 +373,38 @@
             error to be accounted for.</p>
         </li>
       </ul>
-      <!-- <pre><code>x: prior probability
-y: probability of occurrence, given hypothesis is true
-z: probability of occurrence, given hypothesis is false
-bayes = (x, y, z) => (x * y) / ((x * y) + z * (1 - x))</code></pre>
-      <h4>You come home to find another person's underwear on your bed. is your spouse cheating?</h4>
-      <p>cheating = <code id="ex1">0.29</code></p>
-      <pre><code>cheating = bayes(0.04, 0.5, 0.05)</code></pre>
-      <h4>Chance you have breast cancer if you get a positive mammogram in your 40s</h4>
-      <p>mammogram40s = <code id="ex2">0.0962</code></p>
-      <pre><code>mammogram40s = bayes(0.014, 0.75, 0.1)</code></pre>
-      <h4>Probability the first 9/11 plane was a terrorist attack</h4>
-      <p>first911 = <code id="ex3">0.3846</code></p>
-      <pre><code>first911 = bayes(0.00005, 1, 0.00008)</code></pre>
-      <h4>Probability the second 9/11 plane was a terrorist attack</h4>
-      <p>second911 = <code id="ex4">0.999</code></p>
-      <pre><code>second911 = bayes(first911, 1, 0.00008)</code></pre> -->
     </article>
   </main>
   <footer>
-    <h2 class="visually-hidden" id="footnote-label">Footnotes</h2>
-    <ol>
-
-    </ol>
     <div>
       <p>Justin Chill &copy; 2026</p>
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
             alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
-  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 
   <script type="text/javascript">
-    var ex1 = document.querySelector("#ex1");
-    var ex2 = document.querySelector("#ex2");
-    var ex3 = document.querySelector("#ex3");
-    var ex4 = document.querySelector("#ex4");
-
-    // x: prior probability
-    // y: probability of occurrence, given hypothesis is true
-    // z: probability of occurrence, given hypothesis is false
-    bayes = (x, y, z) => (x * y) / ((x * y) + z * (1 - x));
-
-    // ex1.textContent = cheating = bayes(0.04, 0.5, 0.05);
-    // ex2.textContent = mammogram40s = bayes(0.014, 0.75, 0.1)
-    // ex3.textContent = first911 = bayes(0.00005, 1, 0.00008)
-    // ex4.textContent = second911 = bayes(first911, 1, 0.00008)
-
     function calculateBayes() {
       // Get input values
       const probDisease = parseFloat(document.getElementById('probDisease').value) / 100;
       const truePositive = parseFloat(document.getElementById('truePositive').value) / 100;
       const falsePositive = parseFloat(document.getElementById('falsePositive').value) / 100;
 
+      if (isNaN(probDisease) || isNaN(truePositive) || isNaN(falsePositive)) {
+        document.getElementById('result').textContent = 'Please enter valid numerical values.';
+        return;
+      }
+
       // Calculate the probability of not having the disease
       const probNoDisease = 1 - probDisease;
 
       // Calculate the total probability of testing positive
       const probTestPositive = (truePositive * probDisease) + (falsePositive * probNoDisease);
+
+      if (probTestPositive === 0) {
+        document.getElementById('result').textContent = 'Probability of testing positive is zero.';
+        return;
+      }
 
       // Apply Bayes' Theorem
       const probDiseaseGivenPositive = (truePositive * probDisease) / probTestPositive;
@@ -395,6 +413,17 @@ bayes = (x, y, z) => (x * y) / ((x * y) + z * (1 - x))</code></pre>
       document.getElementById('result').textContent =
         `The probability of having the disease given a positive test result is approximately ${(probDiseaseGivenPositive * 100).toFixed(2)}%.`;
     }
+
+    // Attach live listeners and compute initial result
+    document.addEventListener('DOMContentLoaded', () => {
+      ['probDisease', 'truePositive', 'falsePositive'].forEach(id => {
+        const input = document.getElementById(id);
+        if (input) {
+          input.addEventListener('input', calculateBayes);
+        }
+      });
+      calculateBayes();
+    });
   </script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <script>
