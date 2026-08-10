@@ -43,8 +43,6 @@
 
   <link rel="canonical" href="https://justinchill.com/BLS-tech.html">
   <link rel="preload" href="style.css" as="style" />
-  <link rel="stylesheet" type="text/css"
-    href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico">
   <link type="text/plain" href="humans.txt" rel="author">
@@ -166,13 +164,13 @@
       <h3 id="the-anchor-services-consulting">The Anchor: Services &amp; Consulting</h3>
       <ul>
         <li><strong>IT Services &amp; Consulting:</strong> Both <em>Custom Programming</em> and <em>Systems Design</em>
-          are down significantly from their 2023/2024 peaks. Companies are buying software, not the consultants to
+          are down significantly from their 2023–2024 peaks. Companies are buying software, not the consultants to
           install it.</li>
       </ul>
 
       <h3 id="the-takeaway">Takeaway</h3>
-      <p>We have bottomed out. The &quot;Year of Efficiency&quot; cuts are over, replaced by a cautious, product-led
-        stabilization. We aren&#39;t in a boom; we are in a recovery.</p>
+      <p>We have bottomed out. The “Year of Efficiency” cuts are over, replaced by a cautious, product-led
+        stabilization. We aren’t in a boom; we are in a recovery.</p>
     </article>
   </main>
   <footer>
@@ -2321,6 +2319,7 @@
       const width = container.getBoundingClientRect().width || 900;
       lastRenderedWidth = width;
       const isMobile = width < 560;
+      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
 
       const stackedJobsConfig = {
         width: width,
@@ -2331,8 +2330,8 @@
         marginBottom: isMobile ? 40 : 30,
         style: {
           fontSize: isMobile ? "10px" : size + "px",
-          background: "hsl(209, 61%, 16%)",
-          color: "hsl(210, 36%, 96%)",
+          background: isDark ? "hsl(209, 61%, 16%)" : "transparent",
+          color: isDark ? "hsl(210, 36%, 96%)" : "currentColor",
           fontFamily: "system-ui, sans-serif",
           padding: isMobile ? "6px" : "10px"
         },
@@ -2364,8 +2363,7 @@
 
         marks: [
           Plot.ruleY([0], {
-            stroke: "white",
-            strokeOpacity: 0.5
+            stroke: isDark ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.3)",
           }),
           Plot.barY(data, {
             x: d => new Date(d.date),

@@ -61,6 +61,42 @@
 			margin: 1rem 0;
 		}
 
+		#wheel svg {
+			transform-origin: center center;
+			animation: wheel-enter 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+			will-change: transform, opacity;
+		}
+
+		#wheel path {
+			transition: fill-opacity 0.25s ease, filter 0.25s ease;
+			cursor: pointer;
+		}
+
+		#wheel path:hover {
+			fill-opacity: 1 !important;
+			filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
+		}
+
+		@keyframes wheel-enter {
+			from {
+				opacity: 0;
+				transform: scale(0.9) rotate(-8deg);
+			}
+			to {
+				opacity: 1;
+				transform: scale(1) rotate(0deg);
+			}
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			#wheel svg {
+				animation: none;
+			}
+			#wheel path {
+				transition: none;
+			}
+		}
+
 		@media screen and (max-width: 600px) {
 			#wheel {
 				font: .3rem sans-serif;
@@ -148,17 +184,17 @@
 			<figure id="wheel"
 				aria-label="A circular emotion wheel displaying various emotions organized by intensity and grouped into categories: sad, mad, scared, joyful, powerful, and peaceful. Each segment includes related emotions from light to intense.">
 			</figure>
-			<p>Designed by psychotherapist Gloria Willcox, the feeling wheel is a visual aid that helps people
+			<p>Designed by psychotherapist Gloria Willcox<a href="#Willcox" aria-describedby="footnote-label" id="Willcox-ref"></a>, the Feeling Wheel is a visual aid that helps people
 				recognize, talk about, and change their feelings. In her professional experience, Willcox found that
 				people seemed to find themselves at a loss for words when describing how they feel, usually handicapped
-				in their ability to verbalize their emotions by learned behaviors of what is and is not acceptable, when
+				in their ability to verbalize their emotions by learned behaviors of what is and is not acceptable when
 				it comes to sharing feelings.</p>
 			<h2>Anatomy</h2>
-			<p>The feeling wheel is composed of an inner circle with six segments corresponding to six primary feelings:
+			<p>The Feeling Wheel is composed of an inner circle with six segments corresponding to six primary feelings:
 				mad, sad, scared, joyful, powerful, and peaceful. It has two outer concentric circles describing
 				secondary feelings that relate to the primary ones, painted in lighter shades than their counterparts.
 			</p>
-			<p>This graphic originally adapted from <a href="https://observablehq.com/@tiffylou/feeling-wheel">Tiffany
+			<p>This graphic was originally adapted from <a href="https://observablehq.com/@tiffylou/feeling-wheel">Tiffany
 					France</a>.</p>
 		</article>
 	</main>
@@ -167,7 +203,7 @@
 		<ol>
 			<li id="Willcox"><strong>Transactional Analysis Journal</strong>, Gloria Willcox (1982) <a
 					href="https://www.tandfonline.com/doi/abs/10.1177/036215378201200411"><em>The Feeling Wheel</em></a>
-				<a href="#interpolation-ref" aria-label="Back to content">↩</a></li>
+				<a href="#Willcox-ref" aria-label="Back to content">↩</a></li>
 		</ol>
 		<div>
 			<p>Justin Chill &copy; 2026</p>
@@ -177,266 +213,252 @@
 	</footer>
 	<script src="https://cdn.jsdelivr.net/npm/d3"></script>
 	<script>
-		var data = {
-			"children": [{
-				"name": "Mad",
+		(function () {
+			const data = {
 				"children": [{
-					"name": "Hurt",
+					"name": "Mad",
 					"children": [{
-						"name": "Jealous"
+						"name": "Hurt",
+						"children": [{
+							"name": "Jealous"
+						}]
+					}, {
+						"name": "Hostile",
+						"children": [{
+							"name": "Selfish"
+						}]
+					}, {
+						"name": "Angry",
+						"children": [{
+							"name": "Frustrated"
+						}]
+					}, {
+						"name": "Rage",
+						"children": [{
+							"name": "Furious"
+						}]
+					}, {
+						"name": "Hateful",
+						"children": [{
+							"name": "Irritated"
+						}]
+					}, {
+						"name": "Critical",
+						"children": [{
+							"name": "Skeptical"
+						}]
 					}]
 				}, {
-					"name": "Hostile",
+					"name": "Scared",
 					"children": [{
-						"name": "Selfish"
+						"name": "Rejected",
+						"children": [{
+							"name": "Bewildered"
+						}]
+					}, {
+						"name": "Confused",
+						"children": [{
+							"name": "Discouraged"
+						}]
+					}, {
+						"name": "Helpless",
+						"children": [{
+							"name": "Insignificant"
+						}]
+					}, {
+						"name": "Submissive",
+						"children": [{
+							"name": "Weak"
+						}]
+					}, {
+						"name": "Insecure",
+						"children": [{
+							"name": "Foolish"
+						}]
+					}, {
+						"name": "Anxious",
+						"children": [{
+							"name": "Embarrassed"
+						}]
 					}]
 				}, {
-					"name": "Angry",
+					"name": "Joyful",
 					"children": [{
-						"name": "Frustrated"
+						"name": "Excited",
+						"children": [{
+							"name": "Daring"
+						}]
+					}, {
+						"name": "Sexy",
+						"children": [{
+							"name": "Fascinating"
+						}]
+					}, {
+						"name": "Energetic",
+						"children": [{
+							"name": "Stimulating"
+						}]
+					}, {
+						"name": "Playful",
+						"children": [{
+							"name": "Amused"
+						}]
+					}, {
+						"name": "Creative",
+						"children": [{
+							"name": "Extravagant"
+						}]
+					}, {
+						"name": "Aware",
+						"children": [{
+							"name": "Delightful"
+						}]
 					}]
 				}, {
-					"name": "Rage",
+					"name": "Powerful",
 					"children": [{
-						"name": "Furious"
+						"name": "Proud",
+						"children": [{
+							"name": "Cheerful"
+						}]
+					}, {
+						"name": "Respected",
+						"children": [{
+							"name": "Satisfied"
+						}]
+					}, {
+						"name": "Appreciated",
+						"children": [{
+							"name": "Valuable"
+						}]
+					}, {
+						"name": "Hopeful",
+						"children": [{
+							"name": "Worthwhile"
+						}]
+					}, {
+						"name": "Important",
+						"children": [{
+							"name": "Intelligent"
+						}]
+					}, {
+						"name": "Faithful",
+						"children": [{
+							"name": "Confident"
+						}]
 					}]
 				}, {
-					"name": "Hateful",
+					"name": "Peaceful",
 					"children": [{
-						"name": "Irritated"
+						"name": "Nurturing",
+						"children": [{
+							"name": "Thankful"
+						}]
+					}, {
+						"name": "Trusting",
+						"children": [{
+							"name": "Sentimental"
+						}]
+					}, {
+						"name": "Loving",
+						"children": [{
+							"name": "Serene"
+						}]
+					}, {
+						"name": "Intimate",
+						"children": [{
+							"name": "Responsive"
+						}]
+					}, {
+						"name": "Thoughtful",
+						"children": [{
+							"name": "Relaxed"
+						}]
+					}, {
+						"name": "Content",
+						"children": [{
+							"name": "Pensive"
+						}]
 					}]
 				}, {
-					"name": "Critical",
+					"name": "Sad",
 					"children": [{
-						"name": "Skeptical"
+						"name": "Sleepy",
+						"children": [{
+							"name": "Apathetic"
+						}]
+					}, {
+						"name": "Bored",
+						"children": [{
+							"name": "Inferior"
+						}]
+					}, {
+						"name": "Lonely",
+						"children": [{
+							"name": "Inadequate"
+						}]
+					}, {
+						"name": "Depressed",
+						"children": [{
+							"name": "Miserable"
+						}]
+					}, {
+						"name": "Ashamed",
+						"children": [{
+							"name": "Stupid"
+						}]
+					}, {
+						"name": "Guilty",
+						"children": [{
+							"name": "Bashful"
+						}]
 					}]
 				}]
-			}, {
-				"name": "Scared",
-				"children": [{
-					"name": "Rejected",
-					"children": [{
-						"name": "Bewildered"
-					}]
-				}, {
-					"name": "Confused",
-					"children": [{
-						"name": "Discouraged"
-					}]
-				}, {
-					"name": "Helpless",
-					"children": [{
-						"name": "Insignificant"
-					}]
-				}, {
-					"name": "Submissive",
-					"children": [{
-						"name": "Weak"
-					}]
-				}, {
-					"name": "Insecure",
-					"children": [{
-						"name": "Foolish"
-					}]
-				}, {
-					"name": "Anxious",
-					"children": [{
-						"name": "Embarassed"
-					}]
-				}]
-			}, {
-				"name": "Joyful",
-				"children": [{
-					"name": "Excited",
-					"children": [{
-						"name": "Daring"
-					}]
-				}, {
-					"name": "Sexy",
-					"children": [{
-						"name": "Facinating"
-					}]
-				}, {
-					"name": "Energetic",
-					"children": [{
-						"name": "Stimulating"
-					}]
-				}, {
-					"name": "Playful",
-					"children": [{
-						"name": "Amused"
-					}]
-				}, {
-					"name": "Creative",
-					"children": [{
-						"name": "Extravagant"
-					}]
-				}, {
-					"name": "Aware",
-					"children": [{
-						"name": "Delightful"
-					}]
-				}]
-			}, {
-				"name": "Powerful",
-				"children": [{
-					"name": "Proud",
-					"children": [{
-						"name": "Cheerful"
-					}]
-				}, {
-					"name": "Respected",
-					"children": [{
-						"name": "Satisfied"
-					}]
-				}, {
-					"name": "Appreciated",
-					"children": [{
-						"name": "Valuable"
-					}]
-				}, {
-					"name": "Hopeful",
-					"children": [{
-						"name": "Worthwhile"
-					}]
-				}, {
-					"name": "Important",
-					"children": [{
-						"name": "Intelligent"
-					}]
-				}, {
-					"name": "Faithful",
-					"children": [{
-						"name": "Confident"
-					}]
-				}]
-			}, {
-				"name": "Peaceful",
-				"children": [{
-					"name": "Nuturing",
-					"children": [{
-						"name": "Thankful"
-					}]
-				}, {
-					"name": "Trusting",
-					"children": [{
-						"name": "Sentimental"
-					}]
-				}, {
-					"name": "Loving",
-					"children": [{
-						"name": "Serene"
-					}]
-				}, {
-					"name": "Intimate",
-					"children": [{
-						"name": "Responsive"
-					}]
-				}, {
-					"name": "Thoughtful",
-					"children": [{
-						"name": "Relaxed"
-					}]
-				}, {
-					"name": "Content",
-					"children": [{
-						"name": "Pensive"
-					}]
-				}]
-			}, {
-				"name": "Sad",
-				"children": [{
-					"name": "Sleepy",
-					"children": [{
-						"name": "Apathetic"
-					}]
-				}, {
-					"name": "Bored",
-					"children": [{
-						"name": "Inferior"
-					}]
-				}, {
-					"name": "Lonely",
-					"children": [{
-						"name": "Inadequate"
-					}]
-				}, {
-					"name": "Depressed",
-					"children": [{
-						"name": "Miserable"
-					}]
-				}, {
-					"name": "Ashamed",
-					"children": [{
-						"name": "Stupid"
-					}]
-				}, {
-					"name": "Guilty",
-					"children": [{
-						"name": "Bashful"
-					}]
-				}]
-			}]
-		};
+			};
 
-		function treeify(source) {
-			const parents = [];
-			const nodes = source.trim().split(/\n/g);
-			parents.push({
-				children: []
-			});
-			for (let i = 0, n = nodes.length; i < n; ++i) {
-				const depth = nodes[i].match(/^\t*/)[0].length;
-				const parent = parents[depth];
-				if (!parent.children) parent.children = [];
-				parent.children.push(parents[depth + 1] = {
-					name: nodes[i].slice(depth)
-				});
-			}
-			return parents[0];
-		};
+			const width = 800;
+			const radius = width / 2;
 
-		var partition = data => d3.partition()
-			.size([2 * Math.PI, radius])
-			(d3.hierarchy(data).count());
+			const partition = data => d3.partition()
+				.size([2 * Math.PI, radius])
+				(d3.hierarchy(data).count());
 
-		var color = d3.scaleOrdinal()
-			// .range(d3.quantize(d3.interpolateRainbow, data.children.length + 1))
-			.range(['red', 'orange', 'yellow', 'green', 'blue', 'purple']);
+			const color = d3.scaleOrdinal()
+				.domain(['Mad', 'Scared', 'Joyful', 'Powerful', 'Peaceful', 'Sad'])
+				.range(['#E57373', '#BA68C8', '#FFD54F', '#FFB74D', '#81C784', '#64B5F6']);
 
-		var element = d3.select('#wheel').node();
-		var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
-		var radius = width / 2;
+			const arc = d3.arc()
+				.startAngle(d => d.x0)
+				.endAngle(d => d.x1)
+				.padAngle(d => Math.min((d.x1 - d.x0) / 2, 0.005))
+				.padRadius(radius / 2)
+				.innerRadius(d => d.y0)
+				.outerRadius(d => d.y1 - 1);
 
-		var arc = d3.arc()
-			.startAngle(d => d.x0)
-			.endAngle(d => d.x1)
-			.padAngle(d => Math.min((d.x1 - d.x0) / 2, 0.005))
-			.padRadius(radius / 2)
-			.innerRadius(d => d.y0)
-			.outerRadius(d => d.y1 - 1);
-
-		chart = new function () {
 			const root = partition(data);
 
-			let svg = d3.select("#wheel").append("svg")
-				.attr("width", width)
-				.attr("height", width)
-				.style("width", "100%")
-				.style("height", "auto")
-			// .style("font", ".8rem sans-serif");
+			const svg = d3.select("#wheel").append("svg")
+				.attr("viewBox", `0 0 ${width} ${width}`)
+				.attr("width", "100%")
+				.attr("height", "auto");
 
 			const g = svg.append("g")
-				.attr("transform", `translate(${width / 2}, ${width / 2})`);
+				.attr("transform", `translate(${radius}, ${radius})`);
 
 			g.append("g")
-				.attr("fill-opacity", 0.6)
 				.selectAll("path")
 				.data(root.descendants().slice(1))
 				.enter().append("path")
 				.attr("fill", d => {
-					while (d.depth > 1) d = d.parent;
-					return color(d.data.name);
+					let p = d;
+					while (p.depth > 1) p = p.parent;
+					return color(p.data.name);
+				})
+				.attr("fill-opacity", d => {
+					// Outer concentric circles are painted in lighter shades (lower opacity)
+					if (d.depth === 1) return 0.9;
+					if (d.depth === 2) return 0.65;
+					return 0.45;
 				})
 				.attr("d", arc);
 
@@ -452,10 +474,9 @@
 					return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
 				})
 				.attr("dy", "0.35em")
+				.attr("fill", "#222")
 				.text(d => d.data.name);
-
-			return svg.node();
-		};
+		})();
 	</script>
   <script>
     // Theme toggle functionality

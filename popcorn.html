@@ -55,17 +55,7 @@
   <meta name="theme-color" content="#4C63B6">
   <meta name="color-scheme" content="light dark">
 
-  <style type="text/css">
-    #heatmap g[fill="#e5e7eb"] rect,
-    #heatmap rect[fill="#e5e7eb"] {
-      fill: #e5e7eb;
-    }
-
-    html[data-theme="dark"] #heatmap g[fill="#e5e7eb"] rect,
-    html[data-theme="dark"] #heatmap rect[fill="#e5e7eb"] {
-      fill: #2d3748 !important;
-    }
-
+  <style>
     html[data-theme="dark"] #heatmap text[fill="#6f6f6f"] {
       fill: #a0aec0 !important;
     }
@@ -176,7 +166,7 @@
         <figcaption class="right">Stephen Curry’s NBA arena popcorn scorecard for the Dallas Mavericks.</figcaption>
         <img
           src="https://static01.nyt.com/images/2019/04/13/sports/13CurryPopcorn1_Mavericks/13CurryPopcorn1_Mavericks-master1050-v2.jpg"
-          alt="Stephen Curry’s Dallas Popcorn Ballot" loading="lazy">
+          alt="Stephen Curry’s Dallas Popcorn Ballot" loading="lazy" decoding="async">
       </figure>
 
       <p>The original graphic appeared in the April 2019 New York Times article, "<a
@@ -185,7 +175,7 @@
       <figure>
         <img src="https://flowingdata.com/wp-content/uploads/2019/04/Stephen-Curry-popcorn-scores.png"
           alt="A heatmap ranking the popcorn at 29 NBA arenas based on five qualities: butter, crunchiness, freshness, presentation, and saltiness. Top arenas: Mavericks (24), Nets (23), and Heat (22). Scores are color-coded from light to dark orange."
-          loading="lazy">
+          loading="lazy" decoding="async">
       </figure>
 
     </article>
@@ -214,23 +204,25 @@
 
       function drawHeatmap() {
         if (!heatmapEl) return;
-        heatmapEl.innerHTML = "";
 
         const width = heatmapEl.getBoundingClientRect().width || 700;
+        if (lastRenderedWidth > 0 && Math.abs(width - lastRenderedWidth) < 5) return;
         lastRenderedWidth = width;
+
+        heatmapEl.innerHTML = "";
         const isMobile = width < 500;
-        const marginLeft = isMobile ? 150 : 210;
+        const marginLeft = isMobile ? 140 : 210;
 
         // Filter unique teams for team & arena labels to prevent duplicate overlay text
         const uniqueTeams = Array.from(d3.group(popcorn, d => d.Team), ([key, value]) => value[0]);
-        const rowHeight = isMobile ? 26 : 28;
-        const height = uniqueTeams.length * rowHeight + 110;
+        const rowHeight = isMobile ? 32 : 36;
+        const height = uniqueTeams.length * rowHeight + 100;
 
         const heatmap = {
           width: width,
           height: height,
           marginTop: 85,
-          marginBottom: 75,
+          marginBottom: 30,
           marginLeft: marginLeft,
           marginRight: 20,
           style: {
@@ -238,20 +230,23 @@
             overflow: "visible"
           },
           x: {
-            axis: "both",
+            axis: "top",
             label: null,
             tickSize: 0,
             tickRotate: -30,
+            tickFormat: d => d.toUpperCase(),
             domain: ["Freshness", "Saltiness", "Crunchiness", "Butter", "Presentation", "Total Score"],
+            padding: 0,
           },
           y: {
             domain: uniqueTeams.map(d => d.Team),
             label: null,
             tickSize: 0,
             axis: null,
+            padding: 0,
           },
           color: {
-            legend: true,
+            legend: false,
             scheme: "oranges",
             zero: true,
           },
@@ -269,6 +264,7 @@
               textAnchor: "end",
               lineAnchor: "bottom",
               fontWeight: "bold",
+              fill: "currentColor",
               fontSize: isMobile ? 12 : 13
             }),
             Plot.text(uniqueTeams, {
@@ -287,7 +283,7 @@
               y: "Team",
               x: "Criteria",
               fill: "Score",
-              inset: 0.85,
+              inset: 1,
               channels: {
                 Arena: "Arena",
               },
@@ -296,8 +292,12 @@
             Plot.cell(popcorn.filter(d => d.Criteria === "Total Score"), {
               y: "Team",
               x: "Criteria",
-              fill: "#e5e7eb",
-              inset: 0.85,
+              fill: "transparent",
+              inset: 1,
+              channels: {
+                Arena: "Arena",
+              },
+              tip: true,
             }),
             Plot.text(popcorn.filter(d => d.Criteria !== "Total Score"), {
               y: "Team",
@@ -311,9 +311,9 @@
               y: "Team",
               x: "Criteria",
               text: "Score",
-              fill: "#111827",
-              fontSize: isMobile ? 12 : 14,
-              fontWeight: "bold"
+              fill: "currentColor",
+              fontSize: isMobile ? 13 : 15,
+              fontWeight: "800"
             }),
           ]
         };
@@ -353,6 +353,16 @@
         updateIcons(newTheme);
       });
     }
+
+    // Email link handler
+    document.querySelectorAll('.js-email-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const user = 'justin.chill';
+        const domain = 'gmail.com';
+        window.location.href = `mailto:${user}@${domain}`;
+      });
+    });
   </script>
 </body>
 

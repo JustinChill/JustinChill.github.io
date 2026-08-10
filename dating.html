@@ -36,7 +36,7 @@
   <meta content="Abstract art of two lovers on a park bench." property="og:image:alt">
 
   <meta name="datePublished" content="2020-06-16">
-  <meta name="dateModified" content="2023-08-06">
+  <meta name="dateModified" content="2026-08-10">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -71,6 +71,15 @@
       grid-auto-flow: column;
     }
 
+    @media (max-width: 768px) {
+      .wrapper {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        grid-auto-flow: row;
+        grid-gap: 1.8rem;
+      }
+    }
+
     u {
       text-decoration-color: hsl(356, 75%, 53%);
     }
@@ -85,13 +94,15 @@
       width: 2rem;
       height: 2rem;
       border-radius: 50%;
-      display: inline-block;
-      line-height: 2rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       color: white;
       font-weight: bold;
       font-family: "Lato", sans-serif;
       text-align: center;
       margin-right: 0.7rem;
+      flex-shrink: 0;
     }
 
     article>p,
@@ -108,7 +119,7 @@
   "headline": "Honest dating advice | Justin Chill",
   "description": "Honest, practical dating advice and mindset shifts on compatibility, relationships, and personal growth by Justin Chill.",
   "datePublished": "2020-06-16",
-  "dateModified": "2023-08-06",
+  "dateModified": "2026-08-10",
   "author": {
     "@type": "Person",
     "name": "Justin Chill",
@@ -137,7 +148,7 @@
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-  <nav class="nav">
+  <nav class="nav" role="navigation">
     <div class="nav__list">
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
@@ -164,7 +175,7 @@
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
-  <main id="content">
+  <main role="main" id="content">
     <article>
 
       <div class="article-hero">
@@ -173,7 +184,7 @@
         <h2 class="article-subtitle">Mindset shifts for modern relationships.</h2>
       </div>
       <section class="wrapper mid-size">
-        <p>Worry less about whether they like you, and more about <u>whether&nbsp;you even like them</u>.</p>
+        <p>Worry less about whether they like you, and more about <u>whether you even like them</u>.</p>
         <p>Rejection is not as personal as it feels. <u>Liking someone or being liked is more about compatibility than
             inherent worth</u>.</p>
         <p><u>Stop choosing what isn't choosing you</u>. If it's not mutual, why pursue it?</p>
@@ -229,6 +240,16 @@
         updateIcons(newTheme);
       });
     }
+
+    // Email link handler
+    document.querySelectorAll('.js-email-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const user = 'justin.chill';
+        const domain = 'gmail.com';
+        window.location.href = `mailto:${user}@${domain}`;
+      });
+    });
   </script>
 </body>
 
