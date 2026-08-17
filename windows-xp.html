@@ -544,6 +544,49 @@
         transform: translate(250px);
       }
     }
+
+    /* Mobile & Touch Enhancements */
+    .start-button,
+    .start-menu-item,
+    .footer-button {
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+
+    .screen .taskbar .main-section .start-button:active,
+    .screen .taskbar .main-section .start-button.touch-active {
+      box-shadow: 0px 0px 15px #222 inset;
+      background: radial-gradient(circle at top left, #4a8c44 0%, #2e662e 100%);
+    }
+
+    .screen .taskbar .main-section .start-menu .start-menu-body .start-menu-item:active,
+    .screen .taskbar .main-section .start-menu .start-menu-body .start-menu-item.touch-active {
+      background-color: #3d64bd !important;
+      color: white !important;
+    }
+
+    .screen .taskbar .main-section .start-menu .start-menu-body .start-menu-item:active .label,
+    .screen .taskbar .main-section .start-menu .start-menu-body .start-menu-item.touch-active .label,
+    .screen .taskbar .main-section .start-menu .start-menu-body .start-menu-item:active .intent,
+    .screen .taskbar .main-section .start-menu .start-menu-body .start-menu-item.touch-active .intent,
+    .screen .taskbar .main-section .start-menu .start-menu-body .start-menu-item:active .program,
+    .screen .taskbar .main-section .start-menu .start-menu-body .start-menu-item.touch-active .program {
+      color: white !important;
+    }
+
+    .start-menu-footer .footer-button:active,
+    .start-menu-footer .footer-button.touch-active {
+      background-color: rgba(255, 255, 255, 0.3) !important;
+    }
+
+    @media (max-width: 480px) {
+      .screen .taskbar .main-section .start-menu {
+        width: min(380px, 95vw);
+        max-height: 80vh;
+      }
+    }
   </style>
 
   <script type="application/ld+json">
@@ -974,6 +1017,110 @@
         if (typeof renderPlot === "function") renderPlot();
       }
     });
+
+    // Start Menu Touch & Mobile Interaction
+    (function setupStartMenuTouch() {
+      const startCheckbox = document.getElementById('start-menu-active');
+      const startButton = document.querySelector('.start-button');
+      const startMenu = document.querySelector('.start-menu');
+      const startMenuItems = document.querySelectorAll('.start-menu-item, .footer-button');
+
+      if (!startCheckbox || !startButton || !startMenu) return;
+
+      // Sync aria attributes with checkbox state
+      function syncAria() {
+        const isOpen = startCheckbox.checked;
+        startButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        startMenu.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+      }
+
+      startButton.setAttribute('role', 'button');
+      startButton.setAttribute('tabindex', '0');
+      startButton.setAttribute('aria-haspopup', 'true');
+      syncAria();
+
+      startCheckbox.addEventListener('change', syncAria);
+
+      // Keyboard support for start button
+      startButton.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          startCheckbox.checked = !startCheckbox.checked;
+          syncAria();
+        }
+      });
+
+      // Touch tap feedback for start button
+      let touchHandled = false;
+      startButton.addEventListener('touchstart', () => {
+        touchHandled = true;
+        startButton.classList.add('touch-active');
+      }, { passive: true });
+
+      startButton.addEventListener('touchend', (e) => {
+        startButton.classList.remove('touch-active');
+        if (touchHandled) {
+          e.preventDefault();
+          startCheckbox.checked = !startCheckbox.checked;
+          syncAria();
+          touchHandled = false;
+        }
+      });
+
+      startButton.addEventListener('touchcancel', () => {
+        startButton.classList.remove('touch-active');
+        touchHandled = false;
+      });
+
+      // Touch tap feedback and item selection for menu items
+      startMenuItems.forEach(item => {
+        let itemTouched = false;
+
+        item.addEventListener('touchstart', () => {
+          itemTouched = true;
+          item.classList.add('touch-active');
+        }, { passive: true });
+
+        item.addEventListener('touchend', () => {
+          item.classList.remove('touch-active');
+          if (itemTouched) {
+            itemTouched = false;
+            // Close menu after tap selection feedback
+            setTimeout(() => {
+              startCheckbox.checked = false;
+              syncAria();
+            }, 180);
+          }
+        });
+
+        item.addEventListener('touchcancel', () => {
+          item.classList.remove('touch-active');
+          itemTouched = false;
+        });
+
+        item.addEventListener('click', (e) => {
+          if (!e.defaultPrevented) {
+            setTimeout(() => {
+              startCheckbox.checked = false;
+              syncAria();
+            }, 180);
+          }
+        });
+      });
+
+      // Tap / click outside start menu to close it
+      function handleOutsideTap(e) {
+        if (!startCheckbox.checked) return;
+        const target = e.target;
+        if (!startMenu.contains(target) && !startButton.contains(target) && target !== startCheckbox) {
+          startCheckbox.checked = false;
+          syncAria();
+        }
+      }
+
+      document.addEventListener('touchstart', handleOutsideTap, { passive: true });
+      document.addEventListener('click', handleOutsideTap);
+    })();
   </script>
 </body>
 

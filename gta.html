@@ -78,9 +78,15 @@
       font-size: inherit;
     }
 
+    html[data-theme="dark"] .purple {
+      color: #c499f8;
+    }
+
     audio {
       display: block;
-      margin: 0 auto;
+      margin: var(--spacer-2) auto;
+      width: 100%;
+      max-width: 100%;
     }
 
     .flex {
@@ -92,7 +98,8 @@
     }
 
     .hero {
-      height: 100vh;
+      min-height: 80vh;
+      min-height: 80dvh;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -102,6 +109,7 @@
     .bg-cover {
       height: 100%;
       width: 100%;
+      min-height: 240px;
       position: relative;
       background-color: #1a1a1a;
       background-image: url('https://zeroindent.com/content/images/size/w2000/2021/09/060520-Grand-Theft-Auto-V-Rockstar-Games.jpeg');
@@ -113,33 +121,81 @@
     .hero-content {
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.96);
+      padding: var(--spacer-4) var(--spacer-2);
+      background-color: rgba(0, 0, 0, 0.94);
       text-align: center;
       color: #fff;
-      background-blend-mode: multiply;
       z-index: 2;
-      align-content: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
     .hero-title {
       color: #fff;
-      font-size: 3em;
-      margin: 0 var(--spacer-2) 20px;
+      font-size: clamp(2rem, 6.5vw, 3.5rem);
+      margin: 0 0 var(--spacer-2);
+      line-height: 1.1;
     }
 
     .hero-subtitle {
-      color: #fff;
-      font-size: 1.5em;
-      margin-bottom: 30px;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(1.05rem, 3.5vw, 1.4rem);
+      margin-bottom: 0;
+      line-height: 1.45;
     }
 
+    /* TL;DR Section Best Practices & Accessibility */
     .tldr {
-      background-color: blanchedalmond;
-      padding: var(--spacer-1);
+      background-color: #fff8eb;
+      border-left: 4px solid #593380;
+      padding: var(--spacer-2) var(--spacer-3);
+      margin: var(--spacer-3) 0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     }
 
     .tldr h2 {
-      margin-left: 1em;
+      margin: 0 0 var(--spacer-1) 0;
+      font-size: clamp(1.2rem, 3vw, 1.45rem);
+      color: #593380;
+      font-weight: 700;
+    }
+
+    .tldr ul {
+      margin: 0;
+      padding-left: 1.2rem;
+    }
+
+    .tldr ul li {
+      margin-bottom: 0.6rem;
+      line-height: 1.55;
+      list-style-position: outside;
+    }
+
+    .tldr ul li:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Dark Mode TL;DR Contrast Fix */
+    html[data-theme="dark"] .tldr {
+      background-color: rgba(89, 51, 128, 0.18);
+      border-left-color: #a879e6;
+      box-shadow: none;
+    }
+
+    html[data-theme="dark"] .tldr h2 {
+      color: #c499f8;
+    }
+
+    /* Navigation Touch Targets */
+    .nav__item,
+    #theme-toggle {
+      min-height: 44px;
+      min-width: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     article>figcaption {
@@ -163,11 +219,12 @@
 
       .hero {
         flex-direction: row;
+        height: 85vh;
       }
 
       .tldr {
         margin: var(--spacer-4) 0;
-        padding: var(--spacer-1);
+        padding: var(--spacer-3);
       }
     }
   </style>
@@ -963,11 +1020,24 @@
     ];
 
     // After data is successfully fetched, generate viz
-    myDataPromises.then(function (data) {
+    function renderCharts() {
+      const figureNode = d3.select('figure').node();
+      const containerWidth = figureNode ? figureNode.getBoundingClientRect().width : 600;
+      const isSmallMobile = containerWidth < 480;
+      const chartFontSize = isSmallMobile ? 11 : 14;
+
+      const barChartEl = document.getElementById("barChart");
+      const first12El = document.getElementById("first12months");
+      const salesEl = document.getElementById("unitsales");
+
+      if (barChartEl) barChartEl.replaceChildren();
+      if (first12El) first12El.replaceChildren();
+      if (salesEl) salesEl.replaceChildren();
+
       const barChart = {
-        width: width,
+        width: containerWidth,
         style: {
-          fontSize: size + 3.15
+          fontSize: chartFontSize
         },
         fy: {
           label: null,
@@ -1011,12 +1081,11 @@
       };
 
       const first12months = {
-        width: width,
-        marginLeft: 110,
+        width: containerWidth,
+        marginLeft: isSmallMobile ? 95 : 110,
         style: {
-          fontSize: size + 3.15
+          fontSize: chartFontSize
         },
-        // marginLeft: 0,
         x: {
           label: "Millions of units",
           grid: true,
@@ -1035,7 +1104,7 @@
         },
         marks: [
           Plot.axisY({
-            lineAnchor: "middle", // draw labels above grid lines
+            lineAnchor: "middle",
             textAnchor: "end",
             tickSize: 0,
           }),
@@ -1044,11 +1113,9 @@
             y: "edition",
             textAnchor: "start",
             fill: "type",
-            // stroke: d => d.type === "projected" ? "#593380" : null,
             radius: 4,
             tip: true,
           }),
-          // Text labels
           Plot.text(editions, {
             filter: (d) => d.units <= 35,
             x: "units",
@@ -1072,9 +1139,9 @@
       };
 
       const unitsales = {
-        width: width,
+        width: containerWidth,
         style: {
-          fontSize: size + 3.15
+          fontSize: chartFontSize
         },
         marginLeft: 0,
         marginRight: 0,
@@ -1094,7 +1161,7 @@
         },
         marks: [
           Plot.areaY(salesdata, {
-            x: (d) => new Date(d.date), // parse local datum as Dates
+            x: (d) => new Date(d.date),
             y: "sales",
             fill: "url(#gradient)",
             curve: "catmull-rom",
@@ -1109,18 +1176,18 @@
             axis: "bottom",
           }),
           Plot.axisY({
-            filter: (d) => d !== 0, // Hide "0 M" on axisY
+            filter: (d) => d !== 0,
             grid: true,
-            tickSize: 0, // don’t draw ticks
-            dx: 10, // offset right
-            dy: -4, // offset up
-            lineAnchor: "bottom", // draw labels above grid lines
+            tickSize: 0,
+            dx: 10,
+            dy: -4,
+            lineAnchor: "bottom",
             textAnchor: "start",
-            tickFormat: (d, i, _) => (i === _.length - 1 ? `${d} million` : `${d} M`), // Show $ on first tick only
+            tickFormat: (d, i, _) => (i === _.length - 1 ? `${d} million` : `${d} M`),
             ticks: 4,
           }),
           Plot.lineY(salesdata, {
-            x: (d) => new Date(d.date), // parse local datum as Dates
+            x: (d) => new Date(d.date),
             y: "sales",
             strokeWidth: 3.75,
             stroke: "#593380",
@@ -1136,9 +1203,17 @@
         ]
       };
 
-      document.getElementById("barChart").appendChild(Plot.plot(barChart));
-      document.getElementById("first12months").appendChild(Plot.plot(first12months));
-      document.getElementById("unitsales").appendChild(Plot.plot(unitsales));
+      if (barChartEl) barChartEl.appendChild(Plot.plot(barChart));
+      if (first12El) first12El.appendChild(Plot.plot(first12months));
+      if (salesEl) salesEl.appendChild(Plot.plot(unitsales));
+    }
+
+    myDataPromises.then(renderCharts);
+
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(renderCharts, 200);
     });
   </script>
   <script>

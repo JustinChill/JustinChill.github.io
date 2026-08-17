@@ -159,9 +159,9 @@
 
       <p>Economic inequality is measured by comparing the distribution of income (the amount of money people are paid)
         and the distribution of wealth (the amount of wealth people own). It has been rising everywhere in the United
-        States, but it's rising much faster in the places that attract engineers, lawyers and innovators with top
+        States, but it's rising much faster in the places that attract engineers, lawyers, and innovators with top
         salaries. Those places today are America's cities: New York, Los Angeles, San Francisco, San Jose, Houston, and
-        Washington D.C.</p>
+        Washington, D.C.</p>
       <p>Using data from <a href="https://www.newyorkfed.org/medialibrary/media/research/epr/2019/epr_2019_wage-inequality_abel-deitz.pdf" target="_blank" rel="noopener">a
           recent analysis by Jaison Abel and Richard Deitz</a> of the New York Fed, we can visualize how inequality in
         major metropolitan areas has changed over time. In the chart above, dots represent metro areas and the color of
@@ -207,10 +207,10 @@
   <script src="https://cdn.jsdelivr.net/npm/d3"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
   <script type="text/javascript">
-    var size = 12;
-    var element = d3.select('figure').node();
-    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive  
-    var promises = [d3.csv("data/metros.csv", d3.autoType)]; // Use Promises to async request data
+    const size = 12;
+    const element = d3.select('figure').node();
+    const width = element.getBoundingClientRect().width; // get width of article so graphic is responsive  
+    const promises = [d3.csv("data/metros.csv", d3.autoType)]; // Use Promises to async request data
     function midpoint({
       x1,
       x2,
@@ -238,14 +238,11 @@
       });
     }
 
-
-    myDataPromises = Promise.all(promises);
-
     // After data is successfully fetched, generate viz
-    myDataPromises.then(function (data) {
+    Promise.all(promises).then(function (data) {
 
-      var metros = data[0];
-      var inequality = {
+      const metros = data[0];
+      const inequality = {
         grid: true,
         inset: 10,
         width: width,
@@ -291,11 +288,7 @@
             bend: true,
             stroke: d => d.R90_10_2015 - d.R90_10_1980,
             title: (d) =>
-              `${d.nyt_display} \n
-              Population in 1980: ${d3.format(",")(d.POP_1980)}\n
-              Population in 2015: ${d3.format(",")(d.POP_2015)}\n
-              Current level of inequality: ${d3.format(",")(d.R90_10_2015)}\n
-              Change in inequality: ${d3.format("+.4")(d.R90_10_2015 - d.R90_10_1980)}`, // \n makes a new line
+              `${d.nyt_display}\nPopulation 1980: ${d3.format(",")(d.POP_1980)}\nPopulation 2015: ${d3.format(",")(d.POP_2015)}\nCurrent level of inequality: ${d3.format(".1f")(d.R90_10_2015)}\nChange in inequality: ${d3.format("+.2f")(d.R90_10_2015 - d.R90_10_1980)}`,
           }),
           // This dot helps increase the surface area at the end of the arrow for hovering
           Plot.dot(metros, {
@@ -306,22 +299,10 @@
             tip: true,
             fill: d => d.R90_10_2015 - d.R90_10_1980,
             title: (d) =>
-              `${d.nyt_display} \n
-            Population in 1980: ${d3.format(",")(d.POP_1980)}\n
-            Population in 2015: ${d3.format(",")(d.POP_2015)}\n
-            Current level of inequality: ${d3.format(",")(d.R90_10_2015)}\n
-            Change in inequality: ${d3.format("+.4")(d.R90_10_2015 - d.R90_10_1980)}`, //
+              `${d.nyt_display}\nPopulation 1980: ${d3.format(",")(d.POP_1980)}\nPopulation 2015: ${d3.format(",")(d.POP_2015)}\nCurrent level of inequality: ${d3.format(".1f")(d.R90_10_2015)}\nChange in inequality: ${d3.format("+.2f")(d.R90_10_2015 - d.R90_10_1980)}`,
           }),
-          // Plot.text(metros.filter(d => d.nyt_display == "New York" || d.nyt_display !== "Johnstown" || d.nyt_display !== "Houston" || d.nyt_display !== "Chicago"), {
-          //   x: "POP_2015",
-          //   y: "R90_10_2015",
-          //   text: d => d.highlight && d.nyt_display,
-          //   fill: "currentColor",
-          //   stroke: "hsla(209, 23%, 99%, 1)",
-          //   strokeWidth: 6,
-          //   dx: -10,
-          // }),
-          Plot.text(metros.filter(d => d.nyt_display !== "New York" || d.nyt_display !== "Johnstown" || d.nyt_display !== "Houston" || d.nyt_display !== "Chicago"),
+          Plot.text(
+            metros,
             midpoint({
               x1: "POP_1980",
               y1: "R90_10_1980",
@@ -338,10 +319,8 @@
       };
 
       document.getElementById("inequality").appendChild(Plot.plot(inequality));
-    });
-
-    myDataPromises.catch(function () {
-      console.log('🚨 Oops - Something has gone wrong fetching data.')
+    }).catch(function () {
+      console.log('🚨 Oops - Something has gone wrong fetching data.');
     });
   </script>
   <script>

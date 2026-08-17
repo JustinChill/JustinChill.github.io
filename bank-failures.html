@@ -33,7 +33,8 @@
   <meta property="og:region" content="NY">
   <meta property="og:country_name" content="USA">
   <meta property="og:image" content="https://justinchill.com/imgs/cover/banks_cover.webp">
-  <meta property="og:image:alt" content="A bubble chart depicting bank failures from 2008 to 2018. The largest bubble, representing Washington Mutual Bank ($307B), is dated around 2008. Bubble sizes decrease significantly over the years, with minimal failures visible from 2014 onwards.">
+  <meta property="og:image:alt"
+    content="A bubble chart depicting bank failures from 2008 to 2018. The largest bubble, representing Washington Mutual Bank ($307B), is dated around 2008. Bubble sizes decrease significantly over the years, with minimal failures visible from 2014 onwards.">
 
   <meta name="datePublished" content="2024-11-16">
   <meta name="dateModified" content="2025-07-06">
@@ -61,6 +62,40 @@
 
     tbody th {
       background-color: initial;
+    }
+
+    /* Dodgeplot & Chart Theme Styles for Light & Dark Mode */
+    #dodgeplot,
+    #barcode,
+    #stackedBarBankFailures {
+      --chart-dot-fill: rgba(226, 232, 240, 0.85);
+      --chart-dot-stroke: #334155;
+      --chart-text-fill: #0f172a;
+      --chart-text-halo: #ffffff;
+      --chart-rule-stroke: #64748b;
+      --rolling-line-stroke: #d97706;
+      --rolling-area-fill: rgba(217, 119, 6, 0.12);
+      color: var(--text-color);
+    }
+
+    html[data-theme="dark"] #dodgeplot,
+    html[data-theme="dark"] #barcode,
+    html[data-theme="dark"] #stackedBarBankFailures {
+      --chart-dot-fill: rgba(51, 65, 85, 0.85);
+      --chart-dot-stroke: #94a3b8;
+      --chart-text-fill: #f8fafc;
+      --chart-text-halo: #111111;
+      --chart-rule-stroke: #94a3b8;
+      --rolling-line-stroke: #f59e0b;
+      --rolling-area-fill: rgba(245, 158, 11, 0.22);
+      color: var(--text-color);
+    }
+
+    /* Ensure text inside SVG elements respects theme text fill */
+    #dodgeplot svg text,
+    #barcode svg text,
+    #stackedBarBankFailures svg text {
+      fill: var(--chart-text-fill, currentColor);
     }
   </style>
 
@@ -105,25 +140,32 @@
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-    
+
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
+        aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
+            </path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank"
+        rel="noopener noreferrer">LinkedIn</a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
@@ -139,8 +181,9 @@
       <figure id="dodgeplot" class="mid-size" role="img"
         aria-label="A dodge chart showing bank failures in the USA as circles sized according to their assets.">
         <figcaption class="mid-size right">Data: <a
-            href="https://www.fdic.gov/resources/resolutions/bank-failures/in-brief/bfb2023.html" target="_blank" rel="noopener noreferrer">FDIC</a>, <a
-            href="https://fred.stlouisfed.org/series/CPIAUCSL" target="_blank" rel="noopener noreferrer">FRED</a></figcaption>
+            href="https://www.fdic.gov/resources/resolutions/bank-failures/in-brief/bfb2023.html" target="_blank"
+            rel="noopener noreferrer">FDIC</a>, <a href="https://fred.stlouisfed.org/series/CPIAUCSL" target="_blank"
+            rel="noopener noreferrer">FRED</a></figcaption>
       </figure>
 
       <p>Bank failures happen more often than we hear about: there have been <strong>569</strong> in the U.S. since
@@ -151,11 +194,12 @@
         these collapses to earlier bank failures.</p>
       <h3>Failures per year</h3>
       <figure id="barcode" class="mid-size" role="img"
-        aria-label="A barcode chart showing bank failures in the USA as vertical lines shaded according to their date of failure.">
+        aria-label="A barcode chart showing monthly U.S. bank failures from 2000 to 2023, color-coded by the number of bank failures per month.">
+        <figcaption class="mid-size right">Data: <a
+            href="https://www.fdic.gov/resources/resolutions/bank-failures/in-brief/bfb2023.html" target="_blank"
+            rel="noopener noreferrer">FDIC</a>, <a href="https://fred.stlouisfed.org/series/CPIAUCSL" target="_blank"
+            rel="noopener noreferrer">FRED</a></figcaption>
       </figure>
-      <figcaption class="mid-size right">Data: <a
-          href="https://www.fdic.gov/resources/resolutions/bank-failures/in-brief/bfb2023.html" target="_blank" rel="noopener noreferrer">FDIC</a>, <a
-          href="https://fred.stlouisfed.org/series/CPIAUCSL" target="_blank" rel="noopener noreferrer">FRED</a></figcaption>
       <p>In the wake of the Great Recession, it was typical to see dozens—if not hundreds—of bank failures each year.
         This slowed significantly from 2015 to 2020, when the U.S. saw an average of fewer than five bank failures per
         year. Zero banks failed in both 2021 and 2022.</p>
@@ -200,10 +244,12 @@
 
       <h3>What Is the Largest Bank Failure?</h3>
       <figure id="stackedBarBankFailures" class="mid-size" role="img"
-        aria-label="A stacked bar graph of US bank failures from 2000 - 2022."></figure>
-      <figcaption class="mid-size right">Data: <a
-          href="https://www.fdic.gov/resources/resolutions/bank-failures/in-brief/bfb2023.html" target="_blank" rel="noopener noreferrer">FDIC</a>, <a
-          href="https://fred.stlouisfed.org/series/CPIAUCSL" target="_blank" rel="noopener noreferrer">FRED</a></figcaption>
+        aria-label="A stacked bar chart showing total assets of failed U.S. banks per year from 2000 to 2024.">
+        <figcaption class="mid-size right">Data: <a
+            href="https://www.fdic.gov/resources/resolutions/bank-failures/in-brief/bfb2023.html" target="_blank"
+            rel="noopener noreferrer">FDIC</a>, <a href="https://fred.stlouisfed.org/series/CPIAUCSL" target="_blank"
+            rel="noopener noreferrer">FRED</a></figcaption>
+      </figure>
       <p>The 2008 collapse of Washington Mutual was the largest bank failure in U.S. history. Washington Mutual held
         $307 billion in assets when it failed. Like many other banks of the time, it fell under the weight of risky
         mortgage loans.</p>
@@ -217,7 +263,8 @@
         Signature Bank held $110 billion in assets at the end of last year.</p>
       <p>Bank failures may be common, but it’s exceedingly rare to see a bank the size of these three banks collapse. If
         you look at the <a href="https://www.fdic.gov/resources/resolutions/bank-failures/failed-bank-list/"
-          target="_blank" rel="noopener noreferrer">FDIC’s list of failed banks</a>, you’d be forgiven for not recognizing any names from the last decade. It’s usually
+          target="_blank" rel="noopener noreferrer">FDIC’s list of failed banks</a>, you’d be forgiven for not
+        recognizing any names from the last decade. It’s usually
         smaller, regional banks that shut down.</p>
       <p>The last bank to fail before SVB was Kansas-based Almena State Bank in 2020, a state-chartered bank with just
         $69 million in assets. The other two banks that failed in 2023—Heartland Tri-State Bank and Citizens Bank of Sac
@@ -289,17 +336,18 @@
   <footer>
     <h2 id="footnote-label">Footnotes</h2>
     <ol>
-      <li id="fbs"><strong>Forbes</strong>, <a
-          href="https://www.forbes.com/advisor/banking/list-of-failed-banks/" target="_blank" rel="noopener noreferrer"><em>Failed Banks In The US</em>.</a> <a
-          href="#fbs-ref" aria-label="Back to content">↩</a></li>
-      <li><strong>Max Bo</strong>, <a href="https://observablehq.com/@mjbo/bank-failures-as-a-stacked-bar-chart" target="_blank" rel="noopener noreferrer"><em>An
+      <li id="fbs"><strong>Forbes</strong>, <a href="https://www.forbes.com/advisor/banking/list-of-failed-banks/"
+          target="_blank" rel="noopener noreferrer"><em>Failed Banks In The US</em>.</a> <a href="#fbs-ref"
+          aria-label="Back to content">↩</a></li>
+      <li><strong>Max Bo</strong>, <a href="https://observablehq.com/@mjbo/bank-failures-as-a-stacked-bar-chart"
+          target="_blank" rel="noopener noreferrer"><em>An
             alternative to the dodged dot plot of Bostock's 'Bank failures'</em></a></li>
     </ol>
 
     <div>
       <p>Justin Chill &copy; 2026</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
-            alt="GitHub logo" class="icon">Source code</a></span>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"
+          rel="noopener noreferrer"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/d3"></script>
@@ -320,22 +368,50 @@
       var monthly_sums = data[1];
       var gfc = fails.filter((d) => d["Bank Name"] == "IndyMac Bank");
 
-      // Calculate annual asset sums to scale the trend line smoothly over the dodgeplot
-      var annualAssets = d3.rollups(
-        fails,
-        (v) => d3.sum(v, (d) => d.Assets),
-        (d) => d3.utcYear(d.Date)
-      ).map(([date, sum]) => ({ Date: date, sumAssets: sum }));
+      // Extract top 6 largest bank failures by assets for text labels
+      var top6Failures = fails.slice().sort((a, b) => b.Assets - a.Assets).slice(0, 6);
+      var top6Names = new Set(top6Failures.map((d) => d["Bank Name"]));
 
-      var maxAnnualAssets = d3.max(annualAssets, (d) => d.sumAssets);
-      // Target line height relative to plot height so line overlays dodge circles cleanly
-      var targetLineHeight = widthMid > 450 ? 260 : 200;
-      var assetScale = targetLineHeight / maxAnnualAssets;
+      // Build complete annual asset sums & 3-year rolling average across 2000-2024
+      var annualMap = new Map();
+      var minYear = 2000;
+      var maxYear = 2024;
+      for (var y = minYear; y <= maxYear; y++) {
+        annualMap.set(y, 0);
+      }
+
+      fails.forEach(function (d) {
+        if (d.Date && d.Assets) {
+          var yr = d.Date.getFullYear();
+          if (annualMap.has(yr)) {
+            annualMap.set(yr, annualMap.get(yr) + d.Assets);
+          }
+        }
+      });
+
+      var rollingData = [];
+      for (var y = minYear; y <= maxYear; y++) {
+        var yr1 = y - 2 >= minYear ? y - 2 : y;
+        var yr2 = y - 1 >= minYear ? y - 1 : y;
+        var sum3 = (annualMap.get(y) || 0) + (annualMap.get(yr1) || 0) + (annualMap.get(yr2) || 0);
+        var count = (y - 2 >= minYear ? 3 : (y - 1 >= minYear ? 2 : 1));
+        var rollingAvg = sum3 / count;
+
+        rollingData.push({
+          Date: new Date(Date.UTC(y, 0, 1)),
+          annualSum: annualMap.get(y),
+          rollingAvg: rollingAvg
+        });
+      }
+
+      var maxRollingAvg = d3.max(rollingData, (d) => d.rollingAvg) || 1;
+      var targetLineHeight = widthMid > 450 ? 250 : 180;
+      var rollingScale = targetLineHeight / maxRollingAvg;
 
       // Inspired by https://observablehq.com/d/09375f1a53f38932
       var dodgeplot = {
         width: widthMid,
-        height: widthMid > 450 ? widthMid / 1.5 : 900,
+        height: widthMid > 450 ? widthMid / 1.5 : 850,
         marginLeft: 0,
         marginRight: 0,
         marginTop: 10,
@@ -345,47 +421,81 @@
           overflow: "hidden"
         },
         r: {
-          range: widthMid > 450 ? [0, 80] : [0, 60]
+          type: "sqrt",
+          domain: [0, d3.max(fails, (d) => d.Assets)],
+          range: widthMid > 450 ? [2.5, 65] : [2, 45]
         },
         x: {
           nice: true,
+          label: null,
+          tickFormat: "%Y"
         },
         y: {
-          axis: null,
+          axis: null
         },
         marks: [
           Plot.frame({
-            anchor: "bottom"
+            anchor: "bottom",
+            stroke: "var(--chart-rule-stroke)",
+            strokeOpacity: 0.3
           }),
+          // Rolling average filled area behind dodgeplot
+          Plot.areaY(rollingData, {
+            x: "Date",
+            y: (d) => d.rollingAvg * rollingScale,
+            curve: "monotone-x",
+            fill: "var(--rolling-area-fill)"
+          }),
+          // Rolling average trend line behind dodgeplot
+          Plot.lineY(rollingData, {
+            x: "Date",
+            y: (d) => d.rollingAvg * rollingScale,
+            curve: "monotone-x",
+            stroke: "var(--rolling-line-stroke)",
+            strokeWidth: 2.5,
+            strokeOpacity: 0.85,
+            title: (d) => `3-Year Rolling Avg Failed Assets (${d.Date.getUTCFullYear()}): $${(d.rollingAvg / 1000).toFixed(1)}B`
+          }),
+          // Line label annotation
+          Plot.text(
+            [rollingData.find((d) => d.Date.getUTCFullYear() === 2012)],
+            {
+              x: "Date",
+              y: (d) => d.rollingAvg * rollingScale + 16,
+              text: () => "── 3-yr rolling avg assets ($B)",
+              fill: "var(--rolling-line-stroke)",
+              fontSize: 12,
+              fontWeight: "600",
+              textAnchor: "start",
+              stroke: "var(--chart-text-halo)",
+              strokeWidth: 3,
+              strokeLinejoin: "round"
+            }
+          ),
+          // Rule for Global Financial Crisis peak
           Plot.ruleX(gfc, {
             x: "Date",
-            strokeWidth: 0.5,
-            stroke: "currentColor",
-            strokeOpacity: 0.4
+            strokeWidth: 1,
+            stroke: "var(--chart-rule-stroke)",
+            strokeDasharray: "3 3",
+            strokeOpacity: 0.7
           }),
+          // GFC Text label
           Plot.text(["Global\nfinancial\ncrisis"], {
             frameAnchor: "top-right",
             x: gfc[0]["Date"],
-            dy: 60,
+            dy: 50,
             dx: -10,
-            fontSize: 15,
+            fontSize: 13,
             fontWeight: "bold",
             lineAnchor: "bottom",
-            fill: "currentColor",
+            fill: "var(--chart-text-fill)",
+            stroke: "var(--chart-text-halo)",
+            strokeWidth: 3,
+            strokeLinejoin: "round",
             text: (d) => d
           }),
-          Plot.lineY(
-            annualAssets,
-            {
-              x: "Date",
-              y: (d) => d.sumAssets * assetScale,
-              curve: "monotone-x",
-              stroke: "#d97706",
-              strokeWidth: 2,
-              strokeOpacity: 0.85,
-              title: (d) => `Total Failed Assets in ${d.Date.getFullYear()}: $${(d.sumAssets / 1000).toFixed(1)}B`
-            }
-          ),
+          // Dodge circles sized proportionally to assets
           Plot.dot(
             fails,
             Plot.dodgeY({
@@ -394,87 +504,111 @@
               x: "Date",
               r: "Assets",
               title: (d) =>
-                `${d["Bank Name"]}\n$${(d["Assets"] / 1000).toFixed(1)}B\n${d[
+                `${d["Bank Name"]}\n$${(d["Assets"] / 1000).toFixed(1)}B Assets\nFailed: ${d[
                   "Date"
-                ].toLocaleString("en-US", {
+                ].toLocaleDateString("en-US", {
                   year: "numeric",
-                  month: "2-digit",
-                  day: "2-digit"
+                  month: "short",
+                  day: "numeric"
                 })}`,
-              fill: "#ddd",
-              stroke: "#000",
-              strokeWidth: 1
+              fill: "var(--chart-dot-fill)",
+              stroke: "var(--chart-dot-stroke)",
+              strokeWidth: 1.2
             })
           ),
+          // Text labels ONLY for the largest 6 bank failures
           Plot.text(
             fails,
-            Plot.filter((d) => d.Assets > 2000, Plot.dodgeY({
-              anchor: "bottom",
-              padding: 2,
-              x: "Date",
-              lineWidth: 5,
-              r: "Assets",
-              text: (d) => d.Assets > 12900 ?
-                `${d["Bank Name"]}\n$${(d["Assets"] / 1000).toFixed(0)}B` : `${(d["Assets"] / 1000).toFixed(1)}`,
-              pointerEvents: "none",
-              fill: "#000",
-              stroke: "#ddd"
-            }))
+            Plot.filter(
+              (d) => top6Names.has(d["Bank Name"]),
+              Plot.dodgeY({
+                anchor: "bottom",
+                padding: 2,
+                x: "Date",
+                r: "Assets",
+                text: (d) => `${d["Bank Name"]}\n$${(d["Assets"] / 1000).toFixed(0)}B`,
+                pointerEvents: "none",
+                fill: "var(--chart-text-fill)",
+                stroke: "var(--chart-text-halo)",
+                strokeWidth: 3.5,
+                strokeLinejoin: "round",
+                fontSize: widthMid > 450 ? 11 : 9,
+                fontWeight: "600"
+              })
+            )
           )
         ]
       };
 
       var barcode = {
         width: widthMid,
-        height: 100,
-        marginRight: 0,
-        marginLeft: 0,
+        height: 110,
+        marginRight: 10,
+        marginLeft: 10,
+        marginTop: 10,
+        marginBottom: 30,
         x: {
           round: true,
           label: null,
-          tickSize: 0,
+          tickFormat: "%Y",
+          tickSize: 4
         },
         color: {
-          scheme: "Reds"
+          scheme: "YlOrRd"
         },
         marks: [
           Plot.frame({
-            stroke: "#DFDFDF",
-            opacity: .25,
+            stroke: "var(--chart-rule-stroke)",
+            strokeOpacity: 0.3,
             anchor: "bottom"
           }),
           Plot.barX(monthly_sums, {
             x: "month",
             interval: "month",
-            inset: 0, // no gaps
-            fill: "failures"
+            inset: 0, // continuous barcode bars
+            fill: "failures",
+            tip: true,
+            title: (d) =>
+              `${d.month instanceof Date ? d.month.toLocaleDateString("en-US", { year: "numeric", month: "long", timeZone: "UTC" }) : d.month}\nFailures: ${d.failures}\nTotal Assets: $${(d.total_assets / 1000).toFixed(1)}B`
           })
         ]
       };
 
       var stackedBarBankFailures = {
         width: widthMid,
-        marginRight: 0,
+        height: widthMid > 450 ? 320 : 280,
+        marginRight: 10,
+        marginLeft: 45,
+        marginBottom: 30,
+        marginTop: 10,
         y: {
-          tickFormat: "$,f",
+          tickFormat: (d) => (d === 0 ? "$0" : `$${(d / 1000).toFixed(0)}B`),
           nice: true,
-          tickSize: 0,
-          ticks: 4,
+          tickSize: 4,
+          ticks: 5,
           grid: true,
+          label: null
         },
         x: {
-          tickSize: 0,
+          tickSize: 4,
+          tickFormat: "%Y",
+          label: null
+        },
+        color: {
+          scheme: "oranges",
+          type: "sqrt"
         },
         marks: [
           Plot.rectY(fails, {
-            fill: "Bank Name",
+            fill: "Assets (adj.)",
             x: "Date",
             y: "Assets (adj.)",
             tip: true,
             sort: "Assets (adj.)",
             reverse: true,
-            interval: "Half",
-            title: (d) => `${d["Bank Name"]}\nAssets: ${d3.format("$,.0f")(d["Assets"])}\nAssets (adj.): ${d3.format("$,.0f")(d["Assets (adj.)"])}\nDate: ${Plot.formatIsoDate(d["Date"])}\n${d["City, State"]}`
+            interval: "year",
+            title: (d) =>
+              `${d["Bank Name"]}\nAssets: $${(d["Assets"] / 1000).toFixed(1)}B\nAdjusted Assets: $${(d["Assets (adj.)"] / 1000).toFixed(1)}B\nDate: ${d["Date"] instanceof Date ? d["Date"].toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" }) : d["Date"]}\n${d["City, State"] || ""}`
           })
         ]
       };

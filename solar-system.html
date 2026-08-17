@@ -79,6 +79,13 @@
       margin-top: 20px;
     }
 
+    @media (max-width: 600px) {
+      figure {
+        height: 75vh;
+        min-height: 520px;
+      }
+    }
+
     figcaption {
       text-align: right;
     }
@@ -215,7 +222,7 @@
         Neptune are called ice giants.</p>
 
       <p>This visualization shows the different objects orbiting the sun in our solar system. Objects are drawn on the
-        same scale to represent their distance from the sun (left) accurately. The mass of planets and their moons is
+        same scale to represent their distance from the sun (left, or top on mobile) accurately. The mass of planets and their moons is
         reflected in the size of each object.</p>
 
     </article>
@@ -234,10 +241,10 @@
   <script>
     // Recreated from Fabiovalse: https://gist.github.com/fabiovalse/96f1c7575f6a66facc34a7d8408287f0
     (function () {
-      var celestial_body_types, color, height, margin, sun_radius, svg, vis, width;
+      var celestial_body_types, color, margin, sun_radius, svg;
+      var cachedData = null;
 
       sun_radius = 30;
-
       margin = 15;
 
       celestial_body_types = [{
@@ -247,27 +254,27 @@
       }, {
         label: 'Terrestrial',
         value: 'terrestrial',
-        color: 'hsl(39, 11%, 69%)' //#e5d8bd
+        color: 'hsl(39, 11%, 69%)'
       }, {
         label: 'Gas giant',
         value: 'gas_giant',
-        color: 'hsl(210, 16%, 82%)' //lightgray
+        color: 'hsl(210, 16%, 82%)'
       }, {
         label: 'Ice giant',
         value: 'ice_giant',
-        color: 'hsl(210, 22%, 49%)' //#b3cde3
+        color: 'hsl(210, 22%, 49%)'
       }, {
         label: 'Asteroid',
         value: 'asteroid',
-        color: 'hsl(360, 100%, 80%)' //#fbb4ae
+        color: 'hsl(360, 100%, 80%)'
       }, {
         label: 'Plutoid',
         value: 'plutoid',
-        color: 'hsl(293, 67%, 85%)' //#decbe4
+        color: 'hsl(293, 67%, 85%)'
       }, {
         label: 'Satellite',
         value: 'satellite',
-        color: 'hsl(0, 0%, 38%)' //gray
+        color: 'hsl(0, 0%, 38%)'
       }];
 
       color = d3.scaleOrdinal().domain(celestial_body_types.map(function (d) {
@@ -278,18 +285,20 @@
 
       svg = d3.select('#solar_system');
 
-      width = svg.node().getBoundingClientRect().width;
+      function render(data) {
+        svg.selectAll('*').remove();
 
-      height = svg.node().getBoundingClientRect().height;
+        var width = svg.node().getBoundingClientRect().width;
+        var height = svg.node().getBoundingClientRect().height;
+        var isVertical = width < 640 || height > width * 1.1;
 
-      vis = svg.append('g')
-        .attr('transform', "translate(0, " + (height / 2) + ")");
+        var vis = svg.append('g')
+          .attr('transform', isVertical
+            ? "translate(" + (width / 2) + ", 0)"
+            : "translate(0, " + (height / 2) + ")");
 
-      d3.csv('data/solar-system.csv', d3.autoType).then(function (data) {
         var all_legend, all_orbits, all_planets, all_suborbits, all_subplanets, angles, distance, en_legend, en_orbits, en_planets, en_suborbits, en_subplanets, leg, legend, orbits, planets, radius, solar_system, suborbits, subplanets;
-        data = data.sort(function (a, b) {
-          return a.distance_from_primary_km - b.distance_from_primary_km;
-        });
+
         solar_system = (d3.stratify().id(function (d) {
           if (d.label === 'NULL') {
             return '';
@@ -304,30 +313,32 @@
           }
         }))(data);
 
-        // Calculate planet dimensions.
-        // Except the sun, planet dimensions have been computed using the same scale (i.e., power scale with a 0.4 exponent). Also the planet distance from the sun and the moon distance from their primary planet have been calculated using the same scale (i.e., power scale with a 0.33 exponent).
+        var maxDistRange = isVertical
+          ? height - sun_radius / 2 - margin
+          : width - sun_radius / 2 - margin;
+
         distance = d3.scalePow().exponent(0.33).domain([
           8000000, d3.max(solar_system.children, function (d) {
             return +d.data.distance_from_primary_km;
           })
-        ]).range([0, width - sun_radius / 2 - margin]);
+        ]).range([0, maxDistRange]);
+
         radius = d3.scalePow().exponent(0.4).domain([
           0, d3.max(solar_system.children, function (d) {
             return +d.data.equatorial_radius_km;
           })
         ]).range([0, 20]);
 
-        /* Sun
-         */
+        /* Sun */
         vis.append('circle')
           .attr('r', sun_radius * 2)
-          .attr('cx', -sun_radius / 1.5)
+          .attr('cx', isVertical ? 0 : -sun_radius / 1.5)
+          .attr('cy', isVertical ? -sun_radius / 1.5 : 0)
           .attr('fill', color(solar_system.data.subtype))
-          .attr('stroke', '#ffe27a') // Two tone sun
+          .attr('stroke', '#ffe27a')
           .attr('stroke-width', '5px');
 
-        /* Orbits
-         */
+        /* Orbits */
         orbits = vis.selectAll('.orbit').data(solar_system.children);
         en_orbits = orbits.enter().append('g')
           .attr('class', 'orbit');
@@ -338,24 +349,28 @@
           });
         orbits.exit().remove();
 
-        /* Sub-orbits
-         */
+        /* Sub-orbits */
         angles = [45, 22.5, 0, -22.5, -45, -22.5, 0, 11, 0, -11, 0, 11, 0];
+
+        function getPlanetPos(d, i) {
+          var ang = angles[i] || 0;
+          var rad = isVertical ? (ang + 90) * Math.PI / 180 : ang * Math.PI / 180;
+          var dist = distance(d.data.distance_from_primary_km);
+          return {
+            x: dist * Math.cos(rad),
+            y: dist * Math.sin(rad)
+          };
+        }
+
         suborbits = all_orbits.selectAll('.suborbit').data(function (d) {
-          if (d.children != null) {
-            return d.children;
-          } else {
-            return [];
-          }
+          return d.children != null ? d.children : [];
         });
         en_suborbits = suborbits.enter().append('g')
           .attr('class', 'suborbit')
           .attr('transform', function (d) {
-            var i, x, y;
-            i = d.parent.parent.children.indexOf(d.parent);
-            x = distance(d.parent.data.distance_from_primary_km) * Math.cos(angles[i] * Math.PI / 180);
-            y = distance(d.parent.data.distance_from_primary_km) * Math.sin(angles[i] * Math.PI / 180);
-            return "translate(" + x + ", " + y + ")";
+            var i = d.parent.parent.children.indexOf(d.parent);
+            var pos = getPlanetPos(d.parent, i);
+            return "translate(" + pos.x + ", " + pos.y + ")";
           });
         all_suborbits = en_suborbits.merge(suborbits);
         all_suborbits.append('circle')
@@ -364,16 +379,13 @@
           });
         suborbits.exit().remove();
 
-        /* Planets
-         */
+        /* Planets */
         planets = vis.selectAll('.planet').data(solar_system.children);
         en_planets = planets.enter().append('g')
           .attr('class', 'planet')
           .attr('transform', function (d, i) {
-            var x, y;
-            x = distance(d.data.distance_from_primary_km) * Math.cos(angles[i] * Math.PI / 180);
-            y = distance(d.data.distance_from_primary_km) * Math.sin(angles[i] * Math.PI / 180);
-            return "translate(" + x + ", " + y + ")";
+            var pos = getPlanetPos(d, i);
+            return "translate(" + pos.x + ", " + pos.y + ")";
           });
         all_planets = en_planets.merge(planets);
         all_planets.append('circle')
@@ -391,100 +403,91 @@
           .append('title').text(function (d) {
             return `${d.data.label}\nDistance from sun: ${d3.format(",")(d.data.distance_from_primary_km)}km\nType: ${d.data.type}`;
           });
+
         all_planets.append('text')
-          .attr('text-anchor', 'middle')
+          .attr('text-anchor', function (d, i) {
+            if (!isVertical) return 'middle';
+            var pos = getPlanetPos(d, i);
+            return pos.x < -2 ? 'end' : 'start';
+          })
+          .attr('x', function (d, i) {
+            if (!isVertical) return 0;
+            var pos = getPlanetPos(d, i);
+            var r = radius(d.data.equatorial_radius_km);
+            return pos.x < -2 ? -r - 6 : r + 6;
+          })
           .attr('y', function (d) {
-            return -radius(d.data.equatorial_radius_km) - 5;
+            if (!isVertical) return -radius(d.data.equatorial_radius_km) - 5;
+            return 4;
           })
           .text(function (d) {
             return d.id;
           });
         planets.exit().remove();
 
-        /* Sub-planets
-         */
+        /* Sub-planets (Moons) */
         subplanets = all_planets.selectAll('.subplanet').data(function (d) {
-          if (d.children != null) {
-            return d.children;
-          } else {
-            return [];
-          }
+          return d.children != null ? d.children : [];
         });
         en_subplanets = subplanets.enter().append('g')
           .attr('class', 'subplanet');
         all_subplanets = en_subplanets.merge(subplanets);
+
+        function getMoonPos(d, i) {
+          var r = radius(d.data.distance_from_primary_km);
+          var a = (i * 30 + 60) * Math.PI / 180;
+          return {
+            cx: r * Math.cos(a),
+            cy: r * Math.sin(a)
+          };
+        }
+
         all_subplanets.append('circle')
           .attr('class', 'halo')
           .attr('r', function (d) {
             return radius(d.data.equatorial_radius_km);
           })
-          .attr('cx', function (d, i) {
-            var a, r;
-            r = radius(d.data.distance_from_primary_km);
-            a = Math.cos((i * 30 + 60) * Math.PI / 180);
-            return r * a;
-          })
-          .attr('cy', function (d, i) {
-            var a, r;
-            r = radius(d.data.distance_from_primary_km);
-            a = Math.sin((i * 30 + 60) * Math.PI / 180);
-            return r * a;
-          });
+          .attr('cx', function (d, i) { return getMoonPos(d, i).cx; })
+          .attr('cy', function (d, i) { return getMoonPos(d, i).cy; });
+
         all_subplanets.append('circle')
           .attr('r', function (d) {
             return radius(d.data.equatorial_radius_km);
           })
-          .attr('cx', function (d, i) {
-            var a, r;
-            r = radius(d.data.distance_from_primary_km);
-            a = Math.cos((i * 30 + 60) * Math.PI / 180);
-            return r * a;
-          })
-          .attr('cy', function (d, i) {
-            var a, r;
-            r = radius(d.data.distance_from_primary_km);
-            a = Math.sin((i * 30 + 60) * Math.PI / 180);
-            return r * a;
-          })
+          .attr('cx', function (d, i) { return getMoonPos(d, i).cx; })
+          .attr('cy', function (d, i) { return getMoonPos(d, i).cy; })
           .attr('fill', function (d) {
             return color(d.data.type);
           })
           .append('title').text(function (d) {
             return `${d.data.label}\nDistance from sun: ${d3.format(",")(d.data.distance_from_primary_km)}km\nType: ${d.data.type}`;
           });
+
         all_subplanets.append('text')
           .attr('text-anchor', function (d, i) {
-            var a, r;
-            r = radius(d.data.distance_from_primary_km);
-            a = Math.cos((i * 30 + 60) * Math.PI / 180);
-            if (r * a < 0) {
-              return 'end';
-            } else {
-              return 'start';
-            }
+            var m = getMoonPos(d, i);
+            return m.cx < 0 ? 'end' : 'start';
           })
           .attr('x', function (d, i) {
-            var a, r;
-            r = radius(d.data.distance_from_primary_km);
-            a = Math.cos((i * 30 + 60) * Math.PI / 180);
-            return r * a;
+            var m = getMoonPos(d, i);
+            return m.cx + (isVertical ? (m.cx < 0 ? -4 : 4) : 0);
           })
           .attr('y', function (d, i) {
-            var a, r;
-            r = radius(d.data.distance_from_primary_km);
-            a = Math.sin((i * 30 + 60) * Math.PI / 180);
-            return r * a + 15;
+            var m = getMoonPos(d, i);
+            return isVertical ? m.cy + 4 : m.cy + 15;
           })
           .text(function (d) {
             return d.id;
           });
         subplanets.exit().remove();
 
-        /* Legend
-         */
+        /* Legend */
+        var legendY = isVertical ? (height - 120) : (height / 2 - 105);
+        var legendX = isVertical ? (15 - width / 2) : 15;
+
         leg = vis.append('g')
           .attr('class', 'legend')
-          .attr('transform', "translate(15, " + (height / 2 - 105) + ")");
+          .attr('transform', "translate(" + legendX + ", " + legendY + ")");
         leg.insert('rect')
           .attr('x', -7)
           .attr('y', -7)
@@ -513,12 +516,28 @@
             return d.label.toUpperCase();
           });
         legend.exit().remove();
+      }
+
+      d3.csv('data/solar-system.csv', d3.autoType).then(function (data) {
+        data = data.sort(function (a, b) {
+          return a.distance_from_primary_km - b.distance_from_primary_km;
+        });
+        cachedData = data;
+        render(cachedData);
       }).catch(function (error) {
         console.error('Failed to load solar system data:', error);
         svg.append('text')
           .attr('x', 15)
           .attr('y', 30)
           .text('Unable to load the diagram data. Please try again later.');
+      });
+
+      var resizeTimer;
+      window.addEventListener('resize', function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () {
+          if (cachedData) render(cachedData);
+        }, 150);
       });
 
     }).call(this);

@@ -348,7 +348,7 @@
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener">LinkedIn</a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
@@ -410,13 +410,14 @@
         the background of that person or business. For short, people just call it an "about page".</p>
       <p>Some websites have a link that says "<strong>contact</strong>". It goes to a page that tells you how to contact
         this person or business. For short, we call that a "contact page".</p>
-      <p>So a website with a link that says "<strong>now</strong>"goes to a page that tells you <strong>what this person
+      <p>So a website with a link that says "<strong>now</strong>" goes to a page that tells you <strong>what this
+          person
           is focused on at this point in their life.</strong> For short, we call it a "now page".</p>
       <p>Inspired by Derek Sivers' <a href="https://nownownow.com/about">nownownow.com</a>.</p>
-      <h3>Github Contributions, <span id="year">2025</span></h3>
+      <h3>GitHub Contributions, <span id="year">2025</span></h3>
       <figure>
         <figcaption class="right">My GitHub contributions over the past year. Click to view the repository.</figcaption>
-        <a href="https://github.com/JustinChill" target="_blank">
+        <a href="https://github.com/JustinChill" target="_blank" rel="noopener">
           <img src="https://ghchart.rshah.org/JustinChill"
             alt="GitHub contributions chart showing the activity over the past year">
         </a>
@@ -439,8 +440,8 @@
   <footer>
     <div>
       <p>Justin Chill &copy; 2026</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
-            alt="GitHub logo" class="icon">Source code</a></span>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener"><img
+            src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
   <!-- Add Leaflet JavaScript -->
@@ -460,7 +461,6 @@
       // Add OpenStreetMap tiles
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
-        attribution: '© Justin Chill',
       }).addTo(map);
 
       // Add a marker for NYC
@@ -578,12 +578,26 @@
 
           target.append(...bookItems);
           target.querySelectorAll(".preloader").forEach(el => el.style.display = 'none');
+        })
+        .catch((err) => {
+          console.error('Error fetching Literal books:', err);
+          target.querySelectorAll(".preloader").forEach(el => el.style.display = 'none');
         });
     }
 
     // Initialize all literal widgets when the page loads
     window.addEventListener('load', function () {
       document.querySelectorAll('.literal-widget').forEach(initializeLiteralWidget);
+    });
+
+    // Email link handler
+    document.querySelectorAll('.js-email-link').forEach(link => {
+      link.addEventListener('click', event => {
+        event.preventDefault();
+        const a = "Justin.richard.hill@";
+        const b = "gmail.com";
+        window.open(`mailto:${a}${b}`, '_blank');
+      });
     });
   </script>
   <script>
@@ -596,9 +610,11 @@
       if (theme === "dark") {
         themeToggleLightIcon.classList.remove("hidden");
         themeToggleDarkIcon.classList.add("hidden");
+        if (themeToggleBtn) themeToggleBtn.setAttribute("aria-label", "Switch to light theme");
       } else {
         themeToggleLightIcon.classList.add("hidden");
         themeToggleDarkIcon.classList.remove("hidden");
+        if (themeToggleBtn) themeToggleBtn.setAttribute("aria-label", "Switch to dark theme");
       }
     }
 

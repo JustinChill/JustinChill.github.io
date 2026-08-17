@@ -59,7 +59,7 @@
   <meta name="theme-color" content="#4C63B6">
   <meta name="color-scheme" content="light dark">
 
-  <style type="text/css">
+  <style>
     article>figure {
       min-width: 0;
       margin: 0;
@@ -69,6 +69,7 @@
       display: flex;
       flex-direction: row-reverse;
       margin-bottom: 0;
+      padding: 0 0.25rem;
     }
 
     #legend div {
@@ -96,7 +97,7 @@
     @media screen and (max-width: 680px) {
 
       article>figure,
-      #oldest_legend {
+      #legend {
         grid-column: 1/-1;
       }
     }
@@ -138,7 +139,7 @@
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-  <nav class="nav" role="navigation">
+  <nav class="nav">
     <div class="nav__list">
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
@@ -161,12 +162,12 @@
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener">LinkedIn</a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
 
-  <main role="main" id="content">
+  <main id="content">
     <article>
       <div class="article-hero">
         <p class="article-category">Post</p>
@@ -175,12 +176,12 @@
       </div>
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h2>Lunar Missions</h2>
-      <span id="legend"
-        aria-label="A filled circle (⚫) represents a successful landing with debris. An unfilled circle (⭕) represents a crash landing."></span>
+      <div id="legend"
+        aria-label="A filled circle (⚫) represents a successful landing with debris. An unfilled circle (⭕) represents a crash landing."></div>
       <figure id="crashes"
         aria-label="Timeline showing lunar missions that crashed or landed on the Moon, categorized by country.">
         <figcaption class="right">Data: Alexandra Witze for <a
-            href="https://www.nature.com/articles/d41586-022-00542-4">Nature</a></figcaption>
+            href="https://www.nature.com/articles/d41586-022-00542-4" target="_blank" rel="noopener">Nature</a></figcaption>
       </figure>
       <p>Shown above are planetary missions that have smashed into the Moon, either as a full spacecraft or as parts.
         Humans are really great at generating and distributing trash — there are nearly <a
@@ -197,7 +198,7 @@
       <img src="https://media.nature.com/lw767/magazine-assets/d41586-020-03064-z/d41586-020-03064-z_18557284.jpg"
         alt="Lunar landings published in Nature magazine" loading="lazy">
 
-      <h3>Original graphic</h3>
+      <h3>Original Graphic</h3>
       <img src="https://images.nature.com/lw1200/magazine-assets/d41586-022-00607-4/d41586-022-00607-4_20179640.jpg"
         alt="Space waste: debris left on the Moon's surface." loading="lazy">
     </article>
@@ -205,14 +206,14 @@
   <footer>
     <div>
       <p>Justin Chill &copy; 2026</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener"><img src="imgs/github.svg"
             alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/d3"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 
-  <script type="text/javascript">
+  <script>
     const size = 12;
     const color_scale_range = [
       "#36a9e1", // Soviet Union
@@ -398,7 +399,7 @@
       "crash_year": 1967,
       "soft_landing": true,
       "nation": "US",
-      "object": "Surveyor 6 ",
+      "object": "Surveyor 6",
       "full_date": "Fri Nov 10 1967",
       "y_offset": 7
     }, {
@@ -412,7 +413,7 @@
       "crash_year": 1968,
       "soft_landing": true,
       "nation": "US",
-      "object": "Surveyor 7 ",
+      "object": "Surveyor 7",
       "full_date": "Wed Jan 10 1968",
       "y_offset": 1
     }, {
@@ -426,7 +427,7 @@
       "crash_year": 1969,
       "soft_landing": false,
       "nation": "US",
-      "object": "Apollo 10 ",
+      "object": "Apollo 10",
       "full_date": "Mon Jan 06 1969",
       "y_offset": 1
     }, {
@@ -440,7 +441,7 @@
       "crash_year": 1969,
       "soft_landing": true,
       "nation": "US",
-      "object": "Apollo 12 ",
+      "object": "Apollo 12",
       "full_date": "Wed Nov 19 1969",
       "y_offset": 3
     }, {
@@ -461,7 +462,7 @@
       "crash_year": 1969,
       "soft_landing": true,
       "nation": "US",
-      "object": "Apollo 11 ",
+      "object": "Apollo 11",
       "full_date": "Wed Dec 31 1969",
       "y_offset": 6
     }, {
@@ -475,7 +476,7 @@
       "crash_year": 1970,
       "soft_landing": false,
       "nation": "US",
-      "object": "Apollo 13 ",
+      "object": "Apollo 13",
       "full_date": "Wed Apr 15 1970",
       "y_offset": 1
     }, {
@@ -517,7 +518,7 @@
       "crash_year": 1972,
       "soft_landing": true,
       "nation": "US",
-      "object": "Apollo 16 ",
+      "object": "Apollo 16",
       "full_date": "Wed Apr 19 1972",
       "y_offset": 1
     }, {
@@ -671,7 +672,7 @@
       const legendContainer = document.getElementById("legend");
       if (!container || !legendContainer) return;
 
-      container.innerHTML = "";
+      container.querySelectorAll("svg").forEach(el => el.remove());
       legendContainer.innerHTML = "";
 
       const width = container.getBoundingClientRect().width || 600;
@@ -826,7 +827,7 @@
               <circle r="${(svg_width - 6) / 2}" cx="${svg_width / 2}" cy="${svg_width / 2}" stroke="currentColor" stroke-width="3" fill="currentColor"/>
             </svg>`;
 
-      legendContainer.innerHTML = `<div style="display: flex; flex-direction: column; align-items: baseline;"><span style="display:flex; flex-direction: row; gap: .5rem; align-items: baseline;">${filled_circle}<p>Successful&nbsp;landing</p></span><span style="display: flex; flex-direction: row; gap: .5rem; align-items: baseline;">${empty_circle} <p>Crash&nbsp;landing</p></span></div>`;
+      legendContainer.innerHTML = `<div style="display: flex; flex-direction: column; align-items: baseline;"><div style="display: flex; flex-direction: row; gap: .5rem; align-items: center;">${filled_circle}<span>Successful&nbsp;landing</span></div><div style="display: flex; flex-direction: row; gap: .5rem; align-items: center;">${empty_circle} <span>Crash&nbsp;landing</span></div></div>`;
 
       legendContainer.appendChild(Plot.legend(crashes_legend));
       container.appendChild(plotSvg);
