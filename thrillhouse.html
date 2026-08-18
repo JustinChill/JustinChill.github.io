@@ -49,7 +49,9 @@
   <link rel="canonical" href="https://justinchill.com/thrillhouse.html">
   <link rel="preload" href="style.css" as="style" />
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css?family=Creepster" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
   <link rel="icon" href="favicon.ico">
   <link type="text/plain" href="humans.txt" rel="author">
 
@@ -90,7 +92,7 @@
     #title span {
       position: relative;
       font-family: "Creepster", sans-serif;
-      font-size: 20vw;
+      font-size: clamp(2.5rem, 12vw, 8rem);
     }
 
     #title,
@@ -240,6 +242,14 @@
         height: 95vh;
       }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      section:before,
+      #title span {
+        -webkit-animation: none;
+        animation: none;
+      }
+    }
   </style>
 
   <script type="application/ld+json">
@@ -308,23 +318,19 @@
 
   <main role="main" id="content">
     <section>
-      <h1 id="title">Thrillhouse</h1>
+      <h1 id="title" aria-label="Thrillhouse">Thrillhouse</h1>
     </section>
     <article>
-      <h2>Up an atom, Radioactive man!</h2>
+      <h2>Up and atom, Radioactive Man!</h2>
       <img src="https://deadhomersociety.wordpress.com/wp-content/uploads/2015/12/thrillhou.png"
-        alt="Milhouse van Houten aka Thrillhouse" />
+        alt="Bonestorm arcade screen displaying 'WELCOME THRILLHO' next to Milhouse van Houten" loading="lazy" />
       <blockquote>
-        <p>This is great! And all I’ve done is enter my name, Thrillhouse!</p>
+        <p>This is great! And all I’ve done is enter my name: Thrillhouse!</p>
         <cite>&mdash; Milhouse van Houten</cite>
       </blockquote>
     </article>
   </main>
   <footer>
-    <h2 class="visually-hidden" id="footnote-label">Footnotes</h2>
-    <ol>
-
-    </ol>
     <div>
       <p>Justin Chill &copy; 2026</p>
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
@@ -332,15 +338,13 @@
     </div>
   </footer>
   <script>
-    var titleId = "title";
-    var title = document.getElementById(titleId).innerHTML;
-    var splitTitle = "";
-
-    for (var i = 0, letters = title.length; i < letters; i++) {
-      splitTitle += "<span>" + title[i] + "</span>";
+    const titleEl = document.getElementById("title");
+    if (titleEl) {
+      const titleText = titleEl.textContent;
+      titleEl.innerHTML = Array.from(titleText)
+        .map(char => `<span>${char}</span>`)
+        .join("");
     }
-
-    document.getElementById(titleId).innerHTML = splitTitle;
   </script>
   <script>
     // Theme toggle functionality
@@ -370,6 +374,16 @@
         updateIcons(newTheme);
       });
     }
+
+    // Email link handler
+    document.querySelectorAll('.js-email-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const a = "Justin.richard.hill@";
+        const b = "gmail.com";
+        window.open(`mailto:${a}${b}`, 'email');
+      });
+    });
   </script>
 </body>
 

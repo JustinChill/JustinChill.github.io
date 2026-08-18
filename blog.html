@@ -123,8 +123,9 @@
 
     .callout {
       background-color: hsl(51, 22%, 95%);
-      border-top: 0.25rem solid #38beea;
+      border-top: 0.25rem solid #0274a2;
       padding: var(--spacer-2) var(--spacer-4);
+      margin-bottom: var(--spacer-6);
     }
 
     .card {
@@ -134,6 +135,7 @@
       border-radius: 6px;
       overflow: hidden;
       cursor: pointer;
+      background-color: #ffffff;
       box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
       transition: all 0.25s ease-in-out;
       will-change: transform;
@@ -145,11 +147,11 @@
       transform: translateY(-1px);
     }
 
-    .card:focus {
-      -webkit-box-shadow: 0 0 0 3px #22223a, 0 0 0 4px #38beea;
-      box-shadow: 0 0 0 3px #22223a, 0 0 0 5px #38beea;
+    .card:focus,
+    .card:focus-visible {
+      box-shadow: 0 0 0 3px var(--bg-color), 0 0 0 5px #0274a2;
       outline: none;
-      border-radius: 2px;
+      border-radius: 6px;
       z-index: 1090;
       position: relative;
     }
@@ -159,6 +161,7 @@
       margin: 0;
       margin-bottom: .5rem;
       display: inline-block;
+      color: var(--heading-color);
     }
 
     .card .card-content {
@@ -169,24 +172,30 @@
     .card-image {
       max-height: 10rem;
       overflow: clip;
+      background: var(--surface-subtle);
     }
 
     .card .card-content .kicker {
-      color: #38beea;
+      color: #0b7299;
       margin-top: 0;
       text-transform: uppercase;
       font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
       margin-bottom: 0.5rem;
     }
 
     .card .card-content p {
-      color: #adacb5;
-      font-size: var(--type-scale-1);
+      color: var(--muted-color);
+      font-size: var(--type-scale--1);
+      line-height: 1.4;
     }
 
     .card .card-image img {
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     .card .card-footer {
@@ -201,12 +210,13 @@
       margin-top: -10px;
       transition: color 0.3s;
       margin-right: 0;
+      color: var(--muted-color);
     }
 
     .card .card-footer a {
       background: transparent;
       border: none;
-      color: rgba(0, 0, 0, 0.84);
+      color: var(--text-color);
       padding: var(--spacer-2) 1em;
       width: 100%;
       text-align: left;
@@ -215,20 +225,20 @@
       opacity: 0;
       position: relative;
       top: 3px;
-      font-weight: 400;
+      font-weight: 500;
       transition: 0.3s, top 0.3s ease 0s;
     }
 
     .card .card-footer a:hover,
     .card .card-footer a:focus {
       text-decoration: none;
-      color: #38beea;
+      color: #0274a2;
       opacity: 1;
       top: 0;
     }
 
     .card .card-footer a:focus {
-      box-shadow: inset 0 0 0 2px #38beea;
+      box-shadow: inset 0 0 0 2px #0274a2;
       outline: none;
       border-radius: 2px;
       z-index: 1090;
@@ -239,7 +249,7 @@
       content: "";
       width: 0%;
       height: 3px;
-      background: #38beea;
+      background: #0274a2;
       position: absolute;
       bottom: 0;
       left: 0;
@@ -252,7 +262,7 @@
 
     .card:hover .card-footer .icon,
     .card:focus .card-footer .icon {
-      color: #38beea;
+      color: #0274a2;
     }
 
     .card:hover .card-footer a,
@@ -264,6 +274,56 @@
     .card:hover .card-footer:after,
     .card:focus .card-footer:after {
       width: 100%;
+    }
+
+    /* Dark Mode overrides for callout & cards */
+    html[data-theme="dark"] .callout {
+      background-color: #1a1e24;
+      border-top: 0.25rem solid #38beea;
+      border-bottom: 1px solid var(--rule-color);
+      border-left: 1px solid var(--rule-color);
+      border-right: 1px solid var(--rule-color);
+    }
+
+    html[data-theme="dark"] .card {
+      background-color: #181b20;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+    }
+
+    html[data-theme="dark"] .card:hover,
+    html[data-theme="dark"] .card:active {
+      border-color: rgba(255, 255, 255, 0.18);
+      box-shadow: 0 12px 20px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
+    }
+
+    html[data-theme="dark"] .card:focus,
+    html[data-theme="dark"] .card:focus-visible {
+      box-shadow: 0 0 0 3px var(--bg-color), 0 0 0 5px #38beea;
+    }
+
+    html[data-theme="dark"] .card .card-content .kicker {
+      color: #38beea;
+    }
+
+    html[data-theme="dark"] .card .card-footer a:hover,
+    html[data-theme="dark"] .card .card-footer a:focus,
+    html[data-theme="dark"] .card:hover .card-footer a,
+    html[data-theme="dark"] .card:focus .card-footer a {
+      color: #38beea;
+    }
+
+    html[data-theme="dark"] .card .card-footer a:focus {
+      box-shadow: inset 0 0 0 2px #38beea;
+    }
+
+    html[data-theme="dark"] .card .card-footer:after {
+      background: #38beea;
+    }
+
+    html[data-theme="dark"] .card:hover .card-footer .icon,
+    html[data-theme="dark"] .card:focus .card-footer .icon {
+      color: #38beea;
     }
 
     h2#charts::after {
@@ -369,7 +429,7 @@
 
         <!-- Section of posts -->
         <section class="container mid-size">
-          <article class="card" tabindex="0" aria-label="Article: AI Eats The World">
+          <article class="card" tabindex="0" aria-label="Article: AI Trends">
             <div class="card-image">
               <img src="imgs/0_eus4cppn_uwmnofd.webp" alt="AI in the future." loading="lazy">
             </div>
@@ -426,7 +486,7 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0" aria-label="Article: AI Eats The World">
+          <article class="card" tabindex="0" aria-label="Article: Tech Turns the Corner">
             <div class="card-image">
               <img src="imgs/cover/BLS_tech_cover.webp"
                 alt="Stacked bar chart with colored segments showing data from 2018 to 2024, featuring two red trend lines and a visible peak in 2022 followed by a decline."
@@ -474,7 +534,7 @@
             </div>
             <div class="card-content">
               <p class="kicker">Sports</p>
-              <h2>New goal standard</h2>
+              <h2>New Goal Standard</h2>
               <p>Alex Ovechkin's path to top scorer in the NHL</p>
             </div>
             <div class="card-footer">
@@ -486,7 +546,7 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0" aria-label="Article: The Electoral college">
+          <article class="card" tabindex="0" aria-label="Article: The Electoral College">
             <div class="card-image">
               <img
                 src="https://www.economist.com/cdn-cgi/image/width=1424,quality=80,format=auto/sites/default/files/20160924_WOC986_0.png"
@@ -494,7 +554,7 @@
             </div>
             <div class="card-content">
               <p class="kicker">Politics</p>
-              <h2>Picking a president</h2>
+              <h2>Picking a President</h2>
               <p>The Electoral College vs. Popular Vote</p>
             </div>
             <div class="card-footer">
@@ -623,7 +683,7 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0">
+          <article class="card" tabindex="0" aria-label="Article: Global Flight Map">
             <div class="card-image">
               <img src="imgs/cover/flights_cover.webp"
                 alt="World flight paths shown as bright violet lines across a dark world map." loading="lazy">
@@ -708,7 +768,7 @@
           <article class="card" tabindex="0" aria-label="Article: Charging forward">
             <div class="card-image">
               <img src="imgs/downloaded_image_5.jpg" srcset="imgs/cover/renewables_cover.webp"
-                alt="A stacked bar chart depicts global renewables growth from 2000 to 2023, highlighting substantial increases after 2016. A quote by Brett Christophers discusses Chinas significant impact on perceived global growth rates."
+                alt="A stacked bar chart depicts global renewables growth from 2000 to 2023, highlighting substantial increases after 2016. A quote by Brett Christophers discusses China's significant impact on perceived global growth rates."
                 loading="lazy">
             </div>
             <div class="card-content">
@@ -733,7 +793,7 @@
             </div>
             <div class="card-content">
               <p class="kicker">Data viz</p>
-              <h2>The spice is nice</h2>
+              <h2>The Spice Is Nice</h2>
               <p>Hot sauce power rankings</p>
             </div>
             <div class="card-footer">
@@ -793,7 +853,7 @@
             </div>
             <div class="card-content">
               <p class="kicker">USA</p>
-              <h2>How 'democratic' is Congress? </h2>
+              <h2>How 'Democratic' is Congress?</h2>
               <p></p>
             </div>
             <div class="card-footer">
@@ -812,7 +872,7 @@
             </div>
             <div class="card-content">
               <p class="kicker">USA</p>
-              <h2>Time in office</h2>
+              <h2>Time in Office</h2>
               <p>US Presidents by birth year and age.</p>
             </div>
             <div class="card-footer">
@@ -827,7 +887,7 @@
 
           <article class="card" tabindex="0" aria-label="Article: Corrosive corruption">
             <div class="card-image">
-              <img src="imgs/cover/corruption_cover.png"
+              <img src="imgs/cover/corruption_cover.webp"
                 alt="A scatter plot showing the relationship between the Human Development Index (vertical axis) and Corruption Perceptions Index (horizontal axis) for various countries. A red trend line indicates a positive correlation, with high HDI linked to low corruption."
                 loading="lazy">
             </div>
@@ -848,7 +908,7 @@
 
           <article class="card" tabindex="0" aria-label="Article: Global temperature trends">
             <div class="card-image">
-              <img src="imgs/cover/temps_cover.png"
+              <img src="imgs/cover/temps_cover.webp"
                 alt="A graph showing global surface temperature changes from 1880 to 2020. Points transition from blue to red, indicating a rise in temperature over time. The y-axis represents temperature change in Celsius, and the x-axis shows years. Data by NASA."
                 loading="lazy">
             </div>
@@ -887,7 +947,7 @@
 
           <article class="card" tabindex="0" aria-label="Article: Altered states">
             <div class="card-image">
-              <img src="imgs/cover/weedlaws_cover.png"
+              <img src="imgs/cover/weedlaws_cover.webp"
                 alt="Map of the United States showing degrees of cannabis legalization: fully legalized (blue), fully illegal (red), and mixed legalization (green). Data source: Wikipedia."
                 loading="lazy">
             </div>
@@ -929,7 +989,7 @@
 
           <article class="card" tabindex="0" aria-label="Article: Steph Curry's popcorn problem">
             <div class="card-image">
-              <img src="imgs/cover/popcorn_cover.png"
+              <img src="imgs/cover/popcorn_cover.webp"
                 alt="A heatmap ranking the popcorn at 29 NBA arenas based on five qualities: butter, crunchiness, freshness, presentation, and saltiness. Top arenas: Mavericks (24), Nets (23), and Heat (22). Scores are color-coded from light to dark orange."
                 loading="lazy">
             </div>
@@ -971,7 +1031,7 @@
 
           <article class="card" tabindex="0" aria-label="Article: NICS background checks">
             <div class="card-image">
-              <img src="imgs/cover/nics_cover.png"
+              <img src="imgs/cover/nics_cover.webp"
                 alt="A bar graph titled Monthly Background Checks from 2000 to 2023. The graph shows a general upward trend, with notable spikes around events like Sandy Hook, San Bernardino, and January 6th. Total checks peak at over 4 million."
                 loading="lazy">
             </div>
@@ -996,7 +1056,7 @@
             </div>
             <div class="card-content">
               <p class="kicker">Design</p>
-              <h2>Pantone® color of the year</h2>
+              <h2>Pantone® Color of the Year</h2>
               <p></p>
             </div>
             <div class="card-footer">
@@ -1032,7 +1092,7 @@
 
           <article class="card" tabindex="0" aria-label="Article: Ukraine war">
             <div class="card-image">
-              <img src="imgs/cover/blacksea_cover.png"
+              <img src="imgs/cover/blacksea_cover.webp"
                 alt="Map depicting parts of Eastern Europe, including Ukraine, Moldova, Romania, and Russia, with the Black Sea. Red asterisks depict strikes in the sea near Crimea, highlighted in green stripes."
                 loading="lazy">
             </div>
@@ -1073,7 +1133,7 @@
 
           <article class="card" tabindex="0" aria-label="Article: Lethal passage">
             <div class="card-image">
-              <img src="imgs/cover/lethal_cover.png"
+              <img src="imgs/cover/lethal_cover.webp"
                 alt="A scatter plot shows the relationship between gun ownership and firearm deaths per 100k people in various countries. The x-axis represents guns per 100k people; the y-axis shows firearm deaths. Data points are scattered with a trend line, highlighting the U.S."
                 loading="lazy">
             </div>
@@ -1094,7 +1154,7 @@
 
           <article class="card" tabindex="0" aria-label="Article: Gun regulation index">
             <div class="card-image">
-              <img src="imgs/cover/gunreg_cover.png"
+              <img src="imgs/cover/gunreg_cover.webp"
                 alt="A scatter plot shows deaths per 100k people versus a gun regulation index. Colors range from light to dark red indicating higher death rates. A downward trend line suggests that stricter gun regulations correlate with fewer deaths. Data: Epidemiology Nov 2023."
                 loading="lazy">
             </div>
@@ -1115,13 +1175,13 @@
 
           <article class="card" tabindex="0" aria-label="Article: Charles Darwin">
             <div class="card-image">
-              <img src="imgs/cover/Darwin_cover.png"
+              <img src="imgs/cover/Darwin_cover.webp"
                 alt="A world map illustrating the voyage of the HMS Beagle from 1831 to 1836. The path is marked in colored lines, highlighting stops at the Falkland Islands and the Galápagos Islands. Map includes text about Darwin’s theory. Data by Marilyn Waldman."
                 loading="lazy">
             </div>
             <div class="card-content">
               <p class="kicker">Data viz</p>
-              <h2>The voyage of Charles Darwin</h2>
+              <h2>The Voyage of Charles Darwin</h2>
               <p>Aboard the HMS Beagle</p>
             </div>
             <div class="card-footer">
@@ -1136,7 +1196,7 @@
 
           <article class="card" tabindex="0" aria-label="Article: Sprawl-Mart">
             <div class="card-image">
-              <img src="imgs/cover/Walmart_cover.png"
+              <img src="imgs/cover/Walmart_cover.webp"
                 alt="A series of five U.S. maps showing the growth of Wal-Mart stores by decade from the 1960s to the 2000s. Blue dots represent store locations, expanding from a few in the central region to widespread coverage across the country over time."
                 loading="lazy">
             </div>
@@ -1157,13 +1217,13 @@
 
           <article class="card" tabindex="0" aria-label="Article: 8 minutes, 46 seconds">
             <div class="card-image">
-              <img src="imgs/cover/8m46_cover.png"
-                alt="A black screen displays 8:46 in bold white text, with a Start Timer button underneath. Below, it reads, On May 25th 2020, Derek Chauvin held his knee on the neck of George Floyd for 8 minutes and 46 seconds, resulting in Mr. Floyds death."
+              <img src="imgs/cover/8m46_cover.webp"
+                alt="A black screen displays 8:46 in bold white text, with a Start Timer button underneath. Below, it reads, On May 25th 2020, Derek Chauvin held his knee on the neck of George Floyd for 8 minutes and 46 seconds, resulting in Mr. Floyd's death."
                 loading="lazy">
             </div>
             <div class="card-content">
               <p class="kicker">BLM</p>
-              <h2>8 minutes, 46 seconds</h2>
+              <h2>8 Minutes, 46 Seconds</h2>
               <p></p>
             </div>
             <div class="card-footer">
@@ -1176,10 +1236,10 @@
             </div>
           </article>
 
-          <article class="card" tabindex="0" aria-label="World's oldest person">
+          <article class="card" tabindex="0" aria-label="Article: World's Oldest Person Titleholders">
             <div class="card-image">
-              <img src="imgs/cover/oldest_cover.png"
-                alt="A line graph showing ages of the worlds oldest people from 1960 to the 2010s. Females are indicated by orange dots and males by blue. Notable figures include Jeanne Calment, who appears prominently with labels. Ages range from 110 to 122 years."
+              <img src="imgs/cover/oldest_cover.webp"
+                alt="A line graph showing ages of the world's oldest people from 1960 to the 2010s. Females are indicated by orange dots and males by blue. Notable figures include Jeanne Calment, who appears prominently with labels. Ages range from 110 to 122 years."
                 loading="lazy">
             </div>
             <div class="card-content">
@@ -1218,7 +1278,7 @@
           </article>
           <article class="card" tabindex="0" aria-label="Article: Inequality in America">
             <div class="card-image">
-              <img src="imgs/cover/inequality_cover.png"
+              <img src="imgs/cover/inequality_cover.webp"
                 alt="A plot graph showing various cities, with lines and dots connecting data points. Notable cities labeled include Fairfield, Conn., San Jose, San Francisco, Houston, Washington, D.C., and Chicago, indicating varying data ranges across the chart."
                 loading="lazy">
             </div>
@@ -1242,7 +1302,7 @@
             </div>
             <div class="card-content">
               <p class="kicker">Data viz</p>
-              <h2>Orders of magnitude</h2>
+              <h2>Orders of Magnitude</h2>
               <p>Give or take a million, a billion, a trillion.</p>
             </div>
             <div class="card-footer">
@@ -1257,7 +1317,7 @@
 
           <article class="card" tabindex="0" aria-label="Article: Piet Mondrian">
             <div class="card-image">
-              <img src="imgs/cover/Mondrian_cover.png"
+              <img src="imgs/cover/Mondrian_cover.webp"
                 alt="Abstract painting by Piet Mondrian featuring red, blue, yellow, and white rectangles separated by black lines. Titled Composition with Red, Blue and Yellow, 1930."
                 loading="lazy">
             </div>
@@ -1278,7 +1338,7 @@
 
           <article class="card" tabindex="0" aria-label="Article: WeWork valuation">
             <div class="card-image">
-              <img src="imgs/cover/wework_cover.png"
+              <img src="imgs/cover/wework_cover.webp"
                 alt="Graph titled Work in progress showing WeWork funding rounds from 2010 to 2023. Financial growth starts at $0B in 2010 and reaches $45B by 2021, with notable increases marked D, F, and the epic SoftBank round at G in 2019."
                 loading="lazy">
             </div>
@@ -1304,8 +1364,8 @@
             </div>
             <div class="card-content">
               <p class="kicker">World</p>
-              <h2>Rio: A city transformed</h2>
-              <p>An olympic revitalization effort</p>
+              <h2>Rio: A City Transformed</h2>
+              <p>An Olympic revitalization effort</p>
             </div>
             <div class="card-footer">
               <a href="rio.html">
@@ -1340,7 +1400,7 @@
 
           <article class="card" tabindex="0" aria-label="Article: Off-white">
             <div class="card-image">
-              <img src="imgs/cover/offwhite_cover.png"
+              <img src="imgs/cover/offwhite_cover.webp"
                 alt="A light grey poster with the word CHILL in the center. In the bottom right corner, text reads: OFF-WHITE c/o VIRGIL ABLOH™ Defining the grey area between black as the white color Off-White™."
                 loading="lazy">
             </div>
@@ -1361,7 +1421,7 @@
 
           <article class="card" tabindex="0" aria-label="Article: Our solar system">
             <div class="card-image">
-              <img src="imgs/cover/solar_cover.png"
+              <img src="imgs/cover/solar_cover.webp"
                 alt="Illustrated solar system showing orbits of planets and some moons. Sun is on the left, followed by Mercury, Venus, Earth with Moon, Mars, Ceres, Jupiter with moons, Saturn with moons, and Uranus with moons."
                 loading="lazy">
             </div>
@@ -1382,7 +1442,7 @@
 
           <article class="card" tabindex="0" aria-label="Article: The Feeling Wheel">
             <div class="card-image">
-              <img src="imgs/cover/feelwheel_cover.png"
+              <img src="imgs/cover/feelwheel_cover.webp"
                 alt="A circular emotion wheel displaying various emotions organized by intensity and grouped into categories: sad, mad, scared, joyful, powerful, and peaceful. Each segment includes related emotions from light to intense."
                 loading="lazy">
             </div>
@@ -1508,7 +1568,7 @@
             </div>
             <div class="card-content">
               <p class="kicker">Design</p>
-              <h2>Wondering about social distancing?</h2>
+              <h2>Wondering About Social Distancing?</h2>
               <p>From the NYT</p>
             </div>
             <div class="card-footer">
@@ -1520,12 +1580,12 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0" aria-label="Article: Honest Dating advice">
+          <article class="card" tabindex="0" aria-label="Article: Honest Dating Advice">
             <div class="card-image">
               <img src="imgs/purelove.svg" alt="Abstract art of two lovers on a park bench." loading="lazy">
             </div>
             <div class="card-content">
-              <p class="kicker"></p>
+              <p class="kicker">Dating</p>
               <h2>Honest Dating Advice</h2>
               <p>It's not you, it's me</p>
             </div>
@@ -1606,7 +1666,7 @@
                   loading="lazy">
               </div>
               <div class="card-content">
-                <p class="kicker">Lit crit</p>
+                <p class="kicker">Lit Crit</p>
                 <h2>Review: “Burn Book”</h2>
               </div>
               <div class="card-footer">
@@ -1678,7 +1738,7 @@
             <article class="card" tabindex="0" aria-label="Article: Nexus">
               <div class="card-image">
                 <img
-                  alt="An open book with each page on a different medium, rock painting, Clay tablet, Chisel stone, Bible, newspaper and screen"
+                  alt="An open book with each page on a different medium, rock painting, clay tablet, chiseled stone, Bible, newspaper and screen"
                   src="https://www.economist.com/cdn-cgi/image/width=1424,quality=80,format=auto/content-assets/images/20240914_CUD001.jpg"
                   loading="lazy">
               </div>
@@ -1738,7 +1798,7 @@
             </article>
             <article class="card" tabindex="0" aria-label="Article: The Simpsons">
               <div class="card-image">
-                <img src="imgs/cover/simpsons_cover.png"
+                <img src="imgs/cover/simpsons_cover.webp"
                   alt="Illustration of a framed picture hanging on a pink wall. The picture depicts a simple sailboat on water with two clouds. Below, a plaque reads Scene From Moby Dick."
                   loading="lazy">
               </div>
@@ -1756,10 +1816,10 @@
                 </svg>
               </div>
             </article>
-            <article class="card" tabindex="0" aria-label="Article: The Roman empire">
+            <article class="card" tabindex="0" aria-label="Article: The Roman Empire">
               <div class="card-image">
-                <img src="imgs/cover/roman_cover.png"
-                  alt="A bar chart illustrating the timeline of events covered in Gibbons Decline and Fall of the Roman Empire. The events range from page 1 to 3,737, covering significant chapters like the foundation of Constantinople and ecclesiastical discord."
+                <img src="imgs/cover/roman_cover.webp"
+                  alt="A bar chart illustrating the timeline of events covered in Gibbon's Decline and Fall of the Roman Empire. The events range from page 1 to 3,737, covering significant chapters like the foundation of Constantinople and ecclesiastical discord."
                   loading="lazy">
               </div>
               <div class="card-content">
@@ -1816,16 +1876,16 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0">
+          <article class="card" tabindex="0" aria-label="Article: The Demise of Stack Overflow">
             <div class="card-image">
               <img
-                src="https://www.economist.com/cdn-cgi/image/width=1424,quality=80,format=auto/content-assets/images/20241005_WBD002.jpg"
-                alt="Illustration of a digital brain and a globe with a large HTML codesymbol radiating between them. Illustration: Rose Wong."
+                src="imgs/cover/stack_overflow_cover.webp"
+                alt="Illustration of a digital brain and a globe with a large HTML code symbol radiating between them. Illustration: Rose Wong."
                 loading="lazy">
             </div>
             <div class="card-content">
               <p class="kicker">Tech</p>
-              <h2>The demise of Stack Overflow</h2>
+              <h2>The Demise of Stack Overflow</h2>
               <p>Death by LLM</p>
             </div>
             <div class="card-footer">
@@ -1837,7 +1897,7 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0">
+          <article class="card" tabindex="0" aria-label="Article: Web Accessibility">
             <div class="card-image">
               <img src="imgs/Accessibility-For-Websites-A11y-Featured-Image.svg" alt="Accessibility For Websites (A11y)"
                 loading="lazy">
@@ -1856,7 +1916,7 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0">
+          <article class="card" tabindex="0" aria-label="Article: Frontend Fundamentals">
             <div class="card-image">
               <img src="imgs/b197a079-e1d4-49e1-88c2-ad187da9cae9.jpeg"
                 alt="Gradient background with purple to red transition. On the left, white text reads HTML BASICS: WHAT IS HTML? On the right, the HTML5 logo is displayed, featuring a stylized number 5 on a shield."
@@ -1876,9 +1936,9 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0">
+          <article class="card" tabindex="0" aria-label="Article: Charts & Graphs">
             <div class="card-image">
-              <img src="imgs/cover/charts_cover.png"
+              <img src="imgs/cover/charts_cover.webp"
                 alt="A grid of 36 colorful icons representing various charts and graphs, including bar, pie, line, and scatter plots, each depicted in a minimalist style."
                 loading="lazy">
             </div>
@@ -1896,7 +1956,7 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0">
+          <article class="card" tabindex="0" aria-label="Article: Developer Resources">
             <div class="card-image">
               <img src="imgs/pixeltrue-web-development.svg"
                 alt="Illustration of a man at a laptop learning web development." loading="lazy">
@@ -1915,7 +1975,7 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0">
+          <article class="card" tabindex="0" aria-label="Article: CSS Selectors">
             <div class="card-image">
               <img src="imgs/photo-2-1589876015722625850813.jpg"
                 alt="Diagram explaining the CSS empty selector a:empty{}. Shows an a element in green with no children or text, a hand pointing, and a tree diagram with a having two b children. Text notes empty elements lack children or text."
@@ -1923,7 +1983,7 @@
             </div>
             <div class="card-content">
               <p class="kicker">Code</p>
-              <h2>CSS selectors</h2>
+              <h2>CSS Selectors</h2>
               <p></p>
             </div>
             <div class="card-footer">
@@ -1935,7 +1995,7 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0">
+          <article class="card" tabindex="0" aria-label="Article: Cascading Style Sheets">
             <div class="card-image">
               <img src="imgs/downloaded_image_7.jpg" alt="Cascading style sheets illustration." loading="lazy">
             </div>
@@ -1953,7 +2013,7 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0">
+          <article class="card" tabindex="0" aria-label="Article: OpenAI Timeline">
             <div class="card-image">
               <img src="imgs/OpenAI_Logo.svg" alt="OpenAI company logo" loading="lazy">
             </div>
@@ -1971,7 +2031,7 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0">
+          <article class="card" tabindex="0" aria-label="Article: Practical UI Details">
             <div class="card-image">
               <img src="imgs/details.svg" alt="Abstract art on a blue background representing UI details and design."
                 loading="lazy">
@@ -1990,7 +2050,7 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0">
+          <article class="card" tabindex="0" aria-label="Article: Titanic Survival Analysis">
             <div class="card-image">
               <img src="imgs/cover/titanic_cover.webp"
                 alt="Scatter plot showing Titanic survival analysis by gender and class. Categories include children and adults among females and males, across 1st, 2nd, 3rd class, and crew. Data from R project."
@@ -1998,7 +2058,7 @@
             </div>
             <div class="card-content">
               <p class="kicker">Data viz</p>
-              <h2>Titanic survival analysis</h2>
+              <h2>Titanic Survival Analysis</h2>
               <p>A ship of gold in the deep blue sea</p>
             </div>
             <div class="card-footer">
@@ -2010,9 +2070,9 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0">
+          <article class="card" tabindex="0" aria-label="Article: Crossword Puzzle Stats">
             <div class="card-image">
-              <img src="imgs/cover/crossword_cover.png"
+              <img src="imgs/cover/crossword_cover.webp"
                 alt="A heatmap showing daily activity from 2019 to August 2024, with months listed horizontally. Color intensity ranges from light yellow indicating less time to dark red indicating more time spent. Activity varies across different months and years."
                 loading="lazy">
             </div>
@@ -2030,15 +2090,15 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0">
+          <article class="card" tabindex="0" aria-label="Article: Basketball Stats">
             <div class="card-image">
-              <img src="imgs/cover/basketball_cover.PNG"
+              <img src="imgs/cover/basketball_cover.webp"
                 alt="An image showing five columns of NBA team logos linked together, representing tournament matchups or standings. Teams include the Bucks, 76ers, Hawks, Nets, Cavaliers, Heat, and others. Lines connect logos across columns, suggesting progression or timeline."
                 loading="lazy">
             </div>
             <div class="card-content">
               <p class="kicker">Sports</p>
-              <h2>Basketball stats</h2>
+              <h2>Basketball Stats</h2>
               <p>Data visualization in the NBA</p>
             </div>
             <div class="card-footer">
@@ -2050,9 +2110,9 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0">
+          <article class="card" tabindex="0" aria-label="Article: Caffeine Data Visualization">
             <div class="card-image">
-              <img src="imgs/cover/caffeine_cover.png"
+              <img src="imgs/cover/caffeine_cover.webp"
                 alt="Box plot compares caffeine content (mg) across five classes: Energy Drink, Medication, Hot Drink, Soft Drink, and Chocolate. Ranges vary, with Energy Drinks showing the highest and most variable caffeine levels."
                 loading="lazy">
             </div>
@@ -2070,9 +2130,9 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0">
+          <article class="card" tabindex="0" aria-label="Article: Anscombe's Quartet">
             <div class="card-image">
-              <img src="imgs/cover/anscombe_cover.png"
+              <img src="imgs/cover/anscombe_cover.webp"
                 alt="Four scatter plots with green dots, each labeled 1 to 4, titled The same data graphed. A trend line with a shaded confidence interval is present in each plot. The x-axis ranges from 5 to 20, and the y-axis ranges from 4 to 12."
                 loading="lazy">
             </div>
@@ -2090,15 +2150,15 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0">
+          <article class="card" tabindex="0" aria-label="Article: Data Visualization Glossary">
             <div class="card-image">
-              <img src="imgs/cover/glossary_cover.png"
+              <img src="imgs/cover/glossary_cover.webp"
                 alt="Illustration of four people interacting with large, floating digital screens displaying data and graphics, including a semi-circle dial. The scene suggests teamwork and technology in a modern workspace."
                 loading="lazy">
             </div>
             <div class="card-content">
               <p class="kicker">Terms & Conditions</p>
-              <h2>Data visualization glossary</h2>
+              <h2>Data Visualization Glossary</h2>
               <p></p>
             </div>
             <div class="card-footer">
@@ -2110,15 +2170,15 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0">
+          <article class="card" tabindex="0" aria-label="Article: Equations That Changed the World">
             <div class="card-image">
-              <img src="imgs/cover/equations_cover.png"
+              <img src="imgs/cover/equations_cover.webp"
                 alt="The image shows the entropy formula: \( H = -\sum_{i=1}^{k} p_x \log(p_x) \), where \( k \) is the number of possible outcomes, and \( p_x \) is the probability of a specific outcome."
                 loading="lazy">
             </div>
             <div class="card-content">
               <p class="kicker">Math</p>
-              <h2>Equations that changed the world</h2>
+              <h2>Equations That Changed the World</h2>
               <p>Eureka!</p>
             </div>
             <div class="card-footer">
@@ -2130,7 +2190,7 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0">
+          <article class="card" tabindex="0" aria-label="Article: WWDC16">
             <div class="card-image">
               <img src="imgs/cover/wwdc16_cover.jpg"
                 alt="Apple logo above text on a dark background. Text reads: Hello, WWDC16. and /* June 13-17 */ in a mix of white and green colors."
@@ -2150,13 +2210,13 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0">
+          <article class="card" tabindex="0" aria-label="Article: Bayes' Theory">
             <div class="card-image">
-              <img src="imgs/1_CnoTGGO7XeUpUMeXDrIfvA.png" alt="Importance of Bayes Theorem" loading="lazy">
+              <img src="imgs/1_CnoTGGO7XeUpUMeXDrIfvA.png" alt="Importance of Bayes' Theorem" loading="lazy">
             </div>
             <div class="card-content">
               <p class="kicker">Statistical techniques</p>
-              <h2>Bayes Theory</h2>
+              <h2>Bayes' Theory</h2>
               <p>In praise of Bayes</p>
             </div>
             <div class="card-footer">
@@ -2168,9 +2228,9 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0">
+          <article class="card" tabindex="0" aria-label="Article: Prime Numbers">
             <div class="card-image">
-              <img src="imgs/cover/primes_cover.png"
+              <img src="imgs/cover/primes_cover.webp"
                 alt="Grid displaying numbers from 1 to 200, with prime numbers highlighted in red. The text at the top reads, All prime numbers under 10,000."
                 loading="lazy">
             </div>
@@ -2188,9 +2248,9 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0">
+          <article class="card" tabindex="0" aria-label="Article: Spinning Rings Illusion">
             <div class="card-image">
-              <img src="imgs/cover/rings_cover.png"
+              <img src="imgs/cover/rings_cover.webp"
                 alt="Optical illusion featuring multiple interlocking grey rings with a darker center. The arrangement creates a visual effect where the rings appear to spin. Above the image are the words Post and Spinning Rings Illusion in black text."
                 loading="lazy">
             </div>
@@ -2208,14 +2268,14 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0">
+          <article class="card" tabindex="0" aria-label="Article: Hello World">
             <div class="card-image">
               <img src="https://miro.medium.com/v2/resize:fit:1100/format:webp/1*lGR0gfZzZMNk7DoRx-vmQA.png"
                 alt="Hello World illustration in code" loading="lazy">
             </div>
             <div class="card-content">
               <p class="kicker">Blog</p>
-              <h2 id="hi">Hello World </h2>
+              <h2 id="hi">Hello World</h2>
               <p></p>
             </div>
             <div class="card-footer">
@@ -2227,7 +2287,7 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0">
+          <article class="card" tabindex="0" aria-label="Article: Windows XP">
             <div class="card-image">
               <img src="imgs/cover/xp_cover.webp"
                 alt="A computer desktop screen displaying a Windows XP interface with the Start menu open. The menu lists programs like Internet Explorer and Outlook Express. The background features a green hill and a blue sky with scattered clouds."
@@ -2267,16 +2327,16 @@
           </article>
         </div> <!-- // Code -->
 
-        <h3 class="header mid-size">Just for fun</h3>
+        <h3 class="header mid-size">Just for Fun</h3>
         <div class="container mid-size">
-          <article class="card" tabindex="0">
+          <article class="card" tabindex="0" aria-label="Article: Just Jokes">
             <div class="card-image">
               <img src="imgs/dad_joke_big.jpg" alt="A computer-generated image of a man laughing with his son."
                 loading="lazy">
             </div>
             <div class="card-content">
               <p class="kicker">Dad API</p>
-              <h2>Just jokes</h2>
+              <h2>Just Jokes</h2>
             </div>
             <div class="card-footer">
               <a href="jokes.html">
@@ -2287,7 +2347,7 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0">
+          <article class="card" tabindex="0" aria-label="Article: Thrillhouse">
             <div class="card-image">
               <img src="imgs/images" alt="Thrillhouse van Houten." loading="lazy">
             </div>
@@ -2305,7 +2365,7 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0">
+          <article class="card" tabindex="0" aria-label="Article: RBG in RGB">
             <div class="card-image">
               <img src="imgs/Notorious-RBG-book-cover-illustration.webp" alt="The Notorious RBG." loading="lazy">
             </div>
@@ -2341,7 +2401,7 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0">
+          <article class="card" tabindex="0" aria-label="Article: Honest LinkedIn">
             <div class="card-image">
               <img src="imgs/1730031706438"
                 alt="LinkedIn logo with the text Connect with people for no reason at all below. The background is a gradient of light gray."
@@ -2364,7 +2424,7 @@
           <article class="card" tabindex="0" aria-label="Article: Conference Call Bingo">
             <div class="card-image">
               <img src="imgs/619b8cd968105c925c4c342a81bc6a59.jpg"
-                alt="A bingo card titled Conference Call Bingo with humorous phrases like Sorry, I was on mute, Child noises, Can you e-mail that to everyone? and Uh, X, youre still sharing! Each square contains a typical virtual meeting mishap."
+                alt="A bingo card titled Conference Call Bingo with humorous phrases like Sorry, I was on mute, Child noises, Can you e-mail that to everyone? and Uh, X, you're still sharing! Each square contains a typical virtual meeting mishap."
                 loading="lazy">
             </div>
             <div class="card-content">
@@ -2408,7 +2468,7 @@
                 alt="Get fit or get fat" loading="lazy">
             </div>
             <div class="card-content">
-              <p class="kicker">Ad rep</p>
+              <p class="kicker">Ad Rep</p>
               <h2>Get Fit</h2>
               <p></p>
             </div>
@@ -2429,7 +2489,7 @@
             </div>
             <div class="card-content">
               <p class="kicker">Math</p>
-              <h2>Powerball & Random numbers</h2>
+              <h2>Powerball & Random Numbers</h2>
               <p></p>
             </div>
             <div class="card-footer">
@@ -2444,8 +2504,8 @@
 
           <article class="card" tabindex="0" aria-label="Article: To-don't list">
             <div class="card-image">
-              <img src="imgs/cover/todont_cover.png"
-                alt="A checklist titled Dont do these things with music-inspired items. The list includes: chasing waterfalls, forgetting about Dre, tripping, fearing the reaper, and more, with a selected blue car emoji next to Trip."
+              <img src="imgs/cover/todont_cover.webp"
+                alt="A checklist titled Don't do these things with music-inspired items. The list includes: chasing waterfalls, forgetting about Dre, tripping, fearing the reaper, and more, with a selected blue car emoji next to Trip."
                 loading="lazy">
             </div>
             <div class="card-content">
@@ -2463,15 +2523,15 @@
             </div>
           </article>
 
-          <article class="card" tabindex="0" aria-label="Article: The phonetic alphabet">
+          <article class="card" tabindex="0" aria-label="Article: The Phonetic Alphabet">
             <div class="card-image">
-              <img src="imgs/cover/alphabet_cover.png"
+              <img src="imgs/cover/alphabet_cover.webp"
                 alt="A humorous phonetic alphabet chart with words like Aisle for A, Knight for K, Pneumonic for M, and Tsunami for T. Each letter humorously uses a word with a silent initial letter."
                 loading="lazy">
             </div>
             <div class="card-content">
               <p class="kicker">ABCs</p>
-              <h2>Phonetic alphabet</h2>
+              <h2>Phonetic Alphabet</h2>
               <p></p>
             </div>
             <div class="card-footer">
@@ -2486,11 +2546,11 @@
 
           <article class="card" tabindex="0" aria-label="Article: Radio buttons">
             <div class="card-image">
-              <img src="imgs/cover/radio_cover.PNG" srcset="imgs/cover/radio_cover.webp" alt="Literal radio buttons"
+              <img src="imgs/cover/radio_cover.webp" srcset="imgs/cover/radio_cover.webp" alt="Literal radio buttons"
                 loading="lazy">
             </div>
             <div class="card-content">
-              <p class="kicker">Skeumorphism</p>
+              <p class="kicker">Skeuomorphism</p>
               <h2>Radio Buttons</h2>
             </div>
             <div class="card-footer">
@@ -2503,7 +2563,7 @@
             </div>
           </article>
 
-          <article class="card" tabindex="0" aria-label="Article: Word avalanches">
+          <article class="card" tabindex="0" aria-label="Article: Word Avalanches">
             <div class="card-image">
               <img src="imgs/cover/avalanche_cover.webp" alt="What do you call a pig that does karate? Pork chop!"
                 loading="lazy">
@@ -2617,12 +2677,12 @@
               </svg>
             </div>
           </article>
-          <article class="card" tabindex="0" aria-label="Article: Blank page">
+          <article class="card" tabindex="0" aria-label="Article: Blank Page">
             <div class="card-image">
             </div>
             <div class="card-content">
               <p class="kicker">Design</p>
-              <h2>Blank page</h2>
+              <h2>Blank Page</h2>
               <p></p>
             </div>
             <div class="card-footer">
@@ -2634,8 +2694,8 @@
               </svg>
             </div>
           </article>
-      </section>
-      </section>
+        </div> <!-- // Just for fun -->
+      </section> <!-- // All posts -->
     </article>
   </main>
 
