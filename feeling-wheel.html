@@ -17,7 +17,7 @@
   </script>
 
   <title>The Feeling Wheel | Justin Chill</title>
-  <meta name="description" content="The feeling wheel by Gloria Willcox">
+  <meta name="description" content="An interactive sunburst visualization of Gloria Willcox's Feeling Wheel, helping individuals identify, verbalize, and navigate emotions across primary, secondary, and tertiary categories.">
   <meta name="author" content="Justin Chill">
   <meta name="robots" content="all">
 
@@ -27,7 +27,7 @@
   <meta content="article" property="og:type">
   <meta content="https://justinchill.com/feeling-wheel.html" property="og:url">
   <meta content="The Feeling Wheel | Justin Chill" property="og:title">
-  <meta content="The feeling wheel by Gloria Willcox" property="og:description">
+  <meta content="An interactive sunburst visualization of Gloria Willcox's Feeling Wheel, helping individuals identify, verbalize, and navigate emotions across primary, secondary, and tertiary categories." property="og:description">
   <meta content="https://justinchill.com/blog.html" property="og:see_also">
   <meta property="og:locality" content="New York">
   <meta property="og:region" content="NY">
@@ -43,7 +43,7 @@
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="The Feeling Wheel | Justin Chill">
-  <meta name="twitter:description" content="The feeling wheel by Gloria Willcox">
+  <meta name="twitter:description" content="An interactive sunburst visualization of Gloria Willcox's Feeling Wheel, helping individuals identify, verbalize, and navigate emotions across primary, secondary, and tertiary categories.">
   <meta content="https://justinchill.com/imgs/cover/feelwheel_cover.webp" property="twitter:image">
 
   <link rel="canonical" href="https://justinchill.com/feeling-wheel.html">
@@ -57,11 +57,16 @@
 
   <style type="text/css">
 		#wheel {
-			font: .8rem sans-serif;
-			margin: 1rem 0;
+			font: 500 12.5px/1 var(--font-ui, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+			margin: 1.5rem auto;
+			max-width: 800px;
+			user-select: none;
 		}
 
 		#wheel svg {
+			display: block;
+			max-width: 100%;
+			height: auto;
 			transform-origin: center center;
 			animation: wheel-enter 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 			will-change: transform, opacity;
@@ -74,7 +79,7 @@
 
 		#wheel path:hover {
 			fill-opacity: 1 !important;
-			filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
+			filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.25));
 		}
 
 		@keyframes wheel-enter {
@@ -96,28 +101,83 @@
 				transition: none;
 			}
 		}
-
-		@media screen and (max-width: 600px) {
-			#wheel {
-				font: .3rem sans-serif;
-			}
-		}
-
-		@media screen and (max-width: 900px) {
-			#wheel {
-				font: .5rem sans-serif;
-			}
-		}
 	</style>
 
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "The Feeling Wheel | Justin Chill",
-  "description": "The feeling wheel by Gloria Willcox",
+  "headline": "The Feeling Wheel",
+  "alternativeHeadline": "Tell me how that feels",
+  "description": "An interactive sunburst visualization of Gloria Willcox's Feeling Wheel, helping individuals identify, verbalize, and navigate emotions across primary, secondary, and tertiary categories.",
   "datePublished": "2025-06-16",
   "dateModified": "2025-08-06",
+  "inLanguage": "en-US",
+  "articleSection": "Psychology",
+  "keywords": [
+    "Feeling Wheel",
+    "Gloria Willcox",
+    "Emotion Wheel",
+    "Emotions",
+    "Emotional Literacy",
+    "Transactional Analysis",
+    "Data Visualization",
+    "D3.js",
+    "Mental Health"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Emotion",
+      "sameAs": "https://en.wikipedia.org/wiki/Emotion"
+    },
+    {
+      "@type": "Thing",
+      "name": "Transactional analysis",
+      "sameAs": "https://en.wikipedia.org/wiki/Transactional_analysis"
+    }
+  ],
+  "mentions": [
+    {
+      "@type": "Person",
+      "name": "Gloria Willcox",
+      "jobTitle": "Psychotherapist",
+      "description": "Originator of The Feeling Wheel (1982)"
+    },
+    {
+      "@type": "Person",
+      "name": "Tiffany France",
+      "url": "https://observablehq.com/@tiffylou/feeling-wheel"
+    }
+  ],
+  "citation": [
+    {
+      "@type": "ScholarlyArticle",
+      "name": "The Feeling Wheel: A Tool for Expanding Awareness of Feelings and Increasing Spontaneity and Intimacy",
+      "headline": "The Feeling Wheel",
+      "author": {
+        "@type": "Person",
+        "name": "Gloria Willcox"
+      },
+      "datePublished": "1982",
+      "isPartOf": {
+        "@type": "Periodical",
+        "name": "Transactional Analysis Journal"
+      },
+      "sameAs": "https://doi.org/10.1177/036215378201200411",
+      "url": "https://www.tandfonline.com/doi/abs/10.1177/036215378201200411"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Feeling Wheel",
+      "author": {
+        "@type": "Person",
+        "name": "Tiffany France"
+      },
+      "url": "https://observablehq.com/@tiffylou/feeling-wheel",
+      "publisher": "Observable"
+    }
+  ],
   "author": {
     "@type": "Person",
     "name": "Justin Chill",
@@ -211,7 +271,7 @@
 						src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
 		</div>
 	</footer>
-	<script src="https://cdn.jsdelivr.net/npm/d3"></script>
+	<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 	<script>
 		(function () {
 			const data = {
@@ -440,12 +500,25 @@
 			const svg = d3.select("#wheel").append("svg")
 				.attr("viewBox", `0 0 ${width} ${width}`)
 				.attr("width", "100%")
-				.attr("height", "auto");
+				.attr("height", "auto")
+				.attr("role", "img")
+				.attr("aria-label", "Interactive Feeling Wheel by Gloria Willcox");
 
 			const g = svg.append("g")
 				.attr("transform", `translate(${radius}, ${radius})`);
 
-			g.append("g")
+			const innerRadius = root.y1 || (radius / 4);
+
+			// White circular backdrop donut (leaving center hollow) to preserve vibrant pastel colors and ensure high text contrast
+			g.append("path")
+				.attr("d", d3.arc()
+					.innerRadius(innerRadius)
+					.outerRadius(radius)
+					.startAngle(0)
+					.endAngle(2 * Math.PI)())
+				.attr("fill", "#ffffff");
+
+			const paths = g.append("g")
 				.selectAll("path")
 				.data(root.descendants().slice(1))
 				.enter().append("path")
@@ -461,6 +534,10 @@
 					return 0.45;
 				})
 				.attr("d", arc);
+
+			// Add hover tooltip <title> for accessibility and UX
+			paths.append("title")
+				.text(d => d.ancestors().map(n => n.data.name).filter(Boolean).reverse().join(" → "));
 
 			g.append("g")
 				.attr("pointer-events", "none")

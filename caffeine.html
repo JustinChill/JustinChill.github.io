@@ -17,7 +17,7 @@
   </script>
 
   <title>Caffeine levels | Justin Chill</title>
-  <meta name="description" content="Visualizing the amount of caffeine in foods">
+  <meta name="description" content="An interactive data visualization exploring caffeine content (in mg) across food, beverage, and over-the-counter medication categories—including energy drinks, coffee, tea, soft drinks, and chocolate.">
   <meta name="author" content="Justin Chill">
   <meta name="robots" content="all">
 
@@ -27,9 +27,9 @@
   <meta content="article" property="og:type">
   <meta content="https://justinchill.com/caffeine.html" property="og:url">
   <meta content="Caffeine levels | Justin Chill" property="og:title">
-  <meta content="Visualizing the amount of caffeine in foods" property="og:description">
+  <meta content="An interactive data visualization exploring caffeine content (in mg) across food, beverage, and over-the-counter medication categories—including energy drinks, coffee, tea, soft drinks, and chocolate." property="og:description">
   <meta content="https://justinchill.com/blog.html" property="og:see_also">
-  <meta property="og:locality" content="NY">
+  <meta property="og:locality" content="New York">
   <meta property="og:region" content="NY">
   <meta property="og:country_name" content="USA">
   <meta content="https://justinchill.com/imgs/cover/caffeine_cover.webp" property="og:image">
@@ -43,7 +43,7 @@
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Caffeine levels | Justin Chill">
-  <meta name="twitter:description" content="Visualizing the amount of caffeine in foods">
+  <meta name="twitter:description" content="An interactive data visualization exploring caffeine content (in mg) across food, beverage, and over-the-counter medication categories—including energy drinks, coffee, tea, soft drinks, and chocolate.">
   <meta content="https://justinchill.com/imgs/cover/caffeine_cover.webp" property="twitter:image">
 
   <link rel="canonical" href="https://justinchill.com/caffeine.html">
@@ -111,6 +111,10 @@
       margin: 0 auto 1.5rem auto;
       z-index: 2;
       width: 100%;
+    }
+
+    figure {
+      margin: 1.5rem 0 2.25rem 0;
     }
 
     #caffeine_bar {
@@ -810,16 +814,60 @@
         flex-direction: row;
       }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      #steam,
+      #foamMiddleWrapper,
+      #foamMiddleContainer,
+      #bubbleMiddle1,
+      #bubbleMiddle2,
+      #bubbleMiddle3 {
+        animation: none !important;
+      }
+    }
   </style>
 
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "Caffeine levels | Justin Chill",
-  "description": "Visualizing the amount of caffeine in foods",
+  "headline": "Caffeine Overload: Analyzing Caffeine in Foods",
+  "description": "An exploratory data visualization comparing caffeine content (in mg) across food, beverage, and over-the-counter medication categories—including energy drinks, coffee, tea, soft drinks, and chocolate—using data from NCBI and Wikipedia.",
   "datePublished": "2024-09-06",
   "dateModified": "2025-08-06",
+  "inLanguage": "en-US",
+  "articleSection": "Data Visualization",
+  "keywords": [
+    "Caffeine",
+    "Data visualization",
+    "Observable Plot",
+    "D3.js",
+    "Nutrition",
+    "Energy drinks",
+    "Coffee",
+    "Tea"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Caffeine",
+      "sameAs": "https://en.wikipedia.org/wiki/Caffeine"
+    }
+  ],
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "name": "Caffeine Content of Common Beverages and Foods",
+      "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4462044/table/T2/?report=objectonly",
+      "publisher": "National Center for Biotechnology Information (NCBI)"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Caffeine",
+      "url": "https://en.wikipedia.org/wiki/Caffeine",
+      "publisher": "Wikipedia"
+    }
+  ],
   "author": {
     "@type": "Person",
     "name": "Justin Chill",
@@ -956,7 +1004,7 @@
 
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h2>Trouble brewing</h2>
-      <h4>Amount of caffeine (mg.) in different foods</h4>
+      <h3>Amount of caffeine (mg.) in different foods</h3>
       <figure id="caffeine_bar"
         aria-label="Bar chart showing the amount of caffeine (in mg) for various food items, ranging from energy drinks to chocolate.">
         <figcaption class="right">Data: <a href="https://en.wikipedia.org/wiki/Caffeine">Wikipedia</a></figcaption>
@@ -991,7 +1039,7 @@
     </article>
   </main>
 
-  <svg width="0" height="0" class="visually-hidden">
+  <svg width="0" height="0" class="visually-hidden" aria-hidden="true">
     <defs>
       <filter id="goo">
         <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" id="blurFilter" />
@@ -1001,32 +1049,31 @@
     </defs>
   </svg>
 
-  <svg width="0" height="0">
+  <svg width="0" height="0" class="visually-hidden" aria-hidden="true">
     <defs>
       <filter id="scatter">
         <feTurbulence baseFrequency="10.9" type="fractalNoise" numOctaves="1" />
         <feDisplacementMap in="SourceGraphic" xChannelSelector="G" yChannelSelector="B" scale="20" />
-        <feComposite operator="in" in2="finalMask" />
+        <feComposite operator="in" />
       </filter>
     </defs>
   </svg>
 
-  <svg width="0" height="0">
+  <svg width="0" height="0" class="visually-hidden" aria-hidden="true">
     <filter id="fog">
       <feTurbulence type="fractalNoise" baseFrequency=".01" numOctaves="10" />
       <feDisplacementMap in="SourceGraphic" scale="180" />
     </filter>
   </svg>
   <footer>
-    <h2 class="visually-hidden" id="footnote-label">Footnotes</h2>
     <div>
       <p>Justin Chill &copy; 2026</p>
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
             alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
-  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6"></script>
 
   <script type="text/javascript">
     const size = 12;
@@ -1115,12 +1162,15 @@
 
       const width = barContainer ? (barContainer.getBoundingClientRect().width || 600) : 600;
       lastRenderedWidth = width;
+      const isMobile = width < 550;
+      const isSmallMobile = width < 400;
 
       const caffeine_bar = {
         width: width,
+        marginLeft: isSmallMobile ? 140 : (isMobile ? 150 : 165),
+        marginRight: isMobile ? 50 : 60,
         style: {
-          fontSize: size + "px",
-          paddingLeft: 60,
+          fontSize: (isMobile ? 11 : size) + "px",
           background: "transparent",
         },
         x: {
@@ -1170,9 +1220,10 @@
 
       const caffeine_box = {
         width: width,
+        marginLeft: isMobile ? 35 : 45,
+        marginBottom: isMobile ? 45 : 35,
         style: {
-          fontSize: size + "px",
-          paddingBottom: 10,
+          fontSize: (isMobile ? 11 : size) + "px",
           background: "transparent",
         },
         y: {
@@ -1185,7 +1236,7 @@
         },
         x: {
           label: width > 450 ? "Class" : "",
-          labelOffset: 50,
+          labelOffset: 40,
           tickRotate: width > 450 ? 0 : -30,
           domain: d3.sort(caffeineData, d => -d["Caffeine (mg)"]).map(d => d.Class),
         },
@@ -1204,10 +1255,11 @@
 
       const caffeine_class = {
         width: width,
+        marginBottom: isMobile ? 95 : 75,
+        marginLeft: isMobile ? 35 : 45,
+        marginRight: 15,
         style: {
-          fontSize: size + "px",
-          paddingBottom: 30,
-          paddingLeft: 20,
+          fontSize: (isMobile ? 11 : size) + "px",
           background: "transparent",
         },
         x: {
@@ -1243,8 +1295,9 @@
 
       const caffeine_facet = {
         width: Math.max(width - 20, 300),
+        marginLeft: isMobile ? 35 : 45,
         style: {
-          fontSize: size + "px",
+          fontSize: (isMobile ? 10.5 : size) + "px",
           background: "transparent",
         },
         color: {
@@ -1298,10 +1351,14 @@
       if (facetContainer) facetContainer.appendChild(Plot.plot(caffeine_facet));
     }
 
-    d3.csv("data/caffeine.csv", d3.autoType).then(function (data) {
-      caffeineData = data;
-      renderCaffeineCharts();
-    });
+    d3.csv("data/caffeine.csv", d3.autoType)
+      .then(function (data) {
+        caffeineData = data;
+        renderCaffeineCharts();
+      })
+      .catch(function (error) {
+        console.error("Error loading caffeine data:", error);
+      });
 
     function resize() {
       const barContainer = document.getElementById("caffeine_bar");
