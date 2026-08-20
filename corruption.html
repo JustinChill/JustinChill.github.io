@@ -37,14 +37,18 @@
     content="A scatter plot showing the relationship between the Human Development Index (vertical axis) and Corruption Perceptions Index (horizontal axis) for various countries. A red trend line indicates a positive correlation, with high HDI linked to low corruption."
     property="og:image:alt">
 
+  <meta property="article:published_time" content="2024-04-07">
+  <meta property="article:modified_time" content="2026-08-19">
   <meta name="datePublished" content="2024-04-07">
-  <meta name="dateModified" content="2025-08-06">
+  <meta name="dateModified" content="2026-08-19">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Corrosive Corruption | Justin Chill">
   <meta name="twitter:description" content="An interactive data visualization exploring the correlation between Transparency International's Corruption Perceptions Index (CPI) and the UN's Human Development Index (HDI), recreating The Economist's classic chart.">
-  <meta content="https://justinchill.com/imgs/cover/corruption_cover.webp" property="twitter:image">
+  <meta name="twitter:image" content="https://justinchill.com/imgs/cover/corruption_cover.webp">
+  <meta name="twitter:image:alt"
+    content="A scatter plot showing the relationship between the Human Development Index (vertical axis) and Corruption Perceptions Index (horizontal axis) for various countries. A red trend line indicates a positive correlation, with high HDI linked to low corruption.">
 
   <link rel="canonical" href="https://justinchill.com/corruption.html">
   <link rel="preload" href="style.css" as="style" />
@@ -81,11 +85,19 @@
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   "headline": "Corrosive Corruption",
+  "alternativeHeadline": "A correlation between corruption and development",
   "description": "An interactive data visualization exploring the correlation between Transparency International's Corruption Perceptions Index (CPI) and the UN's Human Development Index (HDI), recreating The Economist's classic chart using Observable Plot and D3.",
   "datePublished": "2024-04-07",
-  "dateModified": "2025-08-06",
+  "dateModified": "2026-08-19",
   "inLanguage": "en-US",
+  "isAccessibleForFree": true,
   "articleSection": "Data Visualization",
+  "url": "https://justinchill.com/corruption.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://justinchill.com/corruption.html"
+  },
+  "image": "https://justinchill.com/imgs/cover/corruption_cover.webp",
   "keywords": [
     "Corruption Perceptions Index",
     "Human Development Index",
@@ -149,9 +161,7 @@
       "https://www.linkedin.com/in/justinrichardhill/",
       "https://github.com/JustinChill"
     ]
-  },
-  "mainEntityOfPage": "https://justinchill.com/corruption.html",
-  "image": "https://justinchill.com/imgs/cover/corruption_cover.webp"
+  }
 }
   </script>
 </head>
@@ -196,10 +206,11 @@
         <p class="article-category">Post</p>
         <h1 class="article-title">Corrosive Corruption</h1>
       </div>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" width="20" height="20"></span>
       <h2>A correlation between corruption and development</h2>
       <figure id="corruption"
         aria-label="A scatter plot showing the relationship between the Human Development Index (vertical axis) and Corruption Perceptions Index (horizontal axis) for various countries. A red trend line indicates a positive correlation, with high HDI linked to low corruption.">
+        <div id="corruption-chart" role="img" aria-hidden="true"></div>
         <figcaption class="right">Data: <a
             href="https://www.economist.com/graphic-detail/2011/12/02/corrosive-corruption" target="_blank" rel="noopener">The Economist</a>
         </figcaption>
@@ -249,7 +260,7 @@
     let lastRenderedWidth = 0;
 
     function renderPlot(data) {
-      const container = document.getElementById("corruption");
+      const container = document.getElementById("corruption-chart");
       if (!container) return;
 
       container.innerHTML = "";
@@ -647,7 +658,7 @@
       window.addEventListener("resize", function () {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(function () {
-          const container = document.getElementById("corruption");
+          const container = document.getElementById("corruption-chart");
           if (!container) return;
           const newWidth = container.getBoundingClientRect().width;
           if (newWidth !== lastRenderedWidth) {
@@ -655,6 +666,12 @@
           }
         }, 150);
       });
+    }).catch(function (error) {
+      console.error("Error loading corruption dataset:", error);
+      const container = document.getElementById("corruption-chart");
+      if (container) {
+        container.innerHTML = "<p>Unable to load visualization data. Please try refreshing.</p>";
+      }
     });
   </script>
   <script>
@@ -685,6 +702,16 @@
         updateIcons(newTheme);
       });
     }
+
+    // Email link handler
+    document.querySelectorAll('.js-email-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const user = 'justin.chill';
+        const domain = 'gmail.com';
+        window.location.href = `mailto:${user}@${domain}`;
+      });
+    });
   </script>
 </body>
 

@@ -1171,6 +1171,15 @@ img.full-bleed {
   }
 }
 
+@media (max-width: 47.99rem) {
+  .item-left,
+  .item-right,
+  .item-overflow-left,
+  .item-overflow-right {
+    margin-bottom: var(--spacer-3);
+  }
+}
+
 article>img,
 article>picture {
   width: auto;
@@ -1217,10 +1226,20 @@ pre>code {
   padding: 0;
 }
 
-article>figure {
-  margin: var(--spacer-3) 0 var(--spacer-2);
+article>figure,
+section>figure,
+figure {
+  margin: var(--spacer-3) 0 var(--spacer-3);
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
+}
+
+figure> :not(figcaption) {
+  order: 1;
+}
+
+figure>figcaption {
+  order: 2;
 }
 
 article>h2+figure,
@@ -1233,29 +1252,29 @@ section figure:not(.item-right)+p {
   margin-top: var(--spacer-1);
 }
 
-blockquote cite,
-figcaption,
-figcaption a {
+blockquote cite {
   color: var(--muted-color);
   font-family: var(--font-ui), var(--font-main);
   font-size: calc(.75rem + .25vw);
   font-size: clamp(var(--type-scale-0), 1.467rem + 3.913vw, var(--type-scale-1));
-}
-
-blockquote cite {
   float: right;
   text-align: right;
   font-style: normal;
 }
 
 figcaption {
+  color: var(--muted-color);
+  font-family: var(--font-ui), var(--font-main);
   font-size: calc(.75rem + .25vw);
-  font-size: clamp(var(--type-scale--2), 1.467rem + 3.913vw, var(--type-scale--1));
-  margin: var(--spacer-1) 0;
+  font-size: clamp(var(--type-scale--2), 0.8rem + 0.2vw, var(--type-scale--1));
+  line-height: 1.35;
+  margin-top: 6px;
+  margin-bottom: 0;
 }
 
 figcaption a {
   font-size: inherit;
+  color: inherit;
 }
 
 /* Toggles ☑️ */
@@ -1861,9 +1880,7 @@ svg[class*="plot"][class*="ramp"] text {
   ul,
   ol,
   label,
-  select,
-  figcaption,
-  figcaption a {
+  select {
     font-size: calc(var(--type-scale-0) + .25vw);
     /*    line-height: calc(1.5em + .25vw);*/
   }
@@ -1972,9 +1989,7 @@ svg[class*="plot"][class*="ramp"] text {
   ul,
   ol,
   label,
-  select,
-  figcaption,
-  figcaption a {
+  select {
     font-size: calc(var(--type-scale-0) + .25vw);
     font-size: clamp(var(--type-scale-0), 1.467rem + 3.913vw, var(--type-scale-1));
   }

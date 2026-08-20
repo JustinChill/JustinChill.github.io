@@ -91,10 +91,68 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "The Carrie Bradshaw index | Justin Chill",
-  "description": "Where Americans can afford to live on their own.",
+  "headline": "The Carrie Bradshaw Index",
+  "alternativeHeadline": "Where Americans can afford to live on their own",
+  "description": "An interactive data visualization analyzing The Economist's Carrie Bradshaw index, comparing median wages to the income required to afford a studio apartment across 100 U.S. cities.",
   "datePublished": "2024-12-06",
   "dateModified": "2025-11-06",
+  "inLanguage": "en-US",
+  "articleSection": "Data Visualization",
+  "keywords": [
+    "Carrie Bradshaw Index",
+    "Housing Affordability",
+    "Rent Burden",
+    "Studio Apartments",
+    "Median Wage",
+    "The Economist",
+    "Observable Plot",
+    "D3.js",
+    "Data Visualization",
+    "Zumper",
+    "Bureau of Labor Statistics"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Housing affordability",
+      "sameAs": "https://en.wikipedia.org/wiki/Affordable_housing"
+    },
+    {
+      "@type": "Organization",
+      "name": "The Economist",
+      "sameAs": "https://en.wikipedia.org/wiki/The_Economist"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Sex and the City",
+      "sameAs": "https://en.wikipedia.org/wiki/Sex_and_the_City"
+    },
+    {
+      "@type": "Thing",
+      "name": "Rent burden"
+    }
+  ],
+  "citation": [
+    {
+      "@type": "NewsArticle",
+      "name": "Our Carrie Bradshaw index: where Americans can afford to live solo",
+      "publisher": {
+        "@type": "Organization",
+        "name": "The Economist"
+      },
+      "url": "https://www.economist.com/graphic-detail/2023/08/04/our-carrie-bradshaw-index-where-americans-can-afford-to-live-solo",
+      "datePublished": "2023-08-04"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "The Economist's New Carrie Bradshaw Index",
+      "author": {
+        "@type": "Person",
+        "name": "Kurtis Pivert"
+      },
+      "url": "https://observablehq.com/@kpivert/the-economists-new-carrie-bradshaw-index"
+    }
+  ],
   "author": {
     "@type": "Person",
     "name": "Justin Chill",
@@ -150,7 +208,7 @@
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
@@ -177,8 +235,7 @@
         (defined as paying more than 30% of gross salary on rent). For city dwellers, particularly those who wish to
         live alone—as Carrie Bradshaw, the protagonist of “Sex and the City”, did in New York—finding affordable housing
         is particularly challenging. By our calculations, in some cities even the humble studio apartment is well beyond
-        the means of the average worker.<sup id="pivert-ref"><a href="#pivert"
-            aria-describedby="footnote-label">1</a></sup></p>
+        the means of the average worker.<a href="#pivert" aria-describedby="footnote-label" id="pivert-ref"></a></p>
       <p>Using data on median rent prices from Zumper, an online property platform, <em><a
             href="https://www.economist.com/graphic-detail/2023/08/04/our-carrie-bradshaw-index-where-americans-can-afford-to-live-solo">The
             Economist</a></em> calculated the salary needed to afford to rent a studio apartment in 100 of the largest
@@ -213,7 +270,7 @@
 
     <div>
       <p>Justin Chill &copy; 2026</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
             alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
@@ -429,7 +486,7 @@
     d3.json("data/affordable_rent_wages.json").then(data => {
       rawData = data;
       renderPlot();
-    });
+    }).catch(err => console.error("Error loading rent wage data:", err));
 
     let resizeTimer;
     window.addEventListener("resize", () => {

@@ -17,7 +17,7 @@
   </script>
 
   <title>NYT Crossword Puzzle Stats | Justin Chill</title>
-  <meta name="description" content="Visualizing crossword puzzle performance">
+  <meta name="description" content="An interactive data visualization exploring personal New York Times crossword puzzle solve times, completion heatmaps, day-of-week trends, and constructor stats from 2019 to 2026.">
   <meta name="author" content="Justin Chill">
   <meta name="robots" content="all">
 
@@ -27,24 +27,25 @@
   <meta content="article" property="og:type">
   <meta content="https://justinchill.com/crossword.html" property="og:url">
   <meta content="NYT Crossword Puzzle Stats | Justin Chill" property="og:title">
-  <meta content="Visualizing crossword puzzle performance" property="og:description">
+  <meta content="An interactive data visualization exploring personal New York Times crossword puzzle solve times, completion heatmaps, day-of-week trends, and constructor stats from 2019 to 2026." property="og:description">
   <meta content="https://justinchill.com/blog.html" property="og:see_also">
   <meta property="og:locality" content="New York">
   <meta property="og:region" content="NY">
   <meta property="og:country_name" content="USA">
   <meta content="https://justinchill.com/imgs/cover/crossword_cover.webp" property="og:image">
   <meta
-    content="A heatmap showing daily activity from 2019 to August 2024, with months listed horizontally. Color intensity ranges from light yellow indicating less time to dark red indicating more time spent. Activity varies across different months and years."
+    content="A heatmap showing daily crossword activity from 2019 to 2026, with months listed horizontally. Color intensity ranges from light yellow indicating less time to dark red indicating more time spent."
     property="og:image:alt">
 
   <meta name="datePublished" content="2025-06-16">
-  <meta name="dateModified" content="2025-08-06">
+  <meta name="dateModified" content="2026-08-19">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="NYT Crossword Puzzle Stats | Justin Chill">
-  <meta name="twitter:description" content="Visualizing crossword puzzle performance">
+  <meta name="twitter:description" content="An interactive data visualization exploring personal New York Times crossword puzzle solve times, completion heatmaps, day-of-week trends, and constructor stats from 2019 to 2026.">
   <meta content="https://justinchill.com/imgs/cover/crossword_cover.webp" property="twitter:image">
+  <meta content="A heatmap showing daily crossword activity from 2019 to 2026, with color intensity indicating solve time." property="twitter:image:alt">
 
   <link rel="canonical" href="https://justinchill.com/crossword.html">
   <link rel="preload" href="style.css" as="style" />
@@ -78,13 +79,13 @@
       overflow: visible !important;
     }
 
-    /* Clean legend styling: align ramp at 60px so it matches the chart grid */
+    /* Clean, proportional legend styling for calendar heatmap */
     #calendar .plot-legend,
     figure .plot-legend {
-      --length: clamp(260px, 60vw, 420px);
-      margin-left: 45px !important;
-      margin-top: 4px !important;
-      margin-bottom: 14px !important;
+      --length: clamp(160px, 30vw, 220px);
+      margin-left: 55px !important;
+      margin-top: 2px !important;
+      margin-bottom: 8px !important;
       font-size: 11px !important;
       overflow: visible !important;
     }
@@ -97,7 +98,7 @@
 
     #calendar .plot-legend text,
     figure .plot-legend text {
-      font-size: 11px !important;
+      font-size: 10px !important;
     }
 
     /* On mobile viewports (< 640px), enforce min-width 600px for heatmap SVG with horizontal scroll */
@@ -113,10 +114,49 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "NYT Crossword Puzzle Stats | Justin Chill",
-  "description": "Visualizing crossword puzzle performance",
+  "headline": "Crossword Puzzle Stats",
+  "alternativeHeadline": "Visualizing and Analyzing Personal NYT Crossword Puzzle Performance",
+  "description": "An interactive data visualization exploring personal New York Times crossword puzzle solve times, completion heatmaps, day-of-week trends, and constructor stats from 2019 to 2026.",
   "datePublished": "2025-06-16",
-  "dateModified": "2025-08-06",
+  "dateModified": "2026-08-19",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": true,
+  "articleSection": "Data Visualization",
+  "url": "https://justinchill.com/crossword.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://justinchill.com/crossword.html"
+  },
+  "image": "https://justinchill.com/imgs/cover/crossword_cover.webp",
+  "keywords": [
+    "The New York Times crossword",
+    "Crossword puzzles",
+    "Data visualization",
+    "NYT Games",
+    "Solve times",
+    "Erik Agard",
+    "Observable Plot",
+    "D3.js"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "The New York Times crossword puzzle",
+      "sameAs": "https://en.wikipedia.org/wiki/The_New_York_Times_crossword_puzzle"
+    },
+    {
+      "@type": "Thing",
+      "name": "Crossword",
+      "sameAs": "https://en.wikipedia.org/wiki/Crossword"
+    }
+  ],
+  "mentions": [
+    {
+      "@type": "Person",
+      "name": "Erik Agard",
+      "sameAs": "https://en.wikipedia.org/wiki/Erik_Agard"
+    }
+  ],
   "author": {
     "@type": "Person",
     "name": "Justin Chill",
@@ -136,9 +176,7 @@
       "https://www.linkedin.com/in/justinrichardhill/",
       "https://github.com/JustinChill"
     ]
-  },
-  "mainEntityOfPage": "https://justinchill.com/crossword.html",
-  "image": "https://justinchill.com/imgs/cover/crossword_cover.webp"
+  }
 }
   </script>
 </head>
@@ -256,7 +294,7 @@
         const width = elementMid ? elementMid.getBoundingClientRect().width : 680;
         const calWidth = width;
         const size = 12;
-        const legendWidth = calWidth > 500 ? Math.min(Math.round(calWidth * 0.62), 420) : 260;
+        const legendWidth = calWidth > 500 ? Math.min(Math.round(calWidth * 0.35), 220) : 180;
 
         // Clear existing SVGs
         document.getElementById("calendar").innerHTML = '<figcaption>Data: <a href="https://www.nytimes.com/crosswords" target="_blank" rel="noopener noreferrer">NYT Crossword</a> app</figcaption>';
@@ -289,8 +327,10 @@
             scheme: "YlOrRd",
             legend: true,
             width: legendWidth,
-            marginLeft: 15,
-            marginRight: 15,
+            marginLeft: 10,
+            marginRight: 10,
+            ticks: 3,
+            tickSize: 3,
             nice: true,
             clamp: true,
             transform: d => d / 60, // turn seconds into minutes
@@ -482,6 +522,16 @@
     });
   </script>
   <script>
+    // Email link handler
+    document.querySelectorAll('.js-email-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const a = "Justin.richard.hill@";
+        const b = "gmail.com";
+        window.open(`mailto:${a}${b}`, 'email');
+      });
+    });
+
     // Theme toggle functionality
     const themeToggleBtn = document.getElementById("theme-toggle");
     const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
