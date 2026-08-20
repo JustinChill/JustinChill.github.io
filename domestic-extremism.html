@@ -37,14 +37,21 @@
     content="Stacked bar chart showing percentages of terrorist attacks in the U.S. by ideology from 1994 to 2020. Categories include far-right, far-left, religious, and other. Far-right attacks increase significantly in the later years. Data source: CSIS."
     property="og:image:alt">
 
+  <meta property="article:published_time" content="2025-07-04">
+  <meta property="article:modified_time" content="2026-08-20">
+  <meta property="article:author" content="Justin Chill">
+  <meta property="article:section" content="Data Visualization">
   <meta name="datePublished" content="2025-07-04">
-  <meta name="dateModified" content="2025-08-06">
+  <meta name="dateModified" content="2026-08-20">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@JustinChill">
+  <meta name="twitter:creator" content="@JustinChill">
   <meta name="twitter:title" content="Domestic extremism in America | Justin Chill">
   <meta name="twitter:description" content="Understanding domestic extremism and violent terrorism trends in America using DHS, CSIS, and FBI data.">
-  <meta content="https://justinchill.com/imgs/cover/extremism_cover.webp" property="twitter:image">
+  <meta name="twitter:image" content="https://justinchill.com/imgs/cover/extremism_cover.webp">
+  <meta name="twitter:image:alt" content="Stacked bar chart showing percentages of terrorist attacks in the U.S. by ideology from 1994 to 2020. Categories include far-right, far-left, religious, and other. Far-right attacks increase significantly in the later years. Data source: CSIS.">
 
   <link rel="canonical" href="https://justinchill.com/domestic-extremism.html">
   <link rel="preload" href="style.css" as="style" />
@@ -68,20 +75,123 @@
       width: 100%;
     }
 
+    /* Standardize typography for both legends to match UI sans-serif */
+    .map-legend-row > :first-child {
+      font-family: var(--font-ui, var(--font-main, system-ui, -apple-system, sans-serif));
+      color: var(--text-color, currentColor);
+    }
+
+    .map-legend-row [class*="-swatches"],
+    .map-legend-row .plot-legend {
+      font-family: var(--font-ui, var(--font-main, system-ui, -apple-system, sans-serif)) !important;
+      font-size: 12px !important;
+      line-height: 1.35;
+      color: var(--text-color, currentColor) !important;
+    }
+
     .bubble-legend {
       display: inline-flex;
       flex-direction: column;
       align-items: flex-start;
+      font-family: var(--font-ui, var(--font-main, system-ui, -apple-system, sans-serif));
     }
 
     .bubble-legend-title {
+      font-family: var(--font-ui, var(--font-main, system-ui, -apple-system, sans-serif));
       font-size: 11px;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       margin-bottom: 4px;
       color: var(--text-color, currentColor);
-      opacity: 0.8;
+      opacity: 0.9;
+    }
+
+    .bubble-legend circle {
+      stroke: var(--text-color, currentColor);
+      opacity: 0.75;
+    }
+
+    .bubble-legend line {
+      stroke: var(--text-color, currentColor);
+      opacity: 0.6;
+    }
+
+    .bubble-legend text {
+      fill: var(--text-color, currentColor);
+      font-family: var(--font-ui, var(--font-main, system-ui, -apple-system, sans-serif));
+      font-size: 11px;
+      opacity: 0.95;
+    }
+
+    /* Dark mode enhancements for high legibility */
+    html[data-theme="dark"] .bubble-legend circle {
+      stroke: #f1f5f9;
+      opacity: 0.85;
+    }
+
+    html[data-theme="dark"] .bubble-legend line {
+      stroke: #cbd5e1;
+      opacity: 0.75;
+    }
+
+    html[data-theme="dark"] .bubble-legend text {
+      fill: #f1f5f9;
+      opacity: 1;
+    }
+
+    html[data-theme="dark"] .bubble-legend-title {
+      color: #f1f5f9;
+      opacity: 0.95;
+    }
+
+    @media (max-width: 680px) {
+      .map-legend-row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .map-legend-row > :first-child {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+
+      .map-legend-row [class*="-swatches"],
+      .map-legend-row .plot-legend {
+        font-size: 11.5px !important;
+        line-height: 1.3 !important;
+      }
+
+      .map-legend-row [class*="-swatch"],
+      .map-legend-row .plot-swatch {
+        font-size: 11.5px !important;
+        margin-right: 6px !important;
+        margin-bottom: 2px !important;
+      }
+
+      .map-legend-row [class*="-swatch-color"],
+      .map-legend-row .plot-swatch svg {
+        width: 10.5px !important;
+        height: 10.5px !important;
+        margin-right: 4px !important;
+      }
+
+      .map-legend-row .bubble-legend {
+        flex: 0 0 114px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+      }
+
+      .map-legend-row .bubble-legend-title {
+        font-size: 10.5px;
+        margin-bottom: 3px;
+        text-align: right;
+      }
     }
   </style>
 
@@ -89,10 +199,34 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "Domestic extremism in America | Justin Chill",
+  "headline": "The Enemy Within",
+  "alternativeHeadline": "Domestic Extremism in America: Violent Terrorism Trends and Ideological Plots",
   "description": "Understanding domestic extremism and violent terrorism trends in America using DHS, CSIS, and FBI data.",
   "datePublished": "2025-07-04",
-  "dateModified": "2025-08-06",
+  "dateModified": "2026-08-20",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": true,
+  "articleSection": "Data Visualization",
+  "wordCount": 350,
+  "url": "https://justinchill.com/domestic-extremism.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://justinchill.com/domestic-extremism.html"
+  },
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://justinchill.com/blog.html",
+    "name": "Justin Chill's Blog",
+    "publisher": {
+      "@type": "Person",
+      "name": "Justin Chill"
+    }
+  },
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://justinchill.com/imgs/cover/extremism_cover.webp",
+    "caption": "Stacked bar chart showing percentages of terrorist attacks in the U.S. by ideology from 1994 to 2020. Data source: CSIS."
+  },
   "author": {
     "@type": "Person",
     "name": "Justin Chill",
@@ -113,8 +247,121 @@
       "https://github.com/JustinChill"
     ]
   },
-  "mainEntityOfPage": "https://justinchill.com/domestic-extremism.html",
-  "image": "https://justinchill.com/imgs/cover/extremism_cover.webp"
+  "keywords": [
+    "Domestic extremism",
+    "Domestic terrorism",
+    "CSIS domestic terrorism dataset",
+    "Far-right extremism",
+    "Far-left extremism",
+    "Homeland Threat Assessment",
+    "Department of Homeland Security",
+    "FBI domestic terrorism",
+    "Data visualization",
+    "Observable Plot",
+    "D3.js map",
+    "United States terrorism trends"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Domestic terrorism in the United States",
+      "sameAs": "https://en.wikipedia.org/wiki/Domestic_terrorism_in_the_United_States"
+    },
+    {
+      "@type": "Organization",
+      "name": "Center for Strategic and International Studies",
+      "sameAs": "https://en.wikipedia.org/wiki/Center_for_Strategic_and_International_Studies"
+    },
+    {
+      "@type": "GovernmentOrganization",
+      "name": "United States Department of Homeland Security",
+      "sameAs": "https://en.wikipedia.org/wiki/United_States_Department_of_Homeland_Security"
+    },
+    {
+      "@type": "GovernmentOrganization",
+      "name": "Federal Bureau of Investigation",
+      "sameAs": "https://en.wikipedia.org/wiki/Federal_Bureau_of_Investigation"
+    },
+    {
+      "@type": "Thing",
+      "name": "Extremism",
+      "sameAs": "https://en.wikipedia.org/wiki/Extremism"
+    }
+  ],
+  "mentions": [
+    {
+      "@type": "Organization",
+      "name": "The Washington Post",
+      "sameAs": "https://en.wikipedia.org/wiki/The_Washington_Post"
+    },
+    {
+      "@type": "GovernmentOrganization",
+      "name": "U.S. Government Accountability Office",
+      "sameAs": "https://en.wikipedia.org/wiki/Government_Accountability_Office"
+    },
+    {
+      "@type": "Person",
+      "name": "Connor Rothschild",
+      "sameAs": "https://observablehq.com/@connorrothschild"
+    }
+  ],
+  "citation": [
+    {
+      "@type": "ScholarlyArticle",
+      "name": "Homeland Threat Assessment: October 2020",
+      "author": {
+        "@type": "GovernmentOrganization",
+        "name": "U.S. Department of Homeland Security"
+      },
+      "url": "https://www.dhs.gov/sites/default/files/publications/2020_10_06_homeland-threat-assessment.pdf",
+      "datePublished": "2020-10-06"
+    },
+    {
+      "@type": "ScholarlyArticle",
+      "name": "Far-Left Versus Far-Right Fatal Violence: An Empirical Assessment of the Prevalence of Ideologically Motivated Homicides in the United States",
+      "author": {
+        "@type": "Person",
+        "name": "Celinet Duran"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Scholastica / Criminology, Criminal Justice, Law & Society"
+      },
+      "url": "https://ccjls.scholasticahq.com/article/26973-far-left-versus-far-right-fatal-violence-an-empirical-assessment-of-the-prevalence-of-ideologically-motivated-homicides-in-the-united-states"
+    },
+    {
+      "@type": "NewsArticle",
+      "name": "Did Far-Right Extremist Violence Really Spike in 2017?",
+      "author": [
+        {
+          "@type": "Person",
+          "name": "William S. Parkin"
+        },
+        {
+          "@type": "Person",
+          "name": "Joshua D. Freilich"
+        },
+        {
+          "@type": "Person",
+          "name": "Steven Chermak"
+        }
+      ],
+      "publisher": {
+        "@type": "Organization",
+        "name": "The Conversation"
+      },
+      "url": "https://theconversation.com/did-far-right-extremist-violence-really-spike-in-2017-89067"
+    },
+    {
+      "@type": "Dataset",
+      "name": "CSIS & Washington Post Domestic Terrorism Database",
+      "creator": {
+        "@type": "Organization",
+        "name": "The Washington Post Investigative Team"
+      },
+      "url": "https://github.com/wpinvestigative/csis_domestic_terrorism"
+    }
+  ]
 }
   </script>
 </head>
@@ -366,31 +613,30 @@
       sizeLegend.setAttribute("aria-hidden", "true");
       sizeLegend.innerHTML = `
         <div class="bubble-legend-title">Victims killed</div>
-        <svg width="100" height="44" viewBox="0 0 100 44" style="overflow: visible; display: block;">
-          <!-- Outer circle (50+ killed, r=18, center y=22, top y=4) -->
-          <circle cx="22" cy="22" r="18" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="2 2" opacity="0.5"/>
-          <line x1="22" y1="4" x2="52" y2="4" stroke="currentColor" stroke-width="0.8" stroke-dasharray="2 2" opacity="0.4"/>
-          <text x="56" y="4" font-size="10" font-family="system-ui, -apple-system, sans-serif" fill="currentColor" opacity="0.85" dominant-baseline="central">50+</text>
+        <svg width="114" height="52" viewBox="0 0 114 52" style="overflow: visible; display: block;">
+          <!-- Outer circle (50+ killed, r=21, center y=27, top y=6) -->
+          <circle cx="24" cy="27" r="21" fill="none" stroke="currentColor" stroke-width="1.25" stroke-dasharray="2 2" opacity="0.8"/>
+          <line x1="24" y1="6" x2="64" y2="6" stroke="currentColor" stroke-width="0.9" stroke-dasharray="2 2" opacity="0.65"/>
+          <text x="69" y="6" font-size="11" font-family="var(--font-ui, system-ui, -apple-system, sans-serif)" fill="currentColor" opacity="0.95" dominant-baseline="central">50+</text>
 
-          <!-- Middle circle (20 killed, r=9, center y=31, top y=22) -->
-          <circle cx="22" cy="31" r="9" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="2 2" opacity="0.5"/>
-          <line x1="22" y1="22" x2="52" y2="22" stroke="currentColor" stroke-width="0.8" stroke-dasharray="2 2" opacity="0.4"/>
-          <text x="56" y="22" font-size="10" font-family="system-ui, -apple-system, sans-serif" fill="currentColor" opacity="0.85" dominant-baseline="central">20</text>
+          <!-- Middle circle (20 killed, r=11, center y=37, top y=26) -->
+          <circle cx="24" cy="37" r="11" fill="none" stroke="currentColor" stroke-width="1.25" stroke-dasharray="2 2" opacity="0.8"/>
+          <line x1="24" y1="26" x2="64" y2="26" stroke="currentColor" stroke-width="0.9" stroke-dasharray="2 2" opacity="0.65"/>
+          <text x="69" y="26" font-size="11" font-family="var(--font-ui, system-ui, -apple-system, sans-serif)" fill="currentColor" opacity="0.95" dominant-baseline="central">20</text>
 
-          <!-- Inner circle (0 killed, r=3, center y=37, top y=34) -->
-          <circle cx="22" cy="37" r="3" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="2 2" opacity="0.5"/>
-          <line x1="22" y1="34" x2="52" y2="34" stroke="currentColor" stroke-width="0.8" stroke-dasharray="2 2" opacity="0.4"/>
-          <text x="56" y="34" font-size="10" font-family="system-ui, -apple-system, sans-serif" fill="currentColor" opacity="0.85" dominant-baseline="central">0</text>
+          <!-- Inner circle (0 killed, r=3.5, center y=44.5, top y=41) -->
+          <circle cx="24" cy="44.5" r="3.5" fill="none" stroke="currentColor" stroke-width="1.25" stroke-dasharray="2 2" opacity="0.8"/>
+          <line x1="24" y1="41" x2="64" y2="41" stroke="currentColor" stroke-width="0.9" stroke-dasharray="2 2" opacity="0.65"/>
+          <text x="69" y="41" font-size="11" font-family="var(--font-ui, system-ui, -apple-system, sans-serif)" fill="currentColor" opacity="0.95" dominant-baseline="central">0</text>
         </svg>
       `;
 
       legendRow.appendChild(sizeLegend);
 
-      // In column-reverse layout, the last child in DOM is rendered at the top of figure.
-      // Append mapPlot second, legendRow third (last).
+      // Append legendRow first (above map), then mapPlot
       if (mapElement) {
-        mapElement.appendChild(mapPlot);
         mapElement.appendChild(legendRow);
+        mapElement.appendChild(mapPlot);
       }
 
       const barchartElement = document.getElementById("barchart");
@@ -427,6 +673,16 @@
         updateIcons(newTheme);
       });
     }
+
+    // Email link handler
+    document.querySelectorAll('.js-email-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const a = "Justin.richard.hill@";
+        const b = "gmail.com";
+        window.open(`mailto:${a}${b}`, 'email');
+      });
+    });
   </script>
 </body>
 
