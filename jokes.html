@@ -17,38 +17,49 @@
 	</script>
 
 	<title>Joke generator | Justin Chill</title>
-	<meta name="description" content="Dad joke generator.">
+	<meta name="description"
+		content="An interactive dad joke generator and chatbot delivering puns and one-liners via the icanhazdadjoke API with sound effects, animations, and offline support.">
 	<meta name="author" content="Justin Chill">
 	<meta name="robots" content="all">
+	<meta property="article:published_time" content="2025-08-04">
+	<meta property="article:modified_time" content="2026-08-20">
+	<meta property="article:author" content="Justin Chill">
+	<meta property="article:section" content="Interactive">
 
 	<!-- OpenGraph tags -->
 	<meta content="en_US" property="og:locale">
 	<meta content="JustinChill" property="og:site_name">
 	<meta content="article" property="og:type">
 	<meta content="https://justinchill.com/jokes.html" property="og:url">
-	<meta content="Joke generator | Justin Chill" property="og:title">
-	<meta content="Dad joke generator" property="og:description">
+	<meta content="Dad Joke Generator | Justin Chill" property="og:title">
+	<meta
+		content="An interactive dad joke generator and chatbot delivering puns and one-liners via the icanhazdadjoke API with sound effects, animations, and offline support."
+		property="og:description">
 	<meta content="https://justinchill.com/blog.html" property="og:see_also">
-	<meta property="og:locality" content="NY">
+	<meta property="og:locality" content="New York">
 	<meta property="og:region" content="NY">
 	<meta property="og:country_name" content="USA">
-	<meta content="https://www.sean.co.uk/raspberry_pi/gfx/dad_joke_big.jpg" property="og:image">
+	<meta content="https://justinchill.com/imgs/dad_joke_big.jpg" property="og:image">
 	<meta content="A computer-generated image of a man laughing with his son." property="og:image:alt">
 
 	<meta name="datePublished" content="2025-08-04">
-	<meta name="dateModified" content="2026-07-16">
+	<meta name="dateModified" content="2026-08-20">
 
 	<!-- Twitter tags -->
 	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:title" content="Dad joke generator | Justin Chill">
-	<meta name="twitter:description" content="Silly jokes for serious people.">
-	<meta content="https://www.sean.co.uk/raspberry_pi/gfx/dad_joke_big.jpg" property="twitter:image">
+	<meta name="twitter:site" content="@JustinChill">
+	<meta name="twitter:creator" content="@JustinChill">
+	<meta name="twitter:title" content="Dad Joke Generator | Justin Chill">
+	<meta name="twitter:description"
+		content="An interactive dad joke generator and chatbot delivering puns and one-liners via the icanhazdadjoke API.">
+	<meta content="https://justinchill.com/imgs/dad_joke_big.jpg" name="twitter:image">
+	<meta name="twitter:image:alt" content="A computer-generated image of a man laughing with his son.">
 
 	<link rel="canonical" href="https://justinchill.com/jokes.html">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link
-		href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&family=Roboto:wght@400;500;700&display=swap"
+		href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Roboto+Mono:wght@500&family=Roboto:wght@400;500;700&display=swap"
 		rel="stylesheet">
 	<link rel="preload" href="style.css" as="style" />
 	<link rel="stylesheet" href="style.css" />
@@ -107,6 +118,16 @@
 			overscroll-behavior: none;
 		}
 
+		/* Navigation Touch Targets */
+		.nav__item,
+		#theme-toggle {
+			min-height: 44px;
+			min-width: 44px;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+		}
+
 		img {
 			width: 100%;
 			font-style: italic;
@@ -141,41 +162,11 @@
 			align-items: center;
 			justify-content: center;
 			flex-direction: column;
-			padding: 1.25rem;
+			padding: 2.25rem 1.25rem 1.25rem;
 			width: 100%;
 			height: 100%;
 			max-width: 768px;
 			margin: 0 auto;
-		}
-
-		.controls-bar {
-			display: flex;
-			align-items: center;
-			justify-content: flex-start;
-			width: 100%;
-			margin-bottom: 0.75rem;
-		}
-
-		.sfx-toggle-btn {
-			display: inline-flex;
-			align-items: center;
-			gap: 0.35rem;
-			padding: 0.4rem 0.8rem;
-			border-radius: 20px;
-			border: 1px solid var(--joke-card-border);
-			background-color: var(--joke-avatar-bg);
-			color: var(--joke-text-color);
-			font-family: "Roboto Mono", monospace;
-			font-size: 0.85rem;
-			font-weight: 500;
-			cursor: pointer;
-			box-shadow: var(--joke-actions-shadow);
-			transition: all 175ms ease-out;
-		}
-
-		.sfx-toggle-btn:hover {
-			transform: translateY(-1px);
-			background-color: var(--joke-action-hover-bg);
 		}
 
 		.avatar {
@@ -197,6 +188,29 @@
 		.avatar .emoji {
 			position: relative;
 			top: 2px;
+		}
+
+		/* Pure CSS Avatar Animation */
+		@keyframes avatarBounce {
+			0% {
+				transform: scale(1);
+			}
+			35% {
+				transform: scale(1.35);
+			}
+			65% {
+				transform: scale(0.92);
+			}
+			85% {
+				transform: scale(1.06);
+			}
+			100% {
+				transform: scale(1);
+			}
+		}
+
+		.avatar.is-animating {
+			animation: avatarBounce 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
 		}
 
 		.chat-bot {
@@ -238,31 +252,108 @@
 			}
 		}
 
+		/* Pure CSS Message Pop-in Animation */
+		@keyframes bubblePopIn {
+			0% {
+				opacity: 0;
+				transform: translateY(16px) scale(0.97);
+			}
+			70% {
+				opacity: 1;
+				transform: translateY(-4px) scale(1.01);
+			}
+			100% {
+				opacity: 1;
+				transform: translateY(0) scale(1);
+			}
+		}
+
+		.chat-bot__messages.is-entering {
+			animation: bubblePopIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+		}
+
 		.chat-bot__messages-info {
 			position: relative;
 			margin-top: 0.75rem;
 			width: 100%;
 			display: flex;
 			align-items: center;
+			justify-content: space-between;
 			color: var(--joke-info-color);
-			padding-right: 1.25rem;
+			padding: 0 0.25rem;
 		}
 
-		.chat-bot__messages-info svg,
-		.chat-bot__messages-info .feather {
+		.chat-status-group {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+		}
+
+		.info-icon svg,
+		.info-icon .feather {
 			display: block;
-			height: 22px;
-			width: auto;
-			margin-left: 0.75rem;
+			height: 18px;
+			width: 18px;
 			stroke: currentColor;
 		}
 
+		/* Mute / SFX Toggle Button positioned bottom-right */
+		.sfx-toggle-btn {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: 36px;
+			height: 36px;
+			padding: 0;
+			border-radius: 50%;
+			border: 1px solid var(--joke-card-border);
+			background-color: var(--joke-avatar-bg);
+			color: var(--joke-info-color);
+			cursor: pointer;
+			box-shadow: var(--joke-actions-shadow);
+			transition: all 175ms ease-out;
+		}
+
+		.sfx-toggle-btn:hover {
+			transform: translateY(-1px) scale(1.06);
+			background-color: var(--joke-action-hover-bg);
+			color: var(--joke-text-color);
+			border-color: var(--joke-border-hover);
+		}
+
+		.sfx-toggle-btn:active {
+			transform: scale(0.94);
+		}
+
+		.sfx-toggle-btn.is-muted {
+			opacity: 0.75;
+		}
+
+		.sfx-icon {
+			display: block;
+			width: 18px;
+			height: 18px;
+			stroke: currentColor;
+			stroke-width: 2;
+			fill: none;
+		}
+
+		/* Pure CSS Typing Indicator / Speaker Dots */
 		.speaker {
 			position: relative;
-			opacity: 1;
+			opacity: 0;
+			visibility: hidden;
 			display: inline-flex;
 			align-items: center;
 			margin-left: 1.25rem;
+			transform: translateY(16px);
+			transition: opacity 0.25s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0.25s ease;
+		}
+
+		.speaker.is-visible {
+			opacity: 1;
+			visibility: visible;
+			transform: translateY(0);
 		}
 
 		.speaker__dot {
@@ -272,6 +363,31 @@
 			border-radius: 90px;
 			margin: 0.5rem;
 			background-color: var(--joke-dot-color);
+		}
+
+		.speaker.is-visible .speaker__dot {
+			animation: dotWave 0.6s ease-in-out infinite alternate;
+		}
+
+		.speaker.is-visible .speaker__dot:nth-child(1) {
+			animation-delay: 0s;
+		}
+
+		.speaker.is-visible .speaker__dot:nth-child(2) {
+			animation-delay: 0.18s;
+		}
+
+		.speaker.is-visible .speaker__dot:nth-child(3) {
+			animation-delay: 0.36s;
+		}
+
+		@keyframes dotWave {
+			0% {
+				transform: translateY(0);
+			}
+			100% {
+				transform: translateY(8px);
+			}
 		}
 
 		.chat-bubble {
@@ -299,48 +415,62 @@
 			position: absolute;
 			display: flex;
 			align-items: center;
-			justify-content: space-between;
-			padding: 0.75rem;
-			top: -28px;
-			right: -8px;
-			width: 160px;
-			height: 48px;
+			justify-content: space-evenly;
+			padding: 0.25rem 0.4rem;
+			top: -24px;
+			right: 12px;
+			width: 152px;
+			height: 46px;
 			background-color: var(--joke-actions-bg);
-			border-radius: 0.625rem;
+			border: 1px solid var(--joke-card-border);
+			border-radius: 90px;
 			box-shadow: var(--joke-actions-shadow);
-			transition: all 175ms ease-out;
-			opacity: 0;
-			visibility: hidden;
-			transform: translateY(-28px);
+			transition: opacity 200ms ease, transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1), visibility 200ms ease;
+			z-index: 10;
+			pointer-events: auto;
+			touch-action: manipulation;
+		}
+
+		/* Invisible hover bridge so mouse never loses hover zone when moving between bubble and actions */
+		.chat-bubble__actions::before {
+			content: '';
+			position: absolute;
+			top: -6px;
+			left: -10px;
+			right: -10px;
+			bottom: -18px;
+			z-index: -1;
 		}
 
 		.chat-bubble__actions .emoji-action {
 			cursor: pointer;
 			border: none;
 			user-select: none;
-			min-width: 0;
-			display: flex;
+			display: inline-flex;
 			align-items: center;
 			justify-content: center;
 			background-color: transparent;
 			text-align: center;
 			height: 38px;
 			width: 38px;
-			line-height: 38px;
-			border-radius: 90px;
+			min-height: 38px;
+			min-width: 38px;
+			border-radius: 50%;
 			transition: all 175ms ease-out;
 			transform: scale(1);
+			touch-action: manipulation;
+			-webkit-tap-highlight-color: transparent;
 		}
 
 		.chat-bubble__actions .emoji-action:hover,
 		.chat-bubble__actions .emoji-action:focus {
 			outline: none;
-			transform: scale(1.2);
+			transform: scale(1.22);
 			background-color: var(--joke-action-hover-bg);
 		}
 
 		.chat-bubble__actions .emoji-action:active {
-			transform: scale(0.96);
+			transform: scale(0.92);
 		}
 
 		.chat-bubble:hover,
@@ -349,11 +479,31 @@
 			border: 3px solid var(--joke-border-hover);
 		}
 
-		.chat-bubble:hover .chat-bubble__actions,
-		.chat-bubble:focus .chat-bubble__actions {
-			visibility: visible;
-			opacity: 1;
-			transform: translateY(0);
+		/* Desktop hover & keyboard focus */
+		@media (hover: hover) and (pointer: fine) {
+			.chat-bubble__actions {
+				opacity: 0;
+				visibility: hidden;
+				transform: translateY(6px) scale(0.92);
+			}
+
+			.chat-bubble:hover .chat-bubble__actions,
+			.chat-bubble:focus .chat-bubble__actions,
+			.chat-bubble:focus-within .chat-bubble__actions,
+			.chat-bubble__actions:hover {
+				visibility: visible;
+				opacity: 1;
+				transform: translateY(0) scale(1);
+			}
+		}
+
+		/* Touch devices / Mobile: always visible & tap-ready */
+		@media (hover: none), (pointer: coarse) {
+			.chat-bubble__actions {
+				opacity: 1;
+				visibility: visible;
+				transform: translateY(0) scale(1);
+			}
 		}
 
 		.time-received {
@@ -364,15 +514,18 @@
 			color: var(--joke-info-color);
 		}
 
+		/* Joke text with modern, expressive display typography */
 		.chat-message {
 			margin: 0;
 			line-height: 1.4;
-			font-size: 1.25rem;
-			font-family: "Roboto", sans-serif;
-			font-weight: 500;
+			font-size: clamp(1.25rem, 3.2vw, 1.55rem);
+			font-family: "Outfit", "Plus Jakarta Sans", "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+			font-weight: 600;
+			letter-spacing: -0.015em;
 			margin-right: auto;
 			white-space: pre-wrap;
 			color: var(--joke-text-color);
+			transition: opacity 0.2s ease;
 		}
 
 		.offline-tag {
@@ -388,16 +541,69 @@
 			margin-left: 0.5rem;
 			vertical-align: middle;
 		}
+
+		/* Reduced Motion Preference */
+		@media (prefers-reduced-motion: reduce) {
+			*,
+			::before,
+			::after {
+				animation-duration: 0.01ms !important;
+				animation-iteration-count: 1 !important;
+				transition-duration: 0.01ms !important;
+				scroll-behavior: auto !important;
+			}
+		}
 	</style>
 
 	<script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "Joke generator | Justin Chill",
-  "description": "Dad joke generator.",
+  "headline": "Dad Joke Generator | Justin Chill",
+  "description": "An interactive dad joke generator and chatbot delivering puns and one-liners via the icanhazdadjoke API, featuring Web Audio sound effects, vanilla CSS animations, keyboard navigation, and offline fallbacks.",
   "datePublished": "2025-08-04",
-  "dateModified": "2026-07-16",
+  "dateModified": "2026-08-20",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": true,
+  "articleSection": "Interactive",
+  "keywords": [
+    "Dad jokes",
+    "Joke generator",
+    "icanhazdadjoke API",
+    "Interactive chatbot",
+    "Web Audio API",
+    "CSS animations",
+    "JavaScript",
+    "Humor"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Dad joke",
+      "sameAs": "https://en.wikipedia.org/wiki/Dad_joke"
+    },
+    {
+      "@type": "Thing",
+      "name": "Humour",
+      "sameAs": "https://en.wikipedia.org/wiki/Humour"
+    }
+  ],
+  "citation": [
+    {
+      "@type": "WebAPI",
+      "name": "icanhazdadjoke API",
+      "url": "https://icanhazdadjoke.com/api"
+    },
+    {
+      "@type": "CreativeWork",
+      "name": "Chatbot Dad Joke UI",
+      "author": {
+        "@type": "Person",
+        "name": "Alex Vong",
+        "url": "https://codepen.io/alxvtoronto"
+      }
+    }
+  ],
   "author": {
     "@type": "Person",
     "name": "Justin Chill",
@@ -419,9 +625,9 @@
     ]
   },
   "mainEntityOfPage": "https://justinchill.com/jokes.html",
-  "image": "https://www.sean.co.uk/raspberry_pi/gfx/dad_joke_big.jpg"
+  "image": "https://justinchill.com/imgs/dad_joke_big.jpg"
 }
-  </script>
+	</script>
 </head>
 
 <body>
@@ -468,18 +674,12 @@
 			</div>
 
 			<div class="project-container">
-				<div class="controls-bar">
-					<button id="sfx-toggle" class="sfx-toggle-btn" aria-label="Toggle Sound Effects"
-						title="Toggle Sound Effects (Key: M)">
-						<span id="sfx-icon">🔔</span>
-					</button>
-				</div>
 				<div class="chat-bot" aria-live="polite">
 					<div class="chat-bot__chatter">
 						<div class="avatar">
 							<span class="emoji" role="img" aria-label="Robot">🤖</span>
 						</div>
-						<div class="speaker">
+						<div class="speaker" aria-hidden="true">
 							<span class="speaker__dot"></span>
 							<span class="speaker__dot"></span>
 							<span class="speaker__dot"></span>
@@ -505,7 +705,7 @@
 						src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
 		</div>
 	</footer>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
 	<script type="text/javascript">
 		// Helper functions
 		function $(element) {
@@ -523,8 +723,12 @@
 		const JOKES_API = "https://icanhazdadjoke.com/";
 		const avatar = $(".avatar");
 		const chatBot = $(".chat-bot");
-		const chatDots = $(".speaker");
-		const actions = ["😂", "🤣", "😅"];
+		const speaker = $(".speaker");
+		const actions = [
+			{ emoji: "😂", label: "React with laughing face and get another joke" },
+			{ emoji: "🤣", label: "React with rolling on the floor laughing and get another joke" },
+			{ emoji: "😅", label: "React with sweat smile and get another joke" }
+		];
 
 		// Offline joke fallback pool
 		const FALLBACK_JOKES = [
@@ -555,25 +759,10 @@
 
 		// Audio SFX Manager
 		let soundEnabled = localStorage.getItem("jokes_sfx") !== "false";
-		const sfxBtn = document.getElementById("sfx-toggle");
-		const sfxIcon = document.getElementById("sfx-icon");
 
-		function updateSfxUI() {
-			if (sfxIcon && sfxBtn) {
-				sfxIcon.textContent = soundEnabled ? "🔔" : "🔕";
-				sfxBtn.setAttribute("aria-label", soundEnabled ? "Mute Sound Effects" : "Enable Sound Effects");
-			}
-		}
-		updateSfxUI();
-
-		if (sfxBtn) {
-			sfxBtn.addEventListener("click", () => {
-				soundEnabled = !soundEnabled;
-				localStorage.setItem("jokes_sfx", soundEnabled ? "true" : "false");
-				updateSfxUI();
-				if (soundEnabled) playPopSFX();
-			});
-		}
+		// Speaker SVG Icons for Mute Toggle
+		const SPEAKER_ON_SVG = `<svg class="sfx-icon sfx-icon--on" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>`;
+		const SPEAKER_OFF_SVG = `<svg class="sfx-icon sfx-icon--off" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>`;
 
 		// Web Audio API Sound Synthesizer for UI Effects
 		let audioCtx = null;
@@ -582,7 +771,7 @@
 			if (!audioCtx) {
 				audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 			}
-			if (audioCtx.state === 'suspended') {
+			if (audioCtx && audioCtx.state === 'suspended') {
 				audioCtx.resume();
 			}
 		}
@@ -591,6 +780,7 @@
 			if (!soundEnabled) return;
 			try {
 				initAudio();
+				if (!audioCtx || audioCtx.state !== 'running') return;
 				const osc = audioCtx.createOscillator();
 				const gain = audioCtx.createGain();
 
@@ -607,7 +797,7 @@
 				osc.start();
 				osc.stop(audioCtx.currentTime + 0.08);
 			} catch (e) {
-				console.warn("Audio play failed:", e);
+				// Silently handle browser autoplay policy
 			}
 		}
 
@@ -615,6 +805,7 @@
 			if (!soundEnabled) return;
 			try {
 				initAudio();
+				if (!audioCtx || audioCtx.state !== 'running') return;
 				const osc = audioCtx.createOscillator();
 				const gain = audioCtx.createGain();
 
@@ -631,7 +822,7 @@
 				osc.start();
 				osc.stop(audioCtx.currentTime + 0.15);
 			} catch (e) {
-				console.warn("Audio play failed:", e);
+				// Silently handle browser autoplay policy
 			}
 		}
 
@@ -639,6 +830,7 @@
 			if (!soundEnabled) return;
 			try {
 				initAudio();
+				if (!audioCtx || audioCtx.state !== 'running') return;
 				const osc = audioCtx.createOscillator();
 				const gain = audioCtx.createGain();
 
@@ -654,42 +846,72 @@
 				osc.start();
 				osc.stop(audioCtx.currentTime + 0.05);
 			} catch (e) {
-				console.warn("Audio play failed:", e);
+				// Silently handle browser autoplay policy
 			}
 		}
 
-		// Create dynamic elements
+		// Create dynamic DOM elements
 		const chatContainer = createNewElement("div", "chat-bot__messages");
 		const chatBubble = createNewElement("div", "chat-bubble");
 		const messagesInfo = createNewElement("div", "chat-bot__messages-info");
+		const statusGroup = createNewElement("div", "chat-status-group");
 		const timeReceived = createNewElement("span", "time-received");
-		const infoIcon = createNewElement("div");
+		const infoIcon = createNewElement("span", "info-icon");
 
-		// Inline check SVG fallback for robust offline rendering
-		const checkSvgIcon = `<svg class="feather feather-check" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+		// Inline check SVG fallback for robust rendering
+		const checkSvgIcon = `<svg class="feather feather-check" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
 		infoIcon.innerHTML = checkSvgIcon;
 
-		messagesInfo.appendChild(timeReceived);
-		messagesInfo.appendChild(infoIcon);
-		const dadJoke = createNewElement("h1", "chat-message");
+		statusGroup.appendChild(timeReceived);
+		statusGroup.appendChild(infoIcon);
+
+		// SFX Toggle Button positioned on the bottom right (even with robot avatar)
+		const sfxBtn = createNewElement("button", "sfx-toggle-btn");
+		sfxBtn.id = "sfx-toggle";
+		sfxBtn.title = "Toggle Sound Effects (Key: M)";
+
+		function updateSfxUI() {
+			sfxBtn.innerHTML = soundEnabled ? SPEAKER_ON_SVG : SPEAKER_OFF_SVG;
+			sfxBtn.setAttribute("aria-label", soundEnabled ? "Mute Sound Effects (Key: M)" : "Enable Sound Effects (Key: M)");
+			sfxBtn.setAttribute("aria-pressed", soundEnabled ? "true" : "false");
+			sfxBtn.classList.toggle("is-muted", !soundEnabled);
+		}
+		updateSfxUI();
+
+		sfxBtn.addEventListener("click", () => {
+			soundEnabled = !soundEnabled;
+			localStorage.setItem("jokes_sfx", soundEnabled ? "true" : "false");
+			updateSfxUI();
+			if (soundEnabled) playPopSFX();
+		});
+
+		messagesInfo.appendChild(statusGroup);
+		messagesInfo.appendChild(sfxBtn);
+
+		const dadJoke = createNewElement("p", "chat-message");
 		const chatActions = createNewElement("div", "chat-bubble__actions");
 
-		const emojiActions = actions.map((action) => {
+		actions.forEach((item) => {
 			const emoji = createNewElement("span", "emoji emoji--small");
-			emoji.textContent = action;
+			emoji.textContent = item.emoji;
 			const emojiButton = createNewElement("button", "emoji-action");
-			emojiButton.setAttribute("aria-label", "Get another joke");
+			emojiButton.setAttribute("aria-label", item.label);
 			emojiButton.appendChild(emoji);
-			return emojiButton;
+			emojiButton.addEventListener("click", () => getJokes(false));
+			chatActions.appendChild(emojiButton);
 		});
 
-		emojiActions.forEach((action) => {
-			chatActions.appendChild(action);
-			action.addEventListener("click", () => getJokes());
-		});
+		chatBubble.appendChild(chatActions);
+		chatBubble.appendChild(dadJoke);
+		chatContainer.appendChild(chatBubble);
+		chatContainer.appendChild(messagesInfo);
 
-		// Trigger first load
-		getJokes();
+		// Animation helper functions (Vanilla CSS)
+		function triggerAvatarAnimation() {
+			avatar.classList.remove("is-animating");
+			void avatar.offsetWidth; // Force reflow
+			avatar.classList.add("is-animating");
+		}
 
 		function getFallbackJoke() {
 			let joke = FALLBACK_JOKES[Math.floor(Math.random() * FALLBACK_JOKES.length)];
@@ -700,15 +922,26 @@
 			return joke;
 		}
 
-		function getJokes() {
+		function getJokes(isInitial = false) {
 			if (isFetching) return;
 			isFetching = true;
 
-			playClickSFX();
-			chatBubble.setAttribute("tabindex", "0");
-			chatContainer.appendChild(chatBubble);
-			dadJoke.remove();
-			animateInDots();
+			if (!isInitial) {
+				playClickSFX();
+			}
+
+			triggerAvatarAnimation();
+
+			// Hide chat container and show typing dots
+			if (chatContainer.parentNode) {
+				chatContainer.remove();
+			}
+			chatContainer.classList.remove("is-entering");
+			speaker.classList.add("is-visible");
+
+			if (!isInitial) {
+				playTypingSFX();
+			}
 
 			const controller = new AbortController();
 			const timeoutId = setTimeout(() => controller.abort(), 5000);
@@ -726,16 +959,15 @@
 				})
 				.then((data) => {
 					const jokeText = data && data.joke ? data.joke : getFallbackJoke();
-					displayJoke(jokeText, false);
+					displayJoke(jokeText, false, isInitial);
 				})
 				.catch((error) => {
 					clearTimeout(timeoutId);
-					console.warn("Using fallback joke due to fetch error:", error);
-					displayJoke(getFallbackJoke(), true);
+					displayJoke(getFallbackJoke(), true, isInitial);
 				});
 		}
 
-		function displayJoke(jokeText, isOffline) {
+		function displayJoke(jokeText, isOffline, isInitial = false) {
 			setTimeout(() => {
 				dadJoke.textContent = jokeText;
 
@@ -749,102 +981,21 @@
 					timeReceived.appendChild(tag);
 				}
 
-				chatContainer.appendChild(messagesInfo);
-				animateOutDots();
-			}, 1000);
-		}
+				// Hide typing dots and show chat container
+				speaker.classList.remove("is-visible");
+				chatBot.appendChild(chatContainer);
+				chatContainer.classList.add("is-entering");
 
-		// Animations
-		function animateAvatar() {
-			const tl = gsap.timeline({
-				defaults: { duration: 0.7, ease: "elastic" }
-			});
-			tl.to(avatar, { scale: 1.4 }).to(avatar, { scale: 1, delay: 0.1 }, "<");
-		}
-
-		function animateInDots() {
-			animateChatDots();
-			gsap.fromTo(
-				chatDots,
-				{ y: 28, opacity: 0 },
-				{
-					y: 0,
-					opacity: 1,
-					ease: "elastic",
-					duration: 0.8,
-					onStart: () => {
-						playTypingSFX();
-						gsap.to(dadJoke, { opacity: 0 });
-						animateAvatar();
-						chatDots.style.display = "inline-flex";
-						chatContainer.remove();
-					}
+				if (!isInitial) {
+					playPopSFX();
 				}
-			);
+
+				isFetching = false;
+			}, isInitial ? 350 : 800);
 		}
 
-		function animateOutDots() {
-			gsap.fromTo(
-				chatDots,
-				{ y: 0, opacity: 1 },
-				{
-					y: 10,
-					opacity: 0,
-					ease: "back",
-					duration: 0.8,
-					onComplete: (e) => {
-						chatDots.style.display = "none";
-						gsap.killTweensOf(".speaker__dot"); // Pause dots when invisible
-						animateInChat();
-					}
-				}
-			);
-		}
-
-		function animateInChat() {
-			chatBubble.appendChild(chatActions);
-			chatBubble.appendChild(dadJoke);
-			chatBot.appendChild(chatContainer);
-			gsap.to(dadJoke, { opacity: 1, duration: 0.2 });
-			gsap.fromTo(
-				chatContainer,
-				{ y: 18, opacity: 0 },
-				{
-					y: -10,
-					opacity: 1,
-					ease: "elastic",
-					duration: 0.8,
-					onStart: () => {
-						playPopSFX();
-					},
-					onComplete: () => {
-						isFetching = false;
-					}
-				}
-			);
-		}
-
-		function animateChatDots() {
-			gsap.killTweensOf(".speaker__dot"); // Kill previous loops to prevent memory leaks
-			const dotsArry = gsap.utils.toArray(".speaker__dot");
-			const tl = gsap.timeline({
-				defaults: { duration: 0.4, ease: "back" }
-			});
-			dotsArry.forEach((dot) => {
-				tl.to(
-					dot,
-					{
-						y: 8,
-						delay: 0.1
-					},
-					"<"
-				).to(dot, {
-					y: 0,
-					repeat: -1,
-					yoyo: true
-				});
-			});
-		}
+		// Initial load (silent to respect browser autoplay policy)
+		getJokes(true);
 
 		// Keyboard Navigation Shortcuts
 		document.addEventListener("keydown", (e) => {
@@ -855,14 +1006,13 @@
 
 			if (e.code === "Space" || e.key.toLowerCase() === "n") {
 				e.preventDefault();
-				getJokes();
+				getJokes(false);
 			} else if (e.key.toLowerCase() === "m") {
 				e.preventDefault();
-				if (sfxBtn) sfxBtn.click();
+				sfxBtn.click();
 			}
 		});
-	</script>
-	<script>
+
 		// Theme toggle functionality
 		const themeToggleBtn = document.getElementById("theme-toggle");
 		const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
@@ -890,6 +1040,16 @@
 				updateIcons(newTheme);
 			});
 		}
+
+		// Email link activator
+		document.querySelectorAll('.js-email-link').forEach(link => {
+			link.addEventListener('click', event => {
+				event.preventDefault();
+				const a = "Justin.richard.hill@";
+				const b = "gmail.com";
+				window.open(`mailto:${a}${b}`, 'email');
+			});
+		});
 	</script>
 </body>
 

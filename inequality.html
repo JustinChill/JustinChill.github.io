@@ -18,9 +18,13 @@
 
   <title>4 Decades of Inequality | Justin Chill</title>
   <meta name="description"
-    content="A reproduction of a New York Times article on inequality. Fairfield, CT stands out for its sharp increase in inequality.">
+    content="An interactive data visualization analyzing 40 years of wage inequality across 195 U.S. metropolitan areas, reproducing research from the New York Fed and The New York Times Upshot.">
   <meta name="author" content="Justin Chill">
   <meta name="robots" content="all">
+  <meta property="article:published_time" content="2025-07-04">
+  <meta property="article:modified_time" content="2026-08-20">
+  <meta property="article:author" content="Justin Chill">
+  <meta property="article:section" content="Data Visualization">
 
   <!-- OpenGraph tags -->
   <meta content="en_US" property="og:locale">
@@ -29,7 +33,7 @@
   <meta content="https://justinchill.com/inequality.html" property="og:url">
   <meta content="4 Decades of Inequality | Justin Chill" property="og:title">
   <meta
-    content="A reproduction of a New York Times article on inequality. Fairfield, CT stands out for its sharp increase in inequality."
+    content="An interactive data visualization analyzing 40 years of wage inequality across 195 U.S. metropolitan areas, reproducing research from the New York Fed and The New York Times Upshot."
     property="og:description">
   <meta content="https://justinchill.com/blog.html" property="og:see_also">
   <meta property="og:locality" content="NY">
@@ -41,17 +45,22 @@
     property="og:image:alt">
 
   <meta name="datePublished" content="2025-07-04">
-  <meta name="dateModified" content="2025-08-06">
+  <meta name="dateModified" content="2026-08-20">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@JustinChill">
+  <meta name="twitter:creator" content="@JustinChill">
   <meta name="twitter:title" content="4 Decades of Inequality | Justin Chill">
   <meta name="twitter:description"
-    content="A reproduction of a New York Times article on inequality. Fairfield, CT stands out for its sharp increase in inequality.">
-  <meta content="https://justinchill.com/imgs/cover/inequality_cover.webp" property="twitter:image">
+    content="An interactive data visualization analyzing 40 years of wage inequality across 195 U.S. metropolitan areas, reproducing research from the New York Fed and The New York Times Upshot.">
+  <meta content="https://justinchill.com/imgs/cover/inequality_cover.webp" name="twitter:image">
+  <meta name="twitter:image:alt"
+    content="A plot graph showing 90/10 wage inequality ratios versus population across 195 U.S. metro areas from 1980 to 2015.">
 
   <link rel="canonical" href="https://justinchill.com/inequality.html">
   <link rel="preload" href="style.css" as="style" />
+  <link rel="preload" href="data/metros.csv" as="fetch" type="text/csv" crossorigin="anonymous">
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico">
   <link type="text/plain" href="humans.txt" rel="author">
@@ -60,6 +69,16 @@
   <meta name="color-scheme" content="light dark">
 
   <style type="text/css">
+    /* Navigation Touch Targets */
+    .nav__item,
+    #theme-toggle {
+      min-height: 44px;
+      min-width: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     .plot text {
       fill: var(--text-color, #222);
     }
@@ -71,16 +90,46 @@
     html[data-theme="dark"] svg[class*="legend"] text {
       fill: #e2e8f0;
     }
+
+    figure img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
   </style>
 
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "4 Decades of Inequality | Justin Chill",
-  "description": "A reproduction of a New York Times article on inequality. Fairfield, CT stands out for its sharp increase in inequality.",
+  "headline": "4 Decades of Inequality",
+  "alternativeHeadline": "Measuring wage inequality across 195 U.S. metropolitan areas between 1980 and 2015",
+  "description": "An interactive data visualization analyzing 40 years of wage inequality across 195 U.S. metropolitan areas, reproducing research from the New York Fed and The New York Times Upshot.",
   "datePublished": "2025-07-04",
-  "dateModified": "2025-08-06",
+  "dateModified": "2026-08-20",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": true,
+  "articleSection": "Data Visualization",
+  "wordCount": 290,
+  "url": "https://justinchill.com/inequality.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://justinchill.com/inequality.html"
+  },
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://justinchill.com/blog.html",
+    "name": "Justin Chill's Blog",
+    "publisher": {
+      "@type": "Person",
+      "name": "Justin Chill"
+    }
+  },
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://justinchill.com/imgs/cover/inequality_cover.webp",
+    "caption": "A plot graph showing 90/10 wage inequality ratios versus population across 195 U.S. metropolitan areas from 1980 to 2015."
+  },
   "author": {
     "@type": "Person",
     "name": "Justin Chill",
@@ -101,8 +150,93 @@
       "https://github.com/JustinChill"
     ]
   },
-  "mainEntityOfPage": "https://justinchill.com/inequality.html",
-  "image": "https://justinchill.com/imgs/cover/inequality_cover.webp"
+  "keywords": [
+    "Economic inequality",
+    "Wage inequality",
+    "90/10 ratio",
+    "Income distribution",
+    "Urban agglomeration",
+    "Data visualization",
+    "Observable Plot",
+    "D3.js",
+    "Federal Reserve Bank of New York",
+    "The New York Times",
+    "Fairfield CT",
+    "Metropolitan statistical areas"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Economic inequality",
+      "sameAs": "https://en.wikipedia.org/wiki/Economic_inequality"
+    },
+    {
+      "@type": "Thing",
+      "name": "Income inequality in the United States",
+      "sameAs": "https://en.wikipedia.org/wiki/Income_inequality_in_the_United_States"
+    },
+    {
+      "@type": "Thing",
+      "name": "Agglomeration economies",
+      "sameAs": "https://en.wikipedia.org/wiki/Economies_of_agglomeration"
+    },
+    {
+      "@type": "Thing",
+      "name": "Data visualization",
+      "sameAs": "https://en.wikipedia.org/wiki/Data_visualization"
+    }
+  ],
+  "mentions": [
+    {
+      "@type": "Person",
+      "name": "Jaison R. Abel"
+    },
+    {
+      "@type": "Person",
+      "name": "Richard Deitz"
+    },
+    {
+      "@type": "Organization",
+      "name": "Federal Reserve Bank of New York",
+      "sameAs": "https://en.wikipedia.org/wiki/Federal_Reserve_Bank_of_New_York"
+    },
+    {
+      "@type": "Organization",
+      "name": "The New York Times",
+      "sameAs": "https://en.wikipedia.org/wiki/The_New_York_Times"
+    },
+    {
+      "@type": "Place",
+      "name": "Fairfield, Connecticut",
+      "sameAs": "https://en.wikipedia.org/wiki/Fairfield_County,_Connecticut"
+    },
+    {
+      "@type": "Place",
+      "name": "Johnstown, Pennsylvania",
+      "sameAs": "https://en.wikipedia.org/wiki/Johnstown,_Pennsylvania"
+    }
+  ],
+  "isBasedOn": [
+    {
+      "@type": "ScholarlyArticle",
+      "name": "Why Are Some Places So Much More Unequal Than Others?",
+      "author": ["Jaison R. Abel", "Richard Deitz"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "Federal Reserve Bank of New York"
+      },
+      "url": "https://www.newyorkfed.org/medialibrary/media/research/epr/2019/epr_2019_wage-inequality_abel-deitz.pdf"
+    },
+    {
+      "@type": "NewsArticle",
+      "name": "The Places in America Where Inequality Is Surging",
+      "publisher": {
+        "@type": "Organization",
+        "name": "The New York Times"
+      },
+      "url": "https://www.nytimes.com/2019/12/02/upshot/wealth-poverty-divide-american-cities.html"
+    }
+  ]
 }
   </script>
 </head>
@@ -149,8 +283,7 @@
         <h2 class="article-subtitle">Measuring inequality across America</h2>
       </div>
       <span class="header-tag" aria-hidden="true"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
-      <h3>The ratio of inequality to population in 195 metro areas between 1980&nbsp;-&nbsp;2015</h3>
-      <span id="inequality_legend"></span>
+      <h3>The ratio of inequality to population in 195 metro areas between 1980&ndash;2015</h3>
       <figure id="inequality"
         aria-label="A plot graph showing various cities, with lines and dots connecting data points. Notable cities labeled include Fairfield, Conn., San Jose, San Francisco, Houston, Washington, D.C., and Chicago, indicating varying data ranges across the chart.">
         <figcaption class="right">Data: <a href="https://www.nytimes.com/2019/12/02/upshot/wealth-poverty-divide-american-cities.html" target="_blank" rel="noopener">The New York
@@ -184,7 +317,8 @@
       <figure>
         <figcaption class="right">Photograph: Matt Black/Magnum Photos</figcaption>
         <img
-          src="https://www.economist.com/cdn-cgi/image/width=1424,quality=80,format=auto/content-assets/images/20241019_SRP554.jpg"
+          src="imgs/inequality_matt_black.jpg"
+          width="1280" height="720"
           loading="lazy" alt="Man walking on sidewalk. Photograph: Matt Black/Magnum Photos">
       </figure>
 
@@ -208,7 +342,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
   <script type="text/javascript">
     const size = 12;
-    const element = d3.select('figure').node();
+    const element = document.getElementById("inequality") || d3.select('figure').node();
     const width = element.getBoundingClientRect().width; // get width of article so graphic is responsive  
     const promises = [d3.csv("data/metros.csv", d3.autoType)]; // Use Promises to async request data
     function midpoint({
@@ -351,6 +485,16 @@
         updateIcons(newTheme);
       });
     }
+
+    // Email link handler
+    document.querySelectorAll('.js-email-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const a = "Justin.richard.hill@";
+        const b = "gmail.com";
+        window.open(`mailto:${a}${b}`, 'email');
+      });
+    });
   </script>
 </body>
 

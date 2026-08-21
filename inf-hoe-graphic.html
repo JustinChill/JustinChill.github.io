@@ -17,9 +17,14 @@
 	</script>
 
 	<title>Inf-hoe-graphic | Justin Chill</title>
-	<meta name="description" content="Where rapper Ludacris claims to have hoes">
+	<meta name="description"
+		content="A cartographic visualization and breakdown of the 43 area code shoutouts across 39 unique regions from rapper Ludacris's 2001 hit song 'Area Codes'.">
 	<meta name="author" content="Justin Chill">
 	<meta name="robots" content="all">
+	<meta property="article:published_time" content="2025-07-04">
+	<meta property="article:modified_time" content="2026-08-20">
+	<meta property="article:author" content="Justin Chill">
+	<meta property="article:section" content="Infographics">
 
 	<!-- OpenGraph tags -->
 	<meta content="en_US" property="og:locale">
@@ -27,7 +32,9 @@
 	<meta content="article" property="og:type">
 	<meta content="https://justinchill.com/inf-hoe-graphic.html" property="og:url">
 	<meta content="Inf-hoe-graphic | Justin Chill" property="og:title">
-	<meta content="Where rapper Ludacris claims to have hoes" property="og:description">
+	<meta
+		content="A cartographic visualization and breakdown of the 43 area code shoutouts across 39 unique regions from rapper Ludacris's 2001 hit song 'Area Codes'."
+		property="og:description">
 	<meta content="https://justinchill.com/blog.html" property="og:see_also">
 	<meta property="og:locality" content="NY">
 	<meta property="og:region" content="NY">
@@ -38,15 +45,21 @@
 		property="og:image:alt">
 
 	<meta name="datePublished" content="2025-07-04">
-	<meta name="dateModified" content="2025-08-06">
+	<meta name="dateModified" content="2026-08-20">
 
 	<!-- Twitter tags -->
 	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:site" content="@JustinChill">
+	<meta name="twitter:creator" content="@JustinChill">
 	<meta name="twitter:title" content="Inf-hoe-graphic | Justin Chill">
-	<meta name="twitter:description" content="Where rapper Ludacris claims to have hoes">
-	<meta content="https://justinchill.com/imgs/ZIP3_zones.svg" property="twitter:image">
+	<meta name="twitter:description"
+		content="A cartographic visualization and breakdown of the 43 area code shoutouts across 39 unique regions from rapper Ludacris's 2001 hit song 'Area Codes'.">
+	<meta content="https://justinchill.com/imgs/ZIP3_zones.svg" name="twitter:image">
+	<meta name="twitter:image:alt"
+		content="Map of the contiguous United States showing the area codes where rapper Ludacris claims to have hoes.">
 
 	<link rel="canonical" href="https://justinchill.com/inf-hoe-graphic.html">
+	<link rel="preload" href="style.css" as="style" />
 	<link rel="stylesheet" href="style.css" />
 	<link rel="icon" href="favicon.ico">
 	<link type="text/plain" href="humans.txt" rel="author">
@@ -55,16 +68,200 @@
 	<meta name="color-scheme" content="light dark">
 
 	<style type="text/css">
+		/* Navigation Touch Targets */
+		.nav__item,
+		#theme-toggle {
+			min-height: 44px;
+			min-width: 44px;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+		}
+
 		table {
-			margin: 1rem 0;
+			width: 100%;
+			border-collapse: collapse;
+			margin: 1.5rem 0;
+			border-bottom: 2px solid #cbd5e1;
+		}
+
+		html[data-theme="dark"] table {
+			border-bottom-color: #334155;
+		}
+
+		th,
+		td {
+			padding: 0.6rem 0.75rem;
+			text-align: left;
+			border-bottom: 1px solid #e2e8f0;
+		}
+
+		html[data-theme="dark"] th,
+		html[data-theme="dark"] td {
+			border-bottom-color: #1e293b;
 		}
 
 		thead th {
+			font-weight: 600;
 			text-align: left;
+			border-bottom: 2px solid #94a3b8;
+		}
+
+		html[data-theme="dark"] thead th {
+			border-bottom-color: #475569;
 		}
 
 		#jerz::before {
 			content: "☀️ ";
+		}
+
+		figure img {
+			width: 100%;
+			height: auto;
+			display: block;
+		}
+
+		/* Interactive Map & Tooltip */
+		#map svg {
+			width: 100%;
+			height: auto;
+			display: block;
+		}
+
+		.zip3-zone {
+			fill: hsl(212, 33%, 89%);
+			stroke: #ffffff;
+			stroke-width: 0.35px;
+			transition: fill 0.15s ease, stroke 0.15s ease;
+		}
+
+		html[data-theme="dark"] .zip3-zone {
+			fill: #262c36;
+			stroke: #181d24;
+		}
+
+		.zip3-zone.hoe {
+			cursor: pointer;
+		}
+
+		.zip3-zone.hoe-1 {
+			fill: hsl(360, 83%, 62%);
+		}
+
+		.zip3-zone.hoe-2 {
+			fill: #dc2626;
+		}
+
+		.zip3-zone.hoe-3 {
+			fill: #991b1b;
+		}
+
+		html[data-theme="dark"] .zip3-zone.hoe-1 {
+			fill: #f87171;
+		}
+
+		html[data-theme="dark"] .zip3-zone.hoe-2 {
+			fill: #ef4444;
+		}
+
+		html[data-theme="dark"] .zip3-zone.hoe-3 {
+			fill: #f43f5e;
+		}
+
+		.zip3-zone.is-hovered {
+			stroke: #fbbf24 !important;
+			stroke-width: 2px !important;
+			filter: drop-shadow(0 0 5px rgba(251, 191, 36, 0.8));
+		}
+
+		.state-boundary {
+			fill: none;
+			stroke: #64748b;
+			stroke-width: 0.6px;
+			stroke-linejoin: round;
+			pointer-events: none;
+			opacity: 0.45;
+		}
+
+		html[data-theme="dark"] .state-boundary {
+			stroke: #94a3b8;
+			opacity: 0.35;
+		}
+
+		.map-tooltip {
+			font-family: var(--font-ui, "Camphor Light", Inter, Helvetica, sans-serif);
+			background: rgba(15, 23, 42, 0.95);
+			color: #ffffff;
+			padding: 8px 12px;
+			border-radius: 6px;
+			font-size: 0.85rem;
+			line-height: 1.4;
+			box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+			border: 1px solid rgba(255, 255, 255, 0.2);
+			backdrop-filter: blur(4px);
+			pointer-events: none;
+			transition: opacity 0.08s ease;
+		}
+
+		html[data-theme="dark"] .map-tooltip {
+			background: rgba(30, 41, 59, 0.96);
+			border-color: rgba(255, 255, 255, 0.25);
+		}
+
+		.map-legend {
+			font-family: var(--font-ui, "Camphor Light", Inter, Helvetica, sans-serif);
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.5rem 1.25rem;
+			justify-content: flex-start;
+			align-items: center;
+			margin: 0.25rem 0 0.65rem 0;
+			font-size: 0.85rem;
+		}
+
+		.legend-item {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.4rem;
+		}
+
+		.legend-swatch {
+			width: 14px;
+			height: 14px;
+			border-radius: 3px;
+			display: inline-block;
+		}
+
+		.swatch-1 {
+			background: hsl(360, 83%, 62%);
+		}
+
+		.swatch-2 {
+			background: #dc2626;
+		}
+
+		.swatch-3 {
+			background: #991b1b;
+		}
+
+		html[data-theme="dark"] .swatch-1 {
+			background: #f87171;
+		}
+
+		html[data-theme="dark"] .swatch-2 {
+			background: #ef4444;
+		}
+
+		html[data-theme="dark"] .swatch-3 {
+			background: #f43f5e;
+		}
+
+		tbody tr {
+			transition: background-color 0.15s ease;
+		}
+
+		tbody tr.row-highlight {
+			background-color: rgba(239, 68, 68, 0.18) !important;
 		}
 	</style>
 
@@ -72,10 +269,34 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "Inf-hoe-graphic | Justin Chill",
-  "description": "Where rapper Ludacris claims to have hoes",
+  "headline": "Inf-hoe-graphic",
+  "alternativeHeadline": "Where rapper Ludacris claims to have hoes based on the 2001 song 'Area Codes'",
+  "description": "A cartographic visualization and breakdown of the 43 area code shoutouts across 39 unique regions from Ludacris's 2001 hit song 'Area Codes'.",
   "datePublished": "2025-07-04",
-  "dateModified": "2025-08-06",
+  "dateModified": "2026-08-20",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": true,
+  "articleSection": "Infographics",
+  "wordCount": 160,
+  "url": "https://justinchill.com/inf-hoe-graphic.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://justinchill.com/inf-hoe-graphic.html"
+  },
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://justinchill.com/blog.html",
+    "name": "Justin Chill's Blog",
+    "publisher": {
+      "@type": "Person",
+      "name": "Justin Chill"
+    }
+  },
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://justinchill.com/imgs/ZIP3_zones.svg",
+    "caption": "Map of the contiguous United States showing the area codes where rapper Ludacris claims to have hoes."
+  },
   "author": {
     "@type": "Person",
     "name": "Justin Chill",
@@ -96,8 +317,34 @@
       "https://github.com/JustinChill"
     ]
   },
-  "mainEntityOfPage": "https://justinchill.com/inf-hoe-graphic.html",
-  "image": "https://justinchill.com/imgs/ZIP3_zones.svg"
+  "keywords": [
+    "Ludacris",
+    "Area Codes",
+    "Infographic",
+    "Data visualization",
+    "Hip Hop",
+    "Cartography",
+    "Geography",
+    "Music",
+    "Telephone Area Codes",
+    "Nate Dogg"
+  ],
+  "about": [
+    {
+      "@type": "Person",
+      "name": "Ludacris",
+      "sameAs": "https://en.wikipedia.org/wiki/Ludacris"
+    },
+    {
+      "@type": "MusicRecording",
+      "name": "Area Codes",
+      "byArtist": {
+        "@type": "Person",
+        "name": "Ludacris"
+      },
+      "datePublished": "2001"
+    }
+  ]
 }
   </script>
 </head>
@@ -148,13 +395,21 @@
 				<h2 class="article-subtitle">Where rapper Ludacris claims to have hoes. <br>Based on the 2001 song "Area
 					Codes"</h2>
 			</div>
-			<span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag"></span>
+			<span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
 			<h3>Spread far and wide</h3>
-			<figure>
-				<figcaption class="right">Luda's popular on the East Coast</figcaption>
-				<img src="imgs/ZIP3_zones.svg"
-					alt="A map of the contiguous United States showing the Area Codes where rapper Ludacris claims to have hoes."
-					loading="lazy">
+			<figure class="mid-size">
+				<figcaption class="right" style="margin-bottom: 0.25rem;">Luda's popular on the East Coast</figcaption>
+				<div class="map-legend">
+					<span class="legend-item"><span class="legend-swatch swatch-1"></span> 1 Mention</span>
+					<span class="legend-item"><span class="legend-swatch swatch-2"></span> 2 Mentions (Dallas,
+						Houston)</span>
+					<span class="legend-item"><span class="legend-swatch swatch-3"></span> 3 Mentions (Atlanta)</span>
+				</div>
+				<div id="map-container" style="position: relative; width: 100%;">
+					<div id="map" style="width: 100%;"></div>
+					<div id="map-tooltip" class="map-tooltip"
+						style="display: none; position: absolute; pointer-events: none; z-index: 50;"></div>
+				</div>
 			</figure>
 			<p>According to the hit single "Area Codes", Ludacris claims to have female friends across 43 area code
 				shoutouts (covering 39 unique regions). It appears that Luda is most popular along the East Coast. This
@@ -163,6 +418,7 @@
 			<p>These are the area codes mentioned in the song, in order:</p>
 
 			<table aria-label="Area codes mentioned in the song Area Codes by Ludacris">
+				<caption class="screen-reader-text">Area codes mentioned in the song "Area Codes" by Ludacris</caption>
 				<thead>
 					<tr>
 						<th scope="col">Area Code</th>
@@ -171,217 +427,217 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
+					<tr data-code="770">
 						<td data-label="Area Code">770</td>
 						<td data-label="City">Atlanta</td>
 						<td data-label="State">Georgia</td>
 					</tr>
-					<tr>
+					<tr data-code="404">
 						<td data-label="Area Code">404</td>
 						<td data-label="City">Atlanta</td>
 						<td data-label="State">Georgia</td>
 					</tr>
-					<tr>
+					<tr data-code="718">
 						<td data-label="Area Code">718</td>
 						<td data-label="City">New York City</td>
 						<td data-label="State">New York</td>
 					</tr>
-					<tr>
+					<tr data-code="202">
 						<td data-label="Area Code">202</td>
 						<td data-label="City">Washington</td>
 						<td data-label="State">D.C.</td>
 					</tr>
-					<tr>
+					<tr data-code="901">
 						<td data-label="Area Code">901</td>
 						<td data-label="City">Memphis</td>
 						<td data-label="State">Tennessee</td>
 					</tr>
-					<tr>
+					<tr data-code="305">
 						<td data-label="Area Code">305</td>
 						<td data-label="City">Miami</td>
 						<td data-label="State">Florida</td>
 					</tr>
-					<tr>
+					<tr data-code="312">
 						<td data-label="Area Code">312</td>
 						<td data-label="City">Chicago</td>
 						<td data-label="State">Illinois</td>
 					</tr>
-					<tr>
+					<tr data-code="313">
 						<td data-label="Area Code">313</td>
 						<td data-label="City">Detroit</td>
 						<td data-label="State">Michigan</td>
 					</tr>
-					<tr>
+					<tr data-code="215">
 						<td data-label="Area Code">215</td>
 						<td data-label="City">Philadelphia</td>
 						<td data-label="State">Pennsylvania</td>
 					</tr>
-					<tr>
+					<tr data-code="803">
 						<td data-label="Area Code">803</td>
 						<td data-label="City">Columbia</td>
 						<td data-label="State">South Carolina</td>
 					</tr>
-					<tr>
+					<tr data-code="757">
 						<td data-label="Area Code">757</td>
 						<td data-label="City">Hampton Roads</td>
 						<td data-label="State">Virginia</td>
 					</tr>
-					<tr>
+					<tr data-code="410">
 						<td data-label="Area Code">410</td>
 						<td data-label="City">Baltimore</td>
 						<td data-label="State">Maryland</td>
 					</tr>
-					<tr>
+					<tr data-code="504">
 						<td data-label="Area Code">504</td>
 						<td data-label="City">New Orleans</td>
 						<td data-label="State">Louisiana</td>
 					</tr>
-					<tr>
+					<tr data-code="972">
 						<td data-label="Area Code">972</td>
 						<td data-label="City">Dallas</td>
 						<td data-label="State">Texas</td>
 					</tr>
-					<tr>
+					<tr data-code="713">
 						<td data-label="Area Code">713</td>
 						<td data-label="City">Houston</td>
 						<td data-label="State">Texas</td>
 					</tr>
-					<tr>
+					<tr data-code="314">
 						<td data-label="Area Code">314</td>
 						<td data-label="City">St. Louis</td>
 						<td data-label="State">Missouri</td>
 					</tr>
-					<tr>
+					<tr data-code="201">
 						<td data-label="Area Code">201</td>
 						<td data-label="City" id="jerz">Jersey City</td>
 						<td data-label="State">New Jersey</td>
 					</tr>
-					<tr>
+					<tr data-code="212">
 						<td data-label="Area Code">212</td>
 						<td data-label="City">New York</td>
 						<td data-label="State">New York</td>
 					</tr>
-					<tr>
+					<tr data-code="213">
 						<td data-label="Area Code">213</td>
 						<td data-label="City">Los Angeles</td>
 						<td data-label="State">California</td>
 					</tr>
-					<tr>
+					<tr data-code="916">
 						<td data-label="Area Code">916</td>
 						<td data-label="City">Sacramento</td>
 						<td data-label="State">California</td>
 					</tr>
-					<tr>
+					<tr data-code="415">
 						<td data-label="Area Code">415</td>
 						<td data-label="City">San Francisco</td>
 						<td data-label="State">California</td>
 					</tr>
-					<tr>
+					<tr data-code="704">
 						<td data-label="Area Code">704</td>
 						<td data-label="City">Charlotte</td>
 						<td data-label="State">North Carolina</td>
 					</tr>
-					<tr>
+					<tr data-code="206">
 						<td data-label="Area Code">206</td>
 						<td data-label="City">Seattle</td>
 						<td data-label="State">Washington</td>
 					</tr>
-					<tr>
+					<tr data-code="808">
 						<td data-label="Area Code">808</td>
 						<td data-label="City">Honolulu</td>
 						<td data-label="State">Hawaii</td>
 					</tr>
-					<tr>
+					<tr data-code="216">
 						<td data-label="Area Code">216</td>
 						<td data-label="City">Cleveland</td>
 						<td data-label="State">Ohio</td>
 					</tr>
-					<tr>
+					<tr data-code="317">
 						<td data-label="Area Code">317</td>
 						<td data-label="City">Indianapolis</td>
 						<td data-label="State">Indiana</td>
 					</tr>
-					<tr>
+					<tr data-code="770">
 						<td data-label="Area Code">770</td>
 						<td data-label="City">Atlanta</td>
 						<td data-label="State">Georgia</td>
 					</tr>
-					<tr>
+					<tr data-code="972">
 						<td data-label="Area Code">972</td>
 						<td data-label="City">Dallas</td>
 						<td data-label="State">Texas</td>
 					</tr>
-					<tr>
+					<tr data-code="713">
 						<td data-label="Area Code">713</td>
 						<td data-label="City">Houston</td>
 						<td data-label="State">Texas</td>
 					</tr>
-					<tr>
+					<tr data-code="334">
 						<td data-label="Area Code">334</td>
 						<td data-label="City">Montgomery</td>
 						<td data-label="State">Alabama</td>
 					</tr>
-					<tr>
+					<tr data-code="205">
 						<td data-label="Area Code">205</td>
 						<td data-label="City">Birmingham</td>
 						<td data-label="State">Alabama</td>
 					</tr>
-					<tr>
+					<tr data-code="318">
 						<td data-label="Area Code">318</td>
 						<td data-label="City">Shreveport</td>
 						<td data-label="State">Louisiana</td>
 					</tr>
-					<tr>
+					<tr data-code="770">
 						<td data-label="Area Code">770</td>
 						<td data-label="City">Atlanta</td>
 						<td data-label="State">Georgia</td>
 					</tr>
-					<tr>
+					<tr data-code="601">
 						<td data-label="Area Code">601</td>
 						<td data-label="City">Jackson</td>
 						<td data-label="State">Mississippi</td>
 					</tr>
-					<tr>
+					<tr data-code="203">
 						<td data-label="Area Code">203</td>
 						<td data-label="City">New Haven</td>
 						<td data-label="State">Connecticut</td>
 					</tr>
-					<tr>
+					<tr data-code="804">
 						<td data-label="Area Code">804</td>
 						<td data-label="City">Richmond</td>
 						<td data-label="State">Virginia</td>
 					</tr>
-					<tr>
+					<tr data-code="402">
 						<td data-label="Area Code">402</td>
 						<td data-label="City">Omaha</td>
 						<td data-label="State">Nebraska</td>
 					</tr>
-					<tr>
+					<tr data-code="301">
 						<td data-label="Area Code">301</td>
 						<td data-label="City">Washington, D.C. suburbs</td>
 						<td data-label="State">Maryland</td>
 					</tr>
-					<tr>
+					<tr data-code="904">
 						<td data-label="Area Code">904</td>
 						<td data-label="City">Jacksonville</td>
 						<td data-label="State">Florida</td>
 					</tr>
-					<tr>
+					<tr data-code="407">
 						<td data-label="Area Code">407</td>
 						<td data-label="City">Orlando</td>
 						<td data-label="State">Florida</td>
 					</tr>
-					<tr>
+					<tr data-code="850">
 						<td data-label="Area Code">850</td>
 						<td data-label="City">Tallahassee</td>
 						<td data-label="State">Florida</td>
 					</tr>
-					<tr>
+					<tr data-code="708">
 						<td data-label="Area Code">708</td>
 						<td data-label="City">Cook County</td>
 						<td data-label="State">Illinois</td>
 					</tr>
-					<tr>
+					<tr data-code="502">
 						<td data-label="Area Code">502</td>
 						<td data-label="City">Louisville</td>
 						<td data-label="State">Kentucky</td>
@@ -402,7 +658,239 @@
 						src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
 		</div>
 	</footer>
+
+	<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/topojson@3.0.2/dist/topojson.min.js"></script>
+
 	<script>
+		// Mapping from 3-digit ZIP prefixes to Area Code song information
+		const zip3Lookup = {
+			'980': { code: '206', city: 'Seattle', state: 'Washington', count: 1 },
+			'981': { code: '206', city: 'Seattle', state: 'Washington', count: 1 },
+			'956': { code: '916', city: 'Sacramento', state: 'California', count: 1 },
+			'957': { code: '916', city: 'Sacramento', state: 'California', count: 1 },
+			'940': { code: '415', city: 'San Francisco', state: 'California', count: 1 },
+			'941': { code: '415', city: 'San Francisco', state: 'California', count: 1 },
+			'900': { code: '213', city: 'Los Angeles', state: 'California', count: 1 },
+			'902': { code: '213', city: 'Los Angeles', state: 'California', count: 1 },
+			'967': { code: '808', city: 'Honolulu', state: 'Hawaii', count: 1 },
+			'968': { code: '808', city: 'Honolulu', state: 'Hawaii', count: 1 },
+			'890': { code: '702', city: 'Las Vegas', state: 'Nevada', count: 1 },
+			'891': { code: '702', city: 'Las Vegas', state: 'Nevada', count: 1 },
+			'750': { code: '972', city: 'Dallas', state: 'Texas', count: 2 },
+			'751': { code: '972', city: 'Dallas', state: 'Texas', count: 2 },
+			'752': { code: '972', city: 'Dallas', state: 'Texas', count: 2 },
+			'770': { code: '713', city: 'Houston', state: 'Texas', count: 2 },
+			'701': { code: '504', city: 'New Orleans', state: 'Louisiana', count: 1 },
+			'710': { code: '318', city: 'Shreveport', state: 'Louisiana', count: 1 },
+			'711': { code: '318', city: 'Shreveport', state: 'Louisiana', count: 1 },
+			'680': { code: '402', city: 'Omaha', state: 'Nebraska', count: 1 },
+			'681': { code: '402', city: 'Omaha', state: 'Nebraska', count: 1 },
+			'683': { code: '402', city: 'Omaha', state: 'Nebraska', count: 1 },
+			'600': { code: '708', city: 'Cook County', state: 'Illinois', count: 1 },
+			'601': { code: '708', city: 'Cook County', state: 'Illinois', count: 1 },
+			'604': { code: '708', city: 'Cook County', state: 'Illinois', count: 1 },
+			'605': { code: '708', city: 'Cook County', state: 'Illinois', count: 1 },
+			'606': { code: '312', city: 'Chicago', state: 'Illinois', count: 1 },
+			'620': { code: '314', city: 'St. Louis (Metro East)', state: 'Missouri', count: 1 },
+			'530': { code: '414', city: 'Milwaukee', state: 'Wisconsin', count: 1 },
+			'531': { code: '414', city: 'Milwaukee', state: 'Wisconsin', count: 1 },
+			'532': { code: '414', city: 'Milwaukee', state: 'Wisconsin', count: 1 },
+			'481': { code: '313', city: 'Detroit', state: 'Michigan', count: 1 },
+			'482': { code: '313', city: 'Detroit', state: 'Michigan', count: 1 },
+			'483': { code: '313', city: 'Detroit', state: 'Michigan', count: 1 },
+			'460': { code: '317', city: 'Indianapolis', state: 'Indiana', count: 1 },
+			'461': { code: '317', city: 'Indianapolis', state: 'Indiana', count: 1 },
+			'462': { code: '317', city: 'Indianapolis', state: 'Indiana', count: 1 },
+			'440': { code: '216', city: 'Cleveland', state: 'Ohio', count: 1 },
+			'441': { code: '216', city: 'Cleveland', state: 'Ohio', count: 1 },
+			'400': { code: '502', city: 'Louisville', state: 'Kentucky', count: 1 },
+			'401': { code: '502', city: 'Louisville', state: 'Kentucky', count: 1 },
+			'402': { code: '502', city: 'Louisville', state: 'Kentucky', count: 1 },
+			'380': { code: '901', city: 'Memphis', state: 'Tennessee', count: 1 },
+			'381': { code: '901', city: 'Memphis', state: 'Tennessee', count: 1 },
+			'390': { code: '601', city: 'Jackson', state: 'Mississippi', count: 1 },
+			'391': { code: '601', city: 'Jackson', state: 'Mississippi', count: 1 },
+			'392': { code: '601', city: 'Jackson', state: 'Mississippi', count: 1 },
+			'350': { code: '205', city: 'Birmingham', state: 'Alabama', count: 1 },
+			'351': { code: '205', city: 'Birmingham', state: 'Alabama', count: 1 },
+			'352': { code: '205', city: 'Birmingham', state: 'Alabama', count: 1 },
+			'360': { code: '334', city: 'Montgomery', state: 'Alabama', count: 1 },
+			'361': { code: '334', city: 'Montgomery', state: 'Alabama', count: 1 },
+			'330': { code: '305', city: 'Miami', state: 'Florida', count: 1 },
+			'331': { code: '305', city: 'Miami', state: 'Florida', count: 1 },
+			'320': { code: '904', city: 'Jacksonville', state: 'Florida', count: 1 },
+			'322': { code: '904', city: 'Jacksonville', state: 'Florida', count: 1 },
+			'323': { code: '850', city: 'Tallahassee', state: 'Florida', count: 1 },
+			'327': { code: '407', city: 'Orlando', state: 'Florida', count: 1 },
+			'328': { code: '407', city: 'Orlando', state: 'Florida', count: 1 },
+			'300': { code: '770', city: 'Atlanta', state: 'Georgia', count: 3 },
+			'301': { code: '770', city: 'Atlanta', state: 'Georgia', count: 3 },
+			'302': { code: '770', city: 'Atlanta', state: 'Georgia', count: 3 },
+			'303': { code: '404', city: 'Atlanta', state: 'Georgia', count: 1 },
+			'290': { code: '803', city: 'Columbia', state: 'South Carolina', count: 1 },
+			'292': { code: '803', city: 'Columbia', state: 'South Carolina', count: 1 },
+			'293': { code: '803', city: 'Columbia', state: 'South Carolina', count: 1 },
+			'280': { code: '704', city: 'Charlotte', state: 'North Carolina', count: 1 },
+			'281': { code: '704', city: 'Charlotte', state: 'North Carolina', count: 1 },
+			'282': { code: '704', city: 'Charlotte', state: 'North Carolina', count: 1 },
+			'230': { code: '804', city: 'Richmond', state: 'Virginia', count: 1 },
+			'231': { code: '804', city: 'Richmond', state: 'Virginia', count: 1 },
+			'233': { code: '757', city: 'Hampton Roads', state: 'Virginia', count: 1 },
+			'234': { code: '757', city: 'Hampton Roads', state: 'Virginia', count: 1 },
+			'200': { code: '202', city: 'Washington', state: 'D.C.', count: 1 },
+			'210': { code: '410', city: 'Baltimore', state: 'Maryland', count: 1 },
+			'212': { code: '410', city: 'Baltimore', state: 'Maryland', count: 1 },
+			'217': { code: '301', city: 'Washington, D.C. suburbs', state: 'Maryland', count: 1 },
+			'191': { code: '215', city: 'Philadelphia', state: 'Pennsylvania', count: 1 },
+			'073': { code: '201', city: 'Jersey City', state: 'New Jersey', count: 1 },
+			'100': { code: '212', city: 'New York', state: 'New York', count: 1 },
+			'103': { code: '718', city: 'New York City (Staten Island)', state: 'New York', count: 1 },
+			'104': { code: '718', city: 'New York City (Bronx)', state: 'New York', count: 1 },
+			'107': { code: '718', city: 'New York City (Westchester)', state: 'New York', count: 1 },
+			'112': { code: '718', city: 'New York City (Brooklyn)', state: 'New York', count: 1 },
+			'065': { code: '203', 'city': 'New Haven', state: 'Connecticut', count: 1 },
+			'066': { code: '203', 'city': 'New Haven / Bridgeport', state: 'Connecticut', count: 1 }
+		};
+
+		// Interactive Map Rendering
+		Promise.all([
+			d3.json('data/geo/zip3.topo.json'),
+			d3.json('data/geo/us-states-10m.json')
+		]).then(([zip3Topo, usStates]) => {
+			const container = document.getElementById('map');
+			const tooltip = document.getElementById('map-tooltip');
+			if (!container || !zip3Topo) return;
+
+			const zipFeatures = topojson.feature(zip3Topo, zip3Topo.objects.three_dig_zips).features;
+			const stateMesh = topojson.mesh(usStates, usStates.objects.states, (a, b) => a !== b);
+
+			function renderMap() {
+				container.innerHTML = '';
+				const containerWidth = container.clientWidth || 700;
+				const width = Math.min(800, containerWidth);
+				const height = Math.round(width * 0.62);
+
+				const svg = d3.select(container)
+					.append('svg')
+					.attr('viewBox', `0 0 ${width} ${height}`)
+					.attr('width', width)
+					.attr('height', height)
+					.attr('role', 'img')
+					.attr('aria-label', 'Interactive map showing area codes where rapper Ludacris claims to have hoes');
+
+				const projection = d3.geoAlbersUsa()
+					.fitSize([width, height], { type: 'FeatureCollection', features: zipFeatures });
+
+				const path = d3.geoPath(projection);
+
+				// Draw ZIP3 Polygons
+				const gZips = svg.append('g').attr('class', 'zip-layer');
+
+				gZips.selectAll('path')
+					.data(zipFeatures)
+					.enter()
+					.append('path')
+					.attr('d', path)
+					.attr('class', d => {
+						const zipId = d.id || (d.properties && d.properties['3dig_zip']);
+						const info = zip3Lookup[zipId];
+						if (!info) return 'zip3-zone';
+						return `zip3-zone hoe hoe-${info.count}`;
+					})
+					.attr('data-zip', d => d.id || (d.properties && d.properties['3dig_zip']))
+					.on('pointerenter pointermove', function (event, d) {
+						const zipId = d.id || (d.properties && d.properties['3dig_zip']);
+						const info = zip3Lookup[zipId];
+						if (info) {
+							highlightCode(info.code);
+						}
+						showTooltip(event, info, zipId);
+					})
+					.on('pointerleave', function () {
+						clearHighlights();
+						hideTooltip();
+					});
+
+				// 3. Overlay State Boundaries
+				svg.append('path')
+					.datum(stateMesh)
+					.attr('class', 'state-boundary')
+					.attr('d', path);
+
+				function showTooltip(event, info, zipId) {
+					if (info) {
+						tooltip.innerHTML = `
+							<div style="font-weight: 700; font-size: 0.92rem; margin-bottom: 2px;">📍 ${info.city}, ${info.state}</div>
+							<div style="color: #fca5a5; font-weight: 600; font-size: 0.85rem;">📞 Area Code: <strong>${info.code}</strong></div>
+							<div style="font-size: 0.8rem; opacity: 0.9;">🎵 ${info.count} ${info.count === 1 ? 'shoutout' : 'shoutouts'} in "Area Codes"</div>
+							<div style="font-size: 0.72rem; opacity: 0.65; margin-top: 3px;">ZIP Prefix: ${zipId}</div>
+						`;
+					} else {
+						tooltip.innerHTML = `
+							<div style="font-weight: 600; font-size: 0.85rem;">📮 ZIP Prefix: ${zipId}</div>
+							<div style="font-size: 0.75rem; opacity: 0.7;">(Not mentioned in song)</div>
+						`;
+					}
+					tooltip.style.display = 'block';
+					positionTooltip(event);
+				}
+
+				function positionTooltip(event) {
+					const mapContainer = document.getElementById('map-container');
+					const [x, y] = d3.pointer(event, mapContainer);
+					const bounds = mapContainer.getBoundingClientRect();
+
+					let left = x + 15;
+					let top = y + 15;
+					if (left + 190 > bounds.width) left = x - 200;
+					if (top + 90 > bounds.height) top = y - 95;
+
+					tooltip.style.left = `${Math.max(5, left)}px`;
+					tooltip.style.top = `${Math.max(5, top)}px`;
+				}
+
+				function hideTooltip() {
+					tooltip.style.display = 'none';
+				}
+			}
+
+			// Bidirectional highlighting (Map <-> Table)
+			function highlightCode(code) {
+				d3.selectAll('.zip3-zone').classed('is-hovered', function () {
+					const zip = d3.select(this).attr('data-zip');
+					return zip3Lookup[zip] && (zip3Lookup[zip].code === code || code.includes(zip3Lookup[zip].code));
+				});
+
+				document.querySelectorAll('tbody tr').forEach(tr => {
+					if (tr.dataset.code === code || (code && code.includes(tr.dataset.code))) {
+						tr.classList.add('row-highlight');
+					} else {
+						tr.classList.remove('row-highlight');
+					}
+				});
+			}
+
+			function clearHighlights() {
+				d3.selectAll('.zip3-zone').classed('is-hovered', false);
+				document.querySelectorAll('tbody tr').forEach(tr => tr.classList.remove('row-highlight'));
+			}
+
+			// Attach table hover listeners
+			document.querySelectorAll('tbody tr').forEach(tr => {
+				const code = tr.dataset.code;
+				tr.addEventListener('mouseenter', () => highlightCode(code));
+				tr.addEventListener('mouseleave', () => clearHighlights());
+			});
+
+			renderMap();
+			window.addEventListener('resize', () => {
+				renderMap();
+			});
+		}).catch(err => {
+			console.error('Error loading map data:', err);
+		});
+
 		// Theme toggle functionality
 		const themeToggleBtn = document.getElementById("theme-toggle");
 		const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
