@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    // Inline script to prevent FOUC (Flash of Unstyled Content) by setting the correct theme immediately
+    (function () {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme === 'dark' || (savedTheme !== 'light' && prefersDark) ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+      document.documentElement.classList.remove('no-js');
+      document.documentElement.classList.add('js');
+    })();
+  </script>
+
+  <title>The Billy Distribution: A Statistical Analysis of Humor | Justin Chill</title>
+  <meta name="description"
+    content="An empirical and statistical analysis of joke delivery, punchline cadence, and laughter coefficients—demonstrating why Billy is statistically superior humor-wise while Phil languishes well below average.">
+  <meta name="author" content="Justin Chill">
+  <meta name="robots" content="all">
+
+  <!-- OpenGraph tags -->
+  <meta content="en_US" property="og:locale">
+  <meta content="JustinChill" property="og:site_name">
+  <meta content="article" property="og:type">
+  <meta content="https://justinchill.com/billy.html" property="og:url">
+  <meta content="The Billy Distribution: A Statistical Analysis of Humor | Justin Chill" property="og:title">
+  <meta
+    content="An empirical and statistical analysis of joke delivery, punchline cadence, and laughter coefficients—demonstrating why Billy is statistically superior humor-wise while Phil languishes well below average."
+    property="og:description">
+  <meta content="https://justinchill.com/blog.html" property="og:see_also">
+  <meta property="og:locality" content="New York">
+  <meta property="og:region" content="NY">
+  <meta property="og:country_name" content="USA">
+  <meta content="https://justinchill.com/imgs/dad_joke_big.jpg" property="og:image">
+  <meta content="A bell curve chart highlighting Billy's superior joke performance compared to the average and Phil."
+    property="og:image:alt">
+
+  <meta property="article:published_time" content="2026-08-22">
+  <meta property="article:modified_time" content="2026-08-22">
+  <meta property="article:author" content="Justin Chill">
+  <meta property="article:section" content="Data Journalism">
+  <meta name="datePublished" content="2026-08-22">
+  <meta name="dateModified" content="2026-08-22">
+
+  <!-- Twitter tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@JustinChill">
+  <meta name="twitter:creator" content="@JustinChill">
+  <meta name="twitter:title" content="The Billy Distribution: A Statistical Analysis of Humor | Justin Chill">
+  <meta name="twitter:description"
+    content="An empirical and statistical analysis of joke delivery, punchline cadence, and laughter coefficients—demonstrating why Billy is statistically superior humor-wise while Phil languishes well below average.">
+  <meta content="https://justinchill.com/imgs/dad_joke_big.jpg" name="twitter:image">
+  <meta name="twitter:image:alt"
+    content="Statistical analysis of joke performance showing Billy vs Phil.">
+
+  <link rel="canonical" href="https://justinchill.com/billy.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500;700&family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,700&display=swap"
+    rel="stylesheet">
+  <link rel="preload" href="style.css" as="style" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico">
+  <link type="text/plain" href="humans.txt" rel="author">
+
+  <meta name="theme-color" content="#4C63B6">
+  <meta name="color-scheme" content="light dark">
+
+  <style type="text/css">
+    /* Theme Tokens & Component Styles */
+    :root {
+      --billy-accent: #7c3aed;
+      --billy-accent-light: #8b5cf6;
+      --billy-accent-bg: rgba(124, 58, 237, 0.08);
+      --phil-accent: #ef4444;
+      --phil-accent-bg: rgba(239, 68, 68, 0.08);
+      --avg-accent: #10b981;
+      --avg-accent-bg: rgba(16, 185, 129, 0.08);
+      --card-bg: #ffffff;
+      --card-border: #e2e8f0;
+      --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+      --card-shadow-hover: 0 12px 20px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+      --table-row-hover: #f8fafc;
+      --stat-pill-bg: #f1f5f9;
+      --code-inline-bg: #f1f5f9;
+      --code-inline-text: #0f172a;
+    }
+
+    [data-theme="dark"] {
+      --billy-accent: #a78bfa;
+      --billy-accent-light: #c4b5fd;
+      --billy-accent-bg: rgba(167, 139, 250, 0.15);
+      --phil-accent: #f87171;
+      --phil-accent-bg: rgba(248, 113, 113, 0.15);
+      --avg-accent: #34d399;
+      --avg-accent-bg: rgba(52, 211, 153, 0.15);
+      --card-bg: #1e2430;
+      --card-border: #334155;
+      --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+      --card-shadow-hover: 0 12px 24px -3px rgba(0, 0, 0, 0.6), 0 0 15px rgba(167, 139, 250, 0.15);
+      --table-row-hover: #262e3d;
+      --stat-pill-bg: #283344;
+      --code-inline-bg: #283344;
+      --code-inline-text: #e2e8f0;
+    }
+
+    /* Touch & Focus Accessibility */
+    .nav__item,
+    #theme-toggle {
+      min-height: 44px;
+      min-width: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    select:focus-visible {
+      outline: 2px solid var(--billy-accent);
+      outline-offset: 2px;
+    }
+
+    /* Executive Stat Grid */
+    .stat-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+      margin: 2rem 0;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--card-shadow-hover);
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+    }
+
+    .stat-card.billy::before {
+      background: linear-gradient(90deg, #7c3aed, #a855f7);
+    }
+
+    .stat-card.avg::before {
+      background: linear-gradient(90deg, #059669, #10b981);
+    }
+
+    .stat-card.phil::before {
+      background: linear-gradient(90deg, #dc2626, #ef4444);
+    }
+
+    .stat-card__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      margin-bottom: 0.85rem;
+    }
+
+    .stat-card.billy .stat-card__badge {
+      background: var(--billy-accent-bg);
+      color: var(--billy-accent);
+    }
+
+    .stat-card.avg .stat-card__badge {
+      background: var(--avg-accent-bg);
+      color: var(--avg-accent);
+    }
+
+    .stat-card.phil .stat-card__badge {
+      background: var(--phil-accent-bg);
+      color: var(--phil-accent);
+    }
+
+    .stat-card__name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--heading-color);
+      margin: 0 0 0.25rem 0;
+    }
+
+    .stat-card__score {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1.1;
+      margin: 0.5rem 0;
+      letter-spacing: -0.02em;
+    }
+
+    .stat-card.billy .stat-card__score {
+      color: var(--billy-accent);
+    }
+
+    .stat-card.avg .stat-card__score {
+      color: var(--avg-accent);
+    }
+
+    .stat-card.phil .stat-card__score {
+      color: var(--phil-accent);
+    }
+
+    .stat-card__details {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0 0 0;
+      border-top: 1px dashed var(--card-border);
+      padding-top: 0.85rem;
+      font-size: 0.875rem;
+      color: var(--text-color);
+    }
+
+    .stat-card__details li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-card__details li:last-child {
+      margin-bottom: 0;
+    }
+
+    .stat-card__details span.label {
+      color: var(--muted-color);
+    }
+
+    .stat-card__details span.val {
+      font-family: 'Roboto Mono', monospace;
+      font-weight: 600;
+    }
+
+    /* Chart Containers & Panels */
+    .chart-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      box-shadow: var(--card-shadow);
+    }
+
+    .chart-panel__header {
+      margin-bottom: 1.25rem;
+    }
+
+    .chart-panel__title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--heading-color);
+      margin: 0 0 0.35rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .chart-panel__desc {
+      font-size: 0.9rem;
+      color: var(--muted-color);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    .chart-wrapper {
+      width: 100%;
+      min-height: 300px;
+      position: relative;
+    }
+
+    .chart-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1rem;
+      padding-top: 0.85rem;
+      border-top: 1px solid var(--card-border);
+      font-size: 0.85rem;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .chart-legend__item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .chart-legend__dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    /* Joke Duel / Simulator Widget */
+    .duel-container {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      margin: 2.5rem 0;
+      box-shadow: var(--card-shadow-hover);
+    }
+
+    .duel-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .duel-title-group h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin: 0 0 0.25rem 0;
+      color: var(--heading-color);
+    }
+
+    .duel-title-group p {
+      font-size: 0.9rem;
+      color: var(--muted-color);
+      margin: 0;
+    }
+
+    .duel-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .duel-select {
+      background: var(--stat-pill-bg);
+      color: var(--text-color);
+      border: 1px solid var(--card-border);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 500;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .duel-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .duel-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .duel-side {
+      border-radius: 12px;
+      padding: 1.25rem;
+      border: 1px solid var(--card-border);
+      background: var(--surface-color);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .duel-side.billy-side {
+      border-left: 4px solid var(--billy-accent);
+    }
+
+    .duel-side.phil-side {
+      border-left: 4px solid var(--phil-accent);
+    }
+
+    .duel-side__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.85rem;
+    }
+
+    .duel-side__name {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .duel-side.billy-side .duel-side__name {
+      color: var(--billy-accent);
+    }
+
+    .duel-side.phil-side .duel-side__name {
+      color: var(--phil-accent);
+    }
+
+    .duel-side__rating {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+    }
+
+    .duel-side.billy-side .duel-side__rating {
+      background: var(--billy-accent-bg);
+      color: var(--billy-accent);
+    }
+
+    .duel-side.phil-side .duel-side__rating {
+      background: var(--phil-accent-bg);
+      color: var(--phil-accent);
+    }
+
+    .duel-transcript {
+      font-size: 1rem;
+      line-height: 1.6;
+      margin: 0.75rem 0 1.25rem 0;
+      font-style: italic;
+      color: var(--text-color);
+    }
+
+    .duel-reaction-meter {
+      margin-top: auto;
+      padding-top: 0.75rem;
+      border-top: 1px dashed var(--card-border);
+      font-size: 0.85rem;
+    }
+
+    .reaction-bar-bg {
+      height: 8px;
+      background: var(--card-border);
+      border-radius: 9999px;
+      overflow: hidden;
+      margin-top: 0.35rem;
+    }
+
+    .reaction-bar-fill {
+      height: 100%;
+      border-radius: 9999px;
+      transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .duel-side.billy-side .reaction-bar-fill {
+      background: linear-gradient(90deg, #7c3aed, #a855f7);
+    }
+
+    .duel-side.phil-side .reaction-bar-fill {
+      background: linear-gradient(90deg, #dc2626, #ef4444);
+    }
+
+    /* Comparison Table */
+    .table-container {
+      overflow-x: auto;
+      margin: 2rem 0;
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      background: var(--card-bg);
+      box-shadow: var(--card-shadow);
+    }
+
+    table.humor-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.925rem;
+      text-align: left;
+      margin: 0;
+    }
+
+    table.humor-table th {
+      background: var(--table-header-bg);
+      color: var(--heading-color);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      padding: 0.85rem 1rem;
+      border-bottom: 2px solid var(--card-border);
+    }
+
+    table.humor-table td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--card-border);
+      color: var(--text-color);
+    }
+
+    table.humor-table tbody tr:hover {
+      background-color: var(--table-row-hover);
+    }
+
+    .badge-billy {
+      display: inline-block;
+      font-weight: 700;
+      color: var(--billy-accent);
+      background: var(--billy-accent-bg);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .badge-phil {
+      display: inline-block;
+      font-weight: 700;
+      color: var(--phil-accent);
+      background: var(--phil-accent-bg);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .badge-avg {
+      display: inline-block;
+      font-weight: 700;
+      color: var(--avg-accent);
+      background: var(--avg-accent-bg);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    /* Callout & Prescription Box */
+    .humor-callout {
+      border-left: 4px solid var(--billy-accent);
+      background: var(--billy-accent-bg);
+      padding: 1.25rem 1.5rem;
+      border-radius: 0 10px 10px 0;
+      margin: 2rem 0;
+    }
+
+    .humor-callout h4 {
+      margin: 0 0 0.5rem 0;
+      color: var(--billy-accent);
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+    }
+
+    .humor-callout p {
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
+
+    .prescription-box {
+      border: 1px dashed var(--phil-accent);
+      background: var(--phil-accent-bg);
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin: 2rem 0;
+    }
+
+    .prescription-box h4 {
+      margin: 0 0 0.75rem 0;
+      color: var(--phil-accent);
+      font-family: 'Outfit', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .prescription-box ol {
+      margin: 0;
+      padding-left: 1.25rem;
+      line-height: 1.6;
+    }
+
+    /* Plot text overrides for theme consistency */
+    .plot text {
+      fill: var(--text-color, #242424);
+      font-family: 'Outfit', sans-serif;
+    }
+
+    html[data-theme="dark"] .plot text {
+      fill: #e2e8f0;
+    }
+
+    .plot [aria-label="tip"] {
+      font-family: 'Outfit', sans-serif;
+    }
+  </style>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "The Billy Distribution: A Statistical Analysis of Humor",
+  "alternativeHeadline": "Empirical Proof of Billy's Superior Joke Delivery and Phil's Deficit Below the Mean",
+  "description": "An empirical and statistical analysis of joke delivery, punchline cadence, and laughter coefficients—demonstrating why Billy is statistically superior humor-wise while Phil languishes well below average.",
+  "datePublished": "2026-08-22",
+  "dateModified": "2026-08-22",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": true,
+  "articleSection": "Data Journalism",
+  "keywords": [
+    "Humor Statistics",
+    "Joke Analytics",
+    "Billy Distribution",
+    "Statistical Analysis",
+    "Observable Plot",
+    "D3.js",
+    "Comedy Metrics",
+    "Laughter Coefficient"
+  ],
+  "author": {
+    "@type": "Person",
+    "name": "Justin Chill",
+    "url": "https://justinchill.com/now.html",
+    "image": "https://justinchill.com/imgs/memoji.png",
+    "sameAs": [
+      "https://www.linkedin.com/in/justinrichardhill/",
+      "https://github.com/JustinChill"
+    ]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Justin Chill",
+    "url": "https://justinchill.com/now.html",
+    "image": "https://justinchill.com/imgs/memoji.png",
+    "sameAs": [
+      "https://www.linkedin.com/in/justinrichardhill/",
+      "https://github.com/JustinChill"
+    ]
+  },
+  "mainEntityOfPage": "https://justinchill.com/billy.html",
+  "image": "https://justinchill.com/imgs/dad_joke_big.jpg"
+}
+  </script>
+</head>
+
+<body>
+  <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+  <nav class="nav" role="navigation">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
+      <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
+      <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
+
+      <!-- Theme Toggle Button -->
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
+        aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+        <span id="theme-toggle-light-icon" class="hidden">
+          <!-- Sun Icon -->
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
+            </path>
+          </svg>
+        </span>
+        <span id="theme-toggle-dark-icon" class="hidden">
+          <!-- Moon Icon -->
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+          </svg>
+        </span>
+      </button>
+    </div>
+    <div class="nav__list">
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+
+  <main role="main" id="content">
+    <article>
+      <div class="article-hero">
+        <p class="article-category">Statistical Analysis</p>
+        <h1 class="article-title">The Billy Distribution</h1>
+        <h2 class="article-subtitle">Empirical evidence on joke delivery, punchline velocity, and why Phil is in the 4th percentile</h2>
+      </div>
+
+      <p>Comedy is notoriously difficult to quantify. For decades, sociologists and computational linguists have struggled to measure why certain raconteurs consistently command room-wide laughter while others produce deafening silence punctuated by uncomfortable throat clearing<a href="#humor-science" id="humor-science-ref" aria-describedby="footnote-label"></a>. Over a twelve-month observational study of 1,240 joke deliveries across casual gatherings, conference lunches, and office happy hours, our researchers collected high-frequency audio telemetry, biometric giggle-sensors, and stopwatch timestamps to settle the debate once and for all.</p>
+
+      <p>The statistical findings are unambiguous: <strong>Billy</strong> represents a monumental positive outlier in comedic efficacy—operating at <strong>+2.85 standard deviations</strong> above the population mean. Conversely, <strong>Phil</strong> occupies a catastrophic trough on the left tail of the distribution, consistently registering scores that place him firmly in the bottom 5th percentile of joke performance.</p>
+
+      <!-- Key Scorecards Grid -->
+      <div class="stat-cards-grid">
+        <!-- Billy Card -->
+        <div class="stat-card billy">
+          <span class="stat-card__badge">✨ Statistical Savant</span>
+          <h3 class="stat-card__name">Billy</h3>
+          <div class="stat-card__score">142.8 <span style="font-size: 1rem; font-weight: 500; color: var(--muted-color);">HQ</span></div>
+          <p style="margin: 0; font-size: 0.85rem; color: var(--muted-color);">Humor Quotient (99.8th percentile, +2.85σ)</p>
+          <ul class="stat-card__details">
+            <li><span class="label">Laugh-to-Groan Ratio:</span> <span class="val" style="color: var(--billy-accent);">9.4 : 1</span></li>
+            <li><span class="label">Punchline Latency:</span> <span class="val">1.8 sec</span></li>
+            <li><span class="label">Explains Joke:</span> <span class="val">0.4%</span></li>
+            <li><span class="label">Mean Decibel Peak:</span> <span class="val">84.2 dB</span></li>
+          </ul>
+        </div>
+
+        <!-- Population Average Card -->
+        <div class="stat-card avg">
+          <span class="stat-card__badge">📊 Cohort Baseline</span>
+          <h3 class="stat-card__name">Population Avg</h3>
+          <div class="stat-card__score">100.0 <span style="font-size: 1rem; font-weight: 500; color: var(--muted-color);">HQ</span></div>
+          <p style="margin: 0; font-size: 0.85rem; color: var(--muted-color);">Standardized Median Baseline (50.0th %ile)</p>
+          <ul class="stat-card__details">
+            <li><span class="label">Laugh-to-Groan Ratio:</span> <span class="val" style="color: var(--avg-accent);">1.8 : 1</span></li>
+            <li><span class="label">Punchline Latency:</span> <span class="val">4.2 sec</span></li>
+            <li><span class="label">Explains Joke:</span> <span class="val">18.5%</span></li>
+            <li><span class="label">Mean Decibel Peak:</span> <span class="val">62.5 dB</span></li>
+          </ul>
+        </div>
+
+        <!-- Phil Card -->
+        <div class="stat-card phil">
+          <span class="stat-card__badge">⚠️ Critical Groan Zone</span>
+          <h3 class="stat-card__name">Phil</h3>
+          <div class="stat-card__score">74.1 <span style="font-size: 1rem; font-weight: 500; color: var(--muted-color);">HQ</span></div>
+          <p style="margin: 0; font-size: 0.85rem; color: var(--muted-color);">Humor Deficit Tier (4.2nd percentile, -1.73σ)</p>
+          <ul class="stat-card__details">
+            <li><span class="label">Laugh-to-Groan Ratio:</span> <span class="val" style="color: var(--phil-accent);">0.28 : 1</span></li>
+            <li><span class="label">Punchline Latency:</span> <span class="val">14.6 sec</span></li>
+            <li><span class="label">Explains Joke:</span> <span class="val">86.3%</span></li>
+            <li><span class="label">Mean Decibel Peak:</span> <span class="val">38.1 dB</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 id="the-normal-curve">The Standard Normal Distribution of Humor</h3>
+      <p>When standardized across the 1,240 observed trials, the Humor Quotient (HQ) exhibits classic Gaussian properties with a cohort mean $\mu = 100$ and standard deviation $\sigma = 15$. Billy's score of 142.8 places him in the upper fractional tier of comedic execution—frequently categorized in the clinical literature as <em>"Effortlessly Hilarious"</em>. Phil's 74.1 score lands in the region mathematically designated as <em>"Immediate Subject Change Required"</em><a href="#comedic-torque" id="comedic-torque-ref" aria-describedby="footnote-label"></a>.</p>
+
+      <!-- Chart 1: The Bell Curve -->
+      <div class="chart-panel">
+        <div class="chart-panel__header">
+          <h4 class="chart-panel__title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 20h18M3 20a9 9 0 0 1 18 0M3 20V4M12 4v16"/></svg>
+            Standardized Humor Quotient (HQ) Density Function
+          </h4>
+          <p class="chart-panel__desc">Gaussian distribution ($\mu=100, \sigma=15$) highlighting Billy's extreme upper-tier placement versus Phil's bottom-tail clustering.</p>
+        </div>
+        <div id="chart_bell_curve" class="chart-wrapper"></div>
+        <div class="chart-legend">
+          <div class="chart-legend__item">
+            <span class="chart-legend__dot" style="background: var(--billy-accent);"></span>
+            <strong>Billy (142.8 HQ, Top 0.2%)</strong>
+          </div>
+          <div class="chart-legend__item">
+            <span class="chart-legend__dot" style="background: var(--avg-accent);"></span>
+            <strong>Cohort Average (100.0 HQ, Median)</strong>
+          </div>
+          <div class="chart-legend__item">
+            <span class="chart-legend__dot" style="background: #3b82f6;"></span>
+            <span>Justin & Dave (112.5 & 108.0 HQ)</span>
+          </div>
+          <div class="chart-legend__item">
+            <span class="chart-legend__dot" style="background: var(--phil-accent);"></span>
+            <strong>Phil (74.1 HQ, Bottom 4.2%)</strong>
+          </div>
+        </div>
+      </div>
+
+      <h3 id="multidimensional-breakdown">Multi-Dimensional Comedic Metrics</h3>
+      <p>To understand the mechanics behind this statistical chasm, each joke delivery was evaluated across six discrete operational dimensions scored from 0 to 100:</p>
+      <ul>
+        <li><strong>Timing & Cadence:</strong> Rhythmic precision between setup and comedic payoff.</li>
+        <li><strong>Punchline Articulation:</strong> Delivery clarity without fumbling or premature muttering.</li>
+        <li><strong>Groan Inversion Factor:</strong> The ability to turn an inherently corny dad joke into a genuine belly laugh.</li>
+        <li><strong>Spontaneous Self-Composure:</strong> Maintaining a straight face versus wheezing into the microphone before the punchline is even uttered.</li>
+        <li><strong>Cleverness & Punning:</strong> Intellectual depth of the underlying wordplay or situational irony.</li>
+        <li><strong>Acoustic Resonance:</strong> Measured volume and duration of involuntary audience chortles.</li>
+      </ul>
+
+      <!-- Chart 2: Comparative Bar Chart Matrix -->
+      <div class="chart-panel">
+        <div class="chart-panel__header">
+          <h4 class="chart-panel__title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+            Dimensional Performance Matrix: Billy vs. Average vs. Phil
+          </h4>
+          <p class="chart-panel__desc">Comparative scoring across six core comedic performance vectors (0–100 scale).</p>
+        </div>
+        <div id="chart_dimensions" class="chart-wrapper"></div>
+      </div>
+
+      <div class="humor-callout">
+        <h4>💡 The Billy Singularity: Statistical Significance</h4>
+        <p>Across all 420 jokes delivered by Billy during the evaluation window, his laugh-to-groan ratio remained above 8.5 even when attempting notoriously risky formats (e.g. multi-layered puns and observational anti-humor). A two-sample Welch's t-test comparing Billy's comedic yield against the peer baseline yielded $t = 18.42$ with a $p$-value $< 0.00001$, firmly rejecting the null hypothesis that Billy is "just having a good day."</p>
+      </div>
+
+      <h3 id="the-phil-deficit">The Anatomy of Phil's Deficit: A Case Study in Friction</h3>
+      <p>Our audio forensic team conducted detailed wave-form decompositions of Phil's joke attempts. The analysis revealed four recurring structural failure modes that explain his position below the average:</p>
+
+      <ol>
+        <li><strong>The Premature Chuckle Anomaly:</strong> Phil laughs at his own setup approximately <strong>3.8 seconds</strong> before the audience has any context, dissipating all comedic tension.</li>
+        <li><strong>The Tangent Trap:</strong> Rather than moving crisply from premise to twist, Phil routinely inserts extraneous geographic or logistical details (e.g., <em>"So a priest, a rabbi, and a minister walk into a bar—it was that one on 4th street with the sticky tables, or wait, maybe it was the one on Elm..."</em>).</li>
+        <li><strong>The Epilogue Dilemma:</strong> In 86.3% of documented cases, Phil follows his punchline with an unprompted explanation beginning with <em>"See, because the horse has a long face, get it?"</em></li>
+        <li><strong>Setup Misplacement:</strong> In 31.4% of recorded trials, Phil inadvertently states the punchline during the initial premise, rendering the conclusion completely inert.</li>
+      </ol>
+
+      <!-- Chart 3: Scatter Plot of Setup Time vs Laugh Duration -->
+      <div class="chart-panel">
+        <div class="chart-panel__header">
+          <h4 class="chart-panel__title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            The Efficiency Frontier: Setup Time vs. Audience Laughter Duration
+          </h4>
+          <p class="chart-panel__desc">Data points represent sampled joke performances. Billy achieves maximal laughter duration with minimal setup friction, while Phil incurs high setup overhead with negligible comedic payoff.</p>
+        </div>
+        <div id="chart_scatter" class="chart-wrapper"></div>
+        <div class="chart-legend">
+          <div class="chart-legend__item">
+            <span class="chart-legend__dot" style="background: var(--billy-accent);"></span>
+            <span>Billy's Deliveries (High Efficiency Frontier)</span>
+          </div>
+          <div class="chart-legend__item">
+            <span class="chart-legend__dot" style="background: var(--avg-accent);"></span>
+            <span>Cohort Average Zone</span>
+          </div>
+          <div class="chart-legend__item">
+            <span class="chart-legend__dot" style="background: var(--phil-accent);"></span>
+            <span>Phil's Deliveries (High Friction, Low Yield)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Joke Duel Widget -->
+      <h3 id="interactive-duel">Interactive Demonstration: The Joke Duel</h3>
+      <p>To experience the statistical disparity in practice, select a joke category below to contrast Billy's streamlined delivery against Phil's transcribed field recordings:</p>
+
+      <div class="duel-container">
+        <div class="duel-header">
+          <div class="duel-title-group">
+            <h3>Head-to-Head Joke Delivery Simulator</h3>
+            <p>Select a scenario to witness the empirical execution contrast</p>
+          </div>
+          <div class="duel-controls">
+            <label for="joke-category-select" class="screen-reader-text">Select Joke Category</label>
+            <select id="joke-category-select" class="duel-select">
+              <option value="dad">Classic Dad Joke (Anti-Gravity)</option>
+              <option value="pun">Wordplay & Bakery (Bread/Dough)</option>
+              <option value="tech">Engineering & Tech (Infinite Loop)</option>
+              <option value="animal">Animal Trivia (The Penguin)</option>
+              <option value="bar">Classic Bar Setup (The Horse)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="duel-grid">
+          <!-- Billy Side -->
+          <div class="duel-side billy-side">
+            <div>
+              <div class="duel-side__header">
+                <span class="duel-side__name">⚡ Billy (Elite Execution)</span>
+                <span class="duel-side__rating" id="billy-rating">98.4% Hit Rate</span>
+              </div>
+              <div class="duel-transcript" id="billy-transcript">
+                "I'm reading a book on anti-gravity... it's impossible to put down."
+              </div>
+            </div>
+            <div class="duel-reaction-meter">
+              <div style="display: flex; justify-content: space-between; font-weight: 600;">
+                <span>Audience Laughter Resonance:</span>
+                <span id="billy-resonance" style="color: var(--billy-accent);">86 dB (Belly Laugh)</span>
+              </div>
+              <div class="reaction-bar-bg">
+                <div class="reaction-bar-fill" id="billy-bar" style="width: 95%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phil Side -->
+          <div class="duel-side phil-side">
+            <div>
+              <div class="duel-side__header">
+                <span class="duel-side__name">📉 Phil (Field Transcript)</span>
+                <span class="duel-side__rating" id="phil-rating">6.2% Hit Rate</span>
+              </div>
+              <div class="duel-transcript" id="phil-transcript">
+                "So I bought this book, right? *snickers* Wait, you can't put it down because it's anti-gravity... wait, did I say that backwards? It floats! Get it? Because physics!"
+              </div>
+            </div>
+            <div class="duel-reaction-meter">
+              <div style="display: flex; justify-content: space-between; font-weight: 600;">
+                <span>Audience Laughter Resonance:</span>
+                <span id="phil-resonance" style="color: var(--phil-accent);">24 dB (Polite Coughing)</span>
+              </div>
+              <div class="reaction-bar-bg">
+                <div class="reaction-bar-fill" id="phil-bar" style="width: 15%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 id="empirical-ledger">The Empirical Joke Ledger</h3>
+      <p>A random sample of 6 recent verified trials demonstrates the consistent divergence between Billy's top-of-funnel humor efficiency and Phil's persistent gravitational pull below the mean:</p>
+
+      <div class="table-container">
+        <table class="humor-table">
+          <thead>
+            <tr>
+              <th>Teller</th>
+              <th>Joke Category</th>
+              <th>Transcript Excerpt</th>
+              <th>Peak dB</th>
+              <th>Groan Index</th>
+              <th>Outcome Verdict</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="badge-billy">Billy</span></td>
+              <td>One-Liner</td>
+              <td>"I told my doctor that I broke my arm in two places. He told me to stop going to those places."</td>
+              <td>88.4 dB</td>
+              <td>0.05</td>
+              <td><strong>Instant Ovation</strong></td>
+            </tr>
+            <tr>
+              <td><span class="badge-billy">Billy</span></td>
+              <td>Dad Joke</td>
+              <td>"Why don't scientists trust atoms? Because they make up everything."</td>
+              <td>82.1 dB</td>
+              <td>0.12</td>
+              <td><strong>Room-Wide Chuckle</strong></td>
+            </tr>
+            <tr>
+              <td><span class="badge-avg">Justin</span></td>
+              <td>Wordplay</td>
+              <td>"What do you call a fake noodle? An impasta."</td>
+              <td>64.0 dB</td>
+              <td>0.45</td>
+              <td><strong>Respectable Smile</strong></td>
+            </tr>
+            <tr>
+              <td><span class="badge-avg">Dave</span></td>
+              <td>Observation</td>
+              <td>"I used to play piano by ear, but now I use my hands."</td>
+              <td>59.8 dB</td>
+              <td>0.52</td>
+              <td><strong>Standard Chortle</strong></td>
+            </tr>
+            <tr>
+              <td><span class="badge-phil">Phil</span></td>
+              <td>Rambling Pun</td>
+              <td>"Why do cows have hooves? Because... well, milk has lactose! *laughs loudly* Lactose/lack toes!"</td>
+              <td>34.2 dB</td>
+              <td>0.94</td>
+              <td><strong>Uncomfortable Silence</strong></td>
+            </tr>
+            <tr>
+              <td><span class="badge-phil">Phil</span></td>
+              <td>Dad Joke</td>
+              <td>"A bicycle fell over because it was... wait, two-tired or tired? You know, bicycles have wheels..."</td>
+              <td>29.5 dB</td>
+              <td>0.98</td>
+              <td><strong>Collective Facepalm</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="prescription-box">
+        <h4>📋 Prescribed Remedial Interventions for Phil</h4>
+        <p>In light of Phil's persistent statistical deficit, our humor advisory panel recommends the following structured rehabilitation protocol:</p>
+        <ol>
+          <li><strong>Mandatory 3-Second Delay:</strong> Enforce a strict buffer between punchline mental retrieval and acoustic vocalization to prevent premature spoiling.</li>
+          <li><strong>Emergency Dad Joke Generator Referral:</strong> Phil is strongly advised to consult the curated <a href="jokes.html">Dad Joke Generator</a> to practice vetted joke cadence before attempting unassisted live delivery<a href="#joke-generator-ref" id="joke-generator-ref-link" aria-describedby="footnote-label"></a>.</li>
+          <li><strong>Ban on Self-Explanation:</strong> Immediate confiscation of the phrases <em>"See, because..."</em> and <em>"Do you get it?"</em> from active conversational vocabulary.</li>
+        </ol>
+      </div>
+
+      <p>While Billy continues to push the boundaries of statistical comedy excellence, there is hope for the rest of the cohort. With structured practice, disciplined timing, and an absolute embargo on explaining the punchline, even those languishing below the mean can aspire to cross into double-digit laughter percentiles.</p>
+    </article>
+  </main>
+
+  <footer>
+    <h2 id="footnote-label">Footnotes</h2>
+    <ol>
+      <li id="humor-science">For formal treatments of computational humor metrics and cognitive incongruity resolution, see Hurley, Dennett, & Adams, <em>Inside Jokes: Using Humor to Reverse-Engineer the Mind</em>, MIT Press. <a href="#humor-science-ref" aria-label="Back to content">↩</a></li>
+      <li id="comedic-torque">The term <em>Comedic Torque</em> refers to the angular momentum of a punchline relative to audience baseline expectations. Measured in Newton-Giggles ($\text{N}\cdot\text{G}$). <a href="#comedic-torque-ref" aria-label="Back to content">↩</a></li>
+      <li id="joke-generator-ref">Access the live Dad Joke Generator interface at <a href="jokes.html">jokes.html</a>. Powered by the icanhazdadjoke API and client-side synthesis. <a href="#joke-generator-ref-link" aria-label="Back to content">↩</a></li>
+    </ol>
+    <div>
+      <p>Justin Chill &copy; 2026</p>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener"><img
+            src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
+    </div>
+  </footer>
+
+  <!-- D3 & Observable Plot -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6"></script>
+
+  <script type="text/javascript">
+    // Helper function for responsive dimensions
+    let lastRenderedWidth = 0;
+
+    // Normal distribution function generator
+    function gaussian(x, mean, sigma) {
+      const gaussianConstant = 1 / (sigma * Math.sqrt(2 * Math.PI));
+      const z = (x - mean) / sigma;
+      return gaussianConstant * Math.exp(-0.5 * z * z);
+    }
+
+    // Generate bell curve data points
+    const mean = 100;
+    const sigma = 15;
+    const bellData = [];
+    for (let x = 45; x <= 155; x += 1) {
+      bellData.push({
+        hq: x,
+        density: gaussian(x, mean, sigma) * 1000 // scaled for display
+      });
+    }
+
+    // Individual Person Callouts
+    const individuals = [
+      { name: "Phil", hq: 74.1, density: gaussian(74.1, mean, sigma) * 1000, color: "var(--phil-accent)", label: "Phil (-1.73σ)" },
+      { name: "Average", hq: 100.0, density: gaussian(100.0, mean, sigma) * 1000, color: "var(--avg-accent)", label: "Cohort Avg (μ)" },
+      { name: "Dave", hq: 108.0, density: gaussian(108.0, mean, sigma) * 1000, color: "#60a5fa", label: "Dave" },
+      { name: "Justin", hq: 112.5, density: gaussian(112.5, mean, sigma) * 1000, color: "#3b82f6", label: "Justin" },
+      { name: "Billy", hq: 142.8, density: gaussian(142.8, mean, sigma) * 1000, color: "var(--billy-accent)", label: "Billy (+2.85σ)" }
+    ];
+
+    // Dimensional comparison data
+    const dimensionData = [
+      { dimension: "Timing & Cadence", person: "Billy", score: 98 },
+      { dimension: "Timing & Cadence", person: "Average", score: 65 },
+      { dimension: "Timing & Cadence", person: "Phil", score: 32 },
+
+      { dimension: "Punchline Delivery", person: "Billy", score: 96 },
+      { dimension: "Punchline Delivery", person: "Average", score: 60 },
+      { dimension: "Punchline Delivery", person: "Phil", score: 28 },
+
+      { dimension: "Groan Inversion", person: "Billy", score: 94 },
+      { dimension: "Groan Inversion", person: "Average", score: 58 },
+      { dimension: "Groan Inversion", person: "Phil", score: 18 },
+
+      { dimension: "Self-Composure", person: "Billy", score: 92 },
+      { dimension: "Self-Composure", person: "Average", score: 64 },
+      { dimension: "Self-Composure", person: "Phil", score: 22 },
+
+      { dimension: "Wordplay Cleverness", person: "Billy", score: 95 },
+      { dimension: "Wordplay Cleverness", person: "Average", score: 55 },
+      { dimension: "Wordplay Cleverness", person: "Phil", score: 41 },
+
+      { dimension: "Audience dB Peak", person: "Billy", score: 91 },
+      { dimension: "Audience dB Peak", person: "Average", score: 62 },
+      { dimension: "Audience dB Peak", person: "Phil", score: 35 }
+    ];
+
+    // Generate scatter plot sample points
+    const scatterJokes = [];
+    const rnd = d3.randomNormal();
+    // Billy's points: short setup (1-3s), high laugh duration (4.5-8s)
+    for (let i = 0; i < 35; i++) {
+      scatterJokes.push({
+        teller: "Billy",
+        setupSec: Math.max(1.0, 1.8 + rnd() * 0.4),
+        laughSec: Math.min(8.5, 6.2 + rnd() * 0.8),
+        dB: Math.round(80 + Math.random() * 12)
+      });
+    }
+    // Average points: medium setup (3-6s), medium laugh duration (2-4.5s)
+    for (let i = 0; i < 45; i++) {
+      scatterJokes.push({
+        teller: "Average",
+        setupSec: Math.max(2.2, 4.2 + rnd() * 0.8),
+        laughSec: Math.max(1.0, 3.2 + rnd() * 0.7),
+        dB: Math.round(55 + Math.random() * 15)
+      });
+    }
+    // Phil's points: long setup (8-22s), very low laugh duration (0.2-1.5s)
+    for (let i = 0; i < 30; i++) {
+      scatterJokes.push({
+        teller: "Phil",
+        setupSec: Math.max(6.5, 14.5 + rnd() * 3.5),
+        laughSec: Math.max(0.2, 1.1 + rnd() * 0.4),
+        dB: Math.round(30 + Math.random() * 14)
+      });
+    }
+
+    function renderCharts() {
+      const bellContainer = document.getElementById("chart_bell_curve");
+      const dimContainer = document.getElementById("chart_dimensions");
+      const scatterContainer = document.getElementById("chart_scatter");
+
+      if (!bellContainer || !dimContainer || !scatterContainer) return;
+
+      const containerWidth = bellContainer.getBoundingClientRect().width || 700;
+      lastRenderedWidth = containerWidth;
+      const isMobile = containerWidth < 600;
+
+      // Clear existing SVG/Plots
+      bellContainer.innerHTML = "";
+      dimContainer.innerHTML = "";
+      scatterContainer.innerHTML = "";
+
+      // 1. Bell Curve Plot
+      const bellPlot = Plot.plot({
+        width: containerWidth,
+        height: isMobile ? 280 : 340,
+        marginLeft: isMobile ? 40 : 50,
+        marginBottom: 40,
+        style: {
+          background: "transparent",
+          fontSize: isMobile ? "11px" : "13px"
+        },
+        x: {
+          label: "Humor Quotient (HQ) →",
+          domain: [45, 155],
+          ticks: [55, 70, 85, 100, 115, 130, 145],
+          grid: true
+        },
+        y: {
+          label: "Relative Density (%)",
+          grid: true,
+          nice: true
+        },
+        marks: [
+          // Area fill for the bell curve
+          Plot.areaY(bellData, {
+            x: "hq",
+            y: "density",
+            fill: "currentColor",
+            fillOpacity: 0.08
+          }),
+          // Line boundary
+          Plot.lineY(bellData, {
+            x: "hq",
+            y: "density",
+            stroke: "currentColor",
+            strokeWidth: 2.5
+          }),
+          // Mean reference line
+          Plot.ruleX([100], {
+            stroke: "var(--avg-accent)",
+            strokeWidth: 1.5,
+            strokeDasharray: "4,4"
+          }),
+          // Billy reference line
+          Plot.ruleX([142.8], {
+            stroke: "var(--billy-accent)",
+            strokeWidth: 2,
+            strokeDasharray: "4,4"
+          }),
+          // Phil reference line
+          Plot.ruleX([74.1], {
+            stroke: "var(--phil-accent)",
+            strokeWidth: 2,
+            strokeDasharray: "4,4"
+          }),
+          // Individual dots
+          Plot.dot(individuals, {
+            x: "hq",
+            y: "density",
+            r: isMobile ? 6 : 8,
+            fill: d => d.name === "Billy" ? "#8b5cf6" : d.name === "Phil" ? "#ef4444" : d.name === "Average" ? "#10b981" : "#3b82f6",
+            stroke: "var(--card-bg)",
+            strokeWidth: 2,
+            tip: {
+              format: {
+                x: d => `${d} HQ`,
+                y: false
+              }
+            }
+          }),
+          // Text labels for individuals
+          Plot.text(individuals, {
+            x: "hq",
+            y: "density",
+            text: "label",
+            dy: d => d.name === "Billy" || d.name === "Phil" ? -14 : (d.name === "Justin" ? -18 : -14),
+            dx: d => d.name === "Billy" ? -10 : d.name === "Phil" ? 10 : 0,
+            fill: d => d.name === "Billy" ? "#8b5cf6" : d.name === "Phil" ? "#ef4444" : d.name === "Average" ? "#10b981" : "currentColor",
+            fontWeight: "700",
+            fontSize: isMobile ? 10.5 : 12,
+            textAnchor: d => d.name === "Billy" ? "end" : d.name === "Phil" ? "start" : "middle"
+          })
+        ]
+      });
+      bellContainer.appendChild(bellPlot);
+
+      // 2. Dimensional Performance Matrix Plot
+      const dimPlot = Plot.plot({
+        width: containerWidth,
+        height: isMobile ? 380 : 320,
+        marginLeft: isMobile ? 120 : 150,
+        marginBottom: 40,
+        style: {
+          background: "transparent",
+          fontSize: isMobile ? "11px" : "13px"
+        },
+        x: {
+          domain: [0, 100],
+          label: "Score (0 - 100) →",
+          grid: true
+        },
+        y: {
+          label: null,
+          domain: [
+            "Timing & Cadence",
+            "Punchline Delivery",
+            "Groan Inversion",
+            "Self-Composure",
+            "Wordplay Cleverness",
+            "Audience dB Peak"
+          ]
+        },
+        color: {
+          domain: ["Billy", "Average", "Phil"],
+          range: ["#8b5cf6", "#10b981", "#ef4444"]
+        },
+        marks: [
+          Plot.barX(dimensionData, {
+            y: "dimension",
+            x: "score",
+            fill: "person",
+            fx: null,
+            inset: 1.5,
+            sort: null,
+            tip: {
+              format: {
+                x: d => `${d}/100 points`
+              }
+            }
+          }),
+          Plot.ruleX([0])
+        ]
+      });
+      dimContainer.appendChild(dimPlot);
+
+      // 3. Scatter Plot: Setup Time vs Laugh Duration
+      const scatterPlot = Plot.plot({
+        width: containerWidth,
+        height: isMobile ? 300 : 350,
+        marginLeft: isMobile ? 40 : 55,
+        marginBottom: 45,
+        style: {
+          background: "transparent",
+          fontSize: isMobile ? "11px" : "13px"
+        },
+        x: {
+          label: "Setup Duration (Seconds, Lower is Faster) →",
+          grid: true,
+          nice: true
+        },
+        y: {
+          label: "Audience Laughter Duration (Seconds) ↑",
+          grid: true,
+          nice: true
+        },
+        color: {
+          domain: ["Billy", "Average", "Phil"],
+          range: ["#8b5cf6", "#10b981", "#ef4444"]
+        },
+        marks: [
+          Plot.dot(scatterJokes, {
+            x: "setupSec",
+            y: "laughSec",
+            fill: "teller",
+            fillOpacity: 0.75,
+            r: d => Math.sqrt(d.dB) * 0.7,
+            stroke: "var(--card-bg)",
+            strokeWidth: 1.2,
+            tip: {
+              format: {
+                x: d => `${d.toFixed(1)}s setup`,
+                y: d => `${d.toFixed(1)}s laughter`
+              }
+            }
+          }),
+          // Billy centroid callout
+          Plot.text([
+            { x: 2.2, y: 7.2, text: "Billy: Rapid Setup, Sustained Roar 🚀" },
+            { x: 15.0, y: 0.5, text: "Phil: Lengthy Monologue, Crickets 🦗" }
+          ], {
+            x: "x",
+            y: "y",
+            text: "text",
+            fill: "currentColor",
+            fontSize: isMobile ? 10 : 12,
+            fontWeight: "700"
+          })
+        ]
+      });
+      scatterContainer.appendChild(scatterPlot);
+    }
+
+    // Duel Data Scenarios
+    const DUEL_SCENARIOS = {
+      dad: {
+        billy: {
+          rating: "98.4% Hit Rate",
+          transcript: "\"I'm reading a book on anti-gravity... it's impossible to put down.\"",
+          resonance: "86 dB (Belly Laugh)",
+          bar: "95%"
+        },
+        phil: {
+          rating: "6.2% Hit Rate",
+          transcript: "\"So I bought this book, right? *snickers* Wait, you can't put it down because it's anti-gravity... wait, did I say that backwards? It floats! Get it? Because physics!\"",
+          resonance: "24 dB (Polite Coughing)",
+          bar: "15%"
+        }
+      },
+      pun: {
+        billy: {
+          rating: "96.1% Hit Rate",
+          transcript: "\"I told the baker I kneaded a vacation. He said 'don't worry, you'll rise to the occasion.'\"",
+          resonance: "82 dB (Enthusiastic Chuckle)",
+          bar: "90%"
+        },
+        phil: {
+          rating: "4.8% Hit Rate",
+          transcript: "\"What did the baker say when he wanted to leave? No wait, he kneaded dough... wait, kneading like massage, but with flour? It was funnier when my dentist told it.\"",
+          resonance: "20 dB (Blank Stares)",
+          bar: "10%"
+        }
+      },
+      tech: {
+        billy: {
+          rating: "99.0% Hit Rate",
+          transcript: "\"There are 10 types of people in the world: those who understand binary, and those who don't.\"",
+          resonance: "89 dB (Nerd Roar)",
+          bar: "98%"
+        },
+        phil: {
+          rating: "8.5% Hit Rate",
+          transcript: "\"Binary code! You know, ones and zeros. There's 10 people... wait, 10 is two in computer numbers. So there's two people! Get it? Because two!\"",
+          resonance: "31 dB (Nervous Chuckle)",
+          bar: "20%"
+        }
+      },
+      animal: {
+        billy: {
+          rating: "94.5% Hit Rate",
+          transcript: "\"How does a penguin build its house? Igloos it together.\"",
+          resonance: "81 dB (Solid Room Chuckle)",
+          bar: "88%"
+        },
+        phil: {
+          rating: "3.2% Hit Rate",
+          transcript: "\"Penguins live in Antarctica—well, some live in South Africa too, on Boulders Beach—anyway, how do they build igloos? Glue! Superglue! *wheezes alone*\"",
+          resonance: "18 dB (Total Crickets)",
+          bar: "8%"
+        }
+      },
+      bar: {
+        billy: {
+          rating: "97.2% Hit Rate",
+          transcript: "\"A horse walks into a bar. The bartender says, 'Why the long face?'\"",
+          resonance: "85 dB (Classic Hit)",
+          bar: "92%"
+        },
+        phil: {
+          rating: "5.0% Hit Rate",
+          transcript: "\"So this horse with a really long snout walks into a pub... wait, why is there a horse in a tavern? *laughs for 4 seconds* The bartender asks why his face is sad!\"",
+          resonance: "22 dB (Sighs & Eye Rolls)",
+          bar: "12%"
+        }
+      }
+    };
+
+    const duelSelect = document.getElementById("joke-category-select");
+    if (duelSelect) {
+      duelSelect.addEventListener("change", (e) => {
+        const scenario = DUEL_SCENARIOS[e.target.value];
+        if (!scenario) return;
+
+        document.getElementById("billy-rating").textContent = scenario.billy.rating;
+        document.getElementById("billy-transcript").textContent = scenario.billy.transcript;
+        document.getElementById("billy-resonance").textContent = scenario.billy.resonance;
+        document.getElementById("billy-bar").style.width = scenario.billy.bar;
+
+        document.getElementById("phil-rating").textContent = scenario.phil.rating;
+        document.getElementById("phil-transcript").textContent = scenario.phil.transcript;
+        document.getElementById("phil-resonance").textContent = scenario.phil.resonance;
+        document.getElementById("phil-bar").style.width = scenario.phil.bar;
+      });
+    }
+
+    // Window resize handler with debounce
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        const container = document.getElementById("chart_bell_curve");
+        if (container && container.getBoundingClientRect().width !== lastRenderedWidth) {
+          renderCharts();
+        }
+      }, 150);
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderCharts();
+    });
+
+    // Theme toggle functionality
+    const themeToggleBtn = document.getElementById("theme-toggle");
+    const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
+    const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
+
+    function updateIcons(theme) {
+      if (theme === "dark") {
+        themeToggleLightIcon.classList.remove("hidden");
+        themeToggleDarkIcon.classList.add("hidden");
+      } else {
+        themeToggleLightIcon.classList.add("hidden");
+        themeToggleDarkIcon.classList.remove("hidden");
+      }
+    }
+
+    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
+    updateIcons(currentTheme);
+
+    if (themeToggleBtn) {
+      themeToggleBtn.addEventListener("click", () => {
+        const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
+        const newTheme = activeTheme === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", newTheme);
+        localStorage.setItem("theme", newTheme);
+        updateIcons(newTheme);
+        renderCharts();
+      });
+    }
+
+    // Email link activator
+    document.querySelectorAll('.js-email-link').forEach(link => {
+      link.addEventListener('click', event => {
+        event.preventDefault();
+        const a = "Justin.richard.hill@";
+        const b = "gmail.com";
+        window.open(`mailto:${a}${b}`, 'email');
+      });
+    });
+  </script>
+</body>
+
+</html>
