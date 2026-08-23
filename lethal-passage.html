@@ -17,9 +17,15 @@
   </script>
 
   <title>Lethal Passage | Justin Chill</title>
-  <meta name="description" content="Concrete solutions to the national firearm epidemic">
+  <meta name="description" content="An analytical roadmap proposing concrete policy solutions across firearms distribution networks, purchase requirements, and gun design safety.">
   <meta name="author" content="Justin Chill">
   <meta name="robots" content="all">
+
+  <!-- Article metadata -->
+  <meta property="article:published_time" content="2025-07-04">
+  <meta property="article:modified_time" content="2026-08-20">
+  <meta property="article:author" content="Justin Chill">
+  <meta property="article:section" content="Gun Policy">
 
   <!-- OpenGraph tags -->
   <meta content="en_US" property="og:locale">
@@ -29,25 +35,32 @@
   <meta content="Lethal Passage | Justin Chill" property="og:title">
   <meta content="Concrete solutions to the national firearm epidemic" property="og:description">
   <meta content="https://justinchill.com/blog.html" property="og:see_also">
-  <meta property="og:locality" content="NY">
+  <meta property="og:locality" content="New York">
   <meta property="og:region" content="NY">
   <meta property="og:country_name" content="USA">
   <meta content="https://justinchill.com/imgs/cover/lethal_cover.webp" property="og:image">
+  <meta content="1200" property="og:image:width">
+  <meta content="630" property="og:image:height">
   <meta
     content="A scatter plot shows the relationship between gun ownership and firearm deaths per 100k people in various countries. The x-axis represents guns per 100k people; the y-axis shows firearm deaths. Data points are scattered with a trend line, highlighting the U.S."
     property="og:image:alt">
 
   <meta name="datePublished" content="2025-07-04">
-  <meta name="dateModified" content="2025-08-06">
+  <meta name="dateModified" content="2026-08-20">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@JustinChill">
+  <meta name="twitter:creator" content="@JustinChill">
   <meta name="twitter:title" content="Lethal Passage | Justin Chill">
   <meta name="twitter:description" content="Concrete solutions to the national firearm epidemic">
-  <meta content="https://justinchill.com/imgs/cover/lethal_cover.webp" property="twitter:image">
+  <meta name="twitter:image" content="https://justinchill.com/imgs/cover/lethal_cover.webp">
+  <meta name="twitter:image:alt"
+    content="A scatter plot shows the relationship between gun ownership and firearm deaths per 100k people in various countries. The x-axis represents guns per 100k people; the y-axis shows firearm deaths. Data points are scattered with a trend line, highlighting the U.S.">
 
   <link rel="canonical" href="https://justinchill.com/lethal-passage.html">
   <link rel="preload" href="style.css" as="style" />
+  <link rel="preload" href="data/gun-deaths.csv" as="fetch" type="text/csv" crossorigin="anonymous">
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico">
   <link type="text/plain" href="humans.txt" rel="author">
@@ -56,6 +69,22 @@
   <meta name="color-scheme" content="light dark">
 
   <style type="text/css">
+    /* Touch Targets & Navigation */
+    .nav__item,
+    #theme-toggle {
+      min-height: 44px;
+      min-width: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav__item:focus-visible,
+    #theme-toggle:focus-visible {
+      outline: 2px solid var(--accent-color, #4C63B6);
+      outline-offset: 2px;
+    }
+
     .container {
       width: 100%;
       display: flex;
@@ -64,6 +93,10 @@
       background-color: hsla(209, 23%, 98%, 1);
       padding: var(--spacer-3);
       margin-bottom: var(--spacer-5);
+    }
+
+    html[data-theme="dark"] .container {
+      background-color: var(--card-bg, #1a202c);
     }
 
     .article-illustration {
@@ -75,11 +108,40 @@
       border-radius: 4px;
     }
 
-    figcaption {
-      text-align: right;
+    /* Plot and Figure Responsiveness */
+    #gunDeaths {
+      width: 100%;
+      margin: var(--spacer-2, 1.5rem) 0;
+      overflow-x: auto;
     }
 
-    /* Print styles 🖨️  */
+    #gunDeaths svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Plot theme colors */
+    .plot text,
+    svg text {
+      fill: var(--text-color, currentColor);
+    }
+
+    html[data-theme="dark"] svg text {
+      fill: #e2e8f0;
+    }
+
+    figcaption.right {
+      text-align: right;
+      font-size: 0.85rem;
+      color: var(--text-secondary, #666);
+      margin-top: 0.5rem;
+    }
+
+    html[data-theme="dark"] figcaption.right {
+      color: #94a3b8;
+    }
+
+    /* Print styles 🖨️  */
     @media print {
       mark {
         border: 1pt dotted #000;
@@ -106,10 +168,131 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "Lethal Passage | Justin Chill",
-  "description": "Concrete solutions to the national firearm epidemic",
+  "headline": "Lethal Passage",
+  "alternativeHeadline": "Concrete solutions to the national firearm epidemic",
+  "name": "Lethal Passage | Justin Chill",
+  "description": "An analytical roadmap proposing concrete policy solutions across firearms distribution networks, purchase requirements, and gun design safety.",
   "datePublished": "2025-07-04",
-  "dateModified": "2025-08-06",
+  "dateModified": "2026-08-20",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": true,
+  "articleSection": "Gun Policy",
+  "wordCount": 1340,
+  "url": "https://justinchill.com/lethal-passage.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://justinchill.com/lethal-passage.html"
+  },
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://justinchill.com/blog.html",
+    "name": "Justin Chill's Blog",
+    "publisher": {
+      "@type": "Person",
+      "name": "Justin Chill"
+    }
+  },
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://justinchill.com/imgs/cover/lethal_cover.webp",
+    "caption": "A scatter plot shows the relationship between gun ownership and firearm deaths per 100k people in various countries. The x-axis represents guns per 100k people; the y-axis shows firearm deaths."
+  },
+  "keywords": [
+    "Gun policy",
+    "Firearm regulation",
+    "Gun violence in the United States",
+    "Federal Firearms Licenses",
+    "Child Access Prevention laws",
+    "Universal background checks",
+    "Gun safety",
+    "NICS",
+    "Red flag laws",
+    "Data visualization",
+    "Observable Plot",
+    "D3.js",
+    "American Journal of Medicine"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Gun violence in the United States",
+      "sameAs": "https://en.wikipedia.org/wiki/Gun_violence_in_the_United_States"
+    },
+    {
+      "@type": "Thing",
+      "name": "Gun law in the United States",
+      "sameAs": "https://en.wikipedia.org/wiki/Gun_law_in_the_United_States"
+    },
+    {
+      "@type": "Thing",
+      "name": "Gun control",
+      "sameAs": "https://en.wikipedia.org/wiki/Gun_control"
+    },
+    {
+      "@type": "Thing",
+      "name": "Federal Firearms License",
+      "sameAs": "https://en.wikipedia.org/wiki/Federal_Firearms_License"
+    },
+    {
+      "@type": "Thing",
+      "name": "Gun safety",
+      "sameAs": "https://en.wikipedia.org/wiki/Gun_safety"
+    }
+  ],
+  "mentions": [
+    {
+      "@type": "GovernmentOrganization",
+      "name": "Bureau of Alcohol, Tobacco, Firearms and Explosives",
+      "alternateName": "ATF",
+      "sameAs": "https://en.wikipedia.org/wiki/Bureau_of_Alcohol,_Tobacco,_Firearms_and_Explosives"
+    },
+    {
+      "@type": "Organization",
+      "name": "Giffords Law Center to Prevent Gun Violence",
+      "sameAs": "https://en.wikipedia.org/wiki/Giffords_Law_Center_to_Prevent_Gun_Violence"
+    },
+    {
+      "@type": "Organization",
+      "name": "National Shooting Sports Foundation",
+      "sameAs": "https://en.wikipedia.org/wiki/National_Shooting_Sports_Foundation"
+    },
+    {
+      "@type": "NewsMediaOrganization",
+      "name": "The New York Times",
+      "sameAs": "https://en.wikipedia.org/wiki/The_New_York_Times"
+    },
+    {
+      "@type": "Periodical",
+      "name": "The American Journal of Medicine",
+      "sameAs": "https://en.wikipedia.org/wiki/The_American_Journal_of_Medicine"
+    },
+    {
+      "@type": "Periodical",
+      "name": "Annals of Internal Medicine",
+      "sameAs": "https://en.wikipedia.org/wiki/Annals_of_Internal_Medicine"
+    }
+  ],
+  "citation": [
+    {
+      "@type": "ScholarlyArticle",
+      "name": "Gun Ownership and Firearm-related Deaths",
+      "headline": "Gun Ownership and Firearm-related Deaths",
+      "isPartOf": {
+        "@type": "Periodical",
+        "name": "The American Journal of Medicine"
+      },
+      "url": "https://www.amjmed.com/article/S0002-9343(13)00444-0/fulltext"
+    },
+    {
+      "@type": "NewsArticle",
+      "headline": "How to Buy a Gun in 16 Countries",
+      "publisher": {
+        "@type": "NewsMediaOrganization",
+        "name": "The New York Times"
+      },
+      "url": "https://www.nytimes.com/interactive/2018/03/02/world/international-gun-laws.html"
+    }
+  ],
   "author": {
     "@type": "Person",
     "name": "Justin Chill",
@@ -129,9 +312,7 @@
       "https://www.linkedin.com/in/justinrichardhill/",
       "https://github.com/JustinChill"
     ]
-  },
-  "mainEntityOfPage": "https://justinchill.com/lethal-passage.html",
-  "image": "https://justinchill.com/imgs/cover/lethal_cover.webp"
+  }
 }
   </script>
 </head>
@@ -161,7 +342,7 @@
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
@@ -173,7 +354,7 @@
           <img class="article-illustration rounded" alt="hero" src="imgs/lethal-passage-illustration.svg">
         </div>
         <div class="article-hero">
-          <p class="article-category"></p>
+          <p class="article-category">Gun Policy</p>
           <h1 class="article-title title-font">Lethal Passage</h1>
           <h2 class="article-subtitle">Concrete solutions to the national firearm epidemic</h2>
         </div>
@@ -288,7 +469,7 @@
       <p>The firepower of readily available consumer guns should be reduced and restricted, and gun designs should be
         improved to make them safer for the people who buy them. A national database of gun statistics, including what
         makes, models, and calibers of guns most often used in crimes, should be established. The sale or transfer of
-        silencers should be outlawed, and the sale or possession of magazines having capacity for more than ten (10)
+        silencers should be outlawed<a href="#suppressors" aria-describedby="footnote-label" id="suppressors-ref"></a>, and the sale or possession of magazines having capacity for more than ten (10)
         bullets should be forbidden. </p>
       <ul>
         <li>Loaded-chamber indicators should be required on handguns and rifles. These provide a visual and tactile
@@ -356,7 +537,7 @@
     </ol>
     <div>
       <p>Justin Chill &copy; 2026</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
             alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
@@ -364,23 +545,19 @@
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 
   <script type="text/javascript">
-    var size = 12;
-    var element = d3.select('figure').node();
-    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+    let cachedData = null;
 
-    // Use Promises to async request data
-    var promises = [d3.csv("data/gun-deaths.csv", d3.autoType)];
-    myDataPromises = Promise.all(promises);
+    function renderPlot() {
+      if (!cachedData) return;
+      const container = document.getElementById("gunDeaths");
+      if (!container) return;
 
-    // After data is successfully fetched, generate viz
-    myDataPromises.then(function (data) {
+      const figcaption = container.querySelector("figcaption");
+      const width = container.getBoundingClientRect().width || 680;
+      const size = 12;
 
-      // Define the data
-      var data = data[0];
-
-      var gunDeaths = {
+      const plot = Plot.plot({
         grid: true,
-        // inset: 10,
         width: width,
         marginBottom: 40,
         style: {
@@ -408,28 +585,28 @@
         marks: [
           Plot.frame({
             stroke: "#ccc",
-            strokeWidth: .2
+            strokeWidth: 0.2
           }),
-          Plot.linearRegressionY(data, {
+          Plot.linearRegressionY(cachedData, {
             x: "Guns_per_100",
             y: "Total_Firearm_Deaths_per_100000",
             stroke: "crimson",
             ci: 0.95,
-            opacity: .35
+            opacity: 0.35
           }),
-          Plot.dot(data, {
+          Plot.dot(cachedData, {
             x: "Guns_per_100",
             y: "Total_Firearm_Deaths_per_100000",
             fill: "Country",
             r: 5,
-            title: d => `${d.Country} \n${d.Guns_per_100} guns per capita\n${d.Total_Firearm_Deaths_per_100000} deaths per capita`,
+            title: d => `${d.Country}\n${d.Guns_per_100} guns per capita\n${d.Total_Firearm_Deaths_per_100000} deaths per capita`,
             channels: {
               name: "Country",
               guns: "Guns_per_100"
             },
             tip: true,
           }),
-          Plot.text(data,
+          Plot.text(cachedData,
             Plot.selectMaxX({
               x: "Guns_per_100",
               y: "Total_Firearm_Deaths_per_100000",
@@ -440,9 +617,24 @@
             })
           ),
         ]
-      };
+      });
 
-      document.getElementById("gunDeaths").appendChild(Plot.plot(gunDeaths));
+      container.innerHTML = "";
+      container.appendChild(plot);
+      if (figcaption) {
+        container.appendChild(figcaption);
+      }
+    }
+
+    d3.csv("data/gun-deaths.csv", d3.autoType).then((data) => {
+      cachedData = data;
+      renderPlot();
+    });
+
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(renderPlot, 150);
     });
   </script>
   <script>
@@ -471,8 +663,19 @@
         document.documentElement.setAttribute("data-theme", newTheme);
         localStorage.setItem("theme", newTheme);
         updateIcons(newTheme);
+        renderPlot();
       });
     }
+
+    // Email link handler
+    document.querySelectorAll('.js-email-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const a = "Justin.richard.hill@";
+        const b = "gmail.com";
+        window.open(`mailto:${a}${b}`, 'email');
+      });
+    });
   </script>
 </body>
 
