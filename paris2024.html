@@ -60,6 +60,47 @@
       margin: .5rem;
     }
 
+    fieldset {
+      border: 1px solid var(--rule-color, #e5e7eb);
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      margin: 1rem 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 1.5rem;
+      background: var(--surface-subtle, #f9fafb);
+    }
+
+    html[data-theme="dark"] fieldset {
+      background: #1a1a1e;
+      border-color: #2e2e36;
+    }
+
+    fieldset legend {
+      font-weight: 600;
+      font-size: 0.875rem;
+      padding: 0 0.4rem;
+      color: var(--muted-color, #4b5563);
+    }
+
+    fieldset div {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    fieldset input[type="radio"] {
+      margin: 0;
+      cursor: pointer;
+      accent-color: #4C63B6;
+    }
+
+    fieldset label {
+      font-size: 0.9rem;
+      cursor: pointer;
+      color: var(--text-color, #1f2937);
+    }
+
     .plot {
       min-width: 300px;
       overflow: visible;
@@ -77,7 +118,6 @@
 
     .y-axis {
       text-anchor: start;
-
     }
 
     .medal-count {
@@ -93,89 +133,171 @@
       filter: drop-shadow(0px 0px 1px #666);
     }
 
+    /* Rounded Color Swatches in Legend */
+    [class*="-swatches-wrap"] {
+      margin-bottom: 0.5rem;
+    }
+
+    [class*="-swatches-wrap"] span,
+    [class*="-swatch"] {
+      text-transform: capitalize;
+    }
+
+    [class*="-swatch"] svg,
+    [class*="-swatch-color"],
+    [class*="-swatch"] span,
+    .plot-swatch svg,
+    .plot-swatch-color,
+    .plot-swatch span,
+    .plot-swatch rect,
+    [class*="-swatch"] rect,
+    figure svg [class*="swatch"] rect {
+      border-radius: 50% !important;
+      rx: 50% !important;
+      ry: 50% !important;
+    }
+
     .country_cards {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
+      gap: 1rem;
       margin: var(--spacer-4) 0;
     }
 
     .country_cards img {
       width: 30px;
       height: 20px;
+      object-fit: cover;
+      border-radius: 2px;
     }
 
     .country {
       position: relative;
-      border-top-left-radius: 25px;
-      border-top-right-radius: 25px;
-      border-bottom-right-radius: 25px;
-      border-bottom-left-radius: 25px;
+      border-radius: 20px;
       padding: 16px;
-      background-color: rgb(238, 238, 238);
-      width: 25%;
-      margin: 8px;
-      flex-shrink: 1;
+      background-color: var(--surface-subtle, #eeeeee);
+      color: var(--text-color, #222222);
+      flex: 1 1 200px;
+      max-width: 280px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      box-shadow: rgb(189, 189, 189) 0px 2.5px 3px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
       box-sizing: border-box;
+      border: 1px solid var(--rule-color, rgba(0, 0, 0, 0.05));
+    }
+
+    html[data-theme="dark"] .country {
+      background-color: #1a1a1e;
+      border-color: #2e2e36;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
     }
 
     .country h3 {
-      font-size: 24px;
+      font-size: 1.25rem;
       font-weight: bold;
       text-transform: uppercase;
       text-align: center;
-      margin: var(--spacer-1) 0;
-      margin-bottom: var(--spacer-2)
+      margin: var(--spacer-1) 0 var(--spacer-2);
+      color: inherit;
     }
 
     .country div {
       width: 100%;
-      height: 50px;
+      height: 46px;
       display: flex;
       align-items: center;
       justify-content: center;
+      position: relative;
     }
 
     .country .ribbon {
       position: absolute;
       width: 130px;
-      height: 42px;
+      height: 38px;
       transform: skew(-35deg);
-      background-color: white;
+      background-color: #ffffff;
+      border-radius: 2px;
+    }
+
+    html[data-theme="dark"] .country .ribbon {
+      background-color: #2c2c34;
     }
 
     .country .ribbon.gold {
       background-color: rgb(255, 203, 8);
     }
 
-    .ribbon+span {
-      position: absolute;
+    .ribbon + span {
+      position: relative;
+      z-index: 1;
       text-transform: uppercase;
       text-align: center;
-      font-size: 14px;
-      width: 100px;
-      line-height: 1;
+      font-size: 13px;
+      width: 110px;
+      line-height: 1.1;
+      font-weight: 600;
+      color: #111111;
+    }
+
+    html[data-theme="dark"] .country .ribbon:not(.gold) + span {
+      color: #ffffff;
     }
 
     .sport {
-      margin-top: 15px;
+      margin-top: 12px;
       text-transform: uppercase;
       text-align: center;
-      opacity: 1;
-      font-size: 14px;
-      letter-spacing: 1px;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      font-weight: 500;
+      color: var(--text-color, #333333);
     }
 
     .date {
       text-transform: uppercase;
-      font-size: 14px;
+      font-size: 12px;
       text-align: center;
-      color: rgba(73, 73, 73, 1);
+      color: var(--muted-color, rgba(73, 73, 73, 1));
+      margin-top: 4px;
+    }
+
+    details {
+      margin: 1.5rem 0;
+    }
+
+    details summary {
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 0.6rem 0.9rem;
+      border-radius: 6px;
+      background: var(--surface-subtle, #eeeeee);
+      color: var(--text-color, #222222);
+      border: 1px solid var(--rule-color, rgba(0, 0, 0, 0.08));
+      width: fit-content;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+      user-select: none;
+    }
+
+    html[data-theme="dark"] details summary {
+      background: #1a1a1e;
+      border-color: #2e2e36;
+      color: var(--text-color, #e8e8e8);
+    }
+
+    details summary:hover {
+      background: #e5e7eb;
+    }
+
+    html[data-theme="dark"] details summary:hover {
+      background: #25252b;
+    }
+
+    details[open] summary {
+      margin-bottom: 1rem;
     }
   </style>
 
@@ -184,9 +306,33 @@
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   "headline": "Paris 2024 Olympic Medals",
-  "description": "Paris 2024 Olympic medal count and data visualizations.",
+  "description": "Paris 2024 Olympic medal count and data visualizations featuring interactive sorting and first-time medal winners.",
+  "url": "https://justinchill.com/paris2024.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://justinchill.com/paris2024.html"
+  },
   "datePublished": "2024-10-27",
   "dateModified": "2026-01-02",
+  "inLanguage": "en-US",
+  "articleSection": "Sports",
+  "keywords": [
+    "Paris 2024",
+    "2024 Summer Olympics",
+    "Olympic medal count",
+    "Data visualization",
+    "Observable Plot",
+    "D3.js",
+    "Waffle chart",
+    "Saint Lucia",
+    "Dominica",
+    "Botswana",
+    "Guatemala",
+    "Albania",
+    "Cape Verde",
+    "Refugee Olympic Team",
+    "Simone Biles"
+  ],
   "author": {
     "@type": "Person",
     "name": "Justin Chill",
@@ -207,8 +353,118 @@
       "https://github.com/JustinChill"
     ]
   },
-  "mainEntityOfPage": "https://justinchill.com/paris2024.html",
-  "image": "https://bloximages.chicago2.vip.townnews.com/madison.com/content/tncms/assets/v3/editorial/d/16/d1688136-da08-5fe4-a292-39c953912632/65c51864adee1.image.jpg?resize=1476%2C984"
+  "image": "https://bloximages.chicago2.vip.townnews.com/madison.com/content/tncms/assets/v3/editorial/d/16/d1688136-da08-5fe4-a292-39c953912632/65c51864adee1.image.jpg?resize=1476%2C984",
+  "about": [
+    {
+      "@type": "SportsEvent",
+      "name": "2024 Summer Olympics",
+      "alternateName": "Paris 2024 Olympic Games",
+      "startDate": "2024-07-26",
+      "endDate": "2024-08-11",
+      "location": {
+        "@type": "Place",
+        "name": "Paris, France"
+      },
+      "sameAs": "https://en.wikipedia.org/wiki/2024_Summer_Olympics"
+    },
+    {
+      "@type": "Thing",
+      "name": "2024 Summer Olympics medal table",
+      "sameAs": "https://en.wikipedia.org/wiki/2024_Summer_Olympics_medal_table"
+    },
+    {
+      "@type": "Organization",
+      "name": "International Olympic Committee",
+      "alternateName": "IOC",
+      "sameAs": "https://en.wikipedia.org/wiki/International_Olympic_Committee"
+    }
+  ],
+  "mentions": [
+    {
+      "@type": "Person",
+      "name": "Simone Biles",
+      "jobTitle": "Artistic Gymnast",
+      "sameAs": "https://en.wikipedia.org/wiki/Simone_Biles"
+    },
+    {
+      "@type": "Person",
+      "name": "Julien Alfred",
+      "jobTitle": "Track and Field Athlete",
+      "sameAs": "https://en.wikipedia.org/wiki/Julien_Alfred"
+    },
+    {
+      "@type": "Person",
+      "name": "Thea LaFond",
+      "jobTitle": "Track and Field Athlete",
+      "sameAs": "https://en.wikipedia.org/wiki/Thea_LaFond"
+    },
+    {
+      "@type": "Person",
+      "name": "Letsile Tebogo",
+      "jobTitle": "Track and Field Athlete",
+      "sameAs": "https://en.wikipedia.org/wiki/Letsile_Tebogo"
+    },
+    {
+      "@type": "Person",
+      "name": "Adriana Ruano",
+      "jobTitle": "Sport Shooter",
+      "sameAs": "https://en.wikipedia.org/wiki/Adriana_Ruano"
+    },
+    {
+      "@type": "Country",
+      "name": "Saint Lucia",
+      "sameAs": "https://en.wikipedia.org/wiki/Saint_Lucia"
+    },
+    {
+      "@type": "Country",
+      "name": "Dominica",
+      "sameAs": "https://en.wikipedia.org/wiki/Dominica"
+    },
+    {
+      "@type": "Country",
+      "name": "Botswana",
+      "sameAs": "https://en.wikipedia.org/wiki/Botswana"
+    },
+    {
+      "@type": "Country",
+      "name": "Guatemala",
+      "sameAs": "https://en.wikipedia.org/wiki/Guatemala"
+    },
+    {
+      "@type": "Country",
+      "name": "Albania",
+      "sameAs": "https://en.wikipedia.org/wiki/Albania"
+    },
+    {
+      "@type": "Country",
+      "name": "Cape Verde",
+      "sameAs": "https://en.wikipedia.org/wiki/Cape_Verde"
+    },
+    {
+      "@type": "SportsTeam",
+      "name": "Refugee Olympic Team",
+      "alternateName": "EOR",
+      "sameAs": "https://en.wikipedia.org/wiki/Refugee_Olympic_Team_at_the_2024_Summer_Olympics"
+    }
+  ],
+  "citation": [
+    {
+      "@type": "WebPage",
+      "name": "Paris 2024 Olympics Full List of IOC National Olympic Committee Codes",
+      "url": "https://olympics.com/en/news/paris-2024-olympics-full-list-ioc-national-olympic-committee-codes"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Paris Olympics Medal Count Tracker",
+      "publisher": "The Washington Post",
+      "url": "https://www.washingtonpost.com/sports/olympics/interactive/2024/paris-olympics-medal-count-tracker/"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Paris 2024 Medal Count Observable Notebook",
+      "url": "https://observablehq.com/@shadfriguii/paris-24-medal-count"
+    }
+  ]
 }
   </script>
 </head>
@@ -254,39 +510,43 @@
       <fieldset>
         <legend>Sort by:</legend>
         <div>
-          <input type="radio" id="gold" name="drone" value="Gold medals" />
+          <input type="radio" id="gold" name="sortMedals" value="gold" />
           <label for="gold">Gold Medals</label>
         </div>
 
         <div>
-          <input type="radio" id="total" name="drone" value="Total medals" checked />
+          <input type="radio" id="total" name="sortMedals" value="total" checked />
           <label for="total">Total Medals</label>
         </div>
       </fieldset>
 
       <figure id="medals"
-        aria-label="Waffle chart showing the distribution of medals (Gold, Silver, Bronze) for top countries. USA and China lead in gold medals.">
+        aria-label="Waffle chart showing the distribution of medals (Gold, Silver, Bronze) for countries. USA and China lead in gold medals.">
       </figure>
+
+      <details id="remaining-countries-details">
+        <summary>Show remaining countries (11–90)</summary>
+      </details>
       <p>The U.S. and China share the title for most golds at the 2024 Olympics; the U.S. leads overall with 126 medals,
         China came in second with 91.</p>
       <p>For nearly three weeks, more than 200 countries and territories have sent roughly 10,500 athletes to compete
         across myriad sports and events for their country's honor in the 2024 Paris Olympics. Each country or territory
         in the Olympics is represented by a <a
-          href="https://olympics.com/en/news/paris-2024-olympics-full-list-ioc-national-olympic-committee-codes">National
-          Olympic Committee (NOC)</a>.</p>
+          href="https://olympics.com/en/news/paris-2024-olympics-full-list-ioc-national-olympic-committee-codes"
+          target="_blank" rel="noopener noreferrer">National Olympic Committee (NOC)</a>.</p>
       <p>However, as fans navigate the Olympic schedules, they may try to figure out the codes for unfamiliar countries.
         Obvious examples include USA for the United States, and FRA for host country France. Other, less obvious codes
         include SKN (Saint Kitts and Nevis) and VIN (St. Vincent and the Grenadines).</p>
-      <p>Then there's <a href="/story/sports/olympics/2024/07/26/explaining-ain-russia-paris-olympics/74224023007/"
+      <p>Then there's <a href="https://www.usatoday.com/story/sports/olympics/2024/07/26/explaining-ain-russia-paris-olympics/74224023007/"
           target="_blank" rel="noreferrer noopener">AIN (Individual Neutral Athletes)</a> and <a
-          href="/story/sports/olympics/2024/07/28/eor-olympics-paris-2024-refugee-olympic-team/74582605007/"
+          href="https://www.usatoday.com/story/sports/olympics/2024/07/28/eor-olympics-paris-2024-refugee-olympic-team/74582605007/"
           target="_blank" rel="noreferrer noopener">EOR (Refugee Olympic Team)</a>, neither of which are mentioned in
         the <a href="https://olympics.com/en/news/paris-2024-olympics-full-list-ioc-national-olympic-committee-codes"
           target="_blank" rel="noreferrer noopener">Olympics' full list of codes</a> for countries' respective olympic
         committees.</p>
       <h2>First-ever medals and golds</h2>
       <p>The 2024 Summer Olympics saw four countries, as well as the <a
-          href="https://olympics.com/ioc/refugee-olympic-team?itid=lk_inline_enhanced-template" target="_blank">Refugee
+          href="https://olympics.com/ioc/refugee-olympic-team" target="_blank" rel="noopener noreferrer">Refugee
           Olympic Team</a>, win their first-ever medals. Saint Lucia and Dominica pulled off the remarkable feat of
         having their first medals be golds.</p>
       <p>Two other countries, Guatemala and Botswana, won their first golds, but had previously medaled at the Summer
@@ -295,7 +555,8 @@
       <section class="country_cards mid-size">
         <div class="country"><img
             alt="The image shows the national flag of Albania, featuring a black, double-headed eagle in the center on a red background."
-            src="https://raw.githubusercontent.com/shadfrigui/utils/main/country-flags/alb.png">
+            src="https://raw.githubusercontent.com/shadfrigui/utils/main/country-flags/alb.png"
+            width="30" height="20" loading="lazy">
           <h3>Albania</h3>
           <div>
             <div class="ribbon"></div>
@@ -305,7 +566,8 @@
           <span class="date">Aug. 10</span>
         </div>
         <div class="country"><img alt="The Refugee Olympic Athletes flag"
-            src="https://www.washingtonpost.com/sports/olympics/interactive/2024/paris-olympics-medal-count-tracker/img/flags-png/ROA.png">
+            src="https://www.washingtonpost.com/sports/olympics/interactive/2024/paris-olympics-medal-count-tracker/img/flags-png/ROA.png"
+            width="30" height="20" loading="lazy">
           <h3>Refugee Olympic Athletes</h3>
           <div>
             <div class="ribbon"></div>
@@ -316,18 +578,20 @@
         </div>
         <div class="country"><img
             alt="The image is the national flag of Botswana, featuring a horizontal design with a black stripe in the center bordered by white, and large light blue stripes above and below."
-            src="https://raw.githubusercontent.com/shadfrigui/utils/main/country-flags/bot.png">
+            src="https://raw.githubusercontent.com/shadfrigui/utils/main/country-flags/bot.png"
+            width="30" height="20" loading="lazy">
           <h3>Botswana</h3>
           <div>
             <div class="ribbon gold"></div>
-            <span cl>first gold</span>
+            <span>first gold</span>
           </div>
           <span class="sport">Men’s 200m</span>
           <span class="date">Aug. 8</span>
         </div>
         <div class="country"><img
             alt="The flag of Cape Verde, featuring a blue field with three horizontal stripes (white, red, white) near the bottom and ten yellow stars arranged in a circle towards the left side."
-            src="https://raw.githubusercontent.com/shadfrigui/utils/main/country-flags/cpv.png">
+            src="https://raw.githubusercontent.com/shadfrigui/utils/main/country-flags/cpv.png"
+            width="30" height="20" loading="lazy">
           <h3>Cape Verde Islands</h3>
           <div>
             <div class="ribbon"></div>
@@ -338,7 +602,8 @@
         </div>
         <div class="country"><img
             alt="Flag of Saint Lucia featuring a blue field with a white-edged black isosceles triangle over a bright yellow triangle, centered."
-            src="https://raw.githubusercontent.com/shadfrigui/utils/main/country-flags/lca.png">
+            src="https://raw.githubusercontent.com/shadfrigui/utils/main/country-flags/lca.png"
+            width="30" height="20" loading="lazy">
           <h3>Saint Lucia</h3>
           <div>
             <div class="ribbon gold"></div>
@@ -349,7 +614,8 @@
         </div>
         <div class="country"><img
             alt="The flag of Dominica features a green background with a centered cross, consisting of yellow, black, and white stripes. In the center, theres a red circle with a purple parrot surrounded by ten green stars."
-            src="https://raw.githubusercontent.com/shadfrigui/utils/main/country-flags/dma.png">
+            src="https://raw.githubusercontent.com/shadfrigui/utils/main/country-flags/dma.png"
+            width="30" height="20" loading="lazy">
           <h3>Dominica</h3>
           <div>
             <div class="ribbon gold"></div>
@@ -360,7 +626,8 @@
         </div>
         <div class="country"><img
             alt="The flag of Guatemala consists of three vertical stripes in blue, white, and blue. The national emblem, featuring a quetzal bird, a scroll, crossed rifles, and swords, is centered on the white stripe."
-            src="https://raw.githubusercontent.com/shadfrigui/utils/main/country-flags/gua.png">
+            src="https://raw.githubusercontent.com/shadfrigui/utils/main/country-flags/gua.png"
+            width="30" height="20" loading="lazy">
           <h3>Guatemala</h3>
           <div>
             <div class="ribbon gold"></div>
@@ -374,13 +641,15 @@
         medal, and another 37 that have never won a gold.</p>
       <img src="https://i2-prod.walesonline.co.uk/lifestyle/tv/article30225708.ece/ALTERNATES/s810/1_Simone.jpg"
         loading="lazy"
+        width="810"
+        height="540"
         alt="Simone Biles poses with her Paris 2024 Olympic medals following the Artistic Gymnastics Women's Floor Exercise Final." />
     </article>
   </main>
   <footer>
     <div>
       <p>Justin Chill &copy; 2026</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener"><img src="imgs/github.svg"
             alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
@@ -388,52 +657,60 @@
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 
   <script type="text/javascript">
-    var element = d3.select('figure').node();
-    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
-    var size = 12;
+    const container = document.getElementById("medals");
+    const detailsEl = document.getElementById("remaining-countries-details");
+    let medalsRawData = [];
 
-    // Use Promises to async request data
-    var promises = [d3.json("data/paris_olympic_medals.json")];
-
-    myDataPromises = Promise.all(promises);
-
-    // After data is successfully fetched, generate viz
-    myDataPromises.then(function (data) {
-
-      var medals = data[0];
-      const countries = d3.group(medals, (d) => d.nocISO3);
-      var maxTotalMedals = 126;
-      var dy = width < 480 ? 25 : 20;
+    function renderPlot() {
+      if (!medalsRawData.length || !container) return;
+      const width = container.getBoundingClientRect().width || 600;
+      const sortBy = document.querySelector('input[name="sortMedals"]:checked')?.value || "total";
       const flagWidth = 20;
-      var sortTotalYDomain = medals.filter((d) => d.rankTotal <= 10)
-      console.log(countries);
 
-      // Inspired by Shad Frigui: https://observablehq.com/@shadfriguii/paris-24-medal-count
-      var medals = {
+      // Group unique countries and sort Y-axis domain based on selection
+      const countryMap = new Map();
+      medalsRawData.forEach((d) => {
+        if (!countryMap.has(d.noc)) {
+          countryMap.set(d.noc, d);
+        }
+      });
+
+      const sortedCountries = Array.from(countryMap.values())
+        .sort((a, b) => {
+          return sortBy === "gold" ? a.rank - b.rank : a.rankTotal - b.rankTotal;
+        })
+        .map((d) => d.noc);
+
+      const showAll = detailsEl && detailsEl.open;
+      const countriesToShow = showAll ? sortedCountries : sortedCountries.slice(0, 10);
+      const dataToShow = medalsRawData.filter((d) => countriesToShow.includes(d.noc));
+
+      const plotConfig = {
         width: width,
         style: {
-          fontSize: size,
+          fontSize: 12,
         },
         margin: 0,
         className: "plot",
         axis: null,
         label: null,
         x: {
-          domain: [0, maxTotalMedals],
-          insetLeft: 180,
+          domain: [0, 126],
+          insetLeft: width < 480 ? 140 : 180,
         },
         y: {
-          padding: 0.2
+          domain: countriesToShow,
+          padding: 0.2,
         },
         color: {
           legend: true,
           domain: ["gold", "silver", "bronze"],
-          range: ["#f9cf12", "#b6b7b9", "#e5812c"]
+          range: ["#f9cf12", "#b6b7b9", "#e5812c"],
         },
         marks: [
           // NOC flags
           Plot.image(
-            medals,
+            dataToShow,
             Plot.selectFirst({
               src: "flagURL",
               frameAnchor: "left",
@@ -441,7 +718,7 @@
               z: "noc",
               width: flagWidth,
               dx: 10,
-              className: "noc-flag"
+              className: "noc-flag",
             })
           ),
           // Y-axis
@@ -449,10 +726,10 @@
             tickFormat: (y) => (y === "Great Britain" ? "Britain" : y),
             tickSize: 0,
             dx: flagWidth + 20,
-            className: "y-axis"
+            className: "y-axis",
           }),
           // Waffle marks
-          Plot.waffleX(medals, {
+          Plot.waffleX(dataToShow, {
             x: "medals",
             y: "noc",
             fill: "medalType",
@@ -460,16 +737,44 @@
             stroke: "medalType",
             strokeWidth: 2,
             gap: 3,
-            rx: "100%"
+            rx: "100%",
           }),
-          // Y-axis gridlines
-          Plot.gridY({
-            dy: dy
-          }),
-        ]
+        ],
       };
 
-      document.getElementById("medals").appendChild(Plot.plot(medals));
+      container.innerHTML = "";
+      container.appendChild(Plot.plot(plotConfig));
+    }
+
+    // Fetch and initialize visualization
+    d3.json("data/paris_olympic_medals.json").then(function (data) {
+      medalsRawData = data;
+      renderPlot();
+    });
+
+    // Radio button sort event listeners
+    document.querySelectorAll('input[name="sortMedals"]').forEach((radio) => {
+      radio.addEventListener("change", renderPlot);
+    });
+
+    // Details toggle listener to expand/collapse the single chart
+    if (detailsEl) {
+      const summaryEl = detailsEl.querySelector("summary");
+      detailsEl.addEventListener("toggle", () => {
+        if (summaryEl) {
+          summaryEl.textContent = detailsEl.open
+            ? "Hide remaining countries"
+            : "Show remaining countries (11–90)";
+        }
+        renderPlot();
+      });
+    }
+
+    // Responsive window resize
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(renderPlot, 150);
     });
   </script>
   <script>
