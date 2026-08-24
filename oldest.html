@@ -17,9 +17,16 @@
   </script>
 
   <title>World's Oldest Person | Justin Chill</title>
-  <meta name="description" content="World's Oldest Person Since 1955">
+  <meta name="description"
+    content="An interactive data visualization tracking verified World's Oldest Person titleholders since 1955, exploring longevity records, lifespan trajectories, and demographics.">
   <meta name="author" content="Justin Chill">
   <meta name="robots" content="all">
+
+  <!-- Article metadata -->
+  <meta property="article:published_time" content="2021-01-30">
+  <meta property="article:modified_time" content="2026-08-23">
+  <meta property="article:author" content="Justin Chill">
+  <meta property="article:section" content="Data Visualization">
 
   <!-- OpenGraph tags -->
   <meta content="en_US" property="og:locale">
@@ -27,27 +34,35 @@
   <meta content="article" property="og:type">
   <meta content="https://justinchill.com/oldest.html" property="og:url">
   <meta content="World's Oldest Person | Justin Chill" property="og:title">
-  <meta content="World's Oldest Person Since 1955" property="og:description">
+  <meta
+    content="An interactive data visualization tracking verified World's Oldest Person titleholders since 1955, exploring longevity records, lifespan trajectories, and demographics."
+    property="og:description">
   <meta content="https://justinchill.com/blog.html" property="og:see_also">
   <meta property="og:locality" content="NY">
   <meta property="og:region" content="NY">
   <meta property="og:country_name" content="USA">
   <meta content="https://justinchill.com/imgs/cover/oldest_cover.webp" property="og:image">
   <meta
-    content="A line graph showing ages of the worlds oldest people from 1960 to the 2010s. Females are indicated by orange dots and males by blue. Notable figures include Jeanne Calment, who appears prominently with labels. Ages range from 110 to 122 years."
+    content="A line graph showing ages of the world's oldest people from 1960 to the 2010s. Females are indicated by orange dots and males by blue. Notable figures include Jeanne Calment, who appears prominently with labels. Ages range from 110 to 122 years."
     property="og:image:alt">
 
   <meta name="datePublished" content="2021-01-30">
-  <meta name="dateModified" content="2025-08-06">
+  <meta name="dateModified" content="2026-08-23">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@JustinChill">
+  <meta name="twitter:creator" content="@JustinChill">
   <meta name="twitter:title" content="World's Oldest Person | Justin Chill">
-  <meta name="twitter:description" content="World's Oldest Person Since 1955">
-  <meta content="https://justinchill.com/imgs/cover/oldest_cover.webp" property="twitter:image">
+  <meta name="twitter:description"
+    content="An interactive data visualization tracking verified World's Oldest Person titleholders since 1955, exploring longevity records, lifespan trajectories, and demographics.">
+  <meta content="https://justinchill.com/imgs/cover/oldest_cover.webp" name="twitter:image">
+  <meta name="twitter:image:alt"
+    content="A line graph showing ages of the world's oldest people from 1960 to the 2010s. Females are indicated by orange dots and males by blue. Notable figures include Jeanne Calment, who appears prominently with labels. Ages range from 110 to 122 years.">
 
   <link rel="canonical" href="https://justinchill.com/oldest.html">
   <link rel="preload" href="style.css" as="style" />
+  <link rel="preload" href="data/oldest.csv" as="fetch" type="text/csv" crossorigin="anonymous">
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico">
   <link type="text/plain" href="humans.txt" rel="author">
@@ -56,6 +71,16 @@
   <meta name="color-scheme" content="light dark">
 
   <style type="text/css">
+    /* Navigation Touch Targets */
+    .nav__item,
+    #theme-toggle {
+      min-height: 44px;
+      min-width: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     article>figure {
       min-width: 0;
       margin: 0;
@@ -72,6 +97,11 @@
       border-radius: 50%;
     }
 
+    html[data-theme="dark"] #oldest_legend svg text,
+    html[data-theme="dark"] svg[class*="legend"] text {
+      fill: #e2e8f0;
+    }
+
     @media screen and (max-width: 680px) {
 
       article>figure,
@@ -85,10 +115,34 @@
   {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": "World's Oldest Person | Justin Chill",
-    "description": "World's Oldest Person Since 1955",
+    "headline": "Supercentenarians",
+    "alternativeHeadline": "World's Oldest Person Titleholders Since 1955",
+    "description": "An interactive data visualization tracking the verified World's Oldest Person titleholders from 1955 to the 2010s, featuring lifespan trajectories, record-holders like Jeanne Calment, and gender disparities based on Gerontology Research Group records.",
     "datePublished": "2021-01-30",
-    "dateModified": "2025-08-06",
+    "dateModified": "2026-08-23",
+    "inLanguage": "en-US",
+    "isAccessibleForFree": true,
+    "articleSection": "Data Visualization",
+    "wordCount": 95,
+    "url": "https://justinchill.com/oldest.html",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://justinchill.com/oldest.html"
+    },
+    "isPartOf": {
+      "@type": "Blog",
+      "@id": "https://justinchill.com/blog.html",
+      "name": "Justin Chill's Blog",
+      "publisher": {
+        "@type": "Person",
+        "name": "Justin Chill"
+      }
+    },
+    "image": {
+      "@type": "ImageObject",
+      "url": "https://justinchill.com/imgs/cover/oldest_cover.webp",
+      "caption": "A line graph showing ages of the world's oldest people from 1960 to the 2010s. Females are indicated by orange dots and males by blue. Notable figures include Jeanne Calment, who appears prominently with labels. Ages range from 110 to 122 years."
+    },
     "author": {
       "@type": "Person",
       "name": "Justin Chill",
@@ -109,8 +163,69 @@
         "https://github.com/JustinChill"
       ]
     },
-    "mainEntityOfPage": "https://justinchill.com/oldest.html",
-    "image": "https://justinchill.com/imgs/cover/oldest_cover.webp"
+    "keywords": [
+      "Supercentenarians",
+      "World's Oldest Person",
+      "Longevity",
+      "Gerontology Research Group",
+      "Jeanne Calment",
+      "Emma Tillman",
+      "Kane Tanaka",
+      "Maximum lifespan",
+      "Demographics",
+      "Observable Plot",
+      "D3.js",
+      "Data visualization"
+    ],
+    "about": [
+      {
+        "@type": "Thing",
+        "name": "Supercentenarian",
+        "sameAs": "https://en.wikipedia.org/wiki/Supercentenarian"
+      },
+      {
+        "@type": "Thing",
+        "name": "Oldest people",
+        "sameAs": "https://en.wikipedia.org/wiki/Oldest_people"
+      },
+      {
+        "@type": "Thing",
+        "name": "Maximum life span",
+        "sameAs": "https://en.wikipedia.org/wiki/Maximum_life_span"
+      },
+      {
+        "@type": "Organization",
+        "name": "Gerontology Research Group",
+        "sameAs": "https://en.wikipedia.org/wiki/Gerontology_Research_Group"
+      },
+      {
+        "@type": "Thing",
+        "name": "Data visualization",
+        "sameAs": "https://en.wikipedia.org/wiki/Data_visualization"
+      }
+    ],
+    "mentions": [
+      {
+        "@type": "Person",
+        "name": "Jeanne Calment",
+        "sameAs": "https://en.wikipedia.org/wiki/Jeanne_Calment"
+      },
+      {
+        "@type": "Person",
+        "name": "Emma Tillman",
+        "sameAs": "https://en.wikipedia.org/wiki/Emma_Tillman"
+      },
+      {
+        "@type": "Person",
+        "name": "Kane Tanaka",
+        "sameAs": "https://en.wikipedia.org/wiki/Kane_Tanaka"
+      },
+      {
+        "@type": "Organization",
+        "name": "Gerontology Research Group",
+        "sameAs": "https://en.wikipedia.org/wiki/Gerontology_Research_Group"
+      }
+    ]
   }
   </script>
 </head>
@@ -155,7 +270,7 @@
 
       <span id="oldest_legend"></span>
       <figure id="oldest"
-        aria-label="A line graph showing ages of the worlds oldest people from 1960 to the 2010s. Females are indicated by orange dots and males by blue. Notable figures include Jeanne Calment, who appears prominently with labels. Ages range from 110 to 122 years.">
+        aria-label="A line graph showing ages of the world's oldest people from 1960 to the 2010s. Females are indicated by orange dots and males by blue. Notable figures include Jeanne Calment, who appears prominently with labels. Ages range from 110 to 122 years.">
       </figure>
       <figcaption class="right">Data: <a href="https://grg.org/WSRL/TableE.aspx">Gerontology Research Group</a>
       </figcaption>
@@ -167,7 +282,7 @@
       <ul>
         <li><strong>Jeanne Calment</strong> (France) held the title for almost 10 years, but this record has been
           challenged after claims that her daughter assumed her identity in 1934.</li>
-        <li><strong>Emma Tillman</strong> (US) held the title for just 4 days.</li>
+        <li><strong>Emma Tillman</strong> (U.S.) held the title for just 4 days.</li>
         <li><strong>Females</strong> greatly outnumber males.</li>
       </ul>
 
@@ -175,10 +290,6 @@
     </article>
   </main>
   <footer>
-    <h2 class="visually-hidden" id="footnote-label">Footnotes</h2>
-    <ol>
-
-    </ol>
     <div>
       <p>Justin Chill &copy; 2026</p>
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
@@ -189,121 +300,138 @@
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
 
   <script type="text/javascript">
-    var size = 12;
-    var element = d3.select('figure').node();
-    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
+    const size = 12;
 
-    // Use Promises to async request data
-    var promises = [d3.csv("data/oldest.csv", d3.autoType)];
-    myDataPromises = Promise.all(promises);
+    d3.csv("data/oldest.csv", d3.autoType).then(function (data) {
+      function renderChart() {
+        const figureEl = document.getElementById("oldest");
+        const legendEl = document.getElementById("oldest_legend");
+        if (!figureEl) return;
 
-    // After data is successfully fetched, generate viz
-    myDataPromises.then(function (data) {
+        const width = figureEl.getBoundingClientRect().width || 680;
 
-      // Define the data
-      var data = data[0];
+        figureEl.innerHTML = "";
+        if (legendEl) legendEl.innerHTML = "";
 
-      var oldest = {
-        grid: true,
-        inset: 10,
-        width: width,
-        style: {
-          fontSize: size,
-          background: "transparent",
-        },
-        y: {
-          label: "↑ Age",
-          labelOffset: 30,
-          line: false,
-          tickSize: 0,
-        },
-        x: {
-          tickSize: 0,
-        },
-        color: {
-          domain: ["M", "F"],
-          range: ["hsl(227, 50%, 59%)", "hsl(16, 94%, 61%)"],
-        },
-        marks: [
-          Plot.link(data, {
-            x1: "became",
-            y1: "age_became",
-            x2: "died",
-            y2: "age_died",
-            stroke: "gender",
-            strokeWidth: 1.25,
-          }),
-          Plot.dot(data, {
-            filter: d => d.name !== "Kane Tanaka",
-            x: "died",
-            y: "age_died",
-            fill: "gender",
-            r: 3,
-            title: d => `${d.name} (${d.birthplace})\nBorn: ${d3.timeFormat("%B %d, %Y")(d.born)}\nDied: ${d3.timeFormat("%B %d, %Y")(d.died)}\n`,
-            channels: {
-              dod: "died",
-              sex: "gender"
-            },
-            tip: true,
-            // Todo: Held the record: ${d3.format("#")(d.age_died - d.age_became)}
-            // Need to fix my math
-          }),
-          Plot.text(data.filter(d => d.name === "Jeanne Calment"), {
-            x: "became",
-            y: "age_became",
-            text: (d) => "when she became\nthe world's oldest\nwoman",
-            textAnchor: "start",
-            dx: 6,
-            dy: 12,
-          }),
-          Plot.text(data.filter(d => d.name === "Jeanne Calment"), {
-            x: "died",
-            y: "age_died",
-            text: (d) => "↖ when she died",
-            textAnchor: "start",
-            dx: 4,
-            dy: 12,
-          }),
-          Plot.text(data.filter(d => d.name === "Jeanne Calment"), {
-            x: "died",
-            y: "age_died",
-            text: "name",
-            textAnchor: "end",
-            dx: -14,
-            dy: -1,
-            fontSize: size + 2,
-          }),
-          Plot.text(data.filter(d => d.name === "Emma Tillman"), {
-            x: "died",
-            y: "age_died",
-            text: (d) => "↑ " + d.name,
-            textAnchor: "start",
-            dy: 15,
-            dx: -4
-          }),
-          Plot.text(data, Plot.selectMaxX({
-            x: "died",
-            y: "age_died",
-            text: "name",
-            textAnchor: "end",
-            dy: 30,
-            dx: 20
-          })),
-        ]
-      };
+        const oldest = {
+          grid: true,
+          inset: 10,
+          width: width,
+          style: {
+            fontSize: size,
+            background: "transparent",
+          },
+          y: {
+            label: "↑ Age",
+            labelOffset: 30,
+            line: false,
+            tickSize: 0,
+          },
+          x: {
+            tickSize: 0,
+          },
+          color: {
+            domain: ["M", "F"],
+            range: ["hsl(227, 50%, 59%)", "hsl(16, 94%, 61%)"],
+          },
+          marks: [
+            Plot.link(data, {
+              x1: "became",
+              y1: "age_became",
+              x2: "died",
+              y2: "age_died",
+              stroke: "gender",
+              strokeWidth: 1.25,
+            }),
+            Plot.dot(data, {
+              filter: d => d.name !== "Kane Tanaka",
+              x: "died",
+              y: "age_died",
+              fill: "gender",
+              r: 3,
+              title: d => `${d.name} (${d.birthplace})\nBorn: ${d3.timeFormat("%B %d, %Y")(d.born)}\nDied: ${d3.timeFormat("%B %d, %Y")(d.died)}\n`,
+              channels: {
+                dod: "died",
+                sex: "gender"
+              },
+              tip: true,
+            }),
+            Plot.text(data.filter(d => d.name === "Jeanne Calment"), {
+              x: "became",
+              y: "age_became",
+              text: (d) => "when she became\nthe world's oldest\nwoman",
+              textAnchor: "start",
+              dx: 6,
+              dy: 12,
+            }),
+            Plot.text(data.filter(d => d.name === "Jeanne Calment"), {
+              x: "died",
+              y: "age_died",
+              text: (d) => "↖ when she died",
+              textAnchor: "start",
+              dx: 4,
+              dy: 12,
+            }),
+            Plot.text(data.filter(d => d.name === "Jeanne Calment"), {
+              x: "died",
+              y: "age_died",
+              text: "name",
+              textAnchor: "end",
+              dx: -14,
+              dy: -1,
+              fontSize: size + 2,
+            }),
+            Plot.text(data.filter(d => d.name === "Emma Tillman"), {
+              x: "died",
+              y: "age_died",
+              text: (d) => "↑ " + d.name,
+              textAnchor: "start",
+              dy: 15,
+              dx: -4
+            }),
+            Plot.text(data, Plot.selectMaxX({
+              x: "died",
+              y: "age_died",
+              text: "name",
+              textAnchor: "end",
+              dy: 30,
+              dx: 20
+            })),
+          ]
+        };
 
-      // Create the legend separately, using the color scale from the main plot
-      var oldest_color = Plot.plot(oldest).scale("color");
-      var oldest_legend = {
-        label: "Gender",
-        color: oldest_color,
-      };
+        const plotInstance = Plot.plot(oldest);
+        figureEl.appendChild(plotInstance);
 
-      document.getElementById("oldest").appendChild(Plot.plot(oldest));
-      document.getElementById("oldest_legend").appendChild(Plot.legend(oldest_legend));
+        if (legendEl) {
+          const oldestLegend = {
+            label: "Gender",
+            color: plotInstance.scale("color"),
+          };
+          legendEl.appendChild(Plot.legend(oldestLegend));
+        }
+      }
+
+      renderChart();
+
+      let resizeTimer;
+      window.addEventListener("resize", () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(renderChart, 150);
+      });
     });
   </script>
   <script>
+    // Email link handler
+    document.querySelectorAll('.js-email-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const a = "Justin.richard.hill@";
+        const b = "gmail.com";
+        window.open(`mailto:${a}${b}`, 'email');
+      });
+    });
+
     // Theme toggle functionality
     const themeToggleBtn = document.getElementById("theme-toggle");
     const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
@@ -311,11 +439,13 @@
 
     function updateIcons(theme) {
       if (theme === "dark") {
-        themeToggleLightIcon.classList.remove("hidden");
-        themeToggleDarkIcon.classList.add("hidden");
+        themeToggleLightIcon?.classList.remove("hidden");
+        themeToggleDarkIcon?.classList.add("hidden");
+        themeToggleBtn?.setAttribute("aria-label", "Switch to light theme");
       } else {
-        themeToggleLightIcon.classList.add("hidden");
-        themeToggleDarkIcon.classList.remove("hidden");
+        themeToggleLightIcon?.classList.add("hidden");
+        themeToggleDarkIcon?.classList.remove("hidden");
+        themeToggleBtn?.setAttribute("aria-label", "Switch to dark theme");
       }
     }
 
@@ -331,6 +461,14 @@
         updateIcons(newTheme);
       });
     }
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) {
+        const newTheme = e.matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        updateIcons(newTheme);
+      }
+    });
   </script>
 </body>
 

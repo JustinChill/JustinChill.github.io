@@ -17,9 +17,17 @@
   </script>
 
   <title>NICS Firearm Background Checks | Justin Chill</title>
-  <meta name="description" content="Monthly data collected by the FBI on firearm background checks">
+  <meta name="description" content="Monthly data collected by the FBI on firearm background checks from 1998 to present, exploring trends, regulatory milestones, and historical surges.">
   <meta name="author" content="Justin Chill">
+  <meta name="application-name" content="Justin Chill">
+  <meta name="msapplication-tooltip" content="Justin Chill">
   <meta name="robots" content="all">
+
+  <!-- Article metadata -->
+  <meta property="article:published_time" content="2025-01-04">
+  <meta property="article:modified_time" content="2026-08-23">
+  <meta property="article:author" content="Justin Chill">
+  <meta property="article:section" content="Gun Policy">
 
   <!-- OpenGraph tags -->
   <meta content="en_US" property="og:locale">
@@ -27,27 +35,34 @@
   <meta content="article" property="og:type">
   <meta content="https://justinchill.com/nics.html" property="og:url">
   <meta content="NICS Firearm Background Checks | Justin Chill" property="og:title">
-  <meta content="Data visualization of FBI background checks." property="og:description">
+  <meta content="Monthly data collected by the FBI on firearm background checks from 1998 to present, exploring trends, regulatory milestones, and historical surges." property="og:description">
   <meta content="https://justinchill.com/blog.html" property="og:see_also">
-  <meta property="og:locality" content="NY">
+  <meta property="og:locality" content="New York">
   <meta property="og:region" content="NY">
   <meta property="og:country_name" content="USA">
   <meta content="https://justinchill.com/imgs/cover/nics_cover.webp" property="og:image">
+  <meta content="1200" property="og:image:width">
+  <meta content="630" property="og:image:height">
   <meta
     content="A bar graph titled Monthly Background Checks from 2000 to 2023. The graph shows a general upward trend, with notable spikes around events like Sandy Hook, San Bernardino, and January 6th. Total checks peak at over 4 million."
     property="og:image:alt">
 
   <meta name="datePublished" content="2025-01-04">
-  <meta name="dateModified" content="2025-08-06">
+  <meta name="dateModified" content="2026-08-23">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@JustinChill">
+  <meta name="twitter:creator" content="@JustinChill">
   <meta name="twitter:title" content="NICS Firearm Background Checks | Justin Chill">
-  <meta name="twitter:description" content="Monthly data collected by the FBI on firearm background checks">
-  <meta content="https://justinchill.com/imgs/cover/nics_cover.webp" property="twitter:image">
+  <meta name="twitter:description" content="Monthly data collected by the FBI on firearm background checks from 1998 to present, exploring trends, regulatory milestones, and historical surges.">
+  <meta name="twitter:image" content="https://justinchill.com/imgs/cover/nics_cover.webp">
+  <meta name="twitter:image:alt"
+    content="A bar graph titled Monthly Background Checks from 2000 to 2023. The graph shows a general upward trend, with notable spikes around events like Sandy Hook, San Bernardino, and January 6th. Total checks peak at over 4 million.">
 
   <link rel="canonical" href="https://justinchill.com/nics.html">
   <link rel="preload" href="style.css" as="style" />
+  <link rel="preload" href="data/nics-firearm-background-checks.csv" as="fetch" type="text/csv" crossorigin="anonymous">
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico">
   <link type="text/plain" href="humans.txt" rel="author">
@@ -56,16 +71,34 @@
   <meta name="color-scheme" content="light dark">
 
   <style type="text/css">
+    /* Touch Targets & Navigation */
+    .nav__item,
+    #theme-toggle {
+      min-height: 44px;
+      min-width: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav__item:focus-visible,
+    #theme-toggle:focus-visible {
+      outline: 2px solid var(--accent-color, #4C63B6);
+      outline-offset: 2px;
+    }
+
     p img {
       float: right;
       width: 200px;
     }
 
-    .plot text {
+    .plot text,
+    svg text {
       fill: var(--text-color, #222);
     }
 
-    html[data-theme="dark"] .plot text {
+    html[data-theme="dark"] .plot text,
+    html[data-theme="dark"] svg text {
       fill: #e2e8f0;
     }
 
@@ -73,10 +106,15 @@
       --plot-background: transparent;
     }
 
-    .nav__item:focus-visible,
-    #theme-toggle:focus-visible {
-      outline: 2px solid var(--accent-color, #4C63B6);
-      outline-offset: 2px;
+    figcaption.right {
+      text-align: right;
+      font-size: 0.85rem;
+      color: var(--text-secondary, #666);
+      margin-top: 0.5rem;
+    }
+
+    html[data-theme="dark"] figcaption.right {
+      color: #94a3b8;
     }
 
     @media (max-width: 600px) {
@@ -94,10 +132,30 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "NICS Firearm Background Checks | Justin Chill",
-  "description": "Monthly data collected by the FBI on firearm background checks",
+  "headline": "Check mate: FBI Data on Firearm Background Checks",
+  "alternativeHeadline": "Monthly NICS Background Checks from 1998 to Present",
+  "name": "NICS Firearm Background Checks | Justin Chill",
+  "description": "Monthly data collected by the FBI on firearm background checks from 1998 to present, exploring trends, regulatory milestones, and historical surges.",
   "datePublished": "2025-01-04",
-  "dateModified": "2025-08-06",
+  "dateModified": "2026-08-23",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": true,
+  "articleSection": "Gun Policy",
+  "wordCount": 635,
+  "url": "https://justinchill.com/nics.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://justinchill.com/nics.html"
+  },
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://justinchill.com/blog.html",
+    "name": "Justin Chill's Blog",
+    "publisher": {
+      "@type": "Person",
+      "name": "Justin Chill"
+    }
+  },
   "author": {
     "@type": "Person",
     "name": "Justin Chill",
@@ -118,8 +176,158 @@
       "https://github.com/JustinChill"
     ]
   },
-  "mainEntityOfPage": "https://justinchill.com/nics.html",
-  "image": "https://justinchill.com/imgs/cover/nics_cover.webp"
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://justinchill.com/imgs/cover/nics_cover.webp",
+    "caption": "A bar graph titled Monthly Background Checks from 2000 to 2023 showing total checks peaking over 4 million.",
+    "width": 1200,
+    "height": 630
+  },
+  "keywords": [
+    "NICS",
+    "FBI background checks",
+    "Firearm background checks",
+    "Gun sales",
+    "Brady Act",
+    "ATF Form 4473",
+    "Gun policy",
+    "Data visualization",
+    "Observable Plot",
+    "D3.js",
+    "BuzzFeed News"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "National Instant Criminal Background Check System",
+      "sameAs": "https://en.wikipedia.org/wiki/National_Instant_Criminal_Background_Check_System"
+    },
+    {
+      "@type": "Thing",
+      "name": "Brady Handgun Violence Prevention Act",
+      "sameAs": "https://en.wikipedia.org/wiki/Brady_Handgun_Violence_Prevention_Act"
+    },
+    {
+      "@type": "Thing",
+      "name": "Gun law in the United States",
+      "sameAs": "https://en.wikipedia.org/wiki/Gun_law_in_the_United_States"
+    },
+    {
+      "@type": "Thing",
+      "name": "Gun control",
+      "sameAs": "https://en.wikipedia.org/wiki/Gun_control"
+    },
+    {
+      "@type": "Thing",
+      "name": "Federal Firearms License",
+      "sameAs": "https://en.wikipedia.org/wiki/Federal_Firearms_License"
+    }
+  ],
+  "mentions": [
+    {
+      "@type": "GovernmentOrganization",
+      "name": "Federal Bureau of Investigation",
+      "alternateName": "FBI",
+      "sameAs": "https://en.wikipedia.org/wiki/Federal_Bureau_of_Investigation"
+    },
+    {
+      "@type": "GovernmentOrganization",
+      "name": "Bureau of Alcohol, Tobacco, Firearms and Explosives",
+      "alternateName": "ATF",
+      "sameAs": "https://en.wikipedia.org/wiki/Bureau_of_Alcohol,_Tobacco,_Firearms_and_Explosives"
+    },
+    {
+      "@type": "NewsMediaOrganization",
+      "name": "BuzzFeed News",
+      "sameAs": "https://en.wikipedia.org/wiki/BuzzFeed_News"
+    },
+    {
+      "@type": "Organization",
+      "name": "USAFacts",
+      "sameAs": "https://en.wikipedia.org/wiki/USAFacts"
+    },
+    {
+      "@type": "NewsMediaOrganization",
+      "name": "The Trace",
+      "sameAs": "https://en.wikipedia.org/wiki/The_Trace_(website)"
+    },
+    {
+      "@type": "Event",
+      "name": "Sandy Hook Elementary School shooting",
+      "sameAs": "https://en.wikipedia.org/wiki/Sandy_Hook_Elementary_School_shooting"
+    },
+    {
+      "@type": "Event",
+      "name": "2015 San Bernardino attack",
+      "sameAs": "https://en.wikipedia.org/wiki/2015_San_Bernardino_attack"
+    },
+    {
+      "@type": "Event",
+      "name": "January 6 United States Capitol attack",
+      "sameAs": "https://en.wikipedia.org/wiki/January_6_United_States_Capitol_attack"
+    },
+    {
+      "@type": "Person",
+      "name": "George Floyd",
+      "sameAs": "https://en.wikipedia.org/wiki/George_Floyd"
+    }
+  ],
+  "citation": [
+    {
+      "@type": "DigitalDocument",
+      "name": "NICS Firearm Background Checks: Month/Year by State/Type",
+      "publisher": {
+        "@type": "GovernmentOrganization",
+        "name": "Federal Bureau of Investigation"
+      },
+      "url": "https://www.fbi.gov/file-repository/nics_firearm_checks_-_month_year_by_state_type.pdf/view"
+    },
+    {
+      "@type": "DigitalDocument",
+      "name": "The Brady Law",
+      "publisher": {
+        "@type": "GovernmentOrganization",
+        "name": "Bureau of Alcohol, Tobacco, Firearms and Explosives"
+      },
+      "url": "https://www.atf.gov/rules-and-regulations/brady-law"
+    },
+    {
+      "@type": "DigitalDocument",
+      "name": "ATF Form 4473 - Firearms Transaction Record Revisions",
+      "publisher": {
+        "@type": "GovernmentOrganization",
+        "name": "Bureau of Alcohol, Tobacco, Firearms and Explosives"
+      },
+      "url": "https://www.atf.gov/firearms/atf-form-4473-firearms-transaction-record-revisions"
+    },
+    {
+      "@type": "DigitalDocument",
+      "name": "Identify Prohibited Persons",
+      "publisher": {
+        "@type": "GovernmentOrganization",
+        "name": "Bureau of Alcohol, Tobacco, Firearms and Explosives"
+      },
+      "url": "https://www.atf.gov/firearms/identify-prohibited-persons"
+    },
+    {
+      "@type": "Article",
+      "name": "Firearm background checks: Explained",
+      "author": {
+        "@type": "Organization",
+        "name": "USA Facts"
+      },
+      "url": "https://usafacts.org/articles/firearm-background-checks-explained/"
+    },
+    {
+      "@type": "Dataset",
+      "name": "NICS Firearm Background Checks Data",
+      "publisher": {
+        "@type": "NewsMediaOrganization",
+        "name": "BuzzFeed News"
+      },
+      "url": "https://github.com/BuzzFeedNews/nics-firearm-background-checks"
+    }
+  ]
 }
   </script>
 </head>
@@ -178,19 +386,19 @@
         in 1994, the Federal Bureau of Investigation (<small>FBI</small>) developed a system to conduct background
         checks on those wishing to obtain a firearm. The system, known as the National Instant Criminal
         Background Check System (<small>NICS</small>), was created in collaboration with the Bureau of
-        Alcohol, Tobacco and Firearms and local law enforcement agencies.</p>
+        Alcohol, Tobacco, Firearms and Explosives and local law enforcement agencies.</p>
       <p>Since its inception in November 1998, the <small>FBI</small> has released monthly data from each state and U.S.
-        territory. The <small>FBI</small> claims that over 300 million requests have been approved, and 1.5 million have
+        territory. The <small>FBI</small> reports that over 300 million requests have been approved and 1.5 million have
         been denied.</p>
-      <p>The <small>FBI</small>'s background check numbers come with caveats. These numbers show only the number of
-        firearm background checks initiated through the <small>NICS</small>. They do not represent the number of
+      <p>The <small>FBI</small>'s background check figures come with caveats. These numbers show only the number of
+        firearm background checks initiated through the <small>NICS</small>; they do not represent the total number of
         firearms sold.</p>
       <p>Due to varying state laws, a one-to-one correlation cannot be made between a firearm background check and a
-        firearm sale. Kentucky runs a new check on concealed carry license holders each month. And of course, the
-        <small>FBI</small>'s numbers don't include private gun sales, many of which do not require a background check.
+        firearm sale. Kentucky, for instance, runs a new check on concealed-carry license holders each month. Furthermore, the
+        <small>FBI</small>'s numbers do not include private gun sales in states that do not require a background check.
       </p>
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
-      <h2><small>NICS</small> Background Checks - past 36 months</h2>
+      <h2><small>NICS</small> Background Checks — Past 36 Months</h2>
       <figure id="recent" role="img"
         aria-label="Area chart showing NICS background checks over the past 36 months. Spikes correlate with major events like the COVID-19 pandemic and social unrest.">
         <figcaption class="right">Data: <a
@@ -202,7 +410,7 @@
         spiked in March as the coronavirus outbreak spread and Americans worried that the government might be unable to
         cope with increased crime caused by economic hardships or, conversely, that lockdowns would be an excuse to
         enact stricter gun control. The designation of gun shops as “essential” in some states, allowing them to stay
-        open during lockdowns, probably helped sales. They climbed again in June as the country was enveloped in chaos
+        open during lockdowns, probably helped sales. Background checks climbed again in June as the country was enveloped in chaos
         after the police killing of <a href="https://justinchill.com/8m46s.html">George Floyd</a>.</p>
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h2>Total <small>NICS</small> checks conducted</h2>
@@ -218,7 +426,7 @@
           href="https://www.atf.gov/firearms/atf-form-4473-firearms-transaction-record-revisions" target="_blank" rel="noopener noreferrer">ATF
           Form 4473</a> and the federally licensed firearms dealer relays this information to the <a
           href="https://www.fbi.gov/services/cjis/nics" target="_blank" rel="noopener noreferrer"><small>NICS</small></a>. <small>NICS</small>
-        staff perform a background check to verify the prospective buyer does not have a criminal record and is not
+        staff members perform a background check to verify the prospective buyer does not have a criminal record and is not
         otherwise ineligible to purchase a firearm<a href="#usaf" aria-describedby="footnote-label" id="usaf-ref" aria-label="Footnote 1"></a>.
       </p>
       <h3>Prohibited Persons</h3>
@@ -231,12 +439,12 @@
           been married to, lived with, or had a child with</li>
         <li>People committed to a mental health facility or ruled by a court to be mentally unfit
         </li>
-        <li>Fugitives</li>
+        <li>Fugitives from justice</li>
         <li>People convicted of drug crimes or determined by a court to be addicted to an
           illegal controlled substance</li>
       </ul>
 
-      <h3>Transaction types</h3>
+      <h3>Transaction Types</h3>
       <p>The <small>FBI</small> categorizes each background check by type of transaction:</p>
       <ol>
         <li>Pre-Pawn—background checks requested by an officially licensed FFL on prospective firearm transferees
@@ -245,27 +453,26 @@
         <li>Redemption—background checks requested by an officially licensed FFL on prospective firearm transferees
           attempting to regain possession of a firearm after pledging or pawning a firearm as security at a pawn shop.
         </li>
-        <li>Returned/Disposition—background checks requested by criminal justice/law enforcement agencies prior to
-          returning a firearm in its possession to the respective transferee, to ensure the individual is not
+        <li>Returned/Disposition—background checks requested by criminal justice and law enforcement agencies prior to
+          returning a firearm in their possession to the respective transferee, to ensure the individual is not
           prohibited.</li>
         <li>Rentals—background checks requested by an officially licensed FFL on prospective firearm transferees
           attempting to possess a firearm when the firearm is loaned or rented for use off the premises of the business.
         </li>
         <li>Private Sale—background checks requested by an officially licensed FFL on prospective firearm transferees
           attempting to possess a firearm from a private party seller who is not an officially licensed FFL.</li>
-        <li>Return to Seller – Private Sale—background checks requested by an officially licensed FFL on prospective
-          firearm transferees attempting to possess a firearm from a private party seller who is not an
-          officially licensed FFL.</li>
+        <li>Return to Seller – Private Sale—background checks requested by an officially licensed FFL on a private party
+          seller attempting to regain possession of a firearm when a private party transfer cannot be completed.</li>
       </ol>
 
-      <h2>About the data</h2>
+      <h2>About the Data</h2>
       <p><img
           src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Emblem_of_the_National_Instant_Criminal_Background_Check_System_%28FBI%29.jpg"
           alt="A circular logo for the National Instant Criminal Background Check System features a map of the USA, a green handgun, and a large red check mark. It reads Federal Bureau of Investigation around the border."
           loading="lazy"> Sourced from the FBI's National Instant Criminal Background Check System (NICS) and made
-        accessible through BuzzFeed News' <a
+          accessible through BuzzFeed News' <a
           href="https://github.com/BuzzFeedNews/nics-firearm-background-checks?tab=readme-ov-file" target="_blank" rel="noopener noreferrer">data repository</a>,
-        the data visualized here provides an important look into the demand for firearms in the United States.</p>
+        the data visualized here provide an important look into the demand for firearms in the United States.</p>
       <p>The Brady Handgun Violence Prevention Act of 1993 played a significant role in this data collection process,
         facilitating the instant screening of prospective gun buyers to determine their eligibility for firearm
         ownership.</p>
@@ -273,8 +480,8 @@
         buyer does not have a criminal record, restraining orders, or other disqualifications, such as being a convicted
         felon or having a history of mental illness.</p>
       <p>The data derived from NICS checks offer important insights into the impact of these regulations on the
-        firearms market and, by extension, discussions surrounding gun violence, gun control debates, and the gun
-        production and market dynamics in the United States.</p>
+        firearms market and, by extension, discussions surrounding gun violence, gun control debates, and
+        gun production and market dynamics in the United States.</p>
       <img src="https://www.thetrace.org/wp-content/uploads/2015/07/5372331238_5d56cfb371_b.jpg"
         alt="A white building with GUNS in large red and yellow letters on its side. Several palm trees are in the background under a clear blue sky. A few cars are parked in front, and orange cones are placed nearby."
         class="full-bleed" loading="lazy">
@@ -340,6 +547,11 @@
       const barEl = document.getElementById("barplot");
       const recentEl = document.getElementById("recent");
       const lineEl = document.getElementById("line");
+
+      const barCaption = barEl ? barEl.querySelector("figcaption") : null;
+      const recentCaption = recentEl ? recentEl.querySelector("figcaption") : null;
+      const lineCaption = lineEl ? lineEl.querySelector("figcaption") : null;
+
       if (barEl) barEl.innerHTML = "";
       if (recentEl) recentEl.innerHTML = "";
       if (lineEl) lineEl.innerHTML = "";
@@ -546,9 +758,18 @@
         ]
       };
 
-      if (barEl) barEl.appendChild(Plot.plot(barplot));
-      if (recentEl) recentEl.appendChild(Plot.plot(recent));
-      if (lineEl) lineEl.appendChild(Plot.plot(line));
+      if (barEl) {
+        barEl.appendChild(Plot.plot(barplot));
+        if (barCaption) barEl.appendChild(barCaption);
+      }
+      if (recentEl) {
+        recentEl.appendChild(Plot.plot(recent));
+        if (recentCaption) recentEl.appendChild(recentCaption);
+      }
+      if (lineEl) {
+        lineEl.appendChild(Plot.plot(line));
+        if (lineCaption) lineEl.appendChild(lineCaption);
+      }
     }
 
     d3.csv("data/nics-firearm-background-checks.csv", d3.autoType).then(function (data) {
@@ -631,6 +852,16 @@
       });
     });
     observer.observe(document.documentElement, { attributes: true });
+
+    // Email link handler
+    document.querySelectorAll('.js-email-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const a = "Justin.richard.hill@";
+        const b = "gmail.com";
+        window.open(`mailto:${a}${b}`, 'email');
+      });
+    });
   </script>
 </body>
 

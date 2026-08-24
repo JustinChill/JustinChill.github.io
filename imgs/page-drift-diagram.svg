@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 290" width="100%" height="auto" role="img" aria-label="Illustration of the Page Drift anomaly where real-time insertions cause duplicate items across paginated pages">
+  <defs>
+    <filter id="boxShadow" x="-2%" y="-4%" width="104%" height="110%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.06"/>
+    </filter>
+    <marker id="driftArrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+  </defs>
+
+  <style>
+    .title { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 14px; font-weight: 700; }
+    .subtitle { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 12px; }
+    .itemText { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 12px; font-weight: 600; text-anchor: middle; dominant-baseline: central; }
+  </style>
+
+  <!-- Container -->
+  <rect x="0" y="0" width="720" height="290" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+
+  <!-- Header -->
+  <text x="24" y="30" class="title" fill="#0f172a" font-size="16">The "Page Drift" Anomaly in Offset Pagination</text>
+  <text x="24" y="50" class="subtitle" fill="#64748b">When new records are inserted in real-time, window boundaries shift, causing users to see duplicate items</text>
+
+  <!-- Step 1: Time T0 -->
+  <g transform="translate(24, 70)">
+    <rect x="0" y="0" width="672" height="85" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" filter="url(#boxShadow)"/>
+    <text x="16" y="24" class="title" fill="#1e293b" font-size="13">Time 1: User views Page 1 (LIMIT 3 OFFSET 0)</text>
+
+    <!-- Page 1 Items (Selected) -->
+    <rect x="16" y="38" width="80" height="34" rx="4" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="56" y="55" class="itemText" fill="#1e40af">Item A</text>
+
+    <rect x="104" y="38" width="80" height="34" rx="4" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="144" y="55" class="itemText" fill="#1e40af">Item B</text>
+
+    <rect x="192" y="38" width="80" height="34" rx="4" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="232" y="55" class="itemText" fill="#1e40af">Item C</text>
+
+    <!-- Page 2 Items (Waiting) -->
+    <rect x="280" y="38" width="80" height="34" rx="4" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="320" y="55" class="itemText" fill="#64748b">Item D</text>
+
+    <rect x="368" y="38" width="80" height="34" rx="4" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="408" y="55" class="itemText" fill="#64748b">Item E</text>
+
+    <rect x="456" y="38" width="80" height="34" rx="4" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="496" y="55" class="itemText" fill="#64748b">Item F</text>
+
+    <!-- Window label -->
+    <text x="560" y="57" class="subtitle" fill="#2563eb" font-weight="600">Active View: [A, B, C]</text>
+  </g>
+
+  <!-- Step 2: Time T1 (Item X inserted at head, shifts everything right) -->
+  <g transform="translate(24, 175)">
+    <rect x="0" y="0" width="672" height="95" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" filter="url(#boxShadow)"/>
+    <text x="16" y="22" class="title" fill="#1e293b" font-size="13">Time 2: Concurrent insert (+Item X) → User clicks Page 2 (LIMIT 3 OFFSET 3)</text>
+
+    <!-- New Item X inserted at head -->
+    <rect x="16" y="36" width="80" height="34" rx="4" fill="#fef3c7" stroke="#f59e0b" stroke-dasharray="3 3"/>
+    <text x="56" y="53" class="itemText" fill="#b45309">+ Item X</text>
+
+    <rect x="104" y="36" width="80" height="34" rx="4" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="144" y="53" class="itemText" fill="#64748b">Item A</text>
+
+    <rect x="192" y="36" width="80" height="34" rx="4" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="232" y="53" class="itemText" fill="#64748b">Item B</text>
+
+    <!-- Offset 3 starts HERE: Item C is now index 3! -->
+    <rect x="280" y="36" width="80" height="34" rx="4" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+    <text x="320" y="53" class="itemText" fill="#b91c1c">Item C (Dup!)</text>
+
+    <rect x="368" y="36" width="80" height="34" rx="4" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="408" y="53" class="itemText" fill="#1e40af">Item D</text>
+
+    <rect x="456" y="36" width="80" height="34" rx="4" fill="#dbeafe" stroke="#3b82f6"/>
+    <text x="496" y="53" class="itemText" fill="#1e40af">Item E</text>
+
+    <!-- Shift arrow indicator -->
+    <path d="M 232 20 L 320 30" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="2 2" marker-end="url(#driftArrow)"/>
+
+    <!-- Explanatory note -->
+    <text x="16" y="86" class="subtitle" fill="#dc2626" font-weight="600">⚠️ Item C was pushed to offset 3 and returned twice. Item F was never reached.</text>
+  </g>
+</svg>
