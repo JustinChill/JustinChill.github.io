@@ -17,9 +17,16 @@
   </script>
 
   <title>Simpsons tribute | Justin Chill</title>
-  <meta name="description" content="A tribute to the Simpsons, by the data">
+  <meta name="description"
+    content="An interactive data visualization and analysis of The Simpsons spanning 800+ episodes and 30+ seasons, exploring IMDb episode ratings, Golden Age peaks, season rating spreads, and character quotes.">
   <meta name="author" content="Justin Chill">
   <meta name="robots" content="all">
+
+  <!-- Article metadata -->
+  <meta property="article:published_time" content="2020-02-03">
+  <meta property="article:modified_time" content="2025-08-06">
+  <meta property="article:author" content="Justin Chill">
+  <meta property="article:section" content="Culture">
 
   <!-- OpenGraph tags -->
   <meta content="en_US" property="og:locale">
@@ -27,12 +34,16 @@
   <meta content="article" property="og:type">
   <meta content="https://justinchill.com/simpsons.html" property="og:url">
   <meta content="Simpsons tribute | Justin Chill" property="og:title">
-  <meta content="A tribute to the Simpsons, by the data" property="og:description">
+  <meta
+    content="An interactive data visualization and analysis of The Simpsons spanning 800+ episodes and 30+ seasons, exploring IMDb episode ratings, Golden Age peaks, season rating spreads, and character quotes."
+    property="og:description">
   <meta content="https://justinchill.com/blog.html" property="og:see_also">
   <meta property="og:locality" content="New York">
   <meta property="og:region" content="NY">
   <meta property="og:country_name" content="USA">
   <meta content="https://justinchill.com/imgs/cover/simpsons_cover.webp" property="og:image">
+  <meta content="1200" property="og:image:width">
+  <meta content="630" property="og:image:height">
   <meta
     content="Illustration of a framed picture hanging on a pink wall. The picture depicts a simple sailboat on water with two clouds. Below, a plaque reads Scene From Moby Dick."
     property="og:image:alt">
@@ -42,9 +53,15 @@
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@JustinChill">
+  <meta name="twitter:creator" content="@JustinChill">
   <meta name="twitter:title" content="Simpsons tribute | Justin Chill">
-  <meta name="twitter:description" content="A tribute to the Simpsons, by the data">
+  <meta name="twitter:description"
+    content="An interactive data visualization and analysis of The Simpsons spanning 800+ episodes and 30+ seasons, exploring IMDb episode ratings, Golden Age peaks, season rating spreads, and character quotes.">
   <meta content="https://justinchill.com/imgs/cover/simpsons_cover.webp" property="twitter:image">
+  <meta
+    content="Illustration of a framed picture hanging on a pink wall. The picture depicts a simple sailboat on water with two clouds. Below, a plaque reads Scene From Moby Dick."
+    property="twitter:image:alt">
 
   <link rel="canonical" href="https://justinchill.com/simpsons.html">
   <link rel="preload" href="style.css" as="style" />
@@ -56,33 +73,59 @@
   <meta name="color-scheme" content="light dark">
 
   <style type="text/css">
+    /* Top navigation on mobile/tablet */
     .nav {
       background-color: #fac5cb;
     }
 
-    html[data-theme="dark"] .nav {
-      background-color: var(--surface-color, #111111) !important;
-      background-image: none !important;
-    }
-
     .nav__item,
     a.nav__item,
-    button.nav__item,
-    html[data-theme="dark"] .nav__item,
-    html[data-theme="dark"] a.nav__item {
-      color: #ffffff !important;
+    button.nav__item {
+      color: #211309;
     }
 
     .nav__item:hover,
-    a.nav__item:hover,
-    html[data-theme="dark"] .nav__item:hover,
-    html[data-theme="dark"] a.nav__item:hover {
-      color: rgba(255, 255, 255, 0.8) !important;
+    a.nav__item:hover {
+      color: rgba(33, 19, 9, 0.7);
     }
 
-    .hero {
+    /* Fixed vertical side nav on desktop (min-width: 1024px) */
+    @media (min-width: 1024px) {
+
+      .nav,
+      html[data-theme="dark"] .nav {
+        background-color: transparent !important;
+        background: transparent !important;
+      }
+
+      .nav__item,
+      a.nav__item,
+      button.nav__item {
+        color: var(--muted-color, #4b5563) !important;
+      }
+
+      .nav__item:hover,
+      a.nav__item:hover {
+        color: var(--link-color, #0284c7) !important;
+      }
+
+      html[data-theme="dark"] .nav__item,
+      html[data-theme="dark"] a.nav__item,
+      html[data-theme="dark"] button.nav__item {
+        color: #f8fafc !important;
+      }
+
+      html[data-theme="dark"] .nav__item:hover,
+      html[data-theme="dark"] a.nav__item:hover {
+        color: rgba(255, 255, 255, 0.8) !important;
+      }
+    }
+
+    /* Hero section: always Simpsons pink in both light & dark mode */
+    .hero,
+    html[data-theme="dark"] .hero {
       position: relative;
-      background: #fac5cb center/cover no-repeat;
+      background: #fac5cb center/cover no-repeat !important;
       height: 90vh;
       display: flex;
       align-items: center;
@@ -109,19 +152,18 @@
       /* Ensure the content is on top of the overlay */
     }
 
+    .hero-title,
+    .hero-subtitle,
+    .hero .article-category,
+    html[data-theme="dark"] .hero-title,
+    html[data-theme="dark"] .hero-subtitle,
+    html[data-theme="dark"] .hero .article-category {
+      color: #211309 !important;
+    }
+
     .hero-title {
-      color: #211309;
       font-size: 3em;
       margin-bottom: 20px;
-    }
-
-    html[data-theme="dark"] .hero {
-      background-color: #2b1e2f;
-    }
-
-    html[data-theme="dark"] .hero-title,
-    html[data-theme="dark"] .hero-subtitle {
-      color: #f8fafc;
     }
 
     @keyframes fadeInUp {
@@ -442,26 +484,56 @@
 
 
     /* Random quote */
-    .container {
-      grid-column: 1 / -1;
+    .random-quote-section {
+      margin: var(--spacer-4, 2rem) 0;
     }
 
-    div.quote-left {
+    .quote-header {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+
+    .quote-refresh-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      color: var(--text-color, currentColor);
+      border-radius: var(--radius-sm, 4px);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .quote-refresh-btn:hover {
+      opacity: 0.75;
+      transform: rotate(45deg);
+    }
+
+    .quote-refresh-btn:focus-visible {
+      outline: 2px solid var(--focus-color, #1f6fd1);
+    }
+
+    .quote-left,
+    .quote-right {
       position: relative;
       display: flex;
       flex-direction: row;
-      min-height: 244px;
-      /*      max-height: 220px;*/
+      min-height: 250px;
       border-radius: 16px;
       background-color: hsl(22, 82%, 39%);
       box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-      /*margin-bottom: 60px;*/
+      align-items: center;
     }
 
-    div.quote-left div.quote-image {
+    .quote-left .quote-image {
       width: 40%;
-      height: inherit;
-      /*background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/812449/user-blue1.jpg);*/
+      height: 100%;
+      min-height: 250px;
       background-position: center top;
       background-size: contain;
       background-repeat: no-repeat;
@@ -470,10 +542,11 @@
       clip-path: polygon(0 0, 100% 0, 80% 100%, 0 100%);
     }
 
-    div.quote-left div.quote-circle {
+    .quote-left .quote-circle {
       position: absolute;
       left: 33%;
-      top: 80px;
+      top: 50%;
+      transform: translateY(-50%);
       z-index: 10;
       height: 50px;
       width: 50px;
@@ -486,7 +559,7 @@
       text-align: center;
     }
 
-    div.quote-circle-inner {
+    .quote-circle-inner {
       height: 35px;
       width: 35px;
       border-radius: 50%;
@@ -497,47 +570,42 @@
       box-shadow: 0px 0px 10px #2b457d;
     }
 
-    div.quote-text {
+    .quote-text {
       flex: 1;
-      padding: 10px 30px 10px 30px;
+      padding: 1.25rem 2rem;
       border-radius: 0px 16px 16px 0px;
       font-style: italic;
-      font-size: 18px;
-      font-weight: 100;
-      line-height: 22px;
+      margin: 0;
+      border: none;
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
-    div.quote-text p {
+    .quote-text p {
       color: white;
-      /*font-family: proxima-nova, sans-serif;*/
       font-size: calc(18px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
+      margin-bottom: 0.5rem;
     }
 
-    div.quote-text div.quote-author p {
+    .quote-author {
       text-align: right;
-      font-size: 20px;
+    }
+
+    .quote-author cite,
+    .quote-author p {
+      text-align: right;
+      font-size: calc(14px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
       font-weight: 500;
       font-style: normal;
       color: white;
-      font-size: calc(14px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
     }
 
-    div.quote-right {
-      position: relative;
-      display: flex;
-      flex-direction: row;
-      /*max-height: 220px;*/
-      min-height: 220px;
-      border-radius: 16px;
-      background-color: hsl(22, 82%, 39%);
-      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-      /*margin-bottom: 60px;*/
-    }
-
-    div.quote-right div.quote-image {
+    .quote-right .quote-image {
       width: 40%;
-      height: inherit;
-      /*background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/812449/user-gray1.jpg);*/
+      height: 100%;
+      min-height: 250px;
       background-position: center top;
       background-repeat: no-repeat;
       background-size: contain;
@@ -546,10 +614,11 @@
       background-color: hsl(44, 92%, 63%);
     }
 
-    div.quote-right div.quote-circle {
+    .quote-right .quote-circle {
       position: absolute;
       right: 33%;
-      top: 80px;
+      top: 50%;
+      transform: translateY(-50%);
       z-index: 10;
       height: 50px;
       width: 50px;
@@ -562,7 +631,7 @@
       text-align: center;
     }
 
-    div.quote-right div.quote-circle div.quote-circle-inner {
+    .quote-right .quote-circle .quote-circle-inner {
       height: 35px;
       width: 35px;
       border-radius: 50%;
@@ -571,26 +640,6 @@
       align-items: center;
       text-align: center;
       box-shadow: 0px 0px 10px #147b63;
-    }
-
-    div.quote-right div.quote-text {
-      flex: 1;
-      padding: 10px 20px 10px 40px;
-      border-radius: 0px 16px 16px 0px;
-      color: white;
-      /*font-family: proxima-nova, sans-serif;*/
-      font-style: italic;
-      /*font-size: 18px;*/
-      /*font-weight: 100;*/
-      /*line-height: 22px;*/
-    }
-
-    div.quote-right div.quote-text div.quote-author {
-      text-align: right;
-      /*font-size: 20px;*/
-      /*font-weight: 500;*/
-      font-style: normal;
-      color: white;
     }
 
     i.fa-quote-left {
@@ -614,23 +663,28 @@
     }
 
     @media screen and (max-width: 680px) {
-      .nav {
-        background: #fac5cb center/cover no-repeat;
+
+      .nav,
+      html[data-theme="dark"] .nav {
+        background: #fac5cb center/cover no-repeat !important;
         margin: 0;
         padding: var(--gutter);
-        color: white;
+        color: #211309 !important;
       }
 
-      a.nav__item {
-        color: white
+      a.nav__item,
+      button.nav__item,
+      html[data-theme="dark"] a.nav__item,
+      html[data-theme="dark"] button.nav__item {
+        color: #211309 !important;
       }
 
-      div.quote-right div.quote-circle {
-        right: 26%
+      .quote-right .quote-circle {
+        right: 26%;
       }
 
-      div.quote-left div.quote-circle {
-        left: 30%
+      .quote-left .quote-circle {
+        left: 30%;
       }
     }
   </style>
@@ -639,10 +693,35 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "Simpsons tribute | Justin Chill",
-  "description": "A tribute to the Simpsons, by the data",
+  "headline": "The Simpsons by the data",
+  "alternativeHeadline": "A tribute to the Simpsons, by the data",
+  "description": "An interactive data visualization and analysis of The Simpsons spanning 800+ episodes and 30+ seasons, exploring IMDb episode ratings, Golden Age peaks, season rating spreads, and character quotes.",
+  "url": "https://justinchill.com/simpsons.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://justinchill.com/simpsons.html"
+  },
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://justinchill.com/blog.html",
+    "name": "Justin Chill's Blog",
+    "publisher": {
+      "@type": "Person",
+      "name": "Justin Chill"
+    }
+  },
   "datePublished": "2020-02-03",
   "dateModified": "2025-08-06",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": true,
+  "articleSection": "Culture",
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://justinchill.com/imgs/cover/simpsons_cover.webp",
+    "caption": "Illustration of a framed picture hanging on a pink wall. The picture depicts a simple sailboat on water with two clouds. Below, a plaque reads Scene From Moby Dick.",
+    "width": 1200,
+    "height": 630
+  },
   "author": {
     "@type": "Person",
     "name": "Justin Chill",
@@ -663,8 +742,124 @@
       "https://github.com/JustinChill"
     ]
   },
-  "mainEntityOfPage": "https://justinchill.com/simpsons.html",
-  "image": "https://justinchill.com/imgs/cover/simpsons_cover.webp"
+  "keywords": [
+    "The Simpsons",
+    "IMDb ratings",
+    "Data Visualization",
+    "Observable Plot",
+    "D3.js",
+    "Homer Simpson",
+    "Golden Age",
+    "TV Episode Ratings",
+    "Matt Groening",
+    "Springfield",
+    "Lisa Goes Gaga",
+    "You Only Move Twice",
+    "Cape Feare",
+    "Marge vs. the Monorail"
+  ],
+  "about": [
+    {
+      "@type": "TVSeries",
+      "name": "The Simpsons",
+      "sameAs": "https://en.wikipedia.org/wiki/The_Simpsons"
+    },
+    {
+      "@type": "Person",
+      "name": "Matt Groening",
+      "sameAs": "https://en.wikipedia.org/wiki/Matt_Groening"
+    },
+    {
+      "@type": "Thing",
+      "name": "Data visualization",
+      "sameAs": "https://en.wikipedia.org/wiki/Data_visualization"
+    },
+    {
+      "@type": "Organization",
+      "name": "IMDb",
+      "sameAs": "https://en.wikipedia.org/wiki/IMDb"
+    }
+  ],
+  "mentions": [
+    {
+      "@type": "TVEpisode",
+      "name": "You Only Move Twice",
+      "sameAs": "https://en.wikipedia.org/wiki/You_Only_Move_Twice"
+    },
+    {
+      "@type": "TVEpisode",
+      "name": "Cape Feare",
+      "sameAs": "https://en.wikipedia.org/wiki/Cape_Feare_(The_Simpsons)"
+    },
+    {
+      "@type": "TVEpisode",
+      "name": "Marge vs. the Monorail",
+      "sameAs": "https://en.wikipedia.org/wiki/Marge_vs._the_Monorail"
+    },
+    {
+      "@type": "TVEpisode",
+      "name": "Last Exit to Springfield",
+      "sameAs": "https://en.wikipedia.org/wiki/Last_Exit_to_Springfield"
+    },
+    {
+      "@type": "TVEpisode",
+      "name": "Homer's Enemy",
+      "sameAs": "https://en.wikipedia.org/wiki/Homer%27s_Enemy"
+    },
+    {
+      "@type": "TVEpisode",
+      "name": "Lisa Goes Gaga",
+      "sameAs": "https://en.wikipedia.org/wiki/Lisa_Goes_Gaga"
+    },
+    {
+      "@type": "TVEpisode",
+      "name": "The Springfield Files",
+      "sameAs": "https://en.wikipedia.org/wiki/The_Springfield_Files"
+    },
+    {
+      "@type": "TVEpisode",
+      "name": "Who Shot Mr. Burns?",
+      "sameAs": "https://en.wikipedia.org/wiki/Who_Shot_Mr._Burns%3F"
+    },
+    {
+      "@type": "TVEpisode",
+      "name": "Treehouse of Horror V",
+      "sameAs": "https://en.wikipedia.org/wiki/Treehouse_of_Horror_V"
+    },
+    {
+      "@type": "Person",
+      "name": "Homer Simpson",
+      "sameAs": "https://en.wikipedia.org/wiki/Homer_Simpson"
+    }
+  ],
+  "citation": [
+    {
+      "@type": "Dataset",
+      "name": "The Simpsons IMDb Episode Ratings",
+      "author": {
+        "@type": "Organization",
+        "name": "IMDb"
+      },
+      "url": "https://www.imdb.com/title/tt0096697/"
+    },
+    {
+      "@type": "SoftwareSourceCode",
+      "name": "The Simpsons Quote API",
+      "author": {
+        "@type": "Person",
+        "name": "Justin Luboff"
+      },
+      "url": "https://github.com/JLuboff/TheSimpsonsQuoteAPI"
+    },
+    {
+      "@type": "Book",
+      "name": "Cartooning with The Simpsons",
+      "author": {
+        "@type": "Person",
+        "name": "Matt Groening"
+      }
+    }
+  ]
 }
   </script>
 </head>
@@ -721,128 +916,127 @@
         </figure>
 
         <div>
-          <p class="article-category">Doh!</p>
+          <p class="article-category">D'oh!</p>
           <h1 class="article-title hero-title">The Simpsons by the data</h1>
           <h2 class="article-subtitle hero-subtitle">Insert couch gag here</h2>
         </div>
       </div>
     </header>
     <article>
-      <p>The Simpsons needs no introduction. At <a
+      <p><em>The Simpsons</em> needs no introduction. At <a
           href="https://www.yahoo.com/entertainment/simpsons-renewed-season-40-185615929.html">40 seasons</a> and
-        counting it is the longest-running scripted series in the history of American primetime television<a
+        counting, it is the longest-running scripted series in the history of American primetime television<a
           href="#longrunning" aria-describedby="footnote-label" id="longrunning-ref"></a>. If Bart Simpson aged in real
         time with the show, he would now be in his <a
           href="https://screenrant.com/simpsons-characters-real-life-age-how-old/#:~:text=Bart%20Simpson's%20Age,years%2Dold%20as%20of%202020.">40s</a>.
       </p>
-      <p>As a cromulent fan of the show I present here a few short analyses about Springfield, from the show’s dialogue
+      <p>As a cromulent fan of the show, I present here a few short analyses about Springfield, from the show’s dialogue
         to its TV ratings. All code used for this post is available on <a
           href="https://github.com/JustinChill/JustinChill.github.io/blob/main/simpsons.html">GitHub</a>.</p>
       <span class="header-tag mid-size" aria-hidden="true"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h2 class="mid-size">Ratings for The Simpsons have declined over time</h2>
       <figure class="mid-size" id="simpsonsRatings"
-        aria-label="Line chart showing the decline in IMDB ratings for The Simpsons over time.">
+        aria-label="Line chart showing the decline in IMDb ratings for The Simpsons over time.">
         <figcaption class="right">Data: <a href="https://www.imdb.com/title/tt0096697/" target="_blank"
-            rel="noopener">IMDB</a></figcaption>
+            rel="noopener">IMDb</a></figcaption>
       </figure>
-      <p><em>You Only Move Twice</em> aired <time datetime="1996-11-03">Nov 3, 1996</time> and remains the
-        highest-scoring episode with an IMDB score of <strong>9.3</strong>. Ratings decline steadily after season 10 but
-        the decline has largely tapered off. The lowest-scoring episode to date came in season 23 with <em>Lisa Goes
+      <p><em>You Only Move Twice</em> aired <time datetime="1996-11-03">Nov 3, 1996</time>, and remains the
+        highest-scoring episode with an IMDb score of <strong>9.3</strong>. Ratings decline steadily after Season 10,
+        but
+        the decline has largely tapered off. The lowest-scoring episode to date came in Season 23 with <em>Lisa Goes
           Gaga</em> (<strong>3.9</strong>).</p>
 
       <span class="header-tag" aria-hidden="true"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h2>800+ episodes</h2>
-      <figure id="simpsonsEpisodes" aria-label="Heatmap of all 800+ episodes, colored by IMDB score.">
+      <figure id="simpsonsEpisodes" aria-label="Heatmap of all 800+ episodes, colored by IMDb score.">
         <figcaption class="right">Data: <a href="https://www.imdb.com/title/tt0096697/" target="_blank"
-            rel="noopener">IMDB</a></figcaption>
+            rel="noopener">IMDb</a></figcaption>
       </figure>
-      <p>This matrix graph visualizes each episode as an individual cell, shaded according to IMDB score. This creates a
+      <p>This matrix graph visualizes each episode as an individual cell, shaded according to IMDb score. This creates a
         heatmap, allowing you to see trends more quickly.</p>
       <figure id="simpsonsSeasons" aria-label="Chart showing the spread of episode ratings within each season.">
         <figcaption class="right">Data: <a href="https://www.imdb.com/title/tt0096697/" target="_blank"
-            rel="noopener">IMDB</a></figcaption>
+            rel="noopener">IMDb</a></figcaption>
       </figure>
       <p>Here we look at the difference between episodes within each season. Early seasons have a tighter grouping of
-        episodes, meaning they all score roughly the same. Starting in season 6 we start to see a greater spread of
+        episodes, meaning they all score roughly the same. Starting in Season 6, we begin to see a greater spread of
         episodes. Season 23 has the greatest range of scores within a season (&plusmn; 4.4).</p>
 
-      <!-- Random Simpson's quote -->
-      <div style="display: flex; align-items: baseline; gap: 0.5rem; justify-content: space-between;">
-        <h2>Random quote</h2>
-        <button onclick="randomQuote()" aria-label="New quote"
-          style="background: none; border: none; cursor: pointer; padding: 0; color: var(--text-color, currentColor);"
-          title="Get a new quote">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3" />
-          </svg>
-        </button>
-      </div>
-      <div class="container">
-        <div></div>
-        <figure id="lineup" aria-label="Lineup of Simpsons characters."></figure>
-      </div>
+      <!-- Random Simpsons quote -->
+      <section class="random-quote-section" aria-labelledby="random-quote-heading">
+        <div class="quote-header">
+          <h2 id="random-quote-heading">Random quote</h2>
+          <button type="button" onclick="randomQuote(event)" aria-label="Get a new quote" class="quote-refresh-btn"
+            title="Get a new quote">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3" />
+            </svg>
+          </button>
+        </div>
 
-      <div class='' id="quote-direction">
-        <div class='quote-image' id="quote-image-left"></div>
-        <div class='quote-circle'>
-          <div class='quote-circle-inner'>
-            <i class="" id="fa-quote-direction"></i>
+        <figure class="quote-right" id="quote-direction">
+          <div class="quote-image" id="quote-image-left" style="display: none;"></div>
+          <div class="quote-circle">
+            <div class="quote-circle-inner">
+              <i class="fa-quote-right" id="fa-quote-direction"></i>
+            </div>
           </div>
-        </div>
-        <div class='quote-text'>
-          <p id="quote">To alcohol! The cause of... and solution to... all of life's problems.</p>
-          <div class='quote-author'>
-            <p id="character">- Homer Simpson</p>
-          </div>
-        </div>
-        <div class='quote-image' id="quote-image-right"></div>
-      </div>
+          <blockquote class="quote-text">
+            <p id="quote">To alcohol! The cause of... and solution to... all of life's problems.</p>
+            <div class="quote-author">
+              <cite id="character">- Homer Simpson</cite>
+            </div>
+          </blockquote>
+          <div class="quote-image" id="quote-image-right" style="background-image: url('imgs/simpsons/homer.png');"></div>
+        </figure>
+      </section>
 
       <p class="visually-hidden">Quotes powered by <a href="https://github.com/JLuboff/TheSimpsonsQuoteAPI"
           target="_blank" rel="noopener">The Simpsons
           Quote API</a>. A great project!</p>
 
-      <p>Quotes provided from the wonderful <a href="https://github.com/JLuboff/TheSimpsonsQuoteAPI" target="_blank"
+      <p>Quotes are provided by the wonderful <a href="https://github.com/JLuboff/TheSimpsonsQuoteAPI" target="_blank"
           rel="noopener">Simpsons Quote
-          API</a>. It returns a random Simpsons quote, character, link to their picture, and the direction the character
+          API</a>. It returns a random Simpsons quote, the character's name, a link to their picture, and the direction
+        the character
         is facing. I've used that last tidbit to make sure the character is always facing their quote.</p>
       <span class="header-tag" aria-hidden="true"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
-      <h2>Episodes by IMDB rating</h2>
+      <h2>Episodes by IMDb rating</h2>
       <figure id="best-eps"
-        aria-label="Histogram showing the distribution of episodes by IMDB rating. Most episodes fall in the 6.5 to 7.5 range.">
+        aria-label="Histogram showing the distribution of episodes by IMDb rating. Most episodes fall in the 6.5 to 7.5 range.">
       </figure>
       <p>Here we see the law of averages applied to a thirty-year legacy, demonstrating how the
-        show&#39;s unparalleled longevity has diluted its critical average. The overwhelming concentration of episodes
+        show's unparalleled longevity has diluted its critical average. The overwhelming concentration of episodes
         in the <strong>6.5 to 7.5 rating range</strong> visually defines the modern era of <em>The Simpsons</em>: a
-        massive volume of &quot;serviceable&quot; television that keeps the series afloat but rarely challenges the
+        massive volume of "serviceable" television that keeps the series afloat but rarely challenges the
         heights of its past.
       </p>
       <p>Conversely, the <strong>elite tier of 8.5+ ratings</strong> appears as a scarce, thinning tail on the far
-        right, emphasizing just how exceptional the &quot;Golden Age&quot; truly was. The drop-off from
-        solid middle ground to these masterpieces confirms that the perfection of episodes like &quot;Homer&#39;s
-        Enemy&quot; or &quot;Cape Feare&quot; is a statistical anomaly in a sea of consistent, but safe, entertainment.
+        right, emphasizing just how exceptional the "Golden Age" truly was. The drop-off from
+        the solid middle ground to these masterpieces confirms that the perfection of episodes like "Homer's
+        Enemy" or "Cape Feare" is a statistical anomaly in a sea of consistent, but safe, entertainment.
       </p>
       <span class="header-tag" aria-hidden="true"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h2>Top ten episodes</h2>
       <figure id="top_ten" aria-label="Bar chart showing the top ten highest rated Simpsons episodes."></figure>
       <p>These episodes represent the peak creative and comedic output of <em>The Simpsons</em>,
-        predominantly spanning seasons 4 through 8. This period is characterized by the show's
+        predominantly spanning Seasons 4 through 8. This period is characterized by the show's
         mastery of satire, character development, and narrative ambition. Episodes like
-        <strong>&quot;Cape Feare,&quot; &quot;Marge vs. the Monorail,&quot;</strong> and <strong>&quot;Last Exit to
-          Springfield&quot;</strong> showcase the writers' ability to execute tight, cohesive plots
+        <strong>"Cape Feare," "Marge vs. the Monorail,"</strong> and <strong>"Last Exit to
+          Springfield"</strong> showcase the writers' ability to execute tight, cohesive plots
         that are both hysterically funny and structurally sound, cementing their legacy as foundational television
         comedy.
       </p>
       <hr>
       <p>The listed episodes also mark a distinct evolution toward meta-narrative and dark comedy,
-        particularly with the inclusion of the groundbreaking <strong>&quot;Homer&#39;s Enemy&quot;</strong> and the
-        brilliant, self-contained narratives of <strong>&quot;The Springfield Files&quot;</strong> and <strong>&quot;You
-          Only Move Twice.&quot;</strong> The latter, featuring the introduction of <strong>Hank Scorpio</strong>, is
+        particularly with the inclusion of the groundbreaking <strong>"Homer's Enemy"</strong> and the
+        brilliant, self-contained narratives of <strong>"The Springfield Files"</strong> and <strong>"You
+          Only Move Twice."</strong> The latter, featuring the introduction of <strong>Hank Scorpio</strong>, is
         often cited as a masterclass in guest star utilization and a perfect blend of high-concept premise and
-        character-driven humor. The selection emphasizes the show&#39;s ability to maintain high quality across varied
-        formats, from the classic Whodunit of <strong>&quot;Who Shot Mr. Burns? Part One&quot;</strong> to the annual
-        brilliance of <strong>&quot;Treehouse of Horror V.&quot;</strong></p>
+        character-driven humor. The selection emphasizes the show's ability to maintain high quality across varied
+        formats, from the classic whodunit of <strong>"Who Shot Mr. Burns? (Part One)"</strong> to the annual
+        brilliance of <strong>"Treehouse of Horror V."</strong></p>
 
 
       <h2>Simpsons no-nos</h2>
@@ -851,11 +1045,13 @@
         class="mid-size">
       <p>In the book <a
           href="https://www.slideshare.net/DGIREDeportes/matt-groening-cartooning-with-the-simpsons?related=1"
-          target="_blank" rel="noopener">Cartooning
-          with the Simpsons</a> the authors include this full page graphic on what specifically to avoid when drawing
+          target="_blank" rel="noopener"><em>Cartooning
+            with the Simpsons</em></a>, the authors include this full-page graphic on what specifically to avoid when
+        drawing
         the head of a Simpson. It is a great example of the effect that every detail can have on an observer!</p>
-      <p>Although The Simpsons is loved by many, it is evident that the show has seen better days. As Matt Groening,
-        the creator of The Simpsons once said<a href="#finalquote" aria-describedby="footnote-label"
+      <p>Although <em>The Simpsons</em> is loved by many, it is evident that the show has seen better days. As Matt
+        Groening,
+        the creator of <em>The Simpsons</em>, once said<a href="#finalquote" aria-describedby="footnote-label"
           id="finalquote-ref"></a>: "The problem with doing a sitcom which has lasted more than 300 episodes is you're
         trying not to repeat yourself, you're trying to surprise the audience, and you're trying to keep everybody who
         works on the show surprised. As a result, the show has gone off in some very peculiar directions."</p>
@@ -865,11 +1061,11 @@
   <footer>
     <h2 id="footnote-label">Footnotes</h2>
     <ol>
-      <li id="longrunning">The Simpsons surpassed <em>Gunsmoke</em> as the longest-running American scripted primetime
+      <li id="longrunning"><em>The Simpsons</em> surpassed <em>Gunsmoke</em> as the longest-running American scripted primetime
         television series in 2018. <a href="#longrunning-ref" aria-label="Back to content">↩</a></li>
       <li id="finalquote">Matt Groening quoted by <a
           href="https://www.npr.org/2014/08/20/341884238/prepare-for-the-simpsons-marathon-with-interviews-from-the-fresh-air-archives"
-          target="_blank" rel="noopener">NPR</a>
+          target="_blank" rel="noopener">NPR</a>.
         <a href="#finalquote-ref" aria-label="Back to content">↩</a>
       </li>
     </ol>
@@ -883,40 +1079,35 @@
   <script src="https://cdn.jsdelivr.net/npm/d3"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
   <script>
-    // Wait for the page to load
-    window.onload = () => {
-      randomQuote()
+    // Memory cache for quotes so clicking refresh is instant and doesn't cause async network reflows
+    let quotesCache = null;
+
+    async function loadQuotes() {
+      if (quotesCache && quotesCache.length > 0) return quotesCache;
+      try {
+        const res = await fetch('https://raw.githubusercontent.com/JLuboff/TheSimpsonsQuoteAPI/refs/heads/master/quotes.json');
+        quotesCache = await res.json();
+        return quotesCache;
+      } catch (err) {
+        console.warn('Simpsons Quote API failed, using fallback:', err);
+        return [{
+          character: "Homer Simpson",
+          quote: "To alcohol! The cause of... and solution to... all of life's problems.",
+          characterDirection: "Right",
+          image: "imgs/simpsons/homer.png"
+        }];
+      }
     }
 
-    // Fetch quotes from the Simpsons API 
-    // Fetch quotes from the Simpsons API 
-    const randomQuote = () => {
+    const randomQuote = async (e) => {
+      if (e && e.preventDefault) e.preventDefault();
+      const data = await loadQuotes();
+      const randomIndex = Math.floor(Math.random() * data.length);
+      showRandomQuote([data[randomIndex]]);
+    };
 
-      // Change the number of quotes at the end of the URL:
-      fetch('https://raw.githubusercontent.com/JLuboff/TheSimpsonsQuoteAPI/refs/heads/master/quotes.json')
-        .then((res) => {
-          return res.json()
-        }).then((data) => {
-          // After data fetched
-          // console.log(data)
-
-          // Select a random quote from the static array
-          const randomIndex = Math.floor(Math.random() * data.length);
-          const selectedQuote = [data[randomIndex]];
-
-          showRandomQuote(selectedQuote)
-          showLineup(data) // Keeping this as is, though showLineup is empty in current code
-        }).catch((err) => {
-          console.warn('Simpsons Quote API failed, using fallback:', err);
-          const fallbackData = [{
-            character: "Homer Simpson",
-            quote: "To alcohol! The cause of... and solution to... all of life's problems.",
-            characterDirection: "Right",
-            image: "imgs/simpsons/homer.png"
-          }];
-          showRandomQuote(fallbackData);
-        })
-    }
+    // Pre-fetch quotes on load so clicks are instant
+    loadQuotes();
 
     const characterImageMap = {
       "Homer Simpson": "imgs/simpsons/homer.png",
@@ -941,12 +1132,28 @@
       "Apu Nahasapeemapetilon": "imgs/simpsons/apu.png",
       "Groundskeeper Willie": "imgs/simpsons/willie.png",
       "Mr. Burns": "imgs/simpsons/burns.png",
-      "Ned Flanders": "imgs/simpsons/flanders.png"
+      "Ned Flanders": "imgs/simpsons/flanders.png",
+      "Mayor Quimby": "imgs/simpsons/quimby.png",
+      "Joe Quimby": "imgs/simpsons/quimby.png",
+      "Abe Simpson": "imgs/simpsons/abe.png",
+      "Abraham Simpson": "imgs/simpsons/abe.png",
+      "Grampa Simpson": "imgs/simpsons/abe.png",
+      "Comic Book Guy": "imgs/simpsons/comic_book_guy.png",
+      "Troy McClure": "imgs/simpsons/troy.png",
+      "Duffman": "imgs/simpsons/duffman.png"
     };
 
     const getCharacterImageUrl = (character, originalUrl) => {
-      if (characterImageMap[character]) {
+      if (character && characterImageMap[character]) {
         return characterImageMap[character];
+      }
+      // Fuzzy / partial name matching if exact key isn't found
+      if (character) {
+        const found = Object.keys(characterImageMap).find(name =>
+          character.toLowerCase().includes(name.toLowerCase()) ||
+          name.toLowerCase().includes(character.toLowerCase())
+        );
+        if (found) return characterImageMap[found];
       }
       if (originalUrl && !originalUrl.includes("glitch.com") && !originalUrl.includes("wikimedia.org")) {
         return originalUrl;
@@ -980,7 +1187,6 @@
         imgRight.style.backgroundImage = `url("${imgUrl}")`;
       }
     }
-    const showLineup = (data) => { }
 
     // Thicken the plot
 
@@ -1005,92 +1211,6 @@
     var element = d3.select('figure:not(.mid-size)').node();
     var width = element.getBoundingClientRect().width;
     var size = 12;
-
-    var averages = [{
-      "season": 1,
-      "average_imdb_rating": 7.807692307692307
-    }, {
-      "season": 2,
-      "average_imdb_rating": 8.04090909090909
-    }, {
-      "season": 3,
-      "average_imdb_rating": 8.154166666666665
-    }, {
-      "season": 4,
-      "average_imdb_rating": 8.268181818181818
-    }, {
-      "season": 5,
-      "average_imdb_rating": 8.336363636363636
-    }, {
-      "season": 6,
-      "average_imdb_rating": 8.312
-    }, {
-      "season": 7,
-      "average_imdb_rating": 8.324
-    }, {
-      "season": 8,
-      "average_imdb_rating": 8.219999999999999
-    }, {
-      "season": 9,
-      "average_imdb_rating": 7.8439999999999985
-    }, {
-      "season": 10,
-      "average_imdb_rating": 7.569565217391306
-    }, {
-      "season": 11,
-      "average_imdb_rating": 7.290909090909093
-    }, {
-      "season": 12,
-      "average_imdb_rating": 7.361904761904761
-    }, {
-      "season": 13,
-      "average_imdb_rating": 7.140909090909091
-    }, {
-      "season": 14,
-      "average_imdb_rating": 7.077272727272727
-    }, {
-      "season": 15,
-      "average_imdb_rating": 7.045454545454546
-    }, {
-      "season": 16,
-      "average_imdb_rating": 7.042857142857143
-    }, {
-      "season": 17,
-      "average_imdb_rating": 6.863636363636362
-    }, {
-      "season": 18,
-      "average_imdb_rating": 7
-    }, {
-      "season": 19,
-      "average_imdb_rating": 6.935
-    }, {
-      "season": 20,
-      "average_imdb_rating": 6.895238095238096
-    }, {
-      "season": 21,
-      "average_imdb_rating": 6.821739130434783
-    }, {
-      "season": 22,
-      "average_imdb_rating": 6.804545454545456
-    }, {
-      "season": 23,
-      "average_imdb_rating": 6.813636363636365
-    }, {
-      "season": 24,
-      "average_imdb_rating": 6.777272727272727
-    }, {
-      "season": 25,
-      "average_imdb_rating": 6.831818181818181
-    }, {
-      "season": 26,
-      "average_imdb_rating": 6.704545454545454
-    }, {
-      "season": 27,
-      "average_imdb_rating": 6.786363636363635
-    }, {
-      "season": 28,
-      "average_imdb_rating": 6.6
-    }];
 
     // You can request multiple srcs in a promise
     const myDataPromises = Promise.all(promises);
@@ -1211,28 +1331,36 @@
         });
 
       // Matrix cell chart episodes by season, episode no.
+      const maxSeason = d3.max(simpsons_imdb, d => d.season_no) || 37;
+      const maxEpisode = d3.max(simpsons_imdb, d => d.episode_no) || 25;
+      const cellRowHeight = width < 450 ? 20 : (width < 650 ? 23 : 25);
+      const episodesChartHeight = maxSeason * cellRowHeight + 80;
+
       var simpsonsEpisodes = {
         width: width,
-        height: width < 550 ? 600 : Math.max(480, width * 0.75),
-        marginLeft: 40,
-        marginRight: 10,
-        marginTop: 40,
-        marginBottom: 20,
+        height: episodesChartHeight,
+        marginLeft: 45,
+        marginRight: 15,
+        marginTop: 45,
+        marginBottom: 25,
         style: {
           cursor: "default",
           fontSize: size - 1,
         },
         x: {
           axis: "top",
-          label: "Episode",
+          label: "Episode →",
           labelOffset: 35,
           tickSize: 0,
+          ticks: width < 500 ? [1, 5, 10, 15, 20, 25] : d3.range(1, maxEpisode + 1),
         },
         y: {
-          label: "Season",
+          axis: "left",
+          label: "Season ↓",
           labelOffset: 35,
           tickSize: 0,
-          labelAnchor: "center",
+          labelAnchor: "top",
+          ticks: width < 500 ? [1, 5, 10, 15, 20, 25, 30, 35, maxSeason] : d3.range(1, maxSeason + 1),
         },
         color: {
           type: "linear",
@@ -1257,6 +1385,8 @@
           Plot.cell(simpsons_imdb, {
             x: "episode_no",
             y: "season_no",
+            inset: 0.5,
+            rx: 2,
             title: (d) => `${d.episode_name}\nS${d.season_no} E${d.episode_no}\n${d.episode_score} IMDb rating`,
             fill: "episode_score",
             tip: {
@@ -1268,9 +1398,9 @@
           Plot.text(simpsons_imdb, colorContrast({
             x: "episode_no",
             y: "season_no",
-            text: d => d.episode_score?.toFixed(1),
+            text: d => d.episode_score ? d.episode_score.toFixed(1) : "",
             fill: "episode_score",
-            fontSize: width < 450 ? 8.5 : (width < 650 ? 9.5 : 10.5),
+            fontSize: width < 450 ? 7.5 : (width < 650 ? 8.5 : 9.5),
             fontWeight: "600",
           })),
         ]

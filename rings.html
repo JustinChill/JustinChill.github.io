@@ -18,9 +18,17 @@
 
   <title>Spinning rings illusion | Justin Chill</title>
   <meta name="description"
-  		content="An animation made by stacking circles one on top of another and spinning them about their origin at slightly different speeds.">
+    content="An exploration of optical illusions created by stacking concentric circles and rotating them at staggered speeds using CSS keyframe animations and SVG inset shadows.">
   <meta name="author" content="Justin Chill">
   <meta name="robots" content="all">
+
+  <!-- Article metadata -->
+  <meta name="datePublished" content="2020-02-03">
+  <meta name="dateModified" content="2025-08-06">
+  <meta property="article:published_time" content="2020-02-03">
+  <meta property="article:modified_time" content="2025-08-06">
+  <meta property="article:author" content="Justin Chill">
+  <meta property="article:section" content="Creative Coding & Design">
 
   <!-- OpenGraph tags -->
   <meta content="en_US" property="og:locale">
@@ -29,26 +37,31 @@
   <meta content="https://justinchill.com/rings.html" property="og:url">
   <meta content="Spinning rings illusion | Justin Chill" property="og:title">
   <meta
-  		content="An animation made by stacking circles one on top of another and spinning them about their origin at slightly different speeds."
-  		property="og:description">
+    content="An exploration of optical illusions created by stacking concentric circles and rotating them at staggered speeds using CSS keyframe animations and SVG inset shadows."
+    property="og:description">
   <meta content="https://justinchill.com/blog.html" property="og:see_also">
   <meta property="og:locality" content="New York">
   <meta property="og:region" content="NY">
   <meta property="og:country_name" content="USA">
   <meta content="https://justinchill.com/imgs/cover/rings_cover.webp" property="og:image">
+  <meta content="1200" property="og:image:width">
+  <meta content="630" property="og:image:height">
+  <meta content="image/webp" property="og:image:type">
   <meta
-  		content="Optical illusion featuring multiple interlocking grey rings with a darker center. The arrangement creates a visual effect where the rings appear to spin. Above the image are the words Post and Spinning Rings Illusion in black text."
-  		property="og:image:alt">
-
-  <meta name="datePublished" content="2020-02-03">
-  <meta name="dateModified" content="2025-08-06">
+    content="Optical illusion featuring multiple interlocking grey rings with a darker center. The arrangement creates a visual effect where the rings appear to spin. Above the image are the words Post and Spinning Rings Illusion in black text."
+    property="og:image:alt">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@JustinChill">
+  <meta name="twitter:creator" content="@JustinChill">
   <meta name="twitter:title" content="Spinning rings illusion | Justin Chill">
   <meta name="twitter:description"
-  		content="An animation made by stacking circles one on top of another and spinning them about their origin at slightly different speeds.">
+    content="An exploration of optical illusions created by stacking concentric circles and rotating them at staggered speeds using CSS keyframe animations and SVG inset shadows.">
   <meta content="https://justinchill.com/imgs/cover/rings_cover.webp" property="twitter:image">
+  <meta
+    content="Optical illusion featuring multiple interlocking grey rings with a darker center. The arrangement creates a visual effect where the rings appear to spin."
+    name="twitter:image:alt">
 
   <link rel="canonical" href="https://justinchill.com/rings.html">
   <link rel="preload" href="style.css" as="style" />
@@ -60,333 +73,288 @@
   <meta name="color-scheme" content="light dark">
 
   <style type="text/css">
-		figure.rings {
-			min-height: 300px;
-		}
+    figure.rings {
+      position: relative;
+      width: 100%;
+      max-width: 320px;
+      height: 320px;
+      min-height: 300px;
+      margin: 2rem auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-		.base {
-			width: 300px;
-			height: 300px;
-			position: absolute;
-			margin: auto;
-			left: 0;
-			right: 0;
-			overflow: hidden;
-		}
+    .base {
+      width: 300px;
+      height: 300px;
+      position: absolute;
+      margin: auto;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      overflow: hidden;
+    }
 
-		.circ {
-			position: absolute;
-			width: 150px;
-			height: 150px;
-			border-radius: 50%;
-			border: 10px solid white;
-			margin: auto;
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			overflow: hidden;
-		}
+    .circ {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 10px solid white;
+      margin: auto;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow: hidden;
+    }
 
-		.base .circ:nth-child(1) {
-			transform: translate(75px, 0);
-		}
+    html[data-theme="dark"] .circ {
+      border-color: #f8fafc;
+    }
 
-		.base .circ:nth-child(2) {
-			transform: translate(0, 75px);
-		}
+    .base .circ:nth-child(1) {
+      transform: translate(75px, 0);
+    }
 
-		.base .circ:nth-child(3) {
-			transform: translate(-75px, 0);
-		}
+    .base .circ:nth-child(2) {
+      transform: translate(0, 75px);
+    }
 
-		.base .circ:nth-child(4) {
-			transform: translate(0, -75px);
-		}
+    .base .circ:nth-child(3) {
+      transform: translate(-75px, 0);
+    }
 
-		.base .circ:nth-child(5) {
-			transform: translate(53.0325px, 53.0325px);
-		}
+    .base .circ:nth-child(4) {
+      transform: translate(0, -75px);
+    }
 
-		.base .circ:nth-child(6) {
-			transform: translate(53.0325px, -53.0325px);
-		}
+    .base .circ:nth-child(5) {
+      transform: translate(53.0325px, 53.0325px);
+    }
 
-		.base .circ:nth-child(7) {
-			transform: translate(-53.0325px, 53.0325px);
-		}
+    .base .circ:nth-child(6) {
+      transform: translate(53.0325px, -53.0325px);
+    }
 
-		.base .circ:nth-child(8) {
-			transform: translate(-53.0325px, -53.0325px);
-		}
+    .base .circ:nth-child(7) {
+      transform: translate(-53.0325px, 53.0325px);
+    }
 
-		.base:nth-child(2) {
-			transform: rotate(0.1turn);
-		}
+    .base .circ:nth-child(8) {
+      transform: translate(-53.0325px, -53.0325px);
+    }
 
-		.base:nth-child(2) {
-			transform: rotate(0.2turn);
-			-webkit-animation: turn-2 6s ease-in-out infinite alternate;
-			animation: turn-2 6s ease-in-out infinite alternate;
-			-webkit-animation-duration: 3s;
-			animation-duration: 3s;
-		}
+    .base:nth-child(2) {
+      transform: rotate(0.2turn);
+      animation: turn-2 3s ease-in-out infinite alternate;
+    }
 
-		@-webkit-keyframes turn-2 {
-			to {
-				transform: rotate(0.25turn);
-			}
+    @keyframes turn-2 {
+      from {
+        transform: rotate(0);
+      }
+      to {
+        transform: rotate(0.25turn);
+      }
+    }
 
-			from {
-				transform: rotate(0);
-			}
-		}
+    .base:nth-child(2) .circ {
+      background: rgba(50, 63, 75, 0.05);
+    }
 
-		@keyframes turn-2 {
-			to {
-				transform: rotate(0.25turn);
-			}
+    .base:nth-child(3) {
+      transform: rotate(0.3turn);
+      animation: turn-3 4.5s ease-in-out infinite alternate;
+    }
 
-			from {
-				transform: rotate(0);
-			}
-		}
+    @keyframes turn-3 {
+      from {
+        transform: rotate(0);
+      }
+      to {
+        transform: rotate(0.375turn);
+      }
+    }
 
-		.base:nth-child(2) .circ {
-			background: RGBA(50, 63, 75, .05);
-		}
+    .base:nth-child(3) .circ {
+      background: rgba(50, 63, 75, 0.05);
+    }
 
-		.base:nth-child(3) {
-			transform: rotate(0.3turn);
-			-webkit-animation: turn-3 6s ease-in-out infinite alternate;
-			animation: turn-3 6s ease-in-out infinite alternate;
-			-webkit-animation-duration: 4.5s;
-			animation-duration: 4.5s;
-		}
+    .base:nth-child(4) {
+      transform: rotate(0.4turn);
+      animation: turn-4 6s ease-in-out infinite alternate;
+    }
 
-		@-webkit-keyframes turn-3 {
-			to {
-				transform: rotate(0.375turn);
-			}
+    @keyframes turn-4 {
+      from {
+        transform: rotate(0);
+      }
+      to {
+        transform: rotate(0.5turn);
+      }
+    }
 
-			from {
-				transform: rotate(0);
-			}
-		}
+    .base:nth-child(4) .circ {
+      background: rgba(50, 63, 75, 0.05);
+    }
 
-		@keyframes turn-3 {
-			to {
-				transform: rotate(0.375turn);
-			}
+    .base:nth-child(5) {
+      transform: rotate(0.5turn);
+      animation: turn-5 7.5s ease-in-out infinite alternate;
+    }
 
-			from {
-				transform: rotate(0);
-			}
-		}
+    @keyframes turn-5 {
+      from {
+        transform: rotate(0);
+      }
+      to {
+        transform: rotate(0.625turn);
+      }
+    }
 
-		.base:nth-child(3) .circ {
-			background: RGBA(50, 63, 75, .05);
-		}
+    .base:nth-child(5) .circ {
+      background: rgba(50, 63, 75, 0.05);
+    }
 
-		.base:nth-child(4) {
-			transform: rotate(0.4turn);
-			-webkit-animation: turn-4 6s ease-in-out infinite alternate;
-			animation: turn-4 6s ease-in-out infinite alternate;
-			-webkit-animation-duration: 6s;
-			animation-duration: 6s;
-		}
+    .base:nth-child(6) {
+      transform: rotate(0.6turn);
+      animation: turn-6 9s ease-in-out infinite alternate;
+    }
 
-		@-webkit-keyframes turn-4 {
-			to {
-				transform: rotate(0.5turn);
-			}
+    @keyframes turn-6 {
+      from {
+        transform: rotate(0);
+      }
+      to {
+        transform: rotate(0.75turn);
+      }
+    }
 
-			from {
-				transform: rotate(0);
-			}
-		}
+    .base:nth-child(6) .circ {
+      background: rgba(50, 63, 75, 0.05);
+    }
 
-		@keyframes turn-4 {
-			to {
-				transform: rotate(0.5turn);
-			}
+    .base:nth-child(7) {
+      transform: rotate(0.7turn);
+      animation: turn-7 10.5s ease-in-out infinite alternate;
+    }
 
-			from {
-				transform: rotate(0);
-			}
-		}
+    @keyframes turn-7 {
+      from {
+        transform: rotate(0);
+      }
+      to {
+        transform: rotate(0.875turn);
+      }
+    }
 
-		.base:nth-child(4) .circ {
-			background: RGBA(50, 63, 75, .05);
-		}
+    .base:nth-child(7) .circ {
+      background: rgba(50, 63, 75, 0.05);
+    }
 
-		.base:nth-child(5) {
-			transform: rotate(0.5turn);
-			-webkit-animation: turn-5 6s ease-in-out infinite alternate;
-			animation: turn-5 6s ease-in-out infinite alternate;
-			-webkit-animation-duration: 7.5s;
-			animation-duration: 7.5s;
-		}
+    .base:nth-child(8) {
+      transform: rotate(0.8turn);
+      animation: turn-8 12s ease-in-out infinite alternate;
+    }
 
-		@-webkit-keyframes turn-5 {
-			to {
-				transform: rotate(0.625turn);
-			}
+    @keyframes turn-8 {
+      from {
+        transform: rotate(0);
+      }
+      to {
+        transform: rotate(1turn);
+      }
+    }
 
-			from {
-				transform: rotate(0);
-			}
-		}
+    .base:nth-child(8) .circ {
+      background: rgba(50, 63, 75, 0.05);
+    }
 
-		@keyframes turn-5 {
-			to {
-				transform: rotate(0.625turn);
-			}
+    figure.svg-circle-demo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 2rem auto;
+      max-width: 320px;
+      width: 100%;
+    }
 
-			from {
-				transform: rotate(0);
-			}
-		}
+    figure.svg-circle-demo svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
 
-		.base:nth-child(5) .circ {
-			background: RGBA(50, 63, 75, .05);
-		}
-
-		.base:nth-child(6) {
-			transform: rotate(0.6turn);
-			-webkit-animation: turn-6 6s ease-in-out infinite alternate;
-			animation: turn-6 6s ease-in-out infinite alternate;
-			-webkit-animation-duration: 9s;
-			animation-duration: 9s;
-		}
-
-		@-webkit-keyframes turn-6 {
-			to {
-				transform: rotate(0.75turn);
-			}
-
-			from {
-				transform: rotate(0);
-			}
-		}
-
-		@keyframes turn-6 {
-			to {
-				transform: rotate(0.75turn);
-			}
-
-			from {
-				transform: rotate(0);
-			}
-		}
-
-		.base:nth-child(6) .circ {
-			background: RGBA(50, 63, 75, .05);
-		}
-
-		.base:nth-child(7) {
-			transform: rotate(0.7turn);
-			-webkit-animation: turn-7 6s ease-in-out infinite alternate;
-			animation: turn-7 6s ease-in-out infinite alternate;
-			-webkit-animation-duration: 10.5s;
-			animation-duration: 10.5s;
-		}
-
-		@-webkit-keyframes turn-7 {
-			to {
-				transform: rotate(0.875turn);
-			}
-
-			from {
-				transform: rotate(0);
-			}
-		}
-
-		@keyframes turn-7 {
-			to {
-				transform: rotate(0.875turn);
-			}
-
-			from {
-				transform: rotate(0);
-			}
-		}
-
-		.base:nth-child(7) .circ {
-			background: RGBA(50, 63, 75, .05);
-		}
-
-		.base:nth-child(8) {
-			transform: rotate(0.8turn);
-			-webkit-animation: turn-8 6s ease-in-out infinite alternate;
-			animation: turn-8 6s ease-in-out infinite alternate;
-			-webkit-animation-duration: 12s;
-			animation-duration: 12s;
-		}
-
-		@-webkit-keyframes turn-8 {
-			to {
-				transform: rotate(1turn);
-			}
-
-			from {
-				transform: rotate(0);
-			}
-		}
-
-		@keyframes turn-8 {
-			to {
-				transform: rotate(1turn);
-			}
-
-			from {
-				transform: rotate(0);
-			}
-		}
-
-		.base:nth-child(8) .circ {
-			background: RGBA(50, 63, 75, .05);
-		}
-
-		svg {
-			height: 100%;
-			margin: auto;
-			text-align: center;
-			display: -webkit-box;
-			display: -moz-box;
-			display: -ms-flexbox;
-			display: -webkit-flex;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
-
-		/* Hole */
-		.hole svg {
-			background: #ddd;
-			transform: rotateX(68deg) rotateZ(-32deg);
-		}
-
-		.hole~p {
-			margin-top: 2rem;
-		}
-
-		div.hole {
-			margin: 0 auto;
-			width: 300px;
-			perspective: 700px;
-			perspective-origin: 0 10%;
-		}
-	</style>
+    @media (prefers-reduced-motion: reduce) {
+      .base {
+        animation: none !important;
+      }
+    }
+  </style>
 
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "Spinning rings illusion | Justin Chill",
-  "description": "An animation made by stacking circles one on top of another and spinning them about their origin at slightly different speeds.",
+  "headline": "Spinning Rings Illusion",
+  "name": "Spinning Rings Illusion",
+  "description": "An exploration of optical illusions created by stacking concentric circles and rotating them at staggered speeds using CSS keyframe animations and SVG inset shadows.",
   "datePublished": "2020-02-03",
   "dateModified": "2025-08-06",
+  "inLanguage": "en-US",
+  "isAccessibleForFree": true,
+  "articleSection": "Creative Coding & Design",
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://justinchill.com/imgs/cover/rings_cover.webp",
+    "width": 1200,
+    "height": 630,
+    "caption": "Spinning rings optical illusion featuring interlocking geometric circles"
+  },
+  "keywords": [
+    "Spinning rings illusion",
+    "Optical illusion",
+    "CSS animation",
+    "CSS keyframes",
+    "SVG inset shadow",
+    "Geometric art",
+    "Generative art",
+    "Creative coding",
+    "Motion graphics",
+    "Web animation"
+  ],
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Optical illusion",
+      "sameAs": "https://en.wikipedia.org/wiki/Optical_illusion"
+    },
+    {
+      "@type": "Thing",
+      "name": "CSS animations",
+      "sameAs": "https://en.wikipedia.org/wiki/CSS_animations"
+    },
+    {
+      "@type": "Thing",
+      "name": "Scalable Vector Graphics",
+      "sameAs": "https://en.wikipedia.org/wiki/Scalable_Vector_Graphics"
+    }
+  ],
+  "mentions": [
+    {
+      "@type": "Person",
+      "name": "Miriam Nadler",
+      "sameAs": "https://codepen.io/mknadler"
+    },
+    {
+      "@type": "Person",
+      "name": "Matys",
+      "sameAs": "https://codepen.io/mathiesjanssen"
+    }
+  ],
   "author": {
     "@type": "Person",
     "name": "Justin Chill",
@@ -407,20 +375,22 @@
       "https://github.com/JustinChill"
     ]
   },
-  "mainEntityOfPage": "https://justinchill.com/rings.html",
-  "image": "https://justinchill.com/imgs/cover/rings_cover.webp"
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://justinchill.com/rings.html"
+  }
 }
   </script>
 </head>
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-	<nav class="nav" role="navigation">
-		<div class="nav__list">
-			<a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
-			<a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
-			<a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-		
+  <nav class="nav" role="navigation">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
+      <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
+      <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
+
       <!-- Theme Toggle Button -->
       <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
@@ -437,208 +407,211 @@
         </span>
       </button>
     </div>
-		<div class="nav__list">
-			<a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
-			<a href="#" class="nav__item js-email-link">Email</a>
-		</div>
-	</nav>
+    <div class="nav__list">
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
 
-	<main role="main" id="content">
-		<article>
-			<div class="article-hero">
-				<p class="article-category">Post</p>
-				<h1 class="article-title">Spinning Rings Illusion</h1>
-			</div>
+  <main role="main" id="content">
+    <article>
+      <div class="article-hero">
+        <p class="article-category">Post</p>
+        <h1 class="article-title">Spinning Rings Illusion</h1>
+      </div>
 
-			<figure class="rings"
-				aria-label="Optical illusion featuring multiple interlocking grey rings with a darker center. The arrangement creates a visual effect where the rings appear to spin. Above the image are the words Post and Spinning Rings Illusion in black text.">
-				<div class="base">
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-				</div>
-				<div class="base">
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-				</div>
-				<div class="base">
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-				</div>
-				<div class="base">
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-				</div>
-				<div class="base">
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-				</div>
-				<div class="base">
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-				</div>
-				<div class="base">
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-				</div>
-				<div class="base">
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-				</div>
-			</figure>
-			<p>This animation is made by stacking circles one on top of another and spinning them about their origin at
-				slightly different speeds. Each circle's animation is staggered according to its position within the
-				order. Notice the patterns of overlap within the spinning rings- this is done using <code>rgba</code>
-				colors with transparency. This allows the circles to overlap each other as they rotate. Original
-				animation from <a href="https://codepen.io/mknadler/pen/dMXEKB">Miriam Nadler</a>.</p>
-			<figure class="rings" aria-label="Animated illusion of overlapping spinning rings.">
-				<div class="base">
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-				</div>
-				<div class="base">
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-				</div>
-			</figure>
+      <figure class="rings"
+        aria-label="Optical illusion featuring multiple interlocking grey rings with a darker center. The arrangement creates a visual effect where the rings appear to spin.">
+        <div class="base">
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+        </div>
+        <div class="base">
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+        </div>
+        <div class="base">
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+        </div>
+        <div class="base">
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+        </div>
+        <div class="base">
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+        </div>
+        <div class="base">
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+        </div>
+        <div class="base">
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+        </div>
+        <div class="base">
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+        </div>
+      </figure>
+      <p>This animation is made by stacking circles one on top of another and spinning them about their origin at
+        slightly different speeds. Each circle's animation is staggered according to its position within the
+        order. Notice the patterns of overlap within the spinning rings—this is done using <code>rgba</code>
+        colors with transparency. This allows the circles to overlap each other as they rotate. Original
+        animation from <a href="https://codepen.io/mknadler/pen/dMXEKB" target="_blank" rel="noopener noreferrer">Miriam Nadler</a>.</p>
+      <figure class="rings" aria-label="Animated illusion of overlapping spinning rings.">
+        <div class="base">
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+        </div>
+        <div class="base">
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+        </div>
+      </figure>
 
-			<p>Here is a single circle, following the same basic animation loop. A <code>CSS keyframe</code> animation
-				is used to transform, or spin, the circle around the origin.</p>
+      <p>Here is a layered sub-assembly of circles, following the same basic animation loop. A <code>CSS keyframe</code> animation
+        is used to transform, or spin, the circles around the origin.</p>
 
-			<figure class="rings" aria-label="A single spinning ring composed of multiple circles.">
-				<div class="base">
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-				</div>
-				<div class="base">
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-				</div>
-				<div class="base">
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-					<div class="circ"></div>
-				</div>
-			</figure>
+      <figure class="rings" aria-label="A spinning ring sub-assembly composed of layered circles.">
+        <div class="base">
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+        </div>
+        <div class="base">
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+        </div>
+        <div class="base">
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+          <div class="circ"></div>
+        </div>
+      </figure>
 
-			<p>The circles are <code>SVG</code> (Scalable Vector Graphics) elements. SVGs are dope. Consider the
-				following colorful circle. It's created using a single SVG image element and the
-				<code>inset shadow</code> property for the depth effect. Inspiration for this illustration from <a
-					href="https://codepen.io/mathiesjanssen/pen/QgLzmM">Matys</a>.
-			</p>
-			<svg width="100%" height="100%" class="" aria-label="Colorful circle with inset shadow depth effect.">
-				<filter id="inset-shadow" x="-50%" y="-50%" width="200%" height="200%">
-					<feComponentTransfer in=SourceAlpha>
-						<feFuncA type="table" tableValues="1 0" />
-					</feComponentTransfer>
-					<feGaussianBlur stdDeviation="4" />
-					<feOffset dx="0" dy="5" result="offsetblur" />
-					<feFlood flood-color="rgb(0, 0, 0)" result="color" />
-					<feComposite in2="offsetblur" operator="in" />
-					<feComposite in2="SourceAlpha" operator="in" />
-					<feMerge>
-						<feMergeNode in="SourceGraphic" />
-						<feMergeNode />
-					</feMerge>
-				</filter>
-				<circle cx=50% cy=50% r=295 fill=#EFFCF6 filter="url(#inset-shadow)" />
-				<circle cx=50% cy=50% r=265 fill=#C6F7E2 filter="url(#inset-shadow)" />
-				<circle cx=50% cy=50% r=236 fill=#8EEDC7 filter="url(#inset-shadow)" />
-				<circle cx=50% cy=50% r=208 fill=#81DEFD filter="url(#inset-shadow)" />
-				<circle cx=50% cy=50% r=181 fill=#5ED0FA filter="url(#inset-shadow)" />
-				<circle cx=50% cy=50% r=155 fill=#40C3F7 filter="url(#inset-shadow)" />
-				<circle cx=50% cy=50% r=130 fill=#F86A6A filter="url(#inset-shadow)" />
-				<circle cx=50% cy=50% r=106 fill=#EF4E4E filter="url(#inset-shadow)" />
-				<circle cx=50% cy=50% r=83 fill=#E12D39 filter="url(#inset-shadow)" />
-				<circle cx=50% cy=50% r=61 fill=#4055A8 filter="url(#inset-shadow)" />
-				<circle cx=50% cy=50% r=40 fill=#35469C filter="url(#inset-shadow)" />
-				<circle cx=50% cy=50% r=20 fill=#19216C filter="url(#inset-shadow)" />
-			</svg>
-		</article>
-	</main>
-	<footer>
-		<div>
-			<p>Justin Chill &copy; 2026</p>
-			<span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img
-						src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
-		</div>
-	</footer>
+      <p>SVG (Scalable Vector Graphics) elements can also create deep optical illusions with vector filters. Consider the
+        following colorful circle. It's created using SVG circle elements and the
+        <code>inset shadow</code> filter for the depth effect. Inspiration for this illustration from <a
+          href="https://codepen.io/mathiesjanssen/pen/QgLzmM" target="_blank" rel="noopener noreferrer">Matys</a>.
+      </p>
+
+      <figure class="svg-circle-demo">
+        <svg viewBox="0 0 600 600" width="100%" height="auto" role="img" aria-label="Colorful concentric circles with inset shadow depth effect.">
+          <filter id="inset-shadow" x="-50%" y="-50%" width="200%" height="200%">
+            <feComponentTransfer in="SourceAlpha">
+              <feFuncA type="table" tableValues="1 0" />
+            </feComponentTransfer>
+            <feGaussianBlur stdDeviation="4" />
+            <feOffset dx="0" dy="5" result="offsetblur" />
+            <feFlood flood-color="rgb(0, 0, 0)" result="color" />
+            <feComposite in2="offsetblur" operator="in" />
+            <feComposite in2="SourceAlpha" operator="in" />
+            <feMerge>
+              <feMergeNode in="SourceGraphic" />
+              <feMergeNode />
+            </feMerge>
+          </filter>
+          <circle cx="50%" cy="50%" r="295" fill="#EFFCF6" filter="url(#inset-shadow)" />
+          <circle cx="50%" cy="50%" r="265" fill="#C6F7E2" filter="url(#inset-shadow)" />
+          <circle cx="50%" cy="50%" r="236" fill="#8EEDC7" filter="url(#inset-shadow)" />
+          <circle cx="50%" cy="50%" r="208" fill="#81DEFD" filter="url(#inset-shadow)" />
+          <circle cx="50%" cy="50%" r="181" fill="#5ED0FA" filter="url(#inset-shadow)" />
+          <circle cx="50%" cy="50%" r="155" fill="#40C3F7" filter="url(#inset-shadow)" />
+          <circle cx="50%" cy="50%" r="130" fill="#F86A6A" filter="url(#inset-shadow)" />
+          <circle cx="50%" cy="50%" r="106" fill="#EF4E4E" filter="url(#inset-shadow)" />
+          <circle cx="50%" cy="50%" r="83" fill="#E12D39" filter="url(#inset-shadow)" />
+          <circle cx="50%" cy="50%" r="61" fill="#4055A8" filter="url(#inset-shadow)" />
+          <circle cx="50%" cy="50%" r="40" fill="#35469C" filter="url(#inset-shadow)" />
+          <circle cx="50%" cy="50%" r="20" fill="#19216C" filter="url(#inset-shadow)" />
+        </svg>
+      </figure>
+    </article>
+  </main>
+  <footer>
+    <div>
+      <p>Justin Chill &copy; 2026</p>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img
+            src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
+    </div>
+  </footer>
   <script>
     // Theme toggle functionality
     const themeToggleBtn = document.getElementById("theme-toggle");
@@ -667,6 +640,16 @@
         updateIcons(newTheme);
       });
     }
+
+    // Email link handler
+    document.querySelectorAll('.js-email-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const a = "Justin.richard.hill@";
+        const b = "gmail.com";
+        window.open(`mailto:${a}${b}`, 'email');
+      });
+    });
   </script>
 </body>
 

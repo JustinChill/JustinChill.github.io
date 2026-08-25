@@ -17,9 +17,17 @@
   </script>
 
   <title>Radio buttons | Justin Chill</title>
-  <meta name="description" content="Radio buttons">
+  <meta name="description" content="An exploration of physical radio buttons and their digital UI counterparts, featuring an interactive vintage radio band selector (AM, FM, SW, MW, LW) and form design conventions.">
   <meta name="author" content="Justin Chill">
   <meta name="robots" content="all">
+
+  <!-- Article metadata -->
+  <meta name="datePublished" content="2022-12-07">
+  <meta name="dateModified" content="2025-08-06">
+  <meta property="article:published_time" content="2022-12-07">
+  <meta property="article:modified_time" content="2025-08-06">
+  <meta property="article:author" content="Justin Chill">
+  <meta property="article:section" content="Fun">
 
   <!-- OpenGraph tags -->
   <meta content="en_US" property="og:locale">
@@ -27,22 +35,25 @@
   <meta content="article" property="og:type">
   <meta content="https://justinchill.com/radio-buttons.html" property="og:url">
   <meta content="Radio buttons | Justin Chill" property="og:title">
-  <meta content="Radio buttons" property="og:description">
+  <meta content="An exploration of physical radio buttons and their digital UI counterparts, featuring an interactive vintage radio band selector (AM, FM, SW, MW, LW) and form design conventions." property="og:description">
   <meta content="https://justinchill.com/blog.html" property="og:see_also">
   <meta property="og:locality" content="New York">
   <meta property="og:region" content="NY">
   <meta property="og:country_name" content="USA">
   <meta content="https://justinchill.com/imgs/cover/radio_cover.webp" property="og:image">
+  <meta content="1200" property="og:image:width">
+  <meta content="630" property="og:image:height">
+  <meta content="image/webp" property="og:image:type">
   <meta content="Literal radio buttons" property="og:image:alt">
-
-  <meta name="datePublished" content="2022-12-07">
-  <meta name="dateModified" content="2025-08-06">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@JustinChill">
+  <meta name="twitter:creator" content="@JustinChill">
   <meta name="twitter:title" content="Radio buttons | Justin Chill">
-  <meta name="twitter:description" content="Radio buttons">
+  <meta name="twitter:description" content="An exploration of physical radio buttons and their digital UI counterparts, featuring an interactive vintage radio band selector (AM, FM, SW, MW, LW) and form design conventions.">
   <meta content="https://justinchill.com/imgs/cover/radio_cover.webp" property="twitter:image">
+  <meta content="Literal radio buttons" name="twitter:image:alt">
 
   <link rel="canonical" href="https://justinchill.com/radio-buttons.html">
   <link rel="preload" href="style.css" as="style" />
@@ -80,7 +91,6 @@
       cursor: pointer;
       border: none;
       background: none;
-      /*            transition: background 0.3s, border-color 0.3s, box-shadow 0.2s;*/
     }
 
     input[type=radio]:not(.switch):checked {
@@ -100,14 +110,22 @@
       display: flex;
     }
 
+    .radio fieldset {
+      display: flex;
+      width: 100%;
+      border: none;
+      padding: 0;
+      margin: 0;
+    }
+
     input {
       color: var(--fg);
     }
 
     .radio {
-      /* background-color: var(--bg); */
-      /* background-image: linear-gradient(90deg,#0000003f,transparent); */
       background-image: url("https://assets.codepen.io/416221/light_wood.jpeg");
+      background-size: cover;
+      background-position: center;
       border-radius: 4px;
       height: 30vh;
     }
@@ -132,7 +150,12 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    label:first-child input {
+    label span {
+      opacity: 0.65;
+      transition: opacity var(--transDur) ease-in-out;
+    }
+
+    label:first-of-type input {
       border-radius: 0.5em 0 0 0.5em;
       box-shadow:
         0.1em 0 0 #2726267f inset,
@@ -145,7 +168,7 @@
         0.2em 0 0 #ffffff7f inset;
     }
 
-    label:last-child input {
+    label:last-of-type input {
       border-radius: 0 0.5em 0.5em 0;
       box-shadow:
         0 -0.1em 0 #926086 inset,
@@ -158,7 +181,7 @@
         -0.1em -0.1em 0 0.1em #ffffff7f inset;
     }
 
-    label:first-child input:checked {
+    label:first-of-type input:checked {
       box-shadow:
         0.1em 0 0 #272626af inset,
         -0.1em 0 0 #272626 inset,
@@ -170,7 +193,7 @@
         0.2em 0 0 #ffffff7f inset;
     }
 
-    label:last-child input:checked {
+    label:last-of-type input:checked {
       box-shadow:
         0.1em 0 0 #272626af inset,
         -0.1em 0 0 #272626 inset,
@@ -225,19 +248,19 @@
       outline: transparent;
     }
 
-    input[type=radio]:checked+span {
-      opacity: 0.65;
-      transition: opacity var(--transDur) ease-in-out;
+    input[type=radio]:focus-visible {
+      outline: 2px solid #275EFE;
+      outline-offset: 2px;
     }
 
     /* Dark mode */
     @media (prefers-color-scheme: dark) {
-      :root {
+      :root:not([data-theme="light"]) {
         --bg: #5c6270;
         --fg: #e3e4e8;
       }
 
-      label:first-child input[type=radio] {
+      :root:not([data-theme="light"]) label:first-of-type input[type=radio] {
         box-shadow:
           0.1em 0 0 #2726267f inset,
           -0.1em 0 0 #27262600 inset,
@@ -249,7 +272,7 @@
           0.2em 0 0 #ffffff7f inset;
       }
 
-      label:last-child input[type=radio] {
+      :root:not([data-theme="light"]) label:last-of-type input[type=radio] {
         box-shadow:
           0 -0.1em 0 #926086 inset,
           0.1em 0 0 #2726267f inset,
@@ -261,7 +284,7 @@
           -0.1em -0.1em 0 0.1em #ffffff7f inset;
       }
 
-      label:first-child input[type=radio]:checked {
+      :root:not([data-theme="light"]) label:first-of-type input[type=radio]:checked {
         box-shadow:
           0.1em 0 0 #272626af inset,
           -0.1em 0 0 #272626 inset,
@@ -273,7 +296,7 @@
           0.2em 0 0 #ffffff7f inset;
       }
 
-      label:last-child input[type=radio]:checked {
+      :root:not([data-theme="light"]) label:last-of-type input[type=radio]:checked {
         box-shadow:
           0.1em 0 0 #272626af inset,
           -0.1em 0 0 #272626 inset,
@@ -285,7 +308,7 @@
           -0.1em -0.1em 0 0.1em #ffffff7f inset;
       }
 
-      input[type=radio] {
+      :root:not([data-theme="light"]) input[type=radio] {
         box-shadow:
           0.1em 0 0 #2726267f inset,
           -0.1em 0 0 #27262600 inset,
@@ -296,7 +319,7 @@
           -0.1em -0.2em 0 #ffffff7f inset;
       }
 
-      input[type=radio]:checked {
+      :root:not([data-theme="light"]) input[type=radio]:checked {
         box-shadow:
           0.1em 0 0 #272626af inset,
           -0.1em 0 0 #272626af inset,
@@ -307,16 +330,108 @@
           -0.1em -0.2em 0 #ffffff7f inset;
       }
     }
+
+    [data-theme="dark"] {
+      --bg: #5c6270;
+      --fg: #e3e4e8;
+    }
+
+    [data-theme="dark"] label:first-of-type input[type=radio] {
+      box-shadow:
+        0.1em 0 0 #2726267f inset,
+        -0.1em 0 0 #27262600 inset,
+        0 0.1em 0 #afa490 inset,
+        0 -0.1em 0 #0000001f,
+        0 0.2em 0.5em #0000007f,
+        0 -0.1em 0 #926086 inset,
+        -0.1em -0.2em 0 #ffffff7f inset,
+        0.2em 0 0 #ffffff7f inset;
+    }
+
+    [data-theme="dark"] label:last-of-type input[type=radio] {
+      box-shadow:
+        0 -0.1em 0 #926086 inset,
+        0.1em 0 0 #2726267f inset,
+        -0.1em 0 0 #2726267f inset,
+        0 0.1em 0 #afa490 inset,
+        -0.1em 0 0 #afa490 inset,
+        0 -0.1em 0 #0000001f,
+        0 0.2em 0.5em #0000007f,
+        -0.1em -0.1em 0 0.1em #ffffff7f inset;
+    }
+
+    [data-theme="dark"] label:first-of-type input[type=radio]:checked {
+      box-shadow:
+        0.1em 0 0 #272626af inset,
+        -0.1em 0 0 #272626 inset,
+        0 0.1em 0 #847a62 inset,
+        0 -0.1em 0 #0000007f,
+        0 0.1em 0 #0000007f,
+        0 -0.1em 0 #722257 inset,
+        -0.1em -0.2em 0 #ffffff7f inset,
+        0.2em 0 0 #ffffff7f inset;
+    }
+
+    [data-theme="dark"] label:last-of-type input[type=radio]:checked {
+      box-shadow:
+        0.1em 0 0 #272626af inset,
+        -0.1em 0 0 #272626 inset,
+        0 -0.1em 0 #722257 inset,
+        0 0.1em 0 #847a62 inset,
+        -0.1em 0 0 #847a62 inset,
+        0 -0.1em 0 #0000001f,
+        0 0.1em 0 #0000007f,
+        -0.1em -0.1em 0 0.1em #ffffff7f inset;
+    }
+
+    [data-theme="dark"] input[type=radio] {
+      box-shadow:
+        0.1em 0 0 #2726267f inset,
+        -0.1em 0 0 #27262600 inset,
+        0 0.1em 0 #afa490 inset,
+        0 -0.1em 0 #0000001f,
+        0 0.2em 0.5em #0000007f,
+        0 -0.1em 0 #926086 inset,
+        -0.1em -0.2em 0 #ffffff7f inset;
+    }
+
+    [data-theme="dark"] input[type=radio]:checked {
+      box-shadow:
+        0.1em 0 0 #272626af inset,
+        -0.1em 0 0 #272626af inset,
+        0 0.1em 0 #847a62 inset,
+        0 -0.1em 0 #0000007f,
+        0 0.1em 0 #0000007f,
+        0 -0.1em 0 #722257 inset,
+        -0.1em -0.2em 0 #ffffff7f inset;
+    }
   </style>
 
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "Radio buttons | Justin Chill",
-  "description": "Radio buttons",
+  "headline": "Radio Buttons",
+  "name": "Radio Buttons",
+  "description": "An exploration of physical radio buttons and their digital UI counterparts, featuring an interactive vintage radio band selector (AM, FM, SW, MW, LW) and form design conventions.",
   "datePublished": "2022-12-07",
   "dateModified": "2025-08-06",
+  "inLanguage": "en-US",
+  "articleSection": "Fun",
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://justinchill.com/imgs/cover/radio_cover.webp",
+    "caption": "Literal radio buttons"
+  },
+  "keywords": [
+    "Radio buttons",
+    "UI design",
+    "Skeuomorphism",
+    "Form controls",
+    "Shortwave radio",
+    "CSS styling",
+    "Web design"
+  ],
   "author": {
     "@type": "Person",
     "name": "Justin Chill",
@@ -337,8 +452,27 @@
       "https://github.com/JustinChill"
     ]
   },
-  "mainEntityOfPage": "https://justinchill.com/radio-buttons.html",
-  "image": "https://justinchill.com/imgs/cover/radio_cover.webp"
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://justinchill.com/radio-buttons.html"
+  },
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Radio button",
+      "sameAs": "https://en.wikipedia.org/wiki/Radio_button"
+    },
+    {
+      "@type": "Thing",
+      "name": "Skeuomorph",
+      "sameAs": "https://en.wikipedia.org/wiki/Skeuomorph"
+    },
+    {
+      "@type": "Thing",
+      "name": "Shortwave radio",
+      "sameAs": "https://en.wikipedia.org/wiki/Shortwave_radio"
+    }
+  ]
 }
   </script>
 </head>
@@ -368,7 +502,7 @@
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
@@ -379,16 +513,19 @@
         <p class="article-category">Fun</p>
         <h1 class="article-title">Radio buttons</h1>
       </div>
-      <section class="radio">
+      <section class="radio" aria-label="Interactive vintage radio buttons demo">
         <form>
-          <label for="radio-am"><input type="radio" id="radio-am" name="band" value="am" checked><span>AM</span></label>
-          <label for="radio-fm"><input type="radio" id="radio-fm" name="band" value="fm"><span>FM</span></label>
-          <label for="radio-sw"><input type="radio" id="radio-sw" name="band" value="sw"><span>SW</span></label>
-          <label for="radio-mw"><input type="radio" id="radio-mw" name="band" value="mw"><span>MW</span></label>
-          <label for="radio-lw"><input type="radio" id="radio-lw" name="band" value="mw"><span>LW</span></label>
+          <fieldset>
+            <legend class="screen-reader-text">Radio frequency band</legend>
+            <label for="radio-am"><input type="radio" id="radio-am" name="band" value="am" checked><span>AM</span></label>
+            <label for="radio-fm"><input type="radio" id="radio-fm" name="band" value="fm"><span>FM</span></label>
+            <label for="radio-sw"><input type="radio" id="radio-sw" name="band" value="sw"><span>SW</span></label>
+            <label for="radio-mw"><input type="radio" id="radio-mw" name="band" value="mw"><span>MW</span></label>
+            <label for="radio-lw"><input type="radio" id="radio-lw" name="band" value="lw"><span>LW</span></label>
+          </fieldset>
         </form>
       </section>
-      <p>Radio buttons are a common way to allow users to make a single selection from a list of options. Since only one
+      <p>Radio buttons are a common way to allow users to make a single selection from a list of options.<a href="#jc" id="jc-ref" aria-describedby="footnote-label"></a> Since only one
         radio button can be selected at a time (within the same group), each available choice must be its own item and
         label. In contrast, checkboxes may show a single label, with the checked/unchecked status of the item meaning
         opposite things. For example, a checkbox could have a single input/label and legend that says “I have read the
@@ -401,19 +538,21 @@
         globe.</p>
       <img
         src="https://thumbs.dreamstime.com/b/close-up-old-time-radio-close-up-philco-antique-shortwave-radio-dials-buttons-beautiful-wood-case-186313985.jpg"
-        alt="Close up of an old time radio dial on a Philco wood case radio.">
+        alt="Close up of an old time radio dial on a Philco wood case radio."
+        loading="lazy"
+        decoding="async">
     </article>
   </main>
   <footer>
     <h2 id="footnote-label">Footnotes</h2>
     <ol>
-      <li id="jc">Inspired by <a href="https://codepen.io/jkantner">Jon Kanter</a>, front-end engineer formerly at
+      <li id="jc">Inspired by <a href="https://codepen.io/jkantner">Jon Kantner</a>, front-end engineer formerly at
         OneTrust<a href="#jc-ref" aria-label="Back to content">↩</a>
       </li>
     </ol>
     <div>
       <p>Justin Chill &copy; 2026</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
             alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
@@ -446,6 +585,16 @@
         updateIcons(newTheme);
       });
     }
+
+    // Email link activator
+    document.querySelectorAll('.js-email-link').forEach(link => {
+      link.addEventListener('click', event => {
+        event.preventDefault();
+        const a = "Justin.richard.hill@";
+        const b = "gmail.com";
+        window.open(`mailto:${a}${b}`, 'email');
+      });
+    });
   </script>
 </body>
 
