@@ -17,9 +17,15 @@
   </script>
 
   <title>Trump Golf Count | Justin Chill</title>
-  <meta name="description" content="President Trump's daytime visits to golf clubs since inauguration.">
+  <meta name="description" content="President Trump's daytime visits to golf clubs and properties since inauguration.">
   <meta name="author" content="Justin Chill">
   <meta name="robots" content="all">
+
+  <!-- Article metadata -->
+  <meta property="article:published_time" content="2020-07-04">
+  <meta property="article:modified_time" content="2026-08-25">
+  <meta property="article:author" content="Justin Chill">
+  <meta property="article:section" content="Politics">
 
   <!-- OpenGraph tags -->
   <meta content="en_US" property="og:locale">
@@ -27,24 +33,29 @@
   <meta content="article" property="og:type">
   <meta content="https://justinchill.com/trump-golfs.html" property="og:url">
   <meta content="Trump Golf Count | Justin Chill" property="og:title">
-  <meta content="President Trump's daytime visits to golf clubs since inauguration." property="og:description">
+  <meta content="President Trump's daytime visits to golf clubs and properties since inauguration." property="og:description">
   <meta content="https://justinchill.com/blog.html" property="og:see_also">
   <meta property="og:locality" content="Washington D.C.">
   <meta property="og:region" content="Washington D.C.">
   <meta property="og:country_name" content="USA">
   <meta content="https://api.time.com/wp-content/uploads/2025/07/trump-golf-cheating-scotland-july27.jpg?w=1200&h=675"
     property="og:image">
-  <meta content="Trump on the golf course." property="og:image:alt">
+  <meta content="1200" property="og:image:width">
+  <meta content="675" property="og:image:height">
+  <meta content="Donald Trump on the golf course." property="og:image:alt">
 
   <meta name="datePublished" content="2020-07-04">
-  <meta name="dateModified" content="2025-07-05">
+  <meta name="dateModified" content="2026-08-25">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@JustinChill">
+  <meta name="twitter:creator" content="@JustinChill">
   <meta name="twitter:title" content="Trump Golf Count | Justin Chill">
-  <meta name="twitter:description" content="President Trump's daytime visits to golf clubs since inauguration.">
+  <meta name="twitter:description" content="President Trump's daytime visits to golf clubs and properties since inauguration.">
   <meta content="https://api.time.com/wp-content/uploads/2025/07/trump-golf-cheating-scotland-july27.jpg?w=1200&h=675"
     property="twitter:image">
+  <meta content="Donald Trump on the golf course." property="twitter:image:alt">
 
   <link rel="canonical" href="https://justinchill.com/trump-golfs.html">
   <link rel="preload" href="style.css" as="style" />
@@ -65,6 +76,16 @@
       --golf-gray: #555;
       --golf-border: #ddd;
       --golf-mono: 'DM Mono', monospace;
+      --cal-cell-bg: #f9f9f9;
+      --cal-cell-future: #ffffff;
+      --cal-num-color: rgba(0, 0, 0, 0.35);
+      --btn-bg: #ffffff;
+      --btn-color: #555555;
+      --btn-border: #dddddd;
+      --chart-grid: #eeeeee;
+      --chart-axis: #dddddd;
+      --chart-text: #888888;
+      --donut-stroke: #ffffff;
       
       /* property colors */
       --c-fl:  #fde8e0;   /* Florida */
@@ -72,13 +93,47 @@
       --c-nj:  #fdf7e3;   /* NJ/NY */
       --c-wst: #e4f3e4;   /* West */
       --c-ovs: #ece5f5;   /* Overseas */
+      --c-fl-border:  #f4c3b0;
+      --c-dc-border:  #b8cce8;
+      --c-nj-border:  #f0e0a0;
+      --c-wst-border: #aad8aa;
+      --c-ovs-border: #c8b4e8;
 
       grid-column: 2/7;
       margin-top: 2rem;
       margin-bottom: 2rem;
     }
 
-    .tracker-wrapper button {
+    html[data-theme="dark"] .tracker-wrapper {
+      --golf-black: #f5f5f5;
+      --golf-gray: #aaaaaa;
+      --golf-border: #333333;
+      --golf-light: #282828;
+      --cal-cell-bg: #1c1c1c;
+      --cal-cell-future: #141414;
+      --cal-num-color: rgba(255, 255, 255, 0.45);
+      --btn-bg: #222222;
+      --btn-color: #cccccc;
+      --btn-border: #444444;
+      --chart-grid: #282828;
+      --chart-axis: #444444;
+      --chart-text: #aaaaaa;
+      --donut-stroke: #111111;
+
+      /* dark mode property tints */
+      --c-fl:  #4a251b;
+      --c-dc:  #1b2e48;
+      --c-nj:  #443a19;
+      --c-wst: #1e3b22;
+      --c-ovs: #36244d;
+      --c-fl-border:  #753c2d;
+      --c-dc-border:  #2e4f7d;
+      --c-nj-border:  #72612a;
+      --c-wst-border: #315e37;
+      --c-ovs-border: #5c3e83;
+    }
+
+    .tracker-wrapper .term-btn {
       font-family: var(--golf-mono);
       font-size: 0.72rem;
       letter-spacing: 0.06em;
@@ -86,7 +141,37 @@
       padding: 0.35rem 0.85rem;
       cursor: pointer;
       border-radius: 3px;
+      border: 1px solid var(--btn-border);
+      background: var(--btn-bg);
+      color: var(--btn-color);
       transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+    }
+
+    .tracker-wrapper .term-btn.active {
+      border-color: var(--golf-orange);
+      background: var(--golf-orange);
+      color: #ffffff;
+    }
+
+    .tracker-wrapper .btn-compare {
+      margin-top: 0.5rem;
+      font-family: var(--golf-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+      border: 1px solid var(--btn-border);
+      background: var(--btn-bg);
+      color: var(--btn-color);
+      cursor: pointer;
+      border-radius: 3px;
+      display: block;
+      transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+    }
+
+    .tracker-wrapper .btn-compare.active {
+      border-color: var(--golf-orange);
+      color: var(--golf-orange);
     }
 
     /* ── STATS STRIP ── */
@@ -117,7 +202,8 @@
     .tracker-wrapper .stat .sub {
       font-family: var(--golf-mono);
       font-size: 0.72rem;
-      color: #999;
+      color: var(--golf-gray);
+      opacity: 0.85;
       display: block;
       margin-top: 0.15rem;
     }
@@ -155,7 +241,7 @@
       width: 14px;
       height: 14px;
       border-radius: 2px;
-      border: 1px solid rgba(0,0,0,0.1);
+      border: 1px solid rgba(0,0,0,0.15);
       flex-shrink: 0;
     }
     .tracker-wrapper .legend-dot {
@@ -165,12 +251,12 @@
       background: var(--golf-orange);
       flex-shrink: 0;
     }
-    .tracker-wrapper .legend-swatch.fl  { background: var(--c-fl); }
-    .tracker-wrapper .legend-swatch.dc  { background: var(--c-dc); }
-    .tracker-wrapper .legend-swatch.nj  { background: var(--c-nj); }
-    .tracker-wrapper .legend-swatch.wst { background: var(--c-wst); }
-    .tracker-wrapper .legend-swatch.ovs { background: var(--c-ovs); }
-    .tracker-wrapper .legend-swatch.none { background: #fff; }
+    .tracker-wrapper .legend-swatch.fl  { background: var(--c-fl); border-color: var(--c-fl-border); }
+    .tracker-wrapper .legend-swatch.dc  { background: var(--c-dc); border-color: var(--c-dc-border); }
+    .tracker-wrapper .legend-swatch.nj  { background: var(--c-nj); border-color: var(--c-nj-border); }
+    .tracker-wrapper .legend-swatch.wst { background: var(--c-wst); border-color: var(--c-wst-border); }
+    .tracker-wrapper .legend-swatch.ovs { background: var(--c-ovs); border-color: var(--c-ovs-border); }
+    .tracker-wrapper .legend-swatch.none { background: var(--cal-cell-bg); border-color: var(--golf-border); }
 
     /* ── CALENDAR ── */
     .tracker-wrapper .calendar-wrap {
@@ -198,22 +284,22 @@
       position: relative;
       aspect-ratio: 1;
       border-radius: 2px;
-      background: #f9f9f9;
+      background: var(--cal-cell-bg);
       border: 1px solid var(--golf-border);
       cursor: default;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: opacity 0.1s;
+      transition: opacity 0.1s, transform 0.1s;
     }
     .tracker-wrapper .cal-cell.weekend { border-radius: 5px; }
-    .tracker-wrapper .cal-cell.future { background: #fff; opacity: 0.35; }
-    .tracker-wrapper .cal-cell.fl  { background: var(--c-fl); border-color: #f4c3b0; }
-    .tracker-wrapper .cal-cell.dc  { background: var(--c-dc); border-color: #b8cce8; }
-    .tracker-wrapper .cal-cell.nj  { background: var(--c-nj); border-color: #f0e0a0; }
-    .tracker-wrapper .cal-cell.wst { background: var(--c-wst); border-color: #aad8aa; }
-    .tracker-wrapper .cal-cell.ovs { background: var(--c-ovs); border-color: #c8b4e8; }
-    .tracker-wrapper .cal-cell.ooc { outline: 2px dashed #999; outline-offset: -2px; }
+    .tracker-wrapper .cal-cell.future { background: var(--cal-cell-future); opacity: 0.35; }
+    .tracker-wrapper .cal-cell.fl  { background: var(--c-fl); border-color: var(--c-fl-border); }
+    .tracker-wrapper .cal-cell.dc  { background: var(--c-dc); border-color: var(--c-dc-border); }
+    .tracker-wrapper .cal-cell.nj  { background: var(--c-nj); border-color: var(--c-nj-border); }
+    .tracker-wrapper .cal-cell.wst { background: var(--c-wst); border-color: var(--c-wst-border); }
+    .tracker-wrapper .cal-cell.ovs { background: var(--c-ovs); border-color: var(--c-ovs-border); }
+    .tracker-wrapper .cal-cell.ooc { outline: 2px dashed var(--golf-gray); outline-offset: -2px; }
 
     .tracker-wrapper .cal-dot {
       position: absolute;
@@ -227,21 +313,22 @@
     .tracker-wrapper .cal-day-num {
       font-family: var(--golf-mono);
       font-size: 0.52rem;
-      color: rgba(0,0,0,0.35);
+      color: var(--cal-num-color);
       position: absolute;
       top: 2px;
       left: 3px;
     }
 
     /* Tooltip */
-    .tracker-wrapper .cal-cell:hover::after {
+    .tracker-wrapper .cal-cell:hover::after,
+    .tracker-wrapper .cal-cell:focus-visible::after {
       content: attr(data-tip);
       position: absolute;
       bottom: calc(100% + 5px);
       left: 50%;
       transform: translateX(-50%);
       background: var(--golf-black);
-      color: #fff;
+      color: var(--bg-color);
       font-family: var(--golf-mono);
       font-size: 0.65rem;
       padding: 0.3rem 0.55rem;
@@ -249,8 +336,11 @@
       white-space: nowrap;
       z-index: 50;
       pointer-events: none;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
     }
-    .tracker-wrapper .cal-cell:hover { z-index: 10; }
+    .tracker-wrapper .cal-cell:hover,
+    .tracker-wrapper .cal-cell:focus-visible { z-index: 10; }
+    .tracker-wrapper .cal-cell:focus-visible { outline: 2px solid var(--golf-orange); }
 
     /* ── DONUT CHARTS ── */
     .tracker-wrapper .donuts {
@@ -315,19 +405,27 @@
       flex-shrink: 0;
     }
 
-    /* ── NOTE ── */
+    /* ── NOTE & FOOTNOTES ── */
     .tracker-wrapper .note {
       font-family: var(--golf-mono);
       font-size: 0.7rem;
-      color: #aaa;
+      color: var(--golf-gray);
       margin-top: 3rem;
       line-height: 1.6;
       padding-top: 1.5rem;
       border-top: 1px solid var(--golf-border);
     }
     .tracker-wrapper .note a {
-      color: #aaa;
+      color: var(--golf-gray);
       text-decoration: underline;
+    }
+
+    .last-updated-badge {
+      font-family: var(--golf-mono);
+      font-size: 0.75rem;
+      color: var(--golf-gray);
+      margin-bottom: 1.25rem;
+      display: block;
     }
 
     @media (max-width: 600px) {
@@ -340,10 +438,35 @@
   {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": "Trump Golf Count | Justin Chill",
-    "description": "President Trump's daytime visits to golf clubs since inauguration.",
+    "headline": "Trump Golf Count",
+    "alternativeHeadline": "150+ outings since inauguration",
+    "description": "An interactive day-by-day tracker and visual analysis of President Donald Trump's property visits and golf outings during his second term, compared with his first term and historic presidential benchmarks.",
+    "url": "https://justinchill.com/trump-golfs.html",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://justinchill.com/trump-golfs.html"
+    },
+    "isPartOf": {
+      "@type": "Blog",
+      "@id": "https://justinchill.com/blog.html",
+      "name": "Justin Chill's Blog",
+      "publisher": {
+        "@type": "Person",
+        "name": "Justin Chill"
+      }
+    },
     "datePublished": "2020-07-04",
-    "dateModified": "2025-07-05",
+    "dateModified": "2026-08-25",
+    "inLanguage": "en-US",
+    "isAccessibleForFree": true,
+    "articleSection": "Politics",
+    "image": {
+      "@type": "ImageObject",
+      "url": "https://api.time.com/wp-content/uploads/2025/07/trump-golf-cheating-scotland-july27.jpg?w=1200&h=675",
+      "caption": "Donald Trump on the golf course",
+      "width": 1200,
+      "height": 675
+    },
     "author": {
       "@type": "Person",
       "name": "Justin Chill",
@@ -364,8 +487,72 @@
         "https://github.com/JustinChill"
       ]
     },
-    "mainEntityOfPage": "https://justinchill.com/trump-golfs.html",
-    "image": "https://api.time.com/wp-content/uploads/2025/07/trump-golf-cheating-scotland-july27.jpg?w=1200&h=675"
+    "keywords": [
+      "Trump Golf Count",
+      "Donald Trump",
+      "Presidential Travel",
+      "Golf Tracker",
+      "Mar-a-Lago",
+      "Trump National Golf Club",
+      "Bedminster",
+      "Doral",
+      "White House Press Pool",
+      "Data Visualization",
+      "Barack Obama",
+      "Presidential Golf Benchmark"
+    ],
+    "about": [
+      {
+        "@type": "Person",
+        "name": "Donald Trump",
+        "sameAs": "https://en.wikipedia.org/wiki/Donald_Trump"
+      },
+      {
+        "@type": "Thing",
+        "name": "Golf",
+        "sameAs": "https://en.wikipedia.org/wiki/Golf"
+      },
+      {
+        "@type": "Thing",
+        "name": "Presidency of Donald Trump",
+        "sameAs": "https://en.wikipedia.org/wiki/Presidency_of_Donald_Trump"
+      },
+      {
+        "@type": "Place",
+        "name": "Mar-a-Lago",
+        "sameAs": "https://en.wikipedia.org/wiki/Mar-a-Lago"
+      },
+      {
+        "@type": "Organization",
+        "name": "The Trump Organization",
+        "sameAs": "https://en.wikipedia.org/wiki/The_Trump_Organization"
+      }
+    ],
+    "mentions": [
+      {
+        "@type": "Person",
+        "name": "Barack Obama",
+        "sameAs": "https://en.wikipedia.org/wiki/Barack_Obama"
+      },
+      {
+        "@type": "GovernmentOrganization",
+        "name": "Government Accountability Office",
+        "alternateName": "GAO",
+        "sameAs": "https://en.wikipedia.org/wiki/Government_Accountability_Office"
+      }
+    ],
+    "citation": [
+      {
+        "@type": "CreativeWork",
+        "name": "Trump Golf Count Database",
+        "url": "https://trumpgolfcount.com"
+      },
+      {
+        "@type": "CreativeWork",
+        "name": "GAO Report on Presidential Travel Costs",
+        "url": "https://trumpgolfcount.com/displaygaoreportcomment"
+      }
+    ]
   }
   </script>
 </head>
@@ -395,7 +582,7 @@
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener">LinkedIn</a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
@@ -409,19 +596,20 @@
       </div>
 
       <div class="tracker-wrapper">
-        <p style="margin-bottom:1.5rem;">Below is a day-by-day tracker of President Trump's visits to his properties and golf outings since his second inauguration on January 20, 2025. Data is sourced from public reports, press pool accounts, and social media.</p>
+        <span class="last-updated-badge" id="last-updated"></span>
+        <p style="margin-bottom:1.5rem;">Below is a day-by-day tracker of President Trump's visits to his properties and golf outings since his second inauguration on January 20, 2025. Data is sourced from public reports, press pool accounts, and social media<a href="#est" aria-describedby="footnote-label" id="est-ref"></a>.</p>
         <p style="margin-bottom:2rem;">"<i>I'm going to be working for you. I'm not going to have time to go play golf.</i>" --Donald J. Trump, August, 2016</p>
 
-        <div style="display:flex; gap:0.5rem; margin-bottom:1.5rem;">
-          <button id="btn-t2" onclick="setTerm('t2')" style="border:1px solid #fe4e1d; background:#fe4e1d; color:#fff;">2nd term</button>
-          <button id="btn-both" onclick="setTerm('both')" style="border:1px solid #ddd; background:#fff; color:#555;">Both terms</button>
+        <div style="display:flex; gap:0.5rem; margin-bottom:1.5rem;" role="group" aria-label="Term Selector">
+          <button id="btn-t2" class="term-btn active" onclick="setTerm('t2')" aria-pressed="true">2nd term</button>
+          <button id="btn-both" class="term-btn" onclick="setTerm('both')" aria-pressed="false">Both terms</button>
         </div>
 
         <div class="stats-strip" id="stats-strip">
           <!-- Filled dynamically by JavaScript -->
         </div>
 
-        <div id="compare-section" style="display:none; border-top:1px solid #ddd; padding-top:1.5rem; margin-bottom:2rem;">
+        <div id="compare-section" style="display:none; border-top:1px solid var(--golf-border); padding-top:1.5rem; margin-bottom:2rem;">
           <p style="font-family:var(--golf-mono); font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--golf-gray); margin-bottom:1rem;">Cumulative golf rounds: Trump vs. Obama</p>
           <div id="golf-chart-wrap"></div>
           <div style="display:flex; gap:1.5rem; margin-top:0.75rem; flex-wrap:wrap;">
@@ -453,7 +641,7 @@
     </ol>
     <div>
       <p>Justin Chill &copy; 2026</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"><img src="imgs/github.svg"
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener"><img src="imgs/github.svg"
             alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
@@ -490,6 +678,8 @@
     let currentTerm = 't2';
     let t2Stats = null;
     let t2GolfCumulative = [];
+    let compareOpen = false;
+    let chartBuilt = false;
 
     function parseCSV(text) {
       const lines = text.trim().split('\n');
@@ -503,17 +693,18 @@
     }
 
     function parseDate(str) {
+      if (!str) return new Date(NaN);
       const [m, d, y] = str.split('/').map(Number);
       return new Date(y, m - 1, d);
     }
 
     function buildStats(rows, today) {
-      const totalDays = Math.floor((today - START_DATE) / 864e5) + 1;
+      const totalDays = Math.max(1, Math.floor((today - START_DATE) / 864e5) + 1);
       let visits = 0, golf = 0, weekendVisits = 0, weekendGolf = 0, weekendDays = 0;
       for (const r of rows) {
         if (!r.Date) continue;
         const d = parseDate(r.Date);
-        if (d > today) break;
+        if (isNaN(d.getTime()) || d > today) break;
         const dow = d.getDay();
         const isWeekend = dow === 0 || dow === 6;
         if (isWeekend) weekendDays++;
@@ -525,6 +716,7 @@
 
     function renderStats(mode) {
       const s = t2Stats;
+      if (!s) return;
       const pct = (n, d) => d ? Math.round(n / d * 100) : 0;
       const strip = document.getElementById('stats-strip');
       if (mode === 't2') {
@@ -543,7 +735,7 @@
             <span class="num">${s.golf}</span>
             <span class="label-sm">Golf rounds</span>
             <span class="sub">${pct(s.golf, s.totalDays)}% of days in office</span>
-            <button id="btn-compare" onclick="toggleCompare()" style="margin-top:0.5rem;font-family:var(--golf-mono);font-size:0.62rem;letter-spacing:0.06em;text-transform:uppercase;padding:0.25rem 0.6rem;border:1px solid var(--golf-border);background:#fff;color:var(--golf-gray);cursor:pointer;border-radius:3px;display:block;">Compare →</button>
+            <button id="btn-compare" class="btn-compare ${compareOpen ? 'active' : ''}" onclick="toggleCompare()" aria-expanded="${compareOpen}">Compare ${compareOpen ? '←' : '→'}</button>
           </div>
           <div class="stat">
             <span class="num">${pct(s.weekendVisits, s.weekendDays)}%</span>
@@ -569,7 +761,7 @@
             <span class="num">${totalGolf}</span>
             <span class="label-sm">Golf rounds</span>
             <span class="sub">${pct(totalGolf, totalDays)}% of days in office</span>
-            <button id="btn-compare" onclick="toggleCompare()" style="margin-top:0.5rem;font-family:var(--golf-mono);font-size:0.62rem;letter-spacing:0.06em;text-transform:uppercase;padding:0.25rem 0.6rem;border:1px solid var(--golf-border);background:#fff;color:var(--golf-gray);cursor:pointer;border-radius:3px;display:block;">Compare →</button>
+            <button id="btn-compare" class="btn-compare ${compareOpen ? 'active' : ''}" onclick="toggleCompare()" aria-expanded="${compareOpen}">Compare ${compareOpen ? '←' : '→'}</button>
           </div>
           <div class="stat">
             <span class="num">${T1.days.toLocaleString()}</span>
@@ -581,10 +773,14 @@
 
     function setTerm(mode) {
       currentTerm = mode;
-      const on  = 'font-family:var(--golf-mono);font-size:0.72rem;letter-spacing:0.06em;text-transform:uppercase;padding:0.35rem 0.85rem;border:1px solid var(--golf-orange);background:var(--golf-orange);color:#fff;cursor:pointer;border-radius:3px;';
-      const off = 'font-family:var(--golf-mono);font-size:0.72rem;letter-spacing:0.06em;text-transform:uppercase;padding:0.35rem 0.85rem;border:1px solid var(--golf-border);background:#fff;color:var(--golf-gray);cursor:pointer;border-radius:3px;';
-      document.getElementById('btn-t2').style.cssText   = mode === 't2'   ? on : off;
-      document.getElementById('btn-both').style.cssText = mode === 'both' ? on : off;
+      const btnT2 = document.getElementById('btn-t2');
+      const btnBoth = document.getElementById('btn-both');
+      if (btnT2 && btnBoth) {
+        btnT2.classList.toggle('active', mode === 't2');
+        btnT2.setAttribute('aria-pressed', mode === 't2');
+        btnBoth.classList.toggle('active', mode === 'both');
+        btnBoth.setAttribute('aria-pressed', mode === 'both');
+      }
       renderStats(mode);
     }
 
@@ -598,7 +794,7 @@
       actualToday = actualToday || today;
       const dayMap = buildDayMap(rows);
       const CELLS_PER_ROW = 16;
-      let grid = '<div class="calendar">';
+      let grid = '<div class="calendar" role="grid" aria-label="Golf and property visit calendar">';
 
       // Walk month by month, always from 1st (except the very first partial month)
       let cursor = new Date(START_DATE.getFullYear(), START_DATE.getMonth(), 1);
@@ -618,11 +814,11 @@
 
         for (let chunk = 0; chunk < days.length; chunk += CELLS_PER_ROW) {
           const slice = days.slice(chunk, chunk + CELLS_PER_ROW);
-          grid += `<div class="cal-month-label">${chunk === 0 ? label : ''}</div>`;
+          grid += `<div class="cal-month-label" aria-hidden="true">${chunk === 0 ? label : ''}</div>`;
 
           for (let i = 0; i < CELLS_PER_ROW; i++) {
             const day = slice[i];
-            if (!day) { grid += '<div></div>'; continue; }
+            if (!day) { grid += '<div aria-hidden="true"></div>'; continue; }
 
             const isFuture = day > actualToday;
             const dow = day.getDay();
@@ -635,16 +831,19 @@
             const isGolf = (row['Golf'] || '').toLowerCase() === 'yes';
             const isOOC = !!(row['Out of country']);
 
-            const tipParts = [`${MONTHS[day.getMonth()]} ${day.getDate()}`];
+            const tipParts = [`${MONTHS[day.getMonth()]} ${day.getDate()}, ${day.getFullYear()}`];
             if (prop) {
               let propLabel = propInfo ? propInfo.label : prop;
               if (row['Secondary']) propLabel += ` + ${row['Secondary']}`;
               tipParts.push(propLabel);
             }
-            if (isGolf) tipParts.push('\u26F3 Golf');
-            if (isOOC) tipParts.push('\u2708 ' + row['Out of country']);
+            if (isGolf) tipParts.push('Golf Round');
+            if (isOOC) tipParts.push('Overseas: ' + row['Out of country']);
+            if (!prop && !isGolf && !isOOC) tipParts.push('No property visit');
 
-            grid += `<div class="cal-cell${cls ? ' '+cls : ''}${isWeekend ? ' weekend' : ''}${isFuture ? ' future' : ''}${isOOC ? ' ooc' : ''}" data-tip="${tipParts.join(' \u00b7 ')}"><span class="cal-day-num">${day.getDate()}</span>${isGolf ? '<span class="cal-dot"></span>' : ''}</div>`;
+            const tipString = tipParts.join(' · ');
+
+            grid += `<div class="cal-cell${cls ? ' '+cls : ''}${isWeekend ? ' weekend' : ''}${isFuture ? ' future' : ''}${isOOC ? ' ooc' : ''}" data-tip="${tipString}" tabindex="0" role="gridcell" aria-label="${tipString}"><span class="cal-day-num">${day.getDate()}</span>${isGolf ? '<span class="cal-dot"></span>' : ''}</div>`;
           }
         }
         cursor = new Date(yr, mo + 1, 1);
@@ -667,14 +866,14 @@
         const xi1= r + ri* Math.cos(angle),      yi1= r + ri* Math.sin(angle);
         const xi2= r + ri* Math.cos(angle+sweep),yi2= r + ri* Math.sin(angle+sweep);
         const lg = sweep > Math.PI ? 1 : 0;
-        paths += `<path d="M ${xi1} ${yi1} L ${x1} ${y1} A ${r} ${r} 0 ${lg} 1 ${x2} ${y2} L ${xi2} ${yi2} A ${ri} ${ri} 0 ${lg} 0 ${xi1} ${yi1} Z" fill="${sl.color}" stroke="#fff" stroke-width="1.5"/>`;
+        paths += `<path d="M ${xi1} ${yi1} L ${x1} ${y1} A ${r} ${r} 0 ${lg} 1 ${x2} ${y2} L ${xi2} ${yi2} A ${ri} ${ri} 0 ${lg} 0 ${xi1} ${yi1} Z" fill="${sl.color}" stroke="var(--donut-stroke, #fff)" stroke-width="1.5"/>`;
         angle += sweep;
       }
-      return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">${paths}</svg>`;
+      return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" role="img" aria-label="Breakdown chart">${paths}</svg>`;
     }
 
     function renderDonuts(s) {
-      const orange = '#fe4e1d', amber = '#f5a623', light = '#e8e8e8';
+      const orange = '#fe4e1d', amber = '#f5a623', light = 'var(--golf-light, #e8e8e8)';
       const pct = (n, d) => d ? Math.round(n / d * 100) : 0;
 
       function donutHTML(slices, centerPct, centerLabel) {
@@ -707,22 +906,22 @@
       </div>`;
     }
 
-    let compareOpen = false;
-    let chartBuilt = false;
-
     function toggleCompare() {
       const section = document.getElementById('compare-section');
       const btn = document.getElementById('btn-compare');
       compareOpen = !compareOpen;
-      section.style.display = compareOpen ? 'block' : 'none';
-      btn.textContent = compareOpen ? 'Compare ←' : 'Compare →';
-      btn.style.borderColor = compareOpen ? 'var(--golf-orange)' : 'var(--golf-border)';
-      btn.style.color = compareOpen ? 'var(--golf-orange)' : 'var(--golf-gray)';
+      if (section) section.style.display = compareOpen ? 'block' : 'none';
+      if (btn) {
+        btn.textContent = compareOpen ? 'Compare ←' : 'Compare →';
+        btn.classList.toggle('active', compareOpen);
+        btn.setAttribute('aria-expanded', compareOpen);
+      }
       if (compareOpen && !chartBuilt) { buildChart(); chartBuilt = true; }
     }
 
     function buildChart() {
       const wrap = document.getElementById('golf-chart-wrap');
+      if (!wrap) return;
       const W = wrap.offsetWidth || 800;
       const H = 260;
       const pad = { t: 12, r: 24, b: 36, l: 40 };
@@ -734,22 +933,25 @@
       const t2Days = t2GolfCumulative.length;            // current
       const totalTrumpDays = t1Days + t2Days;
       const xMax = Math.max(OBAMA_DAYS, totalTrumpDays + 200);
+      
+      const lastT2 = t2Days > 0 ? t2GolfCumulative[t2Days - 1] : 0;
+      const lastT1 = t1Days > 0 ? T1_GOLF[t1Days - 1] : 0;
       // Y domain: 0..max golf
-      const yMax = Math.max(OBAMA_TOTAL, T1_GOLF[t1Days-1] + t2GolfCumulative[t2Days-1]) * 1.08;
+      const yMax = Math.max(OBAMA_TOTAL, lastT1 + lastT2) * 1.08;
 
       const xS = d => pad.l + (d / xMax) * cw;
       const yS = v => pad.t + ch - (v / yMax) * ch;
 
       // Build SVG
-      let svg = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="font-family:var(--golf-mono);overflow:visible;">`;
+      let svg = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="Cumulative golf comparison between Donald Trump and Barack Obama" style="font-family:var(--golf-mono);overflow:visible;">`;
 
       // Grid lines
       const yTicks = [0, 100, 200, 300, 400];
       for (const v of yTicks) {
         if (v > yMax) continue;
         const y = yS(v);
-        svg += `<line x1="${pad.l}" y1="${y}" x2="${W-pad.r}" y2="${y}" stroke="#eee" stroke-width="1"/>`;
-        svg += `<text x="${pad.l-6}" y="${y+4}" text-anchor="end" font-size="9" fill="#aaa">${v}</text>`;
+        svg += `<line x1="${pad.l}" y1="${y}" x2="${W-pad.r}" y2="${y}" stroke="var(--chart-grid, #eee)" stroke-width="1"/>`;
+        svg += `<text x="${pad.l-6}" y="${y+4}" text-anchor="end" font-size="9" fill="var(--chart-text, #aaa)">${v}</text>`;
       }
 
       // X axis year labels
@@ -764,15 +966,15 @@
       for (const {day, label} of yearLabels) {
         if (day > xMax) continue;
         const x = xS(day);
-        svg += `<line x1="${x}" y1="${pad.t}" x2="${x}" y2="${pad.t+ch}" stroke="#eee" stroke-width="1" stroke-dasharray="${day===1461?'4,3':'none'}"/>`;
-        svg += `<text x="${x}" y="${pad.t+ch+14}" text-anchor="middle" font-size="9" fill="#aaa">${label}</text>`;
+        svg += `<line x1="${x}" y1="${pad.t}" x2="${x}" y2="${pad.t+ch}" stroke="var(--chart-grid, #eee)" stroke-width="1" stroke-dasharray="${day===1461?'4,3':'none'}"/>`;
+        svg += `<text x="${x}" y="${pad.t+ch+14}" text-anchor="middle" font-size="9" fill="var(--chart-text, #aaa)">${label}</text>`;
       }
 
       // Obama line (dashed, gray)
       const ox1 = xS(0), oy1 = yS(0);
       const ox2 = xS(OBAMA_DAYS), oy2 = yS(OBAMA_TOTAL);
-      svg += `<line x1="${ox1}" y1="${oy1}" x2="${ox2}" y2="${oy2}" stroke="#999" stroke-width="1.5" stroke-dasharray="5,3"/>`;
-      svg += `<text x="${ox2+6}" y="${oy2+4}" font-size="9" fill="#999">Obama (333)</text>`;
+      svg += `<line x1="${ox1}" y1="${oy1}" x2="${ox2}" y2="${oy2}" stroke="var(--golf-gray, #999)" stroke-width="1.5" stroke-dasharray="5,3"/>`;
+      svg += `<text x="${ox2+6}" y="${oy2+4}" font-size="9" fill="var(--golf-gray, #999)">Obama (333)</text>`;
 
       // Trump 1st term line (orange, full opacity)
       const t1Step = Math.max(1, Math.floor(t1Days / cw));
@@ -787,20 +989,22 @@
       let t2Path = '';
       for (let i = 0; i < t2Days; i++) {
         const x = xS(t1Days + i);
-        const y = yS(T1_GOLF[t1Days-1] + t2GolfCumulative[i]);
+        const y = yS(lastT1 + t2GolfCumulative[i]);
         t2Path += (i === 0 ? `M ${x} ${y}` : ` L ${x} ${y}`);
       }
       svg += `<path d="${t2Path}" fill="none" stroke="#fe4e1d" stroke-width="2" opacity="0.45"/>`;
 
       // End dot for current position
-      const lastX = xS(t1Days + t2Days - 1);
-      const lastY = yS(T1_GOLF[t1Days-1] + t2GolfCumulative[t2Days-1]);
-      svg += `<circle cx="${lastX}" cy="${lastY}" r="4" fill="#fe4e1d"/>`;
-      svg += `<text x="${lastX+7}" y="${lastY+4}" font-size="9" fill="#fe4e1d">${T1_GOLF[t1Days-1] + t2GolfCumulative[t2Days-1]}</text>`;
+      if (t2Days > 0) {
+        const lastX = xS(t1Days + t2Days - 1);
+        const lastY = yS(lastT1 + lastT2);
+        svg += `<circle cx="${lastX}" cy="${lastY}" r="4" fill="#fe4e1d"/>`;
+        svg += `<text x="${lastX+7}" y="${lastY+4}" font-size="9" fill="#fe4e1d">${lastT1 + lastT2}</text>`;
+      }
 
       // Axes
-      svg += `<line x1="${pad.l}" y1="${pad.t}" x2="${pad.l}" y2="${pad.t+ch}" stroke="#ddd" stroke-width="1"/>`;
-      svg += `<line x1="${pad.l}" y1="${pad.t+ch}" x2="${W-pad.r}" y2="${pad.t+ch}" stroke="#ddd" stroke-width="1"/>`;
+      svg += `<line x1="${pad.l}" y1="${pad.t}" x2="${pad.l}" y2="${pad.t+ch}" stroke="var(--chart-axis, #ddd)" stroke-width="1"/>`;
+      svg += `<line x1="${pad.l}" y1="${pad.t+ch}" x2="${W-pad.r}" y2="${pad.t+ch}" stroke="var(--chart-axis, #ddd)" stroke-width="1"/>`;
 
       svg += '</svg>';
       wrap.innerHTML = svg;
@@ -830,14 +1034,14 @@
         let _golfRunning = 0;
         for (const r of rows) {
           const _d = parseDate(r.Date);
-          if (_d > today) break;
+          if (isNaN(_d.getTime()) || _d > today) break;
           if ((r['Golf'] || '').toLowerCase() === 'yes') _golfRunning++;
           t2GolfCumulative.push(_golfRunning);
         }
 
         t2Stats = buildStats(rows, today);
-        if (todayStr) {
-          todayStr.textContent = `Data through ${MONTHS[today.getMonth()]}. ${today.getDate()}, ${today.getFullYear()}`;
+        if (todayStr && !isNaN(today.getTime())) {
+          todayStr.textContent = `Data through ${MONTHS[today.getMonth()]} ${today.getDate()}, ${today.getFullYear()}`;
         }
         renderStats('t2');
 
@@ -851,7 +1055,7 @@
             Data from public reporting, White House pool reports, and social media.
             "Property visit" means an overnight stay or substantive visit to a Trump Organization property.
             Golf rounds are based on reported outings; actual count may be higher.
-            For details on first-term trips, see the <a href="https://trumpgolfcount.com" target="_blank">Trump Golf Count</a> database.
+            For details on first-term trips, see the <a href="https://trumpgolfcount.com" target="_blank" rel="noopener">Trump Golf Count</a> database.
           </p>`;
 
       } catch(err) {
