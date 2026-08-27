@@ -43,7 +43,7 @@
   <meta content="Justin Chill website homepage. July 2026." property="og:image:alt">
 
   <meta name="datePublished" content="2018-01-30">
-  <meta name="dateModified" content="2026-08-10">
+  <meta name="dateModified" content="2026-08-26">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -274,8 +274,11 @@
 
       .responsive-menu,
       .menu-inner,
-      .hamburger-line {
+      .hamburger-line,
+      .tab-panel,
+      .tab-panel.entering {
         transition: none !important;
+        animation: none !important;
         will-change: auto !important;
       }
     }
@@ -415,6 +418,7 @@
         display: grid;
         grid-template-columns: repeat(12, 1fr);
         padding: 1.5rem 0;
+        min-height: 480px;
       }
 
       .col-left {
@@ -625,6 +629,12 @@
       padding: 1rem 0;
     }
 
+    @media (min-width: 1024px) {
+      .sidebar-tabs {
+        min-height: 480px;
+      }
+    }
+
     .tab-header {
       display: flex;
       flex-direction: row;
@@ -678,17 +688,17 @@
     .tab-panel.hidden {
       display: none !important;
       opacity: 0;
-      transform: translateY(6px);
+      transform: translateY(4px);
     }
 
     .tab-panel.entering {
-      animation: tabFadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      animation: tabFadeIn 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     @keyframes tabFadeIn {
       from {
         opacity: 0;
-        transform: translateY(6px);
+        transform: translateY(4px);
       }
 
       to {
@@ -1282,6 +1292,89 @@
       color: #818cf8;
     }
 
+    /* Lit Crit Grid */
+    .lit-crit-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .lit-crit-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .lit-crit-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .lit-crit-card {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      transition: transform 0.3s ease;
+    }
+
+    .lit-crit-card:hover {
+      transform: translateY(-3px);
+      text-decoration: none;
+    }
+
+    .lit-crit-img-wrap {
+      overflow: hidden;
+      border-radius: var(--radius);
+      margin-bottom: 0.875rem;
+      height: 15rem;
+      background-color: var(--surface-color);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .lit-crit-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .lit-crit-card:hover .lit-crit-img-wrap img {
+      transform: scale(1.04);
+    }
+
+    .lit-crit-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.375rem;
+    }
+
+    .lit-crit-card h3 {
+      font-size: 1.125rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin: 0 0 0.375rem;
+      color: var(--heading-color);
+      transition: color 0.2s ease;
+    }
+
+    .lit-crit-card:hover h3 {
+      color: #818cf8;
+    }
+
+    .lit-crit-card p {
+      color: var(--muted-color);
+      font-size: 0.875rem;
+      line-height: 1.45;
+      margin: 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
     /* Life & Arts Grid */
     .life-arts-grid {
       display: grid;
@@ -1461,7 +1554,7 @@
     }
 
     .article:nth-child(5n+5) {
-      background-image: url("imgs/cover/charts_cover.webp");
+      background-image: url("imgs/cover/html_cover.webp");
     }
 
     .article:nth-child(5n+6) {
@@ -1955,8 +2048,7 @@
         <!-- Top 3-Column Hero Grid -->
         <section class="top-hero-grid">
           <!-- Center Column: Main Hero Card (First on Mobile) -->
-          <div class="col-center main-hero-card"
-            style="background-image:url('imgs/cover/on_war_hero.webp')">
+          <div class="col-center main-hero-card" style="background-image:url('imgs/cover/on_war_hero.webp')">
             <span class="hero-tag">Shock and Owe</span>
             <div class="hero-content">
               <a href="on-war.html" class="hero-title">On War</a>
@@ -2010,8 +2102,7 @@
 
             <div class="tab-panel" id="latest">
               <div class="tab-article-card">
-                <a href="venn.html"><img
-                    src="imgs/cover/venn_cover.webp"
+                <a href="venn.html"><img src="imgs/cover/venn_cover.webp"
                     alt="Three overlapping circles creating a Venn diagram." loading="lazy" class="tab-thumb" /></a>
                 <div class="tab-article-info">
                   <a href="venn.html" class="tab-article-title">Venn diagrams in CSS</a>
@@ -2019,27 +2110,23 @@
                 </div>
               </div>
               <div class="tab-article-card">
-                <a href="careless-people.html"><img
-                    src="imgs/cover/careless_people_cover.webp"
-                    alt="Cover of Careless People book by Sarah Wynn-Williams, featuring a shark fin." class="tab-thumb"
-                    loading="lazy"></a>
+                <a href="famous-women.html"><img src="imgs/downloaded_image_4.jpg"
+                    alt="Images of the 100 most famous women in history." class="tab-thumb" loading="lazy"></a>
                 <div class="tab-article-info">
-                  <a href="careless-people.html" class="tab-article-title">Review: &ldquo;Careless People&rdquo;</a>
-                  <p class="mini-meta">Filed under <a href="blog.html">Book Review</a></p>
+                  <a href="famous-women.html" class="tab-article-title">Famous Women in History</a>
+                  <p class="mini-meta">Filed under <a href="blog.html">History</a></p>
                 </div>
               </div>
               <div class="tab-article-card">
-                <a href="demon.html"><img
-                    src="imgs/cover/demon_cover.webp"
-                    alt="Book cover of Demon Copperhead by Barbara Kingsolver." class="tab-thumb" loading="lazy" /></a>
+                <a href="rhcp.html"><img src="imgs/RHCP_Logo.svg" alt="The Red Hot Chili Peppers logo."
+                    class="tab-thumb" loading="lazy" /></a>
                 <div class="tab-article-info">
-                  <a href="demon.html" class="tab-article-title">Review: &ldquo;Demon Copperhead&rdquo;</a>
-                  <p class="mini-meta">Filed under <a href="blog.html">Book Review</a></p>
+                  <a href="rhcp.html" class="tab-article-title">Red Hot Chili Peppers</a>
+                  <p class="mini-meta">Filed under <a href="blog.html">Music</a></p>
                 </div>
               </div>
               <div class="tab-article-card">
-                <a href="stack-overflow.html"><img
-                    src="imgs/cover/stack_overflow_cover.webp"
+                <a href="stack-overflow.html"><img src="imgs/cover/stack_overflow_cover.webp"
                     alt="Illustration of a digital brain and a globe with a large HTML code symbol." class="tab-thumb"
                     loading="lazy" /></a>
                 <div class="tab-article-info">
@@ -2059,11 +2146,10 @@
                 </div>
               </div>
               <div class="tab-article-card">
-                <a href="planets.html"><img
-                    src="imgs/cover/solar_illustration.webp"
-                    alt="The planets of our solar system." class="tab-thumb" loading="lazy" /></a>
+                <a href="planets.html"><img src="imgs/cover/planets_cover.webp"
+                    alt="Montage of the planets in our solar system." class="tab-thumb" loading="lazy" /></a>
                 <div class="tab-article-info">
-                  <a href="planets.html" class="tab-article-title">Our Solar System</a>
+                  <a href="planets.html" class="tab-article-title">Planets of our Solar System</a>
                   <p class="mini-meta">Filed under <a href="blog.html">Astronomy</a></p>
                 </div>
               </div>
@@ -2077,11 +2163,11 @@
                 </div>
               </div>
               <div class="tab-article-card">
-                <a href="paved-paradise.html"><img src="imgs/csm_Paved_Paradise_d97c13becc.jpg"
-                    alt="An image of a vibrant jungle." class="tab-thumb" loading="lazy" /></a>
+                <a href="AI-2025.html"><img src="imgs/cover/ai2025_cover.webp" alt="Technology S-curves adoption chart."
+                    class="tab-thumb" loading="lazy" /></a>
                 <div class="tab-article-info">
-                  <a href="paved-paradise.html" class="tab-article-title">Paved Paradise</a>
-                  <p class="mini-meta">Filed under <a href="blog.html">Book Review</a></p>
+                  <a href="AI-2025.html" class="tab-article-title">AI Eats The World</a>
+                  <p class="mini-meta">Filed under <a href="blog.html">AI</a></p>
                 </div>
               </div>
             </div>
@@ -2096,16 +2182,15 @@
                 </div>
               </div>
               <div class="tab-article-card">
-                <a href="drones.html"><img src="imgs/cover/drones_cover.webp"
-                    alt="Ukrainian soldiers launching drones." class="tab-thumb" loading="lazy" /></a>
+                <a href="drones.html"><img src="imgs/cover/drones_cover.webp" alt="Ukrainian soldiers launching drones."
+                    class="tab-thumb" loading="lazy" /></a>
                 <div class="tab-article-info">
                   <a href="drones.html" class="tab-article-title">Drones in Ukraine</a>
                   <p class="mini-meta">Filed under <a href="blog.html">Warfare</a></p>
                 </div>
               </div>
               <div class="tab-article-card">
-                <a href="renewables.html"><img
-                    src="imgs/cover/renewables_cover.webp"
+                <a href="renewables.html"><img src="imgs/cover/renewables_cover.webp"
                     alt="Global renewables growth chart." class="tab-thumb" loading="lazy" /></a>
                 <div class="tab-article-info">
                   <a href="renewables.html" class="tab-article-title">Renewable Energy Capacity</a>
@@ -2155,9 +2240,7 @@
 
             <div class="card-box card--2 flex-row-center">
               <div class="card-small-thumb">
-                <a href="css-selectors.html"><img
-                    src="imgs/cover/css3_logo.webp" alt="CSS 3 logo"
-                    loading="lazy"></a>
+                <a href="css-selectors.html"><img src="imgs/cover/css3_logo.webp" alt="CSS 3 logo" loading="lazy"></a>
               </div>
               <div class="card-content">
                 <h3 class="card-title"><a href="css-selectors.html">CSS selectors</a></h3>
@@ -2236,8 +2319,7 @@
             </div>
             <div class="media-thumb-card">
               <a href="shootings.html">
-                <div class="media-thumb-box"
-                  style="background-image: url('imgs/cover/shootings_cover.webp')"
+                <div class="media-thumb-box" style="background-image: url('imgs/cover/shootings_cover.webp')"
                   title="Thoughts and prayers"></div>
               </a>
               <a href="shootings.html" class="media-thumb-link">Thoughts and prayers</a>
@@ -2318,14 +2400,64 @@
           </div>
         </section>
 
+        <!-- Lit Crit Section -->
+        <section class="site-section">
+          <h2 class="section-heading">Lit Crit</h2>
+          <div class="lit-crit-grid">
+            <a href="careless-people.html" class="lit-crit-card">
+              <div class="lit-crit-img-wrap">
+                <img src="imgs/cover/careless_people_cover.webp"
+                  alt="Cover of Careless People book by Sarah Wynn-Williams, featuring a shark fin." loading="lazy">
+              </div>
+              <div class="lit-crit-meta">
+                <span class="opinion-tag">Sarah Wynn-Williams</span>
+              </div>
+              <h3>Careless People</h3>
+              <p>A tell-all memoir exposes Facebook's feckless leadership and culture of reckless scale.</p>
+            </a>
+            <a href="nexus.html" class="lit-crit-card">
+              <div class="lit-crit-img-wrap">
+                <img src="imgs/cover/nexus_cover.webp"
+                  alt="Nexus book cover depicting an open book across historical mediums." loading="lazy">
+              </div>
+              <div class="lit-crit-meta">
+                <span class="opinion-tag">Yuval Noah Harari</span>
+              </div>
+              <h3>Nexus</h3>
+              <p>A brief history of information networks and the existential crisis of unconstrained AI.</p>
+            </a>
+            <a href="paved-paradise.html" class="lit-crit-card">
+              <div class="lit-crit-img-wrap">
+                <img src="imgs/cover/paved_paradise_cover.webp" alt="Paved Paradise book cover illustration."
+                  loading="lazy">
+              </div>
+              <div class="lit-crit-meta">
+                <span class="opinion-tag">Henry Grabar</span>
+              </div>
+              <h3>Paved Paradise</h3>
+              <p>How the relentless quest for parking shaped American cities and explains the modern world.</p>
+            </a>
+            <a href="demon.html" class="lit-crit-card">
+              <div class="lit-crit-img-wrap">
+                <img src="imgs/cover/demon_cover.webp" alt="Book cover of Demon Copperhead by Barbara Kingsolver."
+                  loading="lazy">
+              </div>
+              <div class="lit-crit-meta">
+                <span class="opinion-tag">Barbara Kingsolver</span>
+              </div>
+              <h3>Demon Copperhead</h3>
+              <p>A harrowing journey confronting poverty and the opioid epidemic in Appalachia.</p>
+            </a>
+          </div>
+        </section>
+
         <!-- Life & Arts Section -->
         <section class="site-section">
           <h2 class="section-heading">Life & Arts</h2>
           <div class="life-arts-grid">
             <div class="life-arts-feature">
               <a href="drunk.html">
-                <img
-                  src="imgs/cover/drunk_cover.webp"
+                <img src="imgs/cover/drunk_cover.webp"
                   alt="The Bacchanal of the Andrians painting by Titian depicting a festive feast with wine and celebration.">
                 <div class="life-arts-caption">
                   <span style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em;">Lit
@@ -2393,10 +2525,10 @@
             <span class="wrap-cat"><span class="cat" data-hover="Data Viz">Data Viz</span></span>
             <span class="title">Domestic Extremism in America</span>
           </button>
-          <button class="article" onclick="window.location.href='charts.html';">
+          <button class="article" onclick="window.location.href='HTML.html';">
             <span class="overlay"></span>
-            <span class="wrap-cat"><span class="cat" data-hover="Data viz">Data viz</span></span>
-            <span class="title">Charts &amp; Data Visualizations</span>
+            <span class="wrap-cat"><span class="cat" data-hover="Code">Code</span></span>
+            <span class="title">Frontend Fundamentals</span>
           </button>
           <button class="article" onclick="window.location.href='penguins.html';">
             <span class="overlay"></span>
