@@ -108,6 +108,12 @@
         max-width: none !important;
       }
     }
+
+    /* Increase tooltip line spacing */
+    g[aria-label="tip"] text,
+    .plot-tip text {
+      line-height: 1.4;
+    }
   </style>
 
   <script type="application/ld+json">
@@ -289,12 +295,30 @@
       document.getElementById("puzzleCount").textContent = d3.format(",")(xword_data.length);
       const solved_data = xword_data.filter(d => d.Solved === "True" && d["Time Taken"] > 0);
 
+      const dayNames = { Mo: "Monday", Tu: "Tuesday", We: "Wed", Th: "Thursday", Fr: "Friday", Sa: "Saturday", Su: "Sunday" };
+      const weekStats = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"].map(day => {
+        const times = solved_data.filter(d => d["Day of Week"] === day).map(d => d["Time Taken"]).sort(d3.ascending);
+        return {
+          day,
+          dayName: dayNames[day] || day,
+          count: times.length,
+          min: d3.min(times),
+          q1: d3.quantile(times, 0.25),
+          median: d3.median(times),
+          mean: d3.mean(times),
+          q3: d3.quantile(times, 0.75),
+          max: d3.max(times),
+        };
+      });
+
       function renderAllCharts() {
         const elementMid = d3.select('figure.mid-size').node() || d3.select('figure').node();
         const width = elementMid ? elementMid.getBoundingClientRect().width : 680;
         const calWidth = width;
         const size = 12;
         const legendWidth = calWidth > 500 ? Math.min(Math.round(calWidth * 0.35), 220) : 180;
+        const yearCount = d3.union(solved_data.map(d => d["Puzzle Date"].getUTCFullYear())).size || 8;
+        const calHeight = Math.max(yearCount * 72 + 50, 600);
 
         // Clear existing SVGs
         document.getElementById("calendar").innerHTML = '<figcaption>Data: <a href="https://www.nytimes.com/crosswords" target="_blank" rel="noopener noreferrer">NYT Crossword</a> app</figcaption>';
@@ -304,7 +328,7 @@
 
         const calendar = {
           width: calWidth,
-          height: Math.max(calWidth / 2.2, 280),
+          height: calHeight,
           marginTop: 45,
           marginLeft: 60,
           marginRight: 20,
@@ -346,11 +370,10 @@
             Plot.cell(solved_data, {
               y: (d) => d3.timeMonday.count(d3.utcMonth(d["Puzzle Date"]), d["Puzzle Date"]), // monday-based layout
               x: (d) => d["Puzzle Date"].getUTCDay(),
-              stroke: "currentColor",
-              strokeOpacity: .2,
               fill: "Time Taken",
+              inset: 0.5,
               title: (d) => `${d3.timeFormat("%B %d, %Y")(d["Puzzle Date"])} (${d["Day of Week"]})\nTime Taken: ${d3.format(".1f")(d["Time Taken"] / 60)} minutes`,
-              tip: true,
+              tip: { lineHeight: 1.4 },
             }),
             Plot.axisFx({
               axis: "top",
@@ -397,8 +420,16 @@
                 stroke: "currentColor",
                 strokeWidth: 1,
                 r: 1.5,
-                tip: true,
               }
+            ),
+            Plot.tip(
+              weekStats,
+              Plot.pointerY({
+                x: "median",
+                y: "day",
+                lineHeight: 1.4,
+                title: d => `${d.dayName} (${d.count} puzzles)\nMedian: ${d3.format(".1f")(d.median / 60)} min\nAverage: ${d3.format(".1f")(d.mean / 60)} min\nMiddle 50%: ${d3.format(".1f")(d.q1 / 60)} – ${d3.format(".1f")(d.q3 / 60)} min\nRange: ${d3.format(".1f")(d.min / 60)} – ${d3.format(".1f")(d.max / 60)} min`
+              })
             )
           ],
         };
@@ -429,20 +460,21 @@
           },
           marks: [
             Plot.ruleY([60 * 60], {
-              stroke: "var(--rule-color, #cbd5e1)",
+              stroke: "var(--rule-color, #94a3b8)",
               strokeWidth: 1.5,
               strokeLinecap: "round",
               strokeDasharray: [6, 6],
-              opacity: .7,
+              opacity: .85,
             }),
             Plot.text(["1 hour"], {
               y: 60 * 60,
-              x: d3.min(solved_data, d => d["Puzzle Date"]),
+              x: d3.max(solved_data, d => d["Puzzle Date"]),
               text: d => d,
               dy: -8,
-              dx: 10,
-              fill: "var(--muted-color, #6f6f6f)",
-              textAnchor: "start"
+              dx: -10,
+              fontWeight: "600",
+              fill: "currentColor",
+              textAnchor: "end"
             }),
             // Individual puzzle solve dots (subtle background points)
             Plot.dot(solved_data, {
@@ -452,7 +484,7 @@
               opacity: 0.25,
               r: 2,
               title: d => `${d3.timeFormat("%A %B %d, %Y")(d["Puzzle Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".1f")(d["Time Taken"] / 60)} min to solve`,
-              tip: true
+              tip: { lineHeight: 1.4 }
             }),
             // Rolling 30-day moving average trend line
             Plot.line(
@@ -493,7 +525,7 @@
               y: "Constructor",
               x: 1,
               inset: 0.5,
-              tip: true,
+              tip: { lineHeight: 1.4 },
               title: d => `${d3.timeFormat("%A %B %d, %Y")(d["Puzzle Date"])}\nConstructor: ${d["Constructor"]}\n${d3.format(".1f")(d["Time Taken"] / 60)} min to solve`,
               fill: d => d.Constructor === "Erik Agard" ? "var(--green, #22c55e)" : "var(--muted-color, #94a3b8)",
               sort: {
