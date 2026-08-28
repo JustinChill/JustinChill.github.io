@@ -172,11 +172,6 @@
       color: #ffffff !important;
     }
 
-    article>figure {
-      display: flex;
-      flex-direction: column-reverse;
-    }
-
     figure {
       max-width: 100%;
       overflow-x: auto;
@@ -3628,12 +3623,28 @@
       node.append("title")
         .text(d => `${d.data.country}\n${d3.format(",.0f")(d.data.value)} MtCO₂`);
 
-      document.getElementById("packed_bubble").appendChild(svg.node());
+      const pbEl = document.getElementById("packed_bubble");
+      if (pbEl) {
+        const caption = pbEl.querySelector("figcaption");
+        if (caption) {
+          pbEl.replaceChildren(svg.node(), caption);
+        } else {
+          pbEl.appendChild(svg.node());
+        }
+      }
     }
 
     const renderPlot = (id, config) => {
       const container = document.getElementById(id);
-      if (container) container.appendChild(Plot.plot(config));
+      if (container) {
+        const caption = container.querySelector("figcaption");
+        const plotNode = Plot.plot(config);
+        if (caption) {
+          container.replaceChildren(plotNode, caption);
+        } else {
+          container.appendChild(plotNode);
+        }
+      }
     };
 
     [
@@ -7366,7 +7377,12 @@
             .attr("text-anchor", "end").attr("font-size", 9).attr("fill", "#999")
             .text("*First-instance decisions only");
 
-          el.appendChild(svg.node());
+          const caption = el.querySelector("figcaption");
+          if (caption) {
+            el.replaceChildren(svg.node(), caption);
+          } else {
+            el.appendChild(svg.node());
+          }
         }
       })();
 
@@ -7550,7 +7566,13 @@
             const id = entry.target.id;
             const config = chartConfigs[id];
             if (config) {
-              entry.target.appendChild(Plot.plot(config));
+              const caption = entry.target.querySelector("figcaption");
+              const plotNode = Plot.plot(config);
+              if (caption) {
+                entry.target.replaceChildren(plotNode, caption);
+              } else {
+                entry.target.appendChild(plotNode);
+              }
               entry.target.classList.add("animate-in");
               obs.unobserve(entry.target);
             }

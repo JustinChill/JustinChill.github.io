@@ -53,11 +53,6 @@
   <meta name="color-scheme" content="light dark">
 
   <style type="text/css">
-    article>figure {
-      display: flex;
-      flex-direction: column-reverse;
-    }
-
     #stacks {
       margin-bottom: 2rem;
     }
@@ -478,8 +473,24 @@
         ]
       };
 
-      if (mapEl) mapEl.appendChild(Plot.plot(map));
-      if (stacksEl) stacksEl.appendChild(Plot.plot(stacks));
+      if (mapEl) {
+        const caption = mapEl.querySelector("figcaption");
+        const plotNode = Plot.plot(map);
+        if (caption) {
+          mapEl.replaceChildren(plotNode, caption);
+        } else {
+          mapEl.appendChild(plotNode);
+        }
+      }
+      if (stacksEl) {
+        const caption = stacksEl.querySelector("figcaption");
+        const plotNode = Plot.plot(stacks);
+        if (caption) {
+          stacksEl.replaceChildren(plotNode, caption);
+        } else {
+          stacksEl.appendChild(plotNode);
+        }
+      }
     }
 
     const promises = [d3.json("data/geo/us-counties-10m.json"), d3.csv("data/state-weedlaws.csv", d3.autoType), d3.csv("data/geo/us-state-grid.csv", d3.autoType)];

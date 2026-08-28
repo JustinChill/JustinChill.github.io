@@ -103,6 +103,35 @@
       stroke-linecap: round;
     }
 
+    /* Logo Text Rotation Animation */
+    @keyframes rhcp-spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .rhcp-spinning-text {
+      transform-box: view-box;
+      transform-origin: 250px 250px;
+      animation: rhcp-spin 30s linear infinite;
+    }
+
+    .rhcp-spinning-text-slow {
+      transform-box: view-box;
+      transform-origin: 250px 250px;
+      animation: rhcp-spin 120s linear infinite;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .rhcp-spinning-text,
+      .rhcp-spinning-text-slow {
+        animation: none;
+      }
+    }
+
     svg#rhcp_logo_explained {
       width: 100%;
       text-align: center;
@@ -531,17 +560,14 @@
         viewBox="0 0 500 500" role="img" aria-label="Red Hot Chili Peppers rotating logo">
         <title>Red Hot Chili Peppers Logo</title>
         <defs>
-          <path d="M50,250c0-110.5,89.5-200,200-200s200,89.5,200,200s-89.5,200-200,200S50,360.5,50,250" id="textcircle">
-            <animateTransform attributeName="transform" begin="0s" dur="30s" type="rotate" from="0 250 250"
-              to="360 250 250" repeatCount="indefinite" />
-          </path>
+          <path d="M50,250c0-110.5,89.5-200,200-200s200,89.5,200,200s-89.5,200-200,200S50,360.5,50,250" id="textcircle" />
           <rect x="225" y="135" width="50" height="230" id="redstripe" fill="#FE0304" />
         </defs>
         <use href="#redstripe" xlink:href="#redstripe" />
         <use href="#redstripe" xlink:href="#redstripe" transform="rotate(90 250 250)" />
         <use href="#redstripe" xlink:href="#redstripe" transform="rotate(45 250 250)" />
         <use href="#redstripe" xlink:href="#redstripe" transform="rotate(-45 250 250)" />
-        <text dy="70" textLength="1220">
+        <text class="rhcp-spinning-text" dy="70" textLength="1220">
           <textPath href="#textcircle" xlink:href="#textcircle">Red Hot Chili Peppers</textPath>
         </text>
       </svg>
@@ -570,10 +596,7 @@
           <title>Deconstructed Red Hot Chili Peppers Logo</title>
           <defs>
             <path d="M50,250c0-110.5,89.5-200,200-200s200,89.5,200,200s-89.5,200-200,200S50,360.5,50,250"
-              id="textcircle2">
-              <animateTransform attributeName="transform" begin="0s" dur="120s" type="rotate" from="0 250 250"
-                to="360 250 250" repeatCount="indefinite" />
-            </path>
+              id="textcircle2" />
             <rect x="225" y="135" width="50" height="230" id="whitestripe" fill="white" stroke="#FE0304" stroke-width="4"
               stroke-dasharray="6" stroke-dashoffset="0" stroke-linecap="round" />
           </defs>
@@ -581,7 +604,7 @@
           <use href="#whitestripe" xlink:href="#whitestripe" transform="rotate(90 250 250)" />
           <use href="#whitestripe" xlink:href="#whitestripe" transform="rotate(45 250 250)" />
           <use href="#whitestripe" xlink:href="#whitestripe" transform="rotate(-45 250 250)" />
-          <text dy="70" textLength="1220">
+          <text class="rhcp-spinning-text-slow" dy="70" textLength="1220">
             <textPath href="#textcircle2" xlink:href="#textcircle2">Red Hot Chili Peppers</textPath>
           </text>
         </svg>

@@ -55,11 +55,6 @@
   <meta name="color-scheme" content="light dark">
 
   <style>
-    article>figure {
-      display: flex;
-      flex-direction: column-reverse;
-    }
-
     tbody th {
       background-color: initial;
     }
@@ -613,9 +608,38 @@
         ]
       };
 
-      document.getElementById("dodgeplot").appendChild(Plot.plot(dodgeplot));
-      document.getElementById("barcode").appendChild(Plot.plot(barcode));
-      document.getElementById("stackedBarBankFailures").appendChild(Plot.plot(stackedBarBankFailures));
+      const dodgeEl = document.getElementById("dodgeplot");
+      if (dodgeEl) {
+        const caption = dodgeEl.querySelector("figcaption");
+        const plotNode = Plot.plot(dodgeplot);
+        if (caption) {
+          dodgeEl.replaceChildren(plotNode, caption);
+        } else {
+          dodgeEl.appendChild(plotNode);
+        }
+      }
+
+      const barcodeEl = document.getElementById("barcode");
+      if (barcodeEl) {
+        const caption = barcodeEl.querySelector("figcaption");
+        const plotNode = Plot.plot(barcode);
+        if (caption) {
+          barcodeEl.replaceChildren(plotNode, caption);
+        } else {
+          barcodeEl.appendChild(plotNode);
+        }
+      }
+
+      const stackedEl = document.getElementById("stackedBarBankFailures");
+      if (stackedEl) {
+        const caption = stackedEl.querySelector("figcaption");
+        const plotNode = Plot.plot(stackedBarBankFailures);
+        if (caption) {
+          stackedEl.replaceChildren(plotNode, caption);
+        } else {
+          stackedEl.appendChild(plotNode);
+        }
+      }
     });
 
     myDataPromises.catch(function () {

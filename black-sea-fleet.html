@@ -17,7 +17,8 @@
   </script>
 
   <title>How Ukraine Beat Russia in the Black Sea | Justin Chill</title>
-  <meta name="description" content="An interactive visual map and chronological timeline detailing Russian Black Sea Fleet losses, naval drone strikes, and maritime engagements during the Russo-Ukrainian War.">
+  <meta name="description"
+    content="An interactive visual map and chronological timeline detailing Russian Black Sea Fleet losses, naval drone strikes, and maritime engagements during the Russo-Ukrainian War.">
   <meta name="author" content="Justin Chill">
   <meta name="robots" content="all">
 
@@ -27,7 +28,9 @@
   <meta content="article" property="og:type">
   <meta content="https://justinchill.com/black-sea-fleet.html" property="og:url">
   <meta content="How Ukraine Beat Russia in the Black Sea | Justin Chill" property="og:title">
-  <meta content="An interactive visual map and chronological timeline detailing Russian Black Sea Fleet losses, naval drone strikes, and maritime engagements during the Russo-Ukrainian War." property="og:description">
+  <meta
+    content="An interactive visual map and chronological timeline detailing Russian Black Sea Fleet losses, naval drone strikes, and maritime engagements during the Russo-Ukrainian War."
+    property="og:description">
   <meta content="https://justinchill.com/blog.html" property="og:see_also">
   <meta property="og:locality" content="New York">
   <meta property="og:region" content="NY">
@@ -43,7 +46,8 @@
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="How Ukraine Beat Russia in the Black Sea | Justin Chill">
-  <meta name="twitter:description" content="An interactive visual map and chronological timeline detailing Russian Black Sea Fleet losses, naval drone strikes, and maritime engagements during the Russo-Ukrainian War.">
+  <meta name="twitter:description"
+    content="An interactive visual map and chronological timeline detailing Russian Black Sea Fleet losses, naval drone strikes, and maritime engagements during the Russo-Ukrainian War.">
   <meta content="https://justinchill.com/imgs/cover/blacksea_cover.webp" property="twitter:image">
 
   <link rel="canonical" href="https://justinchill.com/black-sea-fleet.html">
@@ -104,7 +108,7 @@
       /* overwrite Tailwind */
     }
 
-    html[data-theme="dark"] .ring-white {
+    .ring-white {
       --tw-ring-color: var(--bg-color) !important;
     }
 
@@ -116,12 +120,58 @@
     html[data-theme="dark"] #map svg text {
       fill: #0f172a !important;
       stroke: #ffffff !important;
+      stroke-width: 2.5px !important;
     }
 
     html[data-theme="dark"] figure .plot-tip {
       fill: var(--surface-color) !important;
       stroke: var(--rule-color) !important;
       color: var(--text-color) !important;
+    }
+
+    /* Timeline date and tag badge alignment & typography */
+    .flow-root li .text-md>div:first-child {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      min-height: 2rem;
+      /* Exactly matches the 32px (h-8) height of the blue plus dot */
+    }
+
+    .flow-root li .text-md>div:first-child>span:first-child {
+      margin-right: 0;
+      line-height: 1.25;
+    }
+
+    .flow-root li .text-md span.rounded-full.border {
+      display: inline-flex;
+      align-items: center;
+      padding: 0 0.625rem;
+      margin-top: 0;
+      margin-bottom: 0;
+      font-size: 0.75rem;
+      /* text-xs for clean hierarchy */
+      line-height: 1rem;
+      height: 1.375rem;
+    }
+
+    .flow-root li .text-md span.rounded-full.border>div:first-child {
+      position: static;
+      margin-right: 0.375rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .flow-root li .text-md span.rounded-full.border>div:last-child {
+      margin-left: 0;
+      font-size: 0.75rem;
+      line-height: 1rem;
+    }
+
+    .flow-root li .text-md>span.whitespace-nowrap {
+      display: block;
+      margin-top: 0.125rem;
     }
   </style>
 
@@ -246,25 +296,30 @@
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-    
+
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
+        aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
+            </path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank"
+        rel="noopener noreferrer">LinkedIn</a>
       <span class="nav__item js-email-link">Email</span>
     </div>
   </nav>
@@ -320,7 +375,8 @@
                       <div>
                         <span class="font-medium text-gray-900 mr-2">Feb 24, 2022</span>
 
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -330,10 +386,6 @@
                       <span class="whitespace-nowrap text-sm">Invasion begins</span>
                     </div>
                     <div class="mt-2 text-gray-700">
-                      <p>
-                        Russian Navy captures the strategic Snake Island. The Slava-class cruiser <em>Moskva</em> plays
-                        a prominent role. Reputedly, the Ukrainian garrison on the island replied to suggestions of surrender with “Russian warship, go fuck yourself!”
-                      </p>
                       <picture>
                         <source
                           srcset="imgs/1614px-Rally_in_support_of_Ukraine_in_Columbus,_Ohio,_United_States,_26_February_2022_(51906586684)_-_edited.webp">
@@ -343,6 +395,11 @@
                           loading="lazy"
                           class="object-cover object-fit w-full rounded-lg mt-1 mb-1 md:mt-2 md:mb-2 lg:mt-2 lg:mb-2">
                       </picture>
+                      <p>
+                        Russian Navy captures the strategic Snake Island. The Slava-class cruiser <em>Moskva</em> plays
+                        a prominent role. Reputedly, the Ukrainian garrison on the island replied to suggestions of
+                        surrender with “Russian warship, go fuck yourself!”
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -367,7 +424,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">Pre March 3, 2022</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -377,7 +435,11 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        The majority of Ukrainian Navy warships were captured, sunk, or scuttled at the onset of the invasion. Notably, the scuttled vessels included the frigate <a href="https://en.wikipedia.org/wiki/Ukrainian_frigate_Hetman_Sahaidachny" target="_blank" rel="noopener noreferrer">Hetman Sahaidachny</a>. Ukraine, whose fleet was massively outgunned, was left with only a few smaller vessels.
+                        The majority of Ukrainian Navy warships were captured, sunk, or scuttled at the onset of the
+                        invasion. Notably, the scuttled vessels included the frigate <a
+                          href="https://en.wikipedia.org/wiki/Ukrainian_frigate_Hetman_Sahaidachny" target="_blank"
+                          rel="noopener noreferrer">Hetman Sahaidachny</a>. Ukraine, whose fleet was massively
+                        outgunned, was left with only a few smaller vessels.
                       </p>
                     </div>
                   </div>
@@ -404,7 +466,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">February–March 2022</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -441,7 +504,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">March 7, 2022</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -451,7 +515,8 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Reports that Ukraine hit and sank a Russian patrol ship, Vasily Bykov, with rocket fire off Odesa were subsequently shown to be incorrect—the first of several ‘<em>wishful sinkings</em>’.
+                        Reports that Ukraine hit and sank a Russian patrol ship, Vasily Bykov, with rocket fire off
+                        Odesa were subsequently shown to be incorrect—the first of several ‘<em>wishful sinkings</em>’.
                       </p>
                     </div>
                   </div>
@@ -477,7 +542,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">Mid-March 2022</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -487,7 +553,11 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Russia starts removing the hull numbers from its warships in the Black Sea to frustrate attempts to gather intelligence on their movements.</p><p>Subsequent reports indicated that the Russian frigate Admiral Essen was hit by a Neptune missile off Odesa. There were several 'wishful sinkings' at the time; however, indications are that this occurred. The missile did not hit cleanly, causing limited damage.
+                        Russia starts removing the hull numbers from its warships in the Black Sea to frustrate attempts
+                        to gather intelligence on their movements.</p>
+                      <p>Subsequent reports indicated that the Russian frigate Admiral Essen was hit by a Neptune
+                        missile off Odesa. There were several 'wishful sinkings' at the time; however, indications are
+                        that this occurred. The missile did not hit cleanly, causing limited damage.
                       </p>
                     </div>
                   </div>
@@ -514,7 +584,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">March 22, 2022</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-red-500" aria-hidden="true"></span>
                           </div>
@@ -552,7 +623,8 @@
                       <div>
                         <span class="font-medium text-gray-900 mr-2">March 24, 2022</span>
 
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-red-500" aria-hidden="true"></span>
                           </div>
@@ -562,7 +634,10 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        The Russian Navy Alligator-class landing ship Saratov is hit while unloading at Berdyansk on the Sea of Azov, possibly by a Ukrainian ballistic missile. The ship explodes, damaging two Ropucha-class landing ships, which managed to escape. The ship sinks at the quay, and Russia stops using the port for reinforcements.
+                        The Russian Navy Alligator-class landing ship Saratov is hit while unloading at Berdyansk on the
+                        Sea of Azov, possibly by a Ukrainian ballistic missile. The ship explodes, damaging two
+                        Ropucha-class landing ships, which managed to escape. The ship sinks at the quay, and Russia
+                        stops using the port for reinforcements.
                       </p>
                     </div>
                   </div>
@@ -589,7 +664,8 @@
                       <div>
                         <span class="font-medium text-gray-900 mr-2">April 7, 2022</span>
 
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -599,7 +675,10 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Naval News reports that the <a href="https://www.navalnews.com/naval-news/2022/04/russias-most-powerful-warship-in-the-black-sea-is-operating-in-a-pattern/" target="_blank" rel="noopener noreferrer">Slava-class cruiser <em>Moskva</em> is operating in a predictable pattern</a>—a precursor of things to come.
+                        Naval News reports that the <a
+                          href="https://www.navalnews.com/naval-news/2022/04/russias-most-powerful-warship-in-the-black-sea-is-operating-in-a-pattern/"
+                          target="_blank" rel="noopener noreferrer">Slava-class cruiser <em>Moskva</em> is operating in
+                          a predictable pattern</a>—a precursor of things to come.
                       </p>
                     </div>
                   </div>
@@ -627,7 +706,8 @@
                       <div>
                         <span class="font-medium text-gray-900 mr-2">April 13, 2022</span>
 
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-red-500" aria-hidden="true"></span>
                           </div>
@@ -637,7 +717,8 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        The Slava-class cruiser <em>Moskva</em>, flagship of the Black Sea Fleet and the most powerful warship in the area, is hit by two Ukrainian Neptune anti-ship missiles. It sinks the next day.
+                        The Slava-class cruiser <em>Moskva</em>, flagship of the Black Sea Fleet and the most powerful
+                        warship in the area, is hit by two Ukrainian Neptune anti-ship missiles. It sinks the next day.
                       </p>
                       <picture>
                         <source srcset="imgs/Russia-Navy-Moskva-Damage.webp">
@@ -672,7 +753,8 @@
                       <div>
                         <span class="font-medium text-gray-900 mr-2">May 2022</span>
 
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -683,14 +765,15 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Fighting intensifies around Snake Island. Ukrainian TB2 drones play a major role, hitting two Raptor-class assault boats and sinking a landing craft at the jetty. Russian attempts to reinforce and
+                        Fighting intensifies around Snake Island. Ukrainian TB2 drones play a major role, hitting two
+                        Raptor-class assault boats and sinking a landing craft at the jetty. Russian attempts to
+                        reinforce and
                         supply it begin to appear more precarious. On at least one occasion, Ukraine deploys a BM-27
                         Uragan MLRS on a barge to bombard the island.
                       </p>
                       <picture>
                         <source srcset="imgs/Ukraine-Bayraktar-TB2-Drone-Ghost-Of-Snake-Island.webp">
-                        <img
-                          src="imgs/Ukraine-Bayraktar-TB2-Drone-Ghost-Of-Snake-Island.webp"
+                        <img src="imgs/Ukraine-Bayraktar-TB2-Drone-Ghost-Of-Snake-Island.webp"
                           alt="Illustration of a Bayraktar TB2 drone labeled Ghost of Snake Island with a lion graphic. The background shows a grayscale image of Snake Island with annotations referencing military vehicles from May 7-8."
                           loading="lazy"
                           class="object-cover object-fit w-full rounded-lg mt-1 mb-1 md:mt-2 md:mb-2 lg:mt-2 lg:mb-2">
@@ -720,7 +803,8 @@
                       <div>
                         <span class="font-medium text-gray-900 mr-2">Late May 2022</span>
 
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -730,7 +814,8 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Harpoon and Brimstone missiles are supplied to Ukraine, threatening Russian Navy warships.</p><p>Smaller Russian warships, including gunboats, are involved in the capture of Mariupol.
+                        Harpoon and Brimstone missiles are supplied to Ukraine, threatening Russian Navy warships.</p>
+                      <p>Smaller Russian warships, including gunboats, are involved in the capture of Mariupol.
                       </p>
                     </div>
                   </div>
@@ -757,7 +842,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">June 10, 2022</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -767,7 +853,8 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        The Ukrainian Navy landing ship Yuri Olefirenko is attacked by Russian rockets near Ochakiv. The ship, the largest remaining in the Ukrainian Navy, survives.
+                        The Ukrainian Navy landing ship Yuri Olefirenko is attacked by Russian rockets near Ochakiv. The
+                        ship, the largest remaining in the Ukrainian Navy, survives.
                       </p>
                     </div>
                   </div>
@@ -795,7 +882,8 @@
                       <div>
                         <span class="font-medium text-gray-900 mr-2">June 17, 2022</span>
 
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-red-500" aria-hidden="true"></span>
                           </div>
@@ -805,12 +893,15 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        The Russian ship Vasily Bekh, carrying an SA-15 GAUNTLET (Tor) air-defense missile system, is sunk by Harpoon or Neptune missiles. Ukrainian officials claim that the ship was hit twice by <a href="https://www.twz.com/harpoon-anti-ship-missiles-headed-to-ukraine-from-denmark" target="_blank" rel="noopener noreferrer">Harpoon anti-ship missiles</a>, which represents the first successful combat use of the weapon in Ukrainian hands.
+                        The Russian ship Vasily Bekh, carrying an SA-15 GAUNTLET (Tor) air-defense missile system, is
+                        sunk by Harpoon or Neptune missiles. Ukrainian officials claim that the ship was hit twice by <a
+                          href="https://www.twz.com/harpoon-anti-ship-missiles-headed-to-ukraine-from-denmark"
+                          target="_blank" rel="noopener noreferrer">Harpoon anti-ship missiles</a>, which represents the
+                        first successful combat use of the weapon in Ukrainian hands.
                       </p>
                       <picture>
                         <source srcset="imgs/Russian-ship-hit-by-ukraine-anti-ship-missile.webp">
-                        <img
-                          src="imgs/Russian-ship-hit-by-ukraine-anti-ship-missile.webp"
+                        <img src="imgs/Russian-ship-hit-by-ukraine-anti-ship-missile.webp"
                           alt="A split image shows two contrasting scenes: on the left, a blurry, grayscale footage of an explosion; on the right, a clear, color photo of a rescue ship in a harbor, surrounded by water under a blue sky, decorated with signal flags."
                           loading="lazy"
                           class="object-cover object-fit w-full rounded-lg mt-1 mb-1 md:mt-2 md:mb-2 lg:mt-2 lg:mb-2">
@@ -839,7 +930,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">June 20, 2022</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-red-500" aria-hidden="true"></span>
                           </div>
@@ -849,7 +941,10 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Ukraine attacks Russian-controlled gas platforms in the mid-Black Sea with Harpoon or Neptune missiles (<a href="https://www.reuters.com/world/ukraine-hits-oil-crimean-drilling-platforms-pro-russian-regional-head-says-2022-06-20/" target="_blank" rel="noopener noreferrer">Reuters</a>).
+                        Ukraine attacks Russian-controlled gas platforms in the mid-Black Sea with Harpoon or Neptune
+                        missiles (<a
+                          href="https://www.reuters.com/world/ukraine-hits-oil-crimean-drilling-platforms-pro-russian-regional-head-says-2022-06-20/"
+                          target="_blank" rel="noopener noreferrer">Reuters</a>).
                       </p>
                     </div>
                   </div>
@@ -877,7 +972,8 @@
                       <div>
                         <span class="font-medium text-gray-900 mr-2">June 29, 2022</span>
 
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -887,7 +983,8 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Two target barges, normally based at the Russian naval base at Novorossiysk, were towed to Kerch. They are positioned as decoys to protect the bridge from attack.
+                        Two target barges, normally based at the Russian naval base at Novorossiysk, were towed to
+                        Kerch. They are positioned as decoys to protect the bridge from attack.
                       </p>
                     </div>
                   </div>
@@ -914,7 +1011,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">June 30, 2022</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -924,7 +1022,9 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Russia abandons Snake Island. Threatened by Harpoon and Neptune missiles, Russian ships largely withdraw from the western side of the northern Black Sea. This is a significant change in the balance of
+                        Russia abandons Snake Island. Threatened by Harpoon and Neptune missiles, Russian ships largely
+                        withdraw from the western side of the northern Black Sea. This is a significant change in the
+                        balance of
                         the war.
                       </p>
                     </div>
@@ -952,7 +1052,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">July 7, 2022</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -962,7 +1063,8 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Ukrainian forces briefly land on Snake Island. Special Forces from the 73rd Naval Special Purpose Center use underwater vehicles in this mission.
+                        Ukrainian forces briefly land on Snake Island. Special Forces from the 73rd Naval Special
+                        Purpose Center use underwater vehicles in this mission.
                       </p>
                     </div>
                   </div>
@@ -988,7 +1090,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">July 27, 2022</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -998,7 +1101,9 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        The Black Sea Grain Initiative (BSGI) is signed, effectively breaking the blockade of Odesa (<a href="https://www.un.org/en/black-sea-grain-initiative" target="_blank" rel="noopener noreferrer">United Nations</a>).
+                        The Black Sea Grain Initiative (BSGI) is signed, effectively breaking the blockade of Odesa (<a
+                          href="https://www.un.org/en/black-sea-grain-initiative" target="_blank"
+                          rel="noopener noreferrer">United Nations</a>).
                       </p>
                     </div>
                   </div>
@@ -1024,7 +1129,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">July 31, 2022</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-red-500" aria-hidden="true"></span>
                           </div>
@@ -1035,7 +1141,8 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        A Ukrainian uncrewed aerial vehicle (UAV) attacks Russian Navy headquarters in Sevastopol. Russia
+                        A Ukrainian uncrewed aerial vehicle (UAV) attacks Russian Navy headquarters in Sevastopol.
+                        Russia
                         cancels planned Navy Day events in the port.
                       </p>
                     </div>
@@ -1063,7 +1170,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">August 17, 2022</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -1073,7 +1181,8 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        The commander of Russia's Black Sea Fleet (BSF), Admiral Igor Osipov, is removed from his post. His
+                        The commander of Russia's Black Sea Fleet (BSF), Admiral Igor Osipov, is removed from his post.
+                        His
                         deputy, Viktor Sokolov, takes command.
                       </p>
                     </div>
@@ -1101,7 +1210,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">August 20, 2022</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-red-500" aria-hidden="true"></span>
                           </div>
@@ -1111,7 +1221,8 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        A follow-up Ukrainian uncrewed aerial vehicle (UAV) attacks Russian Navy headquarters in Sevastopol.
+                        A follow-up Ukrainian uncrewed aerial vehicle (UAV) attacks Russian Navy headquarters in
+                        Sevastopol.
                       </p>
                     </div>
                   </div>
@@ -1137,7 +1248,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">August 24, 2022</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -1147,7 +1259,8 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        The Slava-class cruiser <em>Marshal Ustinov</em> leaves the Mediterranean to return to its home port in the Northern Fleet, leaving the Russian Navy weaker in the Mediterranean.
+                        The Slava-class cruiser <em>Marshal Ustinov</em> leaves the Mediterranean to return to its home
+                        port in the Northern Fleet, leaving the Russian Navy weaker in the Mediterranean.
                       </p>
                     </div>
                   </div>
@@ -1175,7 +1288,8 @@
                       <div>
                         <span class="font-medium text-gray-900 mr-2">Early September 2022</span>
 
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -1185,7 +1299,8 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        A Russian nuclear-powered submarine, likely the <em>Severodvinsk</em>, is reported in the Mediterranean. Seen
+                        A Russian nuclear-powered submarine, likely the <em>Severodvinsk</em>, is reported in the
+                        Mediterranean. Seen
                         as part of the outer defense for the Black Sea operations. Nuclear submarines are the most
                         powerful, and most survivable, assets in the Russian Navy.
                       </p>
@@ -1214,7 +1329,8 @@
                       <div>
                         <span class="font-medium text-gray-900 mr-2">September 8, 2022</span>
 
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -1224,7 +1340,8 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Romanian Navy Musca-class minesweeper <em>Lieutenant Dimitrie Nicolescu (29)</em> is damaged by a floating mine off the Romanian coast. Romanian forces have neutralized several floating mines
+                        Romanian Navy Musca-class minesweeper <em>Lieutenant Dimitrie Nicolescu (29)</em> is damaged by
+                        a floating mine off the Romanian coast. Romanian forces have neutralized several floating mines
                         believed to have broken free from their moorings further north. Attribution unclear.
                       </p>
                     </div>
@@ -1252,7 +1369,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">September 21, 2022</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -1262,7 +1380,9 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        A Ukrainian explosive uncrewed surface vessel (USV) washes up on a beach outside Sevastopol. Popularly called 'maritime drones', Russian forces destroy it but otherwise do not appear to react to the new threat.
+                        A Ukrainian explosive uncrewed surface vessel (USV) washes up on a beach outside Sevastopol.
+                        Popularly called 'maritime drones', Russian forces destroy it but otherwise do not appear to
+                        react to the new threat.
                       </p>
                     </div>
                   </div>
@@ -1290,7 +1410,8 @@
                       <div>
                         <span class="font-medium text-gray-900 mr-2">September 26, 2022</span>
 
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -1299,28 +1420,27 @@
                       </div>
                     </div>
                     <div class="mt-2 text-gray-700">
-                      <p>
-                        Nord Stream 1 &amp; 2 pipelines sabotaged in the Baltic.
-                      </p>
+                      <span class="whitespace-nowrap text-sm">Nord Stream 1 &amp; 2 pipelines sabotaged in the
+                        Baltic</span>
                       <p>The attack on the pipeline was one of the most dramatic and consequential acts of sabotage in
-                        modern times. It was also an unprecedented attack on a major element of global infrastructure—the network of cables, pipes, and satellites that underpin commerce and communication. It
-                        effectively destroyed a project that had required decades of strenuous labor and political
-                        muscle and had cost roughly $20 billion, with half of that money coming from Gazprom, the other
-                        half from European energy companies. The attack was a financial blow to Russia and upended the
-                        EU’s energy planning and policy.</p>
+                        modern times. It was also an unprecedented attack on a major element of global
+                        infrastructure—the network of cables, pipes, and satellites that underpin commerce and
+                        communication.</p>
                       <figure>
                         <picture>
                           <source srcset="imgs/skynews-gas-bubbles-nord-stream-2_5912415-3187199625.webp">
-                          <img
-                            src="imgs/skynews-gas-bubbles-nord-stream-2_5912415-3187199625.webp"
+                          <img src="imgs/skynews-gas-bubbles-nord-stream-2_5912415-3187199625.webp"
                             alt="Aerial view of a large swirling disturbance in a body of water, creating a circular pattern of white frothy waves spreading outward, contrasting with the surrounding dark blue water."
-                            loading="lazy"
-                            class="object-cover object-fit w-full rounded-lg mt-1 mb-1 md:mt-2 md:mb-2 lg:mt-2 lg:mb-2">
+                            loading="lazy" class="object-cover object-fit w-full rounded-lg">
                         </picture>
                         <figcaption>The aftermath of the underwater explosion that breached Nord Stream 2, as seen from
                           a Danish airplane near the island of Bornholm (Danish Defense Command / Forsvaret Ritzau
                           Scanpix / Reuters)</figcaption>
                       </figure>
+                      <p>It effectively destroyed a project that had required decades of strenuous labor and political
+                        muscle and had cost roughly $20 billion, with half of that money coming from Gazprom, the other
+                        half from European energy companies.</p>
+                      <p>The attack was a financial blow to Russia and upended the EU’s energy planning and policy.</p>
                     </div>
                   </div>
                 </div>
@@ -1345,7 +1465,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">September 29, 2022</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-red-500" aria-hidden="true"></span>
                           </div>
@@ -1355,12 +1476,14 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        A major combined Ukrainian maritime drone (USV) and UAV attack targets Sevastopol. Several USVs penetrate the harbor and two warships—the minesweeper <em>Ivan Golubets</em> and frigate <em>Admiral Makarov</em>—are hit. Neither ship is sunk. However, Russia withdraws its fleet into bases and begins establishing increased defenses.
+                        A major combined Ukrainian maritime drone (USV) and UAV attack targets Sevastopol. Several USVs
+                        penetrate the harbor and two warships—the minesweeper <em>Ivan Golubets</em> and frigate
+                        <em>Admiral Makarov</em>—are hit. Neither ship is sunk. However, Russia withdraws its fleet into
+                        bases and begins establishing increased defenses.
                       </p>
                       <picture>
                         <source srcset="imgs/Russia-Ukraine-Maritime-Drones-attack.webp">
-                        <img src="imgs/Russia-Ukraine-Maritime-Drones-attack.webp"
-                          loading="lazy"
+                        <img src="imgs/Russia-Ukraine-Maritime-Drones-attack.webp" loading="lazy"
                           class="object-cover object-fit w-full rounded-lg mt-1 mb-1 md:mt-2 md:mb-2 lg:mt-2 lg:mb-2"
                           alt="Artist's impression of maritime drones attacking Sevastopol. H I Sutton.">
                       </picture>
@@ -1389,7 +1512,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">October 26, 2022</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -1427,7 +1551,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">November 18, 2022</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -1437,7 +1562,8 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Ukrainian USV attacks Novorossiysk. No significant damage is reported, but the attack demonstrates the range of these vessels.
+                        Ukrainian USV attacks Novorossiysk. No significant damage is reported, but the attack
+                        demonstrates the range of these vessels.
                       </p>
                     </div>
                   </div>
@@ -1464,7 +1590,8 @@
                       <div>
                         <span class="font-medium text-gray-900 mr-2">January 2023</span>
 
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -1475,7 +1602,10 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        The small Russian naval base at Feodosia becomes more important with Kalibr-armed Buyan-M corvettes using it.</p><p>Russia sows naval mines in the Dnieper River near Kherson, seemingly to defend against Ukrainian river crossings.
+                        The small Russian naval base at Feodosia becomes more important with Kalibr-armed Buyan-M
+                        corvettes using it.</p>
+                      <p>Russia sows naval mines in the Dnieper River near Kherson, seemingly to defend against
+                        Ukrainian river crossings.
                       </p>
                     </div>
                   </div>
@@ -1503,7 +1633,8 @@
                       <div>
                         <span class="font-medium text-gray-900 mr-2">January 11, 2023</span>
 
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -1513,7 +1644,8 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Russian warships and submarines based at Novorossiysk temporarily evacuated in the face of a perceived
+                        Russian warships and submarines based at Novorossiysk temporarily evacuated in the face of a
+                        perceived
                         Ukrainian threat. Vessels return.
                       </p>
                     </div>
@@ -1542,7 +1674,8 @@
                       <div>
                         <span class="font-medium text-gray-900 mr-2">February 2023</span>
 
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -1552,7 +1685,10 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        SpaceX and its founder, Elon Musk, announce that they will restrict Ukraine from using their Starlink satellite communications system for long-range drones. This may have prevented Ukraine from using its explosive USVs near Crimea until an alternative could be found. The Russian Navy increases activity off Crimea.
+                        SpaceX and its founder, Elon Musk, announce that they will restrict Ukraine from using their
+                        Starlink satellite communications system for long-range drones. This may have prevented Ukraine
+                        from using its explosive USVs near Crimea until an alternative could be found. The Russian Navy
+                        increases activity off Crimea.
                       </p>
                     </div>
                   </div>
@@ -1579,7 +1715,8 @@
                       <div>
                         <span class="font-medium text-gray-900 mr-2">February 10, 2023</span>
 
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -1622,7 +1759,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">February 28, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -1632,7 +1770,9 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Ukrainian UAV attack on oil facilities at the port of Tuapse, north of Sochi. This is notable for its distance from Ukrainian-controlled territory and strategic relevance. Russia deploys air defenses there, observed March 6.
+                        Ukrainian UAV attack on oil facilities at the port of Tuapse, north of Sochi. This is notable
+                        for its distance from Ukrainian-controlled territory and strategic relevance. Russia deploys air
+                        defenses there, observed March 6.
                       </p>
                     </div>
                   </div>
@@ -1659,7 +1799,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">March 22, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-red-500" aria-hidden="true"></span>
                           </div>
@@ -1669,7 +1810,10 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Ukrainian maritime drones (USVs) and aerial drones (UAVs) attack Sevastopol. Local reports suggest three USVs were destroyed, though video evidence suggests at least one penetrated deep inside the protected harbor.</p><p>Ukrainian forces reveal a new model of maritime drone (USV).
+                        Ukrainian maritime drones (USVs) and aerial drones (UAVs) attack Sevastopol. Local reports
+                        suggest three USVs were destroyed, though video evidence suggests at least one penetrated deep
+                        inside the protected harbor.</p>
+                      <p>Ukrainian forces reveal a new model of maritime drone (USV).
                       </p>
                       <picture>
                         <source srcset="imgs/Fr1x6VOXoAgZUoJ.jpg.webp">
@@ -1709,7 +1853,8 @@
                       <div>
                         <span class="font-medium text-gray-900 mr-2">Mid-April 2023</span>
 
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -1746,7 +1891,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">April 22, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -1756,7 +1902,8 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Ukraine reveals 'Toloka' family of uncrewed underwater vehicles. Their production status is unclear.
+                        Ukraine reveals 'Toloka' family of uncrewed underwater vehicles. Their production status is
+                        unclear.
                       </p>
                     </div>
                   </div>
@@ -1783,7 +1930,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">May 24, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-red-500" aria-hidden="true"></span>
                           </div>
@@ -1793,7 +1941,9 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        The Russian intelligence ship Ivan Khurs is attacked by three Ukrainian maritime drones in the vicinity of <code>41.883333°, 30.603611°</code>. One almost makes contact, but the attack was unsuccessful. The ship returns to Sevastopol.
+                        The Russian intelligence ship Ivan Khurs is attacked by three Ukrainian maritime drones in the
+                        vicinity of <code>41.883333°, 30.603611°</code>. One almost makes contact, but the attack was
+                        unsuccessful. The ship returns to Sevastopol.
                       </p>
                       <picture>
                         <source srcset="imgs/Ukraine-attack-Ivan-Khurs.webp">
@@ -1828,7 +1978,8 @@
                       <div>
                         <span class="font-medium text-gray-900 mr-2">Early June 2023</span>
 
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -1863,7 +2014,8 @@
                       <div>
                         <span class="font-medium text-gray-900 mr-2">June 11, 2023</span>
 
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -1874,7 +2026,9 @@
                     <div class="mt-2 text-gray-700">
                       <p>
                         Reports from Russian sources claiming that the Black Sea Fleet Vishnya class Intelligence Ship
-                        <em>Priazovye</em>, was attacked by several (possibly 6) maritime drones (USVs) in the southeast Black Sea. Later located in the vicinity of <code>43.064437°, 36.813334°</code>. All USVs reported
+                        <em>Priazovye</em>, was attacked by several (possibly 6) maritime drones (USVs) in the southeast
+                        Black Sea. Later located in the vicinity of <code>43.064437°, 36.813334°</code>. All USVs
+                        reported
                         destroyed. Interestingly, they report that she was on duty "defending the TurkStream gas
                         pipeline" 300 km south-east of Sevastopol. Her claimed reason for being there may be significant
                         and should not be taken at face value.
@@ -1904,7 +2058,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">June 18, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -1915,7 +2070,8 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        A Russian Sevastopol-designed 'Sargan' USV, similar to Ukraine's 'maritime drones', is displayed at the St. Petersburg International Economic Forum (SPIEF).
+                        A Russian Sevastopol-designed 'Sargan' USV, similar to Ukraine's 'maritime drones', is displayed
+                        at the St. Petersburg International Economic Forum (SPIEF).
                       </p>
                     </div>
                   </div>
@@ -1943,7 +2099,8 @@
                       <div>
                         <span class="font-medium text-gray-900 mr-2">Mid-June 2023</span>
 
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-red-500" aria-hidden="true"></span>
                           </div>
@@ -1979,7 +2136,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">July 11, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -1989,7 +2147,8 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Two Ropucha-class landing ships are used in a civilian role ferrying civilian traffic across the Kerch Strait. This operation continues after the Kerch Bridge attack on July 17.
+                        Two Ropucha-class landing ships are used in a civilian role ferrying civilian traffic across the
+                        Kerch Strait. This operation continues after the Kerch Bridge attack on July 17.
                       </p>
                     </div>
                   </div>
@@ -2016,7 +2175,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">July 16, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-red-500" aria-hidden="true"></span>
                           </div>
@@ -2026,7 +2186,10 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Ukrainian USVs attack Sevastopol. Reportedly none penetrated the harbor. Modified jet skis were used. According to Mikhail Razvozhayev\'s Telegram channel, two were destroyed and another stopped by electronic warfare (EW). Five UAVs were also employed. One Ukrainian USV was known to have been in the vicinity of <code>43.060278°, 36.766944°</code>.
+                        Ukrainian USVs attack Sevastopol. Reportedly none penetrated the harbor. Modified jet skis were
+                        used. According to Mikhail Razvozhayev\'s Telegram channel, two were destroyed and another
+                        stopped by electronic warfare (EW). Five UAVs were also employed. One Ukrainian USV was known to
+                        have been in the vicinity of <code>43.060278°, 36.766944°</code>.
                       </p>
                     </div>
                   </div>
@@ -2053,7 +2216,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">July 17, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -2101,7 +2265,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">July 18, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -2111,7 +2276,11 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Black Sea Grain Initiative (BSGI) expires without renewal when Russia withdraws. Was expected.</p><p>Repeated Russian missile and OWA-UAV attacks target Odesa and other Ukrainian-controlled ports. A high number of KITCHEN and STOOGE missiles is noteworthy. Russia is also suspected of sowing sea mines near shipping lanes to and from Odesa.
+                        Black Sea Grain Initiative (BSGI) expires without renewal when Russia withdraws. Was expected.
+                      </p>
+                      <p>Repeated Russian missile and OWA-UAV attacks target Odesa and other Ukrainian-controlled ports.
+                        A high number of KITCHEN and STOOGE missiles is noteworthy. Russia is also suspected of sowing
+                        sea mines near shipping lanes to and from Odesa.
                       </p>
                     </div>
                   </div>
@@ -2137,7 +2306,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">July 25, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -2148,7 +2318,10 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Reportedly, the Russian Navy Project 22160 patrol ship <em>Sergey Kotov</em> is attacked by two Ukrainian USVs. The attack was unsuccessful. Subsequently, on July 26, the UK MoD update noted that the ship had been deployed to the southern Black Sea, patrolling the shipping lane between the Bosphorus and Odesa.
+                        Reportedly, the Russian Navy Project 22160 patrol ship <em>Sergey Kotov</em> is attacked by two
+                        Ukrainian USVs. The attack was unsuccessful. Subsequently, on July 26, the UK MoD update noted
+                        that the ship had been deployed to the southern Black Sea, patrolling the shipping lane between
+                        the Bosphorus and Odesa.
                       </p>
                     </div>
                   </div>
@@ -2175,7 +2348,8 @@
                       <div>
                         <span class="font-medium text-gray-900 mr-2">July 28, 2023</span>
 
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -2185,7 +2359,8 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Russian MoD prohibits small boats (pleasure boats, sailboats, inflatable boats, jet skis, windsurfers, etc.) from transiting the Kerch Strait.
+                        Russian MoD prohibits small boats (pleasure boats, sailboats, inflatable boats, jet skis,
+                        windsurfers, etc.) from transiting the Kerch Strait.
                       </p>
                     </div>
                   </div>
@@ -2212,7 +2387,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">August 1, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -2222,7 +2398,10 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        The Russian MoD reports two patrol ships, Sergey Kotov and Vasily Bykov, tasked with "controlling navigation" 183 nm SW of Sevastopol, were attacked. The location was later determined to be in the vicinity of <code>42.117219°, 31.229180°</code>. Three USVs were used. Meanwhile, grain ships continued sailing to Odesa without apparent interruption.
+                        The Russian MoD reports two patrol ships, Sergey Kotov and Vasily Bykov, tasked with
+                        "controlling navigation" 183 nm SW of Sevastopol, were attacked. The location was later
+                        determined to be in the vicinity of <code>42.117219°, 31.229180°</code>. Three USVs were used.
+                        Meanwhile, grain ships continued sailing to Odesa without apparent interruption.
                       </p>
                     </div>
                   </div>
@@ -2249,7 +2428,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">August 3, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -2259,7 +2439,9 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        A Ukrainian USV is destroyed by gunfire from a Russian Hip helicopter in the vicinity of <code>43.060278°, 36.766944°</code>. This was possibly part of the next day's attack on Novorossiysk.
+                        A Ukrainian USV is destroyed by gunfire from a Russian Hip helicopter in the vicinity of
+                        <code>43.060278°, 36.766944°</code>. This was possibly part of the next day's attack on
+                        Novorossiysk.
                       </p>
                       <figure>
                         <picture>
@@ -2297,7 +2479,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">August 4, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -2307,7 +2490,9 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        The Russian Navy Ropucha-class landing ship <em>Olenegorsky Gornyak</em> is struck by a Ukrainian maritime drone (USV) outside Novorossiysk, causing significant damage. It is towed to Novorossiysk.
+                        The Russian Navy Ropucha-class landing ship <em>Olenegorsky Gornyak</em> is struck by a
+                        Ukrainian maritime drone (USV) outside Novorossiysk, causing significant damage. It is towed to
+                        Novorossiysk.
                       </p>
                     </div>
                   </div>
@@ -2333,7 +2518,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">August 5, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-red-500" aria-hidden="true"></span>
                           </div>
@@ -2370,7 +2556,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">August 13, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -2380,7 +2567,9 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        The Russian patrol ship <em>Vasily Bykov</em> stopped and boarded the Palau-flagged <em>Sukru Okan</em> general cargo ship in the southern Black Sea as it sailed towards Ukraine. This is the first reported boarding following the termination of the Black Sea Grain Initiative (BSGI).
+                        The Russian patrol ship <em>Vasily Bykov</em> stopped and boarded the Palau-flagged <em>Sukru
+                          Okan</em> general cargo ship in the southern Black Sea as it sailed towards Ukraine. This is
+                        the first reported boarding following the termination of the Black Sea Grain Initiative (BSGI).
                       </p>
                     </div>
                   </div>
@@ -2406,7 +2595,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">August 14, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -2416,7 +2606,8 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Floating sea mines wash up at Costinești, near Constanța in Romania. One explodes on a pier; they were possibly laid by Russia in July.
+                        Floating sea mines wash up at Costinești, near Constanța in Romania. One explodes on a pier;
+                        they were possibly laid by Russia in July.
                       </p>
                     </div>
                   </div>
@@ -2442,7 +2633,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">August 16, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -2478,7 +2670,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">August 18, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -2488,7 +2681,10 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        A Ukrainian USV attack targets the Russian arms transport <em>Sparta-IV</em>, escorted by Navy Pr.1135M Krivak II-class frigate <em>Pytlivyy</em> and Pr.22160 Bykov-class patrol ship <em>Vasily Bykov</em> in the eastern Black Sea. Sparta-IV was returning from a voyage to Tartus in Syria, likely carrying military equipment. The attack was unsuccessful.
+                        A Ukrainian USV attack targets the Russian arms transport <em>Sparta-IV</em>, escorted by Navy
+                        Pr.1135M Krivak II-class frigate <em>Pytlivyy</em> and Pr.22160 Bykov-class patrol ship
+                        <em>Vasily Bykov</em> in the eastern Black Sea. Sparta-IV was returning from a voyage to Tartus
+                        in Syria, likely carrying military equipment. The attack was unsuccessful.
                       </p>
                     </div>
                   </div>
@@ -2514,7 +2710,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">August 22, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -2551,7 +2748,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">August 24, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -2589,7 +2787,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">Late August 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -2599,7 +2798,11 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Russia begins placing barriers to protect the portion of the Kerch Bridge that was attacked on July 17. Barges are sunk on the western approach, and bridge repairs continue.</p><p>Dolphin pens appear at the Southern Naval Base at Novoozerne, Crimea (<a href="https://www.npr.org/2022/04/29/1095549251/russia-dolphins-black-sea-naval-base" target="_blank" rel="noopener noreferrer">NPR</a>).
+                        Russia begins placing barriers to protect the portion of the Kerch Bridge that was attacked on
+                        July 17. Barges are sunk on the western approach, and bridge repairs continue.</p>
+                      <p>Dolphin pens appear at the Southern Naval Base at Novoozerne, Crimea (<a
+                          href="https://www.npr.org/2022/04/29/1095549251/russia-dolphins-black-sea-naval-base"
+                          target="_blank" rel="noopener noreferrer">NPR</a>).
                       </p>
                       <picture>
                         <source
@@ -2634,7 +2837,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">September 1, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -2644,7 +2848,10 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Russian social media reports that a Ukrainian USV (and possibly UAV) attack on the Kerch Bridge was thwarted. The Pr.1135M Krivak II-class frigate <em>Pytlivyy</em> may have been targeted, or otherwise involved. Unconfirmed.</p><p>Ukraine lands on and reclaims the 'Boyko Towers' gas rigs/platforms in the Black Sea.
+                        Russian social media reports that a Ukrainian USV (and possibly UAV) attack on the Kerch Bridge
+                        was thwarted. The Pr.1135M Krivak II-class frigate <em>Pytlivyy</em> may have been targeted, or
+                        otherwise involved. Unconfirmed.</p>
+                      <p>Ukraine lands on and reclaims the 'Boyko Towers' gas rigs/platforms in the Black Sea.
                       </p>
                     </div>
                   </div>
@@ -2670,7 +2877,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">September 13, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -2680,7 +2888,9 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        A Ukrainian strike on Sevastopol, reportedly with Storm Shadow / SCALP-EG cruise missiles, leaves the Pr.775 Ropucha-class landing ship <em>Minsk</em> and Pr.636.3 Improved Kilo-class submarine <em>Rostov-on-Don</em> (B-237) seriously damaged in dry dock.
+                        A Ukrainian strike on Sevastopol, reportedly with Storm Shadow / SCALP-EG cruise missiles,
+                        leaves the Pr.775 Ropucha-class landing ship <em>Minsk</em> and Pr.636.3 Improved Kilo-class
+                        submarine <em>Rostov-on-Don</em> (B-237) seriously damaged in dry dock.
                       </p>
                       <picture>
                         <source srcset="imgs/Russia-Ukraine-Attack-Sevastopol-Sep2023-Kilo.webp">
@@ -2713,7 +2923,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">September 14, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -2723,7 +2934,12 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Ukrainian USV attacks target Russian tanker Yaz and weapons transport Ursa Major in the Black Sea. The Russian MoD states that 11 USVs were destroyed: three by Pr.22160 Bykov-class patrol ship <em>Vasily Bykov</em>, three by naval aviation (likely helicopters), and five by Pr.22160 Bykov-class patrol ship <em>Sergey Kotov</em>.</p><p>A USV attack targets Pr.1239 Bora-class missile corvette <em>Samum</em>, reportedly using two experimental semi-submersible USVs.
+                        Ukrainian USV attacks target Russian tanker Yaz and weapons transport Ursa Major in the Black
+                        Sea. The Russian MoD states that 11 USVs were destroyed: three by Pr.22160 Bykov-class patrol
+                        ship <em>Vasily Bykov</em>, three by naval aviation (likely helicopters), and five by Pr.22160
+                        Bykov-class patrol ship <em>Sergey Kotov</em>.</p>
+                      <p>A USV attack targets Pr.1239 Bora-class missile corvette <em>Samum</em>, reportedly using two
+                        experimental semi-submersible USVs.
                       </p>
                     </div>
                   </div>
@@ -2749,7 +2965,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">September 20, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -2760,7 +2977,8 @@
                     <div class="mt-2 text-gray-700">
                       <p>
                         Increased Ukrainian missile and OWA-UAV (one-way attack aerial drones) attacks on Black Sea
-                        Fleet targets, including major facilities in Sevastopol on September 20 and the main HQ building on September 22.
+                        Fleet targets, including major facilities in Sevastopol on September 20 and the main HQ building
+                        on September 22.
                       </p>
                     </div>
                   </div>
@@ -2786,7 +3004,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">September 20, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -2796,7 +3015,9 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        The Togo-flagged merchant ship <em>Seama</em> is hit by a floating mine in a Danube anchorage, 12 miles offshore from the Sulina area of Romania.</p><p>A Ukrainian cruise missile strike targets Black Sea Fleet installations near Sevastopol.
+                        The Togo-flagged merchant ship <em>Seama</em> is hit by a floating mine in a Danube anchorage,
+                        12 miles offshore from the Sulina area of Romania.</p>
+                      <p>A Ukrainian cruise missile strike targets Black Sea Fleet installations near Sevastopol.
                       </p>
                     </div>
                   </div>
@@ -2822,7 +3043,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">September 22, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-red-500" aria-hidden="true"></span>
                           </div>
@@ -2858,7 +3080,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">October 5, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -2868,7 +3091,10 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Russian Navy submarine operations have moved almost entirely to Novorossiysk. After missile strikes, few high-value warships visit Sevastopol and stay only for short periods.</p><p>The Turkish-flagged general cargo ship <em>Kafkametler</em> hit a sea mine while waiting outside the entrance to the Sulina Canal, Romania.
+                        Russian Navy submarine operations have moved almost entirely to Novorossiysk. After missile
+                        strikes, few high-value warships visit Sevastopol and stay only for short periods.</p>
+                      <p>The Turkish-flagged general cargo ship <em>Kafkametler</em> hit a sea mine while waiting
+                        outside the entrance to the Sulina Canal, Romania.
                       </p>
                     </div>
                   </div>
@@ -2894,7 +3120,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">October 8, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -2904,7 +3131,8 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        An attack on the <small>Balticconnector</small> gas pipeline and nearby submarine communication cable (SCC) occurs in the Gulf of Finland. Attribution remains to be confirmed.
+                        An attack on the <small>Balticconnector</small> gas pipeline and nearby submarine communication
+                        cable (SCC) occurs in the Gulf of Finland. Attribution remains to be confirmed.
                       </p>
                     </div>
                   </div>
@@ -2930,7 +3158,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">October 13, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-red-500" aria-hidden="true"></span>
                           </div>
@@ -2940,7 +3169,9 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Ukrainian maritime drones, likely USVs, attack Russian warships outside Sevastopol. A Buyan-M corvette is reportedly damaged, with sources on both sides mentioning the attack but no official confirmation.
+                        Ukrainian maritime drones, likely USVs, attack Russian warships outside Sevastopol. A Buyan-M
+                        corvette is reportedly damaged, with sources on both sides mentioning the attack but no official
+                        confirmation.
                       </p>
                     </div>
                   </div>
@@ -2966,7 +3197,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">October 16, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -2976,7 +3208,8 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        The Liberian-flagged tanker <em>Ali Najafov</em>, coming from Georgia, struck a mine in the region near the Bystroe Canal.
+                        The Liberian-flagged tanker <em>Ali Najafov</em>, coming from Georgia, struck a mine in the
+                        region near the Bystroe Canal.
                       </p>
                     </div>
                   </div>
@@ -3002,7 +3235,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">October 24, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -3013,7 +3247,8 @@
                     <div class="mt-2 text-gray-700">
                       <p>
                         Russian MoD reports that at about 4 o'clock Moscow time, in the northern part of the Black Sea,
-                        three unmanned boats of the Ukrainian Navy were detected. Russian forces responded; results remain unclear.
+                        three unmanned boats of the Ukrainian Navy were detected. Russian forces responded; results
+                        remain unclear.
                       </p>
                     </div>
                   </div>
@@ -3039,7 +3274,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">October 25, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -3049,7 +3285,8 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Ukraine reports that Russian naval aircraft laid 'explosive devices' in the shipping lane to/from Odesa.
+                        Ukraine reports that Russian naval aircraft laid 'explosive devices' in the shipping lane
+                        to/from Odesa.
                       </p>
                     </div>
                   </div>
@@ -3075,7 +3312,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">October 27, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-red-500" aria-hidden="true"></span>
                           </div>
@@ -3119,7 +3357,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">November 4, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-red-500" aria-hidden="true"></span>
                           </div>
@@ -3155,7 +3394,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">November 10, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-red-500" aria-hidden="true"></span>
                           </div>
@@ -3165,7 +3405,10 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Liberian-flagged merchant ship KMAX Ruler is hit by a Russian anti-radiation missile in the port of Odesa.</p><p>Ukrainian maritime drones (USVs) operated by GUR hit two Russian Navy landing craft in Chornomors'ke, northern Crimea: one Pr.11770 Serna-class and one Pr.1176 Ondatra-class.
+                        Liberian-flagged merchant ship KMAX Ruler is hit by a Russian anti-radiation missile in the port
+                        of Odesa.</p>
+                      <p>Ukrainian maritime drones (USVs) operated by GUR hit two Russian Navy landing craft in
+                        Chornomors'ke, northern Crimea: one Pr.11770 Serna-class and one Pr.1176 Ondatra-class.
                       </p>
                     </div>
                   </div>
@@ -3191,7 +3434,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">November 16, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -3201,7 +3445,8 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        The Liberian-flagged merchant ship <em>Georgia S</em> is struck by a floating mine in the northwestern Black Sea.
+                        The Liberian-flagged merchant ship <em>Georgia S</em> is struck by a floating mine in the
+                        northwestern Black Sea.
                       </p>
                     </div>
                   </div>
@@ -3227,7 +3472,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">November 22, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -3237,7 +3483,9 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        A Ukrainian GUR Magura-5 USV washes up on a beach on the western side of Crimea. On November 25, Russia released video footage of an Su-30SM FLANKER aircraft strafing a small boat or USV off Crimea.
+                        A Ukrainian GUR Magura-5 USV washes up on a beach on the western side of Crimea. On November 25,
+                        Russia released video footage of an Su-30SM FLANKER aircraft strafing a small boat or USV off
+                        Crimea.
                       </p>
                     </div>
                   </div>
@@ -3263,7 +3511,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">November 27, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -3273,7 +3522,10 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        A powerful storm batters the region, particularly affecting Crimea. Harbor defenses at Sevastopol and barriers at Kerch are damaged. Dolphin pens at Sevastopol harbor were apparently destroyed and later replaced. There are reports of one boat, possibly a Raptor-class assault boat, sinking.
+                        A powerful storm batters the region, particularly affecting Crimea. Harbor defenses at
+                        Sevastopol and barriers at Kerch are damaged. Dolphin pens at Sevastopol harbor were apparently
+                        destroyed and later replaced. There are reports of one boat, possibly a Raptor-class assault
+                        boat, sinking.
                       </p>
                     </div>
                   </div>
@@ -3299,7 +3551,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">December 6, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-red-500" aria-hidden="true"></span>
                           </div>
@@ -3309,7 +3562,9 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        A Russian Su-24M FENCER-D strike aircraft is shot down over the Black Sea near Snake Island, reportedly by a Ukrainian air defense missile (possibly Patriot)—the first time Ukraine has demonstrated this reach.
+                        A Russian Su-24M FENCER-D strike aircraft is shot down over the Black Sea near Snake Island,
+                        reportedly by a Ukrainian air defense missile (possibly Patriot)—the first time Ukraine has
+                        demonstrated this reach.
                       </p>
                     </div>
                   </div>
@@ -3335,7 +3590,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">December 14, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -3345,7 +3601,9 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Russian company KMZ reveals its Dandelion USV, which reportedly will be deployed in combat in the Black Sea. The vehicle appears similar to Ukrainian types.</p><p>The Russian Navy adds new boom defenses to the Southern Navy Base in Novoozerne, Crimea.
+                        Russian company KMZ reveals its Dandelion USV, which reportedly will be deployed in combat in
+                        the Black Sea. The vehicle appears similar to Ukrainian types.</p>
+                      <p>The Russian Navy adds new boom defenses to the Southern Navy Base in Novoozerne, Crimea.
                       </p>
                     </div>
                   </div>
@@ -3371,7 +3629,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">December 24, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -3381,7 +3640,8 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Ukraine's SBU reveals the 'Kozak Mamai' USV, previously used in the attacks on the Ropucha-class landing ship Olenegorsky Gornyak and the tanker Sig.
+                        Ukraine's SBU reveals the 'Kozak Mamai' USV, previously used in the attacks on the Ropucha-class
+                        landing ship Olenegorsky Gornyak and the tanker Sig.
                       </p>
                     </div>
                   </div>
@@ -3407,7 +3667,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">December 25, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-red-500" aria-hidden="true"></span>
                           </div>
@@ -3417,13 +3678,14 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Ukraine hits the Russian Ropucha-class landing ship <em>Novocherkassk</em> in the port of Feodosia, Crimea. The ship caught fire and was seriously damaged, likely a total loss. Initial evidence suggests that she sank at the pier.
+                        Ukraine hits the Russian Ropucha-class landing ship <em>Novocherkassk</em> in the port of
+                        Feodosia, Crimea. The ship caught fire and was seriously damaged, likely a total loss. Initial
+                        evidence suggests that she sank at the pier.
                       </p>
                       <picture>
                         <source srcset="imgs/Attack-Russian-ship-Novocherkassk-in-Feodosia-Crimea.webp">
-                        <img
-                          src="imgs/Attack-Russian-ship-Novocherkassk-in-Feodosia-Crimea.webp"
-                          loading="lazy" alt="Novocherkassk on fire in Feodosia, December 26 2023"
+                        <img src="imgs/Attack-Russian-ship-Novocherkassk-in-Feodosia-Crimea.webp" loading="lazy"
+                          alt="Novocherkassk on fire in Feodosia, December 26 2023"
                           class="object-cover object-fit w-full rounded-lg mt-1 mb-1 md:mt-2 md:mb-2 lg:mt-2 lg:mb-2">
                       </picture>
                     </div>
@@ -3450,7 +3712,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">December 28, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -3460,7 +3723,8 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        A Russian Navy Pr.205P STENKA-class patrol boat was observed sunk at the pier in Sevastopol, reputedly hit by a Ukrainian USV (see possible related attack below).
+                        A Russian Navy Pr.205P STENKA-class patrol boat was observed sunk at the pier in Sevastopol,
+                        reputedly hit by a Ukrainian USV (see possible related attack below).
                       </p>
                     </div>
                   </div>
@@ -3486,7 +3750,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">December 30, 2023</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -3496,7 +3761,10 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        The Russian-appointed Governor of Sevastopol, Mikhail Razvozhayev, reported that Russian forces repelled a surface drone 3 km from Sevastopol. The USV was apparently destroyed by a helicopter. This is possibly related to a video released on January 1, 2024, showing SBU 'Sea Baby' USVs firing rockets in Sevastopol Bay.
+                        The Russian-appointed Governor of Sevastopol, Mikhail Razvozhayev, reported that Russian forces
+                        repelled a surface drone 3 km from Sevastopol. The USV was apparently destroyed by a helicopter.
+                        This is possibly related to a video released on January 1, 2024, showing SBU 'Sea Baby' USVs
+                        firing rockets in Sevastopol Bay.
                       </p>
                     </div>
                   </div>
@@ -3522,7 +3790,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">January 19, 2024</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -3533,7 +3802,10 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Russia launches a P-35 (SS-N-3B SEPAL) supersonic anti-ship missile against Ukraine for the first time, possibly launched from a legacy hardened site near Sevastopol (<a href="https://www.eurasiantimes.com/war-era-p-35-anti-ship-missiles-on-ukraine/" target="_blank" rel="noopener noreferrer">The EurAsian Times</a>).
+                        Russia launches a P-35 (SS-N-3B SEPAL) supersonic anti-ship missile against Ukraine for the
+                        first time, possibly launched from a legacy hardened site near Sevastopol (<a
+                          href="https://www.eurasiantimes.com/war-era-p-35-anti-ship-missiles-on-ukraine/"
+                          target="_blank" rel="noopener noreferrer">The EurAsian Times</a>).
                       </p>
                     </div>
                   </div>
@@ -3559,7 +3831,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">January 31, 2024</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-red-500" aria-hidden="true"></span>
                           </div>
@@ -3569,7 +3842,10 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Ukraine's GUR attacks Russian Navy Tarantul-class missile corvette Ivanovets with USVs in the vicinity of Lake Donuzlav, Crimea. The vessel sank.</p><p>Russian warships in Sevastopol are increasingly using camouflage netting to break up their profile, in addition to the widespread application of 'deceptive' camouflage.
+                        Ukraine's GUR attacks Russian Navy Tarantul-class missile corvette Ivanovets with USVs in the
+                        vicinity of Lake Donuzlav, Crimea. The vessel sank.</p>
+                      <p>Russian warships in Sevastopol are increasingly using camouflage netting to break up their
+                        profile, in addition to the widespread application of 'deceptive' camouflage.
                       </p>
                     </div>
                   </div>
@@ -3595,7 +3871,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">February 9, 2024</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -3605,7 +3882,8 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Reported attempted attack by three or more Ukrainian semi-submersible unmanned boats (USVs) on Russian civilian transport ships in the southwestern Black Sea.
+                        Reported attempted attack by three or more Ukrainian semi-submersible unmanned boats (USVs) on
+                        Russian civilian transport ships in the southwestern Black Sea.
                       </p>
                     </div>
                   </div>
@@ -3631,7 +3909,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">February 14, 2024</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-red-500" aria-hidden="true"></span>
                           </div>
@@ -3641,12 +3920,12 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Ukraine's GUR attacks Russian Navy Ropucha-class landing ship <em>Caesar Kunikov</em> with USVs on the southern coast of Crimea. The vessel sank.
+                        Ukraine's GUR attacks Russian Navy Ropucha-class landing ship <em>Caesar Kunikov</em> with USVs
+                        on the southern coast of Crimea. The vessel sank.
                       </p>
                       <picture>
                         <source srcset="imgs/Russia-Ukraine-USV-Attacks-Sinking-2024.webp">
-                        <img src="imgs/Russia-Ukraine-USV-Attacks-Sinking-2024.webp"
-                          loading="lazy"
+                        <img src="imgs/Russia-Ukraine-USV-Attacks-Sinking-2024.webp" loading="lazy"
                           class="object-cover object-fit w-full rounded-lg mt-1 mb-1 md:mt-2 md:mb-2 lg:mt-2 lg:mb-2"
                           alt="Successful attacks by Ukrainian GUR Group-13 operated USVs on Tarantul-class missile corvette Ivanovets (left) and Ropucha-class landing ship Caesar Kunikov (right).">
                       </picture>
@@ -3675,7 +3954,8 @@
                     <div class="text-md text-gray-500">
                       <div>
                         <span class="font-medium text-gray-900 mr-2">February 15, 2024</span>
-                        <span class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                        <span
+                          class="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                           <div class="absolute flex-shrink-0 flex items-center justify-center">
                             <span class="h-1.5 w-1.5 rounded-full bg-green-500" aria-hidden="true"></span>
                           </div>
@@ -3685,7 +3965,9 @@
                     </div>
                     <div class="mt-2 text-gray-700">
                       <p>
-                        Reports indicate that the commander of Russia's Black Sea Fleet (BSF), Admiral Viktor Sokolov, has been removed from his post. His deputy, Vice Admiral Sergei Pinchuk, likely takes command—the second change in command of the BSF since the full-scale invasion began.
+                        Reports indicate that the commander of Russia's Black Sea Fleet (BSF), Admiral Viktor Sokolov,
+                        has been removed from his post. His deputy, Vice Admiral Sergei Pinchuk, likely takes
+                        command—the second change in command of the BSF since the full-scale invasion began.
                       </p>
                     </div>
                   </div>
@@ -3722,8 +4004,8 @@
 
     <div>
       <p>Justin Chill &copy; 2026</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
-            alt="GitHub logo" class="icon">Source code</a></span>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"
+          rel="noopener noreferrer"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
   <svg height="10" width="10" xmlns="http://www.w3.org/2000/svg" version="1.1">
@@ -3744,15 +4026,13 @@
     var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
     var size = 12;
 
-    // Use Promises to async request data
+    // Use Promises to async request data (optimized for download footprint)
     var promises = [
-      d3.json("data/geo/world50m.json"),
+      d3.json("data/geo/black_sea_countries.json"),
       d3.csv("data/Black_Sea_Fleet.csv", d3.autoType),
-      d3.json("data/geo/ne_50m_coastline.json"),
-      d3.json("data/geo/ne_50m_ocean.json"),
-      d3.csv("data/geo/simplemaps_worldcities_basicv1/worldcities.csv", d3.autoType),
-      d3.json("data/geo/ne_50m_geography_marine_polys.json"),
-      d3.csv("data/black_sea_fleet_wiki_en.csv", d3.autoType),
+      d3.json("data/geo/black_sea_coastline.json"),
+      d3.csv("data/geo/black_sea_cities.csv", d3.autoType),
+      d3.json("data/geo/black_sea_marine.json"),
       d3.json("data/geo/Ukraine-regions.json"),
     ];
 
@@ -3761,17 +4041,14 @@
 
     // After data is successfully fetched, generate viz
     myDataPromises.then(function (data) {
-      // Define the data. There's gotta be a better way to do this:
-      var world50m = data[0];
+      var countriesData = data[0];
       var fleet = data[1];
       var coastline = data[2];
-      var oceans = data[3];
-      var cities = data[4];
-      var marine = data[5];
-      var fullfleet = data[6];
-      var ukr_regions = data[7];
+      var cities = data[3];
+      var marine = data[4];
+      var ukr_regions = data[5];
 
-      var countries50m = topojson.feature(world50m, world50m.objects.countries);
+      var countries50m = countriesData.objects ? topojson.feature(countriesData, countriesData.objects.countries) : countriesData;
       var ukr = topojson.feature(ukr_regions, ukr_regions.objects.UKR_adm1);
 
       var center = [31, 46]; // Sets the circle center to the specified point [longitude, latitude] in degrees
@@ -3798,41 +4075,36 @@
           // legend: true,
         },
         marks: [
-          Plot.sphere(),
-          // Plot.graticule(),
-          Plot.geo(oceans, { // Draw ocean geography, 50m
+          Plot.sphere({ // Ocean background
             fill: "rgba(202,227,246,0.95)",
           }),
-          Plot.geo(coastline, { // Draw coastline geography, 50m
+          Plot.geo(coastline, { // Draw coastline geography
             stroke: "steelblue",
             strokeWidth: 1,
           }),
-          Plot.geo(countries50m, { // Draw countries geography, 50m
+          Plot.geo(countries50m, { // Draw countries geography
             fill: (d) => String(d.id),
             stroke: "#DFDFDF",
-            // title: (d) => `${d.properties.name} (${d.id}). ${d.properties.a3 ?? ""}`,
           }),
           Plot.text(marine.features, // Print ocean names          
             Plot.centroid({
               text: (d) => d.properties.name,
-              fontFamily: "BellTopoSansBold",
+              fontFamily: "BellTopoSansItalic",
               textAnchor: "middle",
               lineAnchor: "middle",
               fontSize: Math.max(11, width / 55),
               fontWeight: 600,
-              opacity: .9,
+              opacity: .75,
               dx,
               dy: 30,
-              stroke: "white",
-              strokeWidth: 2.5,
-              fill: "#1e293b",
+              stroke: "rgba(255,255,255,0.7)",
+              strokeWidth: 2,
+              fill: "#3b6998",
             })
           ),
 
           Plot.geo(ukr, { // Draw Ukrainian regions
-            // filter: (d) => highlight_ukr.find((h) => h == d.properties.ID_1) !== undefined, 
             fill: "none",
-            // opacity: .2,
             stroke: "#DFDFDF",
             strokeOpacity: .72,
           }),
@@ -3847,86 +4119,70 @@
             tip: true,
             title: (d) => `${d.Vessel} (${d.Date}). \n${d.Event ?? ""}`,
           })),
-          Plot.text(countries50m.features, // Print country names, filtered by their ISO 3166 code          
+          Plot.text(countries50m.features, // Print primary country names (lighter, more subtle)          
             Plot.centroid({
               filter: (d) => highlight.find((h) => h == d.id) !== undefined,
               text: (d) => d.properties.name,
               fontFamily: "BellTopoSansBold",
               textAnchor: "middle",
               lineAnchor: "middle",
-              fontSize: Math.max(13, width / 40),
-              fontWeight: 700,
-              opacity: .95,
+              fontSize: Math.max(12, width / 44),
+              fontWeight: 600,
+              opacity: .8,
               dx: 6,
               dy,
-              stroke: "white",
-              strokeWidth: 3,
-              fill: "#0f172a",
+              stroke: "rgba(255,255,255,0.8)",
+              strokeWidth: 2,
+              fill: "#475569",
             })
           ),
-          Plot.text(countries50m.features, // Print secondary country names          
+          Plot.text(countries50m.features, // Print secondary country names (lighter, more subtle)          
             Plot.centroid({
               filter: (d) => secondary.find((h) => h == d.id) !== undefined,
               text: (d) => d.properties.name,
               fontFamily: "BellTopoSansBold",
               textAnchor: "middle",
               lineAnchor: "middle",
-              fontSize: Math.max(11, width / 44),
-              fontWeight: 600,
-              opacity: .9,
+              fontSize: Math.max(10, width / 52),
+              fontWeight: 500,
+              opacity: .7,
               dx,
               dy,
-              stroke: "white",
-              strokeWidth: 2.5,
-              fill: "#1e293b",
+              stroke: "rgba(255,255,255,0.75)",
+              strokeWidth: 1.8,
+              fill: "#64748b",
             })
           ),
-          Plot.text(cities, ({ // Print labels for large cities
+          Plot.text(cities, ({ // Print labels for large cities (smaller, more subtle)
             filter: (d) => countries.find((h) => h == d.country) !== undefined && (d.capital === "admin" && d.population >= 250000 && d.city != "Simferopol"),
             text: "city_ascii",
             fontFamily: "BellTopoSans",
             textAnchor: "middle",
             lineAnchor: "middle",
-            fontSize: Math.max(10, width / 55),
-            fontWeight: 600,
-            opacity: .95,
+            fontSize: Math.max(8.5, width / 68),
+            fontWeight: 500,
+            opacity: .85,
             x: "lng",
             y: "lat",
-            dy: 10,
-            fill: "#0f172a",
-            stroke: "white",
-            strokeWidth: 2.5,
+            dy: 8,
+            fill: "#475569",
+            stroke: "rgba(255,255,255,0.85)",
+            strokeWidth: 1.6,
           })),
-          Plot.dot(cities, ({ // Print dots for large cities          
+          Plot.dot(cities, ({ // Print dots for large cities (smaller)          
             filter: (d) => countries.find((h) => h == d.country) !== undefined && (d.capital === "admin" && d.population >= 250000 && d.city != "Simferopol"),
-            opacity: .9,
+            opacity: .8,
             x: "lng",
             y: "lat",
-            r: 2.5,
-            fill: "#0f172a",
+            r: 1.75,
+            fill: "#475569",
             stroke: "white",
-            strokeWidth: 1,
+            strokeWidth: 0.75,
           })),
-
-          // Plot.image(fleet, ({ // Images for strikes in Black Sea fleet
-          //   filter: (d) => d.URL !== undefined,
-          //   x: "Latitude", 
-          //   y: "Longitude",
-          //   dx: -10, dy: -20,
-          //   r: 20, // clip to a circle
-          //   preserveAspectRatio: "xMidYMin slice",
-          //   stroke: "rgba(255,255,255,0.2)",
-          //   opacity: .9,
-          //   src: "URL",
-          //   width: 100,
-          // })
-          // ),
           Plot.geo(ukr, { // Highlight contested territory
             filter: (d) => highlight_ukr.find((h) => h == d.properties.ID_1) !== undefined,
             fill: "url(#diagonal-stripe-1)",
             opacity: .25,
-            // stroke: "#DFDFDF",
-            // strokeOpacity: .72,
           }),
         ],
       };
