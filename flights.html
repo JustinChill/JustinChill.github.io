@@ -52,6 +52,9 @@
   <meta name="twitter:image:alt" content="World flight paths shown as bright violet lines across a dark world map.">
 
   <link rel="canonical" href="https://justinchill.com/flights.html">
+  <link rel="preconnect" href="https://gist.githubusercontent.com">
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="preload" href="style.css" as="style" />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico">
@@ -64,7 +67,7 @@
     #map {
       min-height: 490px;
       position: relative;
-      /* Ensure consistent positioning context */
+      background: transparent;
     }
 
     #map-base,
@@ -78,8 +81,46 @@
 
     #map-flights {
       pointer-events: none;
-      /* Let clicks pass through to base if needed */
       z-index: 2;
+    }
+
+    #map-loader {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      background: var(--bg-color);
+      color: var(--muted-color, #6f6f6f);
+      font-family: var(--font-ui, sans-serif);
+      font-size: var(--type-scale--1, 0.9375rem);
+      transition: opacity 0.4s ease, visibility 0.4s;
+    }
+
+    #map-loader.fade-out {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .map-spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid currentColor;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-right: 10px;
+      opacity: 0.75;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
     }
   </style>
 
@@ -240,11 +281,14 @@
       </div>
 
       <figure id="map" class="mid-size" aria-label="World map displaying global flight paths">
+        <div id="map-loader">
+          <div class="map-spinner" aria-hidden="true"></div>
+          <span>Loading flight routes...</span>
+        </div>
         <div id="map-base"></div>
         <div id="map-flights"></div>
         <figcaption class="right" style="position: absolute; bottom: 0; right: 0; z-index: 20;">Data: <a
             href="https://openflights.org">OpenFlights</a>, 2014</figcaption>
-
       </figure>
 
       <p>Global air travel is a vital part of the modern world, connecting cities, countries, and continents through a
@@ -281,140 +325,11 @@
             alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
-  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
-  <script src="https://unpkg.com/@observablehq/stdlib@5.8.8/dist/stdlib.js"></script>
-
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/topojson@3.0.2/dist/topojson.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
 
   <script type="text/javascript">
-    // Use window.load to ensure the page renders before fetching heavy data
-    window.addEventListener("load", async function () {
-      var elementMid = d3.select('figure.mid-size').node();
-      var widthMid = elementMid.getBoundingClientRect().width;
-      var heightMid = 490; // Fixed height from CSS
-
-      // 1. Fetch and Render Base Map (World Atlas)
-      try {
-        const world = await d3.json("https://unpkg.com/world-atlas@1/world/110m.json");
-        const land = topojson.feature(world, world.objects.land);
-
-        var baseMap = {
-          width: widthMid,
-          height: heightMid, // Explicit height to match CSS
-          projection: "equal-earth",
-          style: {
-            backgroundColor: "#111",
-          },
-          marks: [
-            Plot.sphere({
-              fill: "#111"
-            }),
-            Plot.geo(land, {
-              fill: "#262626"
-            })
-          ]
-        };
-
-        const mapBaseContainer = document.getElementById("map-base");
-        mapBaseContainer.appendChild(Plot.plot(baseMap));
-
-        // Fade out loader once base map is ready
-        var loader = document.getElementById("map-loader");
-        if (loader) {
-          loader.classList.add('fade-out');
-          setTimeout(() => loader.remove(), 500); // Remove after transition
-        }
-
-      } catch (error) {
-        console.error("Error loading base map:", error);
-      }
-
-      // 2. Stream and Render Flights
-      const url = "https://gist.githubusercontent.com/MichaelByrneAU/87383e163244055d641d4dcd58a5d24d/raw/d17299dcba8c9e18b4e1f4885f90a45618b55599/flight_paths_2014.csv";
-      const flightContainer = document.getElementById("map-flights");
-
-      try {
-        const response = await fetch(url);
-        const reader = response.body.getReader();
-        const decoder = new TextDecoder("utf-8");
-        let buffer = "";
-        let flights = [];
-        let chunkCount = 0;
-        const CHUNK_SIZE = 500; // Update render every 500 flights for smooth streaming without DOM bottleneck
-
-        while (true) {
-          const {
-            done,
-            value
-          } = await reader.read();
-          if (done) break;
-
-          buffer += decoder.decode(value, {
-            stream: true
-          });
-          const lines = buffer.split("\n");
-          // Keep the last partial line in the buffer
-          buffer = lines.pop();
-
-          for (const line of lines) {
-            const cols = line.split(",");
-            // CSV structure: count, source_latitude, source_longitude, destination_latitude, destination_longitude
-            if (cols.length >= 5) {
-              const s_lat = parseFloat(cols[1]);
-              const s_lon = parseFloat(cols[2]);
-              const d_lat = parseFloat(cols[3]);
-              const d_lon = parseFloat(cols[4]);
-
-              if (!isNaN(s_lat) && !isNaN(s_lon) && !isNaN(d_lat) && !isNaN(d_lon)) {
-                flights.push([
-                  [s_lon, s_lat],
-                  [d_lon, d_lat]
-                ]);
-              }
-            }
-          }
-
-          // Incremental Render
-          if (flights.length > chunkCount + CHUNK_SIZE) {
-            chunkCount = flights.length;
-            renderFlights(flights, widthMid, heightMid, flightContainer);
-          }
-        }
-
-        // Final Render
-        renderFlights(flights, widthMid, heightMid, flightContainer);
-
-      } catch (error) {
-        console.error("Error streaming flight data:", error);
-      }
-
-      function renderFlights(data, width, height, container) {
-        container.innerHTML = "";
-        const flightMap = {
-          width: width,
-          height: height,
-          projection: "equal-earth",
-          style: {
-            background: "transparent",
-          },
-          marks: [
-            Plot.link(data, {
-              x1: d => d[0][0],
-              y1: d => d[0][1],
-              x2: d => d[1][0],
-              y2: d => d[1][1],
-              stroke: "#8014b7",
-              strokeWidth: 0.25,
-              strokeOpacity: 0.2,
-              mixBlendMode: "screen"
-            })
-          ]
-        };
-        container.appendChild(Plot.plot(flightMap));
-      }
-    });
-
     // Top 10 Busiest Airports (2023)
     const airportData = [
       { airport: "Atlanta (ATL)", passengers: 104.7 },
@@ -429,30 +344,213 @@
       { airport: "Delhi (DEL)", passengers: 72.2 }
     ];
 
-    var airportChart = Plot.plot({
-      marginLeft: 120,
-      marginTop: 0,
-      x: { label: "Passengers (Millions)", grid: true, ticks: 4, nice: true, },
-      y: { label: null },
-      marks: [
-        Plot.barX(airportData, {
-          x: "passengers",
-          y: "airport",
-          sort: { y: "x", reverse: true },
-          fill: "#4c78a8",
-          tip: true
-        }),
-        Plot.text(airportData, {
-          x: "passengers",
-          y: "airport",
-          text: (d) => `${d.passengers}`,
-          dx: 4,
-          textAnchor: "start"
-        })
-      ]
-    });
+    let cachedLand = null;
+    let cachedFlights = null;
 
-    document.getElementById("chart-airports").appendChild(airportChart);
+    function renderAirportChart() {
+      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+      const chartContainer = document.getElementById("chart-airports");
+      if (!chartContainer) return;
+      chartContainer.querySelectorAll("svg, .plot").forEach(el => el.remove());
+
+      const chartWidth = chartContainer.getBoundingClientRect().width || 600;
+
+      const airportChart = Plot.plot({
+        width: chartWidth,
+        marginLeft: 120,
+        marginTop: 10,
+        marginBottom: 35,
+        style: {
+          background: "transparent",
+          color: isDark ? "#e8e8e8" : "#242424",
+          fontFamily: "var(--font-ui, sans-serif)"
+        },
+        x: {
+          label: "Passengers (Millions) →",
+          grid: true,
+          ticks: 4,
+          nice: true,
+          line: true
+        },
+        y: { label: null },
+        marks: [
+          Plot.barX(airportData, {
+            x: "passengers",
+            y: "airport",
+            sort: { y: "x", reverse: true },
+            fill: isDark ? "#818cf8" : "#4c78a8",
+            tip: true
+          }),
+          Plot.text(airportData, {
+            x: "passengers",
+            y: "airport",
+            text: (d) => `${d.passengers}`,
+            dx: 4,
+            textAnchor: "start",
+            fill: isDark ? "#f5f5f5" : "#1f2937"
+          }),
+          Plot.ruleX([0], { stroke: isDark ? "#3c3c3c" : "#d4d4d4" })
+        ]
+      });
+
+      chartContainer.appendChild(airportChart);
+    }
+
+    function renderMap(width, height) {
+      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+      const baseContainer = document.getElementById("map-base");
+      const flightContainer = document.getElementById("map-flights");
+
+      if (cachedLand && baseContainer) {
+        baseContainer.innerHTML = "";
+        const baseMap = {
+          width: width,
+          height: height,
+          projection: "equal-earth",
+          style: {
+            backgroundColor: "transparent",
+          },
+          marks: [
+            Plot.sphere({
+              fill: isDark ? "#111111" : "#edf0f4",
+              stroke: isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.1)",
+              strokeWidth: 0.5
+            }),
+            Plot.geo(cachedLand, {
+              fill: isDark ? "#262626" : "#d5dae2"
+            })
+          ]
+        };
+        baseContainer.appendChild(Plot.plot(baseMap));
+      }
+
+      if (cachedFlights && flightContainer) {
+        flightContainer.innerHTML = "";
+        const flightMap = {
+          width: width,
+          height: height,
+          projection: "equal-earth",
+          style: {
+            background: "transparent",
+          },
+          marks: [
+            Plot.link(cachedFlights, {
+              x1: d => d[0][0],
+              y1: d => d[0][1],
+              x2: d => d[1][0],
+              y2: d => d[1][1],
+              stroke: isDark ? "#b347eb" : "#4c1d95",
+              strokeWidth: 0.25,
+              strokeOpacity: isDark ? 0.22 : 0.16,
+              mixBlendMode: isDark ? "screen" : "multiply"
+            })
+          ]
+        };
+        flightContainer.appendChild(Plot.plot(flightMap));
+      }
+    }
+
+    function renderAll() {
+      const mapEl = document.getElementById("map");
+      const width = mapEl ? mapEl.getBoundingClientRect().width : 600;
+      const height = 490;
+
+      renderMap(width, height);
+      renderAirportChart();
+    }
+
+    // Initial load and data fetching
+    window.addEventListener("load", async function () {
+      renderAirportChart();
+
+      const mapEl = document.getElementById("map");
+      const widthMid = mapEl ? mapEl.getBoundingClientRect().width : 600;
+      const heightMid = 490;
+
+      // 1. Fetch and Render Base Map
+      try {
+        const res = await fetch("https://unpkg.com/world-atlas@1/world/110m.json");
+        const world = await res.json();
+        cachedLand = topojson.feature(world, world.objects.land);
+        renderMap(widthMid, heightMid);
+      } catch (error) {
+        console.error("Error loading base map:", error);
+      }
+
+      // 2. Stream and Parse Flight Routes
+      const flightUrl = "https://gist.githubusercontent.com/MichaelByrneAU/87383e163244055d641d4dcd58a5d24d/raw/d17299dcba8c9e18b4e1f4885f90a45618b55599/flight_paths_2014.csv";
+      try {
+        const response = await fetch(flightUrl);
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder("utf-8");
+        let buffer = "";
+        const flights = [];
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split("\n");
+          buffer = lines.pop();
+
+          for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            if (!line) continue;
+            const cols = line.split(",");
+            if (cols.length >= 5) {
+              const s_lat = parseFloat(cols[1]);
+              const s_lon = parseFloat(cols[2]);
+              const d_lat = parseFloat(cols[3]);
+              const d_lon = parseFloat(cols[4]);
+
+              if (!isNaN(s_lat) && !isNaN(s_lon) && !isNaN(d_lat) && !isNaN(d_lon)) {
+                flights.push([
+                  [s_lon, s_lat],
+                  [d_lon, d_lat]
+                ]);
+              }
+            }
+          }
+        }
+
+        if (buffer) {
+          const cols = buffer.split(",");
+          if (cols.length >= 5) {
+            const s_lat = parseFloat(cols[1]);
+            const s_lon = parseFloat(cols[2]);
+            const d_lat = parseFloat(cols[3]);
+            const d_lon = parseFloat(cols[4]);
+            if (!isNaN(s_lat) && !isNaN(s_lon) && !isNaN(d_lat) && !isNaN(d_lon)) {
+              flights.push([[s_lon, s_lat], [d_lon, d_lat]]);
+            }
+          }
+        }
+
+        cachedFlights = flights;
+        renderMap(widthMid, heightMid);
+
+        // Fade out loader once complete
+        const loader = document.getElementById("map-loader");
+        if (loader) {
+          loader.classList.add("fade-out");
+          setTimeout(() => loader.remove(), 400);
+        }
+      } catch (error) {
+        console.error("Error loading flight data:", error);
+        const loader = document.getElementById("map-loader");
+        if (loader) {
+          loader.textContent = "Failed to load flight routes.";
+        }
+      }
+
+      // Responsive Resize
+      let resizeTimer;
+      window.addEventListener("resize", () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(renderAll, 150);
+      });
+    });
   </script>
   <script>
     // Theme toggle functionality
@@ -480,8 +578,19 @@
         document.documentElement.setAttribute("data-theme", newTheme);
         localStorage.setItem("theme", newTheme);
         updateIcons(newTheme);
+        if (typeof renderAll === "function") renderAll();
       });
     }
+
+    // Email link handler
+    document.querySelectorAll('.js-email-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const a = "Justin.richard.hill@";
+        const b = "gmail.com";
+        window.open(`mailto:${a}${b}`, 'email');
+      });
+    });
   </script>
 </body>
 
