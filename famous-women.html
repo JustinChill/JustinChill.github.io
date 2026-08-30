@@ -56,6 +56,8 @@
   <meta name="twitter:image:alt" content="Visual dodge plot showing portraits of the 100 most famous women in history grouped by subject area.">
 
   <link rel="canonical" href="https://justinchill.com/famous-women.html">
+  <link rel="preload" href="fonts/montserrat-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/lora-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="style.css" as="style" />
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico">
@@ -65,7 +67,17 @@
   <meta name="color-scheme" content="light dark">
 
   <style type="text/css">
-
+    #imgs {
+      min-height: 600px;
+      width: 100%;
+      position: relative;
+    }
+    #imgs svg {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
   </style>
 
   <script type="application/ld+json">
@@ -316,7 +328,7 @@
         provides stability and continuity bringing pride, admiration, and affection from citizens of the UK and abroad.
       </p>
       <h3 id="rosalind-franklin">Rosalind Franklin (1920-1958)</h3>
-      <img src="https://www.discoverwalks.com/blog/wp-content/uploads/2023/11/rosalind_franklin.jpg"
+      <img src="imgs/rosalind-franklin.webp"
         alt="A person is looking through a microscope with focus. They wear a short-sleeved, collared shirt. A lamp is positioned nearby, illuminating the workspace. The image is in black and white, emphasizing the study environment."
         loading="lazy" decoding="async">
       <p>Rosalind Franklin was a chemist who helped discover the structure of DNA using a method called X-ray
@@ -352,54 +364,87 @@
             alt="GitHub logo" class="icon">Source code</a></span>
     </div>
   </footer>
-  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6"></script>
 
   <script type="text/javascript">
-    const element = d3.select('figure:not(.mid-size)').node();
-    const width = element ? element.getBoundingClientRect().width : 800;
+    let womenData = [];
+    const container = document.getElementById("imgs");
 
-    d3.csv("data/women.csv", d3.autoType).then(function (women) {
-      const imgs = {
+    function renderFamousWomenPlot() {
+      if (!container || !womenData.length) return;
+
+      const width = container.getBoundingClientRect().width || 800;
+      const isMobile = width < 500;
+      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+
+      // Clear previous plot
+      container.innerHTML = "";
+
+      const plotConfig = {
         width: width,
-        height: Math.max(width, 750),
-        marginRight: 0,
+        height: Math.max(isMobile ? 580 : 750, Math.round(width * 0.9)),
+        marginLeft: isMobile ? 85 : 130,
+        marginRight: isMobile ? 10 : 25,
+        marginTop: 20,
+        marginBottom: 30,
         style: {
-          fontSize: "12pt",
+          fontSize: isMobile ? "9.5pt" : "11.5pt",
           fontFamily: "Montserrat, system-ui, sans-serif",
-          paddingLeft: 100,
+          color: isDark ? "#e2e8f0" : "#1e293b",
           textTransform: "capitalize",
+          background: "transparent"
         },
         y: {
           label: null,
+          tickSize: 0,
         },
         marks: [
           Plot.image(
-            women,
+            womenData,
             Plot.dodgeX({
-              y: "Subject Area",
-              r: width > 450 ? 20 : 10,
+              y: "subject",
+              r: isMobile ? 12 : 20,
               preserveAspectRatio: "xMidYMin slice",
-              src: "Image_links",
-              stroke: "black",
-              title: (d) => `${d.Name} \nRank: ${d["Most searched Rank"]}`,
+              src: "img",
+              stroke: isDark ? "#64748b" : "#cbd5e1",
+              strokeWidth: 1.5,
+              title: (d) => `${d.name} (${d.birth}–${d.death})\nSubject: ${d.subject}\nRank: #${d.rank}`,
               tip: {
-                opacity: 1,
-                textPadding: 10,
-                lineHeight: 1.25,
-              },
+                format: {
+                  y: false,
+                  x: false
+                }
+              }
             })
           )
-        ],
+        ]
       };
 
-      const chartNode = Plot.plot(imgs);
-      const container = document.getElementById("imgs");
-      if (container) {
-        container.appendChild(chartNode);
-      }
+      const chartNode = Plot.plot(plotConfig);
+      container.appendChild(chartNode);
+    }
+
+    d3.csv("data/women.csv").then(function (raw) {
+      womenData = raw.map(d => ({
+        rank: d["Most searched Rank"] || d["\ufeffMost searched Rank"] || "",
+        name: (d["Name"] || "").trim(),
+        birth: (d["Birth Year"] || "").trim(),
+        death: (d["Date of Death"] || "").trim(),
+        subject: (d["Subject Area"] || "").trim(),
+        ethnicity: (d["Ethnicity"] || "").trim(),
+        img: (d["Image_links"] || "").trim()
+      })).filter(d => d.name && d.img);
+
+      renderFamousWomenPlot();
     }).catch(function (error) {
       console.error("Error loading women dataset:", error);
+    });
+
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(renderFamousWomenPlot, 150);
     });
   </script>
   <script>
@@ -428,6 +473,9 @@
         document.documentElement.setAttribute("data-theme", newTheme);
         localStorage.setItem("theme", newTheme);
         updateIcons(newTheme);
+        if (typeof renderFamousWomenPlot === "function") {
+          renderFamousWomenPlot();
+        }
       });
     }
   </script>
