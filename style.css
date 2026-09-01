@@ -1654,9 +1654,47 @@ s::after {
 
 /* Print styles (don't forget about print styles!) */
 @media print {
-  a[href]:after {
+  .nav,
+  .skip-link,
+  #theme-toggle {
+    display: none !important;
+  }
+
+  a[href^="http://"]:after,
+  a[href^="https://"]:after {
     content: " (" attr(href) ") ";
-    /* Append the full URL after a link if printed */
+    /* Append full URL for external links only */
+  }
+
+  a[href^="#"]:after,
+  a[href^="javascript:"]:after {
+    content: "";
+  }
+
+  /* Aside elements in print: render inline below paragraph instead of squished in the right margin column */
+  article>aside,
+  aside {
+    display: block !important;
+    -ms-grid-column: 4 !important;
+    grid-column: 4 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    margin: var(--spacer-2, 1.25rem) 0 var(--spacer-3, 2rem) 0 !important;
+    padding: var(--spacer-2, 1rem) var(--spacer-3, 1.5rem) !important;
+    border-left: 3px solid #666 !important;
+    background: #f8f9fa !important;
+    color: #222 !important;
+    font-size: 0.95rem !important;
+    line-height: 1.5 !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  article>aside,
+  article>aside * {
+    color: #222 !important;
+    font-size: 0.95rem !important;
   }
 
   mark {
