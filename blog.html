@@ -387,38 +387,74 @@
       }
     }
 
-    /* Site nav lives in the footer on this page (the sticky header covers wayfinding) */
-    footer .nav--footer {
-      position: static;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      gap: var(--spacer-2);
-      margin: 0 0 var(--spacer-3);
-      padding: var(--spacer-2) 0;
-      border-top: 1px solid var(--rule-color);
-      border-bottom: 1px solid var(--rule-color);
-      background: transparent;
-      overflow: visible;
+    /* ---------- Footer: one bar ---------- */
+    footer.blog-footer {
+      padding-top: var(--spacer-5);
     }
 
-    footer .nav--footer .nav__list {
+    /* Same band as the header and the card grid */
+    footer.blog-footer>.blog-footer__bar {
+      grid-column: 1 / -1;
+      margin: 0 clamp(var(--spacer-2), 6vw, 96px);
+    }
+
+    .blog-footer__bar {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
-      gap: var(--spacer-2);
+      justify-content: space-between;
+      gap: var(--spacer-2) var(--spacer-3);
+      padding: var(--spacer-3) 0;
+      border-top: 1px solid var(--rule-color);
+      font-family: var(--font-ui);
+      font-size: var(--type-scale--1);
     }
 
-    footer .nav--footer a.nav__item {
-      display: inline-block;
+    .blog-footer__copy {
       margin: 0;
-      line-height: 1.2;
-      vertical-align: middle;
+      color: var(--muted-color);
     }
 
-    footer .nav--footer #theme-toggle {
-      order: 0;
+    .blog-footer__nav {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--spacer-2) var(--spacer-3);
+    }
+
+    footer.blog-footer .blog-footer__nav a,
+    footer.blog-footer .blog-footer__nav a.js-email-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      color: var(--muted-color);
+      text-decoration: none;
+      line-height: 1;
+    }
+
+    footer.blog-footer .blog-footer__nav a:hover,
+    footer.blog-footer .blog-footer__nav a:focus-visible {
+      color: var(--text-color);
+    }
+
+    html[data-theme="dark"] footer.blog-footer .blog-footer__nav a {
+      color: var(--muted-color);
+    }
+
+    html[data-theme="dark"] footer.blog-footer .blog-footer__nav a:hover,
+    html[data-theme="dark"] footer.blog-footer .blog-footer__nav a:focus-visible {
+      color: var(--text-color);
+    }
+
+    .blog-footer__nav .icon {
+      width: 1em;
+      height: 1em;
+    }
+
+    .blog-footer__nav #theme-toggle {
       margin: 0;
-      align-self: center;
+      padding: 0;
+      color: var(--muted-color);
     }
 
     /* ---------- Blog header (sticky search + section tabs) ---------- */
@@ -436,44 +472,71 @@
       text-decoration: none;
     }
 
-    .blog-header__row {
-      display: flex;
+    /* Two rows: brand + topic chips, then section tabs + search */
+    .blog-header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-areas:
+        "brand chips"
+        "tabs search";
+      column-gap: var(--spacer-3);
       align-items: center;
-      gap: var(--spacer-2);
-      min-height: 52px;
     }
 
     .blog-brand {
+      grid-area: brand;
       display: flex;
-      align-items: baseline;
-      gap: .5rem;
+      align-items: center;
+      gap: .65rem;
+      min-height: 60px;
       white-space: nowrap;
       color: inherit;
     }
 
+    .blog-brand__avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: top;
+      background: var(--surface-subtle);
+      box-shadow: 0 0 0 1px var(--rule-color);
+    }
+
     .blog-brand strong {
       font-family: "Camphor Heavy", var(--font-main);
-      font-size: 1.05rem;
+      font-size: 1.4rem;
+      letter-spacing: -.01em;
       color: var(--heading-color);
     }
 
     .blog-brand span {
       font-family: var(--font-ui);
-      font-size: .75rem;
+      font-size: .7rem;
       font-weight: 700;
-      letter-spacing: .08em;
+      letter-spacing: .1em;
       text-transform: uppercase;
       color: #0b7299;
+      background: rgba(11, 114, 153, .1);
+      border-radius: 999px;
+      padding: .3rem .55rem;
+    }
+
+    .blog-search-wrap {
+      grid-area: search;
+      display: flex;
+      align-items: center;
+      gap: var(--spacer-2);
+      justify-self: end;
     }
 
     .blog-search {
-      flex: 1 1 auto;
       display: flex;
       align-items: center;
       gap: .5rem;
-      max-width: 420px;
+      width: min(360px, 60vw);
       height: 36px;
-      margin: 0 0 0 auto;
+      margin: 0;
       padding: 0 .65rem;
       border: 1px solid var(--rule-color);
       border-radius: 8px;
@@ -529,10 +592,11 @@
     }
 
     .blog-tabs {
+      grid-area: tabs;
       display: flex;
       align-items: center;
       gap: .25rem;
-      min-height: 44px;
+      min-height: 48px;
       overflow-x: auto;
       scrollbar-width: none;
       scroll-snap-type: x proximity;
@@ -572,11 +636,17 @@
     }
 
     .blog-chips {
+      grid-area: chips;
       display: flex;
       gap: .3rem;
-      flex: none;
-      margin-left: auto;
-      padding-left: var(--spacer-2);
+      justify-self: end;
+      max-width: 100%;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .blog-chips::-webkit-scrollbar {
+      display: none;
     }
 
     /* Soft fade on the right while the row can still scroll */
@@ -699,23 +769,35 @@
     }
 
     @media screen and (max-width: 680px) {
-      /* On phones the brand is the way back home; the count is dropped to fit */
-      .blog-brand span {
-        display: none;
+      /* On phones: brand + search on the first row, tabs on the second; topics via search */
+      .blog-header {
+        grid-template-columns: auto 1fr;
+        grid-template-areas:
+          "brand search"
+          "tabs tabs";
+        column-gap: var(--spacer-2);
       }
 
+      .blog-chips,
+      .blog-brand span,
       .blog-count {
         display: none;
       }
 
-      .blog-header__row {
-        gap: var(--spacer-1) var(--spacer-2);
-        padding: var(--spacer-1) 0;
+      .blog-brand {
+        min-height: 56px;
+      }
+
+      .blog-brand strong {
+        font-size: 1.15rem;
+      }
+
+      .blog-search-wrap {
+        justify-self: stretch;
       }
 
       .blog-search {
-        margin-left: 0;
-        max-width: none;
+        width: 100%;
       }
 
       .blog-search kbd {
@@ -770,8 +852,26 @@
   <main role="main" id="content">
     <article>
       <header class="blog-header mid-size" id="blog-header">
-        <div class="blog-header__row">
-          <a class="blog-brand" href="index.html"><strong>Justin Chill</strong><span>Blog</span></a>
+        <a class="blog-brand" href="index.html">
+          <img class="blog-brand__avatar" src="imgs/memoji.png" alt="" width="270" height="367" decoding="async">
+          <strong>Justin Chill</strong><span>Blog</span>
+        </a>
+        <div class="blog-chips" aria-label="Filter by topic">
+          <button type="button" class="blog-chip" data-topic="Data viz" aria-pressed="false">Data viz</button>
+          <button type="button" class="blog-chip" data-topic="USA" aria-pressed="false">USA</button>
+          <button type="button" class="blog-chip" data-topic="Design" aria-pressed="false">Design</button>
+          <button type="button" class="blog-chip" data-topic="Lit Crit" aria-pressed="false">Lit Crit</button>
+          <button type="button" class="blog-chip" data-topic="Technology" aria-pressed="false">Technology</button>
+          <button type="button" class="blog-chip" data-topic="Code" aria-pressed="false">Code</button>
+          <button type="button" class="blog-chip" data-topic="World" aria-pressed="false">World</button>
+        </div>
+        <nav class="blog-tabs" aria-label="Blog sections">
+          <a class="blog-tab" href="#posts" aria-current="true">Posts</a>
+          <a class="blog-tab" href="#books">Books &amp; Culture</a>
+          <a class="blog-tab" href="#code">Code</a>
+          <a class="blog-tab" href="#fun">Just for Fun</a>
+        </nav>
+        <div class="blog-search-wrap">
           <form class="blog-search" role="search" action="blog.html" method="get">
             <label for="blog-q" class="screen-reader-text">Search posts</label>
             <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -785,21 +885,6 @@
           </form>
           <p class="blog-count" id="blog-count" aria-live="polite">116 posts</p>
         </div>
-        <nav class="blog-tabs" aria-label="Blog sections">
-          <a class="blog-tab" href="#posts" aria-current="true">Posts</a>
-          <a class="blog-tab" href="#books">Books &amp; Culture</a>
-          <a class="blog-tab" href="#code">Code</a>
-          <a class="blog-tab" href="#fun">Just for Fun</a>
-          <div class="blog-chips" aria-label="Filter by topic">
-            <button type="button" class="blog-chip" data-topic="Data viz" aria-pressed="false">Data viz</button>
-            <button type="button" class="blog-chip" data-topic="USA" aria-pressed="false">USA</button>
-            <button type="button" class="blog-chip" data-topic="Design" aria-pressed="false">Design</button>
-            <button type="button" class="blog-chip" data-topic="Lit Crit" aria-pressed="false">Lit Crit</button>
-            <button type="button" class="blog-chip" data-topic="Technology" aria-pressed="false">Technology</button>
-            <button type="button" class="blog-chip" data-topic="Code" aria-pressed="false">Code</button>
-            <button type="button" class="blog-chip" data-topic="World" aria-pressed="false">World</button>
-          </div>
-        </nav>
       </header>
       <section class="blog-hero mid-size" aria-labelledby="blog-title">
         <div class="article-hero">
@@ -2992,41 +3077,35 @@
     </article>
   </main>
 
-  <footer>
-    <nav class="nav nav--footer" aria-label="Site">
-      <div class="nav__list">
-        <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
-        <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-
-        <!-- Theme Toggle Button -->
+  <footer class="blog-footer">
+    <div class="blog-footer__bar">
+      <p class="blog-footer__copy">Justin Chill &copy; 2026</p>
+      <nav class="blog-footer__nav" aria-label="Site">
+        <a href="index.html">Home</a>
+        <a href="now.html">Now</a>
+        <a href="https://linkedin.com/in/justinrichardhill/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="#" class="js-email-link">Email</a>
+        <a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img
+            src="imgs/github.svg" alt="" aria-hidden="true" class="icon" loading="lazy" decoding="async">Source code</a>
         <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
-          aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
-          <span id="theme-toggle-light-icon" class="hidden">
-            <!-- Sun Icon -->
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
-              </path>
-            </svg>
-          </span>
-          <span id="theme-toggle-dark-icon" class="hidden">
-            <!-- Moon Icon -->
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
-            </svg>
-          </span>
-        </button>
-      </div>
-      <div class="nav__list">
-        <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        <a href="#" class="nav__item js-email-link">Email</a>
-      </div>
-    </nav>
-    <div>
-      <p>Justin Chill &copy; 2026</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
-            alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
+            aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+            <span id="theme-toggle-light-icon" class="hidden">
+              <!-- Sun Icon -->
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
+                </path>
+              </svg>
+            </span>
+            <span id="theme-toggle-dark-icon" class="hidden">
+              <!-- Moon Icon -->
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+              </svg>
+            </span>
+          </button>
+      </nav>
     </div>
   </footer>
   <!-- define arrow in hidden svg document -->
