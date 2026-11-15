@@ -61,12 +61,21 @@ Always pin a full `x.y.z` version on `cdn.jsdelivr.net/npm/` and
 Current pins:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/d3@7.9.2/dist/d3.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.19/dist/plot.umd.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.2/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.19/dist/plot.umd.min.js"></script>
 ```
 
-Use the `/dist/*.min.js` builds with `defer`, not the package root; page
-scripts that depend on them must also be `defer`red after them.
+Use the `/dist/*.min.js` builds, not the package root. Library tags are loaded
+synchronously (no `defer`) at the end of `<body>` because the chart code that
+uses them is inline and runs immediately; only add `defer` if the dependent
+code is also moved into a deferred external file. If a tag carries an
+`integrity` attribute, recompute the hash whenever the URL changes.
+
+Shared behaviour (theme toggle, obfuscated email link) lives in `js/site.js`,
+loaded with `<script src="js/site.js" defer></script>` just before `</body>`.
+It dispatches a `themechange` event on `document`; pages that must redraw
+charts on theme change can listen for it instead of keeping an inline copy
+of the toggle code.
 
 ## Images
 
