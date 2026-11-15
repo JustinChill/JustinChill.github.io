@@ -60,7 +60,7 @@
   <link rel="canonical" href="https://justinchill.com/OpenAI.html">
   <link rel="preload" href="style.css" as="style" />
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://unpkg.com/d3-milestones/build/d3-milestones.css">
+  <link rel="stylesheet" href="https://unpkg.com/d3-milestones@2.0.0/build/d3-milestones.css">
   <link rel="icon" href="favicon.ico">
   <link type="text/plain" href="humans.txt" rel="author">
 
@@ -348,7 +348,7 @@
         forefront of AI research, shaping how machine learning technologies are built and deployed globally.</p>
 
       <picture class="logo">
-        <img src="imgs/openai-svgrepo-com.svg" alt="OpenAI company logo" loading="lazy">
+        <img src="imgs/openai-svgrepo-com.svg" alt="OpenAI company logo" loading="lazy" decoding="async">
       </picture>
     </article>
   </main>
@@ -356,11 +356,11 @@
     <div>
       <p>Justin Chill &copy; 2026</p>
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"
-          rel="noopener noreferrer"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
+          rel="noopener noreferrer"><img src="imgs/github.svg" alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
     </div>
   </footer>
 
-  <script src="https://unpkg.com/d3-milestones/build/d3-milestones.min.js"></script>
+  <script src="https://unpkg.com/d3-milestones@2.0.0/build/d3-milestones.min.js"></script>
   <script>
     milestones('#timeline')
       .mapping({
@@ -413,45 +413,7 @@
         // Add other key events related to OpenAI here.
       ]);
   </script>
-  <script>
-    // Email link handler
-    document.querySelectorAll('.js-email-link').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const a = "Justin.richard.hill@";
-        const b = "gmail.com";
-        window.open(`mailto:${a}${b}`, 'email');
-      });
-    });
-
-    // Theme toggle functionality
-    const themeToggleBtn = document.getElementById("theme-toggle");
-    const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
-    const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
-
-    function updateIcons(theme) {
-      if (theme === "dark") {
-        themeToggleLightIcon.classList.remove("hidden");
-        themeToggleDarkIcon.classList.add("hidden");
-      } else {
-        themeToggleLightIcon.classList.add("hidden");
-        themeToggleDarkIcon.classList.remove("hidden");
-      }
-    }
-
-    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
-    updateIcons(currentTheme);
-
-    if (themeToggleBtn) {
-      themeToggleBtn.addEventListener("click", () => {
-        const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
-        const newTheme = activeTheme === "dark" ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
-        updateIcons(newTheme);
-      });
-    }
-  </script>
+  <script src="js/site.js" defer></script>
 </body>
 
 </html>

@@ -250,7 +250,7 @@
           target="_blank" rel="noopener noreferrer">here</a>) and decided to do my own analysis. The
         dataset shown on this page includes <span id="puzzleCount">1,897</span> puzzles solved since 2019.</p>
 
-      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
       <h3>Average time by day of week</h3>
       <figure id="weekbox" role="img"
         aria-label="Box plot showing average crossword solve time by day of the week. Times increase throughout the week, with Saturday being the highest.">
@@ -260,7 +260,7 @@
         week. The Saturday and Sunday puzzles also feature a larger grid of 25x25 squares as compared to a 15x15 weekday
         puzzle. In the graph above we can see a pretty clear jump from the time it takes to solve Monday, Tuesday, and
         Wednesday puzzles to solving Thursday and beyond.</p>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
       <h3>Puzzles over time</h3>
       <figure id="alltime" role="img"
         aria-label="Line chart showing crossword completion times over the years. A dotted line marks the 1-hour mark, and a trend line shows solve times.">
@@ -268,7 +268,7 @@
       <p>A noticeable uptick in puzzle activity since the onset of the pandemic.</p>
       <p>Breaking out each puzzle by its day of the week helps to make this chart a bit more understandable. You can see
         that time to solve increases as the week goes on, as puzzles become more challenging later in the week.</p>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
       <h3>Puzzle constructors</h3>
       <figure id="constructors" role="img"
         aria-label="Bar chart showing the top 20 most frequent crossword puzzle constructors in the dataset."></figure>
@@ -286,11 +286,11 @@
     <div>
       <p>Justin Chill &copy; 2026</p>
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"
-          rel="noopener noreferrer"><img src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
+          rel="noopener noreferrer"><img src="imgs/github.svg" alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
     </div>
   </footer>
-  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.2/dist/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.19/dist/plot.umd.min.js"></script>
 
   <script type="text/javascript">
     // Use Promises to async request data
@@ -561,45 +561,7 @@
       });
     });
   </script>
-  <script>
-    // Email link handler
-    document.querySelectorAll('.js-email-link').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const a = "Justin.richard.hill@";
-        const b = "gmail.com";
-        window.open(`mailto:${a}${b}`, 'email');
-      });
-    });
-
-    // Theme toggle functionality
-    const themeToggleBtn = document.getElementById("theme-toggle");
-    const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
-    const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
-
-    function updateIcons(theme) {
-      if (theme === "dark") {
-        themeToggleLightIcon.classList.remove("hidden");
-        themeToggleDarkIcon.classList.add("hidden");
-      } else {
-        themeToggleLightIcon.classList.add("hidden");
-        themeToggleDarkIcon.classList.remove("hidden");
-      }
-    }
-
-    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
-    updateIcons(currentTheme);
-
-    if (themeToggleBtn) {
-      themeToggleBtn.addEventListener("click", () => {
-        const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
-        const newTheme = activeTheme === "dark" ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
-        updateIcons(newTheme);
-      });
-    }
-  </script>
+  <script src="js/site.js" defer></script>
 </body>
 
 </html>

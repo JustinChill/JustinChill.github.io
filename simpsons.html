@@ -948,7 +948,7 @@
         the decline has largely tapered off. The lowest-scoring episode to date came in Season 23 with <em>Lisa Goes
           Gaga</em> (<strong>3.9</strong>).</p>
 
-      <span class="header-tag" aria-hidden="true"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
+      <span class="header-tag" aria-hidden="true"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
       <h2>800+ episodes</h2>
       <figure id="simpsonsEpisodes" aria-label="Heatmap of all 800+ episodes, colored by IMDb score.">
         <figcaption class="right">Data: <a href="https://www.imdb.com/title/tt0096697/" target="_blank"
@@ -1003,7 +1003,7 @@
           API</a>. It returns a random Simpsons quote, the character's name, a link to their picture, and the direction
         the character
         is facing. I've used that last tidbit to make sure the character is always facing their quote.</p>
-      <span class="header-tag" aria-hidden="true"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
+      <span class="header-tag" aria-hidden="true"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
       <h2>Episodes by IMDb rating</h2>
       <figure id="best-eps"
         aria-label="Histogram showing the distribution of episodes by IMDb rating. Most episodes fall in the 6.5 to 7.5 range.">
@@ -1019,7 +1019,7 @@
         the solid middle ground to these masterpieces confirms that the perfection of episodes like "Homer's
         Enemy" or "Cape Feare" is a statistical anomaly in a sea of consistent, but safe, entertainment.
       </p>
-      <span class="header-tag" aria-hidden="true"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
+      <span class="header-tag" aria-hidden="true"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
       <h2>Top ten episodes</h2>
       <figure id="top_ten" aria-label="Bar chart showing the top ten highest rated Simpsons episodes."></figure>
       <p>These episodes represent the peak creative and comedic output of <em>The Simpsons</em>,
@@ -1044,7 +1044,7 @@
       <h2>Simpsons no-nos</h2>
       <img src="https://i.imgur.com/d7FqN8Z.jpg"
         alt="Guide from Cartooning with the Simpsons showing rules for drawing Simpson character heads" loading="lazy"
-        class="mid-size">
+        class="mid-size" decoding="async">
       <p>In the book <a
           href="https://www.slideshare.net/DGIREDeportes/matt-groening-cartooning-with-the-simpsons?related=1"
           target="_blank" rel="noopener"><em>Cartooning
@@ -1074,12 +1074,12 @@
     <div>
       <p>Justin Chill &copy; 2026</p>
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener"><img
-            src="imgs/github.svg" alt="" aria-hidden="true" class="icon">Source code</a></span>
+            src="imgs/github.svg" alt="" aria-hidden="true" class="icon" loading="lazy" decoding="async">Source code</a></span>
     </div>
   </footer>
   <script type="text/javascript" src="js/growup.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.2/dist/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.19/dist/plot.umd.min.js"></script>
   <script>
     // Memory cache for quotes so clicking refresh is instant and doesn't cause async network reflows
     let quotesCache = null;
@@ -1584,35 +1584,7 @@
       console.log('🚨 Something has gone wrong fetching data.')
     })
   </script>
-  <script>
-    // Theme toggle functionality
-    const themeToggleBtn = document.getElementById("theme-toggle");
-    const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
-    const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
-
-    function updateIcons(theme) {
-      if (theme === "dark") {
-        themeToggleLightIcon.classList.remove("hidden");
-        themeToggleDarkIcon.classList.add("hidden");
-      } else {
-        themeToggleLightIcon.classList.add("hidden");
-        themeToggleDarkIcon.classList.remove("hidden");
-      }
-    }
-
-    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
-    updateIcons(currentTheme);
-
-    if (themeToggleBtn) {
-      themeToggleBtn.addEventListener("click", () => {
-        const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
-        const newTheme = activeTheme === "dark" ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
-        updateIcons(newTheme);
-      });
-    }
-  </script>
+  <script src="js/site.js" defer></script>
 </body>
 
 </html>

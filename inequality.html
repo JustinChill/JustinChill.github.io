@@ -309,7 +309,7 @@
         <img
           src="imgs/inequality_matt_black.jpg"
           width="1280" height="720"
-          loading="lazy" alt="Man walking on sidewalk. Photograph: Matt Black/Magnum Photos">
+          loading="lazy" alt="Man walking on sidewalk. Photograph: Matt Black/Magnum Photos" decoding="async">
       </figure>
 
     </article>
@@ -323,13 +323,13 @@
     <div>
       <p>Justin Chill &copy; 2026</p>
       <a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener">
-        <p><img src="imgs/github.svg" alt="" aria-hidden="true" class="icon">Source code and feedback</p>
+        <p><img src="imgs/github.svg" alt="" aria-hidden="true" class="icon" loading="lazy" decoding="async">Source code and feedback</p>
       </a>
     </div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.2/dist/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.19/dist/plot.umd.min.js"></script>
   <script type="text/javascript">
     const size = 12;
     const element = document.getElementById("inequality") || d3.select('figure').node();
@@ -447,45 +447,7 @@
       console.log('🚨 Oops - Something has gone wrong fetching data.');
     });
   </script>
-  <script>
-    // Theme toggle functionality
-    const themeToggleBtn = document.getElementById("theme-toggle");
-    const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
-    const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
-
-    function updateIcons(theme) {
-      if (theme === "dark") {
-        themeToggleLightIcon.classList.remove("hidden");
-        themeToggleDarkIcon.classList.add("hidden");
-      } else {
-        themeToggleLightIcon.classList.add("hidden");
-        themeToggleDarkIcon.classList.remove("hidden");
-      }
-    }
-
-    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
-    updateIcons(currentTheme);
-
-    if (themeToggleBtn) {
-      themeToggleBtn.addEventListener("click", () => {
-        const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
-        const newTheme = activeTheme === "dark" ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
-        updateIcons(newTheme);
-      });
-    }
-
-    // Email link handler
-    document.querySelectorAll('.js-email-link').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const a = "Justin.richard.hill@";
-        const b = "gmail.com";
-        window.open(`mailto:${a}${b}`, 'email');
-      });
-    });
-  </script>
+  <script src="js/site.js" defer></script>
 </body>
 
 </html>

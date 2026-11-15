@@ -1,0 +1,29 @@
+name: Audit
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # build_sitemap.py falls back to `git log` for lastmod, so it needs history.
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Audit pages, JSON-LD, images, CDN pins, sitemap
+        run: python3 scripts/audit.py
+
+      - name: Check sitemap.xml is up to date
+        run: python3 scripts/build_sitemap.py --check

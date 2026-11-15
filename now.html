@@ -473,7 +473,7 @@
       <h3>Work</h3>
       <img alt="Brown Brothers Harriman"
         src="https://www.privatebankerinternational.com/wp-content/uploads/sites/5/2024/09/shutterstock_2291291017.jpg"
-        loading="lazy">
+        loading="lazy" decoding="async">
       <p>Overseeing Operations and Technology for the Innovation team at <a href="https://www.bbh.com/us/en.html">Brown
           Brothers Harriman</a> (BBH).</p>
 
@@ -485,7 +485,7 @@
     <div>
       <p>Justin Chill &copy; 2026</p>
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener"><img
-            src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
+            src="imgs/github.svg" alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
     </div>
   </footer>
   <!-- Add Leaflet JavaScript -->
@@ -608,7 +608,7 @@
 
             const hasCover = !!book.cover;
             const coverOuterClass = hasCover ? 'literal-book-item__image_cover__outer' : 'literal-book-item__image_cover__outer no-cover';
-            const coverImg = hasCover ? `<img src="${book.cover}" alt="${book.title}" onerror="this.style.display='none'; this.parentNode.classList.add('no-cover');" />` : '';
+            const coverImg = hasCover ? `<img src="${book.cover}" alt="${book.title}" onerror="this.style.display='none'; this.parentNode.classList.add('no-cover');" loading="lazy" decoding="async" />` : '';
 
             bookItem.innerHTML = `
             <a href="https://literal.club/${variables.handle}/book/${book.slug}?utm_source=${variables.handle}&utm_medium=widget" target="_blank" rel="noopener noreferrer">
@@ -655,37 +655,7 @@
       });
     });
   </script>
-  <script>
-    // Theme toggle functionality
-    const themeToggleBtn = document.getElementById("theme-toggle");
-    const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
-    const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
-
-    function updateIcons(theme) {
-      if (theme === "dark") {
-        themeToggleLightIcon.classList.remove("hidden");
-        themeToggleDarkIcon.classList.add("hidden");
-        if (themeToggleBtn) themeToggleBtn.setAttribute("aria-label", "Switch to light theme");
-      } else {
-        themeToggleLightIcon.classList.add("hidden");
-        themeToggleDarkIcon.classList.remove("hidden");
-        if (themeToggleBtn) themeToggleBtn.setAttribute("aria-label", "Switch to dark theme");
-      }
-    }
-
-    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
-    updateIcons(currentTheme);
-
-    if (themeToggleBtn) {
-      themeToggleBtn.addEventListener("click", () => {
-        const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
-        const newTheme = activeTheme === "dark" ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
-        updateIcons(newTheme);
-      });
-    }
-  </script>
+  <script src="js/site.js" defer></script>
 </body>
 
 </html>

@@ -282,7 +282,7 @@
         the people of their respective districts or states, with the House of Representatives members serving two-year
         terms and the Senators serving six-year terms. This process ensures that the members of Congress are accountable
         to their constituents and that the government is representative of the people.</p>
-      <span class="header-tag mid-size"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
+      <span class="header-tag mid-size"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
       <h2 class="mid-size">Balance of power</h2>
       <figure id="states" class="mid-size" role="img"
         aria-label="A line graph showing cumulative population percentages represented by U.S. senators."></figure>
@@ -304,7 +304,7 @@
       <p>The House of Representatives is designed to be more equally representative, following the idea of "one person,
         one vote." If we sort the House's 435 districts by population and graph them in the same way, the result is much
         closer to a straight diagonal line: </p>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
       <h2>Representation in the House of Representatives</h2>
       <figure id="line" role="img"
         aria-label="A line graph showing the House of Representatives' 435 districts and voting power.">
@@ -338,7 +338,7 @@
         <figcaption class="right">Jonathan Ernst for REUTERS</figcaption>
         <img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*2jZ5RErVtkDOAbiZb9eWdw.jpeg"
           alt="A large assembly of people dressed formally are seated and standing in a grand, ornate room. The room is arranged with wooden desks and a central speaking platform. A sense of activity and attention is present, suggesting a formal gathering or session."
-          loading="lazy" />
+          loading="lazy" decoding="async" />
       </figure>
     </article>
   </main>
@@ -363,11 +363,11 @@
     <div>
       <p>Justin Chill &copy; 2026</p>
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener"><img
-            src="imgs/github.svg" alt="GitHub logo" class="icon">Source code</a></span>
+            src="imgs/github.svg" alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
     </div>
   </footer>
-  <script src="https://cdn.jsdelivr.net/npm/d3"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.2/dist/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.19/dist/plot.umd.min.js"></script>
 
   <script>
     let rawData = null;
@@ -718,53 +718,7 @@
       }, 150);
     });
   </script>
-  <script>
-    // Theme toggle functionality
-    const themeToggleBtn = document.getElementById("theme-toggle");
-    const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
-    const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
-
-    function updateIcons(theme) {
-      if (theme === "dark") {
-        themeToggleLightIcon?.classList.remove("hidden");
-        themeToggleDarkIcon?.classList.add("hidden");
-        themeToggleBtn?.setAttribute("aria-label", "Switch to light theme");
-      } else {
-        themeToggleLightIcon?.classList.add("hidden");
-        themeToggleDarkIcon?.classList.remove("hidden");
-        themeToggleBtn?.setAttribute("aria-label", "Switch to dark theme");
-      }
-    }
-
-    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
-    updateIcons(currentTheme);
-
-    if (themeToggleBtn) {
-      themeToggleBtn.addEventListener("click", () => {
-        const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
-        const newTheme = activeTheme === "dark" ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
-        updateIcons(newTheme);
-      });
-    }
-
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-      if (!localStorage.getItem('theme')) {
-        const newTheme = e.matches ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', newTheme);
-        updateIcons(newTheme);
-      }
-    });
-
-    // Email link handler
-    document.querySelectorAll('.js-email-link').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.location.href = 'mailto:' + 'justin' + '.' + 'chill' + '@' + 'gmail' + '.' + 'com';
-      });
-    });
-  </script>
+  <script src="js/site.js" defer></script>
 </body>
 
 </html>

@@ -52,8 +52,8 @@
   <meta name="color-scheme" content="light dark">
 
   <!-- Libraries -->
-  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.2/dist/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.19/dist/plot.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
 
   <style>
@@ -1015,7 +1015,7 @@
                    alt="${company.name}" 
                    data-step="${startStep}"
                    onload="handleLogoSuccess(this, '${company.name}')"
-                   onerror="handleLogoError(this, '${company.domain || ''}', '${company.name}')">
+                   onerror="handleLogoError(this, '${company.domain || ''}', '${company.name}')" loading="lazy" decoding="async">
             </div>
             <div class="company-details">
               <p class="name">${company.name}</p>
@@ -1317,7 +1317,7 @@
                                 <img src="${initialsUrl}" 
                                    class="w-full h-full object-contain" 
                                    id="logo-${company.domain || company.name.replace(/\s/g, '')}"
-                                   alt="${company.name}">
+                                   alt="${company.name}" loading="lazy" decoding="async">
                             </div>
                             <div class="autocomplete-name">${company.name}</div>
                         `;
@@ -1670,35 +1670,7 @@
 
     </script>
 
-  <script>
-    // Theme toggle functionality
-    const themeToggleBtn = document.getElementById("theme-toggle");
-    const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
-    const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
-
-    function updateIcons(theme) {
-      if (theme === "dark") {
-        themeToggleLightIcon.classList.remove("hidden");
-        themeToggleDarkIcon.classList.add("hidden");
-      } else {
-        themeToggleLightIcon.classList.add("hidden");
-        themeToggleDarkIcon.classList.remove("hidden");
-      }
-    }
-
-    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
-    updateIcons(currentTheme);
-
-    if (themeToggleBtn) {
-      themeToggleBtn.addEventListener("click", () => {
-        const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
-        const newTheme = activeTheme === "dark" ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
-        updateIcons(newTheme);
-      });
-    }
-  </script>
+  <script src="js/site.js" defer></script>
 </body>
 
 </html>
