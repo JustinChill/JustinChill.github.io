@@ -312,8 +312,11 @@
 
     function renderCharts() {
       if (!drugsData) return;
-      var element = document.querySelector('article') || document.querySelector('figure');
-      var width = element ? element.getBoundingClientRect().width : 700; // get width of article so graphic is responsive
+      // Measure the figure, not <article>: the article is a 7-column grid that spans the
+      // full page width, while the figures sit in its 600px content column. Measuring the
+      // article made Plot draw at ~1024px and then CSS shrank the SVG (and its text) to fit.
+      var element = document.getElementById('drug_bar') || document.querySelector('figure');
+      var width = element ? element.getBoundingClientRect().width : 600;
       var size = 12;
 
       var drugs = drugsData;
