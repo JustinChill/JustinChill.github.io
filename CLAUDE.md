@@ -77,6 +77,11 @@ It dispatches a `themechange` event on `document`; pages that must redraw
 charts on theme change can listen for it instead of keeping an inline copy
 of the toggle code.
 
+`blog.html` additionally loads `js/blog.js` (search box, topic chips, section
+tabs, clickable cards). It indexes the cards in the DOM, so a new blog card
+needs a `.kicker`, an `<h3>` title and a non-empty description `<p>` to be
+searchable; add it under the right `h2.header` section.
+
 ## Images
 
 - Prefer `.webp`; store under `imgs/` (covers under `imgs/cover/`).

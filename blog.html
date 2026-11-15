@@ -41,7 +41,7 @@
   <meta content="Data visualization dashboard." property="og:image:alt">
 
   <meta name="datePublished" content="2010-01-06">
-  <meta name="dateModified" content="2026-09-06">
+  <meta name="dateModified" content="2026-11-15">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -141,8 +141,6 @@
       box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
       transition: all 0.25s ease-in-out;
       will-change: transform;
-      content-visibility: auto;
-      contain-intrinsic-size: 320px;
     }
 
     .card:hover,
@@ -361,6 +359,330 @@
         row-gap: 1.5rem;
       }
     }
+
+    /* ---------- Blog header (sticky search + section tabs) ---------- */
+    .blog-header {
+      position: sticky;
+      top: 0;
+      z-index: 1100;
+      margin: 0 0 var(--spacer-2);
+      padding: 0 var(--spacer-1);
+      background: var(--bg-color);
+      border-bottom: 1px solid var(--rule-color);
+      box-sizing: border-box;
+    }
+
+    .blog-header a {
+      text-decoration: none;
+    }
+
+    .blog-header__row {
+      display: flex;
+      align-items: center;
+      gap: var(--spacer-2);
+      min-height: 52px;
+    }
+
+    .blog-brand {
+      display: flex;
+      align-items: baseline;
+      gap: .5rem;
+      white-space: nowrap;
+      color: inherit;
+    }
+
+    .blog-brand strong {
+      font-family: "Camphor Heavy", var(--font-main);
+      font-size: 1.05rem;
+      color: var(--heading-color);
+    }
+
+    .blog-brand span {
+      font-family: var(--font-ui);
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #0b7299;
+    }
+
+    .blog-search {
+      flex: 1 1 auto;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      max-width: 420px;
+      height: 36px;
+      margin: 0 0 0 auto;
+      padding: 0 .65rem;
+      border: 1px solid var(--rule-color);
+      border-radius: 8px;
+      background: var(--surface-subtle);
+      color: var(--text-color);
+      transition: border-color .15s, box-shadow .15s;
+    }
+
+    .blog-search:focus-within {
+      border-color: #0274a2;
+      box-shadow: 0 0 0 3px rgba(2, 116, 162, .18);
+    }
+
+    .blog-search svg {
+      width: 16px;
+      height: 16px;
+      flex: none;
+      color: var(--muted-color);
+    }
+
+    .blog-search input {
+      flex: 1 1 auto;
+      min-width: 0;
+      border: 0;
+      padding: 0;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      font-size: var(--type-scale--1);
+      outline: none;
+    }
+
+    .blog-search kbd {
+      font: 600 .7rem/1 var(--font-ui);
+      color: var(--muted-color);
+      border: 1px solid var(--rule-color);
+      border-radius: 4px;
+      padding: .2rem .4rem;
+      background: var(--bg-color);
+    }
+
+    .blog-search:focus-within kbd {
+      display: none;
+    }
+
+    .blog-count {
+      margin: 0;
+      font-family: var(--font-ui);
+      font-size: var(--type-scale--1);
+      color: var(--muted-color);
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .blog-tabs {
+      display: flex;
+      align-items: center;
+      gap: .25rem;
+      min-height: 44px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      scroll-snap-type: x proximity;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .blog-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .blog-tab {
+      flex: none;
+      scroll-snap-align: start;
+      padding: .7rem .6rem;
+      margin-bottom: -1px;
+      font-family: var(--font-ui);
+      font-size: var(--type-scale--1);
+      font-weight: 600;
+      color: var(--muted-color);
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: color .15s, border-color .15s;
+    }
+
+    .blog-tab:hover,
+    .blog-tab:focus-visible {
+      color: var(--text-color);
+    }
+
+    .blog-tab[aria-current="true"] {
+      color: #0274a2;
+      border-bottom-color: #0274a2;
+    }
+
+    .blog-tab.is-empty {
+      opacity: .4;
+    }
+
+    .blog-chips {
+      display: flex;
+      gap: .3rem;
+      flex: none;
+      margin-left: auto;
+      padding-left: var(--spacer-2);
+    }
+
+    /* Soft fade on the right while the row can still scroll */
+    .blog-tabs.is-overflowing {
+      -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 40px), transparent);
+      mask-image: linear-gradient(to right, #000 calc(100% - 40px), transparent);
+    }
+
+    .blog-chip {
+      font: 600 .66rem/1 var(--font-ui);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: #0b7299;
+      background: transparent;
+      border: 1px solid var(--rule-color);
+      border-radius: 999px;
+      padding: .4rem .5rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background-color .15s, border-color .15s, color .15s;
+    }
+
+    .blog-chip:hover,
+    .blog-chip:focus-visible {
+      border-color: #0274a2;
+    }
+
+    .blog-chip[aria-pressed="true"] {
+      background: #0274a2;
+      border-color: #0274a2;
+      color: #fff;
+    }
+
+    .blog-empty {
+      font-family: var(--font-ui);
+      color: var(--muted-color);
+    }
+
+    .blog-empty__clear {
+      font: inherit;
+      color: #0274a2;
+      background: none;
+      border: 0;
+      padding: 0;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    /* ---------- Hero with dotted field ---------- */
+    .blog-hero {
+      position: relative;
+      isolation: isolate;
+      margin: var(--spacer-2) 0 0;
+      padding: var(--spacer-5) 0 var(--spacer-4);
+    }
+
+    .blog-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background-image: radial-gradient(circle, color-mix(in srgb, var(--muted-color) 55%, transparent) 1px, transparent 1.5px);
+      background-size: 14px 14px;
+      -webkit-mask-image: linear-gradient(to bottom, #000 30%, transparent 95%);
+      mask-image: linear-gradient(to bottom, #000 30%, transparent 95%);
+    }
+
+    .blog-hero .article-hero {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 var(--spacer-1);
+    }
+
+    /* Anchor jumps land below the sticky header */
+    #posts,
+    #books,
+    #code,
+    #fun {
+      scroll-margin-top: 112px;
+    }
+
+    /* Filtering */
+    .card[hidden],
+    .container[hidden],
+    h2.header[hidden],
+    .callout[hidden],
+    .blog-empty[hidden] {
+      display: none !important;
+    }
+
+    /* Progressive enhancement: without JS the page is a plain index */
+    html.no-js .blog-search,
+    html.no-js .blog-count,
+    html.no-js .blog-chips {
+      display: none;
+    }
+
+    html[data-theme="dark"] .blog-brand span,
+    html[data-theme="dark"] .blog-chip,
+    html[data-theme="dark"] .blog-empty__clear {
+      color: #38beea;
+    }
+
+    html[data-theme="dark"] .blog-tab[aria-current="true"] {
+      color: #38beea;
+      border-bottom-color: #38beea;
+    }
+
+    html[data-theme="dark"] .blog-chip[aria-pressed="true"] {
+      background: #38beea;
+      border-color: #38beea;
+      color: #111;
+    }
+
+    html[data-theme="dark"] .blog-search:focus-within,
+    html[data-theme="dark"] .blog-chip:hover,
+    html[data-theme="dark"] .blog-chip:focus-visible {
+      border-color: #38beea;
+      box-shadow: 0 0 0 3px rgba(56, 190, 234, .18);
+    }
+
+    @media screen and (max-width: 680px) {
+      .blog-header {
+        margin-left: calc(-1 * var(--gutter));
+        margin-right: calc(-1 * var(--gutter));
+        padding: 0 var(--gutter);
+      }
+
+      /* The site nav and the h1 already say where we are: drop the brand line on phones */
+      .blog-brand {
+        display: none;
+      }
+
+      .blog-header__row {
+        gap: var(--spacer-1) var(--spacer-2);
+        padding: var(--spacer-1) 0;
+      }
+
+      .blog-search {
+        margin-left: 0;
+        max-width: none;
+      }
+
+      .blog-search kbd {
+        display: none;
+      }
+
+      .blog-count {
+        margin-left: auto;
+      }
+
+      .blog-chips {
+        margin-left: var(--spacer-1);
+      }
+
+      .blog-hero {
+        padding: var(--spacer-4) 0 var(--spacer-3);
+      }
+
+      #posts,
+      #books,
+      #code,
+      #fun {
+        scroll-margin-top: 110px;
+      }
+    }
   </style>
 
   <script type="application/ld+json">
@@ -419,19 +741,55 @@
 
   <main role="main" id="content">
     <article>
-      <div class="article-hero">
-        <h1 class="article-title left">Blog</h1>
-        <p class="article-subtitle left">Visualizing the signal in the noise</p>
-      </div>
+      <header class="blog-header mid-size" id="blog-header">
+        <div class="blog-header__row">
+          <a class="blog-brand" href="index.html"><strong>Justin Chill</strong><span>Blog</span></a>
+          <form class="blog-search" role="search" action="blog.html" method="get">
+            <label for="blog-q" class="screen-reader-text">Search posts</label>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="m20 20-3.5-3.5"></path>
+            </svg>
+            <input id="blog-q" name="q" type="search" placeholder="Search posts" autocomplete="off" spellcheck="false"
+              enterkeyhint="search">
+            <kbd aria-hidden="true" title="Press / to search">/</kbd>
+          </form>
+          <p class="blog-count" id="blog-count" aria-live="polite">116 posts</p>
+        </div>
+        <nav class="blog-tabs" aria-label="Blog sections">
+          <a class="blog-tab" href="#posts" aria-current="true">Posts</a>
+          <a class="blog-tab" href="#books">Books &amp; Culture</a>
+          <a class="blog-tab" href="#code">Code</a>
+          <a class="blog-tab" href="#fun">Just for Fun</a>
+          <div class="blog-chips" aria-label="Filter by topic">
+            <button type="button" class="blog-chip" data-topic="Data viz" aria-pressed="false">Data viz</button>
+            <button type="button" class="blog-chip" data-topic="USA" aria-pressed="false">USA</button>
+            <button type="button" class="blog-chip" data-topic="Design" aria-pressed="false">Design</button>
+            <button type="button" class="blog-chip" data-topic="Lit Crit" aria-pressed="false">Lit Crit</button>
+            <button type="button" class="blog-chip" data-topic="Technology" aria-pressed="false">Technology</button>
+            <button type="button" class="blog-chip" data-topic="Code" aria-pressed="false">Code</button>
+            <button type="button" class="blog-chip" data-topic="World" aria-pressed="false">World</button>
+          </div>
+        </nav>
+      </header>
+      <section class="blog-hero mid-size" aria-labelledby="blog-title">
+        <div class="article-hero">
+          <h1 class="article-title left" id="blog-title">Blog</h1>
+          <p class="article-subtitle left">Visualizing the signal in the noise</p>
+        </div>
+      </section>
       <p>Explaining our world through <a href="HTML.html">code</a> and charts. Featuring research on the <a
           href="AI-2025.html">AI revolution</a>, world affairs, web design and development, and the occasional <a
           href="burn-book.html">book review</a>. This blog is my personal data-driven exploration of politics,
         technology, code, and culture.</p>
       <p>Learn about <a href="charts.html">data visualization here</a>, explore an overview of my work below, or even
         better, send <a href="#" class="js-email-link">an email</a> to get in touch.</p>
+      <p class="blog-empty" id="blog-empty" hidden>No posts match &ldquo;<span id="blog-empty-q"></span>&rdquo;.
+        <button type="button" class="blog-empty__clear" id="blog-clear">Clear search</button></p>
       <!-- Section of all posts -->
       <section class="mid-size">
-        <h2 class="header mid-size">Posts</h2>
+        <h2 class="header mid-size" id="posts">Posts</h2>
 
         <!-- Section of posts -->
         <section class="container mid-size">
@@ -443,7 +801,7 @@
             <div class="card-content">
               <p class="kicker">BLM</p>
               <h3>8 Minutes, 46 Seconds</h3>
-              <p></p>
+              <p>This powerful visualization honors George Floyd and raises awareness about police brutality.</p>
             </div>
             <div class="card-footer">
               <a href="8m46s.html">
@@ -611,7 +969,7 @@
             <div class="card-content">
               <p class="kicker">World</p>
               <h3>Corrosive Corruption</h3>
-              <p></p>
+              <p>An interactive data visualization exploring the correlation between Transparency International's Corruption…</p>
             </div>
             <div class="card-footer">
               <a href="corruption.html">
@@ -630,7 +988,7 @@
             <div class="card-content">
               <p class="kicker">Work</p>
               <h3>Customer Satisfaction (<small>CSAT</small>)</h3>
-              <p></p>
+              <p>Understanding how surveys can be used to effectively measure customer satisfaction</p>
             </div>
             <div class="card-footer">
               <a href="csat.html">
@@ -685,7 +1043,7 @@
             <div class="card-content">
               <p class="kicker">Femme Fatale</p>
               <h3>Famous Women</h3>
-              <p></p>
+              <p>An interactive visual guide and biographical overview exploring the 100 most searched women in history across…</p>
             </div>
             <div class="card-footer">
               <a href="famous-women.html">
@@ -778,7 +1136,7 @@
             <div class="card-content">
               <p class="kicker">USA</p>
               <h3>How 'Democratic' is Congress?</h3>
-              <p></p>
+              <p>A detailed analysis of representation in the U.S. Congress, focusing on Senate and House disparities.</p>
             </div>
             <div class="card-footer">
               <a href="congress.html">
@@ -871,7 +1229,7 @@
             <div class="card-content">
               <p class="kicker">Music</p>
               <h3 id="mac">Mac Miller Tribute</h3>
-              <p></p>
+              <p>An ode to an artist gone way too soon.</p>
             </div>
             <div class="card-footer">
               <a href="mac-miller.html">
@@ -890,7 +1248,7 @@
             <div class="card-content">
               <p class="kicker">Work</p>
               <h3>Net Promoter Score (<small>NPS</small>)</h3>
-              <p></p>
+              <p>Understanding Net Promoter Scores to effectively measure customer loyalty</p>
             </div>
             <div class="card-footer">
               <a href="nps.html">
@@ -982,7 +1340,7 @@
             <div class="card-content">
               <p class="kicker">Data viz</p>
               <h3>Palmer's Penguins</h3>
-              <p></p>
+              <p>Data visualizations of penguins from the Palmer Station in Antarctica.</p>
             </div>
             <div class="card-footer">
               <a href="penguins.html">
@@ -1000,7 +1358,7 @@
             <div class="card-content">
               <p class="kicker">Design</p>
               <h3>Pantone® Color of the Year</h3>
-              <p></p>
+              <p>An interactive catalog and visual exploration of Pantone Colors of the Year from 2000 to 2024, complete with color…</p>
             </div>
             <div class="card-footer">
               <a href="pantone.html">
@@ -1055,7 +1413,7 @@
             <div class="card-content">
               <p class="kicker">Art</p>
               <h3>Piet Mondrian in CSS Grid</h3>
-              <p></p>
+              <p>Recreating Piet Mondrian's iconic geometric abstract art—including Composition with Red, Blue and Yellow (1930) and…</p>
             </div>
             <div class="card-footer">
               <a href="Mondrian.html">
@@ -1187,7 +1545,7 @@
             <div class="card-content">
               <p class="kicker">Sports</p>
               <h3>Steph Curry's Popcorn Problem</h3>
-              <p></p>
+              <p>Steph Curry ranks the popcorn at all 29 N.B.A. arenas.</p>
             </div>
             <div class="card-footer">
               <a href="popcorn.html">
@@ -1244,7 +1602,7 @@
             <div class="card-content">
               <p class="kicker">Data viz</p>
               <h3>The Carrie Bradshaw Index</h3>
-              <p></p>
+              <p>Where Americans can afford to live on their own.</p>
             </div>
             <div class="card-footer">
               <a href="carrie-bradshaw-index.html">
@@ -1263,7 +1621,7 @@
             <div class="card-content">
               <p class="kicker">Taking Off</p>
               <h3>The Evolution of Flight</h3>
-              <p></p>
+              <p>An interactive data visualization tracking aircraft airspeed records and the evolution of flight over time, from the…</p>
             </div>
             <div class="card-footer">
               <a href="flight.html">
@@ -1468,7 +1826,7 @@
             <div class="card-content">
               <p class="kicker">Technology</p>
               <h3>Women in STEM</h3>
-              <p></p>
+              <p>Personal heroes from the fields of science, technology, engineering, and math (STEM).</p>
             </div>
             <div class="card-footer">
               <a href="women-in-stem.html">
@@ -1505,7 +1863,7 @@
             <div class="card-content">
               <p class="kicker">Data viz</p>
               <h3>World's Oldest Person Titleholders</h3>
-              <p></p>
+              <p>An interactive data visualization tracking verified World's Oldest Person titleholders since 1955, exploring…</p>
             </div>
             <div class="card-footer">
               <a href="oldest.html">
@@ -1518,7 +1876,7 @@
           </article>
         </section>
         <section class="callout mid-size rounded">
-          <h2 class="header">📚 Books and Culture</h2>
+          <h2 class="header" id="books">📚 Books and Culture</h2>
           <div class="container">
             <article class="card" tabindex="0" aria-label="Article: Apple in China">
               <div class="card-image">
@@ -1749,7 +2107,7 @@
               <div class="card-content">
                 <p class="kicker">Trump that</p>
                 <h3>The Failing New York Times</h3>
-                <p></p>
+                <p>An analysis of The New York Times' business model evolution from print advertising to digital subscriptions…</p>
               </div>
               <div class="card-footer">
                 <a href="failingNYT.html">
@@ -1800,7 +2158,7 @@
             </article>
           </div> <!-- // Books -->
         </section>
-        <h2 class="header">Code</h2>
+        <h2 class="header" id="code">Code</h2>
         <div class="container mid-size">
           <article class="card" tabindex="0" aria-label="Article: Anscombe's Quartet">
             <div class="card-image">
@@ -1866,7 +2224,7 @@
             <div class="card-content">
               <p class="kicker">Data viz</p>
               <h3>Caffeine Data Visualization</h3>
-              <p></p>
+              <p>An interactive data visualization exploring caffeine content (in mg) across food, beverage, and over-the-counter…</p>
             </div>
             <div class="card-footer">
               <a href="caffeine.html">
@@ -1884,7 +2242,7 @@
             <div class="card-content">
               <p class="kicker">Code</p>
               <h3>Cascading Style Sheets</h3>
-              <p></p>
+              <p>An interactive reference guide and cheatsheet for Cascading Style Sheets (CSS), featuring searchable lists of 140+…</p>
             </div>
             <div class="card-footer">
               <a href="css-101.html">
@@ -1941,7 +2299,7 @@
             <div class="card-content">
               <p class="kicker">Code</p>
               <h3>CSS Selectors</h3>
-              <p></p>
+              <p>Learn what CSS selectors are and how to use and group them.</p>
             </div>
             <div class="card-footer">
               <a href="css-selectors.html">
@@ -1960,7 +2318,7 @@
             <div class="card-content">
               <p class="kicker">Terms & Conditions</p>
               <h3>Data Visualization Glossary</h3>
-              <p></p>
+              <p>A comprehensive reference glossary of common terms, chart types, exploratory data analysis concepts, and statistical…</p>
             </div>
             <div class="card-footer">
               <a href="glossary.html">
@@ -2035,7 +2393,7 @@
             <div class="card-content">
               <p class="kicker">Blog</p>
               <h3 id="hi">Hello World</h3>
-              <p></p>
+              <p>How I've designed JustinChill.com</p>
             </div>
             <div class="card-footer">
               <a href="article.html">
@@ -2109,7 +2467,7 @@
             <div class="card-content">
               <p class="kicker">Design</p>
               <h3>Practical UI Details</h3>
-              <p></p>
+              <p>A curated collection of practical UI and UX design micro-tips and visual examples for creating polished web…</p>
             </div>
             <div class="card-footer">
               <a href="UI-details.html">
@@ -2128,7 +2486,7 @@
             <div class="card-content">
               <p class="kicker">Math</p>
               <h3>Prime Numbers</h3>
-              <p></p>
+              <p>A visual sieve of prime numbers under 10,000.</p>
             </div>
             <div class="card-footer">
               <a href="primes.html">
@@ -2147,7 +2505,7 @@
             <div class="card-content">
               <p class="kicker">Design</p>
               <h3>Spinning Rings Illusion</h3>
-              <p></p>
+              <p>An exploration of optical illusions created by stacking concentric circles and rotating them at staggered speeds…</p>
             </div>
             <div class="card-footer">
               <a href="rings.html">
@@ -2240,7 +2598,7 @@
             <div class="card-content">
               <p class="kicker">Technology</p>
               <h3>Windows XP</h3>
-              <p></p>
+              <p>An ode to Windows XP, featuring an interactive recreation of the classic Luna Start menu, boot screen animation, and…</p>
             </div>
             <div class="card-footer">
               <a href="windows-xp.html">
@@ -2272,7 +2630,7 @@
           </article>
         </div> <!-- // Code -->
 
-        <h2 class="header mid-size">Just for Fun</h2>
+        <h2 class="header mid-size" id="fun">Just for Fun</h2>
         <div class="container mid-size">
           <article class="card" tabindex="0" aria-label="Article: Arthur's Fist">
             <div class="card-image">
@@ -2299,7 +2657,7 @@
             <div class="card-content">
               <p class="kicker">Design</p>
               <h3>Blank Page</h3>
-              <p></p>
+              <p>This page intentionally left blank.</p>
             </div>
             <div class="card-footer">
               <a href="blank.html">
@@ -2336,7 +2694,7 @@
             <div class="card-content">
               <p class="kicker">Ad Rep</p>
               <h3>Get Fit</h3>
-              <p></p>
+              <p>An interactive pure-CSS 3D typography flip animation transitioning between 'FAT' and 'FIT', inspired by a classic…</p>
             </div>
             <div class="card-footer">
               <a href="get-fit.html">
@@ -2355,7 +2713,7 @@
             <div class="card-content">
               <p class="kicker">Social Networking</p>
               <h3>Honest LinkedIn</h3>
-              <p></p>
+              <p>If LinkedIn notifications were honest.</p>
             </div>
             <div class="card-footer">
               <a href="honest-LinkedIn.html">
@@ -2409,7 +2767,7 @@
             <div class="card-content">
               <p class="kicker">ABCs</p>
               <h3>Phonetic Alphabet</h3>
-              <p></p>
+              <p>A humorous prank phonetic alphabet chart exploring silent letters, confusing homophones, and English spelling…</p>
             </div>
             <div class="card-footer">
               <a href="alphabet.html">
@@ -2427,7 +2785,7 @@
             <div class="card-content">
               <p class="kicker">Math</p>
               <h3>Powerball & Random Numbers</h3>
-              <p></p>
+              <p>The odds of winning the Powerball jackpot are 1 in 292 million.</p>
             </div>
             <div class="card-footer">
               <a href="powerball.html">
@@ -2499,7 +2857,7 @@
             <div class="card-content">
               <p class="kicker">Rock</p>
               <h3>Thrillhouse</h3>
-              <p></p>
+              <p>A terse paean to Milhouse Van Houten—celebrating his character, voice actress Pamela Hayden, family history, and…</p>
             </div>
             <div class="card-footer">
               <a href="thrillhouse.html">
@@ -2572,7 +2930,7 @@
             <div class="card-content">
               <p class="kicker">Punny</p>
               <h3>Word Avalanches</h3>
-              <p></p>
+              <p>A curated collection of word avalanches—incredibly contrived setups for clever, phonetically repeating homophonic punchlines.</p>
             </div>
             <div class="card-footer">
               <a href="word-avalanches.html">
@@ -2628,44 +2986,7 @@
          also usable as image: -->
     <use href="#arrow-right" />
   </svg>
-  <script type="text/javascript">
-    /**
-     * Activate email links designated with .js-email-link classes.
-     * We're avoiding putting our email in the href to prevent harvesting for
-     * spam. This tip from Lokesh Dhakar.
-     */
-    document.querySelectorAll('.js-email-link').forEach(link => {
-      link.addEventListener('click', event => {
-        event.preventDefault();
-        const a = "Justin.richard.hill@";
-        const b = "gmail.com";
-        window.open(`mailto:${a}${b}`, 'email');
-      });
-    });
-
-    // Make cards clickable (supports mouse clicks and keyboard Enter/Space)
-    const handleCardActivate = (card, target) => {
-      const link = card.querySelector('.card-footer a, a');
-      if (link && target !== link && !link.contains(target)) {
-        link.click();
-      }
-    };
-
-    document.addEventListener('click', (e) => {
-      const card = e.target.closest('.card');
-      if (card) handleCardActivate(card, e.target);
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        const card = e.target.closest('.card');
-        if (card && e.target === card) {
-          e.preventDefault();
-          handleCardActivate(card, e.target);
-        }
-      }
-    });
-  </script>
+  <script src="js/blog.js" defer></script>
   <script src="js/site.js" defer></script>
 </body>
 
