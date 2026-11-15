@@ -462,7 +462,7 @@
       position: sticky;
       top: 0;
       z-index: 90; /* above the cards, below the fixed site nav (z-index 100) */
-      margin: 0 0 var(--spacer-2);
+      margin: 0;
       background: var(--bg-color);
       border-bottom: 1px solid var(--rule-color);
       box-sizing: border-box;
@@ -699,8 +699,8 @@
     .blog-hero {
       position: relative;
       isolation: isolate;
-      margin: var(--spacer-2) 0 0;
-      padding: var(--spacer-5) var(--spacer-2) var(--spacer-4);
+      margin: 0;
+      padding: var(--spacer-6) var(--spacer-2) var(--spacer-5);
     }
 
     .blog-hero::before {
@@ -715,9 +715,20 @@
     }
 
     .blog-hero .article-hero {
+      position: relative;
       max-width: 600px;
       margin: 0 auto;
       padding: 0 var(--spacer-1);
+    }
+
+    /* Soft glow that blurs the dots out behind the title, Stripe-style */
+    .blog-hero .article-hero::before {
+      content: "";
+      position: absolute;
+      inset: -48px -120px -40px -80px;
+      z-index: -1;
+      background: radial-gradient(ellipse at 40% 50%, var(--bg-color) 40%, transparent 72%);
+      pointer-events: none;
     }
 
     /* Anchor jumps land below the sticky header */
