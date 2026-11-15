@@ -63,7 +63,7 @@
 
   <style>
     :root {
-      --mWidth: 1170px;
+      --mWidth: 1400px;
     }
 
     html {
@@ -110,7 +110,7 @@
       display: grid;
       margin: 0 auto;
       margin-bottom: var(--spacer-6);
-      grid-template-columns: repeat(auto-fill, minmax(244px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 1.45rem;
       row-gap: 3rem;
       text-wrap: balance;
@@ -154,7 +154,7 @@
       box-shadow: 0 0 0 3px var(--bg-color), 0 0 0 5px #0274a2;
       outline: none;
       border-radius: 6px;
-      z-index: 1090;
+      z-index: 10;
       position: relative;
     }
 
@@ -245,7 +245,7 @@
       box-shadow: inset 0 0 0 2px #0274a2;
       outline: none;
       border-radius: 2px;
-      z-index: 1090;
+      z-index: 10;
       position: relative;
     }
 
@@ -360,13 +360,43 @@
       }
     }
 
+    /* ---------- Full-width layout for the index ----------
+       The article is a 7-column grid whose middle column is 600px wide. The
+       header, hero and card sections span every column; a left padding keeps
+       the cards clear of the fixed vertical nav on desktop. */
+    article>.blog-header,
+    article>.blog-hero,
+    article>section.mid-size {
+      grid-column: 1 / -1;
+      max-width: none;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    article>.blog-header,
+    article>section.mid-size {
+      padding-left: var(--spacer-2);
+      padding-right: var(--spacer-2);
+    }
+
+    @media (min-width: 1024px) {
+      article>.blog-header,
+      article>section.mid-size {
+        padding-left: 128px;
+        padding-right: 40px;
+      }
+
+      .container {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
     /* ---------- Blog header (sticky search + section tabs) ---------- */
     .blog-header {
       position: sticky;
       top: 0;
-      z-index: 1100;
+      z-index: 90; /* above the cards, below the fixed site nav (z-index 100) */
       margin: 0 0 var(--spacer-2);
-      padding: 0 var(--spacer-1);
       background: var(--bg-color);
       border-bottom: 1px solid var(--rule-color);
       box-sizing: border-box;
@@ -570,7 +600,7 @@
       position: relative;
       isolation: isolate;
       margin: var(--spacer-2) 0 0;
-      padding: var(--spacer-5) 0 var(--spacer-4);
+      padding: var(--spacer-5) var(--spacer-2) var(--spacer-4);
     }
 
     .blog-hero::before {
@@ -639,12 +669,6 @@
     }
 
     @media screen and (max-width: 680px) {
-      .blog-header {
-        margin-left: calc(-1 * var(--gutter));
-        margin-right: calc(-1 * var(--gutter));
-        padding: 0 var(--gutter);
-      }
-
       /* The site nav and the h1 already say where we are: drop the brand line on phones */
       .blog-brand {
         display: none;
