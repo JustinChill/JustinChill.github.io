@@ -626,7 +626,16 @@
         ]
       };
 
-      var splitWidth = width > 680 ? Math.floor((midWidth - 24) / 2) : width;
+      // The two PPM charts share the .split section (flex row with a 1.5rem gap on
+      // desktop, stacked below 680px). Measure the section itself: the figures are
+      // empty on first render, and the article column is 600px on desktop, so the old
+      // "width > 680" test never chose the half width and the charts were squeezed.
+      var splitSection = document.querySelector('section.split');
+      var splitSectionWidth = splitSection ? splitSection.getBoundingClientRect().width : 0;
+      var splitIsRow = splitSection && getComputedStyle(splitSection).display === 'flex';
+      var splitWidth = splitSectionWidth > 0
+        ? Math.floor(splitIsRow ? (splitSectionWidth - 24) / 2 : splitSectionWidth)
+        : width;
 
       var ppm = {
         width: splitWidth,
