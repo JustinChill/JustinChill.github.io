@@ -477,8 +477,8 @@
       display: grid;
       grid-template-columns: 1fr auto;
       grid-template-areas:
-        "brand chips"
-        "tabs search";
+        "brand search"
+        "tabs tabs";
       column-gap: var(--spacer-3);
       align-items: center;
     }
@@ -494,11 +494,13 @@
     }
 
     .blog-brand__avatar {
-      width: 34px;
-      height: 34px;
+      width: 36px;
+      height: 36px;
+      padding: 2px;
+      box-sizing: border-box;
       border-radius: 50%;
-      object-fit: cover;
-      object-position: top;
+      object-fit: contain;
+      object-position: center;
       background: var(--surface-subtle);
       box-shadow: 0 0 0 1px var(--rule-color);
     }
@@ -635,11 +637,24 @@
       opacity: .4;
     }
 
+    .blog-section-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--spacer-1) var(--spacer-3);
+      max-width: var(--mWidth);
+      margin: var(--spacer-4) auto var(--spacer-2);
+    }
+
+    .blog-section-head h2.header {
+      width: auto;
+      margin: 0;
+    }
+
     .blog-chips {
-      grid-area: chips;
       display: flex;
       gap: .3rem;
-      justify-self: end;
       max-width: 100%;
       overflow-x: auto;
       scrollbar-width: none;
@@ -708,7 +723,7 @@
       position: absolute;
       inset: 0;
       z-index: -1;
-      background-image: radial-gradient(circle, color-mix(in srgb, var(--muted-color) 55%, transparent) 1px, transparent 1.5px);
+      background-image: radial-gradient(circle, color-mix(in srgb, var(--muted-color) 38%, transparent) 1px, transparent 1.5px);
       background-size: 14px 14px;
       -webkit-mask-image: linear-gradient(to bottom, #000 30%, transparent 95%);
       mask-image: linear-gradient(to bottom, #000 30%, transparent 95%);
@@ -725,9 +740,9 @@
     .blog-hero .article-hero::before {
       content: "";
       position: absolute;
-      inset: -48px -120px -40px -80px;
+      inset: -24px -72px -20px -48px;
       z-index: -1;
-      background: radial-gradient(ellipse at 40% 50%, var(--bg-color) 40%, transparent 72%);
+      background: radial-gradient(ellipse at 38% 50%, color-mix(in srgb, var(--bg-color) 92%, transparent) 25%, transparent 62%);
       pointer-events: none;
     }
 
@@ -789,10 +804,13 @@
         column-gap: var(--spacer-2);
       }
 
-      .blog-chips,
       .blog-brand span,
       .blog-count {
         display: none;
+      }
+
+      .blog-section-head {
+        margin-top: var(--spacer-3);
       }
 
       .blog-brand {
@@ -867,15 +885,6 @@
           <img class="blog-brand__avatar" src="imgs/memoji.png" alt="" width="270" height="367" decoding="async">
           <strong>Justin Chill</strong><span>Blog</span>
         </a>
-        <div class="blog-chips" aria-label="Filter by topic">
-          <button type="button" class="blog-chip" data-topic="Data viz" aria-pressed="false">Data viz</button>
-          <button type="button" class="blog-chip" data-topic="USA" aria-pressed="false">USA</button>
-          <button type="button" class="blog-chip" data-topic="Design" aria-pressed="false">Design</button>
-          <button type="button" class="blog-chip" data-topic="Lit Crit" aria-pressed="false">Lit Crit</button>
-          <button type="button" class="blog-chip" data-topic="Technology" aria-pressed="false">Technology</button>
-          <button type="button" class="blog-chip" data-topic="Code" aria-pressed="false">Code</button>
-          <button type="button" class="blog-chip" data-topic="World" aria-pressed="false">World</button>
-        </div>
         <nav class="blog-tabs" aria-label="Blog sections">
           <a class="blog-tab" href="#posts" aria-current="true">Posts</a>
           <a class="blog-tab" href="#books">Books &amp; Culture</a>
@@ -913,7 +922,18 @@
         <button type="button" class="blog-empty__clear" id="blog-clear">Clear search</button></p>
       <!-- Section of all posts -->
       <section class="mid-size">
-        <h2 class="header mid-size" id="posts">Posts</h2>
+        <div class="blog-section-head">
+          <h2 class="header mid-size" id="posts">Posts</h2>
+          <div class="blog-chips" aria-label="Filter by topic">
+            <button type="button" class="blog-chip" data-topic="Data viz" aria-pressed="false">Data viz</button>
+            <button type="button" class="blog-chip" data-topic="USA" aria-pressed="false">USA</button>
+            <button type="button" class="blog-chip" data-topic="Design" aria-pressed="false">Design</button>
+            <button type="button" class="blog-chip" data-topic="Lit Crit" aria-pressed="false">Lit Crit</button>
+            <button type="button" class="blog-chip" data-topic="Technology" aria-pressed="false">Technology</button>
+            <button type="button" class="blog-chip" data-topic="Code" aria-pressed="false">Code</button>
+            <button type="button" class="blog-chip" data-topic="World" aria-pressed="false">World</button>
+          </div>
+        </div>
 
         <!-- Section of posts -->
         <section class="container mid-size">
@@ -925,7 +945,7 @@
             <div class="card-content">
               <p class="kicker">BLM</p>
               <h3>8 Minutes, 46 Seconds</h3>
-              <p>This powerful visualization honors George Floyd and raises awareness about police brutality.</p>
+              <p>Sit with eight minutes and forty-six seconds</p>
             </div>
             <div class="card-footer">
               <a href="8m46s.html">
@@ -1093,7 +1113,7 @@
             <div class="card-content">
               <p class="kicker">World</p>
               <h3>Corrosive Corruption</h3>
-              <p>An interactive data visualization exploring the correlation between Transparency International's Corruption…</p>
+              <p>Corruption versus human development</p>
             </div>
             <div class="card-footer">
               <a href="corruption.html">
@@ -1112,7 +1132,7 @@
             <div class="card-content">
               <p class="kicker">Work</p>
               <h3>Customer Satisfaction (<small>CSAT</small>)</h3>
-              <p>Understanding how surveys can be used to effectively measure customer satisfaction</p>
+              <p>Measuring customer satisfaction</p>
             </div>
             <div class="card-footer">
               <a href="csat.html">
@@ -1167,7 +1187,7 @@
             <div class="card-content">
               <p class="kicker">Femme Fatale</p>
               <h3>Famous Women</h3>
-              <p>An interactive visual guide and biographical overview exploring the 100 most searched women in history across…</p>
+              <p>The 100 most searched women in history</p>
             </div>
             <div class="card-footer">
               <a href="famous-women.html">
@@ -1260,7 +1280,7 @@
             <div class="card-content">
               <p class="kicker">USA</p>
               <h3>How 'Democratic' is Congress?</h3>
-              <p>A detailed analysis of representation in the U.S. Congress, focusing on Senate and House disparities.</p>
+              <p>Who the Senate and House really represent</p>
             </div>
             <div class="card-footer">
               <a href="congress.html">
@@ -1353,7 +1373,7 @@
             <div class="card-content">
               <p class="kicker">Music</p>
               <h3 id="mac">Mac Miller Tribute</h3>
-              <p>An ode to an artist gone way too soon.</p>
+              <p>An ode to an artist gone way too soon</p>
             </div>
             <div class="card-footer">
               <a href="mac-miller.html">
@@ -1372,7 +1392,7 @@
             <div class="card-content">
               <p class="kicker">Work</p>
               <h3>Net Promoter Score (<small>NPS</small>)</h3>
-              <p>Understanding Net Promoter Scores to effectively measure customer loyalty</p>
+              <p>Measuring customer loyalty</p>
             </div>
             <div class="card-footer">
               <a href="nps.html">
@@ -1464,7 +1484,7 @@
             <div class="card-content">
               <p class="kicker">Data viz</p>
               <h3>Palmer's Penguins</h3>
-              <p>Data visualizations of penguins from the Palmer Station in Antarctica.</p>
+              <p>Palmer Station's penguins, charted</p>
             </div>
             <div class="card-footer">
               <a href="penguins.html">
@@ -1482,7 +1502,7 @@
             <div class="card-content">
               <p class="kicker">Design</p>
               <h3>Pantone® Color of the Year</h3>
-              <p>An interactive catalog and visual exploration of Pantone Colors of the Year from 2000 to 2024, complete with color…</p>
+              <p>Every Color of the Year since 2000</p>
             </div>
             <div class="card-footer">
               <a href="pantone.html">
@@ -1537,7 +1557,7 @@
             <div class="card-content">
               <p class="kicker">Art</p>
               <h3>Piet Mondrian in CSS Grid</h3>
-              <p>Recreating Piet Mondrian's iconic geometric abstract art—including Composition with Red, Blue and Yellow (1930) and…</p>
+              <p>Composition II, rebuilt in CSS Grid</p>
             </div>
             <div class="card-footer">
               <a href="Mondrian.html">
@@ -1669,7 +1689,7 @@
             <div class="card-content">
               <p class="kicker">Sports</p>
               <h3>Steph Curry's Popcorn Problem</h3>
-              <p>Steph Curry ranks the popcorn at all 29 N.B.A. arenas.</p>
+              <p>Steph Curry rates every NBA arena's popcorn</p>
             </div>
             <div class="card-footer">
               <a href="popcorn.html">
@@ -1726,7 +1746,7 @@
             <div class="card-content">
               <p class="kicker">Data viz</p>
               <h3>The Carrie Bradshaw Index</h3>
-              <p>Where Americans can afford to live on their own.</p>
+              <p>Where Americans can afford to live alone</p>
             </div>
             <div class="card-footer">
               <a href="carrie-bradshaw-index.html">
@@ -1745,7 +1765,7 @@
             <div class="card-content">
               <p class="kicker">Taking Off</p>
               <h3>The Evolution of Flight</h3>
-              <p>An interactive data visualization tracking aircraft airspeed records and the evolution of flight over time, from the…</p>
+              <p>Airspeed records, from the Wright brothers to supersonic</p>
             </div>
             <div class="card-footer">
               <a href="flight.html">
@@ -1950,7 +1970,7 @@
             <div class="card-content">
               <p class="kicker">Technology</p>
               <h3>Women in STEM</h3>
-              <p>Personal heroes from the fields of science, technology, engineering, and math (STEM).</p>
+              <p>Personal heroes of science, technology, engineering and math</p>
             </div>
             <div class="card-footer">
               <a href="women-in-stem.html">
@@ -1987,7 +2007,7 @@
             <div class="card-content">
               <p class="kicker">Data viz</p>
               <h3>World's Oldest Person Titleholders</h3>
-              <p>An interactive data visualization tracking verified World's Oldest Person titleholders since 1955, exploring…</p>
+              <p>Every World's Oldest Person since 1955</p>
             </div>
             <div class="card-footer">
               <a href="oldest.html">
@@ -2231,7 +2251,7 @@
               <div class="card-content">
                 <p class="kicker">Trump that</p>
                 <h3>The Failing New York Times</h3>
-                <p>An analysis of The New York Times' business model evolution from print advertising to digital subscriptions…</p>
+                <p>From print ads to digital subscriptions</p>
               </div>
               <div class="card-footer">
                 <a href="failingNYT.html">
@@ -2348,7 +2368,7 @@
             <div class="card-content">
               <p class="kicker">Data viz</p>
               <h3>Caffeine Data Visualization</h3>
-              <p>An interactive data visualization exploring caffeine content (in mg) across food, beverage, and over-the-counter…</p>
+              <p>How much caffeine is in that?</p>
             </div>
             <div class="card-footer">
               <a href="caffeine.html">
@@ -2366,7 +2386,7 @@
             <div class="card-content">
               <p class="kicker">Code</p>
               <h3>Cascading Style Sheets</h3>
-              <p>An interactive reference guide and cheatsheet for Cascading Style Sheets (CSS), featuring searchable lists of 140+…</p>
+              <p>Named colors, cursors and other CSS reference</p>
             </div>
             <div class="card-footer">
               <a href="css-101.html">
@@ -2423,7 +2443,7 @@
             <div class="card-content">
               <p class="kicker">Code</p>
               <h3>CSS Selectors</h3>
-              <p>Learn what CSS selectors are and how to use and group them.</p>
+              <p>What selectors are and how to use them</p>
             </div>
             <div class="card-footer">
               <a href="css-selectors.html">
@@ -2442,7 +2462,7 @@
             <div class="card-content">
               <p class="kicker">Terms & Conditions</p>
               <h3>Data Visualization Glossary</h3>
-              <p>A comprehensive reference glossary of common terms, chart types, exploratory data analysis concepts, and statistical…</p>
+              <p>Chart types and statistics, defined</p>
             </div>
             <div class="card-footer">
               <a href="glossary.html">
@@ -2517,7 +2537,7 @@
             <div class="card-content">
               <p class="kicker">Blog</p>
               <h3 id="hi">Hello World</h3>
-              <p>How I've designed JustinChill.com</p>
+              <p>How this site is designed</p>
             </div>
             <div class="card-footer">
               <a href="article.html">
@@ -2591,7 +2611,7 @@
             <div class="card-content">
               <p class="kicker">Design</p>
               <h3>Practical UI Details</h3>
-              <p>A curated collection of practical UI and UX design micro-tips and visual examples for creating polished web…</p>
+              <p>Micro-tips for polished interfaces</p>
             </div>
             <div class="card-footer">
               <a href="UI-details.html">
@@ -2610,7 +2630,7 @@
             <div class="card-content">
               <p class="kicker">Math</p>
               <h3>Prime Numbers</h3>
-              <p>A visual sieve of prime numbers under 10,000.</p>
+              <p>A visual sieve of primes under 10,000</p>
             </div>
             <div class="card-footer">
               <a href="primes.html">
@@ -2629,7 +2649,7 @@
             <div class="card-content">
               <p class="kicker">Design</p>
               <h3>Spinning Rings Illusion</h3>
-              <p>An exploration of optical illusions created by stacking concentric circles and rotating them at staggered speeds…</p>
+              <p>Concentric circles, staggered spin</p>
             </div>
             <div class="card-footer">
               <a href="rings.html">
@@ -2722,7 +2742,7 @@
             <div class="card-content">
               <p class="kicker">Technology</p>
               <h3>Windows XP</h3>
-              <p>An ode to Windows XP, featuring an interactive recreation of the classic Luna Start menu, boot screen animation, and…</p>
+              <p>Luna, the boot screen and OS market share</p>
             </div>
             <div class="card-footer">
               <a href="windows-xp.html">
@@ -2781,7 +2801,7 @@
             <div class="card-content">
               <p class="kicker">Design</p>
               <h3>Blank Page</h3>
-              <p>This page intentionally left blank.</p>
+              <p>This page intentionally left blank</p>
             </div>
             <div class="card-footer">
               <a href="blank.html">
@@ -2818,7 +2838,7 @@
             <div class="card-content">
               <p class="kicker">Ad Rep</p>
               <h3>Get Fit</h3>
-              <p>An interactive pure-CSS 3D typography flip animation transitioning between 'FAT' and 'FIT', inspired by a classic…</p>
+              <p>FAT to FIT in pure CSS</p>
             </div>
             <div class="card-footer">
               <a href="get-fit.html">
@@ -2837,7 +2857,7 @@
             <div class="card-content">
               <p class="kicker">Social Networking</p>
               <h3>Honest LinkedIn</h3>
-              <p>If LinkedIn notifications were honest.</p>
+              <p>If LinkedIn notifications were honest</p>
             </div>
             <div class="card-footer">
               <a href="honest-LinkedIn.html">
@@ -2891,7 +2911,7 @@
             <div class="card-content">
               <p class="kicker">ABCs</p>
               <h3>Phonetic Alphabet</h3>
-              <p>A humorous prank phonetic alphabet chart exploring silent letters, confusing homophones, and English spelling…</p>
+              <p>P for pterodactyl, E for eye</p>
             </div>
             <div class="card-footer">
               <a href="alphabet.html">
@@ -2909,7 +2929,7 @@
             <div class="card-content">
               <p class="kicker">Math</p>
               <h3>Powerball & Random Numbers</h3>
-              <p>The odds of winning the Powerball jackpot are 1 in 292 million.</p>
+              <p>One in 292 million, and how random numbers work</p>
             </div>
             <div class="card-footer">
               <a href="powerball.html">
@@ -2981,7 +3001,7 @@
             <div class="card-content">
               <p class="kicker">Rock</p>
               <h3>Thrillhouse</h3>
-              <p>A terse paean to Milhouse Van Houten—celebrating his character, voice actress Pamela Hayden, family history, and…</p>
+              <p>A paean to Milhouse Van Houten</p>
             </div>
             <div class="card-footer">
               <a href="thrillhouse.html">
@@ -3054,7 +3074,7 @@
             <div class="card-content">
               <p class="kicker">Punny</p>
               <h3>Word Avalanches</h3>
-              <p>A curated collection of word avalanches—incredibly contrived setups for clever, phonetically repeating homophonic punchlines.</p>
+              <p>Contrived setups, homophonic punchlines</p>
             </div>
             <div class="card-footer">
               <a href="word-avalanches.html">

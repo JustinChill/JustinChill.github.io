@@ -38,9 +38,16 @@
 
   // Each h2.header is followed (possibly inside a .callout) by its .container of cards.
   const sections = Array.from(root.querySelectorAll("h2.header")).map((heading) => {
-    let container = heading.nextElementSibling;
-    while (container && !container.classList.contains("container")) container = container.nextElementSibling;
-    return { heading, container, wrapper: heading.closest(".callout") };
+    // The heading may be wrapped (e.g. .blog-section-head holds the Posts h2 and the
+    // topic chips), so look for the .container after the heading, then after its wrapper.
+    const nextContainer = (el) => {
+      let c = el && el.nextElementSibling;
+      while (c && !c.classList.contains("container")) c = c.nextElementSibling;
+      return c || null;
+    };
+    const wrapperHead = heading.closest(".blog-section-head");
+    const container = nextContainer(heading) || nextContainer(wrapperHead);
+    return { heading, container, wrapper: heading.closest(".callout") || wrapperHead };
   }).filter((s) => s.container);
 
   let query = "";
