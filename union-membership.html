@@ -47,7 +47,7 @@
     property="og:image:alt">
 
   <meta name="datePublished" content="2023-12-07">
-  <meta name="dateModified" content="2026-08-25">
+  <meta name="dateModified" content="2026-11-17">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -70,8 +70,53 @@
   <meta name="color-scheme" content="light dark">
 
   <style>
-    g[aria-label*="x-axis"] path {
-      stroke: rgb(146, 146, 151);
+    /* Event notes as a numbered list, used when the chart is too narrow for
+       inline notes (the numbers match the markers on the line). */
+    #line .chart-notes {
+      list-style: none;
+      counter-reset: note;
+      display: grid;
+      gap: .6rem;
+      margin: .75rem 0 0;
+      padding: 0;
+      font-family: var(--font-ui);
+      font-size: var(--type-scale--1);
+      line-height: 1.4;
+    }
+
+    #line .chart-notes[hidden] {
+      display: none;
+    }
+
+    #line .chart-notes li {
+      counter-increment: note;
+      display: grid;
+      grid-template-columns: 1.25rem 1fr;
+      gap: .5rem;
+      align-items: baseline;
+    }
+
+    #line .chart-notes li::before {
+      content: counter(note);
+      display: inline-grid;
+      place-items: center;
+      width: 1.25rem;
+      height: 1.25rem;
+      border-radius: 50%;
+      background: var(--heading-color);
+      color: var(--bg-color);
+      font-size: .7rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    #line .chart-notes strong {
+      font-weight: 700;
+    }
+
+    /* Inline notes: the first line of each is its title */
+    #line g[aria-description="event notes"] tspan:first-child {
+      font-weight: 700;
     }
   </style>
 
@@ -97,7 +142,7 @@
     }
   },
   "datePublished": "2023-12-07",
-  "dateModified": "2026-08-25",
+  "dateModified": "2026-11-17",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
   "articleSection": "Labor & Economics",
@@ -324,11 +369,13 @@
       </div>
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h2>Labored Unions</h2>
-      <h3>U.S. union membership rate, 1964-2018</h3>
+      <h3>U.S. union membership rate, 1964–2018</h3>
       <figure id="line"
-        aria-label="A line graph showing the decline in union membership rates in the United States. The series starts in 1964 with a high of 29.3% and declines to 10.6% by 2018.">
+        aria-label="Line chart of the U.S. union membership rate, which falls from 29.3% in 1964 to 10.6% in 2018. Notes mark the 1970 postal strike, the 1981 PATCO strike, NAFTA in 1993 and Janus v. AFSCME in 2018.">
         <figcaption><a href="https://www.unionstats.com/">Data</a>: Barry T. Hirsch, David
           A. Macpherson, and Wayne G. Vroman, <em>“Estimates of Union Density by State”</em></figcaption>
+        <div id="line-plot"></div>
+        <ol class="chart-notes" id="line-notes" hidden></ol>
       </figure>
       <p>Organized labor has attracted a great deal of public and media attention lately, on a scale not seen for
         decades. The focus on “essential workers” at the peak of the COVID-19 pandemic, along with a pervasive labor
@@ -407,204 +454,128 @@
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.19/dist/plot.umd.min.js"></script>
 
   <script>
-    var size = 12;
-    var rawUnionData = null;
-
-    const tips = [
-      {
-        x1: 1983,
-        x2: 1983,
-        y1: 24,
-        y2: 22.125,
-        text_x: 1982,
-        text_y: 27.3,
-        value: 21.7,
-        title: "1981: PATCO Strike",
-        text: "President Reagan fires federal air traffic controllers in a major setback to the U.S. labor movement"
-      },
-      {
-        x1: 1971,
-        x2: 1971,
-        y1: 28.6,
-        y2: 27.125,
-        text_x: 1972,
-        text_y: 31.4,
-        value: 27.8,
-        title: "1970: Postal Worker Strike",
-        text: "210,000 USPS workers walk off in the largest wildcat strike in U.S. history"
-      },
-      {
-        x1: 1992,
-        x2: 1992,
-        y1: 15,
-        y2: 14,
-        text_x: 1989,
-        text_y: 13,
-        value: 16,
-        title: "1993: NAFTA",
-        text: "President Clinton signs the North American Free Trade Agreement, weakening U.S. union power"
-      },
-      {
-        x1: 2002,
-        x2: 2002,
-        y1: 8.5,
-        y2: 6,
-        text_x: 2008,
-        text_y: 17,
-        value: 10.6,
-        title: "2018: Janus v. AFSCME",
-        text: "Landmark Supreme Court case restricts the ability of unions to collect dues from non-members"
-      }
+    // Union membership line chart (Observable Plot).
+    // Each note is anchored at its event year on the line. labelY is where its
+    // leader line ends (in % units): above the point the note sits on top of
+    // the leader, below it the note hangs from it. Notes go on the side with
+    // empty space. Below COMPACT_WIDTH the notes become numbered markers on
+    // the line plus a list under the chart, so nothing is clipped on phones.
+    const events = [
+      { year: 1970, title: "1970: Postal Worker Strike", note: "210,000 postal workers walk off the job.", labelY: 14, side: "right" },
+      { year: 1981, title: "1981: PATCO Strike", note: "Reagan fires striking air traffic controllers.", labelY: 25, side: "right" },
+      { year: 1993, title: "1993: NAFTA", note: "Clinton signs the North American Free Trade Agreement.", labelY: 19.5, side: "right" },
+      { year: 2018, title: "2018: Janus v. AFSCME", note: "Supreme Court ends mandatory union fees for public workers.", labelY: 7.5, side: "left" }
     ];
-    const years = [1964, 1981, 2018, 1970, 1993];
+    const COMPACT_WIDTH = 560;
+    const FONT_SIZE = 13;
+    const pct = (v) => v.toFixed(1) + "%";
+    const SURFACE = "var(--bg-color, white)";
 
+    let unionData = null;
     let lastRenderedWidth = 0;
 
+    function renderNotesList(show) {
+      const list = document.getElementById("line-notes");
+      if (!list) return;
+      list.hidden = !show;
+      if (!show || list.childElementCount) return;
+      for (const e of events) {
+        const li = document.createElement("li");
+        const body = document.createElement("div");
+        const title = document.createElement("strong");
+        title.textContent = e.title + ".";
+        body.append(title, " " + e.note);
+        li.append(body);
+        list.append(li);
+      }
+    }
+
     function renderLineChart() {
-      if (!rawUnionData) return;
-      const container = document.getElementById("line");
-      if (!container) return;
-
-      container.innerHTML = "";
-      const width = container.getBoundingClientRect().width || 600;
+      const container = document.getElementById("line-plot");
+      if (!unionData || !container) return;
+      const width = Math.round(container.getBoundingClientRect().width) || 600;
+      if (width === lastRenderedWidth) return;
       lastRenderedWidth = width;
+      const compact = width < COMPACT_WIDTH;
 
-      const lineConfig = {
-        aspectRatio: 0.65,
-        width: width,
-        height: Math.max(width * 0.65, 400),
-        marginRight: 0,
-        style: {
-          fontSize: (size + 1) + "px",
-          paddingRight: width > 450 ? "0" : "1em",
-          background: "transparent"
-        },
-        y: {
-          tickSize: 0,
-          nice: true,
-          tickFormat: d => d + "%",
-          ticks: 4,
-          grid: true,
-        },
-        x: {
-          tickSize: 8,
-          nice: true,
-          labelAnchor: "center",
-          tickFormat: "f",
-        },
-        marks: [
-          Plot.ruleY([0], {
-            stroke: "rgb(146,146,151)"
-          }),
-          Plot.line(rawUnionData, {
-            x: "year",
-            y: "value",
-            stroke: "lightgrey",
-          }),
-          Plot.dot(rawUnionData, {
-            filter: (d) => years.indexOf(d.year) >= 0,
-            x: "year",
-            y: "value",
-            fill: "grey",
-            strokeWidth: 1,
-            r: 2,
-          }),
-          Plot.text(rawUnionData, {
-            filter: (d) => years.indexOf(d.year) >= 0,
-            x: "year",
-            y: "value",
-            fill: "grey",
-            text: d => d.value + "%",
-            dy: -10,
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 1.5,
-          }),
-          Plot.text(tips, {
-            filter: (d, i) => i !== 2 && i !== 3,
-            x: "x2",
-            y: "y1",
-            fill: "currentColor",
-            text: "title",
-            dy: -16,
-            dx: 20,
-            fontWeight: 700,
-            textAnchor: "start",
-          }),
-          Plot.text(tips, {
-            filter: (d, i) => i === 3,
-            x: "x2",
-            y: "y1",
-            fill: "currentColor",
-            text: "title",
-            dy: -10,
-            dx: -20,
-            fontWeight: 700,
-            textAnchor: "start",
-          }),
-          Plot.text(tips, {
-            filter: (d, i) => i !== 2 && i !== 3,
-            x: "x1",
-            y: "y2",
-            fill: "currentColor",
-            stroke: "var(--bg-color, white)",
-            text: "text",
-            lineWidth: 18,
-            dy: width > 450 ? -10 : -4,
-            dx: 22,
-            textAnchor: "start",
-          }),
-          Plot.text(tips, {
-            filter: (d, i) => i === 2,
-            x: "x1",
-            y: "y1",
-            fill: "currentColor",
-            text: "title",
-            dy: -5,
-            dx: -10,
-            fontWeight: 700,
-            textAnchor: "end",
-          }),
-          Plot.text(tips, {
-            filter: (d, i) => i === 2,
-            x: "x1",
-            y: "y1",
-            fill: "currentColor",
-            stroke: "var(--bg-color, white)",
-            text: "text",
-            lineWidth: 18,
-            dy: 20,
-            dx: -10,
-            textAnchor: "end",
-          }),
-          Plot.text(tips, {
-            filter: (d, i) => i === 3,
-            x: "x1",
-            y: "y1",
-            fill: "currentColor",
-            stroke: "var(--bg-color, white)",
-            text: "text",
-            lineWidth: 18,
-            dy: 14,
-            dx: -20,
-            textAnchor: "start",
-          }),
+      // Event points take their value from the data, so a note can never
+      // point at a different year than the one it names.
+      const byYear = new Map(unionData.map((d) => [d.year, d.value]));
+      const points = events.map((e, i) => ({ ...e, n: i + 1, value: byYear.get(e.year) }));
+      const first = unionData.reduce((a, b) => (a.year < b.year ? a : b));
+      const last = unionData.reduce((a, b) => (a.year > b.year ? a : b));
+      const above = (d) => d.labelY > d.value;
+
+      const eventMarks = compact
+        ? [
+          // Numbered markers; the notes are listed under the chart
+          Plot.dot(points, { x: "year", y: "value", r: 8, fill: "currentColor", stroke: SURFACE, strokeWidth: 2 }),
+          Plot.text(points, { x: "year", y: "value", text: "n", fill: SURFACE, fontSize: 10, fontWeight: 700 })
         ]
-      };
+        : [
+          // Leader line from the point to its note
+          Plot.link(points, { x1: "year", y1: "value", x2: "year", y2: "labelY", stroke: "currentColor", strokeOpacity: 0.45 }),
+          Plot.dot(points, { x: "year", y: "value", r: 4, fill: "currentColor", stroke: SURFACE, strokeWidth: 2 }),
+          // Plot's anchors and offsets are per mark, so one text mark per placement
+          ...[["start", true], ["start", false], ["end", true], ["end", false]].map(([anchor, up]) =>
+            Plot.text(points.filter((d) => (d.side === "left" ? "end" : "start") === anchor && above(d) === up), {
+              ariaDescription: "event notes",
+              x: "year",
+              y: "labelY",
+              text: (d) => d.title + "\n" + d.note,
+              lineWidth: 16,
+              lineHeight: 1.25,
+              textAnchor: anchor,
+              lineAnchor: up ? "bottom" : "top",
+              dy: up ? -4 : 4,
+              fill: "currentColor",
+              stroke: SURFACE,
+              strokeWidth: 3
+            }))
+        ];
 
-      container.appendChild(Plot.plot(lineConfig));
+      const chart = Plot.plot({
+        width,
+        height: Math.max(Math.round(width * 0.65), 400),
+        marginTop: 24,
+        marginRight: 44,
+        style: { fontSize: FONT_SIZE + "px", background: "transparent" },
+        x: { label: null, tickFormat: "d", nice: true },
+        y: { label: null, domain: [0, 30], ticks: [0, 10, 20, 30], tickFormat: (d) => d + "%", tickSize: 0, grid: true },
+        marks: [
+          Plot.ruleY([0], { stroke: "currentColor", strokeOpacity: 0.3 }),
+          Plot.line(unionData, {
+            x: "year", y: "value", sort: "year",
+            stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round"
+          }),
+          // Value labels only at the start and the end of the line (dots drawn
+          // first, so an event marker on the same year sits on top)
+          Plot.dot([first, last], { x: "year", y: "value", r: 4, fill: "currentColor", stroke: SURFACE, strokeWidth: 2 }),
+          ...eventMarks,
+          Plot.text([first], { x: "year", y: "value", text: (d) => pct(d.value), dy: -12, fill: "currentColor", stroke: SURFACE, strokeWidth: 3 }),
+          Plot.text([last], { x: "year", y: "value", text: (d) => pct(d.value), dx: compact ? 13 : 8, textAnchor: "start", fill: "currentColor", stroke: SURFACE, strokeWidth: 3 }),
+          // Hover: a crosshair snaps to the nearest year and shows its rate
+          Plot.ruleX(unionData, Plot.pointerX({ x: "year", stroke: "currentColor", strokeOpacity: 0.35 })),
+          Plot.dot(unionData, Plot.pointerX({ x: "year", y: "value", r: 4, fill: "currentColor", stroke: SURFACE, strokeWidth: 2 })),
+          Plot.tip(unionData, Plot.pointerX({ x: "year", y: "value", title: (d) => pct(d.value) + " in " + d.year }))
+        ]
+      });
+
+      container.replaceChildren(chart);
+      renderNotesList(compact);
     }
 
     d3.csv("data/union_membership.csv", d3.autoType).then(function (data) {
-      rawUnionData = data;
+      unionData = data;
       renderLineChart();
-    });
-
-    window.addEventListener("resize", () => {
-      const container = document.getElementById("line");
-      if (!container) return;
-      const newWidth = container.getBoundingClientRect().width;
-      if (newWidth !== lastRenderedWidth) {
-        renderLineChart();
+      // Redraw when the chart's own width changes (once per frame at most)
+      const target = document.getElementById("line-plot");
+      if (target && "ResizeObserver" in window) {
+        let frame = 0;
+        new ResizeObserver(() => {
+          cancelAnimationFrame(frame);
+          frame = requestAnimationFrame(renderLineChart);
+        }).observe(target);
       }
     });
   </script>
