@@ -49,7 +49,7 @@
     property="og:image:alt">
 
   <meta name="datePublished" content="2020-02-03">
-  <meta name="dateModified" content="2025-08-06">
+  <meta name="dateModified" content="2026-11-18">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -483,6 +483,24 @@
     }
 
 
+    /* Chart colours: Simpsons yellow for individual episodes, a neutral grey
+       for de-emphasised bars. Trend lines and labels use the text colour. */
+    article {
+      --simpsons-episode: #e2b100;
+      --simpsons-other: #c9c8c3;
+    }
+
+    html[data-theme="dark"] article {
+      --simpsons-episode: #fed90f;
+      --simpsons-other: #4b4b47;
+    }
+
+    /* A Plot chart with a legend comes wrapped in its own <figure>; don't let
+       the site's figure margins add a second gap inside the article figure */
+    article figure > figure {
+      margin: 0;
+    }
+
     /* Random quote */
     .random-quote-section {
       margin: var(--spacer-4, 2rem) 0;
@@ -500,9 +518,9 @@
       background: none;
       border: none;
       cursor: pointer;
-      padding: 4px;
+      padding: 6px;
       color: var(--text-color, currentColor);
-      border-radius: var(--radius-sm, 4px);
+      border-radius: 50%; /* round, so the focus ring is a circle */
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -516,6 +534,45 @@
 
     .quote-refresh-btn:focus-visible {
       outline: 2px solid var(--focus-color, #1f6fd1);
+      outline-offset: 2px;
+    }
+
+    /* The site-wide :focus outline also fires on mouse clicks; keep the ring for keyboard focus */
+    .quote-refresh-btn:focus:not(:focus-visible) {
+      outline-color: transparent;
+    }
+
+    /* Spins while the quote list is loading */
+    .quote-refresh-btn[aria-busy="true"] svg {
+      animation: quote-spin .8s linear infinite;
+    }
+
+    @keyframes quote-spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .quote-refresh-btn,
+      .quote-refresh-btn:hover {
+        transform: none;
+        transition: none;
+      }
+
+      .quote-refresh-btn[aria-busy="true"] svg {
+        animation: none;
+      }
+    }
+
+    /* Shown only when the quotes can't be loaded */
+    .quote-status {
+      margin: .5rem 0 0;
+      font-family: var(--font-ui);
+      font-size: var(--type-scale--1);
+      color: var(--muted-color);
+    }
+
+    .quote-status[hidden] {
+      display: none;
     }
 
     .quote-left,
@@ -711,7 +768,7 @@
     }
   },
   "datePublished": "2020-02-03",
-  "dateModified": "2025-08-06",
+  "dateModified": "2026-11-18",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
   "articleSection": "Culture",
@@ -925,15 +982,15 @@
       </div>
     </header>
     <article>
-      <p><em>The Simpsons</em> needs no introduction. At <a
-          href="https://www.yahoo.com/entertainment/simpsons-renewed-season-40-185615929.html">40 seasons</a> and
-        counting, it is the longest-running scripted series in the history of American primetime television<a
+      <p><em>The Simpsons</em> needs no introduction. <a
+          href="https://www.yahoo.com/entertainment/simpsons-renewed-season-40-185615929.html">Renewed through its 40th
+          season</a>, it is the longest-running scripted series in the history of American primetime television<a
           href="#longrunning" aria-describedby="footnote-label" id="longrunning-ref"></a>. If Bart Simpson aged in real
         time with the show, he would now be in his <a
           href="https://screenrant.com/simpsons-characters-real-life-age-how-old/#:~:text=Bart%20Simpson's%20Age,years%2Dold%20as%20of%202020.">40s</a>.
       </p>
-      <p>As a cromulent fan of the show, I present here a few short analyses about Springfield, from the show’s dialogue
-        to its TV ratings. All code used for this post is available on <a
+      <p>As a lifelong fan of the show, I present here a few perfectly cromulent analyses about Springfield. All code
+        used for this post is available on <a
           href="https://github.com/JustinChill/JustinChill.github.io/blob/main/simpsons.html">GitHub</a>.</p>
       <span class="header-tag mid-size" aria-hidden="true"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h2 class="mid-size">Ratings for The Simpsons have declined over time</h2>
@@ -942,15 +999,16 @@
         <figcaption class="right">Data: <a href="https://www.imdb.com/title/tt0096697/" target="_blank"
             rel="noopener">IMDb</a></figcaption>
       </figure>
-      <p><em>You Only Move Twice</em> aired <time datetime="1996-11-03">Nov 3, 1996</time>, and remains the
-        highest-scoring episode with an IMDb score of <strong>9.3</strong>. Ratings decline steadily after Season 10,
+      <p><em>You Only Move Twice</em> (aired <time datetime="1996-11-03">Nov 3, 1996</time>) and <em>Homer's
+          Enemy</em>, both from Season 8, share the highest IMDb score: <strong>9.3</strong>. Ratings decline steadily
+        after Season 10,
         but
         the decline has largely tapered off. The lowest-scoring episode to date came in Season 23 with <em>Lisa Goes
           Gaga</em> (<strong>3.9</strong>).</p>
 
       <span class="header-tag" aria-hidden="true"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
-      <h2>800+ episodes</h2>
-      <figure id="simpsonsEpisodes" aria-label="Heatmap of all 800+ episodes, colored by IMDb score.">
+      <h2>Nearly 800 episodes</h2>
+      <figure id="simpsonsEpisodes" aria-label="Heatmap of every episode, colored by IMDb score.">
         <figcaption class="right">Data: <a href="https://www.imdb.com/title/tt0096697/" target="_blank"
             rel="noopener">IMDb</a></figcaption>
       </figure>
@@ -962,13 +1020,14 @@
       </figure>
       <p>Here we look at the difference between episodes within each season. Early seasons have a tighter grouping of
         episodes, meaning they all score roughly the same. Starting in Season 6, we begin to see a greater spread of
-        episodes. Season 23 has the greatest range of scores within a season (&plusmn; 4.4).</p>
+        episodes. Season 23 has the widest spread within a season: <strong>4.4 points</strong>, from
+        <em>Lisa Goes Gaga</em> (3.9) to <em>Holidays of Future Passed</em> (8.3).</p>
 
       <!-- Random Simpsons quote -->
       <section class="random-quote-section" aria-labelledby="random-quote-heading">
         <div class="quote-header">
           <h2 id="random-quote-heading">Random quote</h2>
-          <button type="button" onclick="randomQuote(event)" aria-label="Get a new quote" class="quote-refresh-btn"
+          <button type="button" id="quote-refresh" aria-label="Get a new quote" class="quote-refresh-btn"
             title="Get a new quote">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -984,7 +1043,7 @@
               <i class="fa-quote-right" id="fa-quote-direction"></i>
             </div>
           </div>
-          <blockquote class="quote-text">
+          <blockquote class="quote-text" aria-live="polite">
             <p id="quote">To alcohol! The cause of... and solution to... all of life's problems.</p>
             <div class="quote-author">
               <cite id="character">- Homer Simpson</cite>
@@ -992,6 +1051,7 @@
           </blockquote>
           <div class="quote-image" id="quote-image-right" style="background-image: url('imgs/simpsons/homer.png');"></div>
         </figure>
+        <p class="quote-status" id="quote-status" role="status" hidden></p>
       </section>
 
       <p class="visually-hidden">Quotes powered by <a href="https://github.com/JLuboff/TheSimpsonsQuoteAPI"
@@ -1007,6 +1067,8 @@
       <h2>Episodes by IMDb rating</h2>
       <figure id="best-eps"
         aria-label="Histogram showing the distribution of episodes by IMDb rating. Most episodes fall in the 6.5 to 7.5 range.">
+        <figcaption class="right">Data: <a href="https://www.imdb.com/title/tt0096697/" target="_blank"
+            rel="noopener">IMDb</a></figcaption>
       </figure>
       <p>Here we see the law of averages applied to a thirty-year legacy, demonstrating how the
         show's unparalleled longevity has diluted its critical average. The overwhelming concentration of episodes
@@ -1020,8 +1082,11 @@
         Enemy" or "Cape Feare" is a statistical anomaly in a sea of consistent, but safe, entertainment.
       </p>
       <span class="header-tag" aria-hidden="true"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
-      <h2>Top ten episodes</h2>
-      <figure id="top_ten" aria-label="Bar chart showing the top ten highest rated Simpsons episodes."></figure>
+      <h2>Top-rated episodes</h2>
+      <figure id="top_ten" aria-label="Dot plot of the 11 episodes rated 9.1 or higher on IMDb.">
+        <figcaption class="right">Data: <a href="https://www.imdb.com/title/tt0096697/" target="_blank"
+            rel="noopener">IMDb</a></figcaption>
+      </figure>
       <p>These episodes represent the peak creative and comedic output of <em>The Simpsons</em>,
         predominantly spanning Seasons 4 through 8. This period is characterized by the show's
         mastery of satire, character development, and narrative ambition. Episodes like
@@ -1042,9 +1107,9 @@
 
 
       <h2>Simpsons no-nos</h2>
-      <img src="https://i.imgur.com/d7FqN8Z.jpg"
-        alt="Guide from Cartooning with the Simpsons showing rules for drawing Simpson character heads" loading="lazy"
-        class="mid-size" decoding="async">
+      <img src="imgs/simpson-no-nos.webp" width="1000" height="737"
+        alt="Hand-drawn page titled Simpson No-No's: Pointers for the Head, from Cartooning with the Simpsons. Lisa and Bart heads are drawn right and wrong: no cross-eyes, complete circles for eyelids, no sharp or square teeth or big pointed smile, the nose should overlap the eye, keep the ear close to the eyes and nose, keep lips and nose a streamlined curve, and only the bottom teeth move."
+        loading="lazy" class="mid-size" decoding="async">
       <p>In the book <a
           href="https://www.slideshare.net/DGIREDeportes/matt-groening-cartooning-with-the-simpsons?related=1"
           target="_blank" rel="noopener"><em>Cartooning
@@ -1081,35 +1146,61 @@
   <script src="https://cdn.jsdelivr.net/npm/d3@7.9.2/dist/d3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.19/dist/plot.umd.min.js"></script>
   <script>
-    // Memory cache for quotes so clicking refresh is instant and doesn't cause async network reflows
+    // Random quote. The list comes from TheSimpsonsQuoteAPI's quotes.json on
+    // GitHub, loaded once and cached. If it can't be loaded (offline, or
+    // blocked by a privacy extension) the widget says so and the next click
+    // retries, rather than silently re-showing the quote already on screen.
+    const QUOTES_URL = "https://raw.githubusercontent.com/JLuboff/TheSimpsonsQuoteAPI/refs/heads/master/quotes.json";
     let quotesCache = null;
+    let quotesRequest = null;
 
-    async function loadQuotes() {
-      if (quotesCache && quotesCache.length > 0) return quotesCache;
-      try {
-        const res = await fetch('https://raw.githubusercontent.com/JLuboff/TheSimpsonsQuoteAPI/refs/heads/master/quotes.json');
-        quotesCache = await res.json();
-        return quotesCache;
-      } catch (err) {
-        console.warn('Simpsons Quote API failed, using fallback:', err);
-        return [{
-          character: "Homer Simpson",
-          quote: "To alcohol! The cause of... and solution to... all of life's problems.",
-          characterDirection: "Right",
-          image: "imgs/simpsons/homer.png"
-        }];
+    function loadQuotes() {
+      if (quotesCache) return Promise.resolve(quotesCache);
+      if (!quotesRequest) {
+        quotesRequest = fetch(QUOTES_URL)
+          .then(res => {
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            return res.json();
+          })
+          .then(data => {
+            const quotes = Array.isArray(data) ? data.filter(q => q && q.quote && q.character) : [];
+            if (!quotes.length) throw new Error("no quotes in the response");
+            quotesCache = quotes;
+            return quotes;
+          })
+          .finally(() => { quotesRequest = null; });
       }
+      return quotesRequest;
     }
 
     const randomQuote = async (e) => {
       if (e && e.preventDefault) e.preventDefault();
-      const data = await loadQuotes();
-      const randomIndex = Math.floor(Math.random() * data.length);
-      showRandomQuote([data[randomIndex]]);
+      const button = document.getElementById("quote-refresh");
+      const status = document.getElementById("quote-status");
+      if (button) button.setAttribute("aria-busy", "true");
+      try {
+        const quotes = await loadQuotes();
+        // Never pick the quote that is already showing
+        const current = document.getElementById("quote").innerText.trim();
+        const choices = quotes.length > 1 ? quotes.filter(q => q.quote.trim() !== current) : quotes;
+        showRandomQuote([choices[Math.floor(Math.random() * choices.length)]]);
+        if (status) status.hidden = true;
+      } catch (err) {
+        console.warn("Simpsons quotes could not be loaded:", err);
+        if (status) {
+          status.textContent = "Couldn't load new quotes right now. Try again in a moment.";
+          status.hidden = false;
+        }
+      } finally {
+        if (button) button.removeAttribute("aria-busy");
+      }
     };
 
-    // Pre-fetch quotes on load so clicks are instant
-    loadQuotes();
+    document.getElementById("quote-refresh")?.addEventListener("click", randomQuote);
+
+    // Load the list in the background so the first click is instant
+    // (a failure here surfaces on the next click, which retries)
+    loadQuotes().catch(() => {});
 
     const characterImageMap = {
       "Homer Simpson": "imgs/simpsons/homer.png",
@@ -1190,399 +1281,302 @@
       }
     }
 
-    // Thicken the plot
+    // ---------- Charts (Observable Plot) ----------
+    // Each chart is sized from its own figure, redraws when the page width
+    // changes, and keeps the figure's "Data:" caption when it redraws.
+    // Episodes are Simpsons yellow; trend lines and labels use the text colour.
+    const SIZE = 12;
+    const EPISODE = "var(--simpsons-episode)";
+    const OTHER = "var(--simpsons-other)";
+    const SURFACE = "var(--bg-color, white)";
+    const MUTED = "var(--muted-color, #6f6f6f)";
+    const fmt1 = d3.format(".1f");
+    const pctFmt = d3.format(".0%");
+    const epTitle = d => `${d.episode_name}\nSeason ${d.season_no}, episode ${d.episode_no}\nIMDb rating: ${fmt1(d.episode_score)}`;
 
-    // Use Promises to async request data
-    var promises = [d3.json("data/simpsons_imdb.json").then(function (data) {
-      return data.map(d => {
-        return { // Accessor function to convert strings to numbers, dates
-          episode_no_abs: +d.episode_no_abs, // convert column to number
-          season_no: +d.season_no,
-          episode_no: +d.episode_no,
-          // episode_name: d.episode_name,
-          episode_airdate: new Date(d.episode_airdate), // convert column to Date
-          episode_score: +d.episode_score,
-          episode_votes: +d.episode_votes,
-          // episode_description: d.episode_description,
-          episode_name: d.episode_name // Ensure episode_name is passed through
-        }
-      })
-    })];
-    var elementMid = d3.select('figure.mid-size').node();
-    var widthMid = elementMid.getBoundingClientRect().width; // get width of figure.mid-size so graphic is responsive
-    var element = d3.select('figure:not(.mid-size)').node();
-    var width = element.getBoundingClientRect().width;
-    var size = 12;
+    function drawInto(id, chart) {
+      const el = document.getElementById(id);
+      el.replaceChildren(...el.querySelectorAll(":scope > figcaption"));
+      el.append(chart);
+    }
+    const widthOf = id => Math.round(document.getElementById(id).getBoundingClientRect().width) || 600;
 
-    // You can request multiple srcs in a promise
-    const myDataPromises = Promise.all(promises);
-
-    // After data is successfully fetched, generate viz
-    myDataPromises.then(function (data) {
-
-      // Define the data
-      var simpsons_imdb = data[0];
-
-      // Line chart ratings over time
-      var simpsonsRatings = {
-        width: widthMid,
-        style: {
-          fontSize: size,
-          background: "none",
-        },
-        inset: 1,
-        marginRight: 0,
-        x: {
-          labelAnchor: "center",
-          zero: true,
-          label: "Episode number",
-          labelOffset: 40,
-        },
-        y: {
-          label: "IMDb rating",
-          labelAnchor: width > 450 ? "center" : "top",
-          labelOffset: 35,
-          grid: true,
-          nice: true,
-          clamp: true,
-          tickSize: 0,
-          tickPadding: 10,
-          domain: [1, 10]
-        },
-        color: {
-          scheme: "PiYG",
-        },
-        marks: [
-          Plot.line(simpsons_imdb, {
-            x: "episode_no_abs",
-            y: "episode_score",
-            stroke: "hsl(42, 87%, 55%)",
-            curve: "catmull-rom",
-          }),
-          Plot.areaY(simpsons_imdb, {
-            x: "episode_no_abs",
-            y: "episode_score",
-            fill: "RGBA(252, 229, 136, .5)",
-          }),
-          Plot.dot(simpsons_imdb, Plot.selectMinY({
-            x: "episode_no_abs",
-            y: "episode_score",
-            fill: "hsl(42, 87%, 55%)",
-            r: 2,
-            title: (d) => `${d.episode_name}\nS${d.season_no} E${d.episode_no}\n${d.episode_score} IMDb rating`,
-          })),
-          Plot.dot(simpsons_imdb, Plot.selectMaxY({
-            x: "episode_no_abs",
-            y: "episode_score",
-            fill: "hsl(42, 87%, 55%)",
-            r: 2,
-            title: (d) => `${d.episode_name}\nS${d.season_no} E${d.episode_no}\n${d.episode_score} IMDb rating`,
-          })),
-          Plot.text(simpsons_imdb, Plot.selectMinY({
-            x: "episode_no_abs",
-            y: "episode_score",
-            text: d => d.episode_name + ' (' + d.episode_score + ')',
-            textAnchor: "center",
-            fontSize: size,
-            dy: 12,
-          })),
-          Plot.text(simpsons_imdb, Plot.selectMaxY({
-            x: "episode_no_abs",
-            y: "episode_score",
-            text: d => d.episode_name + ' (' + d.episode_score + ')',
-            textAnchor: "center",
-            fontSize: size,
-            dy: -12,
-            dx: 4
-          })),
-          Plot.text(simpsons_imdb.filter(d => d.episode_no == "1" && d.episode_no_abs > 1 && d.season_no % 5 == 0), {
-            x: "episode_no_abs",
-            text: d => `Season ` + d.season_no,
-            fontWeight: 500,
-            // textAnchor: "end",
-            frameAnchor: "bottom",
-            dy: -40,
-            dx: 10,
-            rotate: 270,
-          }),
-        ]
-      };
-
-      // Plot Initializer
-      // https://observablehq.com/@observablehq/plot-colorcontrast-custom-transform?collection=@observablehq/plot-examples
-      const colorContrast = ({
-        luminance = 60,
-        ...options
-      }) =>
-        Plot.initializer(options, (data, facets, channels, scales) => {
-          const contrast = (color) =>
-            d3.hcl(color).l > luminance ? "black" : "white";
-          return {
-            channels: {
-              fill: {
-                ...channels.fill,
-                scale: undefined,
-                value: channels.fill == null // when options.fill is a constant color such as "red"
-                  ||
-                  scales.color == null // when the scale isn't yet available (e.g. hexbin below)
-                  ?
-                  Array.from(data).fill(contrast(options.fill)) : Array.from(channels.fill.value, (value) => contrast(scales.color(value)))
-              }
+    // Colour each cell's label black or white against its fill
+    // https://observablehq.com/@observablehq/plot-colorcontrast-custom-transform
+    const colorContrast = ({ luminance = 60, ...options }) =>
+      Plot.initializer(options, (data, facets, channels, scales) => {
+        const contrast = (color) => d3.hcl(color).l > luminance ? "black" : "white";
+        return {
+          channels: {
+            fill: {
+              ...channels.fill,
+              scale: undefined,
+              value: channels.fill == null || scales.color == null
+                ? Array.from(data).fill(contrast(options.fill))
+                : Array.from(channels.fill.value, (value) => contrast(scales.color(value)))
             }
-          };
-        });
-
-      // Matrix cell chart episodes by season, episode no.
-      const maxSeason = d3.max(simpsons_imdb, d => d.season_no) || 37;
-      const maxEpisode = d3.max(simpsons_imdb, d => d.episode_no) || 25;
-      const cellRowHeight = width < 450 ? 20 : (width < 650 ? 23 : 25);
-      const episodesChartHeight = maxSeason * cellRowHeight + 80;
-
-      var simpsonsEpisodes = {
-        width: width,
-        height: episodesChartHeight,
-        marginLeft: 45,
-        marginRight: 15,
-        marginTop: 45,
-        marginBottom: 25,
-        style: {
-          cursor: "default",
-          fontSize: size - 1,
-        },
-        x: {
-          axis: "top",
-          label: "Episode →",
-          labelOffset: 35,
-          tickSize: 0,
-          ticks: width < 500 ? [1, 5, 10, 15, 20, 25] : d3.range(1, maxEpisode + 1),
-        },
-        y: {
-          axis: "left",
-          label: "Season ↓",
-          labelOffset: 35,
-          tickSize: 0,
-          labelAnchor: "top",
-          ticks: width < 500 ? [1, 5, 10, 15, 20, 25, 30, 35, maxSeason] : d3.range(1, maxSeason + 1),
-        },
-        color: {
-          type: "linear",
-          scheme: "RdYlBu",
-          unknown: "#ddd",
-          legend: true,
-          label: "IMDb rating",
-          clamp: true,
-          nice: true,
-          tickSize: 0,
-          style: {
-            fontSize: size
-          },
-          domain: [1, 10], // show nicer scale
-          range: [.25, 1], // clamping the color scheme gives tighter control over the color range
-        },
-        marks: [
-          Plot.frame({
-            stroke: "hsl(209, 23%, 60%)",
-            opacity: .25,
-          }),
-          Plot.cell(simpsons_imdb, {
-            x: "episode_no",
-            y: "season_no",
-            inset: 0.5,
-            rx: 2,
-            title: (d) => `${d.episode_name}\nS${d.season_no} E${d.episode_no}\n${d.episode_score} IMDb rating`,
-            fill: "episode_score",
-            tip: {
-              opacity: 1,
-              textPadding: 10,
-              lineHeight: 1.65,
-            },
-          }),
-          Plot.text(simpsons_imdb, colorContrast({
-            x: "episode_no",
-            y: "season_no",
-            text: d => d.episode_score ? d.episode_score.toFixed(1) : "",
-            fill: "episode_score",
-            fontSize: width < 450 ? 7.5 : (width < 650 ? 8.5 : 9.5),
-            fontWeight: "600",
-          })),
-        ]
-      };
-
-      // Average rating by season
-      var simpsonsSeasons = {
-        width: width,
-        // inset: 1,
-        style: {
-          fontSize: size,
-          background: "none",
-        },
-        marginRight: 0,
-        grid: true,
-        x: {
-          label: "Season",
-          labelAnchor: "center",
-          labelOffset: 35,
-          clamp: true,
-          tickSize: 0,
-        },
-        y: {
-          label: "IMDb rating",
-          // labelAnchor: "top",
-          labelOffset: 35,
-          grid: true,
-          nice: true,
-          clamp: true,
-          tickSize: 0,
-          domain: [0, 10],
-          ticks: 2,
-        },
-        color: {
-          scheme: "RdYlBu",
-          type: "linear",
-          unknown: "#ddd",
-          legend: true,
-          label: "IMDb rating",
-          clamp: true,
-          nice: true,
-          tickSize: 0,
-          style: {
-            fontSize: size
-          },
-          domain: [1, 10], // show nicer scale
-          range: [.25, 1], // clamping the color scheme gives tighter control over the color range
-        },
-        marks: [
-          Plot.ruleX(simpsons_imdb,
-            Plot.groupX({
-              y1: "min",
-              y2: "max"
-            }, {
-              x: "season_no",
-              y: "episode_score",
-              stroke: "hsl(211, 12%, 43%)"
-            })
-          ),
-          Plot.line(simpsons_imdb,
-            Plot.groupX({
-              y: "median"
-            }, {
-              x: "season_no",
-              y: "episode_score",
-              stroke: "#e41a1c"
-            })
-          ),
-          Plot.dot(simpsons_imdb, {
-            x: "season_no",
-            y: "episode_score",
-            fill: "episode_score",
-            title: (d) => `${d.episode_name}\nS${d.season_no} E${d.episode_no}\n${d.episode_score} IMDb rating`,
-            tip: true,
-          }),
-          Plot.text(simpsons_imdb, Plot.selectMinY({
-            x: "season_no",
-            y: "episode_score",
-            text: d => d.episode_name + ' (' + d.episode_score + ')',
-            textAnchor: "center",
-            fontSize: size,
-            dy: 12,
-          })),
-          Plot.text(simpsons_imdb, Plot.selectMaxY({
-            x: "season_no",
-            y: "episode_score",
-            text: d => d.episode_name + ' (' + d.episode_score + ')',
-            textAnchor: "center",
-            fontSize: size,
-            dy: -12,
-            dx: 4
-          })),
-        ]
-      };
-
-      document.getElementById("simpsonsRatings").appendChild(Plot.plot(simpsonsRatings));
-      document.getElementById("simpsonsEpisodes").appendChild(Plot.plot(simpsonsEpisodes));
-      document.getElementById("simpsonsSeasons").appendChild(Plot.plot(simpsonsSeasons));
-
-      var bestEps = {
-        width: width,
-        style: {
-          fontSize: size
-        },
-        x: {
-          label: "IMDb rating",
-        },
-        y: {
-          label: "Frequency",
-          grid: true
-        },
-        marks: [
-          Plot.rectY(simpsons_imdb, Plot.binX({
-            y: "count"
-          }, {
-            x: "episode_score",
-            fill: "hsl(42, 87%, 55%)",
-          })),
-          Plot.ruleY([0])
-        ]
-      };
-
-      var top_ten = {
-        width: width,
-        height: 260,
-        style: {
-          fontSize: size
-        },
-        color: {
-          scheme: "PiYG"
-        },
-        marginLeft: 220, // ample space for episode titles
-        marginTop: 0,
-        x: {
-          label: "IMDb rating",
-          nice: true,
-          ticks: 3,
-        },
-        y: {
-          label: null,
-          sort: {
-            y: "x",
-            reverse: true,
-            limit: 10
           }
+        };
+      });
+
+    // Highest (a tie) and lowest episodes, labelled on two charts
+    function extremes(data) {
+      const top = d3.max(data, d => d.episode_score);
+      const best = data.filter(d => d.episode_score === top);
+      const worst = d3.least(data, d => d.episode_score);
+      return { top, best, worst, bestLabel: `${best.map(d => d.episode_name).join(" & ")} (${fmt1(top)})` };
+    }
+
+    // 1. Every episode's rating, with a rolling median for the trend
+    function ratingsChart(data, width) {
+      const compact = width < 560;
+      const { best, worst, bestLabel } = extremes(data);
+      const seasonStarts = d3.rollups(data, v => d3.min(v, d => d.episode_no_abs), d => d.season_no)
+        .filter(([season]) => season % 5 === 0)
+        .map(([season, x]) => ({ season, x }));
+      const last = d3.greatest(data, d => d.episode_no_abs);
+      const lastMedian = d3.median(data.filter(d => d.episode_no_abs > last.episode_no_abs - 25), d => d.episode_score);
+      return Plot.plot({
+        width,
+        height: compact ? 340 : 400,
+        marginTop: 24, marginRight: 12, marginBottom: 40, marginLeft: 40,
+        style: { fontSize: SIZE + "px" },
+        ariaLabel: "IMDb rating of every Simpsons episode",
+        ariaDescription: `${data.length} episodes in order, with a 25-episode rolling median. Ratings peak in Seasons 4 to 8, fall through about Season 10, then level off around 6.5 to 7. The highest are ${bestLabel}; the lowest is ${worst.episode_name} (${fmt1(worst.episode_score)}).`,
+        x: { label: "Episode number →", labelAnchor: "center", labelOffset: 34, tickSize: 0 },
+        y: { label: "↑ IMDb rating", domain: [3, 10], ticks: [3, 4, 5, 6, 7, 8, 9, 10], tickFormat: "d", grid: true, tickSize: 0 },
+        marks: [
+          // Every fifth season, as a faint marker along the top
+          Plot.ruleX(seasonStarts, { x: "x", stroke: "currentColor", strokeOpacity: 0.12 }),
+          Plot.text(seasonStarts, {
+            x: "x", text: d => compact ? `S${d.season}` : `Season ${d.season}`,
+            frameAnchor: "top", dx: 3, dy: 2, textAnchor: "start", fill: MUTED, fontSize: SIZE - 1
+          }),
+          Plot.dot(data, { x: "episode_no_abs", y: "episode_score", r: compact ? 1.5 : 2, fill: EPISODE, fillOpacity: 0.65 }),
+          // Trend: median of each 25-episode window (about a season)
+          Plot.lineY(data, Plot.windowY({ k: 25, reduce: "median", anchor: "middle" }, {
+            x: "episode_no_abs", y: "episode_score", stroke: "currentColor", strokeWidth: 2
+          })),
+          Plot.text([0], {
+            x: last.episode_no_abs, y: lastMedian, text: [compact ? "Median" : "25-episode median"],
+            textAnchor: "end", dy: -14, fill: "currentColor", stroke: SURFACE, strokeWidth: 3, fontWeight: 600
+          }),
+          // Highest (tied) and lowest episodes
+          Plot.dot([...best, worst], { x: "episode_no_abs", y: "episode_score", r: 4, fill: EPISODE, stroke: "currentColor", strokeWidth: 1.5 }),
+          compact
+            ? Plot.text([best[best.length - 1]], {
+              x: "episode_no_abs", y: "episode_score", text: [`Tied best (${fmt1(best[0].episode_score)})`],
+              textAnchor: "start", dx: 8, fill: "currentColor", stroke: SURFACE, strokeWidth: 3
+            })
+            : Plot.text([best[0]], {
+              x: "episode_no_abs", y: "episode_score", text: [bestLabel], textAnchor: "start",
+              lineAnchor: "bottom", dx: -4, dy: -8, fill: "currentColor", stroke: SURFACE, strokeWidth: 3
+            }),
+          Plot.text([worst], {
+            x: "episode_no_abs", y: "episode_score", text: d => `${d.episode_name} (${fmt1(d.episode_score)})`,
+            dy: 14, fill: "currentColor", stroke: SURFACE, strokeWidth: 3
+          }),
+          Plot.tip(data, Plot.pointer({ x: "episode_no_abs", y: "episode_score", title: epTitle }))
+        ]
+      });
+    }
+
+    // 2. Heatmap: one cell per episode, coloured by rating (single-hue scale
+    //    fitted to the ratings that occur). Values are printed only when the
+    //    cells are big enough to read; the tooltip always has them.
+    function episodesChart(data, width) {
+      const maxSeason = d3.max(data, d => d.season_no);
+      const maxEpisode = d3.max(data, d => d.episode_no);
+      const showValues = width >= 560; // printed values need ~20px cells
+      const rowHeight = width < 450 ? 18 : (width < 650 ? 22 : 25);
+      return Plot.plot({
+        width,
+        height: maxSeason * rowHeight + 46,
+        marginLeft: 45, marginRight: 15, marginTop: 40, marginBottom: 6,
+        style: { cursor: "default", fontSize: (SIZE - 1) + "px" },
+        ariaLabel: "Heatmap of every Simpsons episode by season and episode, coloured by IMDb rating",
+        ariaDescription: "Seasons run top to bottom and episodes left to right. The darkest, highest-rated cells cluster in Seasons 4 to 8; later seasons are lighter and more uniform.",
+        // Axis labels are drawn below as one header row above the episode numbers
+        x: {
+          axis: "top", label: null, tickSize: 0,
+          ticks: width < 500 ? [1, 5, 10, 15, 20, 25] : d3.range(1, maxEpisode + 1)
+        },
+        y: {
+          label: null, tickSize: 0,
+          ticks: width < 500 ? d3.range(5, maxSeason + 1, 5).concat([1]) : d3.range(1, maxSeason + 1)
+        },
+        color: {
+          type: "linear", scheme: "blues", range: [0.2, 1],
+          domain: [4, 9.5], clamp: true,
+          legend: true, label: "IMDb rating", ticks: [4, 5, 6, 7, 8, 9], tickFormat: "d", tickSize: 0,
+          marginLeft: 45, // line the legend up with the grid
+          style: { fontSize: SIZE + "px" }
         },
         marks: [
-          Plot.barX(simpsons_imdb, {
-            x: "episode_score",
-            y: d => `${d.episode_name} (S${d.season_no})`,
-            fill: "episode_score",
-            sort: {
-              y: "x",
-              reverse: true,
-              limit: 10
-            },
-            title: "episode_score"
+          // Header row: "Season ↓" over the season numbers, "Episode →" centred over the columns
+          Plot.text(["Season ↓"], { frameAnchor: "top-left", dx: -43, dy: -28, textAnchor: "start", fill: MUTED }),
+          Plot.text(["Episode →"], { frameAnchor: "top", dy: -28, fill: MUTED }),
+          Plot.frame({ stroke: "currentColor", strokeOpacity: 0.15 }),
+          Plot.cell(data, {
+            x: "episode_no", y: "season_no", inset: 0.5, rx: 2, fill: "episode_score",
+            title: epTitle, tip: { textPadding: 10, lineHeight: 1.5 }
           }),
-          Plot.text(simpsons_imdb, {
-            x: "episode_score",
-            y: d => `${d.episode_name} (S${d.season_no})`,
-            text: (d) => `${d.episode_score}`,
-            textAnchor: "start",
-            dx: 5,
-            sort: {
-              y: "x",
-              reverse: true,
-              limit: 10
-            }
-          })
+          ...(showValues ? [Plot.text(data, colorContrast({
+            x: "episode_no", y: "season_no", fill: "episode_score",
+            text: d => fmt1(d.episode_score), fontSize: 9.5, fontWeight: "600"
+          }))] : [])
         ]
-      }
+      });
+    }
 
-      document.getElementById("best-eps").appendChild(Plot.plot(bestEps));
-      document.getElementById("top_ten").appendChild(Plot.plot(top_ten));
-    })
+    // 3. Spread within each season: min–max range, every episode, and the median
+    function seasonsChart(data, width) {
+      const compact = width < 560;
+      const seasons = d3.rollups(data, v => ({
+        min: d3.min(v, d => d.episode_score),
+        max: d3.max(v, d => d.episode_score),
+        median: d3.median(v, d => d.episode_score)
+      }), d => d.season_no).map(([season, s]) => ({ season, ...s })).sort((a, b) => a.season - b.season);
+      const widest = d3.greatest(seasons, d => d.max - d.min);
+      const lastSeason = seasons[seasons.length - 1];
+      const { best, worst, bestLabel } = extremes(data);
+      return Plot.plot({
+        width,
+        height: compact ? 360 : 400,
+        marginTop: 28, marginRight: 12, marginBottom: 40, marginLeft: 40,
+        style: { fontSize: SIZE + "px" },
+        ariaLabel: "Spread of episode ratings within each season",
+        ariaDescription: `For each season, a bar spans its lowest to highest-rated episode, with every episode as a dot and a line through the season medians. Early seasons are tightly grouped; Season ${widest.season} has the widest spread, ${fmt1(widest.max - widest.min)} points.`,
+        x: { label: "Season →", labelAnchor: "center", labelOffset: 34, tickSize: 0, ticks: d3.range(5, lastSeason.season + 1, 5).concat([1]) },
+        y: { label: "↑ IMDb rating", domain: [3, 10], ticks: [3, 4, 5, 6, 7, 8, 9, 10], tickFormat: "d", grid: true, tickSize: 0 },
+        marks: [
+          Plot.ruleX(seasons, { x: "season", y1: "min", y2: "max", stroke: "currentColor", strokeOpacity: 0.2, strokeWidth: compact ? 3 : 5, strokeLinecap: "round" }),
+          Plot.dot(data, { x: "season_no", y: "episode_score", r: compact ? 2 : 2.5, fill: EPISODE, fillOpacity: 0.75 }),
+          Plot.line(seasons, { x: "season", y: "median", stroke: "currentColor", strokeWidth: 2, curve: "monotone-x" }),
+          Plot.text([lastSeason], {
+            x: "season", y: "median", text: ["Season median"], textAnchor: "end", dy: -12,
+            fill: "currentColor", stroke: SURFACE, strokeWidth: 3, fontWeight: 600
+          }),
+          // Widest season
+          Plot.text([widest], {
+            x: "season", y: "max",
+            text: d => compact ? `S${d.season}: ${fmt1(d.max - d.min)}-pt spread` : `Season ${d.season}: ${fmt1(d.max - d.min)}-point spread`,
+            dy: -10, textAnchor: "middle", fill: MUTED, stroke: SURFACE, strokeWidth: 3, fontSize: SIZE - 1
+          }),
+          // Highest (tied) and lowest episodes
+          Plot.dot([...best, worst], { x: "season_no", y: "episode_score", r: 4, fill: EPISODE, stroke: "currentColor", strokeWidth: 1.5 }),
+          compact
+            ? Plot.text([best[0]], {
+              x: "season_no", y: "episode_score", text: [`Tied best (${fmt1(best[0].episode_score)})`],
+              textAnchor: "start", dx: 8, fill: "currentColor", stroke: SURFACE, strokeWidth: 3
+            })
+            : Plot.text([best[0]], {
+              x: "season_no", y: "episode_score", text: [bestLabel], textAnchor: "start",
+              lineAnchor: "bottom", dx: -4, dy: -8, fill: "currentColor", stroke: SURFACE, strokeWidth: 3
+            }),
+          Plot.text([worst], {
+            x: "season_no", y: "episode_score", text: d => `${d.episode_name} (${fmt1(d.episode_score)})`,
+            dy: 14, fill: "currentColor", stroke: SURFACE, strokeWidth: 3
+          }),
+          Plot.tip(data, Plot.pointer({ x: "season_no", y: "episode_score", title: epTitle }))
+        ]
+      });
+    }
 
-    myDataPromises.catch(function () {
-      console.log('🚨 Something has gone wrong fetching data.')
-    })
+    // 4. Histogram, with the 6.5–7.5 band the text describes highlighted.
+    //    Bins are 0.2 wide on .x5 edges, so each holds exactly two scores and
+    //    the band edges fall on bin edges.
+    function histogramChart(data, width) {
+      const compact = width < 560;
+      const thresholds = d3.range(3.85, 9.6, 0.2);
+      const inBand = d => d.episode_score >= 6.5 && d.episode_score < 7.5;
+      const share = data.filter(inBand).length / data.length;
+      const elite = data.filter(d => d.episode_score >= 8.5).length;
+      const binOptions = { x: "episode_score", thresholds, insetLeft: 1, insetRight: 1 };
+      return Plot.plot({
+        width,
+        height: compact ? 320 : 360,
+        marginTop: 34, marginRight: 12, marginBottom: 40, marginLeft: 40,
+        style: { fontSize: SIZE + "px" },
+        ariaLabel: "Histogram of episodes by IMDb rating",
+        ariaDescription: `${pctFmt(share)} of episodes score between 6.5 and 7.5; ${elite} score 8.5 or higher.`,
+        x: { label: "IMDb rating →", labelAnchor: "center", labelOffset: 34, domain: [3.85, 9.45], ticks: [4, 5, 6, 7, 8, 9], tickFormat: "d", tickSize: 0 },
+        y: { label: "↑ Episodes", grid: true, tickSize: 0 },
+        marks: [
+          Plot.rectY(data.filter(d => !inBand(d)), Plot.binX({ y: "count" }, { ...binOptions, fill: OTHER })),
+          Plot.rectY(data.filter(inBand), Plot.binX({ y: "count" }, { ...binOptions, fill: EPISODE })),
+          Plot.ruleY([0]),
+          Plot.text([`6.5–7.5: ${pctFmt(share)} of episodes`], {
+            x: 6.95, frameAnchor: "top", dy: -18, fill: "currentColor", fontWeight: 600
+          }),
+          Plot.text([compact ? `8.5+: ${elite}` : `8.5+: ${elite} episodes`], {
+            x: 9.0, y: 32, fill: MUTED
+          }),
+          Plot.tip(data, Plot.pointerX(Plot.binX({
+            y: "count",
+            title: bin => `${bin.length} episodes rated ${fmt1(d3.min(bin, d => d.episode_score))}–${fmt1(d3.max(bin, d => d.episode_score))}`
+          }, binOptions)))
+        ]
+      });
+    }
+
+    // 5. Every episode rated 9.1 or higher (ties included), as a dot plot
+    function topEpisodesChart(data, width) {
+      const compact = width < 560;
+      const cutoff = 9.1;
+      const top = data.filter(d => d.episode_score >= cutoff)
+        .sort((a, b) => d3.descending(a.episode_score, b.episode_score) || d3.ascending(a.episode_no_abs, b.episode_no_abs));
+      const shorten = name => compact && name.length > 24 ? name.slice(0, 23).trimEnd() + "…" : name;
+      const label = d => `${shorten(d.episode_name)} (S${d.season_no})`;
+      return Plot.plot({
+        width,
+        height: top.length * 26 + 50,
+        marginLeft: compact ? 175 : 250, marginRight: 34, marginTop: 10, marginBottom: 40,
+        style: { fontSize: (compact ? SIZE - 1 : SIZE) + "px" },
+        ariaLabel: `The ${top.length} episodes rated ${cutoff} or higher on IMDb`,
+        ariaDescription: top.map(d => `${d.episode_name}, Season ${d.season_no}: ${fmt1(d.episode_score)}`).join("; "),
+        x: { label: "IMDb rating →", labelAnchor: "center", labelOffset: 34, domain: [9.0, 9.4], ticks: [9.0, 9.1, 9.2, 9.3, 9.4], tickFormat: ".1f", grid: true, tickSize: 0 },
+        y: { label: null, domain: top.map(label), tickSize: 0 },
+        marks: [
+          Plot.dot(top, { x: "episode_score", y: label, r: 5, fill: EPISODE, stroke: "currentColor", strokeWidth: 1, title: epTitle, tip: true }),
+          Plot.text(top, { x: "episode_score", y: label, text: d => fmt1(d.episode_score), dx: 10, textAnchor: "start", fill: MUTED })
+        ]
+      });
+    }
+
+    let simpsonsData = null;
+    let lastWidth = 0;
+    function renderCharts() {
+      if (!simpsonsData) return;
+      drawInto("simpsonsRatings", ratingsChart(simpsonsData, widthOf("simpsonsRatings")));
+      drawInto("simpsonsEpisodes", episodesChart(simpsonsData, widthOf("simpsonsEpisodes")));
+      drawInto("simpsonsSeasons", seasonsChart(simpsonsData, widthOf("simpsonsSeasons")));
+      drawInto("best-eps", histogramChart(simpsonsData, widthOf("best-eps")));
+      drawInto("top_ten", topEpisodesChart(simpsonsData, widthOf("top_ten")));
+    }
+
+    d3.json("data/simpsons_imdb.json").then(data => {
+      simpsonsData = data.map(d => ({
+        episode_no_abs: +d.episode_no_abs,
+        season_no: +d.season_no,
+        episode_no: +d.episode_no,
+        episode_name: d.episode_name,
+        episode_score: +d.episode_score,
+        episode_votes: +d.episode_votes
+      })).filter(d => Number.isFinite(d.episode_score) && d.episode_score > 0);
+      lastWidth = window.innerWidth;
+      renderCharts();
+    }).catch(error => {
+      console.error("Could not load the Simpsons data:", error);
+    });
+
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+      if (window.innerWidth === lastWidth) return;
+      lastWidth = window.innerWidth;
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(renderCharts, 150);
+    });
   </script>
   <script src="js/site.js" defer></script>
 </body>
