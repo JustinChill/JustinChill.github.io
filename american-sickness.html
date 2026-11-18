@@ -715,7 +715,7 @@
         const figureIds = ["spending", "noinsurance", "ambulance-chart", "slope-chart", "growth-chart", "aging-chart", "income"];
         figureIds.forEach(id => {
           const el = document.getElementById(id);
-          if (el) el.innerHTML = '';
+          if (el) el.replaceChildren(...el.querySelectorAll(":scope > figcaption")); // clear the old chart, keep the caption
         });
 
         const spendingEl = document.getElementById('spending');

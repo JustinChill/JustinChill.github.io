@@ -344,7 +344,7 @@
         if (lastRenderedWidth > 0 && Math.abs(width - lastRenderedWidth) < 5) return;
         lastRenderedWidth = width;
 
-        heatmapEl.innerHTML = "";
+        heatmapEl.replaceChildren(...heatmapEl.querySelectorAll(":scope > figcaption")); // clear the old chart, keep the caption
         const isMobile = width < 500;
         const marginLeft = isMobile ? 140 : 210;
 

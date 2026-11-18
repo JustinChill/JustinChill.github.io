@@ -1157,7 +1157,7 @@
       const facetContainer = document.getElementById("caffeine_facet");
 
       [barContainer, boxContainer, classContainer, facetContainer].forEach(container => {
-        if (container) container.innerHTML = "";
+        if (container) container.replaceChildren(...container.querySelectorAll(":scope > figcaption")); // clear the old chart, keep the caption
       });
 
       const width = barContainer ? (barContainer.getBoundingClientRect().width || 600) : 600;

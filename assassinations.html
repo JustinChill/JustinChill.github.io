@@ -328,8 +328,8 @@ Donald J. Trump,2024,Republican,Survived,Yes,https://upload.wikimedia.org/wikipe
       const lineContainer = document.getElementById("line");
       const imgsContainer = document.getElementById("imgs");
 
-      if (lineContainer) lineContainer.innerHTML = "";
-      if (imgsContainer) imgsContainer.innerHTML = "";
+      if (lineContainer) lineContainer.replaceChildren(...lineContainer.querySelectorAll(":scope > figcaption")); // clear the old chart, keep the caption
+      if (imgsContainer) imgsContainer.replaceChildren(...imgsContainer.querySelectorAll(":scope > figcaption")); // clear the old chart, keep the caption
 
       const widthMid = lineContainer ? (lineContainer.getBoundingClientRect().width || 600) : 600;
       lastRenderedWidth = widthMid;
