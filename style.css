@@ -895,8 +895,10 @@ article>p:first-of-type:first-letter {
   -ms-flex-pack: justify;
   justify-content: space-between;
   overflow-x: auto;
-  margin: var(--gutter) 0;
-  padding: 0 var(--gutter);
+  /* overflow-x: auto also clips vertically, so pad the block axis (and take it
+     back off the margin) to leave room for focus rings around the items */
+  margin: calc(var(--gutter) - 6px) 0;
+  padding: 6px var(--gutter);
   background-color: var(--surface-color);
   -webkit-transition: opacity 0.2s, -webkit-transform 0.2s;
   transition: opacity 0.2s, -webkit-transform 0.2s;
@@ -2389,6 +2391,8 @@ article>.visual--full {
   -ms-flex-pack: center;
   justify-content: center;
   color: inherit;
+  /* Circular, so the focus outline traces a ring around the icon */
+  border-radius: 50%;
 }
 
 .nav #theme-toggle {
@@ -2397,6 +2401,13 @@ article>.visual--full {
   height: 24px;
   vertical-align: middle;
   margin-left: 0.5em;
+  /* Nudge the whole button (not just the icon) up to sit with the text,
+     so the round focus ring stays centred on the icon */
+  transform: translateY(-1.5px);
+}
+
+.nav #theme-toggle svg {
+  transform: none;
 }
 
 #theme-toggle:hover {
