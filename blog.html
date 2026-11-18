@@ -472,7 +472,7 @@
       text-decoration: none;
     }
 
-    /* Two rows: brand + topic chips, then section tabs + search */
+    /* Two rows (brand + search, then section tabs); one row from 1100px */
     .blog-header {
       display: grid;
       grid-template-columns: 1fr auto;
@@ -485,6 +485,7 @@
 
     .blog-brand {
       grid-area: brand;
+      justify-self: start; /* don't let the home link fill its whole column */
       display: flex;
       align-items: center;
       gap: .65rem;
@@ -624,6 +625,7 @@
 
     .blog-search-wrap {
       grid-area: search;
+      min-width: 0;
       display: flex;
       align-items: center;
       gap: var(--spacer-2);
@@ -634,8 +636,9 @@
       display: flex;
       align-items: center;
       gap: .5rem;
-      width: min(360px, 60vw);
-      height: 36px;
+      position: relative;
+      width: min(280px, 60vw);
+      height: 34px;
       margin: 0;
       padding: 0 .65rem;
       border: 1px solid var(--rule-color);
@@ -659,6 +662,7 @@
 
     .blog-search input {
       flex: 1 1 auto;
+      width: 0; /* no intrinsic ~150px minimum: the box, not the input, sets the width */
       min-width: 0;
       border: 0;
       padding: 0;
@@ -685,10 +689,26 @@
     .blog-count {
       margin: 0;
       font-family: var(--font-ui);
-      font-size: var(--type-scale--1);
+      font-size: var(--type-scale--2);
+      line-height: 1;
       color: var(--muted-color);
       white-space: nowrap;
       font-variant-numeric: tabular-nums;
+    }
+
+    /* The live count sits inside the search box: visually hidden (still
+       announced) until a search or topic filter is active, then it replaces
+       the "/" hint. blog.js toggles .is-filtering on the form. */
+    .blog-search:not(.is-filtering) .blog-count {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+    }
+
+    .blog-search.is-filtering kbd {
+      display: none;
     }
 
     .blog-tabs {
@@ -726,6 +746,12 @@
       color: var(--text-color);
     }
 
+    /* The site-wide :focus outline also fires on mouse clicks; on these
+       full-height tabs that leaves a box behind, so keep it for keyboard focus */
+    .blog-tab:focus:not(:focus-visible) {
+      outline-color: transparent;
+    }
+
     .blog-tab[aria-current="true"] {
       color: #0274a2;
       border-bottom-color: #0274a2;
@@ -733,6 +759,34 @@
 
     .blog-tab.is-empty {
       opacity: .4;
+    }
+
+    /* Wide screens: brand | search (centred) | section tabs, in one row.
+       The tabs fill the row's height so the active underline sits on the
+       header's bottom rule. */
+    @media (min-width: 1100px) {
+      .blog-header {
+        grid-template-columns: 1fr auto 1fr;
+        grid-template-areas: "brand search tabs";
+      }
+
+      .blog-search-wrap {
+        justify-self: center;
+      }
+
+      .blog-tabs {
+        justify-self: end;
+        align-self: stretch;
+        align-items: stretch;
+        min-height: 0;
+        overflow: visible;
+      }
+
+      .blog-tab {
+        display: flex;
+        align-items: center;
+        padding: 0 .6rem;
+      }
     }
 
     .blog-section-head {
@@ -812,6 +866,7 @@
     .blog-hero {
       position: relative;
       isolation: isolate;
+      overflow-x: clip; /* the title glow reaches 72px right; don't let it widen the page on phones */
       margin: 0;
       padding: var(--spacer-6) var(--spacer-2) var(--spacer-5);
     }
@@ -850,6 +905,16 @@
     #code,
     #fun {
       scroll-margin-top: 112px;
+    }
+
+    @media (min-width: 1100px) {
+      /* One-row header is about 60px tall */
+      #posts,
+      #books,
+      #code,
+      #fun {
+        scroll-margin-top: 84px;
+      }
     }
 
     /* Filtering */
@@ -902,8 +967,7 @@
         column-gap: var(--spacer-2);
       }
 
-      .blog-brand > span,
-      .blog-count {
+      .blog-brand > span {
         display: none;
       }
 
@@ -931,8 +995,13 @@
         display: none;
       }
 
-      .blog-count {
-        margin-left: auto;
+      /* No room for the count beside the query on phones: keep it for screen readers only */
+      .blog-search .blog-count {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
       }
 
       .blog-chips {
@@ -1013,8 +1082,8 @@
             <input id="blog-q" name="q" type="search" placeholder="Search posts" autocomplete="off" spellcheck="false"
               enterkeyhint="search">
             <kbd aria-hidden="true" title="Press / to search">/</kbd>
+            <p class="blog-count" id="blog-count" aria-live="polite">116 posts</p>
           </form>
-          <p class="blog-count" id="blog-count" aria-live="polite">116 posts</p>
         </div>
       </header>
       <section class="blog-hero mid-size" aria-labelledby="blog-title">

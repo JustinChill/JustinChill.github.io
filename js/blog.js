@@ -75,6 +75,7 @@
 
     const filtering = Boolean(terms.length || topic);
     if (countEl) countEl.textContent = filtering ? `${shown} of ${total} posts` : `${total} posts`;
+    if (form) form.classList.toggle("is-filtering", filtering);
     if (emptyEl) {
       emptyEl.hidden = shown > 0;
       if (emptyQ) emptyQ.textContent = [query.trim(), topic && `in ${topic}`].filter(Boolean).join(" ");
