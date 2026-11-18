@@ -39,7 +39,7 @@
   <meta content="How 'democratic' is Congress? graphic." property="og:image:alt">
 
   <meta name="datePublished" content="2024-04-07">
-  <meta name="dateModified" content="2026-08-19">
+  <meta name="dateModified" content="2026-11-17">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -59,6 +59,83 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111111">
   <meta name="color-scheme" content="light dark">
 
+  <style>
+    /* Chart colours, checked for colour-blind separation and >= 3:1 contrast
+       on both page backgrounds: Democrats blue, Republicans red, split
+       delegations neutral grey; districts smaller than average blue, larger
+       orange; House violet, Senate green. Places with no senators use the
+       text colour. */
+    .congress-chart {
+      --party-d: #2a78d6;
+      --party-r: #e34948;
+      --party-split: #8a8a85;
+      --smaller: #2a78d6;
+      --larger: #eb6834;
+      --house: #6250d6;
+      --senate: #008300;
+    }
+
+    html[data-theme="dark"] .congress-chart {
+      --party-d: #3987e5;
+      --party-r: #e66767;
+      --smaller: #3987e5;
+      --larger: #d95926;
+      --house: #9085e9;
+      --senate: #0ca30c;
+    }
+
+    /* Plot's legend swatches are <span>s, which the global span rule enlarges */
+    .congress-chart [class*="-swatch"] {
+      font-size: inherit;
+      line-height: inherit;
+      letter-spacing: normal;
+    }
+
+    .congress-chart div[class*="-swatches"] {
+      font-size: 12px;
+    }
+
+    /* Notes listed under a chart when it is too narrow for inline notes;
+       the numbers match the markers on the chart */
+    .chart-notes {
+      list-style: none;
+      counter-reset: note;
+      display: grid;
+      gap: .6rem;
+      margin: .75rem 0 0;
+      padding: 0;
+      font-family: var(--font-ui);
+      font-size: var(--type-scale--1);
+      line-height: 1.4;
+    }
+
+    .chart-notes[hidden] {
+      display: none;
+    }
+
+    .chart-notes li {
+      counter-increment: note;
+      display: grid;
+      grid-template-columns: 1.25rem 1fr;
+      gap: .5rem;
+      align-items: baseline;
+    }
+
+    .chart-notes li::before {
+      content: counter(note);
+      display: inline-grid;
+      place-items: center;
+      width: 1.25rem;
+      height: 1.25rem;
+      border-radius: 50%;
+      background: var(--heading-color);
+      color: var(--bg-color);
+      font-size: .7rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+  </style>
+
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -68,7 +145,7 @@
   "name": "U.S. Congress | Justin Chill",
   "description": "An interactive data visualization analyzing representation in the U.S. Congress, focusing on population disparities in the Senate and House of Representatives, benchmark thresholds, and non-voting territories.",
   "datePublished": "2024-04-07",
-  "dateModified": "2026-08-19",
+  "dateModified": "2026-11-17",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
   "articleSection": "Politics",
@@ -284,8 +361,12 @@
         to their constituents and that the government is representative of the people.</p>
       <span class="header-tag mid-size"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
       <h2 class="mid-size">Balance of power</h2>
-      <figure id="states" class="mid-size" role="img"
-        aria-label="A line graph showing cumulative population percentages represented by U.S. senators."></figure>
+      <figure id="states" class="mid-size congress-chart">
+        <figcaption class="right"><a href="https://data.census.gov/cedsci/table?g=0100000US%240400000&amp;tid=PEPPOP2021.NST_EST2021_POP" target="_blank" rel="noopener">Data</a>: U.S. Census
+          Bureau, 2021 population estimates; senators of the 117th Congress (2021–2023)</figcaption>
+        <div id="states-plot"></div>
+        <ol class="chart-notes" id="states-notes" hidden></ol>
+      </figure>
       <p>While there was intense debate in the convention over the makeup and powers of Congress, many delegates
         believed that the legislative branch would be relatively unimportant. A few believed that the Congress would
         concern itself largely with external affairs, leaving domestic matters to state and local governments. These
@@ -306,8 +387,12 @@
         closer to a straight diagonal line: </p>
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
       <h2>Representation in the House of Representatives</h2>
-      <figure id="line" role="img"
-        aria-label="A line graph showing the House of Representatives' 435 districts and voting power.">
+      <figure id="line" class="congress-chart">
+        <figcaption class="right"><a href="https://data.census.gov/cedsci/table?t=Population%20Total&amp;g=0100000US%245000000&amp;y=2021&amp;tid=ACSDP1Y2021.DP05&amp;moe=false&amp;tp=true" target="_blank" rel="noopener">Data</a>: U.S. Census Bureau,
+          2021 American Community Survey 1-year estimates (116th Congress districts) and 2021 population
+          estimates</figcaption>
+        <div id="line-plot"></div>
+        <ol class="chart-notes" id="line-notes" hidden></ol>
       </figure>
       <p>There are still little jumps. There's a big one at the beginning: Puerto Rico is the size of about 4
         average-sized districts but has no voting representatives. Around Representative #417, there's another little
@@ -329,7 +414,11 @@
         American Community Survey, we can recreate these graphs for the districts that take effect following
         redistricting.
       </p>
-      <figure id="beeswarm" role="img" aria-label="A beeswarm chart showing voting representation by state."></figure>
+      <figure id="beeswarm" class="congress-chart">
+        <figcaption class="right"><a href="https://data.census.gov/cedsci/table?t=Population%20Total&amp;g=0100000US%245000000&amp;y=2021&amp;tid=ACSDP1Y2021.DP05&amp;moe=false&amp;tp=true" target="_blank" rel="noopener">Data</a>: U.S. Census Bureau,
+          2021 American Community Survey 1-year estimates (116th Congress districts)</figcaption>
+        <div id="beeswarm-plot"></div>
+      </figure>
       <p>This analysis was inspired by <a
           href="https://www.newyorker.com/magazine/2022/08/22/american-democracy-was-never-designed-to-be-democratic-eric-holder-our-unfinished-march-nick-seabrook-one-person-one-vote-jacob-grumbach-laboratories-against-democracy"
           target="_blank" rel="noopener">"American
@@ -370,352 +459,321 @@
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.19/dist/plot.umd.min.js"></script>
 
   <script>
+    // Congress charts (Observable Plot): Senate and House representation curves
+    // and a beeswarm of House district sizes. Each chart draws into its own
+    // #…-plot div, so redrawing never touches the figure's source caption.
+    // Below COMPACT_WIDTH, notes become numbered markers plus a list under the
+    // chart (#…-notes) so nothing overlaps on phones.
+    const COMPACT_WIDTH = 560;
+    const SURFACE = "var(--bg-color, white)";
+    const MUTED = "var(--muted-color, #6f6f6f)";
+    const PARTY_LABEL = {
+      DD: "2 Democrats",
+      RR: "2 Republicans",
+      DR: "Split (1 Dem, 1 Rep)",
+      none: "No senators (D.C., Puerto Rico)"
+    };
+    const fmtPeople = d3.format(".2s");
+    const fmtInt = d3.format(",");
+    const fmtPct = d3.format(".1%");
+
     let rawData = null;
+
+    function renderNotes(listId, notes, show) {
+      const list = document.getElementById(listId);
+      if (!list) return;
+      list.hidden = !show;
+      list.replaceChildren();
+      if (!show) return;
+      for (const text of notes) {
+        const li = document.createElement("li");
+        const body = document.createElement("div");
+        body.textContent = text;
+        li.append(body);
+        list.append(li);
+      }
+    }
+
+    // Steps of a cumulative curve, for Plot.line with curve "step-before":
+    // each item adds its share of seats (x) and of population (y).
+    function steps(rows, seats, total) {
+      return [{ x: 0, y: 0 }, ...rows.map(d => ({ ...d, x: seats(d) / total, y: d.cumulativePopPct }))];
+    }
+
+    // Angle (degrees) of the 45° "equal representation" line on screen
+    function diagonalAngle(width, height, m) {
+      return -Math.atan2(height - m.top - m.bottom, width - m.left - m.right) * 180 / Math.PI;
+    }
+
+    function senateChart(sortedData, width) {
+      const compact = width < COMPACT_WIDTH;
+      const size = compact ? 10 : 12;
+      const m = { top: compact ? 30 : 20, right: compact ? 12 : 20, bottom: 40, left: 40 };
+      const height = compact ? 460 : Math.round(width / 1.5);
+
+      const withParty = (datum) => {
+        const D = datum.cumulativeParty.D, R = datum.cumulativeParty.R;
+        return { D, R, total: D + R };
+      };
+      const notes = [
+        ...[0.5, 0.75].map(pct => {
+          const datum = sortedData.find(d => d.cumulativePopPct > pct);
+          const { D, R, total } = withParty(datum);
+          return { ...datum, text: `Over ${Math.round(pct * 100)}% of the population is represented by just ${total} senators: ${D} Democrats and ${R} Republicans.` };
+        }),
+        ...["Puerto Rico", "District of Columbia"].map(state => {
+          const datum = sortedData.find(d => d.state === state);
+          const { total } = withParty(datum);
+          return { ...datum, text: `${state}'s ${fmtPeople(datum.pop)} people have no representation in the Senate, even though it is larger than ${(100 - total) / 2} states.` };
+        })
+      ].map((d, i) => ({ ...d, n: i + 1 }));
+
+      const half = notes[0], threeQuarters = notes[1];
+      const largestForHalf = sortedData.findIndex(d => d.state === half.state) + 1;
+      const labelled = sortedData.filter(d => ["California", "Texas", "Florida", "New York", "Wyoming"].includes(d.state));
+      const angle = diagonalAngle(width, height, m);
+
+      const noteMarks = compact
+        ? [
+          Plot.dot(notes, { x: d => d.cumulativeSen - 1, y: "cumulativePopPct", r: 8, fill: "currentColor", stroke: SURFACE, strokeWidth: 2 }),
+          Plot.text(notes, { x: d => d.cumulativeSen - 1, y: "cumulativePopPct", text: "n", fill: SURFACE, fontSize: 10, fontWeight: 700 })
+        ]
+        : [
+          Plot.arrow(notes, {
+            x1: d => d.cumulativeSen + 1, y1: d => d.cumulativePopPct - 0.2,
+            x2: "cumulativeSen", y2: "cumulativePopPct",
+            bend: -15, stroke: MUTED, strokeOpacity: 0.5, insetEnd: 2
+          }),
+          Plot.text(notes, {
+            x: "cumulativeSen", y: d => d.cumulativePopPct - 0.2,
+            text: "text", lineWidth: 20, dy: 22, textAnchor: "start",
+            fill: "currentColor", stroke: SURFACE, strokeWidth: 5
+          })
+        ];
+
+      const chart = Plot.plot({
+        width, height,
+        marginTop: m.top, marginRight: m.right, marginBottom: m.bottom, marginLeft: m.left,
+        grid: true,
+        style: { fontSize: size + "px" },
+        ariaLabel: "Senate representation by population",
+        ariaDescription: `States are sorted from largest to smallest population. The ${largestForHalf} largest states hold half the U.S. population and elect ${half.cumulativeSen} of 100 senators; ${threeQuarters.cumulativeSen} senators represent three quarters of it. Puerto Rico and the District of Columbia have no senators. A straight line shows what equal representation would look like.`,
+        color: {
+          legend: "swatches",
+          domain: ["DD", "RR", "DR", "none"],
+          range: ["var(--party-d)", "var(--party-r)", "var(--party-split)", "currentColor"],
+          tickFormat: d => PARTY_LABEL[d] || d
+        },
+        x: { label: "Senators (cumulative) →", ticks: 10, tickSize: 0, labelOffset: 34 },
+        y: { label: "↑ Population (cumulative)", percent: true, ticks: 5, tickSize: 0, labelOffset: 2 },
+        marks: [
+          Plot.ruleY([0]),
+          // Equal representation: every senator speaking for the same number of people
+          Plot.line([[0, 0], [100, 1]], { stroke: "currentColor", strokeOpacity: 0.35 }),
+          Plot.text(["Equal representation"], {
+            x: 40, y: 0.4, rotate: angle, dy: 12, fill: MUTED, fontSize: size - 1
+          }),
+          // Population benchmarks (solid hairlines, labelled at the left)
+          Plot.ruleY([0.5, 0.75], { stroke: "currentColor", strokeOpacity: 0.25 }),
+          Plot.text(compact ? ["50%", "75%"] : ["50% of population", "75% of population"], {
+            y: [0.5, 0.75], frameAnchor: "left", textAnchor: "start", dx: 4, dy: -6,
+            fill: MUTED, fontSize: size - 1
+          }),
+          // One segment per state, coloured by its senators' parties
+          Plot.ruleY(sortedData, {
+            x1: d => d.cumulativeSen - 2, x2: "cumulativeSen", y: "cumulativePopPct",
+            stroke: "party", strokeWidth: 3,
+            tip: true,
+            title: d => `${d.state}\n${PARTY_LABEL[d.party] || d.party}\nPopulation: ${fmtInt(d.pop)}\nCumulative: ${fmtPct(d.cumulativePopPct)}`
+          }),
+          // A few state names, in the text colour, in the empty space under the curve
+          Plot.text(labelled.filter(d => d.state !== "Wyoming"), {
+            x: "cumulativeSen", y: "cumulativePopPct", text: "state",
+            textAnchor: "start", dx: 4, dy: 4, fill: MUTED, fontSize: size - 1
+          }),
+          Plot.text(labelled.filter(d => d.state === "Wyoming"), {
+            x: "cumulativeSen", y: "cumulativePopPct", text: "state",
+            textAnchor: "end", dy: compact ? -18 : -8, fill: MUTED, fontSize: size - 1 // clear of marker 4 on phones
+          }),
+          ...noteMarks
+        ]
+      });
+      return { chart, notes: notes.map(d => d.text), compact };
+    }
+
+    function houseChart(sortedDistrictData, sortedData, width) {
+      const compact = width < COMPACT_WIDTH;
+      const size = compact ? 10 : 12;
+      const m = { top: 20, right: compact ? 12 : 20, bottom: 40, left: 40 };
+      const height = compact ? 400 : Math.round(width * 0.62);
+
+      const house = steps(sortedDistrictData, d => d.cumulativeReps, 435);
+      const senate = steps(sortedData, d => d.cumulativeSen, 100);
+      const angle = diagonalAngle(width, height, m);
+      const pr = house.find(d => d.state === "Puerto Rico");
+      const dc = house.find(d => d.state === "District of Columbia");
+      const avg = d3.sum(sortedDistrictData, d => d.pop) / 435;
+      const smallerThanDC = sortedDistrictData.filter(d => d.reps > 0 && d.pop < dc.pop).length;
+      const jumps = [
+        { ...pr, n: 1, text: `Puerto Rico: ${fmtPeople(pr.pop)} people, the size of about ${Math.round(pr.pop / avg)} average districts, but no voting representative.`, tx: 0.2, ty: 0.15, anchor: "start" },
+        { ...dc, n: 2, text: `District of Columbia: ${fmtInt(dc.pop)} people, more than ${smallerThanDC} districts, but no voting representative.`, tx: 0.97, ty: 0.55, anchor: "end" }
+      ];
+
+      const jumpMarks = compact
+        ? [
+          Plot.dot(jumps, { x: "x", y: "y", r: 8, fill: "currentColor", stroke: SURFACE, strokeWidth: 2 }),
+          Plot.text(jumps, { x: "x", y: "y", text: "n", fill: SURFACE, fontSize: 10, fontWeight: 700 })
+        ]
+        : [
+          Plot.arrow(jumps, { x1: "tx", y1: "ty", x2: "x", y2: "y", bend: true, stroke: MUTED, strokeOpacity: 0.5, insetEnd: 4 }),
+          ...["start", "end"].map(anchor => Plot.text(jumps.filter(d => d.anchor === anchor), {
+            x: "tx", y: "ty", text: "text", lineWidth: 16, textAnchor: anchor, lineAnchor: "top", dy: 6,
+            fill: "currentColor", stroke: SURFACE, strokeWidth: 5
+          }))
+        ];
+
+      const chart = Plot.plot({
+        width, height,
+        marginTop: m.top, marginRight: m.right, marginBottom: m.bottom, marginLeft: m.left,
+        grid: true,
+        style: { fontSize: size + "px" },
+        ariaLabel: "House representation by population, compared with the Senate",
+        ariaDescription: "Districts are sorted by population. The House curve stays close to the line of equal representation, while the Senate curve bows far above it. Small jumps mark Puerto Rico and the District of Columbia, which have no voting representative.",
+        color: { domain: ["House", "Senate"], range: ["var(--house)", "var(--senate)"] },
+        x: { label: "Seats (cumulative share of the chamber) →", percent: true, ticks: compact ? 5 : 10, tickSize: 0, labelOffset: 34 },
+        y: { label: "↑ Population (cumulative)", percent: true, ticks: 5, tickSize: 0, labelOffset: 2 },
+        marks: [
+          Plot.ruleY([0]),
+          Plot.line([[0, 0], [1, 1]], { stroke: "currentColor", strokeOpacity: 0.35 }),
+          Plot.line(senate, { x: "x", y: "y", curve: "step-before", stroke: () => "Senate", strokeWidth: 1.5 }),
+          Plot.line(house, { x: "x", y: "y", curve: "step-before", stroke: () => "House", strokeWidth: 2 }),
+          // Every line is named on the chart, each label on its own side of its
+          // line: Senate above-left of its curve, House just above its line,
+          // equal representation just below the diagonal (both run along them).
+          Plot.text(["Senate"], { x: 0.2, y: senate.find(d => d.x >= 0.2).y, dx: -6, dy: -8, textAnchor: "end", fill: "currentColor", stroke: SURFACE, strokeWidth: 3, fontSize: size, fontWeight: 600 }),
+          Plot.text(["House"], { x: 0.6, y: house.find(d => d.x >= 0.6).y, dy: -11, rotate: angle, fill: "currentColor", stroke: SURFACE, strokeWidth: 3, fontSize: size, fontWeight: 600 }),
+          Plot.text(["Equal representation"], { x: 0.78, y: 0.78, dy: 12, rotate: angle, fill: MUTED, stroke: SURFACE, strokeWidth: 3, fontSize: size - 1 }),
+          ...jumpMarks,
+          Plot.ruleX(house.slice(1), Plot.pointerX({ x: "x", stroke: "currentColor", strokeOpacity: 0.3 })),
+          Plot.tip(house.slice(1), Plot.pointerX({
+            x: "x", y: "y",
+            title: d => d.reps > 0
+              ? `Representative #${d.cumulativeReps}\n${d.state}, ${d.district}\nPopulation: ${fmtInt(d.pop)}\nCumulative: ${fmtPct(d.y)}`
+              : `${d.state}: no voting representative\nPopulation: ${fmtInt(d.pop)}`
+          }))
+        ]
+      });
+      return { chart, notes: jumps.map(d => d.text), compact };
+    }
+
+    function beeswarmChart(sortedDistrictData, width) {
+      const compact = width <= 450;
+      const size = compact ? 10 : 12;
+      const districtData = sortedDistrictData.filter(d => d.reps > 0);
+      const dotRadius = compact ? 3 : 3.5;
+      const dodgeOptions = { x: "popDiff", anchor: "middle", r: dotRadius, padding: 1 };
+      const LABEL_ABOVE = ["North Dakota", "Vermont", "Delaware"];
+      const within = districtData.filter(d => Math.abs(d.popDiff) <= 100000).length;
+      const smallest = d3.least(districtData, d => d.popDiff);
+      const largest = d3.greatest(districtData, d => d.popDiff);
+
+      return Plot.plot({
+        grid: true,
+        width,
+        marginLeft: compact ? 20 : 15,
+        marginRight: compact ? 45 : 35,
+        marginTop: compact ? 40 : 30,
+        marginBottom: compact ? 70 : 60,
+        height: compact ? 480 : 460,
+        style: { fontSize: size + "px" },
+        ariaLabel: "House districts by difference from the average district population",
+        ariaDescription: `${within} of ${districtData.length} districts are within 100,000 people of the average district (about 770,500). The largest is ${largest.state}'s at-large district, ${fmtInt(Math.round(largest.popDiff))} above average; the smallest are in ${smallest.state}, ${fmtInt(Math.round(-smallest.popDiff))} below.`,
+        x: {
+          tickFormat: d => d === 0 ? "0" : d3.format("+,.0s")(d),
+          ticks: compact ? 4 : 8,
+          label: compact ? "Difference from average district →" : "Population difference from the average district (about 770,500) →",
+          labelAnchor: "center",
+          labelOffset: 36
+        },
+        marks: [
+          // Average district (solid hairline)
+          Plot.ruleX([0], { stroke: "currentColor", strokeOpacity: 0.5 }),
+          Plot.text(["Average district"], {
+            x: 0, frameAnchor: "top", dy: -18, fontSize: size - 1,
+            fill: "currentColor", stroke: SURFACE, strokeWidth: 4, fontWeight: 600
+          }),
+          // Every district; at-large states (one district for the whole state) get an ink ring
+          Plot.dot(districtData, Plot.dodgeY({
+            ...dodgeOptions,
+            fill: d => d.popDiff < 0 ? "var(--smaller)" : "var(--larger)",
+            fillOpacity: 0.9,
+            stroke: d => d.isAtLarge ? "currentColor" : "none",
+            strokeWidth: 1.5,
+            title: d => `${d.state}, ${d.district}${d.isAtLarge ? " (at-large)" : ""}\nPopulation: ${fmtInt(d.pop)}\nDifference: ${d.popDiff > 0 ? "+" : ""}${fmtInt(Math.round(d.popDiff))} vs. average`,
+            tip: true
+          })),
+          // At-large state names above or below their dot. Plot's dy is per
+          // mark, so one mark per side; both use the full data and the same
+          // dodge options, so they land on the same positions as the dots.
+          ...[[true, -12], [false, 14]].map(([up, dy]) => Plot.text(districtData, Plot.dodgeY({
+            ...dodgeOptions,
+            text: d => d.isAtLarge && LABEL_ABOVE.includes(d.state) === up ? d.state : null,
+            dy,
+            textAnchor: "middle",
+            fill: "currentColor", stroke: SURFACE, strokeWidth: 3.5,
+            fontSize: size - 1, fontWeight: 600
+          }))),
+          // Key at the top corners: a coloured dot beside each label (text stays in ink)
+          Plot.dot([0], { frameAnchor: "top-left", dx: compact ? 9 : 16, dy: 10, r: 4, fill: "var(--smaller)" }),
+          Plot.text([compact ? "Smaller than average" : "District is smaller than average"], {
+            frameAnchor: "top-left", dx: compact ? 17 : 24, dy: 10, lineAnchor: "middle", textAnchor: "start",
+            fill: "currentColor", stroke: SURFACE, strokeWidth: 3, fontSize: size - 1
+          }),
+          Plot.dot([0], { frameAnchor: "top-right", dx: compact ? -9 : -16, dy: 10, r: 4, fill: "var(--larger)" }),
+          Plot.text([compact ? "Larger than average" : "District is larger than average"], {
+            frameAnchor: "top-right", dx: compact ? -17 : -24, dy: 10, lineAnchor: "middle", textAnchor: "end",
+            fill: "currentColor", stroke: SURFACE, strokeWidth: 3, fontSize: size - 1
+          })
+        ]
+      });
+    }
 
     function renderCharts() {
       if (!rawData) return;
+      const statesEl = document.getElementById("states-plot");
+      const lineEl = document.getElementById("line-plot");
+      const beeswarmEl = document.getElementById("beeswarm-plot");
+      if (!statesEl || !lineEl || !beeswarmEl) return;
+      const [sortedDistrictData, sortedData] = rawData;
 
-      const statesContainer = document.getElementById("states");
-      const lineContainer = document.getElementById("line");
-      const beeswarmContainer = document.getElementById("beeswarm");
+      const senate = senateChart(sortedData, statesEl.getBoundingClientRect().width || 680);
+      statesEl.replaceChildren(senate.chart);
+      renderNotes("states-notes", senate.notes, senate.compact);
 
-      if (!statesContainer || !lineContainer || !beeswarmContainer) return;
+      const house = houseChart(sortedDistrictData, sortedData, lineEl.getBoundingClientRect().width || 680);
+      lineEl.replaceChildren(house.chart);
+      renderNotes("line-notes", house.notes, house.compact);
 
-      statesContainer.replaceChildren();
-      lineContainer.replaceChildren();
-      beeswarmContainer.replaceChildren();
-
-      // Define the data
-      const [sortedDistrictData, sortedData, senators] = rawData;
-      const size = 12;
-      const widthMid = statesContainer.getBoundingClientRect().width || 680;
-      const width = lineContainer.getBoundingClientRect().width || 680;
-      const fmt = d3.format(".2s");
-
-      const annotations = [
-        ...([
-          0.5,
-          0.75,
-        ]).map(pct => {
-          const datum = sortedData.find(d => d.cumulativePopPct > pct);
-          const cumulativeSenators = datum.cumulativeParty.D + datum.cumulativeParty.R;
-          return {
-            ...datum,
-            text: `Over ${Math.round(pct * 100)}% of the population is represented by just ${cumulativeSenators} senators: ${datum.cumulativeParty.D} Democrats and ${datum.cumulativeParty.R} Republicans.`
-          }
-        }),
-        ...([
-          'Puerto Rico',
-          'District of Columbia',
-        ]).map(state => {
-          const datum = sortedData.find(d => d.state === state);
-          const cumulativeSenators = datum.cumulativeParty.D + datum.cumulativeParty.R;
-          return {
-            ...datum,
-            text: `${state}'s ${fmt(datum.pop)} people have no representation in the Senate, even though it is larger than ${(100 - cumulativeSenators) / 2} states.`
-          }
-        }),
-      ];
-      const lineAnnotations = [{
-        label: 'The District of Columbia has more people than almost 20 districts, but has no voting representatives.',
-        x: 400,
-        textAnchor: 'start'
-      }];
-
-      const states = {
-        grid: true,
-        width: widthMid,
-        height: widthMid > 450 ? widthMid / 1.5 : 460,
-        marginTop: widthMid > 450 ? 20 : 45,
-        style: {
-          fontSize: widthMid > 450 ? size : size - 2,
-          paddingBottom: 0,
-          paddingRight: widthMid > 450 ? 0 : 20,
-        },
-        color: {
-          legend: "swatches",
-          label: "Senate Representation",
-          domain: ['DD', 'RR', 'DR', 'none'],
-          tickFormat: d => ({
-            'DD': '2 Democrats',
-            'RR': '2 Republicans',
-            'DR': '1 Dem / 1 Rep',
-            'none': 'No Representation (DC / PR)'
-          }[d] || d),
-          range: [
-            '#3b82f6', // DD
-            '#ef4444', // RR
-            '#a855f7', // DR
-            '#f97316'  // no party (DC, PR)
-          ]
-        },
-        y: {
-          tickSize: 0,
-          nice: true,
-          label: '% Population (cumulative)',
-          ticks: 4,
-          percent: true,
-          labelOffset: 2,
-        },
-        x: {
-          label: '# of Senators (cumulative)',
-          grid: true,
-          ticks: 10,
-          tickSize: 0,
-          labelOffset: 34,
-        },
-        marks: [
-          Plot.ruleY(sortedData, {
-            x1: d => d.cumulativeSen - 2,
-            x2: d => d.cumulativeSen,
-            y: 'cumulativePopPct',
-            stroke: 'party',
-            strokeWidth: 3,
-            tip: true,
-            title: d => `${d.state}\nParty: ${{ 'DD': '2 Democrats', 'RR': '2 Republicans', 'DR': '1 Dem / 1 Rep', 'none': 'No Representation' }[d.party] || d.party}\nPopulation: ${d3.format(',')(d.pop)}\nCumulative Pop: ${d3.format('.1%')(d.cumulativePopPct)}`
-          }),
-          Plot.ruleY([0]),
-          Plot.ruleY([0.5, 0.75], {
-            stroke: 'var(--rule-color, #aeaeae)',
-            strokeDasharray: '4,4',
-            opacity: .75,
-          }),
-          Plot.text(widthMid > 450 ? ['50% Pop benchmark', '75% Pop benchmark'] : ['50%', '75%'], {
-            y: [0.5, 0.75],
-            frameAnchor: 'right',
-            dy: -6,
-            dx: widthMid > 450 ? 0 : -5,
-            fill: 'var(--muted-color, #aaaaaa)',
-            fontSize: widthMid > 450 ? size - 2 : size - 4
-          }),
-          Plot.arrow(annotations, {
-            x1: d => {
-              if (widthMid > 450) return d.cumulativeSen + 1;
-              if (d.state === 'District of Columbia') return 80;
-              if (d.state === 'Puerto Rico') return 52;
-              if (d.cumulativePopPct > 0.7) return 36;
-              return 18;
-            },
-            y1: d => {
-              if (widthMid > 450) return d.cumulativePopPct - 0.2;
-              if (d.state === 'District of Columbia') return 0.83;
-              if (d.state === 'Puerto Rico') return 0.64;
-              if (d.cumulativePopPct > 0.7) return 0.38;
-              return 0.22;
-            },
-            x2: d => d.cumulativeSen - 0,
-            y2: d => d.cumulativePopPct - (widthMid > 450 ? 0 : 0.025),
-            bend: -15,
-            stroke: 'var(--muted-color, #aeaeae)'
-          }),
-          Plot.textY(sortedData.filter(d => (widthMid <= 450 ? ['California', 'Texas', 'Florida', 'New York', 'Puerto Rico', 'Wyoming'].includes(d.state) : (d.cumulativeSen % 4 === 0 || ['California', 'Puerto Rico', 'District of Columbia', 'Wyoming'].includes(d.state)))), {
-            x: d => d.cumulativeSen - 1,
-            y: 'cumulativePopPct',
-            text: 'state',
-            textAnchor: 'end',
-            dy: -8,
-            fill: 'party',
-            rotate: 20
-          }),
-          Plot.text(annotations, {
-            x: d => {
-              if (widthMid > 450) return d.cumulativeSen;
-              if (d.state === 'District of Columbia') return 88;
-              if (d.state === 'Puerto Rico') return 75;
-              if (d.cumulativePopPct > 0.7) return 52;
-              return 28;
-            },
-            y: d => {
-              if (widthMid > 450) return d.cumulativePopPct - 0.2;
-              if (d.state === 'District of Columbia') return 0.76;
-              if (d.state === 'Puerto Rico') return 0.58;
-              if (d.cumulativePopPct > 0.7) return 0.38;
-              return 0.22;
-            },
-            text: 'text',
-            lineWidth: widthMid > 450 ? 20 : 16,
-            dx: d => {
-              if (widthMid > 450) return 0;
-              if (d.state === 'District of Columbia' || d.state === 'Puerto Rico') return -5;
-              return 5;
-            },
-            dy: widthMid > 450 ? 22 : 10,
-            textAnchor: d => {
-              if (widthMid > 450) return 'start';
-              if (d.state === 'District of Columbia' || d.state === 'Puerto Rico') return 'end';
-              return 'start';
-            },
-            strokeWidth: 5,
-            fill: "currentColor", // Dynamic text color
-            stroke: "var(--bg-color, white)", // Dynamic background outline for text
-          }),
-        ]
-      };
-
-      const line = {
-        grid: true,
-        width: width,
-        marginRight: 0,
-        style: {
-          fontSize: size,
-        },
-        y: {
-          tickSize: 0,
-          nice: true,
-          label: '% Population (cumulative)',
-          ticks: 4,
-          percent: true,
-          labelOffset: 2,
-        },
-        x: {
-          tickSize: 0,
-          labelAnchor: "center",
-          label: '# of Representatives (cumulative)',
-          labelOffset: 34,
-        },
-        marks: [
-          Plot.ruleY(sortedDistrictData, {
-            x1: d => d.cumulativeReps - 1,
-            x2: d => d.cumulativeReps,
-            y: 'cumulativePopPct'
-          }),
-          Plot.ruleY([0]),
-          Plot.text(lineAnnotations, {
-            x: 'x',
-            text: 'label',
-            dx: -20,
-            dy: 1,
-            frameAnchor: "top",
-            textAnchor: 'end',
-            lineWidth: 18,
-            fill: "currentColor",
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-          }),
-        ]
-      };
-
-      const districtData = sortedDistrictData.filter(d => d.reps > 0);
-      const dotRadius = width > 450 ? 3.5 : 3;
-      const dodgeOptions = {
-        x: "popDiff",
-        anchor: "middle",
-        r: dotRadius,
-        padding: 1
-      };
-
-      const beeswarm = {
-        grid: true,
-        width: width,
-        marginLeft: width > 450 ? 15 : 20,
-        marginRight: width > 450 ? 35 : 45,
-        marginTop: width > 450 ? 30 : 40,
-        marginBottom: width > 450 ? 60 : 70,
-        height: width > 450 ? 460 : 480,
-        style: {
-          fontSize: width > 450 ? size : size - 2,
-          textTransform: "capitalize",
-        },
-        x: {
-          tickFormat: d => d === 0 ? '0' : d3.format('+,.0s')(d),
-          ticks: width > 450 ? 8 : 4,
-          grid: true,
-          label: width > 450 ? "Population difference from average district (~770,500) →" : "Population diff vs. avg district →",
-          labelAnchor: "center",
-          labelOffset: 36,
-        },
-        marks: [
-          // Vertical baseline rule at x = 0 (Average district size)
-          Plot.ruleX([0], {
-            stroke: "var(--muted-color, #777)",
-            strokeWidth: 1.5,
-            strokeDasharray: "4,4",
-          }),
-          Plot.text(["Avg District"], {
-            x: 0,
-            frameAnchor: "top",
-            dy: -18,
-            fontSize: width > 450 ? size - 2 : size - 4,
-            fill: "currentColor",
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-            fontWeight: 600,
-          }),
-          // Swarm of district dots: standard dots semi-transparent, At-Large states solid with halo ring
-          Plot.dot(districtData, Plot.dodgeY({
-            ...dodgeOptions,
-            fillOpacity: d => d.isAtLarge ? 1 : 0.35,
-            fill: d => d.isAtLarge
-              ? (d.popDiff < 0 ? '#ea580c' : '#16a34a')
-              : (d.popDiff < 0 ? '#f97316' : '#22c55e'),
-            stroke: d => d.isAtLarge ? 'var(--text-color, #ffffff)' : 'none',
-            strokeWidth: d => d.isAtLarge ? 2.5 : 0,
-            strokeOpacity: 1,
-            title: d => `${d.state} ${d.district}${d.isAtLarge ? ' (At-Large State)' : ''}\nPopulation: ${d3.format(',')(d.pop)}\nDifference: ${d.popDiff > 0 ? '+' : ''}${d3.format(',')(Math.round(d.popDiff))} residents vs. average`,
-            tip: true,
-          })),
-          // At-Large state labels with alternating vertical offsets to prevent label-on-label overlap
-          Plot.text(districtData, Plot.dodgeY({
-            ...dodgeOptions,
-            text: d => d.isAtLarge ? d.state : null,
-            dx: 0,
-            dy: d => ['North Dakota', 'Vermont', 'Delaware'].includes(d.state) ? -12 : 14,
-            textAnchor: 'middle',
-            fill: "currentColor",
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 3.5,
-            fontSize: width > 450 ? size - 2 : size - 4,
-            fontWeight: 600,
-          })),
-          // Directional annotations pinned to chart edges with compact text size
-          Plot.text(["← District is smaller than average"], {
-            frameAnchor: "bottom-left",
-            dx: width > 450 ? 12 : 6,
-            dy: width > 450 ? -8 : -10,
-            textAnchor: "start",
-            fill: "#c2410c",
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 3,
-            fontSize: width > 450 ? size - 2 : size - 4,
-            fontWeight: 600,
-          }),
-          Plot.text(["District is larger than average →"], {
-            frameAnchor: "bottom-right",
-            dx: width > 450 ? -12 : -6,
-            dy: width > 450 ? -8 : -10,
-            textAnchor: "end",
-            fill: "#15803d",
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 3,
-            fontSize: width > 450 ? size - 2 : size - 4,
-            fontWeight: 600,
-          })
-        ]
-      };
-
-      statesContainer.appendChild(Plot.plot(states));
-      lineContainer.appendChild(Plot.plot(line));
-      beeswarmContainer.appendChild(Plot.plot(beeswarm));
+      beeswarmEl.replaceChildren(beeswarmChart(sortedDistrictData, beeswarmEl.getBoundingClientRect().width || 680));
     }
 
-    // Async request data
     Promise.all([
       d3.csv("data/sortedDistrictData.csv", d3.autoType),
-      d3.json("data/sortedData.json"),
-      d3.csv("data/senators.csv", d3.autoType)
+      d3.json("data/sortedData.json")
     ]).then(data => {
       rawData = data;
       renderCharts();
     }).catch(error => {
-      console.error('Error loading data:', error);
+      console.error("Error loading data:", error);
     });
 
     let resizeTimer;
+    let lastWidth = window.innerWidth;
     window.addEventListener("resize", () => {
+      if (window.innerWidth === lastWidth) return;
+      lastWidth = window.innerWidth;
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        renderCharts();
-      }, 150);
+      resizeTimer = setTimeout(renderCharts, 150);
     });
   </script>
   <script src="js/site.js" defer></script>
