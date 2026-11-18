@@ -76,6 +76,7 @@
     const filtering = Boolean(terms.length || topic);
     if (countEl) countEl.textContent = filtering ? `${shown} of ${total} posts` : `${total} posts`;
     if (form) form.classList.toggle("is-filtering", filtering);
+    syncSearchOpen();
     if (emptyEl) {
       emptyEl.hidden = shown > 0;
       if (emptyQ) emptyQ.textContent = [query.trim(), topic && `in ${topic}`].filter(Boolean).join(" ");
@@ -90,6 +91,19 @@
   }
 
   // --- search box ---
+  // Below 1100px the box collapses to a magnifier button (CSS). It is open
+  // while it has focus or holds a query, so a shared ?q= link shows the query.
+  function syncSearchOpen() {
+    if (!form || !input) return;
+    const open = form.contains(document.activeElement) || input.value.trim() !== "";
+    form.classList.toggle("is-open", open);
+    if (header) header.classList.toggle("is-searching", open);
+  }
+  if (form) {
+    form.addEventListener("focusin", syncSearchOpen);
+    form.addEventListener("focusout", () => setTimeout(syncSearchOpen, 0));
+  }
+
   let timer = 0;
   if (input) {
     input.addEventListener("input", () => {

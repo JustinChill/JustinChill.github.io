@@ -2434,3 +2434,110 @@ article>.visual--full {
 .hidden {
   display: none !important;
 }
+
+/* =========================================================
+   "Justin ^c Hill" wordmark (blog.html header, index.html title)
+   A proofreader's insertion mark slips the C of Chill in: the two words
+   slide apart, then a caret and a hand-drawn c draw themselves in.
+   Sizes are in em so it scales with whatever font size it is given.
+   ========================================================= */
+.wordmark {
+  display: inline-flex;
+  /* It may be a <span>, which the global span rule restyles. Inherit family
+     and size only, so the weight still comes from the element (strong, h1). */
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  line-height: 1.25;
+  --mark-color: #0b7299;
+}
+
+html[data-theme="dark"] .wordmark {
+  --mark-color: #38beea;
+}
+
+.wordmark span {
+  font: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+}
+
+.wordmark__word {
+  display: inline-block;
+}
+
+.wordmark__insert {
+  position: relative; /* empty: stretches to the row's height, marks are absolute */
+  display: inline-block;
+  width: .72em;
+}
+
+.wordmark__insert svg {
+  position: absolute;
+  overflow: visible;
+}
+
+.wordmark__insert path {
+  stroke: var(--mark-color);
+  stroke-width: 1.6; /* about .075em: a pen line, lighter than the letter stems */
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.wordmark__c {
+  width: .56em;
+  height: .56em;
+  left: .08em;
+  top: -.24em; /* sits on the cap line */
+  transform: rotate(-8deg);
+}
+
+.wordmark__caret path {
+  stroke-width: 1.7; /* smaller viewBox, so a touch more to match the c */
+}
+
+.wordmark__caret {
+  width: .44em;
+  height: .44em;
+  left: .15em;
+  top: .7em; /* apex just above the baseline, feet below it */
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .wordmark__word--first {
+    animation: wordmark-scooch-left .3s cubic-bezier(.27, .22, .44, 1.03) .35s both;
+  }
+
+  .wordmark__word--last {
+    animation: wordmark-scooch-right .3s cubic-bezier(.27, .22, .44, 1.03) .42s both;
+  }
+
+  .wordmark__insert path {
+    stroke-dasharray: var(--len);
+    stroke-dashoffset: var(--len);
+  }
+
+  .wordmark__caret path {
+    --len: 18;
+    animation: wordmark-draw .16s ease-out .65s both;
+  }
+
+  .wordmark__c path {
+    --len: 23;
+    animation: wordmark-draw .5s cubic-bezier(.27, .22, .44, 1.03) .8s both;
+  }
+}
+
+@keyframes wordmark-scooch-left {
+  from { transform: translateX(.22em); }
+  to { transform: translateX(0); }
+}
+
+@keyframes wordmark-scooch-right {
+  from { transform: translateX(-.22em); }
+  to { transform: translateX(0); }
+}
+
+@keyframes wordmark-draw {
+  to { stroke-dashoffset: 0; }
+}
