@@ -46,7 +46,7 @@
   <meta content="The Keys to the White House: Forecast for 2020." property="og:image:alt">
 
   <meta name="datePublished" content="2025-07-04">
-  <meta name="dateModified" content="2025-08-06">
+  <meta name="dateModified" content="2026-11-18">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -120,6 +120,39 @@
     html[data-theme="dark"] svg text {
       fill: #e2e8f0;
     }
+
+    /* Key status colours: true keys blue, false keys red, more saturated for
+       more certainty (darker in light mode, brighter in dark mode). Each arm
+       passes the ordered-scale checks; the two "Leans" steps stay distinct
+       for colour-blind readers. */
+    article {
+      --certainly-true: #1d559e;
+      --likely-true: #3f7fd0;
+      --leans-true: #7ea9e0;
+      --leans-false: #e8928f;
+      --likely-false: #d2504c;
+      --certainly-false: #9c2a28;
+    }
+
+    html[data-theme="dark"] article {
+      --certainly-true: #93bdf0;
+      --likely-true: #4f8ad6;
+      --leans-true: #2e5c99;
+      --leans-false: #8a3431;
+      --likely-false: #d65a56;
+      --certainly-false: #f2a19e;
+    }
+
+    /* Plot's legend swatches are <span>s, which the global span rule enlarges */
+    article figure [class*="-swatch"] {
+      font-size: inherit;
+      line-height: inherit;
+      letter-spacing: normal;
+    }
+
+    article figure div[class*="-swatches"] {
+      font-size: 12px;
+    }
   </style>
 
   <script type="application/ld+json">
@@ -131,7 +164,7 @@
     "name": "The Keys to the White House | Justin Chill",
     "description": "An analytical breakdown of Professor Allan Lichtman's 13 Keys to the White House prediction model, examining historical accuracy, system mechanics, and 2024 election projections.",
     "datePublished": "2025-07-04",
-    "dateModified": "2025-08-06",
+    "dateModified": "2026-11-18",
     "inLanguage": "en-US",
     "isAccessibleForFree": true,
     "articleSection": "Elections",
@@ -446,7 +479,9 @@
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
       <h3>The model projected Harris to win in 2024</h3>
       <figure id="units"
-        aria-label="Bar chart illustrating the breakdown of the 13 keys by confidence level (Certainly True, Likely True, Leans False, etc.).">
+        aria-label="Scorecard of the 13 keys for 2024, each marked true or false with its confidence level.">
+        <figcaption class="right">Data: <a
+            href="https://en.wikipedia.org/wiki/The_Keys_to_the_White_House#">Wikipedia</a></figcaption>
       </figure>
 
       <section class="dates">
@@ -496,7 +531,13 @@
 
   <script type="text/javascript">
     var size = 12;
-    var scheme = "BuRd";
+    var MUTED = "var(--muted-color, #6f6f6f)";
+    var SURFACE = "var(--bg-color, white)";
+    // Confidence levels from most true to most false; colours come from the
+    // page's CSS variables so they follow the theme.
+    var STATUS = ["Certainly True", "Likely True", "Leans True", "Leans False", "Likely False", "Certainly False"];
+    var statusColor = function (s) { return "var(--" + s.toLowerCase().replace(" ", "-") + ")"; };
+    var isTrue = function (d) { return /True$/.test(d.Guess); };
 
     function isDarkMode() {
       return document.documentElement.getAttribute("data-theme") === "dark";
@@ -530,10 +571,7 @@
         style: {
           fontSize: size
         },
-        color: {
-          scheme: "Reds",
-          legend: true
-        },
+        ariaLabel: "The 13 keys",
         x: {
           label: null,
           axis: null,
@@ -553,95 +591,120 @@
             preserveAspectRatio: "xMinYMin meet",
             width: widthMid > 450 ? 60 : 30
           }),
+          // Key numbers, matching the numbered list below
+          Plot.text(data, {
+            x: "ID",
+            y: 0,
+            text: "ID",
+            dy: widthMid > 450 ? 40 : 24,
+            fill: MUTED,
+            fontSize: widthMid > 450 ? size : size - 2
+          }),
         ]
       };
 
+      // Statuses that occur, in order, with their colours
+      var present = STATUS.filter(function (st) { return data.some(function (d) { return d.Guess === st; }); });
+      var trueCount = data.filter(isTrue).length;
+
+      // 2. The 13 keys as one stacked bar, true keys first, against the
+      //    8 needed to predict a win for the incumbent party
       var keys2024 = {
         width: widthMid,
         height: 120,
+        marginTop: 30,
         marginLeft: 0,
         marginRight: 0,
+        marginBottom: 24,
         style: {
           fontSize: size
         },
+        ariaLabel: "2024 status of the 13 keys",
+        ariaDescription: trueCount + " of 13 keys were rated true, reaching the 8 needed to predict a win for the incumbent party.",
         color: {
-          scheme: scheme,
-          legend: true,
-          reverse: false
+          domain: present,
+          range: present.map(statusColor),
+          legend: true
         },
         x: {
-          labelArrow: "none",
-          label: null
+          domain: [0, 13],
+          ticks: d3.range(0, 14),
+          label: null,
+          tickSize: 0
         },
         marks: [
-          Plot.barX(data, Plot.groupZ({
-            x: "count"
-          }, {
+          Plot.barX(data, Plot.groupZ({ x: "count" }, {
             fill: "Guess",
-            tip: true,
-            reverse: false
+            order: present,
+            insetLeft: 1,
+            insetRight: 1,
+            tip: true
           })),
-          Plot.ruleX([8], {
-            strokeDasharray: [1, 1],
-            strokeWidth: 0.5,
-            stroke: ruleColor
-          }),
-          Plot.text([8], {
-            text: d => "Keys needed to win",
-            rotate: 270,
-            frameAnchor: "middle",
-            dx: 30,
-            fontSize: size - 3,
-            fill: "white",
-            stroke: "white",
-            strokeWidth: .4
+          Plot.ruleX([8], { stroke: "currentColor", strokeWidth: 2 }),
+          Plot.text(["8 keys needed to win"], {
+            x: 8,
+            frameAnchor: "top",
+            dy: -16,
+            fill: "currentColor",
+            fontWeight: 600
           }),
         ]
       };
 
+      // 3. Scorecard: every key by name, its dot on the False or True side,
+      //    coloured and labelled by confidence
+      var compact = width < 520;
       var units = {
         width: width,
-        height: 240,
+        height: data.length * 30 + 40,
+        marginLeft: compact ? 150 : 230,
+        marginRight: compact ? 70 : 100,
+        marginTop: 34,
+        marginBottom: 6,
         style: {
-          fontSize: size,
-          paddingLeft: 20
+          fontSize: compact ? size - 1 : size
         },
+        ariaLabel: "2024 rating of each of the 13 keys",
+        ariaDescription: data.map(function (d) { return d.ID + ". " + d.Key + ": " + d.Guess; }).join("; "),
         x: {
+          domain: ["False", "True"],
+          axis: "top",
           label: null,
           tickSize: 0,
-          axis: null
+          inset: 30
         },
         y: {
-          label: null
+          domain: data.slice().sort(function (a, b) { return a.ID - b.ID; }).map(function (d) { return d.ID + ". " + d.Key; }),
+          label: null,
+          axis: null
         },
         color: {
-          legend: true,
-          scheme: scheme
+          domain: present,
+          range: present.map(statusColor)
         },
         marks: [
-          Plot.frame({
-            stroke: isDarkMode() ? "#444" : "#ccc",
-            strokeOpacity: .6
-          }),
-          Plot.barX(data, {
-            y: "Guess",
-            x: 1,
-            inset: 0.5,
+          Plot.ruleY(data, { y: function (d) { return d.ID + ". " + d.Key; }, stroke: "currentColor", strokeOpacity: 0.08 }),
+          Plot.axisY({ tickSize: 0, lineWidth: compact ? 13 : 30, label: null }),
+          Plot.dot(data, {
+            x: function (d) { return isTrue(d) ? "True" : "False"; },
+            y: function (d) { return d.ID + ". " + d.Key; },
+            r: 7,
             fill: "Guess",
-            sort: "Key",
-            channels: {
-              Key: "Key"
-            },
-            format: {
-              x: false,
-            },
-            tip: true,
-            inset: 2,
+            stroke: SURFACE,
+            strokeWidth: 2,
+            channels: { Status: "Guess", Definition: "Definition" },
+            tip: { format: { x: false, y: false, fill: false } }
           }),
-          Plot.ruleX([0])
+          Plot.text(data, {
+            x: function (d) { return isTrue(d) ? "True" : "False"; },
+            y: function (d) { return d.ID + ". " + d.Key; },
+            text: "Text",
+            dx: 12,
+            textAnchor: "start",
+            fill: MUTED
+          }),
         ]
       };
-
       // Clear previous renders before appending (e.g., after a theme change).
       renderedPlots.forEach(function (node) {
         node.remove();
@@ -662,7 +725,11 @@
         if (fig) keys2024El.insertBefore(renderedPlots[1], fig);
         else keys2024El.appendChild(renderedPlots[1]);
       }
-      if (unitsEl) unitsEl.appendChild(renderedPlots[2]);
+      if (unitsEl) {
+        const fig = unitsEl.querySelector("figcaption");
+        if (fig) unitsEl.insertBefore(renderedPlots[2], fig);
+        else unitsEl.appendChild(renderedPlots[2]);
+      }
     }
 
     var renderedPlots = [];

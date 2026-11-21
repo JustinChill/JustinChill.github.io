@@ -45,7 +45,7 @@
     property="og:image:alt">
 
   <meta name="datePublished" content="2025-07-04">
-  <meta name="dateModified" content="2026-08-20">
+  <meta name="dateModified" content="2026-11-18">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -96,7 +96,7 @@
   "alternativeHeadline": "Measuring wage inequality across 195 U.S. metropolitan areas between 1980 and 2015",
   "description": "An interactive data visualization analyzing 40 years of wage inequality across 195 U.S. metropolitan areas, reproducing research from the New York Fed and The New York Times Upshot.",
   "datePublished": "2025-07-04",
-  "dateModified": "2026-08-20",
+  "dateModified": "2026-11-18",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
   "articleSection": "Data Visualization",
@@ -275,7 +275,7 @@
       <span class="header-tag" aria-hidden="true"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h3>The ratio of inequality to population in 195 metro areas between 1980&ndash;2015</h3>
       <figure id="inequality"
-        aria-label="A plot graph showing various cities, with lines and dots connecting data points. Notable cities labeled include Fairfield, Conn., San Jose, San Francisco, Houston, Washington, D.C., and Chicago, indicating varying data ranges across the chart.">
+        aria-label="Arrows showing how wage inequality (the 90/10 ratio) and population changed for 195 U.S. metro areas between 1980 and 2015. Inequality rose almost everywhere; Fairfield, Conn., San Jose, San Francisco, Houston, New York, Washington, D.C., and Chicago are labelled.">
         <figcaption class="right">Data: <a href="https://www.nytimes.com/2019/12/02/upshot/wealth-poverty-divide-american-cities.html" target="_blank" rel="noopener">The New York
             Times</a></figcaption>
       </figure>
@@ -331,121 +331,93 @@
   <script src="https://cdn.jsdelivr.net/npm/d3@7.9.2/dist/d3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.19/dist/plot.umd.min.js"></script>
   <script type="text/javascript">
+    // Inequality across 195 metro areas: one arrow per metro from 1980 to 2015
+    // (population against the 90/10 wage ratio), coloured by the change.
+    // The eight metros the text discusses are drawn bold and labelled; the
+    // rest stay faint for context. Redraws on resize, keeping the caption.
     const size = 12;
-    const element = document.getElementById("inequality") || d3.select('figure').node();
-    const width = element.getBoundingClientRect().width; // get width of article so graphic is responsive  
-    const promises = [d3.csv("data/metros.csv", d3.autoType)]; // Use Promises to async request data
-    function midpoint({
-      x1,
-      x2,
-      y1,
-      y2,
-      ...options
-    } = {}) {
-      const [X, setX] = Plot.column(x2);
-      const [Y, setY] = Plot.column(y2);
-      return Plot.transform({
-        x: X,
-        y: Y,
-        ...options
-      }, function (data, facets) {
-        const X1 = Plot.valueof(data, x1);
-        const X2 = Plot.valueof(data, x2);
-        const Y1 = Plot.valueof(data, y1);
-        const Y2 = Plot.valueof(data, y2);
-        setX(Float64Array.from(data, (d, i) => (X1[i] + X2[i]) / 2));
-        setY(Float64Array.from(data, (d, i) => (Y1[i] + Y2[i]) / 2));
-        return {
-          data,
-          facets
-        };
+    const SURFACE = "var(--bg-color, white)";
+    // Diverging blue (less unequal) / red (more unequal) with a neutral grey
+    // midpoint, stepped per theme so metros that barely changed stay visible.
+    const DIVERGING = {
+      light: ["#2a78d6", "#85857f", "#d03b3a"],
+      dark: ["#5394e6", "#a3a39e", "#e04f4e"]
+    };
+    const theme = () => document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+    // Where each named metro's label sits around its 2015 arrowhead
+    const PLACE = {
+      "New York": "left", "San Francisco": "left", "San Jose": "left", "Fairfield, Conn.": "left",
+      "Houston": "above", "Chicago": "right", "Washington, D.C.": "below", "Johnstown": "below"
+    };
+    const change = d => d.R90_10_2015 - d.R90_10_1980;
+    const fmtPop = d3.format(",");
+    const title = d => `${d.nyt_display || d.Metro}\nPopulation: ${fmtPop(d.POP_1980)} → ${fmtPop(d.POP_2015)}\n90/10 ratio: ${d.R90_10_1980.toFixed(1)} → ${d.R90_10_2015.toFixed(1)} (${d3.format("+.1f")(change(d))})`;
+
+    let metros = null;
+    let lastWidth = 0;
+
+    function renderChart(force = false) {
+      const el = document.getElementById("inequality");
+      if (!el || !metros) return;
+      const width = Math.round(el.getBoundingClientRect().width) || 600;
+      if (width === lastWidth && !force) return;
+      lastWidth = width;
+
+      const extent = d3.max(metros, d => Math.abs(change(d)));
+      const named = metros.filter(d => d.highlight);
+      const others = metros.filter(d => !d.highlight);
+      const arrows = (data, options) => Plot.arrow(data, {
+        x1: "POP_1980", y1: "R90_10_1980", x2: "POP_2015", y2: "R90_10_2015",
+        bend: true, stroke: change, ...options
       });
-    }
+      const labels = (place, options) => Plot.text(named.filter(d => PLACE[d.nyt_display] === place), {
+        x: "POP_2015", y: "R90_10_2015", text: "nyt_display",
+        fill: "currentColor", stroke: SURFACE, strokeWidth: 3, fontWeight: 600, ...options
+      });
 
-    // After data is successfully fetched, generate viz
-    Promise.all(promises).then(function (data) {
-
-      const metros = data[0];
-      const inequality = {
+      const chart = Plot.plot({
+        width,
+        height: width < 500 ? 380 : 440,
+        marginLeft: 36, marginRight: 16, marginTop: 20, marginBottom: 40,
         grid: true,
-        inset: 10,
-        width: width,
-        marginLeft: 20,
-        marginRight: 20,
-        style: {
-          background: "transparent",
-          paddingTop: 10,
-          paddingBottom: 10,
-          fontSize: size
-        },
-        x: {
-          type: "log",
-          label: "Population (M) →",
-          labelAnchor: "center",
-          labelOffset: 40,
-          tickSize: 0,
-        },
-        y: {
-          label: "↑ Inequality",
-          tickSize: 0,
-          nice: true,
-          ticks: 4,
-          // domain: [1, 10],
-          anchor: "left",
-          labelAnchor: "top",
-        },
+        style: { fontSize: size + "px" },
+        ariaLabel: "Change in wage inequality and population for 195 U.S. metro areas, 1980 to 2015",
+        ariaDescription: `Inequality rose in ${metros.filter(d => change(d) > 0).length} of ${metros.length} metro areas. The highest 2015 ratio is Fairfield, Conn. (8.7); the lowest is Johnstown (3.9). Large metros such as New York, Houston and San Francisco saw some of the biggest increases.`,
+        x: { type: "log", label: "Population (log scale) →", labelAnchor: "center", labelOffset: 34, tickFormat: "~s", tickSize: 0 },
+        y: { label: "↑ 90/10 wage ratio", nice: true, ticks: 4, tickSize: 0 },
         color: {
-          type: "diverging",
-          scheme: "BuRd",
-          legend: true,
-          label: "Change in inequality from 1980 to 2015",
-          style: {
-            fontSize: size
-          },
+          type: "linear", domain: [-extent, 0, extent], range: DIVERGING[theme()], clamp: true,
+          legend: true, label: "Change in the 90/10 ratio, 1980–2015", tickFormat: d => d > 0 ? `+${d}` : `${d}`,
+          style: { fontSize: size + "px" }
         },
         marks: [
-          Plot.arrow(metros, {
-            x1: "POP_1980",
-            y1: "R90_10_1980",
-            x2: "POP_2015",
-            y2: "R90_10_2015",
-            bend: true,
-            stroke: d => d.R90_10_2015 - d.R90_10_1980,
-            title: (d) =>
-              `${d.nyt_display}\nPopulation 1980: ${d3.format(",")(d.POP_1980)}\nPopulation 2015: ${d3.format(",")(d.POP_2015)}\nCurrent level of inequality: ${d3.format(".1f")(d.R90_10_2015)}\nChange in inequality: ${d3.format("+.2f")(d.R90_10_2015 - d.R90_10_1980)}`,
-          }),
-          // This dot helps increase the surface area at the end of the arrow for hovering
-          Plot.dot(metros, {
-            x: "POP_2015",
-            y: "R90_10_2015",
-            r: 4,
-            fillOpacity: 0,
-            tip: true,
-            fill: d => d.R90_10_2015 - d.R90_10_1980,
-            title: (d) =>
-              `${d.nyt_display}\nPopulation 1980: ${d3.format(",")(d.POP_1980)}\nPopulation 2015: ${d3.format(",")(d.POP_2015)}\nCurrent level of inequality: ${d3.format(".1f")(d.R90_10_2015)}\nChange in inequality: ${d3.format("+.2f")(d.R90_10_2015 - d.R90_10_1980)}`,
-          }),
-          Plot.text(
-            metros,
-            midpoint({
-              x1: "POP_1980",
-              y1: "R90_10_1980",
-              x2: "POP_2015",
-              y2: "R90_10_2015",
-              filter: "highlight",
-              text: "nyt_display",
-              fill: "currentColor",
-              stroke: "var(--bg-color, white)",
-              dy: -6,
-            })
-          )
+          arrows(others, { strokeOpacity: 0.45, strokeWidth: 1 }),
+          arrows(named, { strokeWidth: 2 }),
+          labels("left", { textAnchor: "end", dx: -8 }),
+          labels("right", { textAnchor: "start", dx: 8 }),
+          labels("above", { dy: -12 }),
+          labels("below", { dy: 14 }),
+          Plot.tip(metros, Plot.pointer({ x: "POP_2015", y: "R90_10_2015", title }))
         ]
-      };
+      });
 
-      document.getElementById("inequality").appendChild(Plot.plot(inequality));
-    }).catch(function () {
-      console.log('🚨 Oops - Something has gone wrong fetching data.');
+      el.replaceChildren(...el.querySelectorAll(":scope > figcaption"));
+      el.prepend(chart);
+    }
+
+    d3.csv("data/metros.csv", d3.autoType).then(data => {
+      metros = data;
+      renderChart();
+    }).catch(error => {
+      console.error("Could not load the metro data:", error);
     });
+
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(renderChart, 150);
+    });
+    document.addEventListener("themechange", () => renderChart(true));
   </script>
   <script src="js/site.js" defer></script>
 </body>

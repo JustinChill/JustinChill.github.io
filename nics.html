@@ -51,7 +51,7 @@
     property="og:image:alt">
 
   <meta name="datePublished" content="2025-01-04">
-  <meta name="dateModified" content="2026-08-23">
+  <meta name="dateModified" content="2026-11-20">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -105,6 +105,15 @@
       color: #94a3b8;
     }
 
+    /* One hue for the monthly bars and the running total */
+    :root {
+      --nics-bar: #c9423c;
+    }
+
+    html[data-theme="dark"] {
+      --nics-bar: #e25f58;
+    }
+
     @media (max-width: 600px) {
       p img {
         float: none;
@@ -125,7 +134,7 @@
   "name": "NICS Firearm Background Checks | Justin Chill",
   "description": "Monthly data collected by the FBI on firearm background checks from 1998 to present, exploring trends, regulatory milestones, and historical surges.",
   "datePublished": "2025-01-04",
-  "dateModified": "2026-08-23",
+  "dateModified": "2026-11-20",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
   "articleSection": "Gun Policy",
@@ -367,7 +376,7 @@
       <span class="header-tag mid-size"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h2 class="mid-size">Monthly <small>NICS</small> Background Checks</h2>
       <figure id="barplot" class="mid-size" role="img"
-        aria-label="A bar graph titled Monthly Background Checks from 2000 to 2023. The graph shows a general upward trend, with notable spikes around events like Sandy Hook, San Bernardino, and January 6th. Total checks peak at over 4 million.">
+        aria-label="Bar chart of monthly NICS background checks from November 1998 to September 2023, with a 12-month average line. Checks trend upward, with spikes after Sandy Hook, the San Bernardino attack and January 6th, and peak at 4.6 million in March 2021.">
         <figcaption class="mid-size right">Data: <a
             href="https://www.fbi.gov/file-repository/nics_firearm_checks_-_month_year_by_state_type.pdf/view"
             target="_blank" rel="noopener noreferrer">FBI.gov</a>
@@ -381,8 +390,8 @@
         Background Check System (<small>NICS</small>), was created in collaboration with the Bureau of
         Alcohol, Tobacco, Firearms and Explosives and local law enforcement agencies.</p>
       <p>Since its inception in November 1998, the <small>FBI</small> has released monthly data from each state and U.S.
-        territory. The <small>FBI</small> reports that over 300 million requests have been approved and 1.5 million have
-        been denied.</p>
+        territory. Through September 2023, the latest month in the data used here, those reports add up to more than
+        460 million background checks.</p>
       <p>The <small>FBI</small>'s background check figures come with caveats. These numbers show only the number of
         firearm background checks initiated through the <small>NICS</small>; they do not represent the total number of
         firearms sold.</p>
@@ -394,7 +403,7 @@
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
       <h2><small>NICS</small> Background Checks — Past 36 Months</h2>
       <figure id="recent" role="img"
-        aria-label="Area chart showing NICS background checks over the past 36 months. Spikes correlate with major events like the COVID-19 pandemic and social unrest.">
+        aria-label="Bar chart of monthly NICS background checks for the 36 months to September 2023, peaking at 4.6 million in March 2021.">
         <figcaption class="right">Data: <a
             href="https://www.fbi.gov/file-repository/nics_firearm_checks_-_month_year_by_state_type.pdf/view"
             target="_blank" rel="noopener noreferrer">FBI.gov</a>
@@ -411,7 +420,7 @@
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
       <h2>Total <small>NICS</small> checks conducted</h2>
       <figure id="line" role="img"
-        aria-label="Line chart showing the total number of NICS checks conducted annually since 1998. The trend is consistently upward.">
+        aria-label="Line chart of the running total of NICS background checks since November 1998, passing 100 million in 2009 and reaching 460 million by September 2023.">
         <figcaption class="right">Data: <a
             href="https://www.fbi.gov/file-repository/nics_firearm_checks_-_month_year_by_state_type.pdf/view"
             target="_blank" rel="noopener noreferrer">FBI.gov</a>
@@ -526,317 +535,130 @@
     ];
 
     let globalRollup = null;
-    let globalMax = 0;
     let globalRecent = [];
+    let globalTotal = [];
     let lastRenderedWidth = 0;
+
+    const BAR = "var(--nics-bar)";
+    const SURFACE = "var(--bg-color, white)";
+    const INK = "var(--text-color, currentColor)";
+    const size = 12;
+    const fmtMonth = d3.utcFormat("%B %Y");
+    const fmtShortMonth = d3.utcFormat("%b %Y");
+    const fmtInt = d3.format(",");
+    const millions = n => n === 0 ? "0" : `${d3.format("~f")(n / 1e6)}M`;
+    const millions1 = n => n === 0 ? "0" : `${d3.format(".1f")(n / 1e6)}M`;
+    const halo = { stroke: SURFACE, strokeWidth: 5, strokeLinejoin: "round", fill: INK };
+
+    // Draw a chart into its figure, keeping the source figcaption
+    function drawInto(el, options) {
+      if (!el) return;
+      el.replaceChildren(...el.querySelectorAll(":scope > figcaption"));
+      el.prepend(Plot.plot(options));
+    }
 
     function renderCharts() {
       if (!globalRollup) return;
 
-      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
-      const textStroke = isDark ? "#121824" : "#ffffff";
-      const ruleStroke = isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.44)";
-      const arrowStroke = isDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.65)";
-      const pointerColor = isDark ? "#ffffff" : "#000000";
-      const lineStroke = isDark ? "#38bdf8" : "steelblue";
-      const avgStroke = isDark ? "#60a5fa" : "darkblue";
-      const zeroRuleStroke = isDark ? "rgba(255,255,255,0.6)" : "#000000";
-
-      const elementMid = d3.select('figure.mid-size').node();
-      const widthMid = elementMid ? elementMid.getBoundingClientRect().width : 600;
-      const element = d3.select('figure:not(.mid-size)').node();
-      const width = element ? element.getBoundingClientRect().width : 600;
-      const size = 12;
-
       const barEl = document.getElementById("barplot");
       const recentEl = document.getElementById("recent");
       const lineEl = document.getElementById("line");
-
-      const barCaption = barEl ? barEl.querySelector("figcaption") : null;
-      const recentCaption = recentEl ? recentEl.querySelector("figcaption") : null;
-      const lineCaption = lineEl ? lineEl.querySelector("figcaption") : null;
-
-      if (barEl) barEl.innerHTML = "";
-      if (recentEl) recentEl.innerHTML = "";
-      if (lineEl) lineEl.innerHTML = "";
+      const widthMid = barEl ? Math.round(barEl.getBoundingClientRect().width) : 600;
+      const width = lineEl ? Math.round(lineEl.getBoundingClientRect().width) : 600;
       lastRenderedWidth = widthMid;
 
-      const barplot = {
+      const monthTitle = d => `${fmtMonth(d.month)}\n${fmtInt(d.total)} background checks`;
+
+      // 1. Every month since November 1998, with a 12-month average for the trend
+      const avgLabelAt = globalRollup.find(d => +d.month === Date.UTC(2003, 6, 1));
+      drawInto(barEl, {
         width: widthMid,
-        marginTop: 40,
+        height: widthMid < 500 ? 320 : 400,
+        marginTop: 30,
         marginRight: 0,
-        style: {
-          fontSize: size
-        },
-        x: {
-          nice: false,
-          label: null,
-        },
-        color: {
-          legend: true
-        },
-        y: {
-          nice: true,
-          label: "Total background checks",
-          anchor: "top-left",
-          ticks: 4,
-          grid: true,
-        },
+        style: { fontSize: size + "px" },
+        x: { label: null },
+        y: { label: "Background checks per month", labelArrow: null, grid: true, ticks: 4, tickSize: 0, tickFormat: millions1 },
+        ariaDescription: "Monthly totals rise from under a million in 1999 to a peak of 4.6 million in March 2021. The 12-month average climbs from about 0.8 million to about 2.5 million by 2023.",
         marks: [
-          Plot.axisY({
-            tickSize: 0,
-            dx: 2,
-            dy: -6,
-            ticks: 4,
-            lineAnchor: "bottom",
-            tickFormat: (n, i) => (i > 0 ? `${d3.format("0.1f")(n / 10 ** 6)}M` : n),
-          }),
-          Plot.ruleX(dates, {
-            stroke: ruleStroke,
-            x: "date",
-            strokeLinecap: "round",
-            strokeWidth: 1,
-            strokeDasharray: "5 9.5",
-          }),
-          Plot.rectY(globalRollup, Plot.pointerX({
-            x: "month",
-            y: "total",
-            fill: pointerColor,
-            stroke: pointerColor,
-            interval: d3.utcMonth,
-          })),
-          Plot.rectY(globalRollup, {
-            x: "month",
-            interval: d3.utcMonth,
-            y: "total",
-            stroke: (d) => d3.interpolateReds(d.total / globalMax),
-            fill: (d) => d3.interpolateReds(d.total / globalMax),
-            fillOpacity: 0.65,
-            strokeOpacity: 0.65,
-            inset: 0,
-            tip: true,
-            title: (d) =>
-              `${d3.utcFormat("%B %Y")(d.month)}: ${d3.format(",")(d.total)} background checks`
+          Plot.ruleX(dates, { x: "date", stroke: INK, strokeOpacity: 0.35, strokeWidth: 1 }),
+          Plot.rectY(globalRollup, { x: "month", interval: d3.utcMonth, y: "total", fill: BAR, inset: 0 }),
+          Plot.rectY(globalRollup, Plot.pointerX({ x: "month", interval: d3.utcMonth, y: "total", fill: INK, inset: 0 })),
+          // Surface-coloured casing keeps the average readable where it crosses the bars
+          Plot.lineY(globalRollup, { x: "month", y: "avg12", stroke: SURFACE, strokeWidth: 5 }),
+          Plot.lineY(globalRollup, { x: "month", y: "avg12", stroke: INK, strokeWidth: 2 }),
+          Plot.text(avgLabelAt ? [avgLabelAt] : [], {
+            x: "month", y: "avg12", text: () => "12-month average",
+            dy: -34, textAnchor: "middle", fontWeight: 600, ...halo
           }),
           Plot.text(dates, {
-            text: "label",
-            dx: -8,
-            x: "date",
-            y: "y",
-            lineWidth: 20,
-            fontSize: size + 1,
-            stroke: textStroke,
-            strokeWidth: 6,
-            fill: "currentColor",
-            style: {
-              paintOrder: "stroke"
-            },
-            strokeLinejoin: "round",
-            textAnchor: "end",
+            x: "date", y: "y", text: "label", lineWidth: 20,
+            dx: -8, textAnchor: "end", fontSize: size + 1, ...halo
           }),
+          Plot.tip(globalRollup, Plot.pointerX({
+            x: "month", y: "total",
+            title: d => `${monthTitle(d)}${d.avg12 ? `\n12-month average: ${fmtInt(Math.round(d.avg12))}` : ""}`
+          }))
         ]
-      };
+      });
 
-      const recent = {
-        width: width,
+      // 2. The last 36 months in the data
+      drawInto(recentEl, {
+        width,
+        height: width < 500 ? 300 : 360,
         marginTop: 30,
         marginRight: 0,
-        style: {
-          fontSize: size
-        },
-        x: {
-          nice: false,
-          label: null,
-        },
-        color: {
-          legend: true
-        },
-        y: {
-          tickFormat: (n) => `${d3.format("0.1f")(n / 10 ** 6)}M`,
-          nice: true,
-          label: "Total background checks",
-          labelArrow: null,
-          anchor: "top-left",
-          grid: true,
-          tickSize: 0,
-          ticks: 5,
-        },
+        style: { fontSize: size + "px" },
+        x: { label: null },
+        y: { label: "Background checks per month", labelArrow: null, grid: true, ticks: 5, tickSize: 0, tickFormat: millions1 },
+        ariaDescription: "Monthly checks peak at 4.6 million in March 2021 and settle between about 2 and 3 million a month through September 2023.",
         marks: [
-          Plot.rectY(globalRecent, Plot.pointerX({
-            x: "month",
-            y: "total",
-            fill: pointerColor,
-            stroke: pointerColor,
-            interval: d3.utcMonth,
-          })),
-          Plot.rectY(globalRecent, {
-            x: "month",
-            interval: d3.utcMonth,
-            y: "total",
-            stroke: (d) => d3.interpolateReds(d.total / globalMax),
-            fill: (d) => d3.interpolateReds(d.total / globalMax),
-            fillOpacity: 0.65,
-            strokeOpacity: 0.65,
-            inset: 0,
-            tip: true,
-            title: (d) =>
-              `${d3.utcFormat("%B %Y")(d.month)}: ${d3.format(",")(d.total)} background checks`
+          Plot.rectY(globalRecent, { x: "month", interval: d3.utcMonth, y: "total", fill: BAR, insetLeft: 1, insetRight: 1 }),
+          Plot.rectY(globalRecent, Plot.pointerX({ x: "month", interval: d3.utcMonth, y: "total", fill: INK, insetLeft: 1, insetRight: 1 })),
+          Plot.text([{ text: "March 2021 peak", x: new Date(Date.UTC(2021, 6, 1)), y: 4250000 }], {
+            x: "x", y: "y", text: "text", textAnchor: "start", fontSize: size + 1, ...halo
           }),
-          Plot.text([
-            {
-              text: "March 2021 peak",
-              x: new Date(Date.UTC(2021, 6, 1)),
-              y: 4250000
-            }
-          ], {
-            text: "text",
-            x: "x",
-            y: "y",
-            textAnchor: "start",
-            fontSize: size + 1,
-            stroke: textStroke,
-            strokeWidth: 6,
-            fill: "currentColor",
-            style: {
-              paintOrder: "stroke"
-            },
-            strokeLinejoin: "round",
+          Plot.arrow([{ x1: new Date(Date.UTC(2021, 6, 25)), y1: 4360000, x2: new Date(Date.UTC(2021, 3, 5)), y2: 4680000 }], {
+            x1: "x1", y1: "y1", x2: "x2", y2: "y2", bend: -35,
+            stroke: INK, strokeOpacity: 0.7, strokeWidth: 1.2, headLength: 5, headAngle: 55, insetStart: 3, insetEnd: 3
           }),
-          Plot.arrow([
-            {
-              x1: new Date(Date.UTC(2021, 6, 25)),
-              y1: 4360000,
-              x2: new Date(Date.UTC(2021, 3, 5)),
-              y2: 4680000
-            }
-          ], {
-            x1: "x1",
-            y1: "y1",
-            x2: "x2",
-            y2: "y2",
-            bend: -35,
-            stroke: arrowStroke,
-            strokeWidth: 1.2,
-            headLength: 5,
-            headAngle: 55,
-            insetStart: 3,
-            insetEnd: 3
-          }),
+          Plot.tip(globalRecent, Plot.pointerX({ x: "month", y: "total", title: monthTitle }))
         ]
-      };
+      });
 
-      const line = {
-        width: width,
+      // 3. Running total since November 1998, with each 100 million milestone
+      const milestones = [];
+      for (let k = 1e8, i = 0; i < globalTotal.length; i++) {
+        if (globalTotal[i].cumulative >= k) {
+          milestones.push({ ...globalTotal[i], label: `${k / 1e6}M · ${fmtShortMonth(globalTotal[i].month)}` });
+          k += 1e8;
+        }
+      }
+      const last = globalTotal[globalTotal.length - 1];
+      milestones.push({ ...last, label: `${d3.format(".0f")(last.cumulative / 1e6)}M · ${fmtShortMonth(last.month)}` });
+
+      drawInto(lineEl, {
+        width,
+        height: width < 500 ? 300 : 360,
         marginTop: 30,
-        marginRight: 0,
-        style: {
-          fontSize: size,
-          textTransform: `capitalize`
-        },
-        x: {
-          nice: false,
-          label: null,
-          interval: d3.utcMonth,
-        },
-        color: {
-          legend: true
-        },
-        y: {
-          tickFormat: (n) => `${d3.format("0.1f")(n / 10 ** 6)}M`,
-          nice: true,
-          label: "Total background checks",
-          labelArrow: null,
-          anchor: "top-left",
-          grid: true,
-          zero: true,
-          ticks: 5,
-          tickSize: 0,
-        },
+        marginRight: 8,
+        style: { fontSize: size + "px" },
+        x: { label: null },
+        y: { label: "Total checks since November 1998", labelArrow: null, grid: true, ticks: 5, tickSize: 0, tickFormat: millions },
+        ariaDescription: `The running total passes 100 million in April 2009, 200 million in December 2014, 300 million in December 2018 and 400 million in October 2021, reaching ${fmtInt(last.cumulative)} by ${fmtMonth(last.month)}.`,
         marks: [
-          Plot.ruleY([0], {
-            stroke: zeroRuleStroke,
-            strokeWidth: .4,
-            strokeLinecap: "round",
-            strokeOpacity: .95
-          }),
-          Plot.lineY(globalRollup, {
-            sort: "month",
-            x: "month",
-            y: "total",
-            curve: "catmull-rom",
-            strokeWidth: 1,
-            stroke: lineStroke
-          }),
-          Plot.lineY(globalRollup, Plot.windowY({
-            k: 28,
-            anchor: "end"
-          }, {
-            x: "month",
-            y: "total",
-            stroke: avgStroke,
-            strokeWidth: 2,
-            tip: {
-              opacity: 0.9,
-              textPadding: 10,
-              lineHeight: 1.5,
-            }
-          })),
-          Plot.text([
-            {
-              text: "Seasonally adjusted",
-              x: new Date(Date.UTC(2021, 6, 1)),
-              y: 1400000
-            }
-          ], {
-            text: "text",
-            x: "x",
-            y: "y",
-            textAnchor: "middle",
-            fill: avgStroke,
-            fontSize: size + 1,
-            stroke: textStroke,
-            strokeWidth: 6,
-            strokeLinejoin: "round",
-            style: {
-              paintOrder: "stroke"
-            },
-            lineHeight: 1.4
-          }),
-          Plot.arrow([
-            {
-              x1: new Date(Date.UTC(2021, 6, 1)),
-              y1: 1600000,
-              x2: new Date(Date.UTC(2023, 8, 1)),
-              y2: 2560000
-            }
-          ], {
-            x1: "x1",
-            y1: "y1",
-            x2: "x2",
-            y2: "y2",
-            bend: 25,
-            stroke: avgStroke,
-            strokeWidth: 1.2,
-            headLength: 5,
-            headAngle: 55,
-            insetStart: 3,
-            insetEnd: 2
-          }),
+          Plot.areaY(globalTotal, { x: "month", y: "cumulative", fill: BAR, fillOpacity: 0.15 }),
+          Plot.ruleY([0], { stroke: INK, strokeOpacity: 0.6 }),
+          Plot.lineY(globalTotal, { x: "month", y: "cumulative", stroke: BAR, strokeWidth: 2 }),
+          Plot.dot(milestones, { x: "month", y: "cumulative", r: 4, fill: BAR, stroke: SURFACE, strokeWidth: 2 }),
+          Plot.text(milestones, { x: "month", y: "cumulative", text: "label", dx: -10, textAnchor: "end", ...halo }),
+          Plot.ruleX(globalTotal, Plot.pointerX({ x: "month", stroke: INK, strokeOpacity: 0.4 })),
+          Plot.tip(globalTotal, Plot.pointerX({
+            x: "month", y: "cumulative",
+            title: d => `${fmtMonth(d.month)}\n${fmtInt(d.cumulative)} checks since Nov 1998`
+          }))
         ]
-      };
-
-      if (barEl) {
-        barEl.appendChild(Plot.plot(barplot));
-        if (barCaption) barEl.appendChild(barCaption);
-      }
-      if (recentEl) {
-        recentEl.appendChild(Plot.plot(recent));
-        if (recentCaption) recentEl.appendChild(recentCaption);
-      }
-      if (lineEl) {
-        lineEl.appendChild(Plot.plot(line));
-        if (lineCaption) lineEl.appendChild(lineCaption);
-      }
+      });
     }
 
     d3.csv("data/nics-firearm-background-checks.csv", d3.autoType).then(function (data) {
@@ -854,8 +676,13 @@
 
       // Sort chronologically ascending
       globalRollup.sort((a, b) => a.month - b.month);
-      globalMax = d3.max(globalRollup, (o) => o.total) || 1;
-      globalRecent = globalRollup.slice(-37);
+      // Trailing 12-month average (smooths out the December holiday spikes)
+      globalRollup.forEach((d, i) => {
+        d.avg12 = i >= 11 ? d3.mean(globalRollup.slice(i - 11, i + 1), o => o.total) : null;
+      });
+      globalRecent = globalRollup.slice(-36);
+      const running = d3.cumsum(globalRollup, d => d.total);
+      globalTotal = globalRollup.map((d, i) => ({ month: d.month, cumulative: running[i] }));
 
       renderCharts();
     }).catch(function (error) {

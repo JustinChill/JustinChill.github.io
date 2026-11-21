@@ -49,7 +49,7 @@
     property="og:image:alt">
 
   <meta name="datePublished" content="2020-02-03">
-  <meta name="dateModified" content="2026-11-18">
+  <meta name="dateModified" content="2026-11-20">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -768,7 +768,7 @@
     }
   },
   "datePublished": "2020-02-03",
-  "dateModified": "2026-11-18",
+  "dateModified": "2026-11-20",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
   "articleSection": "Culture",
@@ -1388,7 +1388,7 @@
       const maxSeason = d3.max(data, d => d.season_no);
       const maxEpisode = d3.max(data, d => d.episode_no);
       const showValues = width >= 560; // printed values need ~20px cells
-      const rowHeight = width < 450 ? 18 : (width < 650 ? 22 : 25);
+      const rowHeight = width < 450 ? 13 : (width < 650 ? 22 : 25); // keeps cells near-square
       return Plot.plot({
         width,
         height: maxSeason * rowHeight + 46,
@@ -1397,12 +1397,13 @@
         ariaLabel: "Heatmap of every Simpsons episode by season and episode, coloured by IMDb rating",
         ariaDescription: "Seasons run top to bottom and episodes left to right. The darkest, highest-rated cells cluster in Seasons 4 to 8; later seasons are lighter and more uniform.",
         // Axis labels are drawn below as one header row above the episode numbers
+        // No band padding: cells sit 1px apart (from the inset) for a compact grid
         x: {
-          axis: "top", label: null, tickSize: 0,
+          axis: "top", label: null, tickSize: 0, padding: 0,
           ticks: width < 500 ? [1, 5, 10, 15, 20, 25] : d3.range(1, maxEpisode + 1)
         },
         y: {
-          label: null, tickSize: 0,
+          label: null, tickSize: 0, padding: 0,
           ticks: width < 500 ? d3.range(5, maxSeason + 1, 5).concat([1]) : d3.range(1, maxSeason + 1)
         },
         color: {
@@ -1418,7 +1419,7 @@
           Plot.text(["Episode →"], { frameAnchor: "top", dy: -28, fill: MUTED }),
           Plot.frame({ stroke: "currentColor", strokeOpacity: 0.15 }),
           Plot.cell(data, {
-            x: "episode_no", y: "season_no", inset: 0.5, rx: 2, fill: "episode_score",
+            x: "episode_no", y: "season_no", inset: 0.5, rx: 1.5, fill: "episode_score",
             title: epTitle, tip: { textPadding: 10, lineHeight: 1.5 }
           }),
           ...(showValues ? [Plot.text(data, colorContrast({

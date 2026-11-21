@@ -43,6 +43,9 @@
     content="Interactive map on cannabis legalization, medical use, and recreational use by US state">
   <meta content="https://justinchill.com/imgs/cover/weedlaws_cover.webp" property="twitter:image">
 
+  <meta name="datePublished" content="2024-08-21">
+  <meta name="dateModified" content="2026-11-18">
+
   <link rel="canonical" href="https://justinchill.com/weedlaws.html">
   <link rel="preload" href="style.css" as="style" />
   <link rel="stylesheet" href="style.css" />
@@ -90,6 +93,38 @@
         margin-right: 0.25em;
       }
     }
+
+    /* Cannabis status, most to least permissive, as one green ramp: darkest
+       (light mode) or brightest (dark mode) is fully legal. Validated as an
+       ordered scale in both themes. */
+    article {
+      --law-1: #004611;
+      --law-2: #096125;
+      --law-3: #237b39;
+      --law-4: #469254;
+      --law-5: #67a570;
+      --law-6: #84b88b;
+    }
+
+    /* Plot's legend swatches are <span>s, which the global span rule enlarges */
+    article figure [class*="-swatch"] {
+      font-size: inherit;
+      line-height: inherit;
+      letter-spacing: normal;
+    }
+
+    article figure div[class*="-swatches"] {
+      font-size: 13px;
+    }
+
+    html[data-theme="dark"] article {
+      --law-1: #93e9a0;
+      --law-2: #70cc80;
+      --law-3: #53af65;
+      --law-4: #449053;
+      --law-5: #397544;
+      --law-6: #2e5c36;
+    }
   </style>
 
   <script type="application/ld+json">
@@ -114,7 +149,7 @@
     }
   },
   "datePublished": "2024-08-21",
-  "dateModified": "2026-08-25",
+  "dateModified": "2026-11-18",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
   "articleSection": "Data Visualization",
@@ -256,7 +291,7 @@
       <span class="header-tag mid-size"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h3 class="mid-size">Spreading like a weed</h3>
       <figure id="map" class="mid-size" role="img"
-        aria-label="Map of the United States showing cannabis legality by state: from fully legal (dark green) to fully illegal (orange), with medical, decriminalized, and CBD-only states in lighter green and gray shades. Data source: Wikipedia.">
+        aria-label="Map of the United States showing cannabis legality by state, shaded from fully legal (strongest green) through medical, decriminalized and CBD-only to fully illegal (faintest). Data source: Wikipedia.">
         <figcaption class="right">Data: <a
             href="https://en.wikipedia.org/wiki/Legality_of_cannabis_by_U.S._jurisdiction" target="_blank"
             rel="noopener noreferrer">Wikipedia</a>.</figcaption>
@@ -321,8 +356,9 @@
 
   <script type="text/javascript">
     var size = 12;
-    var domain = ["CBD with THC Only", "Decriminalized", "Fully illegal", "Legalized", "Medical", "Medical and Decriminalized"];
-    var range = ["#bdbdbd", "#a5d6a7", "#ef6c00", "#1a5d1a", "#66bb6a", "#388e3c"];
+    // Most to least permissive; legend, waffle and colours all follow this order
+    var domain = ["Legalized", "Medical and Decriminalized", "Medical", "Decriminalized", "CBD with THC Only", "Fully illegal"];
+    var range = domain.map(function (_, i) { return "var(--law-" + (i + 1) + ")"; });
 
     var globalData = null;
     let lastRenderedWidth = 0;
@@ -423,22 +459,20 @@
       const stacksFontSize = width < 420 ? 9.5 : (width < 540 ? 10.5 : size);
       const stacksMarginBottom = isMobileStacks ? 60 : 50;
 
-      const statusCounts = d3.rollups(laws, v => v.length, d => d.LegalStatus)
-        .sort((a, b) => b[1] - a[1])
-        .map(d => d[0]);
 
       var stacks = {
         width: width,
         marginRight: 0,
         marginLeft: 0,
         marginBottom: stacksMarginBottom,
+        marginTop: 24,
         style: {
           fontSize: stacksFontSize,
         },
         aspectRatio: isMobileStacks ? 8 : 10,
         x: {
           label: null,
-          domain: statusCounts,
+          domain: domain,
         },
         y: {
           label: null,
@@ -460,6 +494,19 @@
           }, {
             x: "LegalStatus",
             fill: "LegalStatus",
+            multiple: 3,
+          })),
+          // How many states (and D.C.) are in each group, just above its stack
+          // (the top row may be part-filled, so round up to whole rows of 3)
+          Plot.text(laws, Plot.groupX({
+            y: v => Math.ceil(v.length / 3) * 3,
+            text: "count"
+          }, {
+            x: "LegalStatus",
+            dy: -10,
+            fill: "currentColor",
+            fontWeight: 600,
+            fontSize: stacksFontSize + 1
           })),
           Plot.axisX({
             anchor: "bottom",
