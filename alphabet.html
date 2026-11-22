@@ -38,7 +38,7 @@
     property="og:image:alt">
 
   <meta name="datePublished" content="2020-02-27">
-  <meta name="dateModified" content="2026-08-18">
+  <meta name="dateModified" content="2026-11-22">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -56,58 +56,93 @@
   <meta name="theme-color" content="#4C63B6">
   <meta name="color-scheme" content="light dark">
 
-  <style type="text/css">
-    .alphabet {
+  <style>
+    /* The cheat sheet: a header tile (drawn by CSS, so it isn't read twice after the h1) plus 26 letter tiles.
+       28 cells fill 7 x 4 and 4 x 7 exactly. Word size tracks tile width ("Pterodactyl" is about 5.2em wide); on phones the header takes one cell, so 27 fill 3 x 9. */
+    :root {
+      --tile-from: #587290;
+      --tile-to: #3f5570;
+      --tile-head: #2b3c52;
+      --tile-ink: #ffffff;
+    }
+
+    html[data-theme="dark"] {
+      --tile-from: #2f4157;
+      --tile-to: #1e2a39;
+      --tile-head: #405a7a;
+      --tile-ink: #f1f5f9;
+    }
+
+    dl.alphabet {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      margin: var(--spacer-2) 0;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 3px;
+      margin: var(--spacer-3) 0 var(--spacer-4);
+      padding: 0;
+      border-radius: 6px;
+      overflow: hidden;
     }
 
-    .alphabet div {
-      text-align: left;
-      color: rgba(255, 255, 255, .85);
-      border: .2rem solid #fff;
-      font-family: "Lato", sans-serif;
+    dl.alphabet::before {
+      content: "Phonetic\A alphabet";
+      content: "Phonetic\A alphabet" / "";
+      grid-column: span 2;
+      display: flex;
+      align-items: flex-end;
+      padding: .75rem;
+      white-space: pre-line;
+      font: 700 var(--type-scale-1)/1.1 var(--font-main);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--tile-ink);
+      background: var(--tile-head);
     }
 
-    .letter {
-      padding: .25rem;
-      background: radial-gradient(ellipse at center, rgba(130, 154, 177, .5), rgba(159, 179, 200, .9));
+    .alphabet .letter {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: .5rem;
+      aspect-ratio: 1 / 1;
+      padding: .6rem .7rem .7rem;
+      color: var(--tile-ink);
+      background: radial-gradient(ellipse at 25% 15%, var(--tile-from), var(--tile-to));
+      container-type: inline-size;
     }
 
-    .letter p {
-      text-transform: capitalize;
-      color: rgba(255, 255, 255, .85);
-      text-shadow: 0px 15px 5px rgba(0, 0, 0, 0.1),
-        5px 10px 5px rgba(0, 0, 0, 0.05),
-        -5px 10px 5px rgba(0, 0, 0, 0.05);
+    .alphabet dt {
+      font: 700 min(2.75rem, 36cqi)/1 "Camphor Heavy", var(--font-main);
     }
 
-    .letter h3 {
-      font-size: calc(1rem + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
-      line-height: initial;
+    .alphabet dd {
+      margin: 0;
+      font: 400 min(1.0625rem, 18cqi)/1.2 var(--font-main);
+      overflow-wrap: anywhere;
     }
 
-    .letter:first-of-type {
-      color: white;
-      grid-column: 1 / 3;
-      display: inline-block;
-      text-transform: capitalize;
-    }
+    @media (max-width: 719px) {
+      dl.alphabet {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
 
-    @media screen and (max-width: 680px) {
-      .alphabet {
-        grid-template-columns: repeat(3, 1fr);
+      .alphabet .letter {
+        aspect-ratio: 5 / 4;
       }
     }
 
-    @media screen and (max-width: 420px) {
-      .alphabet {
-        grid-template-columns: repeat(2, 1fr);
+    @media (max-width: 479px) {
+      dl.alphabet {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
       }
 
-      .letter:first-of-type {
-        grid-column: 1 / -1;
+      dl.alphabet::before {
+        grid-column: span 1;
+        padding: .6rem;
+        font-size: var(--type-scale--1);
+      }
+
+      .alphabet .letter {
+        aspect-ratio: 1 / 1;
       }
     }
   </style>
@@ -120,7 +155,7 @@
   "alternativeHeadline": "A Humorous Spelling Alphabet of Silent Letters and Homophones",
   "description": "A humorous prank phonetic alphabet chart exploring silent letters, confusing homophones, and English spelling oddities like P for pterodactyl, E for eye, and K for knight.",
   "datePublished": "2020-02-27",
-  "dateModified": "2026-08-18",
+  "dateModified": "2026-11-22",
   "inLanguage": "en-US",
   "articleSection": "Fun",
   "genre": "Humor",
@@ -219,163 +254,159 @@
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-  <nav class="nav" role="navigation">
+  <nav class="nav" aria-label="Main">
     <div class="nav__list">
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
     
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" aria-pressed="false" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new tab)</span></a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
 
-  <main role="main" id="content">
+  <main id="content">
     <article>
       <div class="article-hero">
         <p class="article-category">Fun</p>
         <h1 class="article-title">Phonetic alphabet</h1>
         <h2 class="article-subtitle">A confusing spelling alphabet for the mischief-minded</h2>
       </div>
-      <section class="alphabet"
-        aria-label="A humorous phonetic alphabet chart featuring words with silent initial letters, confusing spellings, and homophones such as Aisle for A, Eye for E, Knight for K, Mnemonic for M, Pterodactyl for P, and Tsunami for T.">
-        <div class="letter">
-          <h3>phonetic<br>alphabet</h3>
-        </div>
-        <div class="letter">
-          <h3>A</h3>
-          <p>aisle</p>
-        </div>
-        <div class="letter">
-          <h3>B</h3>
-          <p>bravo</p>
-        </div>
-        <div class="letter">
-          <h3>C</h3>
-          <p>cue</p>
-        </div>
-        <div class="letter">
-          <h3>D</h3>
-          <p>double-u</p>
-        </div>
-        <div class="letter">
-          <h3>E</h3>
-          <p>eye</p>
-        </div>
-        <div class="letter">
-          <h3>F</h3>
-          <p>four</p>
-        </div>
-        <div class="letter">
-          <h3>G</h3>
-          <p>gnat</p>
-        </div>
-        <div class="letter">
-          <h3>H</h3>
-          <p>honor</p>
-        </div>
-        <div class="letter">
-          <h3>I</h3>
-          <p>ian</p>
-        </div>
-        <div class="letter">
-          <h3>J</h3>
-          <p>jalapeño</p>
-        </div>
-        <div class="letter">
-          <h3>K</h3>
-          <p>knight</p>
-        </div>
-        <div class="letter">
-          <h3>L</h3>
-          <p>lima</p>
-        </div>
-        <div class="letter">
-          <h3>M</h3>
-          <p>mnemonic</p>
-        </div>
-        <div class="letter">
-          <h3>N</h3>
-          <p>nine</p>
-        </div>
-        <div class="letter">
-          <h3>O</h3>
-          <p>ouija</p>
-        </div>
-        <div class="letter">
-          <h3>P</h3>
-          <p>pterodactyl</p>
-        </div>
-        <div class="letter">
-          <h3>Q</h3>
-          <p>queue</p>
-        </div>
-        <div class="letter">
-          <h3>R</h3>
-          <p>row</p>
-        </div>
-        <div class="letter">
-          <h3>S</h3>
-          <p>sea</p>
-        </div>
-        <div class="letter">
-          <h3>T</h3>
-          <p>tsunami</p>
-        </div>
-        <div class="letter">
-          <h3>U</h3>
-          <p>urge</p>
-        </div>
-        <div class="letter">
-          <h3>V</h3>
-          <p>view</p>
-        </div>
-        <div class="letter">
-          <h3>W</h3>
-          <p>why</p>
-        </div>
-        <div class="letter">
-          <h3>X</h3>
-          <p>xylophone</p>
-        </div>
-        <div class="letter">
-          <h3>Y</h3>
-          <p>you</p>
-        </div>
-        <div class="letter">
-          <h3>Z</h3>
-          <p>zoo</p>
-        </div>
-      </section>
-
       <p><strong>P</strong> as in <strong>pterodactyl</strong>, or <strong>E</strong> as in <strong>eye</strong>. This
-        silly alphabet is an homage to a <a href="https://i.imgur.com/CXB3v70.jpg" target="_blank" rel="noopener noreferrer">similar prank</a> I saw on <a
-          href="https://www.reddit.com/r/funny/comments/anjf8x/i_switched_out_all_my_coworkers_cheat_sheets/?utm_source=share&utm_medium=web2x&context=3" target="_blank" rel="noopener noreferrer">Reddit</a>.
+        silly alphabet is an homage to a <a href="https://i.imgur.com/CXB3v70.jpg" target="_blank" rel="noopener noreferrer">similar prank<span class="visually-hidden"> (opens in new tab)</span></a> I saw on <a
+          href="https://www.reddit.com/r/funny/comments/anjf8x/i_switched_out_all_my_coworkers_cheat_sheets/" target="_blank" rel="noopener noreferrer">Reddit<span class="visually-hidden"> (opens in new tab)</span></a>.
         It was a fun excuse to practice using CSS Grid.</p>
+
+      <dl class="alphabet mid-size">
+        <div class="letter">
+          <dt>A</dt>
+          <dd>Aisle</dd>
+        </div>
+        <div class="letter">
+          <dt>B</dt>
+          <dd>Bravo</dd>
+        </div>
+        <div class="letter">
+          <dt>C</dt>
+          <dd>Cue</dd>
+        </div>
+        <div class="letter">
+          <dt>D</dt>
+          <dd>Double-u</dd>
+        </div>
+        <div class="letter">
+          <dt>E</dt>
+          <dd>Eye</dd>
+        </div>
+        <div class="letter">
+          <dt>F</dt>
+          <dd>Four</dd>
+        </div>
+        <div class="letter">
+          <dt>G</dt>
+          <dd>Gnat</dd>
+        </div>
+        <div class="letter">
+          <dt>H</dt>
+          <dd>Honor</dd>
+        </div>
+        <div class="letter">
+          <dt>I</dt>
+          <dd>Ian</dd>
+        </div>
+        <div class="letter">
+          <dt>J</dt>
+          <dd>Jalapeño</dd>
+        </div>
+        <div class="letter">
+          <dt>K</dt>
+          <dd>Knight</dd>
+        </div>
+        <div class="letter">
+          <dt>L</dt>
+          <dd>Lima</dd>
+        </div>
+        <div class="letter">
+          <dt>M</dt>
+          <dd>Mnemonic</dd>
+        </div>
+        <div class="letter">
+          <dt>N</dt>
+          <dd>Nine</dd>
+        </div>
+        <div class="letter">
+          <dt>O</dt>
+          <dd>Ouija</dd>
+        </div>
+        <div class="letter">
+          <dt>P</dt>
+          <dd>Pterodactyl</dd>
+        </div>
+        <div class="letter">
+          <dt>Q</dt>
+          <dd>Queue</dd>
+        </div>
+        <div class="letter">
+          <dt>R</dt>
+          <dd>Row</dd>
+        </div>
+        <div class="letter">
+          <dt>S</dt>
+          <dd>Sea</dd>
+        </div>
+        <div class="letter">
+          <dt>T</dt>
+          <dd>Tsunami</dd>
+        </div>
+        <div class="letter">
+          <dt>U</dt>
+          <dd>Urge</dd>
+        </div>
+        <div class="letter">
+          <dt>V</dt>
+          <dd>View</dd>
+        </div>
+        <div class="letter">
+          <dt>W</dt>
+          <dd>Why</dd>
+        </div>
+        <div class="letter">
+          <dt>X</dt>
+          <dd>Xylophone</dd>
+        </div>
+        <div class="letter">
+          <dt>Y</dt>
+          <dd>You</dd>
+        </div>
+        <div class="letter">
+          <dt>Z</dt>
+          <dd>Zoo</dd>
+        </div>
+      </dl>
     </article>
   </main>
   <footer>
     <div>
       <p>Justin Chill &copy; 2026</p>
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
-            alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
+            alt="" class="icon" width="16" height="16" loading="lazy" decoding="async">Source code<span class="visually-hidden"> (opens in new tab)</span></a></span>
     </div>
   </footer>
   <script src="js/site.js" defer></script>

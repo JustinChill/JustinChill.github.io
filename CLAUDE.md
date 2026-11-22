@@ -13,9 +13,16 @@ python3 scripts/audit.py              # must print 0 findings (CI runs this)
 python3 scripts/build_sitemap.py      # after adding, renaming or editing a page
 python3 scripts/build_sitemap.py --check   # CI fails if sitemap.xml is stale
 python3 scripts/sort_blog.py          # re-order blog cards by date modified
+python3 scripts/build_fallacies.py    # after editing data/Rhetological_Fallacies.csv
 ```
 
-Both scripts are Python 3 stdlib only and run from the repo root.
+These scripts are Python 3 stdlib only and run from the repo root.
+
+`fallacies.html` cards are generated from `data/Rhetological_Fallacies.csv`
+between the `fallacies:start` / `fallacies:end` comments; edit the CSV, not the
+block. Each fallacy needs a matching `<symbol id="<slug>">` in
+`imgs/fallacy-icons.svg` (24×24 line icon, geometry only; the page sets the
+stroke). `--check` exits 1 if the page is stale.
 
 ## Page structure
 
