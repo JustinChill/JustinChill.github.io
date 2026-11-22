@@ -17,13 +17,13 @@
   </script>
 
   <title>Tic-Tac-Toe | Justin Chill</title>
-  <meta name="description" content="An interactive Tic-Tac-Toe game built entirely with HTML and CSS selectors, featuring AI difficulty settings, local two-player mode, and zero JavaScript game logic.">
+  <meta name="description" content="An interactive Tic-Tac-Toe game whose computer opponent and win detection run on CSS selectors alone, with two difficulty levels and a local two-player mode.">
   <meta name="author" content="Justin Chill">
   <meta name="robots" content="all">
 
   <!-- Article metadata -->
   <meta property="article:published_time" content="2025-03-06">
-  <meta property="article:modified_time" content="2026-08-25">
+  <meta property="article:modified_time" content="2026-11-22">
   <meta property="article:author" content="Justin Chill">
   <meta property="article:section" content="Fun">
 
@@ -33,27 +33,27 @@
   <meta content="article" property="og:type">
   <meta content="https://justinchill.com/tic-tac-toe.html" property="og:url">
   <meta content="Tic-Tac-Toe | Justin Chill" property="og:title">
-  <meta content="An interactive Tic-Tac-Toe game built entirely with HTML and CSS selectors, featuring AI difficulty settings, local two-player mode, and zero JavaScript game logic." property="og:description">
+  <meta content="An interactive Tic-Tac-Toe game whose computer opponent and win detection run on CSS selectors alone, with two difficulty levels and a local two-player mode." property="og:description">
   <meta content="https://justinchill.com/blog.html" property="og:see_also">
   <meta property="og:locality" content="NY">
   <meta property="og:region" content="NY">
   <meta property="og:country_name" content="USA">
-  <meta content="https://www.pngkit.com/png/detail/376-3762235_tic-tac-toe-game-vector-tic-tac-toe.png"
-    property="og:image">
-  <meta content="Tic-tac-toe game built with HTML & CSS." property="og:image:alt">
+  <meta content="https://justinchill.com/imgs/cover/tic-tac-toe_cover.webp" property="og:image">
+  <meta content="1200" property="og:image:width">
+  <meta content="630" property="og:image:height">
+  <meta content="A tic-tac-toe board with blue X tiles and red O tiles, next to the words Tic-Tac-Toe: a game played out in CSS selectors." property="og:image:alt">
 
   <meta name="datePublished" content="2025-03-06">
-  <meta name="dateModified" content="2026-08-25">
+  <meta name="dateModified" content="2026-11-22">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@JustinChill">
   <meta name="twitter:creator" content="@JustinChill">
   <meta name="twitter:title" content="Tic-Tac-Toe | Justin Chill">
-  <meta name="twitter:description" content="An interactive Tic-Tac-Toe game built entirely with HTML and CSS selectors, featuring AI difficulty settings, local two-player mode, and zero JavaScript game logic.">
-  <meta content="https://www.pngkit.com/png/detail/376-3762235_tic-tac-toe-game-vector-tic-tac-toe.png"
-    property="twitter:image">
-  <meta content="Tic-tac-toe game built with HTML & CSS." property="twitter:image:alt">
+  <meta name="twitter:description" content="An interactive Tic-Tac-Toe game whose computer opponent and win detection run on CSS selectors alone, with two difficulty levels and a local two-player mode.">
+  <meta name="twitter:image" content="https://justinchill.com/imgs/cover/tic-tac-toe_cover.webp">
+  <meta name="twitter:image:alt" content="A tic-tac-toe board with blue X tiles and red O tiles, next to the words Tic-Tac-Toe: a game played out in CSS selectors.">
 
   <link rel="canonical" href="https://justinchill.com/tic-tac-toe.html">
   <link rel="preload" href="style.css" as="style" />
@@ -85,15 +85,17 @@
       padding-bottom: 2rem;
     }
 
+    /* The menu and result overlays cover the board only, so the nav and article stay usable */
     .scrim {
       background: rgba(0, 0, 0, 0.65);
-      position: fixed;
+      position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      bottom: 0;
+      bottom: 2rem;
+      border-radius: 16px;
       display: none;
-      z-index: 999;
+      z-index: 10;
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
     }
@@ -834,6 +836,12 @@
     }
 
     /* 1v1 Local Mode CSS Overrides */
+    /* Two-player mode: both players click the tile labels, so keep empty tiles on top whoever's turn it is
+       (the turn rules above push them behind the board while the computer is meant to move) */
+    #mode:checked~form #board label[for$='-x'] {
+      z-index: 1 !important;
+    }
+
     #mode:checked~form #label-computer {
       display: none !important;
     }
@@ -845,10 +853,10 @@
 
     #mode:checked~form #cell-0-x:checked~#cell-1-x:checked~#cell-2-x:checked~#end #message::before,
     #mode:checked~form #cell-3-x:checked~#cell-4-x:checked~#cell-5-x:checked~#end #message::before,
-    #mode:checked~form #cell-6-x:checked~#cell-7-x:checked~#end #message::before,
+    #mode:checked~form #cell-6-x:checked~#cell-7-x:checked~#cell-8-x:checked~#end #message::before,
     #mode:checked~form #cell-0-x:checked~#cell-3-x:checked~#cell-6-x:checked~#end #message::before,
     #mode:checked~form #cell-1-x:checked~#cell-4-x:checked~#cell-7-x:checked~#end #message::before,
-    #mode:checked~form #cell-2-x:checked~#cell-5-x:checked~#end #message::before,
+    #mode:checked~form #cell-2-x:checked~#cell-5-x:checked~#cell-8-x:checked~#end #message::before,
     #mode:checked~form #cell-0-x:checked~#cell-4-x:checked~#cell-8-x:checked~#end #message::before,
     #mode:checked~form #cell-2-x:checked~#cell-4-x:checked~#cell-6-x:checked~#end #message::before {
       content: "Player 1 won!";
@@ -856,10 +864,10 @@
 
     #mode:checked~form #cell-0-o:checked~#cell-1-o:checked~#cell-2-o:checked~#end #message::before,
     #mode:checked~form #cell-3-o:checked~#cell-4-o:checked~#cell-5-o:checked~#end #message::before,
-    #mode:checked~form #cell-6-o:checked~#cell-7-o:checked~#end #message::before,
+    #mode:checked~form #cell-6-o:checked~#cell-7-o:checked~#cell-8-o:checked~#end #message::before,
     #mode:checked~form #cell-0-o:checked~#cell-3-o:checked~#cell-6-o:checked~#end #message::before,
     #mode:checked~form #cell-1-o:checked~#cell-4-o:checked~#cell-7-o:checked~#end #message::before,
-    #mode:checked~form #cell-2-o:checked~#cell-5-o:checked~#end #message::before,
+    #mode:checked~form #cell-2-o:checked~#cell-5-o:checked~#cell-8-o:checked~#end #message::before,
     #mode:checked~form #cell-0-o:checked~#cell-4-o:checked~#cell-8-o:checked~#end #message::before,
     #mode:checked~form #cell-2-o:checked~#cell-4-o:checked~#cell-6-o:checked~#end #message::before {
       content: "Player 2 won!";
@@ -882,8 +890,8 @@
   "@context": "https://schema.org",
   "@type": ["BlogPosting", "WebApplication"],
   "headline": "Tic-Tac-Toe",
-  "alternativeHeadline": "A classic game rendered entirely with CSS selectors and state logic",
-  "description": "An interactive Tic-Tac-Toe game built entirely with HTML and CSS selectors, featuring AI difficulty settings, local two-player mode, and zero JavaScript game logic.",
+  "alternativeHeadline": "A classic game played out in CSS selectors",
+  "description": "An interactive Tic-Tac-Toe game whose computer opponent and win detection run on CSS selectors alone, with two difficulty levels and a local two-player mode.",
   "url": "https://justinchill.com/tic-tac-toe.html",
   "mainEntityOfPage": {
     "@type": "WebPage",
@@ -902,14 +910,14 @@
   "operatingSystem": "Any",
   "browserRequirements": "Requires a modern web browser supporting CSS Grid and advanced selectors.",
   "datePublished": "2025-03-06",
-  "dateModified": "2026-08-25",
+  "dateModified": "2026-11-22",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
   "articleSection": "Fun",
   "image": {
     "@type": "ImageObject",
-    "url": "https://www.pngkit.com/png/detail/376-3762235_tic-tac-toe-game-vector-tic-tac-toe.png",
-    "caption": "Tic-tac-toe game built with HTML & CSS.",
+    "url": "https://justinchill.com/imgs/cover/tic-tac-toe_cover.webp",
+    "caption": "A tic-tac-toe board with blue X tiles and red O tiles.",
     "width": 1200,
     "height": 630
   },
@@ -976,44 +984,40 @@
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-  <nav class="nav" role="navigation">
+  <nav class="nav" aria-label="Main">
     <div class="nav__list">
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-
+    
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
-        aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" aria-pressed="false" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
-            </path>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new tab)</span></a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
 
-  <main role="main" id="content">
+  <main id="content">
     <article>
       <div class="article-hero">
         <p class="article-category">Fun</p>
         <h1 class="article-title">Tic-Tac-Toe</h1>
-        <h2 class="article-subtitle">A classic game rendered entirely with CSS selectors and state logic</h2>
+        <h2 class="article-subtitle">A classic game played out in CSS selectors</h2>
       </div>
       <section aria-label="Tic-Tac-Toe Game">
         <input type="checkbox" id="mode" aria-label="Toggle game mode between VS Computer and 1v1 Local" />
@@ -1042,7 +1046,7 @@
           <input type="radio" name="cell-8" id="cell-8-x" aria-label="Cell 9: bottom right - Player X" />
           <input type="radio" name="cell-8" id="cell-8-o" aria-label="Cell 9: bottom right - Computer O" tabindex="-1" />
 
-          <div id="menu" class="scrim" role="dialog" aria-modal="true" aria-labelledby="menu-title">
+          <div id="menu" class="scrim" role="dialog" aria-labelledby="menu-title">
             <div class="center">
               <p id="menu-title">CSS Tic-Tac-Toe</p>
               <div>
@@ -1118,7 +1122,7 @@
             <label for="cell-7-o"></label>
             <label for="cell-8-o"></label>
           </div>
-          <div id="end" class="scrim" role="dialog" aria-modal="true" aria-labelledby="message">
+          <div id="end" class="scrim" role="dialog" aria-labelledby="message">
             <div id="message" class="center" aria-live="polite">
               <div>
                 <input type="reset" value="Play again" aria-label="Play again and reset game board" />
@@ -1127,20 +1131,20 @@
           </div>
         </form>
       </section>
-      <p>The game of Tic-Tac-Toe is played on a 3&times;3 grid. This version uses zero JavaScript for game
-        logic—instead, it relies on hidden radio inputs, CSS <code>:checked</code> pseudo-classes, and sibling
-        combinators to calculate computer turns and detect winning states.</p>
+      <p>The game of Tic-Tac-Toe is played on a 3&times;3 grid. Here the board is a set of hidden radio buttons, and
+        CSS does the thinking: <code>:checked</code> pseudo-classes and sibling combinators choose the computer’s moves
+        and detect a win or a tie. A small script handles the rest: taking turns in two-player mode, making the
+        computer’s move for it, saving your game and settings, and the confetti.</p>
       <p>Inspired by <a href="https://codepen.io/alvaromontoro/pen/BexWOw" target="_blank"
           rel="noopener noreferrer">Alvaro Montoro</a>.</p>
 
     </article>
   </main>
   <footer>
-    <h2 class="visually-hidden" id="footnote-label">Footnotes</h2>
     <div>
       <p>Justin Chill &copy; 2026</p>
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
-            alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
+            alt="" class="icon" width="16" height="16" loading="lazy" decoding="async">Source code<span class="visually-hidden"> (opens in new tab)</span></a></span>
     </div>
   </footer>
   <script src="js/site.js" defer></script>
@@ -1170,6 +1174,7 @@
 
     function triggerConfetti() {
       if (confettiActive) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       confettiActive = true;
 
       let canvas = document.getElementById("confetti-canvas");
@@ -1262,6 +1267,7 @@
         input.checked = false;
       });
       localStorage.removeItem("tictactoe_board");
+      syncFilled();
 
       const canvas = document.getElementById("confetti-canvas");
       if (canvas) {
@@ -1340,6 +1346,36 @@
 
     // Automatic Computer Move Logic (100% Pure CSS move selection)
     let autoMoveTimeout = null;
+    let computerMoving = false;
+
+    // Keyboard moves arrive as changes on the radios themselves, not clicks on the tiles. Keep them fair:
+    // a filled square can't be changed (arrow keys would flip X and O), two-player games alternate marks,
+    // and against the computer the player always places X.
+    const filled = {};
+    function syncFilled() {
+      for (let i = 0; i < 9; i++) {
+        const x = document.getElementById(`cell-${i}-x`);
+        const o = document.getElementById(`cell-${i}-o`);
+        filled[i] = x && x.checked ? "x" : o && o.checked ? "o" : null;
+      }
+    }
+    function enforceMove(input) {
+      const m = input && input.id ? input.id.match(/^cell-(\d)-([xo])$/) : null;
+      if (!m) return;
+      const [, cell, mark] = m;
+      let want = mark;
+      if (filled[cell]) {
+        want = filled[cell];
+      } else if (modeInput && modeInput.checked) {
+        const placed = tictactoeForm.querySelectorAll("input[name^='cell-']:checked").length;
+        const player1IsX = !firstInput || !firstInput.checked;
+        const firstMarkTurn = (placed - 1) % 2 === 0;
+        want = firstMarkTurn === player1IsX ? "x" : "o";
+      } else if (!computerMoving) {
+        want = "x";
+      }
+      if (want !== mark) document.getElementById(`cell-${cell}-${want}`).checked = true;
+    }
 
     function triggerAutoComputerMove() {
       if (modeInput && modeInput.checked) return; // 1v1 mode
@@ -1369,7 +1405,9 @@
       if (topLabel) {
         if (autoMoveTimeout) clearTimeout(autoMoveTimeout);
         autoMoveTimeout = setTimeout(() => {
+          computerMoving = true;
           topLabel.click();
+          computerMoving = false;
           setTimeout(checkWinAndTriggerConfetti, 50);
         }, 350);
       }
@@ -1413,7 +1451,11 @@
     if (tictactoeForm) {
       restoreBoardState();
 
-      tictactoeForm.addEventListener("change", () => {
+      syncFilled();
+
+      tictactoeForm.addEventListener("change", (e) => {
+        enforceMove(e.target);
+        syncFilled();
         saveBoardState();
         triggerAutoComputerMove();
         setTimeout(checkWinAndTriggerConfetti, 50);

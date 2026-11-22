@@ -24,7 +24,7 @@
 
   <!-- Article metadata -->
   <meta property="article:published_time" content="2021-01-30">
-  <meta property="article:modified_time" content="2026-08-23">
+  <meta property="article:modified_time" content="2026-11-22">
   <meta property="article:author" content="Justin Chill">
   <meta property="article:section" content="Data Visualization">
 
@@ -47,7 +47,7 @@
     property="og:image:alt">
 
   <meta name="datePublished" content="2021-01-30">
-  <meta name="dateModified" content="2026-08-23">
+  <meta name="dateModified" content="2026-11-22">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -76,28 +76,12 @@
       margin: 0;
     }
 
-    #oldest_legend {
-      display: flex;
-      flex-direction: row-reverse;
-      background: transparent;
-      margin-bottom: 0;
-    }
-
-    #oldest_legend svg {
-      border-radius: 50%;
-    }
-
-    html[data-theme="dark"] #oldest_legend svg text,
-    html[data-theme="dark"] svg[class*="legend"] text {
-      fill: #e2e8f0;
-    }
-
-    @media screen and (max-width: 680px) {
-
-      article>figure,
-      #oldest_legend {
-        grid-column: 1/-1;
-      }
+    /* Plot's legend swatches sit in spans, which the site-wide span rule would enlarge */
+    #oldest [class*="-swatches"],
+    #oldest [class*="-swatch"] {
+      font-family: var(--font-ui), var(--font-main), system-ui, sans-serif !important;
+      font-size: 12px !important;
+      color: var(--text-color) !important;
     }
   </style>
 
@@ -106,14 +90,14 @@
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     "headline": "Supercentenarians",
-    "alternativeHeadline": "World's Oldest Person Titleholders Since 1955",
-    "description": "An interactive data visualization tracking the verified World's Oldest Person titleholders from 1955 to the 2010s, featuring lifespan trajectories, record-holders like Jeanne Calment, and gender disparities based on Gerontology Research Group records.",
+    "alternativeHeadline": "World’s oldest person titleholders since 1955",
+    "description": "An interactive data visualization tracking the verified World's Oldest Person titleholders from 1955 to 2026, featuring lifespan trajectories, record-holders like Jeanne Calment, and gender disparities based on Gerontology Research Group records.",
     "datePublished": "2021-01-30",
-    "dateModified": "2026-08-23",
+    "dateModified": "2026-11-22",
     "inLanguage": "en-US",
     "isAccessibleForFree": true,
     "articleSection": "Data Visualization",
-    "wordCount": 95,
+    "wordCount": 192,
     "url": "https://justinchill.com/oldest.html",
     "mainEntityOfPage": {
       "@type": "WebPage",
@@ -222,68 +206,80 @@
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-  <nav class="nav" role="navigation">
+  <nav class="nav" aria-label="Main">
     <div class="nav__list">
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
     
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" aria-pressed="false" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new tab)</span></a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
 
-  <main role="main" id="content">
+  <main id="content">
     <article>
       <div class="article-hero">
         <p class="article-category">Post</p>
         <h1 class="article-title">Supercentenarians</h1>
-        <h2 class="article-subtitle">World's Oldest Person Titleholders Since 1955</h2>
+        <h2 class="article-subtitle">World’s oldest person titleholders since 1955</h2>
       </div>
 
-      <span id="oldest_legend"></span>
-      <figure id="oldest"
-        aria-label="A line graph showing ages of the world's oldest people from 1960 to the 2010s. Females are indicated by orange dots and males by blue. Notable figures include Jeanne Calment, who appears prominently with labels. Ages range from 110 to 122 years.">
+      <figure id="oldest">
+        <div class="chart"></div>
+        <figcaption class="right">Each line runs from the day a person became the world’s oldest to the day they died.
+          Data: <a href="https://grg.org/WSRL/TableE.aspx">Gerontology Research Group</a>, updated to November 2026</figcaption>
       </figure>
-      <figcaption class="right">Data: <a href="https://grg.org/WSRL/TableE.aspx">Gerontology Research Group</a>
-      </figcaption>
 
       <p>This dataset is provided by the Gerontology Research Group, a group of researchers that verifies and tracks
         supercentenarians, or people who are at least 110 years old. This group maintains a list of the verified oldest
-        people in the world. Plotting each person who claimed the title of World's Oldest Person reveals a few
+        people in the world. Plotting each person who claimed the title of World’s Oldest Person reveals a few
         interesting facts about the data:</p>
       <ul>
-        <li><strong>Jeanne Calment</strong> (France) held the title for almost 10 years, but this record has been
-          challenged after claims that her daughter assumed her identity in 1934.</li>
+        <li><strong>Jeanne Calment</strong> (France) held the title for almost 10 years and died at 122, the oldest
+          verified age ever. In 2018, two Russian researchers claimed that her daughter had assumed her identity in 1934,
+          but the researchers who validated her age reviewed the evidence in 2019 and found no sign of fraud, and her
+          record stands.<a href="#calment" aria-describedby="footnote-label" id="calment-ref"></a></li>
         <li><strong>Emma Tillman</strong> (U.S.) held the title for just 4 days.</li>
-        <li><strong>Females</strong> greatly outnumber males.</li>
+        <li><strong>Women</strong> greatly outnumber men: 63 of the 69 titleholders have been women.</li>
+        <li><strong>Ethel Caterham</strong> (U.K.) has held the title since April 2025, and in August 2026 became the
+          first Briton to reach 117.<a href="#caterham" aria-describedby="footnote-label" id="caterham-ref"></a></li>
       </ul>
-
-      <!-- <img src="https://preview.redd.it/0xxg0cbu62b21.png?width=960&crop=smart&auto=webp&s=d409f43028ea348bd987fed7b87625f64ea55241"> -->
     </article>
   </main>
   <footer>
+    <h2 id="footnote-label">Footnotes</h2>
+    <ol>
+      <li id="calment"><strong>Euronews</strong>, “<a
+          href="https://www.euronews.com/2019/01/03/french-scientists-dismiss-russian-claims-over-age-of-worlds-oldest-person">French
+          scientists dismiss Russian claims over age of world’s oldest person</a>,” January 3, 2019. <a
+          href="#calment-ref" aria-label="Back to content">↩</a></li>
+      <li id="caterham"><strong>Guinness World Records</strong>, “<a
+          href="https://www.guinnessworldrecords.com/news/2026/8/worlds-oldest-person-ethel-caterham-becomes-first-ever-brit-to-reach-age-117">World’s
+          oldest person Ethel Caterham becomes first-ever Brit to reach age 117</a>,” August 2026. <a
+          href="#caterham-ref" aria-label="Back to content">↩</a></li>
+    </ol>
     <div>
       <p>Justin Chill &copy; 2026</p>
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
-            alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
+            alt="" class="icon" width="16" height="16" loading="lazy" decoding="async">Source code<span class="visually-hidden"> (opens in new tab)</span></a></span>
     </div>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/d3@7.9.2/dist/d3.min.js"></script>
@@ -291,119 +287,92 @@
 
   <script type="text/javascript">
     const size = 12;
+    // The dataset runs to this date; a titleholder with no death date is still living
+    const AS_OF = new Date(Date.UTC(2026, 10, 22));
+    const YEAR_MS = 365.2425 * 24 * 60 * 60 * 1000;
+    const fmtDate = d3.utcFormat("%B %-d, %Y");
 
-    d3.csv("data/oldest.csv", d3.autoType).then(function (data) {
+    d3.csv("data/oldest.csv", d3.autoType).then(function (rows) {
+      const data = rows.map(d => {
+        const living = !d.died;
+        const died = living ? AS_OF : d.died;
+        return { ...d, living, died, age_died: living ? (AS_OF - d.born) / YEAR_MS : d.age_died };
+      });
+      const latest = data[data.length - 1];
+      let lastWidth = 0;
+
       function renderChart() {
-        const figureEl = document.getElementById("oldest");
-        const legendEl = document.getElementById("oldest_legend");
-        if (!figureEl) return;
+        const chart = document.querySelector("#oldest .chart");
+        if (!chart) return;
+        const width = chart.clientWidth;
+        if (!width || width === lastWidth) return;
+        lastWidth = width;
+        const small = width < 500;
 
-        const width = figureEl.getBoundingClientRect().width || 680;
-
-        figureEl.innerHTML = "";
-        if (legendEl) legendEl.innerHTML = "";
-
-        const oldest = {
+        chart.replaceChildren(Plot.plot({
           grid: true,
           inset: 10,
-          width: width,
-          style: {
-            fontSize: size,
-            background: "transparent",
-          },
-          y: {
-            label: "↑ Age",
-            labelOffset: 30,
-            line: false,
-            tickSize: 0,
-          },
-          x: {
-            tickSize: 0,
-          },
+          width,
+          marginRight: small ? 10 : 20,
+          style: { fontSize: size, background: "transparent" },
+          ariaLabel: "Ages of the world’s oldest people, 1955 to 2026",
+          ariaDescription: "Each titleholder is a line from the age they became the world’s oldest person to the age they died. Ages rise over time, from about 110 in the 1950s to about 117 in the 2020s. Jeanne Calment stands out, holding the title for almost 10 years and dying at 122 in 1997. Almost all titleholders are women. Ethel Caterham, the current titleholder, is 117.",
+          y: { label: "↑ Age", labelOffset: 30, line: false, tickSize: 0 },
+          x: { tickSize: 0 },
           color: {
-            domain: ["M", "F"],
-            range: ["hsl(227, 50%, 59%)", "hsl(16, 94%, 61%)"],
+            domain: ["F", "M"],
+            range: ["hsl(16, 94%, 61%)", "hsl(227, 50%, 59%)"],
+            legend: true,
+            tickFormat: d => (d === "F" ? "Women" : "Men")
           },
           marks: [
-            Plot.link(data, {
-              x1: "became",
-              y1: "age_became",
-              x2: "died",
-              y2: "age_died",
-              stroke: "gender",
-              strokeWidth: 1.25,
-            }),
-            Plot.dot(data, {
-              filter: d => d.name !== "Kane Tanaka",
+            Plot.link(data, { x1: "became", y1: "age_became", x2: "died", y2: "age_died", stroke: "gender", strokeWidth: 1.25 }),
+            Plot.dot(data.filter(d => !d.living), {
               x: "died",
               y: "age_died",
               fill: "gender",
               r: 3,
-              title: d => `${d.name} (${d.birthplace})\nBorn: ${d3.timeFormat("%B %d, %Y")(d.born)}\nDied: ${d3.timeFormat("%B %d, %Y")(d.died)}\n`,
-              channels: {
-                dod: "died",
-                sex: "gender"
-              },
-              tip: true,
+              title: d => `${d.name} (${d.birthplace})\nBorn: ${fmtDate(d.born)}\nDied: ${fmtDate(d.died)}, aged ${Math.floor(d.age_died)}`,
+              tip: true
             }),
-            Plot.text(data.filter(d => d.name === "Jeanne Calment"), {
-              x: "became",
-              y: "age_became",
-              text: (d) => "when she became\nthe world's oldest\nwoman",
-              textAnchor: "start",
-              dx: 6,
-              dy: 12,
-            }),
-            Plot.text(data.filter(d => d.name === "Jeanne Calment"), {
+            // The living titleholder gets a hollow dot
+            Plot.dot([latest].filter(d => d.living), {
               x: "died",
               y: "age_died",
-              text: (d) => "↖ when she died",
-              textAnchor: "start",
-              dx: 4,
-              dy: 12,
+              stroke: "gender",
+              fill: "var(--bg-color)",
+              r: 4,
+              strokeWidth: 1.5,
+              title: d => `${d.name} (${d.birthplace})\nBorn: ${fmtDate(d.born)}\nLiving, aged ${Math.floor(d.age_died)}`,
+              tip: true
+            }),
+            // On narrow screens this note would run into the Emma Tillman label, so it's dropped
+            Plot.text(small ? [] : data.filter(d => d.name === "Jeanne Calment"), {
+              x: "became", y: "age_became", text: () => "when she became\nthe world’s oldest\nperson",
+              textAnchor: "start", dx: 6, dy: 12
             }),
             Plot.text(data.filter(d => d.name === "Jeanne Calment"), {
-              x: "died",
-              y: "age_died",
-              text: "name",
-              textAnchor: "end",
-              dx: -14,
-              dy: -1,
-              fontSize: size + 2,
+              x: "died", y: "age_died", text: () => "↖ when she died", textAnchor: "start", dx: 4, dy: 12
+            }),
+            Plot.text(data.filter(d => d.name === "Jeanne Calment"), {
+              x: "died", y: "age_died", text: "name", textAnchor: "end", dx: -14, dy: -1, fontSize: size + 2
             }),
             Plot.text(data.filter(d => d.name === "Emma Tillman"), {
-              x: "died",
-              y: "age_died",
-              text: (d) => "↑ " + d.name,
-              textAnchor: "start",
-              dy: 15,
-              dx: -4
+              x: "died", y: "age_died", text: d => "↑\n" + d.name, textAnchor: "middle", lineAnchor: "top", dy: 6
             }),
-            Plot.text(data, Plot.selectMaxX({
-              x: "died",
-              y: "age_died",
-              text: "name",
-              textAnchor: "end",
-              dy: 30,
-              dx: 20
-            })),
+            // The current titleholder is labelled above the crowd of recent lines, with a leader down to her dot
+            Plot.link([latest].filter(d => d.living), {
+              x1: "died", x2: "died", y1: 120.4, y2: d => d.age_died + 0.35, stroke: "currentColor", strokeOpacity: 0.5
+            }),
+            Plot.text([latest].filter(d => d.living), {
+              x: "died", y: 120.6, text: d => `${d.name}\n(living, ${Math.floor(d.age_died)})`, textAnchor: "end",
+              lineAnchor: "bottom", dx: 4, fill: "currentColor"
+            })
           ]
-        };
-
-        const plotInstance = Plot.plot(oldest);
-        figureEl.appendChild(plotInstance);
-
-        if (legendEl) {
-          const oldestLegend = {
-            label: "Gender",
-            color: plotInstance.scale("color"),
-          };
-          legendEl.appendChild(Plot.legend(oldestLegend));
-        }
+        }));
       }
 
       renderChart();
-
       let resizeTimer;
       window.addEventListener("resize", () => {
         clearTimeout(resizeTimer);

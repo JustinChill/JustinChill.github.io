@@ -38,11 +38,11 @@
     property="og:image:alt">
 
   <meta property="article:published_time" content="2025-07-04">
-  <meta property="article:modified_time" content="2026-08-20">
+  <meta property="article:modified_time" content="2026-11-22">
   <meta property="article:author" content="Justin Chill">
   <meta property="article:section" content="Data Visualization">
   <meta name="datePublished" content="2025-07-04">
-  <meta name="dateModified" content="2026-08-20">
+  <meta name="dateModified" content="2026-11-22">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -63,135 +63,62 @@
   <meta name="color-scheme" content="light dark">
 
   <style>
+    /* Legends: Plot's swatches sit in spans, which the site-wide span rule would enlarge */
+    #map [class*="-swatches"],
+    #map [class*="-swatch"],
+    #barchart [class*="-swatches"],
+    #barchart [class*="-swatch"] {
+      font-family: var(--font-ui), var(--font-main), system-ui, sans-serif !important;
+      font-size: 12px !important;
+      line-height: 1.35;
+      color: var(--text-color) !important;
+    }
+
     .map-legend-row {
       display: flex;
       flex-wrap: wrap;
       align-items: flex-end;
       justify-content: space-between;
-      gap: 16px;
-      margin-top: 8px;
-      margin-bottom: 16px;
-      font-size: 12px;
-      width: 100%;
+      gap: 8px 16px;
+      margin: 8px 0 12px;
     }
 
-    /* Standardize typography for both legends to match UI sans-serif */
     .map-legend-row > :first-child {
-      font-family: var(--font-ui, var(--font-main, system-ui, -apple-system, sans-serif));
-      color: var(--text-color, currentColor);
+      flex: 1 1 260px;
     }
 
-    .map-legend-row [class*="-swatches"],
-    .map-legend-row .plot-legend {
-      font-family: var(--font-ui, var(--font-main, system-ui, -apple-system, sans-serif)) !important;
-      font-size: 12px !important;
-      line-height: 1.35;
-      color: var(--text-color, currentColor) !important;
+    .size-legend {
+      font-family: var(--font-ui), var(--font-main), system-ui, sans-serif;
+      font-size: 12px;
+      color: var(--text-color);
     }
 
-    .bubble-legend {
-      display: inline-flex;
-      flex-direction: column;
-      align-items: flex-start;
-      font-family: var(--font-ui, var(--font-main, system-ui, -apple-system, sans-serif));
-    }
-
-    .bubble-legend-title {
-      font-family: var(--font-ui, var(--font-main, system-ui, -apple-system, sans-serif));
+    .size-legend-title {
       font-size: 11px;
       font-weight: 600;
-      text-transform: uppercase;
       letter-spacing: 0.05em;
+      text-transform: uppercase;
       margin-bottom: 4px;
-      color: var(--text-color, currentColor);
-      opacity: 0.9;
     }
 
-    .bubble-legend circle {
-      stroke: var(--text-color, currentColor);
-      opacity: 0.75;
+    .size-legend circle {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1;
     }
 
-    .bubble-legend line {
-      stroke: var(--text-color, currentColor);
-      opacity: 0.6;
+    html[data-theme="dark"] figure .size-legend text {
+      fill: currentColor !important;
     }
 
-    .bubble-legend text {
-      fill: var(--text-color, currentColor);
-      font-family: var(--font-ui, var(--font-main, system-ui, -apple-system, sans-serif));
+    .size-legend text {
+      fill: currentColor;
       font-size: 11px;
-      opacity: 0.95;
     }
 
-    /* Dark mode enhancements for high legibility */
-    html[data-theme="dark"] .bubble-legend circle {
-      stroke: #f1f5f9;
-      opacity: 0.85;
-    }
-
-    html[data-theme="dark"] .bubble-legend line {
-      stroke: #cbd5e1;
-      opacity: 0.75;
-    }
-
-    html[data-theme="dark"] .bubble-legend text {
-      fill: #f1f5f9;
-      opacity: 1;
-    }
-
-    html[data-theme="dark"] .bubble-legend-title {
-      color: #f1f5f9;
-      opacity: 0.95;
-    }
-
-    @media (max-width: 680px) {
-      .map-legend-row {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 10px;
-      }
-
-      .map-legend-row > :first-child {
-        flex: 1 1 auto;
-        min-width: 0;
-      }
-
-      .map-legend-row [class*="-swatches"],
-      .map-legend-row .plot-legend {
-        font-size: 11.5px !important;
-        line-height: 1.3 !important;
-      }
-
-      .map-legend-row [class*="-swatch"],
-      .map-legend-row .plot-swatch {
-        font-size: 11.5px !important;
-        margin-right: 6px !important;
-        margin-bottom: 2px !important;
-      }
-
-      .map-legend-row [class*="-swatch-color"],
-      .map-legend-row .plot-swatch svg {
-        width: 10.5px !important;
-        height: 10.5px !important;
-        margin-right: 4px !important;
-      }
-
-      .map-legend-row .bubble-legend {
-        flex: 0 0 114px;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-      }
-
-      .map-legend-row .bubble-legend-title {
-        font-size: 10.5px;
-        margin-bottom: 3px;
-        text-align: right;
-      }
+    #map .chart,
+    #barchart .chart {
+      min-height: 200px;
     }
   </style>
 
@@ -203,11 +130,11 @@
   "alternativeHeadline": "Domestic Extremism in America: Violent Terrorism Trends and Ideological Plots",
   "description": "Understanding domestic extremism and violent terrorism trends in America using DHS, CSIS, and FBI data.",
   "datePublished": "2025-07-04",
-  "dateModified": "2026-08-20",
+  "dateModified": "2026-11-22",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
   "articleSection": "Data Visualization",
-  "wordCount": 350,
+  "wordCount": 527,
   "url": "https://justinchill.com/domestic-extremism.html",
   "mainEntityOfPage": {
     "@type": "WebPage",
@@ -307,7 +234,7 @@
   ],
   "citation": [
     {
-      "@type": "ScholarlyArticle",
+      "@type": "Report",
       "name": "Homeland Threat Assessment: October 2020",
       "author": {
         "@type": "GovernmentOrganization",
@@ -323,39 +250,72 @@
         "@type": "Person",
         "name": "Celinet Duran"
       },
-      "publisher": {
-        "@type": "Organization",
-        "name": "Scholastica / Criminology, Criminal Justice, Law & Society"
+      "isPartOf": {
+        "@type": "Periodical",
+        "name": "Criminology, Criminal Justice, Law & Society"
       },
+      "datePublished": "2021",
       "url": "https://ccjls.scholasticahq.com/article/26973-far-left-versus-far-right-fatal-violence-an-empirical-assessment-of-the-prevalence-of-ideologically-motivated-homicides-in-the-united-states"
     },
     {
-      "@type": "NewsArticle",
-      "name": "Did Far-Right Extremist Violence Really Spike in 2017?",
+      "@type": "Report",
+      "name": "Left-Wing Terrorism and Political Violence in the United States: What the Data Tells Us",
       "author": [
         {
           "@type": "Person",
-          "name": "William S. Parkin"
+          "name": "Daniel Byman"
         },
         {
           "@type": "Person",
-          "name": "Joshua D. Freilich"
-        },
-        {
-          "@type": "Person",
-          "name": "Steven Chermak"
+          "name": "Riley McCabe"
         }
       ],
       "publisher": {
         "@type": "Organization",
-        "name": "The Conversation"
+        "name": "Center for Strategic and International Studies"
       },
-      "url": "https://theconversation.com/did-far-right-extremist-violence-really-spike-in-2017-89067"
+      "datePublished": "2025-09-25",
+      "url": "https://www.csis.org/analysis/left-wing-terrorism-and-political-violence-united-states-what-data-tells-us"
+    },
+    {
+      "@type": "NewsArticle",
+      "headline": "A report claims left-wing terrorism is rising. The data paints a complicated picture",
+      "publisher": {
+        "@type": "Organization",
+        "name": "NPR"
+      },
+      "datePublished": "2025-10-25",
+      "url": "https://www.npr.org/2025/10/25/nx-s1-5583997/political-violence-left-right-wing"
+    },
+    {
+      "@type": "Report",
+      "name": "Domestic Terrorism: Definitions, Terminology, and Methodology",
+      "author": [
+        {
+          "@type": "GovernmentOrganization",
+          "name": "Federal Bureau of Investigation"
+        },
+        {
+          "@type": "GovernmentOrganization",
+          "name": "U.S. Department of Homeland Security"
+        }
+      ],
+      "url": "https://www.fbi.gov/file-repository/counterterrorism/fbi-dhs-domestic-terrorism-definitions-terminology-methodology.pdf"
+    },
+    {
+      "@type": "Report",
+      "name": "Understanding and Conceptualizing Domestic Terrorism: Issues for Congress",
+      "author": {
+        "@type": "GovernmentOrganization",
+        "name": "Congressional Research Service"
+      },
+      "datePublished": "2023-12-29",
+      "url": "https://www.congress.gov/crs-product/R47885"
     },
     {
       "@type": "Dataset",
       "name": "CSIS & Washington Post Domestic Terrorism Database",
-      "description": "An investigative database compiling domestic terrorist incidents, attacks, and plots in the United States from 1994 through 2021, assembled by the Center for Strategic and International Studies (CSIS) and The Washington Post.",
+      "description": "An investigative database compiling domestic terrorist incidents, attacks, and plots in the United States from 1994 through January 2021, assembled by the Center for Strategic and International Studies (CSIS) and The Washington Post.",
       "creator": {
         "@type": "Organization",
         "name": "The Washington Post Investigative Team",
@@ -370,42 +330,35 @@
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-  <nav class="nav" role="navigation">
+  <nav class="nav" aria-label="Main">
     <div class="nav__list">
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
     
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
-        aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" aria-pressed="false" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
-            </path>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank"
-        rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new tab)</span></a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
 
-  <main role="main" id="content">
+  <main id="content">
     <article>
       <div class="article-hero">
         <p class="article-category">Post</p>
@@ -413,59 +366,67 @@
         <h2 class="article-subtitle">Domestic extremism in America</h2>
       </div>
       <span class="mid-size header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
-      <h3 class="mid-size">Far-right terrorist plots outnumbered far-left ones in 2020</h3>
-      <figure id="map" class="mid-size" role="img"
-        aria-label="A map of the continental United States showing incidents of domestic extremism.">
-        <figcaption class="mid-size right">Data: <a href="https://github.com/wpinvestigative/csis_domestic_terrorism"
-            target="_blank" rel="noopener noreferrer">Washington Post/CSIS</a></figcaption>
+      <h3 class="mid-size">Most U.S. terrorist attacks and plots from 1994 to 2021 were far-right</h3>
+      <figure id="map" class="mid-size">
+        <div class="chart"></div>
+        <figcaption>Each circle is a terrorist attack or plot between January 1994 and January 2021, sized by the
+          number of people killed. Hover over or tap a circle for details. Seven incidents in Puerto Rico and three
+          that spanned several states are not shown. Data: <a href="https://github.com/wpinvestigative/csis_domestic_terrorism"
+            target="_blank" rel="noopener noreferrer">Washington Post/CSIS<span class="visually-hidden"> (opens in new tab)</span></a></figcaption>
       </figure>
 
-      <p>The occurrence of domestic terrorism has sharply increased in the United States over the past decade.</p>
-      <p>A recent threat assessment by the U.S. Department of Homeland Security concluded that domestic violent
-        extremists are an acute threat and highlighted a probability that COVID-19 pandemic-related stressors,
-        long-standing ideological grievances related to immigration, and narratives surrounding electoral fraud will
-        continue to serve as a justification for violent actions.<a href="#hsd" aria-describedby="footnote-label"
-          id="hsd-ref"></a></p>
-      <p>In fact, the number of far-right attacks continues to outpace all other types of terrorism and domestic violent
-        extremism. Since 1990, far-right extremists have committed far more ideologically motivated homicides than
-        far-left or radical Islamist extremists, including 227 events that took more than 520 lives.<a href="#celd"
-          aria-describedby="footnote-label" id="celd-ref"></a> In this same period, far-left extremists committed 42
-        ideologically motivated attacks that took 78 lives.<a href="#prk" aria-describedby="footnote-label"
-          id="prk-ref"></a></p>
-      <p>From high-profile incidents like the U.S. Capitol attack on January 6, 2021, to racially motivated acts of
-        violence, these events have shed light on the need to understand and address the <a
+      <p>Domestic terrorism in the United States rose sharply in the late 2010s. The Center for Strategic and
+        International Studies (CSIS) and The Washington Post counted 110 terrorist attacks and plots in 2020, the most
+        in any year since their records begin in 1994.</p>
+      <p>In October 2020, the Department of Homeland Security’s Homeland Threat Assessment called domestic violent
+        extremists “the most persistent and lethal threat” to the country, and named white supremacist extremists as
+        the deadliest among them. It warned that the social and political tensions of 2020, and the isolation and lost
+        jobs of the COVID-19 pandemic, could push more people toward violence.<a href="#hsd"
+          aria-describedby="footnote-label" id="hsd-ref"></a></p>
+      <p>Far-right extremists have also been far deadlier. Between 1990 and 2020 they committed 227 ideologically
+        motivated homicides that killed 523 people, according to a 2021 study of the U.S. Extremist Crime Database.
+        Far-left extremists committed 42 that killed 78 people over the same period.<a href="#celd"
+          aria-describedby="footnote-label" id="celd-ref"></a></p>
+      <p>That pattern shifted in 2025. A CSIS analysis published that September found that left-wing attacks and plots
+        outnumbered right-wing ones in the first half of the year, five to one, for the first time in more than 30 years
+        of its data.<a href="#csis-2025" aria-describedby="footnote-label" id="csis-2025-ref"></a> Right-wing incidents
+        had fallen sharply, and the numbers are small: some researchers dispute how individual incidents were
+        classified.<a href="#npr" aria-describedby="footnote-label" id="npr-ref"></a></p>
+      <p>From high-profile incidents like the attack on the U.S. Capitol on January 6, 2021, to racially motivated acts
+        of violence, these events have shown the need to understand and address the <a
           href="https://www.gao.gov/assets/820/817739.pdf" rel="noopener noreferrer" target="_blank">threat of domestic
-          terrorism</a>.</p>
+          terrorism<span class="visually-hidden"> (opens in new tab)</span></a>.</p>
       <h3>What is domestic terrorism?</h3>
-      <p>According to the FBI, domestic terrorism encompasses violent, criminal acts that individuals and/or groups use
-        to further their ideological goals from political, social, racial, or environmental influences within the
-        country’s borders.</p>
-      <p>These acts <a
-          href="https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title18-section2331&amp;num=0&amp;edition=prelim"
-          rel="noopener noreferrer" target="_blank">appear</a> to be intended to:</p>
+      <p>The FBI uses the definition in <a href="https://www.law.cornell.edu/uscode/text/18/2331"
+          rel="noopener noreferrer" target="_blank">federal law<span class="visually-hidden"> (opens in new tab)</span></a>:
+        acts dangerous to human life that break federal or state criminal law, take place mainly within the United
+        States, and appear to be intended to:</p>
       <ul>
         <li>Intimidate or coerce a civilian population;</li>
         <li>Influence the policy of a government by intimidation or coercion; or</li>
         <li>Affect the conduct of a government by mass destruction, assassination, or kidnapping.</li>
       </ul>
-      <p>These individuals and groups are separated into five different threat categories, which help officials
-        better understand the motives of criminal actors. These categories include:</p>
+      <p>The FBI and the Department of Homeland Security sort these threats into five categories, which help officials
+        understand what motivates them:<a href="#fbi-dhs" aria-describedby="footnote-label" id="fbi-dhs-ref"></a></p>
       <ul>
         <li>Racially or ethnically motivated violent extremism;</li>
         <li>Anti-government or anti-authority violent extremism;</li>
         <li>Animal rights/environmental violent extremism;</li>
         <li>Abortion-related violent extremism;</li>
-        <li>All other domestic terrorist threats, with agendas such as personal grievances, or bias related to religion,
-          gender, or sexual orientation.</li>
+        <li>All other domestic terrorism threats, such as those driven by personal grievances, or by bias related to
+          religion, gender, or sexual orientation.</li>
       </ul>
-      <p>It’s important to note that rather than filing charges under a specific domestic terrorism statute, prosecutors use other federal
-        and state charges to prosecute people indicted in federal domestic terrorism–related cases.</p>
+      <p>The law defines domestic terrorism but does not make it a crime, so no one can be charged with it at the federal
+        level. Prosecutors use other federal and state charges, such as murder or conspiracy, instead.<a href="#crs"
+          aria-describedby="footnote-label" id="crs-ref"></a></p>
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
-      <h3>Attacks over time</h3>
-      <figure id="barchart" role="img"
-        aria-label="This chart depicts the number of attacks over time categorized by ideological motivations, including Ethnonationalist, Religious, Violent Far-right, Violent Far-left, and Other. It uses a stacked bar format to show the yearly total and how each category contributes to the total number of incidents.">
-        <figcaption class="mid-size right">Data: <a href="https://github.com/wpinvestigative/csis_domestic_terrorism"
-            target="_blank" rel="noopener noreferrer">Washington Post/CSIS</a></figcaption>
+      <h3>Attacks and plots over time</h3>
+      <figure id="barchart">
+        <div class="chart"></div>
+        <figcaption>Terrorist attacks and plots in the U.S. per year, by the ideology of the people behind them,
+          1994–2020. The dataset also has 17 incidents from January 2021, not shown. Data: <a
+            href="https://github.com/wpinvestigative/csis_domestic_terrorism" target="_blank"
+            rel="noopener noreferrer">Washington Post/CSIS<span class="visually-hidden"> (opens in new tab)</span></a></figcaption>
       </figure>
 
     </article>
@@ -473,221 +434,202 @@
   <footer>
     <h2 id="footnote-label">Footnotes</h2>
     <ol>
-      <li id="hsd"><strong>U.S. Department of Homeland Security</strong>, “<em><a
-            href="https://www.dhs.gov/sites/default/files/publications/2020_10_06_homeland-threat-assessment.pdf"
-            target="_blank" rel="noopener noreferrer">Homeland
-            Threat Assessment: October 2020</a>"</em> <a href="#hsd-ref" aria-label="Back to content">↩</a></li>
-      <li id="celd"><strong>Celinet Duran</strong>, “<em><a
-            href="https://ccjls.scholasticahq.com/article/26973-far-left-versus-far-right-fatal-violence-an-empirical-assessment-of-the-prevalence-of-ideologically-motivated-homicides-in-the-united-states"
-            target="_blank" rel="noopener noreferrer">Far-Left
-            Versus Far-Right Fatal Violence: An Empirical Assessment of the Prevalence of Ideologically Motivated
-            Homicides in the United States</a>"</em> <a href="#celd-ref" aria-label="Back to content">↩</a></li>
-      <li id="prk"><strong>Parkin, Freilich, and Chermak</strong>, “<em><a
-            href="https://theconversation.com/did-far-right-extremist-violence-really-spike-in-2017-89067"
-            target="_blank" rel="noopener noreferrer">Did Far-Right
-            Extremist Violence Really Spike in 2017?</a>"</em> <a href="#prk-ref" aria-label="Back to content">↩</a>
-      </li>
+      <li id="hsd"><strong>U.S. Department of Homeland Security</strong>, <a
+          href="https://www.dhs.gov/sites/default/files/publications/2020_10_06_homeland-threat-assessment.pdf"
+          target="_blank" rel="noopener noreferrer"><em>Homeland Threat Assessment</em><span class="visually-hidden"> (opens in new tab)</span></a>,
+        October 2020. <a href="#hsd-ref" aria-label="Back to content">↩</a></li>
+      <li id="celd"><strong>Celinet Duran</strong>, “<a
+          href="https://ccjls.scholasticahq.com/article/26973-far-left-versus-far-right-fatal-violence-an-empirical-assessment-of-the-prevalence-of-ideologically-motivated-homicides-in-the-united-states"
+          target="_blank" rel="noopener noreferrer">Far-Left Versus Far-Right Fatal Violence: An Empirical Assessment of
+          the Prevalence of Ideologically Motivated Homicides in the United States<span class="visually-hidden"> (opens in new tab)</span></a>,”
+        <em>Criminology, Criminal Justice, Law &amp; Society</em>, 2021, Table 1. <a href="#celd-ref"
+          aria-label="Back to content">↩</a></li>
+      <li id="csis-2025"><strong>Daniel Byman and Riley McCabe</strong>, “<a
+          href="https://www.csis.org/analysis/left-wing-terrorism-and-political-violence-united-states-what-data-tells-us"
+          target="_blank" rel="noopener noreferrer">Left-Wing Terrorism and Political Violence in the United States: What
+          the Data Tells Us<span class="visually-hidden"> (opens in new tab)</span></a>,” CSIS, September 25, 2025. <a
+          href="#csis-2025-ref" aria-label="Back to content">↩</a></li>
+      <li id="npr"><strong>NPR</strong>, “<a href="https://www.npr.org/2025/10/25/nx-s1-5583997/political-violence-left-right-wing"
+          target="_blank" rel="noopener noreferrer">A report claims left-wing terrorism is rising. The data paints a
+          complicated picture<span class="visually-hidden"> (opens in new tab)</span></a>,” October 25, 2025. <a
+          href="#npr-ref" aria-label="Back to content">↩</a></li>
+      <li id="fbi-dhs"><strong>FBI and U.S. Department of Homeland Security</strong>, <a
+          href="https://www.fbi.gov/file-repository/counterterrorism/fbi-dhs-domestic-terrorism-definitions-terminology-methodology.pdf"
+          target="_blank" rel="noopener noreferrer"><em>Domestic Terrorism: Definitions, Terminology, and
+            Methodology</em><span class="visually-hidden"> (opens in new tab)</span></a>. <a href="#fbi-dhs-ref"
+          aria-label="Back to content">↩</a></li>
+      <li id="crs"><strong>Congressional Research Service</strong>, <a href="https://www.congress.gov/crs-product/R47885"
+          target="_blank" rel="noopener noreferrer"><em>Understanding and Conceptualizing Domestic Terrorism: Issues for
+            Congress</em><span class="visually-hidden"> (opens in new tab)</span></a>, December 29, 2023. <a
+          href="#crs-ref" aria-label="Back to content">↩</a></li>
     </ol>
 
     <div>
       <p>Justin Chill &copy; 2026</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"
-          rel="noopener noreferrer"><img src="imgs/github.svg" alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
+            alt="" class="icon" width="16" height="16" loading="lazy" decoding="async">Source code<span class="visually-hidden"> (opens in new tab)</span></a></span>
     </div>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/d3@7.9.2/dist/d3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.19/dist/plot.umd.min.js"></script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/topojson@3.0.2/dist/topojson.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
 
-  <script type="text/javascript">
-    const elementMid = d3.select('figure.mid-size').node();
-    const widthMid = elementMid ? elementMid.getBoundingClientRect().width : 640; // get width of figure.mid-size so graphic is responsive
-    const element = d3.select('figure:not(.mid-size)').node();
-    const width = element ? element.getBoundingClientRect().width : 640;
-    const size = 12;
+  <script>
+    // Inspired by https://observablehq.com/@connorrothschild/domestic-extremism-in-america
+    const IDEOLOGIES = ["Far-right", "Far-left", "Religious", "Ethnonationalist", "Other"];
+    // Okabe–Ito based; every pair stays distinguishable with red-green color blindness
+    const COLORS = ["#D55E00", "#0072B2", "#CC79A7", "#56B4E9", "#707070"];
+    const RENAME = { "Violent Far-right": "Far-right", "Violent Far-left": "Far-left" };
+    const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const SIZE_KEY = [0, 1000, 3000];
+    const fmt = d3.format(",");
 
-    // Use Promises to async request data
-    const promises = [
-      d3.csv("data/geo/us-state-grid.csv", d3.autoType),
+    Promise.all([
       d3.json("data/geo/us-counties-10m.json"),
       d3.csv("https://raw.githubusercontent.com/wpinvestigative/csis_domestic_terrorism/main/data/clean_data/csis_wapo_domestic_terrorism.csv", d3.autoType)
-    ];
+    ]).then(([us, raw]) => {
+      const nation = topojson.feature(us, us.objects.nation);
+      const borders = topojson.mesh(us, us.objects.states, (a, b) => a !== b);
 
-    Promise.all(promises).then(function (results) {
-      // Define the data
-      const us = results[1];
-      const states = topojson.feature(us, us.objects.states);
-      const csisData = results[2];
+      const incidents = raw.map(d => ({
+        year: d.Year_csis,
+        when: (d.Month_csis ? MONTHS[d.Month_csis - 1] + " " : "") + d.Year_csis,
+        place: [d.City_csis, d.State_csis].filter(Boolean).join(", "),
+        ideology: RENAME[d.Orientation_csis] || d.Orientation_csis,
+        killed: +d.vict_killed_csis || 0,
+        target: d.Target_csis,
+        weapon: d.Weapon_csis,
+        lat: d.Lat_csis,
+        lon: d.Long_csis
+      })).sort((a, b) => IDEOLOGIES.indexOf(a.ideology) - IDEOLOGIES.indexOf(b.ideology));
+      const located = incidents.filter(d => Number.isFinite(d.lat) && Number.isFinite(d.lon) && !d.place.endsWith("Puerto Rico"));
+      const yearly = incidents.filter(d => d.year <= 2020);
 
-      // Inspired by https://observablehq.com/@connorrothschild/domestic-extremism-in-america
-      const map = {
-        width: widthMid,
-        marginLeft: 0,
-        marginRight: 0,
-        projection: "albers",
-        color: {
-          legend: true
-        },
-        marks: [
-          Plot.geo(topojson.mesh(us, us.objects.states, (a, b) => a !== b), {
-            stroke: "darkgray",
-            strokeWidth: .33,
-            strokeOpacity: .95,
-            strokeLinecap: "round"
-          }),
-          Plot.geo(topojson.mesh(us, us.objects.states, (a, b) => a == b)),
-          Plot.dot(csisData, {
-            r: (d) => d.vict_killed_csis + 12,
-            fill: "Orientation_csis",
-            x: "Long_csis",
-            y: "Lat_csis",
-            fillOpacity: .65,
-            reverse: false,
-            channels: {
-              Weapons: "Weapon_csis",
-              Target: "Target_csis",
-              Orientation: "Orientation_csis",
-              Victims: "vict_killed_csis"
-            },
-            tip: {
-              format: {
-                r: null,
-                x: null,
-                y: null,
-                fill: null,
-              },
-            },
-          }),
-        ]
-      };
+      function sizeLegend(r, maxR) {
+        const gap = 18;
+        const xs = [];
+        let x = 1;
+        for (const v of SIZE_KEY) { xs.push(x + r(v)); x += 2 * r(v) + gap; }
+        const h = 2 * maxR + 18;
+        const ns = "http://www.w3.org/2000/svg";
+        const box = document.createElement("div");
+        box.className = "size-legend";
+        box.setAttribute("aria-hidden", "true");
+        box.innerHTML = `<div class="size-legend-title">People killed</div>`;
+        const svg = document.createElementNS(ns, "svg");
+        svg.setAttribute("width", x - gap + 2);
+        svg.setAttribute("height", h);
+        SIZE_KEY.forEach((v, i) => {
+          const c = document.createElementNS(ns, "circle");
+          c.setAttribute("cx", xs[i]);
+          c.setAttribute("cy", 2 * maxR + 1 - r(v));
+          c.setAttribute("r", r(v));
+          const t = document.createElementNS(ns, "text");
+          t.setAttribute("x", xs[i]);
+          t.setAttribute("y", h - 2);
+          t.setAttribute("text-anchor", "middle");
+          t.textContent = fmt(v);
+          svg.append(c, t);
+        });
+        box.append(svg);
+        return box;
+      }
 
-      const barchart = {
-        width: width,
-        marginTop: 20,
-        marginRight: 0,
-        style: {
-          fontSize: size,
-          textTransform: "capitalize",
-        },
-        color: {
-          legend: true,
-        },
-        x: {
-          label: null,
-          tickFormat: "Y",
-        },
-        y: {
-          label: null,
-          ticks: 4,
-          nice: true,
-          grid: true,
-          tickSize: 0,
-        },
-        marks: [
-          Plot.rectY(csisData,
-            Plot.binX({
-              y: "count"
+      function drawMap() {
+        const chart = document.querySelector("#map .chart");
+        const width = chart.clientWidth;
+        const maxR = Math.max(14, Math.min(30, width / 34));
+        const plot = Plot.plot({
+          width,
+          margin: 0,
+          marginTop: 4,
+          projection: { type: "albers-usa", domain: nation },
+          ariaLabel: "Map of terrorist attacks and plots in the United States, 1994 to 2021",
+          ariaDescription: "Circles are colored by ideology and sized by deaths. Far-right incidents are spread across the country; far-left incidents are concentrated on the West Coast. The largest circle marks the September 11, 2001 attacks in New York, which killed 2,977 people.",
+          color: { domain: IDEOLOGIES, range: COLORS, label: "Ideology" },
+          r: { type: "sqrt", domain: [0, 3000], range: [2, maxR] },
+          marks: [
+            Plot.geo(nation, { fill: "currentColor", fillOpacity: 0.04, stroke: "currentColor", strokeOpacity: 0.5, strokeWidth: 0.75 }),
+            Plot.geo(borders, { stroke: "currentColor", strokeOpacity: 0.3, strokeWidth: 0.5 }),
+            Plot.dot(located, {
+              x: "lon",
+              y: "lat",
+              r: "killed",
+              fill: "ideology",
+              fillOpacity: 0.75,
+              stroke: "var(--bg-color)",
+              strokeWidth: 0.6,
+              channels: { When: "when", Place: "place", Killed: "killed", Target: "target", Weapon: "weapon" },
+              tip: {
+                format: { fill: true, When: true, Place: true, Killed: true, Target: true, Weapon: true, x: false, y: false, r: false },
+                lineWidth: width < 500 ? 18 : 24
+              }
+            })
+          ]
+        });
+
+        const row = document.createElement("div");
+        row.className = "map-legend-row";
+        row.append(Plot.legend({ color: { domain: IDEOLOGIES, range: COLORS } }), sizeLegend(plot.scale("r").apply, maxR));
+        chart.replaceChildren(row, plot);
+      }
+
+      function drawBars() {
+        const chart = document.querySelector("#barchart .chart");
+        const width = chart.clientWidth;
+        const plot = Plot.plot({
+          width,
+          height: Math.round(Math.min(400, Math.max(300, width * 0.6))),
+          marginTop: 28,
+          marginRight: 4,
+          ariaLabel: "Stacked bar chart of terrorist attacks and plots in the U.S. per year by ideology, 1994 to 2020",
+          ariaDescription: "Incidents fell to between 7 and 26 a year from 2004 to 2014, then rose to 59 in 2015 and 110 in 2020, the most of any year. Far-right incidents were the largest group in most years; far-left incidents outnumbered or matched them from 2000 to 2005.",
+          color: { domain: IDEOLOGIES, range: COLORS, legend: true },
+          x: { label: null, tickFormat: "d", ticks: width < 500 ? 4 : 7 },
+          y: { label: "Attacks and plots", grid: true, ticks: 5 },
+          marks: [
+            Plot.rectY(yearly, Plot.binX({
+              y: "count",
+              title: bin => `${bin[0].year}\n${bin[0].ideology}: ${bin.length}`
             }, {
-              x: "Year_csis",
-              thresholds: 30,
-              fill: "Orientation_csis"
+              x: "year",
+              interval: 1,
+              fill: "ideology",
+              stroke: "var(--bg-color)",
+              strokeWidth: 1,
+              tip: true
             })),
-          Plot.text([
-            {
-              x: 2013,
-              y: 100,
-              text: "2020 surge:\nCOVID-19 pandemic &\nsocial unrest"
-            }
-          ], {
-            x: "x",
-            y: "y",
-            text: "text",
-            textAnchor: "start",
-            lineAnchor: "middle",
-            lineHeight: 1.3,
-            fontSize: size + 0.5,
-            fill: "currentColor",
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 5,
-            strokeLinejoin: "round",
-            style: {
+            Plot.ruleY([0]),
+            Plot.text(["2020: 110, the most of any year"], {
+              x: 2019.8,
+              y: 110,
+              textAnchor: "end",
+              lineAnchor: "middle",
+              fill: "currentColor",
+              stroke: "var(--bg-color)",
+              strokeWidth: 4,
               paintOrder: "stroke"
-            }
-          }),
-          Plot.arrow([
-            {
-              x1: 2016.2,
-              y1: 106,
-              x2: 2019.8,
-              y2: 111
-            }
-          ], {
-            x1: "x1",
-            y1: "y1",
-            x2: "x2",
-            y2: "y2",
-            bend: 32,
-            stroke: "currentColor",
-            strokeWidth: 1.1,
-            headLength: 4.5,
-            headAngle: 55,
-            insetStart: 2,
-            insetEnd: 2
-          })
-        ]
-      };
-
-      const mapPlot = Plot.plot(map);
-      const mapElement = document.getElementById("map");
-
-      // Extract Observable Plot's color legend (swatches for ideology)
-      const colorLegend = mapPlot.querySelector(".plot-legend") || mapPlot.children[0];
-
-      // Create a legend row container to hold both color swatches and concentric circle legend in a single row
-      const legendRow = document.createElement("div");
-      legendRow.className = "map-legend-row";
-
-      // If color legend exists and is separate from SVG plot, place it in the legend row
-      if (colorLegend && colorLegend.tagName !== "svg") {
-        legendRow.appendChild(colorLegend);
+            })
+          ]
+        });
+        chart.replaceChildren(plot);
       }
 
-      // Create Concentric Circle Legend for bubble size (Victims killed)
-      const sizeLegend = document.createElement("div");
-      sizeLegend.className = "bubble-legend";
-      sizeLegend.setAttribute("aria-hidden", "true");
-      sizeLegend.innerHTML = `
-        <div class="bubble-legend-title">Victims killed</div>
-        <svg width="114" height="52" viewBox="0 0 114 52" style="overflow: visible; display: block;">
-          <!-- Outer circle (50+ killed, r=21, center y=27, top y=6) -->
-          <circle cx="24" cy="27" r="21" fill="none" stroke="currentColor" stroke-width="1.25" stroke-dasharray="2 2" opacity="0.8"/>
-          <line x1="24" y1="6" x2="64" y2="6" stroke="currentColor" stroke-width="0.9" stroke-dasharray="2 2" opacity="0.65"/>
-          <text x="69" y="6" font-size="11" font-family="var(--font-ui, system-ui, -apple-system, sans-serif)" fill="currentColor" opacity="0.95" dominant-baseline="central">50+</text>
+      drawMap();
+      drawBars();
 
-          <!-- Middle circle (20 killed, r=11, center y=37, top y=26) -->
-          <circle cx="24" cy="37" r="11" fill="none" stroke="currentColor" stroke-width="1.25" stroke-dasharray="2 2" opacity="0.8"/>
-          <line x1="24" y1="26" x2="64" y2="26" stroke="currentColor" stroke-width="0.9" stroke-dasharray="2 2" opacity="0.65"/>
-          <text x="69" y="26" font-size="11" font-family="var(--font-ui, system-ui, -apple-system, sans-serif)" fill="currentColor" opacity="0.95" dominant-baseline="central">20</text>
-
-          <!-- Inner circle (0 killed, r=3.5, center y=44.5, top y=41) -->
-          <circle cx="24" cy="44.5" r="3.5" fill="none" stroke="currentColor" stroke-width="1.25" stroke-dasharray="2 2" opacity="0.8"/>
-          <line x1="24" y1="41" x2="64" y2="41" stroke="currentColor" stroke-width="0.9" stroke-dasharray="2 2" opacity="0.65"/>
-          <text x="69" y="41" font-size="11" font-family="var(--font-ui, system-ui, -apple-system, sans-serif)" fill="currentColor" opacity="0.95" dominant-baseline="central">0</text>
-        </svg>
-      `;
-
-      legendRow.appendChild(sizeLegend);
-
-      // Append legendRow first (above map), then mapPlot
-      if (mapElement) {
-        mapElement.appendChild(legendRow);
-        mapElement.appendChild(mapPlot);
-      }
-
-      const barchartElement = document.getElementById("barchart");
-      if (barchartElement) {
-        barchartElement.appendChild(Plot.plot(barchart));
-      }
+      let lastWidth = document.querySelector("#map .chart").clientWidth;
+      let timer;
+      window.addEventListener("resize", () => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          const w = document.querySelector("#map .chart").clientWidth;
+          if (w === lastWidth) return;
+          lastWidth = w;
+          drawMap();
+          drawBars();
+        }, 200);
+      });
     });
   </script>
   <script src="js/site.js" defer></script>

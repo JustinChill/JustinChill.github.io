@@ -34,17 +34,17 @@
   <meta property="og:country_name" content="USA">
   <meta content="https://justinchill.com/imgs/cover/equations_cover.webp" property="og:image">
   <meta
-    content="The image shows the entropy formula: \( H = -\sum_{i=1}^{k} p_x \log(p_x) \), where \( k \) is the number of possible outcomes, and \( p_x \) is the probability of a specific outcome."
+    content="Shannon’s entropy formula: H equals minus the sum, over every possible outcome, of its probability times the logarithm of that probability."
     property="og:image:alt">
 
   <meta name="datePublished" content="2025-06-16">
-  <meta name="dateModified" content="2025-08-06">
+  <meta name="dateModified" content="2026-11-22">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Equations that changed the world | Justin Chill">
   <meta name="twitter:description" content="17 mathematical equations that changed the world—from the Pythagorean theorem and calculus to general relativity and chaos theory.">
-  <meta content="https://justinchill.com/imgs/cover/equations_cover.webp" property="twitter:image">
+  <meta name="twitter:image" content="https://justinchill.com/imgs/cover/equations_cover.webp">
 
   <link rel="canonical" href="https://justinchill.com/equations.html">
   <link rel="preload" href="style.css" as="style" />
@@ -70,6 +70,32 @@
       text-align: right;
     }
 
+    /* Contents: equation names styled as headings, without being headings */
+    .wrapper>a {
+      font-family: var(--font-main);
+      font-size: clamp(1.25rem, 1.05rem + 0.6vw, 1.6rem);
+      line-height: 1.3;
+      color: var(--text-color);
+      text-decoration: none;
+    }
+
+    .wrapper>a:hover,
+    .wrapper>a:focus-visible {
+      text-decoration: underline;
+    }
+
+    .nowrap {
+      white-space: nowrap;
+      font: inherit;
+    }
+
+    /* Long equations scroll sideways on narrow screens instead of spilling into the margin */
+    mjx-container[jax="CHTML"][display="true"] {
+      overflow-x: auto;
+      overflow-y: hidden;
+      max-width: 100%;
+    }
+
     @media screen and (max-width: 680px) {
       .wrapper {
         display: flex;
@@ -86,7 +112,7 @@
   "headline": "Equations that changed the world",
   "description": "An exploration of 17 mathematical equations that shaped human history, science, and modern technology—from the Pythagorean theorem to Black-Scholes.",
   "datePublished": "2025-06-16",
-  "dateModified": "2025-08-06",
+  "dateModified": "2026-11-22",
   "inLanguage": "en-US",
   "articleSection": "Mathematics",
   "keywords": [
@@ -99,7 +125,7 @@
     "Maxwell's equations",
     "Second law of thermodynamics",
     "General relativity",
-    "Schrodinger equation",
+    "Schrödinger equation",
     "Information theory",
     "Chaos theory",
     "Black-Scholes",
@@ -167,344 +193,313 @@
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-  <nav class="nav" role="navigation">
+  <nav class="nav" aria-label="Main">
     <div class="nav__list">
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
     
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" aria-pressed="false" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new tab)</span></a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
 
-  <main role="main" id="content">
+  <main id="content">
     <article>
       <div class="article-hero">
         <p class="article-category">Eureka</p>
         <h1 class="article-title">Equations that changed the world</h1>
         <h2 class="article-subtitle">Math matters</h2>
       </div>
-      <div class="wrapper mid-size">
-        <a href="#pythagorean">
-          <h2>Pythagorean Theorem</h2>
-        </a>
-        <p>\[a^2 + b^2 = c^2\]</p>
-        <a href="#logarithms">
-          <h2>Logarithms</h2>
-        </a>
-        <p>\[\log xy = \log x + \log y\]</p>
-        <a href="#calculus">
-          <h2>Calculus</h2>
-        </a>
-        <p>\[\frac{df}{dt} = \lim_{h \to 0} \frac{f(t + h) - f(t)}{h}\]</p>
-        <a href="#gravity">
-          <h2>Law of Gravity</h2>
-        </a>
-        <p>\[F = G \frac{m_1 m_2}{r^2}\]</p>
-        <a href="#sqrt">
-          <h2>The square root of -1</h2>
-        </a>
-        <p>\[i^2 = -1\]</p>
-        <a href="#euler">
-          <h2>Euler's Polyhedra Formula</h2>
-        </a>
-        <p>\[V - E + F = 2\]</p>
-        <a href="#normal">
-          <h2>Normal distribution</h2>
-        </a>
-        <p>\[\Phi(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{(x - \mu)^2}{2\sigma^2}}\]</p>
-        <a href="#wave">
-          <h2>Wave Equation</h2>
-        </a>
-        <p>\[\frac{{\partial ^2 u}}{{\partial t^2 }} = {{c^2 }}\frac{{\partial ^2 u}}{{\partial x^2 }}\]</p>
-        <a href="#fourier">
-          <h2>Fourier Transform</h2>
-        </a>
-        <p>\[f(\omega)=\int_{-\infty}^{\infty}f(x)e^{-i\omega x}dx\]</p>
-        <a href="#navier">
-          <h2>Navier-Stokes Equations</h2>
-        </a>
-        <p>\[ \rho \left( \frac{\partial v}{\partial t}
-          + v \cdot \nabla v
-          \right)= -\nabla p + \nabla \cdot T + f\]</p>
-        <a href="#maxwell">
-          <h2>Maxwell's Equations</h2>
-        </a>
-        <p>\[\begin{align}
-          \nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} & =
-          \frac{4\pi}{c}\vec{\mathbf{j}} \\
+      <nav class="wrapper mid-size" aria-label="The 17 equations">
+        <a href="#pythagorean">Pythagorean theorem</a>
+        <p aria-hidden="true">\[a^2 + b^2 = c^2\]</p>
+        <a href="#logarithms">Logarithms</a>
+        <p aria-hidden="true">\[\log xy = \log x + \log y\]</p>
+        <a href="#calculus">Calculus</a>
+        <p aria-hidden="true">\[\frac{df}{dt} = \lim_{h \to 0} \frac{f(t + h) - f(t)}{h}\]</p>
+        <a href="#gravity">Law of gravity</a>
+        <p aria-hidden="true">\[F = G \frac{m_1 m_2}{r^2}\]</p>
+        <a href="#sqrt">The square root of −1</a>
+        <p aria-hidden="true">\[i^2 = -1\]</p>
+        <a href="#euler">Euler’s polyhedron formula</a>
+        <p aria-hidden="true">\[V - E + F = 2\]</p>
+        <a href="#normal">Normal distribution</a>
+        <p aria-hidden="true">\[f(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{(x - \mu)^2}{2\sigma^2}}\]</p>
+        <a href="#wave">Wave equation</a>
+        <p aria-hidden="true">\[\frac{\partial^2 u}{\partial t^2} = c^2 \frac{\partial^2 u}{\partial x^2}\]</p>
+        <a href="#fourier">Fourier transform</a>
+        <p aria-hidden="true">\[\hat{f}(\omega)=\int_{-\infty}^{\infty}f(x)e^{-i\omega x}\,dx\]</p>
+        <a href="#navier">Navier–Stokes equations</a>
+        <p aria-hidden="true">\[ \rho \left( \frac{\partial v}{\partial t} + v \cdot \nabla v \right) = -\nabla p + \nabla \cdot T + f\]</p>
+        <a href="#maxwell">Maxwell’s equations</a>
+        <p aria-hidden="true">\[\begin{align}
+          \nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} & = \frac{4\pi}{c}\vec{\mathbf{j}} \\
           \nabla \cdot \vec{\mathbf{E}} & = 4 \pi \rho \\
-          \nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t} & =
-          \vec{\mathbf{0}} \\
+          \nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t} & = \vec{\mathbf{0}} \\
           \nabla \cdot \vec{\mathbf{B}} & = 0
           \end{align}\]</p>
-        <a href="#thermodynamics">
-          <h2>Second Law of Thermodynamics</h2>
-        </a>
-        <p>\[d S \geq 0\]</p>
-        <a href="#relativity">
-          <h2>Relativity</h2>
-        </a>
-        <p>\[E=mc^2\]</p>
-        <a href="#schrödinger">
-          <h2>Schrodinger's Equation</h2>
-        </a>
-        <p>\[i \hbar \frac{\partial}{\partial t}\Psi = \hat H \Psi\]</p>
-        <a href="#info">
-          <h2>Information Theory</h2>
-        </a>
-        <p>\[H = - \sum_{i=1}^{k}{p_{x} \log(p_{x})}\]</p>
-        <a href="#chaos">
-          <h2>Chaos Theory</h2>
-        </a>
-        <p>\[x_{t+1}= kx_t(1-x_t)\]</p>
-        <a href="#Black-Scholes">
-          <h2>Black-Scholes Equation</h2>
-        </a>
-        <p>\[\frac{\partial C}{\partial t}+\frac{1}{2}\sigma^2S^2\frac{\partial^2 C}{\partial S^2}+
-          rS\frac{\partial C}{\partial S}-rC=0\]</p>
-      </div>
+        <a href="#thermodynamics">Second law of thermodynamics</a>
+        <p aria-hidden="true">\[dS \geq 0\]</p>
+        <a href="#relativity">Relativity</a>
+        <p aria-hidden="true">\[E=mc^2\]</p>
+        <a href="#schrodinger">Schrödinger’s equation</a>
+        <p aria-hidden="true">\[i \hbar \frac{\partial}{\partial t}\Psi = \hat H \Psi\]</p>
+        <a href="#info">Information theory</a>
+        <p aria-hidden="true">\[H = - \sum_{i=1}^{k} p_i \log p_i\]</p>
+        <a href="#chaos">Chaos theory</a>
+        <p aria-hidden="true">\[x_{t+1} = k x_t (1 - x_t)\]</p>
+        <a href="#Black-Scholes">Black–Scholes equation</a>
+        <p aria-hidden="true">\[\frac{\partial C}{\partial t}+\frac{1}{2}\sigma^2S^2\frac{\partial^2 C}{\partial S^2}+ rS\frac{\partial C}{\partial S}-rC=0\]</p>
+      </nav>
 
-      <p>Most people will have heard of some of history's most famous equations: Newton's Law of Gravity, for instance,
-        or Einstein's theory of relativity. These equations and more represent the world all around us, and equations
-        have long been a driving force behind nearly every aspect of our lives.</p>
-      <p>This page explains seventeen of humanity's most important equations, such as the Wave Equation that allowed
-        engineers to measure a building's response to earthquakes, saving countless lives, and the Black-Scholes model,
-        used by bankers to track the price of financial derivatives over time. Inspired by <em><a
-            href="https://www.amazon.com/dp/0465085989?asc_campaign=commerce-pra&asc_source=browser&tag=biauto-43055-20">In
-            Pursuit of the Unknown: 17 Equations That Changed the World</a></em> by Ian Stewart.</p>
+      <p>A few equations are famous enough to have escaped the classroom: Newton’s law of gravity, say, or Einstein’s
+        E&nbsp;=&nbsp;mc². Many less famous ones quietly run modern life, from the signal reaching your phone to the price
+        of a stock option.</p>
+      <p>This page walks through the seventeen equations the mathematician Ian Stewart chose for his book <a
+          href="https://www.amazon.com/dp/0465085989"><em>In Pursuit of the Unknown: 17 Equations That Changed the
+            World</em></a> (2012): what each one says, where it came from, and where it turns up today.</p>
 
-      <h2 id="pythagorean">The Pythagorean Theorem</h2>
+      <h2 id="pythagorean">The Pythagorean theorem</h2>
       <p>\[a^2 + b^2 = c^2\]</p>
-      <p><strong>What it means:&nbsp;</strong>The square of the hypotenuse of a triangle is equal to the sum of the
-        squares of its legs. &nbsp;<strong>&nbsp;</strong></p>
-      <p><strong>History:&nbsp;</strong>Though attributed to Pythagoras, it is not certain that he was the first person
-        to prove it. The first clear proof came from Euclid, and it is possible the concept was known 1000 years before
-        Pythagoras by the Babylonians!</p>
-      <p><strong>Importance:&nbsp;</strong>The Pythagorean theorem forms the basis of trigonometry and, when applied to
-        arithmetic, it connects the fields of algebra and geometry. Without it, accurate surveying, map making, and
-        navigation would be impossible.</p>
-      <p><strong>Modern use:&nbsp;</strong><a href="https://ciechanow.ski/gps/">GPS navigation</a> uses satellites to
-        triangulate your position on the globe.</p>
+      <p><strong>What it means:</strong> In a right triangle, the square of the longest side (the hypotenuse) equals
+        the sum of the squares of the other two sides.</p>
+      <p><strong>History:</strong> It carries Pythagoras’s name, but Babylonian clay tablets show the relationship was
+        known more than 1,000 years before him. The oldest surviving proof is in Euclid’s <em>Elements</em>, written
+        around 300 BCE.</p>
+      <p><strong>Importance:</strong> It ties geometry to algebra, so distances can be calculated from coordinates.
+        Surveying, mapmaking, navigation and trigonometry all rest on it.</p>
+      <p><strong>Modern use:</strong> Any distance a computer works out from coordinates uses it, from video-game
+        graphics to the <a href="https://ciechanow.ski/gps/">GPS receiver</a> in your phone, which finds its position
+        from its distances to several satellites.</p>
 
-      <h2 id="logarithms">The logarithm and its identities</h2>
+      <h2 id="logarithms">Logarithms</h2>
       <p>\[\log xy = \log x + \log y\]</p>
-      <p><strong>What it means:&nbsp;</strong>Logarithms are the inverses, or opposites, of exponential functions. A
-        logarithm for a particular base tells you what power you need to raise that base to to get a number. For
-        example, the base 10 logarithm of 1 is log(1) = 0, since 1 = 10<sup>0</sup>; log(10) = 1, since 10 = 10<sup>1</sup>; and log(100) = 2,
-        since 100 = 10<sup>2</sup>.&nbsp;</p>
-      <p><strong>History:&nbsp;</strong>The initial concept was discovered by the Scottish Laird John Napier of
-        Merchiston in an effort to make the multiplication of large numbers, then incredibly tedious and time consuming,
-        easier and faster. It was later refined by Henry Briggs to make reference tables easier to calculate and more
-        useful.&nbsp;</p>
-      <p><strong>Importance: </strong>Logarithms were revolutionary, making calculation faster and more accurate for
-        engineers and astronomers. That's less important with the advent of computers, but they're still an essential to
-        scientists.&nbsp;</p>
-      <p><strong>Modern use:&nbsp;</strong>Logarithms still inform our understanding of radioactive decay.</p>
+      <p><strong>What it means:</strong> A logarithm is the power you must raise a base to in order to get a number. In
+        base 10, log 100 = 2, because 10<sup>2</sup> = 100. The identity above turns multiplication into addition.</p>
+      <p><strong>History:</strong> John Napier, a Scottish laird, published logarithms in 1614 to take the drudgery out
+        of astronomers’ arithmetic. Henry Briggs reworked them into base 10 and published the tables that people used
+        for centuries.</p>
+      <p><strong>Importance:</strong> For more than 300 years, log tables and the slide rule, which is built on them,
+        let scientists and engineers multiply large numbers by adding.</p>
+      <p><strong>Modern use:</strong> Logarithmic scales measure earthquakes, loudness in decibels and acidity (pH), and
+        logarithms describe radioactive decay, the basis of carbon dating.</p>
 
-      <h2 id="calculus">The fundamental theorem of calculus</h2>
+      <h2 id="calculus">Calculus: the derivative</h2>
       <p>\[\frac{df}{dt} = \lim_{h \to 0} \frac{f(t + h) - f(t)}{h}\]</p>
-      <p><strong>Modern use:&nbsp;</strong>Any mathematical problem where an optimal solution is required. Essential to
-        medicine, economics, and computer science.&nbsp;</p>
-      <p><strong>What it means:&nbsp;</strong>Allows the calculation of an instantaneous rate of change. The formula
-        above is the definition of the derivative in calculus. The derivative measures the rate at which a quantity is
-        changing. For example, we can think of velocity, or speed, as being the derivative of position — if you are
-        walking at 2 miles per hour, then every hour, you have changed your position by 2 miles.</p>
-      <p><strong>History:&nbsp;</strong>Calculus as we currently know it was described around the same time in the late 17th
-        century by Isaac Newton and Gottfried Leibniz. There was a lengthy debate over plagiarism and priority which may
-        never be resolved. We use the leaps of logic and parts of the notation of both men today.</p>
-      <p><strong>Importance:&nbsp;</strong>Calculus is essential in our understanding of how to measure solids, curves,
-        and areas. It is the foundation of many natural laws, and the source of differential equations.</p>
-      <blockquote
-        cite="https://www.businessinsider.com/the-17-equations-that-changed-the-world-2012-7#:~:text=Importance%3A%20According%20to%20Stewart%2C%20%22,the%20source%20of%20differential%20equations.">
-        <p>"More than any other mathematical technique, calculus has created the modern world."</p>
-        <cite>&mdash; Ian Stewart</cite>
+      <p><strong>What it means:</strong> The derivative measures how fast something is changing at a single instant:
+        take the change over a short interval, <em>h</em>, and see what happens as <em>h</em> shrinks to zero. Velocity
+        is the derivative of position, and acceleration is the derivative of velocity.</p>
+      <p><strong>History:</strong> Isaac Newton and Gottfried Wilhelm Leibniz developed calculus independently in the
+        late 17th century and fought a bitter dispute over who came first. We still use Leibniz’s notation, including
+        the <em>df/dt</em> above.</p>
+      <p><strong>Importance:</strong> Calculus is the language of change. Most laws of physics are written with it, and
+        many of the equations below are differential equations built on the derivative.</p>
+      <blockquote>
+        <p>“More than any other mathematical technique, calculus has created the modern world.”</p>
+        <cite>&mdash; Ian Stewart, <em>In Pursuit of the Unknown</em></cite>
       </blockquote>
+      <p><strong>Modern use:</strong> Finding the best version of almost anything, such as the strongest bridge for the
+        least steel or the most profitable price, means finding where a derivative is zero.</p>
 
-      <h2 id="gravity">Newton's universal law of gravitation</h2>
+      <h2 id="gravity">Newton’s law of universal gravitation</h2>
       <p>\[F = G \frac{m_1 m_2}{r^2}\]</p>
-      <p><strong>What it means:&nbsp;</strong>Calculates the force of gravity between two objects.&nbsp;</p>
-      <p><strong>History:&nbsp;</strong>Isaac Newton derived his laws with help from earlier work by Johannes Kepler. He
-        also used, and possibly plagiarized the work of Robert Hooke. &nbsp;</p>
-      <p><strong>Importance:&nbsp;</strong>Used techniques of calculus to describe how the world works. Even though it
-        was later supplanted by Einstein's theory of relativity, it is still essential for practical description of how
-        objects interact with each other. We use it to this day to design orbits for satellites and probes.</p>
-      <p><strong>Modern use:&nbsp;</strong>When we launch space missions, Newton's law is used to find optimal
-        gravitational "tubes" or pathways so they can be as energy efficient as possible. Also makes satellite TV
-        possible.&nbsp;</p>
-
-      <h2 id="sqrt">The origin of complex numbers</h2>
-      <p>\[i^2 = -1\]</p>
-      <p><strong>What it means:&nbsp;</strong>The square of an imaginary number is
-        negative.&nbsp;<strong>&nbsp;&nbsp;</strong></p>
-      <p><strong>History:&nbsp;</strong>Imaginary numbers were originally posited by famed gambler/mathematician
-        Girolamo Cardano, then expanded by Rafael Bombelli and John Wallis. They still existed as a peculiar, but
-        essential problem in math until William Hamilton described this definition.&nbsp;</p>
-      <p><strong>Importance:</strong>&nbsp;According to Stewart, "...most modern technology, from
-        electric lighting to digital cameras could not have been invented without them." Imaginary numbers allow for
-        complex analysis, which allows engineers to solve practical problems working in the plane.</p>
-      <p><strong>Modern use:&nbsp;</strong>Used broadly in electrical engineering and complex mathematic theory.&nbsp;
+      <p><strong>What it means:</strong> The pull between two masses is proportional to the product of the masses, and
+        falls off with the square of the distance between them.</p>
+      <p><strong>History:</strong> Newton published it in the <em>Principia</em> in 1687, and it explained Johannes
+        Kepler’s laws of planetary motion. Robert Hooke claimed he had suggested the inverse-square law first, and the
+        two men feuded over the credit.</p>
+      <p><strong>Importance:</strong> One law explained falling apples, the tides and the orbits of the planets.
+        Einstein’s general relativity later refined it, but Newton’s version is still accurate enough for most purposes.
       </p>
+      <p><strong>Modern use:</strong> Mission planners use it to plot spacecraft trajectories, including the gravity
+        assists that swing probes around planets, and to place communications satellites in orbit.</p>
 
-      <h2 id="euler">Euler's formula for polyhedra</h2>
+      <h2 id="sqrt">The square root of −1</h2>
+      <p>\[i^2 = -1\]</p>
+      <p><strong>What it means:</strong> <em>i</em> is defined as a number whose square is −1. Numbers built from it,
+        such as 3 + 2<em>i</em>, are called complex numbers.</p>
+      <p><strong>History:</strong> Gerolamo Cardano ran into square roots of negative numbers while solving cubic
+        equations in 1545, and Rafael Bombelli worked out how to calculate with them. For centuries they were treated
+        as a useful oddity, until Euler, Gauss and William Rowan Hamilton put them on a firm footing.</p>
+      <p><strong>Importance:</strong> Complex numbers make the mathematics of waves and rotations far simpler, and
+        complex analysis became one of mathematics’ most powerful tools.</p>
+      <p><strong>Modern use:</strong> Electrical engineers use them to analyze alternating-current circuits, and they
+        run through signal processing and quantum mechanics.</p>
+
+      <h2 id="euler">Euler’s polyhedron formula</h2>
       <p>\[V - E + F = 2\]</p>
-      <p><strong>What it means:&nbsp;</strong>Describes a space's shape or structure regardless of alignment.&nbsp;</p>
-      <p><strong>History:&nbsp;</strong>The relationship was first described by Descartes, then refined, proved, and
-        published by Leonhard Euler in 1750.</p>
-      <p><strong>Importance:</strong>&nbsp;Fundamental to the development of topology, which extends geometry to any
-        continuous surface. An essential tool for engineers and biologists.&nbsp;</p>
-      <p><strong>Modern use:&nbsp;</strong>Topology is used to understand the behavior and function of DNA.&nbsp;</p>
+      <p><strong>What it means:</strong> For any polyhedron without holes, the number of vertices minus the number of
+        edges plus the number of faces is always 2. A cube has 8 − 12 + 6 = 2.</p>
+      <p><strong>History:</strong> René Descartes noticed a related result around 1630 but never published it. Leonhard
+        Euler stated the formula in 1750; his proof had gaps, and Adrien-Marie Legendre gave the first rigorous one in
+        1794.</p>
+      <p><strong>Importance:</strong> The answer depends only on how the shape is connected, not on its size or angles.
+        That idea grew into topology, the study of properties that survive stretching and bending.</p>
+      <p><strong>Modern use:</strong> Topology helps biologists understand how long strands of DNA knot and unknot
+        inside cells, and helps engineers analyze networks.</p>
 
       <h2 id="normal">The normal distribution</h2>
-      <p>\[\Phi(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{(x - \mu)^2}{2\sigma^2}}\]</p>
-      <p><strong>What it means:&nbsp;</strong>Defines the standard normal distribution, a bell shaped curve in which the
-        probability of observing a point is greatest near the average, and declines rapidly as one moves
-        away.&nbsp;<strong>&nbsp;&nbsp;</strong></p>
-      <p><strong>History:</strong>&nbsp;The initial work was by Blaise Pascal, but the distribution came into its own
-        with Bernoulli. The bell curve as we currently know it comes from Belgian mathematician Adolphe Quetelet.&nbsp;</p>
-      <p><strong>Importance:&nbsp;</strong>The equation is the foundation of modern statistics. Science and social
-        science would not exist in their current form without it.&nbsp;</p>
-      <p><strong>Modern use:&nbsp;</strong>Used to determine whether drugs are sufficiently effective relative to
-        negative side effects in clinical trials.&nbsp;</p>
+      <p>\[f(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{(x - \mu)^2}{2\sigma^2}}\]</p>
+      <p><strong>What it means:</strong> The bell curve. Values cluster around the mean, <em>μ</em>, and grow rarer the
+        further they are from it, at a rate set by the standard deviation, <em>σ</em>. Heights, measurement errors and
+        many other quantities roughly follow it.</p>
+      <p><strong>History:</strong> Abraham de Moivre derived the curve in 1733 as an approximation for coin-toss
+        probabilities. Carl Friedrich Gauss used it for errors in astronomical measurements, which is why it’s often
+        called the Gaussian, and Adolphe Quetelet applied it to human traits such as height.</p>
+      <p><strong>Importance:</strong> Much of modern statistics, from confidence intervals to significance tests, is
+        built on it.</p>
+      <p><strong>Modern use:</strong> Clinical trials use it to judge whether a drug’s effect is bigger than chance
+        alone would produce.</p>
 
       <h2 id="wave">The wave equation</h2>
-      <p>\[\frac{{\partial ^2 u}}{{\partial t^2 }} = {{c^2 }}\frac{{\partial ^2 u}}{{\partial x^2 }}\]</p>
-      <p><strong>What it means:&nbsp;</strong>A differential equation that describes the behavior of waves, originally
-        the behavior of a vibrating violin string.&nbsp;</p>
-      <p><strong>History:&nbsp;</strong>Mathematicians Daniel Bernoulli and Jean D'Alembert were the first to describe
-        this relationship in the 18th century, albeit in slightly different ways.&nbsp;</p>
-      <p><strong>Importance:&nbsp;</strong>The behavior of waves generalizes to the way sound works, how earthquakes
-        happen, and the behavior of the ocean.&nbsp;</p>
-      <p><strong>Modern use:&nbsp;</strong>Oil companies set off explosives, then read data from the ensuing sound waves
-        to predict geological formations.</p>
+      <p>\[\frac{\partial^2 u}{\partial t^2} = c^2 \frac{\partial^2 u}{\partial x^2}\]</p>
+      <p><strong>What it means:</strong> It describes how a disturbance travels. The acceleration of each point (left)
+        is proportional to how sharply the wave curves at that point (right), and <em>c</em> is the wave’s speed.</p>
+      <p><strong>History:</strong> Jean le Rond d’Alembert derived it in 1747 for a vibrating string, and Leonhard
+        Euler and Daniel Bernoulli extended the analysis.</p>
+      <p><strong>Importance:</strong> The same equation, or a close relative, governs sound, light, water waves and the
+        vibrations of buildings and bridges.</p>
+      <p><strong>Modern use:</strong> Seismologists use it to read earthquakes, and energy companies use it to map rock
+        layers underground from the echoes of sound waves they set off.</p>
 
       <h2 id="fourier">The Fourier transform</h2>
-      <p>\[f(\omega)=\int_{-\infty}^{\infty}f(x)e^{-i\omega x}dx\]</p>
-      <p><strong>What it means:&nbsp;</strong>Describes patterns in time as a function of frequency.&nbsp;</p>
-      <p><strong>History:&nbsp;</strong>Joseph Fourier discovered the equation, which extended from his famous heat flow
-        equation, and the previously described wave equation.&nbsp;</p>
-      <p><strong>Importance:&nbsp;</strong>The equation allows for complex patterns to be broken up, cleaned up, and
-        analyzed. This is essential in many types of signal analysis.&nbsp;</p>
-      <p><strong>Modern use:&nbsp;</strong>Used to compress information for the JPEG image<a href="#four"
-          aria-describedby="footnote-label" id="four-ref"></a> format and discover the structure of molecules.&nbsp;</p>
+      <p>\[\hat{f}(\omega)=\int_{-\infty}^{\infty}f(x)e^{-i\omega x}\,dx\]</p>
+      <p><strong>What it means:</strong> Any signal can be built from sine waves of different frequencies. The Fourier
+        transform takes a signal, <em>f</em>(<em>x</em>), and returns its recipe in frequencies,
+        <em>f̂</em>(<em>ω</em>).</p>
+      <p><strong>History:</strong> Joseph Fourier developed the idea while studying how heat flows, and published it in
+        1822.</p>
+      <p><strong>Importance:</strong> Splitting a signal into frequencies makes it easy to filter out noise, compress it
+        or find hidden patterns.</p>
+      <p><strong>Modern use:</strong> JPEG images<a href="#four" aria-describedby="footnote-label" id="four-ref"></a>
+        and MP3 audio use a close cousin, the discrete cosine transform, to discard detail you won’t notice, and
+        crystallographers use it to work out the structure of molecules from X-ray patterns.</p>
 
-      <h2 id="navier">The Navier-Stokes equations</h2>
-      <p>\[ \rho \left( \frac{\partial v}{\partial t}
-        + v \cdot \nabla v
-        \right)= -\nabla p + \nabla \cdot T + f\]</p>
-      <p><strong>What it means:&nbsp;</strong>The left side is the acceleration of a small amount of fluid, the right
-        indicates the forces that act upon it.&nbsp;<strong>&nbsp;</strong></p>
-      <p><strong>History:&nbsp;</strong>Leonhard Euler made the first attempt at modeling fluid movement, French
-        engineer Claude-Louis Navier and Irish mathematician George Stokes made the leap to the model still used today
-      </p>
-      <p><strong>Importance:&nbsp;</strong>Once computers became powerful enough to solve this equation, it opened up a
-        complex and very useful field of physics. It is particularly useful in making vehicles more aerodynamic.&nbsp;
-      </p>
-      <p><strong>Modern use:&nbsp;</strong>Among other things, allowed for the development of modern passenger
-        jets.&nbsp;</p>
+      <h2 id="navier">The Navier–Stokes equations</h2>
+      <p>\[ \rho \left( \frac{\partial v}{\partial t} + v \cdot \nabla v \right) = -\nabla p + \nabla \cdot T + f\]</p>
+      <p><strong>What it means:</strong> Newton’s second law for fluids. The left side is the acceleration of a small
+        parcel of fluid, times its density; the right side adds up the forces on it from pressure, internal friction
+        and outside forces such as gravity.</p>
+      <p><strong>History:</strong> Leonhard Euler wrote equations for frictionless fluids in 1757. Claude-Louis Navier
+        and George Gabriel Stokes added friction, or viscosity, in the 1820s and 1840s.</p>
+      <p><strong>Importance:</strong> They describe everything from blood in arteries to weather systems. Whether smooth
+        solutions always exist in three dimensions is still unproven, and is one of the Clay Mathematics Institute’s
+        $1 million Millennium Prize problems.</p>
+      <p><strong>Modern use:</strong> Computational fluid dynamics, which solves them numerically, is used to design
+        aircraft, cars and wind turbines.</p>
 
-      <h2 id="maxwell">Maxwell's equations</h2>
+      <h2 id="maxwell">Maxwell’s equations</h2>
       <p>\[\begin{align}
-        \nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} & =
-        \frac{4\pi}{c}\vec{\mathbf{j}} \\
+        \nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} & = \frac{4\pi}{c}\vec{\mathbf{j}} \\
         \nabla \cdot \vec{\mathbf{E}} & = 4 \pi \rho \\
-        \nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t} & = \vec{\mathbf{0}}
-        \\ \nabla \cdot \vec{\mathbf{B}} & = 0 \end{align}\]</p>
-      <p><strong>What it means:&nbsp;</strong>Maps out the relationship between electric and magnetic fields.</p>
-      <p><strong>History:&nbsp;</strong>Michael Faraday did pioneering work on the connection between electricity and
-        magnetism, James Clerk Maxwell translated it into equations, fundamentally altering physics.&nbsp;</p>
-      <p><strong>Importance:&nbsp;</strong>Helped predict and aid the understanding of electromagnetic waves, helping to
-        create many technologies we use today.</p>
-      <p><strong>Modern use:&nbsp;</strong>Radar, television, and modern communications.&nbsp;</p>
+        \nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t} & = \vec{\mathbf{0}} \\
+        \nabla \cdot \vec{\mathbf{B}} & = 0
+        \end{align}\]</p>
+      <p><strong>What it means:</strong> Four equations that describe how electric and magnetic fields are produced by
+        charges and currents, and how each field creates the other. Together they show that light is an
+        electromagnetic wave.</p>
+      <p><strong>History:</strong> Michael Faraday’s experiments in the 1830s showed that a changing magnetic field
+        creates an electric current. James Clerk Maxwell turned his and others’ findings into a single set of equations
+        in the 1860s and predicted electromagnetic waves, which Heinrich Hertz detected in 1887.</p>
+      <p><strong>Importance:</strong> They unified electricity, magnetism and light, and set the stage for Einstein’s
+        special relativity.</p>
+      <p><strong>Modern use:</strong> Radio, television, radar, Wi-Fi and mobile phones all depend on them.</p>
 
-      <h2 id="thermodynamics">Second law of thermodynamics</h2>
-      <p>\[d S \geq 0\]</p>
-      <p><strong>What it means:&nbsp;</strong>Energy and heat dissipate over time.</p>
-      <p><strong>History:</strong>&nbsp;Sadi Carnot first posited that nature does not have reversible processes.
-        Mathematician <a href="https://www.sunsigns.org/famousbirthdays/d/profile/ludwig-boltzmann/">Ludwig
-          Boltzmann</a> extended the law, and William Thomson formally stated it.</p>
-      <p><strong>Importance:&nbsp;</strong>Essential to our understanding of energy and the universe via the concept of
-        entropy. It helps us realize the limits on extracting work from heat, and helped lead to a better steam
-        engine.&nbsp;</p>
-      <p><strong>Modern use:</strong>&nbsp;Helped prove that matter is made of atoms. ⚛</p>
+      <h2 id="thermodynamics">The second law of thermodynamics</h2>
+      <p>\[dS \geq 0\]</p>
+      <p><strong>What it means:</strong> In an isolated system, entropy, a measure of disorder, never decreases. Heat
+        flows from hot to cold, never the other way, unless something does work to move it.</p>
+      <p><strong>History:</strong> Sadi Carnot’s 1824 study of steam engines laid the groundwork. Rudolf Clausius and
+        William Thomson, later Lord Kelvin, stated the law around 1850, and the Austrian physicist <a
+          href="https://en.wikipedia.org/wiki/Ludwig_Boltzmann">Ludwig Boltzmann</a> explained it in the 1870s through
+        the statistics of atoms and molecules.</p>
+      <p><strong>Importance:</strong> It sets a hard limit on how efficient any engine can be, and gives time its
+        direction.</p>
+      <p><strong>Modern use:</strong> Engineers use it to design power plants, refrigerators and heat pumps, and it
+        sets a minimum energy cost for erasing a bit of data in a computer.</p>
 
-      <h2 id="relativity">Einstein's theory of relativity</h2>
+      <h2 id="relativity">Einstein’s mass–energy equivalence</h2>
       <p>\[E=mc^2\]</p>
-      <p><strong>What it means:&nbsp;</strong>Energy equals mass times the speed of light squared.</p>
-      <p><strong>History:&nbsp;</strong>The less known (among non-physicists) genesis of Einstein's equation was an
-        experiment by Albert Michelson and Edward Morley that proved light did not move in a Newtonian manner in
-        comparison to changing frames of reference. Einstein followed up on this insight with his famous papers on
-        special relativity (1905) and general relativity (1915).&nbsp;</p>
-      <p><strong>Importance:</strong>&nbsp;Probably the most famous equation in history. Completely changed our view of
-        matter and reality.</p>
-      <p><strong>Modern use:&nbsp;</strong>Helped lead to nuclear weapons, and if GPS didn't account for it, your
-        directions would be off thousands of yards.&nbsp;</p>
+      <p><strong>What it means:</strong> Mass and energy are equivalent. A small mass, <em>m</em>, corresponds to an
+        enormous energy, <em>E</em>, because the speed of light, <em>c</em>, is squared.</p>
+      <p><strong>History:</strong> In 1887, Albert Michelson and Edward Morley found no sign that the speed of light
+        depends on Earth’s motion. Einstein made the constant speed of light a principle of his special relativity in
+        1905, and E&nbsp;=&nbsp;mc² followed in a short paper later that year. He extended relativity to gravity in
+        1915.</p>
+      <p><strong>Importance:</strong> Probably the most famous equation in history, it changed physics’ picture of
+        matter, energy, space and time.</p>
+      <p><strong>Modern use:</strong> It explains the energy released by nuclear reactors, nuclear weapons and the sun.
+        GPS satellites also have to correct their clocks for relativity; without that, positions would drift by about
+        10 kilometers a day.</p>
 
-      <h2 id="schrödinger">The Schrödinger equation</h2>
+      <h2 id="schrodinger">The Schrödinger equation</h2>
       <p>\[i \hbar \frac{\partial}{\partial t}\Psi = \hat H \Psi\]</p>
-      <p><strong>What it means:&nbsp;</strong>Models matter as a wave, rather than a particle.</p>
-      <p><strong>History:&nbsp;</strong>Louis-Victor de Broglie pinpointed the dual nature of matter in 1924. The
-        equation you see was derived by Erwin Schrodinger in 1927, building off of the work of physicists like Werner
-        Heisenberg.</p>
-      <p><strong>Importance:&nbsp;</strong>Revolutionized the view of physics at small scales. The insight that
-        particles at that level exist at a range of probable states was revolutionary.</p>
-      <p><strong>Modern use:&nbsp;</strong>Essential to the use of the semiconductor and transistor, and thus, most
-        modern computer technology.</p>
+      <p><strong>What it means:</strong> It describes how the quantum state of a system, its wave function <em>Ψ</em>,
+        changes over time. <em>Ψ</em> gives the probabilities of finding a particle in different places or states,
+        rather than one definite answer.</p>
+      <p><strong>History:</strong> Louis de Broglie proposed in 1924 that matter behaves like a wave. Erwin Schrödinger
+        built on that idea to write his equation in 1926; Werner Heisenberg had reached the same physics a few months
+        earlier in a different form, matrix mechanics.</p>
+      <p><strong>Importance:</strong> It is the foundation of quantum mechanics and of modern chemistry, explaining how
+        atoms bond.</p>
+      <p><strong>Modern use:</strong> Semiconductors, transistors, lasers and LEDs were all designed with quantum
+        mechanics, so almost every modern electronic device depends on it.</p>
 
-      <h2 id="info">Shannon's information theory</h2>
+      <h2 id="info">Shannon’s information theory</h2>
+      <p>\[H = - \sum_{i=1}^{k} p_i \log p_i\]</p>
+      <p><strong>What it means:</strong> It measures the average information in a message, in bits, from the
+        probabilities, <em>p<sub>i</sub></em>, of its <em>k</em> possible symbols. The more predictable a message, the
+        less information it carries and the more it can be compressed.</p>
+      <p><strong>History:</strong> Claude Shannon, an engineer at Bell Labs, introduced it in 1948 in “A Mathematical
+        Theory of Communication.”</p>
+      <p><strong>Importance:</strong> It set the limits on how far data can be compressed and how fast it can be sent
+        reliably over a noisy channel. Engineers have been designing codes to approach those limits ever since.</p>
+      <p><strong>Modern use:</strong> Zip files, streaming video and mobile networks all rely on compression and
+        error-correcting codes built on Shannon’s ideas.</p>
 
-      <p>\[H = - \sum_{i=1}^{k}{p_{x} \log(p_{x})}\]</p>
-      <p><strong>What it means:&nbsp;</strong>Estimates the amount of data in a piece of code by the probabilities of
-        its component symbols.&nbsp;</p>
-      <p><strong>History:&nbsp;</strong>Developed by Bell Labs engineer Claude Shannon in the years after World War 2.
-      </p>
-      <p><strong>Importance:&nbsp;</strong>By stopping engineers from seeking codes that were too efficient, it
-        established the boundaries that made everything from CDs to digital communication possible.</p>
-      <p><strong>Modern use:&nbsp;</strong>Pretty much anything that involves error detection in coding. Anybody use the
-        internet lately?</p>
+      <h2 id="chaos">The logistic map and chaos</h2>
+      <p>\[x_{t+1} = k x_t (1 - x_t)\]</p>
+      <p><strong>What it means:</strong> A simple model of a population with limited resources: <em>x</em> is the
+        population as a fraction of its maximum, and <em>k</em> is its growth rate. For some values of <em>k</em> the
+        population settles down; for others it swings chaotically and can’t be predicted far ahead.</p>
+      <p><strong>History:</strong> The biologist Robert May showed how this simple equation produces chaos in a 1976
+        paper in <em>Nature</em>. Edward Lorenz had found the same unpredictability in a weather model in 1963.</p>
+      <p><strong>Importance:</strong> It showed that very simple, fully determined rules can produce behavior that
+        looks random, which changed how scientists think about prediction.</p>
+      <p><strong>Modern use:</strong> Chaos theory explains why weather forecasts lose accuracy after a week or two, and
+        is used in fields from ecology to cardiology.</p>
 
-      <h2 id="chaos">The logistic model for population growth</h2>
-      <p>\[x_{t+1}= kx_t(1-x_t)\]</p>
-      <p><strong>What it means:&nbsp;</strong>Estimates the change in a population of creatures across generations with
-        limited resources.&nbsp;</p>
-      <p><strong>History:&nbsp;</strong>Robert May was the first to point out that this model of population growth could
-        produce chaos in 1975. Important work by mathematicians Vladimir Arnold and Stephen Smale helped with the
-        realization that chaos is a consequence of differential equations.</p>
-      <p><strong>Importance:&nbsp;</strong>Helped in the development of chaos theory, which has completely changed our
-        understanding of the way that natural systems work.</p>
-      <p><strong>Modern use:&nbsp;</strong>Used to model earthquakes and forecast the weather.</p>
-
-      <h2 id="Black-Scholes">The Black–Scholes model</h2>
-      <p>\[\frac{\partial C}{\partial t}+\frac{1}{2}\sigma^2S^2\frac{\partial^2 C}{\partial S^2}+
-        rS\frac{\partial C}{\partial S}-rC=0\]</p>
-      <p><strong>What it means:&nbsp;</strong>Prices a derivative<a href="#drv" aria-describedby="footnote-label"
-          id="drv-ref"></a> based on the assumption that it is riskless and that there is no arbitrage opportunity when
-        it is priced correctly.&nbsp;</p>
-      <p><strong>History:&nbsp;</strong>Developed by Fischer Black and Myron Scholes, then expanded by Robert Merton.
-        The latter two won the 1997 Nobel Prize in Economics for the discovery.</p>
-      <p><strong>Importance:&nbsp;</strong>Helped create the now multi-trillion-dollar derivatives market. It is argued
-        that improper use of the formula (and its descendants) contributed to the financial crisis. In particular, the
-        equation maintains several assumptions that do not hold true in real financial markets.</p>
-      <p><strong>Modern use:&nbsp;</strong>Variants are still used to price most derivatives, even after the financial
-        crisis.</p>
+      <h2 id="Black-Scholes">The <span class="nowrap">Black–Scholes</span> equation</h2>
+      <p>\[\frac{\partial C}{\partial t}+\frac{1}{2}\sigma^2S^2\frac{\partial^2 C}{\partial S^2}+ rS\frac{\partial C}{\partial S}-rC=0\]</p>
+      <p><strong>What it means:</strong> It describes how the value, <em>C</em>, of an option<a href="#drv"
+          aria-describedby="footnote-label" id="drv-ref"></a> changes over time, given the price of the underlying stock,
+        <em>S</em>, its volatility, <em>σ</em>, and the risk-free interest rate, <em>r</em>. It assumes a portfolio can
+        be adjusted continuously to cancel out risk, and that there is no free money to be made from mispricing.</p>
+      <p><strong>History:</strong> Fischer Black and Myron Scholes published it in 1973, and Robert Merton extended it
+        the same year. Scholes and Merton won the 1997 Nobel memorial prize in economics; Black had died in 1995.</p>
+      <p><strong>Importance:</strong> It gave traders a common way to price options and helped the derivatives market
+        grow to hundreds of trillions of dollars in face value. Its assumptions, such as steady volatility and no sudden
+        price jumps, often fail in real markets, and overconfidence in such models has been blamed for losses from the
+        1998 collapse of Long-Term Capital Management to the 2008 financial crisis.</p>
+      <p><strong>Modern use:</strong> Variants are still used to price and hedge options every trading day.</p>
 
     </article>
   </main>
@@ -534,7 +529,7 @@
     <div>
       <p>Justin Chill &copy; 2026</p>
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
-            alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
+            alt="" class="icon" width="16" height="16" loading="lazy" decoding="async">Source code<span class="visually-hidden"> (opens in new tab)</span></a></span>
     </div>
   </footer>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script>

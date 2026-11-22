@@ -43,15 +43,14 @@
 	<meta content="Accessibility for memes" property="og:image:alt">
 
 	<meta name="datePublished" content="2018-01-06">
-	<meta name="dateModified" content="2026-07-25">
+	<meta name="dateModified" content="2026-11-22">
 
 	<!-- Twitter tags -->
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content="Accessible Memes | Justin Chill">
 	<meta name="twitter:description" content="Making memes accessible with HTML & CSS.">
-	<meta
-		content="https://marvel-b1-cdn.bc0a.com/f00000000295839/www.msudenver.edu/wp-content/uploads/2022/03/Accessibility-Meme-300x176.jpg"
-		property="twitter:image">
+	<meta name="twitter:image"
+		content="https://marvel-b1-cdn.bc0a.com/f00000000295839/www.msudenver.edu/wp-content/uploads/2022/03/Accessibility-Meme-300x176.jpg">
 
 	<link rel="canonical" href="https://justinchill.com/accessible-memes.html">
 	<link rel="preload" href="style.css" as="style" />
@@ -294,6 +293,11 @@
 			text-align: center;
 		}
 
+		/* The editable text is a span inside each button label; keep it at the label's size */
+		.daily-struggle li span {
+			font: inherit;
+		}
+
 		.daily-struggle li:first-child {
 			top: 11%;
 			left: 28%;
@@ -321,7 +325,7 @@
 			display: grid;
 			grid-template-columns: 1fr 1fr;
 			grid-template-rows: 1fr 1fr;
-			border: 1px solid var(--border-color, #ccc);
+			border: 1px solid var(--rule-color);
 		}
 
 		.LeVar .panel-text {
@@ -356,14 +360,14 @@
 		}
 
 		.galaxy-brain div {
-			border: 1px solid var(--border-color, #ccc);
+			border: 1px solid var(--rule-color);
 			border-radius: 4px;
 			overflow: hidden;
 		}
 
 		.galaxy-brain div.text-panel {
-			background-color: var(--card-bg, #ffffff);
-			color: var(--text-color, #222222);
+			background-color: var(--surface-subtle);
+			color: var(--text-color);
 			padding: 1rem;
 			display: flex;
 			flex-direction: column;
@@ -384,7 +388,7 @@
 			font-size: clamp(0.85rem, 1.6vw, 1.05rem);
 			margin: 0.5rem 0 0 0;
 			line-height: 1.3;
-			color: var(--text-color, inherit);
+			color: var(--text-color);
 		}
 
 		.galaxy-brain div.img-panel {
@@ -437,10 +441,10 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "Accessible Memes | Justin Chill",
+  "headline": "Accessible Memes",
   "description": "Making memes accessible with HTML & CSS.",
   "datePublished": "2018-01-06",
-  "dateModified": "2026-07-25",
+  "dateModified": "2026-11-22",
   "author": {
     "@type": "Person",
     "name": "Justin Chill",
@@ -469,43 +473,35 @@
 
 <body>
 	<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-	<nav class="nav" role="navigation">
-		<div class="nav__list">
-			<a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
-			<a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
-			<a href="now.html" class="nav__item" aria-label="Now page">Now</a>
+  <nav class="nav" aria-label="Main">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
+      <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
+      <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
+    
+      <!-- Theme Toggle Button -->
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" aria-pressed="false" style="background: transparent; border: none; cursor: pointer;">
+        <span id="theme-toggle-light-icon" class="hidden">
+          <!-- Sun Icon -->
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
+          </svg>
+        </span>
+        <span id="theme-toggle-dark-icon" class="hidden">
+          <!-- Moon Icon -->
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+          </svg>
+        </span>
+      </button>
+    </div>
+    <div class="nav__list">
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new tab)</span></a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
 
-			<!-- Theme Toggle Button -->
-			<button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
-				aria-label="Toggle theme">
-				<span id="theme-toggle-light-icon" class="hidden">
-					<!-- Sun Icon -->
-					<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-						xmlns="http://www.w3.org/2000/svg">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-							d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
-						</path>
-					</svg>
-				</span>
-				<span id="theme-toggle-dark-icon" class="hidden">
-					<!-- Moon Icon -->
-					<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-						xmlns="http://www.w3.org/2000/svg">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-							d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
-						</path>
-					</svg>
-				</span>
-			</button>
-		</div>
-		<div class="nav__list">
-			<a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank"
-				rel="noopener noreferrer">LinkedIn</a>
-			<a href="#" class="nav__item js-email-link">Email</a>
-		</div>
-	</nav>
-
-	<main role="main" id="content">
+	<main id="content">
 		<article>
 			<div class="article-hero">
 				<p class="article-category">Post</p>
@@ -513,7 +509,7 @@
 				<h2 class="article-subtitle">Memes are for everybody</h2>
 			</div>
 
-			<img loading="lazy" decoding="async"
+			<img decoding="async"
 				src="https://marvel-b1-cdn.bc0a.com/f00000000295839/www.msudenver.edu/wp-content/uploads/2022/03/Accessibility-Meme-300x176.jpg"
 				alt="One does not simply create memes about accessibility meme image." width="300" height="176">
 
@@ -547,13 +543,13 @@
 			</ol>
 
 			<p>Inspiration for this post from <a
-					href="https://adrianroselli.com/2018/04/accessible-memes-can-be-done.html?Theme=Unset"
+					href="https://adrianroselli.com/2018/04/accessible-memes-can-be-done.html"
 					target="_blank" rel="noopener noreferrer">Adrian
 					Roselli</a>. He called attention to common web pitfalls and offered accessible HTML/CSS solutions.
 				Try making and sharing your own accessible memes!</p>
 
 			<h2>Business cat</h2>
-			<section class="business-cat meme" aria-label="Business Cat meme generator">
+			<section class="business-cat meme" role="group" aria-label="Business Cat meme generator">
 				<div>
 					<span class="visually-hidden">A cat in a business suit sitting at a conference table with a cup of
 						coffee, looking thoughtfully into the distance. Caption reads:</span>
@@ -565,88 +561,74 @@
 			</section>
 
 			<h2>Steamed Hams</h2>
-			<section class="steamed-hams meme" aria-label="Steamed Hams dialogue meme generator">
+			<section class="steamed-hams meme" role="group" aria-label="Steamed Hams dialogue meme generator">
 				<div>
-					<p contenteditable="true" spellcheck="false" role="textbox" aria-label="Steamed Hams panel 1 text">
-						<span class="visually-hidden">Superintendent Chalmers points accusingly at Principal Skinner
-							asking:</span> What did you just add to the pattern library?
-					</p>
+					<span class="visually-hidden">Superintendent Chalmers points accusingly at Principal Skinner
+							asking:</span>
+					<p contenteditable="true" spellcheck="false" role="textbox" aria-label="Steamed Hams panel 1 text">What did you just add to the pattern library?</p>
 				</div>
 				<div>
+					<span class="visually-hidden">Principal Skinner responds:</span>
 					<p class="s" contenteditable="true" spellcheck="false" role="textbox"
-						aria-label="Steamed Hams panel 2 text">
-						<span class="visually-hidden">Principal Skinner responds:</span> A date picker.
-					</p>
+						aria-label="Steamed Hams panel 2 text">A date picker.</p>
 				</div>
 				<div>
-					<p contenteditable="true" spellcheck="false" role="textbox" aria-label="Steamed Hams panel 3 text">
-						<span class="visually-hidden">Chalmers asks with confusion:</span> So it’s WCAG 2.1 compliant?
-					</p>
+					<span class="visually-hidden">Chalmers asks with confusion:</span>
+					<p contenteditable="true" spellcheck="false" role="textbox" aria-label="Steamed Hams panel 3 text">So it’s WCAG 2.1 compliant?</p>
 				</div>
 				<div>
-					<p contenteditable="true" spellcheck="false" role="textbox" aria-label="Steamed Hams panel 4 text">
-						<span class="visually-hidden">Chalmers asks angrily:</span> And it works with screen readers?
-					</p>
+					<span class="visually-hidden">Chalmers asks angrily:</span>
+					<p contenteditable="true" spellcheck="false" role="textbox" aria-label="Steamed Hams panel 4 text">And it works with screen readers?</p>
 				</div>
 				<div>
-					<p contenteditable="true" spellcheck="false" role="textbox" aria-label="Steamed Hams panel 5 text">
-						<span class="visually-hidden">Chalmers asks more angrily:</span> And keyboard alone?
-					</p>
+					<span class="visually-hidden">Chalmers asks more angrily:</span>
+					<p contenteditable="true" spellcheck="false" role="textbox" aria-label="Steamed Hams panel 5 text">And keyboard alone?</p>
 				</div>
 				<div>
-					<p contenteditable="true" spellcheck="false" role="textbox" aria-label="Steamed Hams panel 6 text">
-						<span class="visually-hidden">Chalmers raises his voice:</span> And voice control?
-					</p>
+					<span class="visually-hidden">Chalmers raises his voice:</span>
+					<p contenteditable="true" spellcheck="false" role="textbox" aria-label="Steamed Hams panel 6 text">And voice control?</p>
 				</div>
 				<div>
-					<p contenteditable="true" spellcheck="false" role="textbox" aria-label="Steamed Hams panel 7 text">
-						<span class="visually-hidden">Chalmers shouts:</span> And has 12 distinct indicators for dates
-						such as available, blocked, weekends, with 3:1 contrast?
-					</p>
+					<span class="visually-hidden">Chalmers shouts:</span>
+					<p contenteditable="true" spellcheck="false" role="textbox" aria-label="Steamed Hams panel 7 text">And has 12 distinct indicators for dates
+						such as available, blocked, weekends, with 3:1 contrast?</p>
 				</div>
 				<div>
+					<span class="visually-hidden">Skinner responds calmly:</span>
 					<p class="s" contenteditable="true" spellcheck="false" role="textbox"
-						aria-label="Steamed Hams panel 8 text">
-						<span class="visually-hidden">Skinner responds calmly:</span> Yes.
-					</p>
+						aria-label="Steamed Hams panel 8 text">Yes.</p>
 				</div>
 				<div>
 					<span class="visually-hidden">Chalmers looks quiet and confused.</span>
 				</div>
 				<div>
-					<p contenteditable="true" spellcheck="false" role="textbox" aria-label="Steamed Hams panel 10 text">
-						<span class="visually-hidden">Chalmers asks with curiosity:</span> Did you test it with users?
-					</p>
+					<span class="visually-hidden">Chalmers asks with curiosity:</span>
+					<p contenteditable="true" spellcheck="false" role="textbox" aria-label="Steamed Hams panel 10 text">Did you test it with users?</p>
 				</div>
 				<div>
 					<span class="visually-hidden">Skinner thinks hard, looking around.</span>
 				</div>
 				<div>
+					<span class="visually-hidden">Skinner says matter of factly:</span>
 					<p class="s" contenteditable="true" spellcheck="false" role="textbox"
-						aria-label="Steamed Hams panel 12 text">
-						<span class="visually-hidden">Skinner says matter of factly:</span> No.
-					</p>
+						aria-label="Steamed Hams panel 12 text">No.</p>
 				</div>
 			</section>
 
 			<h2>Daily struggle</h2>
-			<section class="daily-struggle meme" aria-label="Daily Struggle two buttons decision meme">
+			<section class="daily-struggle meme" role="group" aria-label="Daily Struggle two buttons decision meme">
 				<span class="visually-hidden">
 					First panel: Two large red buttons on a panel, a white gloved hand hesitating between them.
 					Second panel: A heavily perspiring man in angst dabbing sweat from his forehead with a gloved hand.
 				</span>
 				<ol>
-					<li contenteditable="true" spellcheck="false" role="textbox" aria-label="Button 1 option">
-						<span class="visually-hidden">Left button:</span> use title<br>attribute
-					</li>
-					<li contenteditable="true" spellcheck="false" role="textbox" aria-label="Button 2 option">
-						<span class="visually-hidden">Right button:</span> use tooltip<br>role
-					</li>
+					<li><span class="visually-hidden">Left button:</span> <span contenteditable="true" spellcheck="false" role="textbox" aria-label="Button 1 option">use title<br>attribute</span></li>
+					<li><span class="visually-hidden">Right button:</span> <span contenteditable="true" spellcheck="false" role="textbox" aria-label="Button 2 option">use tooltip<br>role</span></li>
 				</ol>
 			</section>
 
 			<h2>Drake meme replacement (LeVar Burton)</h2>
-			<section class="LeVar meme" aria-label="Geordi La Forge approving/disapproving meme format">
+			<section class="LeVar meme" role="group" aria-label="Geordi La Forge approving/disapproving meme format">
 				<span class="visually-hidden">
 					Top panel: Geordi La Forge holding up his hand with head turned, signaling disapproval.
 					Bottom panel: Geordi nodding approvingly with a smile, pointing forward in agreement.
@@ -662,7 +644,7 @@
 			</section>
 
 			<h2>Galaxy brain</h2>
-			<section class="galaxy-brain meme"
+			<section class="galaxy-brain meme" role="group"
 				aria-label="Galaxy Brain meme showing escalating accessibility implementations">
 				<div class="text-panel">
 					<img src="https://assets.codepen.io/2729/WeThe15-vids_01.jpg"
@@ -698,7 +680,7 @@
 
 				<div class="text-panel">
 					<img src="https://miro.medium.com/v2/resize:fit:897/1*KRyqTpoffZeofuawmJpNpA.png"
-						alt="Virtual meeting with avatars around a conference table." loading="lazy" decoding="async">
+						alt="Mark Zuckerberg’s cartoon metaverse avatar, with tears drawn on, in front of a low-detail Eiffel Tower and Sagrada Família." loading="lazy" decoding="async">
 					<p contenteditable="true" spellcheck="false" role="textbox" aria-label="Galaxy Brain panel 4 text">
 						Directly into your mind<br>so you can never flee.</p>
 				</div>
@@ -709,7 +691,7 @@
 			</section>
 
 			<h2>Wonka meme</h2>
-			<section class="wonka meme" aria-label="Willy Wonka meme generator">
+			<section class="wonka meme" role="group" aria-label="Willy Wonka meme generator">
 				<div>
 					<span class="visually-hidden">Willy Wonka resting his head on his hand, looking at Charlie with an
 						amused expression. Caption reads:</span>
@@ -725,62 +707,12 @@
 	<footer>
 		<div>
 			<p>Justin Chill &copy; 2026</p>
-			<span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank"
-					rel="noopener noreferrer"><img src="imgs/github.svg" alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source
-					code</a></span>
+			<span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
+            alt="" class="icon" width="16" height="16" loading="lazy" decoding="async">Source code<span class="visually-hidden"> (opens in new tab)</span></a></span>
 		</div>
 	</footer>
 
-	<script>
-		// Email link handler
-		document.querySelectorAll('.js-email-link').forEach(link => {
-			link.addEventListener('click', (e) => {
-				e.preventDefault();
-				const a = "Justin.richard.hill@";
-				const b = "gmail.com";
-				window.open(`mailto:${a}${b}`, 'email');
-			});
-		});
-
-		// Theme toggle functionality
-		const themeToggleBtn = document.getElementById("theme-toggle");
-		const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
-		const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
-
-		function updateIcons(theme) {
-			if (theme === "dark") {
-				themeToggleLightIcon?.classList.remove("hidden");
-				themeToggleDarkIcon?.classList.add("hidden");
-				themeToggleBtn?.setAttribute("aria-label", "Switch to light theme");
-			} else {
-				themeToggleLightIcon?.classList.add("hidden");
-				themeToggleDarkIcon?.classList.remove("hidden");
-				themeToggleBtn?.setAttribute("aria-label", "Switch to dark theme");
-			}
-		}
-
-		const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
-		updateIcons(currentTheme);
-
-		if (themeToggleBtn) {
-			themeToggleBtn.addEventListener("click", () => {
-				const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
-				const newTheme = activeTheme === "dark" ? "light" : "dark";
-				document.documentElement.setAttribute("data-theme", newTheme);
-				localStorage.setItem("theme", newTheme);
-				updateIcons(newTheme);
-			});
-		}
-
-		// System theme preference listener
-		window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-			if (!localStorage.getItem('theme')) {
-				const newTheme = e.matches ? 'dark' : 'light';
-				document.documentElement.setAttribute('data-theme', newTheme);
-				updateIcons(newTheme);
-			}
-		});
-	</script>
+	<script src="js/site.js" defer></script>
 </body>
 
 </html>

@@ -24,9 +24,9 @@
 
   <!-- Article metadata -->
   <meta name="datePublished" content="2020-02-03">
-  <meta name="dateModified" content="2025-08-06">
+  <meta name="dateModified" content="2026-11-22">
   <meta property="article:published_time" content="2020-02-03">
-  <meta property="article:modified_time" content="2025-08-06">
+  <meta property="article:modified_time" content="2026-11-22">
   <meta property="article:author" content="Justin Chill">
   <meta property="article:section" content="Creative Coding & Design">
 
@@ -288,10 +288,47 @@
       display: block;
     }
 
+    /* The overlap fill needs to be light to show on a dark page */
+    html[data-theme="dark"] .base:nth-child(n+2) .circ {
+      background: rgba(226, 232, 240, 0.07);
+    }
+
+    .rings-controls {
+      text-align: center;
+    }
+
+    .rings-toggle {
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+      color: var(--text-color);
+      background: var(--surface-subtle);
+      border: 1px solid var(--rule-color);
+      border-radius: 999px;
+      padding: 0.35rem 0.9rem;
+      cursor: pointer;
+    }
+
+    .rings-toggle:focus-visible {
+      outline: 2px solid var(--link-color);
+      outline-offset: 2px;
+    }
+
+    article.rings-paused .base {
+      animation-play-state: paused;
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .base {
         animation: none !important;
       }
+
+      .rings-controls {
+        display: none;
+      }
+    }
+
+    .no-js .rings-controls {
+      display: none;
     }
   </style>
 
@@ -303,7 +340,7 @@
   "name": "Spinning Rings Illusion",
   "description": "An exploration of optical illusions created by stacking concentric circles and rotating them at staggered speeds using CSS keyframe animations and SVG inset shadows.",
   "datePublished": "2020-02-03",
-  "dateModified": "2025-08-06",
+  "dateModified": "2026-11-22",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
   "articleSection": "Creative Coding & Design",
@@ -385,40 +422,42 @@
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-  <nav class="nav" role="navigation">
+  <nav class="nav" aria-label="Main">
     <div class="nav__list">
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-
+    
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" aria-pressed="false" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new tab)</span></a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
 
-  <main role="main" id="content">
+  <main id="content">
     <article>
       <div class="article-hero">
         <p class="article-category">Post</p>
         <h1 class="article-title">Spinning Rings Illusion</h1>
+        <h2 class="article-subtitle">Concentric circles, staggered spin</h2>
       </div>
+      <div class="rings-controls"><button type="button" class="rings-toggle" id="rings-toggle">Pause animations</button></div>
 
       <figure class="rings"
         aria-label="Optical illusion featuring multiple interlocking grey rings with a darker center. The arrangement creates a visual effect where the rings appear to spin.">
@@ -531,7 +570,7 @@
         </div>
       </figure>
 
-      <p>Here is a layered sub-assembly of circles, following the same basic animation loop. A <code>CSS keyframe</code> animation
+      <p>Here is a layered sub-assembly of circles, following the same basic animation loop. A CSS <code>@keyframes</code> animation
         is used to transform, or spin, the circles around the origin.</p>
 
       <figure class="rings" aria-label="A spinning ring sub-assembly composed of layered circles.">
@@ -569,12 +608,13 @@
 
       <p>SVG (Scalable Vector Graphics) elements can also create deep optical illusions with vector filters. Consider the
         following colorful circle. It's created using SVG circle elements and the
-        <code>inset shadow</code> filter for the depth effect. Inspiration for this illustration from <a
+        an inset-shadow filter (<code>feGaussianBlur</code>, <code>feOffset</code> and <code>feComposite</code>) for the depth
+        effect. Inspiration for this illustration from <a
           href="https://codepen.io/mathiesjanssen/pen/QgLzmM" target="_blank" rel="noopener noreferrer">Matys</a>.
       </p>
 
       <figure class="svg-circle-demo">
-        <svg viewBox="0 0 600 600" width="100%" height="auto" role="img" aria-label="Colorful concentric circles with inset shadow depth effect.">
+        <svg viewBox="0 0 600 600" width="100%" role="img" aria-label="Colorful concentric circles with inset shadow depth effect.">
           <filter id="inset-shadow" x="-50%" y="-50%" width="200%" height="200%">
             <feComponentTransfer in="SourceAlpha">
               <feFuncA type="table" tableValues="1 0" />
@@ -608,10 +648,22 @@
   <footer>
     <div>
       <p>Justin Chill &copy; 2026</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img
-            src="imgs/github.svg" alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
+            alt="" class="icon" width="16" height="16" loading="lazy" decoding="async">Source code<span class="visually-hidden"> (opens in new tab)</span></a></span>
     </div>
   </footer>
+  <script>
+    // Pause or resume every ring animation on the page
+    (function () {
+      const btn = document.getElementById("rings-toggle");
+      const article = btn && btn.closest("article");
+      if (!article) return;
+      btn.addEventListener("click", () => {
+        const paused = article.classList.toggle("rings-paused");
+        btn.textContent = paused ? "Play animations" : "Pause animations";
+      });
+    })();
+  </script>
   <script src="js/site.js" defer></script>
 </body>
 

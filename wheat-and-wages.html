@@ -38,7 +38,7 @@
   <meta content="Wheat & wages chart." property="og:image:alt">
 
   <meta name="datePublished" content="2025-03-06">
-  <meta name="dateModified" content="2025-08-06">
+  <meta name="dateModified" content="2026-11-22">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -62,14 +62,27 @@
   <meta name="theme-color" content="#4C63B6">
   <meta name="color-scheme" content="light dark">
 
+  <style>
+    /* These charts recreate a printed original: keep them on paper with dark ink in both themes */
+    html[data-theme="dark"] figure.playfair svg {
+      color: #222;
+      background-color: #f9f9f9;
+    }
+
+    html[data-theme="dark"] figure.playfair svg text {
+      fill: #222 !important;
+      color: #222 !important;
+    }
+  </style>
+
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": "Wheat and Wages | Justin Chill",
+    "headline": "Wheat and Wages",
     "description": "Recreating William Playfair's Wheat and Wages for the web.",
     "datePublished": "2025-03-06",
-    "dateModified": "2025-08-06",
+    "dateModified": "2026-11-22",
     "author": {
       "@type": "Person",
       "name": "Justin Chill",
@@ -98,37 +111,37 @@
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-  <nav class="nav" role="navigation">
+  <nav class="nav" aria-label="Main">
     <div class="nav__list">
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
     
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" aria-pressed="false" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new tab)</span></a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
 
-  <main role="main" id="content">
+  <main id="content">
     <article>
-      <img src="imgs/wheatAndWagesOrig.jpg" loading="lazy" class="mid-size"
+      <img src="imgs/wheatAndWagesOrig.jpg" decoding="async" class="mid-size"
         alt="Chart shewing at one view the price of the quarter of wheat, & wages of labour by the week, from the year 1565 to 1821" width="1325" height="708">
       <div class="article-hero mid-size">
         <p class="article-category">Post</p>
@@ -148,45 +161,45 @@
         as a timeline of monarchs reigning over the same time period.</p>
       <p>To start with, let's simply show the data: a bar chart of wheat prices and an area chart of wage growth.</p>
       <h3>Step 1: Adding data</h3>
-      <figure id="step1" aria-label="Step 1: Bar chart of wheat prices and area chart of wages"></figure>
-      <figcaption>Data: <a href="https://vega.github.io/vega/examples/wheat-and-wages/">William Playfair</a>, 1822
-      </figcaption>
+      <figure id="step1" aria-label="Step 1: Bar chart of wheat prices and area chart of wages" class="playfair">
+        <figcaption>Data: <a href="https://vega.github.io/vega/examples/wheat-and-wages/">William Playfair</a>, 1822</figcaption>
+      </figure>
       <p>This immediately reveals that the wage data stop in 1810 but the wheat data appear to stop in 1820. This
         misalignment in the two datasets also appears in the original graphic. </p>
       <p>The original graphic also reveals that the last wheat value is only for the period 1820–1821 and not the 5-year
         period of the other bars (the chart was published in 1822). Changing the axis for the line chart corrects the
         line from sloping at the end.</p>
-      <figure id="step2" aria-label="Step 2: Correcting the data alignment and axis"></figure>
-      <figcaption>Data: <a href="https://vega.github.io/vega/examples/wheat-and-wages/">William Playfair</a>, 1822
-      </figcaption>
+      <figure id="step2" aria-label="Step 2: Correcting the data alignment and axis" class="playfair">
+        <figcaption>Data: <a href="https://vega.github.io/vega/examples/wheat-and-wages/">William Playfair</a>, 1822</figcaption>
+      </figure>
       <h3>Step 2: Styling</h3>
       <p>To mimic the style of the original, we need to fade the black bar colors downward. Setting fill gradients can
         be achieved with some SVG styling.</p>
-      <figure id="step3" aria-label="Step 3: Applying gradient styling to the bars"></figure>
-      <figcaption>Data: <a href="https://vega.github.io/vega/examples/wheat-and-wages/">William Playfair</a>, 1822
-      </figcaption>
+      <figure id="step3" aria-label="Step 3: Applying gradient styling to the bars" class="playfair">
+        <figcaption>Data: <a href="https://vega.github.io/vega/examples/wheat-and-wages/">William Playfair</a>, 1822</figcaption>
+      </figure>
       <p>Make the line red.</p>
-      <figure id="step4" aria-label="Step 4: Changing the wage line color to red"></figure>
-      <figcaption>Data: <a href="https://vega.github.io/vega/examples/wheat-and-wages/">William Playfair</a>, 1822
-      </figcaption>
+      <figure id="step4" aria-label="Step 4: Changing the wage line color to red" class="playfair">
+        <figcaption>Data: <a href="https://vega.github.io/vega/examples/wheat-and-wages/">William Playfair</a>, 1822</figcaption>
+      </figure>
       <h3>Step 3: Customizing the axes & grid</h3>
       <p>The original chart uses what are, by modern standards, a set of rather idiosyncratic styles – a repeated
         vertical axis on the left and right with different labeling; alternating use of only the last significant digit
         for numbers on the left vertical axis; double labeling of the horizontal axis and a mixture of rotated and
         unrotated labels on the right vertical axis. We also see some quite dominating grid lines in the main chart
         area.</p>
-      <figure id="step5" aria-label="Step 5: Customizing the axes and grid lines"></figure>
-      <figcaption>Data: <a href="https://vega.github.io/vega/examples/wheat-and-wages/">William Playfair</a>, 1822
-      </figcaption>
+      <figure id="step5" aria-label="Step 5: Customizing the axes and grid lines" class="playfair">
+        <figcaption>Data: <a href="https://vega.github.io/vega/examples/wheat-and-wages/">William Playfair</a>, 1822</figcaption>
+      </figure>
       <p>With a single horizontal axis, we can customize the x-channel so that the full year is displayed every 50 years
         and we have a double label by centering it with some spaces between the two blocks of text.</p>
-      <figure id="step6" aria-label="Step 6: Refining the x-axis labels"></figure>
-      <figcaption>Data: <a href="https://vega.github.io/vega/examples/wheat-and-wages/">William Playfair</a>, 1822
-      </figcaption>
+      <figure id="step6" aria-label="Step 6: Refining the x-axis labels" class="playfair">
+        <figcaption>Data: <a href="https://vega.github.io/vega/examples/wheat-and-wages/">William Playfair</a>, 1822</figcaption>
+      </figure>
       <p>Create the grid...</p>
-      <figure id="step7" aria-label="Step 7: Adding the grid lines"></figure>
-      <figcaption>Data: <a href="https://vega.github.io/vega/examples/wheat-and-wages/">William Playfair</a>, 1822
-      </figcaption>
+      <figure id="step7" aria-label="Step 7: Adding the grid lines" class="playfair">
+        <figcaption>Data: <a href="https://vega.github.io/vega/examples/wheat-and-wages/">William Playfair</a>, 1822</figcaption>
+      </figure>
       <h3>Step 4: Labeling</h3>
       <p>The main title is enclosed in an elliptical panel in the chart space. Plot doesn't have an ellipse mark so we
         can instead create a custom mark to draw an ellipse. Marks in Plot are just functions that produce SVG, so to
@@ -197,9 +210,9 @@
         capture the x- and y- <a href="https://observablehq.com/plot/features/scales">scales</a> used to convert from
         data space to screen space, so we can express the dimensions of the SVG ellipse with data values, making
         positioning much more robust should we need to change chart dimensions.</p>
-      <figure id="step8" aria-label="Step 8: Adding the elliptical title panel"></figure>
-      <figcaption>Data: <a href="https://vega.github.io/vega/examples/wheat-and-wages/">William Playfair</a>, 1822
-      </figcaption>
+      <figure id="step8" aria-label="Step 8: Adding the elliptical title panel" class="playfair">
+        <figcaption>Data: <a href="https://vega.github.io/vega/examples/wheat-and-wages/">William Playfair</a>, 1822</figcaption>
+      </figure>
       <h3>Typography</h3>
       <p>An obvious and jarring difference between the original and new versions of the chart is the use of type. We can
         customize fonts to use antique styles that more closely match the original. Sticking to publicly available fonts
@@ -212,9 +225,9 @@
         <li><span style="font-family: 'Fredericka The Great'; font-size: 1rem; text-transform: uppercase;">A display font
             for selected parts of the title.</span></li>
       </ul>
-      <figure id="step9" aria-label="Step 9: Applying custom typography"></figure>
-      <figcaption>Data: <a href="https://vega.github.io/vega/examples/wheat-and-wages/">William Playfair</a>, 1822
-      </figcaption>
+      <figure id="step9" aria-label="Step 9: Applying custom typography" class="playfair">
+        <figcaption>Data: <a href="https://vega.github.io/vega/examples/wheat-and-wages/">William Playfair</a>, 1822</figcaption>
+      </figure>
 
       <h3>The Monarchs</h3>
       <p>Along the top of the chart are some alternating bars indicating the reigns of the monarchs (and Cromwell) over
@@ -223,35 +236,35 @@
         monarch is in an odd or even position in the list. The only exception is Cromwell's Commonwealth, so we deal
         with that explicitly in the positioning rules. The horizontal positioning of each bar is referenced by its
         center, which will make labeling a little easier.</p>
-      <figure id="monarchs" aria-label="Timeline showing the reigns of British monarchs"></figure>
-      <figcaption>Data: <a href="https://vega.github.io/vega/examples/wheat-and-wages/">William Playfair</a>, 1822
-      </figcaption>
+      <figure id="monarchs" aria-label="Timeline showing the reigns of British monarchs" class="playfair">
+        <figcaption>Data: <a href="https://vega.github.io/vega/examples/wheat-and-wages/">William Playfair</a>, 1822</figcaption>
+      </figure>
       <h3>Century Markers</h3>
       <p>The very top of the original chart shows a series of curved braces marking each century. Because they have
         variable extents, it is probably simplest to create a small dataset containing vertices that trace the shape. We
         can keep this simple as we can interpolate along curved lines to generate the more gentle shapes required.</p>
-      <figure id="century" aria-label="Curved braces markers for each century"></figure>
-      <figcaption>Data: <a href="https://vega.github.io/vega/examples/wheat-and-wages/">William Playfair</a>, 1822
-      </figcaption>
+      <figure id="century" aria-label="Curved braces markers for each century" class="playfair">
+        <figcaption>Data: <a href="https://vega.github.io/vega/examples/wheat-and-wages/">William Playfair</a>, 1822</figcaption>
+      </figure>
 
       <h3>Finishing touches</h3>
-      <figure id="step10" aria-label="Final recreation of William Playfair's Wheat and Wages chart"></figure>
-      <figcaption>Data: <a href="https://vega.github.io/vega/examples/wheat-and-wages/">William Playfair</a>, 1822
-      </figcaption>
+      <figure id="step10" aria-label="Final recreation of William Playfair's Wheat and Wages chart" class="playfair">
+        <figcaption>Data: <a href="https://vega.github.io/vega/examples/wheat-and-wages/">William Playfair</a>, 1822</figcaption>
+      </figure>
     </article>
   </main>
   <footer>
     <h2 id="footnote-label">Footnotes</h2>
     <ol>
       <li id="gmu"><a href="https://publishing.gmu.edu/tag/william-playfair/">Bruce Berkowitz</a>, <i>Playfair: The True
-          Story of the British Secret Agent Who Changed How We See the World</i>.<a href="#gmu-ref"
+          Story of the British Secret Agent Who Changed How We See the World</i>. <a href="#gmu-ref"
           aria-label="Back to content">↩</a></li>
     </ol>
 
     <div>
       <p>Justin Chill &copy; 2026</p>
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
-            alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
+            alt="" class="icon" width="16" height="16" loading="lazy" decoding="async">Source code<span class="visually-hidden"> (opens in new tab)</span></a></span>
     </div>
   </footer>
 
@@ -271,7 +284,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.19/dist/plot.umd.min.js"></script>
 
   <script type="text/javascript">
-    var element = d3.select('figure:not(.mid-size)').node();
+    var element = document.querySelector('figure.playfair');
     var width = element.getBoundingClientRect().width;
     var size = 12;
     var bgClr = "rgb(250,244,230)";
@@ -282,7 +295,7 @@
     });
 
     // Use Promises to async request data
-    var promises = [d3.json("https://cdn.jsdelivr.net/npm/vega-datasets@2/data/wheat.json")];
+    var promises = [d3.json("https://cdn.jsdelivr.net/npm/vega-datasets@2.11.0/data/wheat.json")];
 
     // You can request multiple srcs in a promise
     const myDataPromises = Promise.all(promises);
@@ -1233,18 +1246,18 @@
         ]
       };
 
-      document.getElementById("step1").appendChild(Plot.plot(step1));
-      document.getElementById("step2").appendChild(Plot.plot(step2));
-      document.getElementById("step3").appendChild(Plot.plot(step3));
-      document.getElementById("step4").appendChild(Plot.plot(step4));
-      document.getElementById("step5").appendChild(Plot.plot(step5));
-      document.getElementById("step6").appendChild(Plot.plot(step6));
-      document.getElementById("step7").appendChild(Plot.plot(step7));
-      document.getElementById("step8").appendChild(Plot.plot(step8));
-      document.getElementById("monarchs").appendChild(Plot.plot(monarchs));
-      document.getElementById("step9").appendChild(Plot.plot(step9));
-      document.getElementById("century").appendChild(Plot.plot(century));
-      document.getElementById("step10").appendChild(Plot.plot(step10));
+      document.getElementById("step1").prepend(Plot.plot(step1));
+      document.getElementById("step2").prepend(Plot.plot(step2));
+      document.getElementById("step3").prepend(Plot.plot(step3));
+      document.getElementById("step4").prepend(Plot.plot(step4));
+      document.getElementById("step5").prepend(Plot.plot(step5));
+      document.getElementById("step6").prepend(Plot.plot(step6));
+      document.getElementById("step7").prepend(Plot.plot(step7));
+      document.getElementById("step8").prepend(Plot.plot(step8));
+      document.getElementById("monarchs").prepend(Plot.plot(monarchs));
+      document.getElementById("step9").prepend(Plot.plot(step9));
+      document.getElementById("century").prepend(Plot.plot(century));
+      document.getElementById("step10").prepend(Plot.plot(step10));
     });
   </script>
   <script src="js/site.js" defer></script>

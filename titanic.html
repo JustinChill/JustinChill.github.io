@@ -38,11 +38,11 @@
     property="og:image:alt">
 
   <meta property="article:published_time" content="2025-03-06">
-  <meta property="article:modified_time" content="2026-08-25">
+  <meta property="article:modified_time" content="2026-11-22">
   <meta property="article:author" content="Justin Chill">
   <meta property="article:section" content="Data Visualization">
   <meta name="datePublished" content="2025-03-06">
-  <meta name="dateModified" content="2026-08-25">
+  <meta name="dateModified" content="2026-11-22">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -50,8 +50,8 @@
   <meta name="twitter:creator" content="@JustinChill">
   <meta name="twitter:title" content="Titanic Survival Analysis | Justin Chill">
   <meta name="twitter:description" content="Data visualizations and survival analysis of the RMS Titanic disaster, examining passenger demographics, class disparities, G. Bron's 1912 Sphere graphics, mosaic plots, and lifeboat utilization.">
-  <meta content="https://justinchill.com/imgs/cover/titanic_cover.webp" property="twitter:image">
-  <meta property="twitter:image:alt" content="Scatter plot showing Titanic survival analysis by gender and class.">
+  <meta name="twitter:image" content="https://justinchill.com/imgs/cover/titanic_cover.webp">
+  <meta name="twitter:image:alt" content="Scatter plot showing Titanic survival analysis by gender and class.">
 
   <link rel="canonical" href="https://justinchill.com/titanic.html">
   <link rel="preload" href="style.css" as="style" />
@@ -88,6 +88,38 @@
     #whoSurvived g[aria-label*="x-axis"] path {
       stroke: hsl(209, 23%, 60%);
       opacity: .5;
+    }
+
+    /* Women and men, shared by the headline and the charts; lighter in dark mode so both stay legible */
+    :root {
+      --female: #d64c44;
+      --male: #243f6c;
+    }
+
+    html[data-theme="dark"] {
+      --female: #f58178;
+      --male: #86a8e3;
+    }
+
+    .c-female,
+    .c-male {
+      font-weight: bold;
+    }
+
+    .c-female {
+      color: var(--female);
+    }
+
+    .c-male {
+      color: var(--male);
+    }
+
+    table.simple caption {
+      caption-side: bottom;
+      text-align: left;
+      font-size: 0.85rem;
+      color: var(--muted-color);
+      padding-top: 0.5rem;
     }
 
     .bron-gallery {
@@ -335,7 +367,7 @@
   "name": "Titanic Survival Analysis",
   "description": "Historical data visualization and statistical survival analysis of the RMS Titanic disaster, examining passenger demographics, class disparities, G. Bron's pioneering 1912 Sphere graphics, mosaic plots, lifeboat utilization, and interactive parallel sets.",
   "datePublished": "2025-03-06",
-  "dateModified": "2026-08-25",
+  "dateModified": "2026-11-22",
   "author": {
     "@type": "Person",
     "name": "Justin Chill",
@@ -426,6 +458,18 @@
       "author": "G. Bron",
       "publisher": "The Sphere",
       "datePublished": "1912-05-04"
+    },
+    {
+      "@type": "ScholarlyArticle",
+      "name": "Visualising the Titanic disaster",
+      "author": [
+        { "@type": "Person", "name": "Michael Friendly" },
+        { "@type": "Person", "name": "Jürgen Symanzik" },
+        { "@type": "Person", "name": "Ortac Onder" }
+      ],
+      "isPartOf": { "@type": "Periodical", "name": "Significance" },
+      "datePublished": "2019",
+      "url": "https://www.datavis.ca/papers/significance_Friendly_Titanic.pdf"
     }
   ]
 }
@@ -434,148 +478,120 @@
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-  <nav class="nav" role="navigation">
+  <nav class="nav" aria-label="Main">
     <div class="nav__list">
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-
+    
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
-        aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" aria-pressed="false" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
-            </path>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new tab)</span></a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
 
-  <main role="main" id="content">
+  <main id="content">
     <article>
       <div class="article-hero mid-size">
-        <p class="article-category">Bottoms up</p>
+        <p class="article-category">Data history</p>
         <h1 class="article-title">Titanic survival analysis</h1>
         <h2 class="article-subtitle">Analyzing passenger statistics from the RMS Titanic</h2>
       </div>
 
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
-      <h2>Man overboard</h2>
-      <h3>Prioritizing <span style="color: rgb(245, 129, 120); font-weight: bold;">female</span> and child safety
-        increased fatality rates among third-class <span style="color: rgb(36, 63, 108); font-weight: bold;">male</span>
-        passengers</h3>
+      <h2>Who survived</h2>
+      <h3><span class="c-female">Women</span> and children were far more likely to survive; <span
+          class="c-male">men</span> in second and third class fared worst</h3>
       <figure id="whoSurvived"
-        aria-label="Scatter plot analyzing Titanic survival rates, comparing age, gender, and passenger class to show higher survival among women and children.">
-        <figcaption class="right">Data: <a href="https://cran.r-project.org/web/packages/titanic/readme/README.html">R
-            project</a></figcaption>
+        aria-label="Beeswarm charts of Titanic passengers by age, split by class and by whether they survived, with women and men in different colors. Women dominate the survivors in every class; men dominate those who died, especially in third class.">
+        <figcaption class="right">714 passengers with known ages. Data: <a
+            href="https://cran.r-project.org/web/packages/titanic/readme/README.html">titanic R package</a></figcaption>
       </figure>
 
-      <p>The sinking of the <em>RMS Titanic</em> is one of the most storied shipwrecks in maritime history. Touted as
-        the ultimate in transatlantic travel and said to be “unsinkable,” the <em>Titanic</em> collided with an iceberg
-        on April 14<sup>th</sup>, 1912, on her maiden voyage and sank shortly after on April 15<sup>th</sup>, killing
-        1,502 out of 2,224 passengers and crew.</p>
-      <p>The sinking of the <em>Titanic</em> is not the largest in terms of lives lost at sea. But it is the one that
-        has been documented most thoroughly — in government reports and personal accounts of survivors, and in numerous
-        books and several popular movies.</p>
-      <p>This is one legacy of the <em>Titanic</em> disaster, but it left another: a wealth of data, comprising details
-        of passengers and crew, complete with names, ages, passenger class, and even cabin numbers for those in first
-        and second class.</p>
-      <p>I recently discovered an early data visualization showing survival among the <em>Titanic</em> passengers and
-        crew, published less than one month after the disaster. This graph had a surprisingly modern look. I was
-        inspired to recreate it using modern JavaScript while looking into the different ways historians have visualized
-        the <em>Titanic</em> disaster over the past century.</p>
+      <p>The <em>Titanic</em> was billed as practically unsinkable. On the night of April 14<sup>th</sup>, 1912, four
+        days into her maiden voyage from Southampton to New York, she struck an iceberg in the North Atlantic, and she
+        sank early the next morning. Of the roughly 2,224 people on board, more than 1,500 died.</p>
+      <p>Other shipwrecks have killed more people, but none has been documented as thoroughly: two official inquiries,
+        hundreds of survivor accounts, and a long shelf of books and films.</p>
+      <p>The disaster also left an unusually detailed dataset. The inquiries counted the passengers and crew by class,
+        sex and age group, and whether they survived, and the passenger lists give names, ages and, for many people in
+        first and second class, cabin numbers.</p>
+      <p>I came across a chart of who survived that was published less than a month after the sinking, and it looks
+        surprisingly modern. I rebuilt it in JavaScript and went looking for the other ways people have charted the
+        disaster since, leaning heavily on the work of Michael Friendly, Jürgen Symanzik and Ortac Onder, who brought
+        the chart back to light and catalogued a century of <em>Titanic</em> graphics.<a href="#friendly"
+          aria-describedby="footnote-label" id="friendly-ref"></a></p>
       <h3>The Loss of the <em>Titanic</em></h3>
-      <p><em>The Sphere</em> was a popular British illustrated weekly newspaper, published by the Illustrated London
-        News Group from January 1900 until June 1964. It was dedicated to worldwide reporting on popular issues. On May
-        4<sup>th</sup>, 1912, only three weeks after the <em>Titanic</em> disaster, it published a chart by the graphic
-        artist G. Bron using data released the week before by the House of Commons.</p>
+      <p><em>The Sphere</em> was an illustrated weekly newspaper published in London from 1900 to 1964 by the
+        Illustrated London News group. On May 4<sup>th</sup>, 1912, three weeks after the sinking, it ran a chart by
+        the illustrator G. Bron, drawn from figures the government had given the House of Commons the week
+        before.</p>
       <aside>The <strong>House of Commons</strong> is the name for the elected lower house of the bicameral parliaments
         of the United Kingdom and Canada.</aside>
       <figure>
-        <figcaption>G. Bron's chart of “The Loss of the <em>Titanic</em>,” from <em>The Sphere</em>, May 4, 1912. Each
-          subgroup is shown by a bar whose area is proportional to the number of cases.</figcaption>
+        <figcaption>G. Bron’s “The Loss of the <em>Titanic</em>,” <em>The Sphere</em>, May 4, 1912. The area of each bar
+          is proportional to the number of people it represents.</figcaption>
         <img src="imgs/The-Loss-of-the-Titanic-specially-drawn-for-The-Sphere-by-G-Bron-Originally.ppm.png"
-          loading="lazy" alt="The results of the RMS Titanic analyzed and shown in The Sphere newspaper, 1912." decoding="async" width="850" height="1305" />
+          loading="lazy" alt="G. Bron’s 1912 chart in The Sphere, showing the numbers saved and lost aboard the Titanic as back-to-back bars by class, sex and age, with totals for passengers and for everyone on board." decoding="async" width="850" height="1305" />
       </figure>
-      <p>Bron's graph shows the breakdown of survival among the passengers and crew — by passenger class, gender, and
-        age
-        (comparing adults and children) — in what is clearly an early innovation in data display. It combines
-        back-to-back bar charts for those who lived and those who perished, using the area of the bars to convey the
-        actual
-        numbers. Within the passenger classes, the numbers and bars are subdivided by gender for adults, while children
-        are shown as a separate group. It also includes two similar summary panels, showing the totals for all
-        passengers and for all passengers and crew.</p>
-      <p>Today, we might describe this as an early form of a mosaic plot, or as an area-proportional back-to-back array
-        of bar charts. Whatever name we give it, it deserves to be admired as an exceptional early example of data
-        visualization and a tribute to the skills of the illustrator.</p>
+      <p>Bron split the passengers and crew by class, by sex and by age, adult or child, and drew those who were saved
+        and those who were lost as bars running in opposite directions, so each pair can be compared at a glance. Within
+        each class the adults are divided into men and women, children get a group of their own, and two summary panels
+        give the totals for the passengers alone and for everyone on board.</p>
+      <p>In today’s terms it’s close to a mosaic plot, or a back-to-back bar chart scaled by area. Either way, it’s a
+        remarkably sophisticated piece of data design for 1912, and a credit to the illustrator.</p>
       <figure id="titanic_diverging"
         aria-label="Diverging bar chart contrasting the number of survivors against those who perished, broken down by men, women, and children.">
       </figure>
       <h3>Who was G. Bron?</h3>
-      <p>G. Bron was a prolific technical illustrator who worked for <em>The Sphere</em>, the <em>Illustrated London
-          News</em>, and similar publications between about 1910 and 1925. Today, he would be called a data-graphic or
-        info-vis designer, one far ahead of his time. Little about him is known for sure, not even his first name. G.
-        Bron was most likely the pseudonym adopted by William B. Treeby, born in London, but further biographical
-        details are still sketchy (see <a href="https://bit.ly/titanicvis">additional biographical material</a>). A <a
-          href="https://bit.ly/2Rzv5dm">search</a> in the British Newspaper Archive turned up over 20 examples of his
-        work, most published in <em>The Sphere</em>.</p>
+      <p>Very little about Bron is certain, including his first name. He drew technical and data illustrations for
+        <em>The Sphere</em>, the <em>Illustrated London News</em> and similar papers from about 1910 to 1925; today
+        we’d call him an information designer. Friendly and his colleagues believe “G. Bron” was a pen name of William
+        Brown Treeby, an engraver born in London and raised in Australia (see their <a
+          href="https://www.datavis.ca/papers/titanic/">biographical notes</a>), and they found more than 20 of his
+        graphics in the <a href="https://www.britishnewspaperarchive.co.uk/">British Newspaper Archive</a>, most of them
+        in <em>The Sphere</em>.</p>
       <div class="bron-gallery" role="group" aria-label="Examples of illustrations by G. Bron">
-        <img src="https://www.datavis.ca/papers/titanic/Bron/Sphere-15Jun1912-Titanic-Boats.png"
-          alt="Drawing depicting the fate of the Titanic's lifeboats, with numbered lifeboats floating away from the sinking ship. Each lifeboat is labeled with details about its passengers and fate, set against a dark ocean background."
-          loading="lazy" decoding="async">
-        <img src="imgs/Sphere-10Dec1910-ebb-flow.jpg"
-          alt="An illustrated image showing a bridge with steps leading to a wall marked with election years and water levels. The water line indicates different years between 1832 and 1906, symbolizing the rise and fall of electoral influence."
-          loading="lazy" decoding="async" width="3422" height="4842">
-        <img src="imgs/Sphere-22Mar1913-Sphinx-2.jpg"
-          alt="Illustrated cutaway diagram of the Sphinx, titled Remarkable Discoveries Within the Sphinx. It depicts hypothetical internal chambers and passages within the Sphinx's head and body, leading to a temple and other structures."
-          loading="lazy" decoding="async" width="3337" height="4791">
-        <img src="https://c8.alamy.com/comp/HKF75J/illustrated-london-news-front-page-HKF75J.jpg"
-          alt="An old newspaper front page titled The Illustrated London News from November 26, 1864. It features an engraving of an art exhibition with people viewing paintings and sculptures in a large gallery. Text and articles surround the illustrations."
-          loading="lazy" decoding="async">
-        <img src="https://i.etsystatic.com/38479258/r/il/e4203b/5450130710/il_300x300.5450130710_1qgx.jpg"
-          alt="A vintage scientific illustration featuring a solar system diagram, lunar phases, and a perpetual moonlight chart. The detailed graphics are accompanied by descriptive text and astronomical calculations. The design has a retro, diagrammatic style."
-          loading="lazy" decoding="async">
+        <img src="imgs/sphere-1910-ebb-and-flow.webp"
+          alt="Bron’s “The Ebb and Flow of the Electoral Tide”: a bridge with steps leading to a wall marked with election years and water levels from 1832 to 1906, showing the rise and fall of each party’s strength."
+          loading="lazy" decoding="async" width="800" height="1132">
+        <img src="imgs/sphere-1913-sphinx.webp"
+          alt="Bron’s “Remarkable Discoveries Within the Sphinx”: a cutaway diagram of the Sphinx showing supposed chambers and passages inside its head and body."
+          loading="lazy" decoding="async" width="800" height="1149">
       </div>
       <ul>
         <li><strong>What Became of the <em>Titanic</em> Boats?</strong>, <em>The Sphere</em>, June 15, 1912. <a
             href="https://www.britishnewspaperarchive.co.uk/viewer/bl/0001861/19120615/021/0016">British Newspaper
             Archive</a></li>
-        <li>
-          <p><strong>The Ebb and Flow of the Electoral Tide</strong>, <em>The Sphere</em>, December 10, 1910. <a
-              href="https://www.britishnewspaperarchive.co.uk/viewer/bl/0001861/19101210/018/0013">British Newspaper
-              Archive</a></p>
-        </li>
-        <li>
-          <p><strong>Remarkable Discoveries Within the Sphinx</strong>, <em>The Sphere</em>, 22 March 1913. <a
-              href="https://www.britishnewspaperarchive.co.uk/viewer/bl/0001861/19130322/015/0009">British Newspaper
-              Archive</a></p>
-        </li>
-        <li>
-          <p><strong>The Meanderings Of Majorities: The Movements Of The “Waves” Of Political Power Over The Lands Of
-              Conservatism And Liberalism</strong>, <em>Illustrated London News</em>, 24 December 1910. <a
-              href="https://www.britishnewspaperarchive.co.uk/viewer/bl/0001578/19101224/080/0026">British Newspaper
-              Archive</a></p>
-        </li>
-        <li>
-          <p><strong>Moonlight Chart, No.&nbsp;6</strong>, <em>The Sphere</em>, Sept.&nbsp;22, 1917, <a
-              href="https://www.britishnewspaperarchive.co.uk/viewer/bl/0001861/19170922/031/0021">British Newspaper
-              Archive</a></p>
-        </li>
+        <li><strong>The Ebb and Flow of the Electoral Tide</strong>, <em>The Sphere</em>, December 10, 1910. <a
+            href="https://www.britishnewspaperarchive.co.uk/viewer/bl/0001861/19101210/018/0013">British Newspaper
+            Archive</a></li>
+        <li><strong>Remarkable Discoveries Within the Sphinx</strong>, <em>The Sphere</em>, March 22, 1913. <a
+            href="https://www.britishnewspaperarchive.co.uk/viewer/bl/0001861/19130322/015/0009">British Newspaper
+            Archive</a></li>
+        <li><strong>The Meanderings Of Majorities: The Movements Of The “Waves” Of Political Power Over The Lands Of
+            Conservatism And Liberalism</strong>, <em>Illustrated London News</em>, December 24, 1910. <a
+            href="https://www.britishnewspaperarchive.co.uk/viewer/bl/0001578/19101224/080/0026">British Newspaper
+            Archive</a></li>
+        <li><strong>Moonlight Chart, No.&nbsp;6</strong>, <em>The Sphere</em>, September 22, 1917. <a
+            href="https://www.britishnewspaperarchive.co.uk/viewer/bl/0001861/19170922/031/0021">British Newspaper
+            Archive</a></li>
       </ul>
       <blockquote>
         <p>I was born in London, and brought to Australia by adventurous parents in infancy. Shirking real graft, I
@@ -591,23 +607,25 @@
       <div class="wrapper" tabindex="0" role="region"
         aria-label="Table of Titanic passenger and crew statistics by class and survival">
         <table class="simple">
+          <caption>On board, saved and lost, from the British inquiry’s report (1912). Later research puts the total on
+            board at about 2,224, with more than 1,500 lost.</caption>
           <thead>
             <tr>
               <th scope="col">Passenger class</th>
               <th scope="col">Number on Board</th>
               <th scope="col">Number of Survivors</th>
               <th scope="col">Number Lost</th>
-              <th scope="col">Male</th>
-              <th scope="col">Female</th>
-              <th scope="col">Child</th>
+              <th scope="col">Men</th>
+              <th scope="col">Women</th>
+              <th scope="col">Children</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <th scope="row">First Class</th>
-              <td>329</td>
-              <td>199</td>
-              <td>130</td>
+              <td>325</td>
+              <td>203</td>
+              <td>122</td>
               <td>175</td>
               <td>144</td>
               <td>6</td>
@@ -615,35 +633,35 @@
             <tr>
               <th scope="row">Second Class</th>
               <td>285</td>
-              <td>119</td>
-              <td>166</td>
+              <td>118</td>
+              <td>167</td>
               <td>168</td>
               <td>93</td>
               <td>24</td>
             </tr>
             <tr>
               <th scope="row">Third Class</th>
-              <td>710</td>
-              <td>174</td>
-              <td>536</td>
+              <td>706</td>
+              <td>178</td>
+              <td>528</td>
               <td>462</td>
               <td>165</td>
               <td>79</td>
             </tr>
             <tr>
               <th scope="row">Crew</th>
-              <td>899</td>
-              <td>214</td>
-              <td>685</td>
+              <td>885</td>
+              <td>212</td>
+              <td>673</td>
               <td>862</td>
               <td>23</td>
               <td>0</td>
             </tr>
             <tr>
               <th scope="row">TOTAL</th>
-              <td><b>2,223</b></td>
-              <td><b>706</b></td>
-              <td><b>1,517</b></td>
+              <td><b>2,201</b></td>
+              <td><b>711</b></td>
+              <td><b>1,490</b></td>
               <td><b>1,667</b></td>
               <td><b>425</b></td>
               <td><b>109</b></td>
@@ -651,61 +669,47 @@
           </tbody>
         </table>
       </div>
-      <p>The primary sources of data on the <em>Titanic</em> derive from official inquiries launched in Britain and the
-        USA. Shortly after the disaster, the British Parliament authorized the British Board of Trade Inquiry with Lord
-        Mersey as chair. The committee interviewed more than 100 witnesses over 36 days of hearings. Their report,
-        issued on July 30<sup>th</sup>, 1912, contained extensive tables of passengers and crew, broken down by age
-        group, gender, class and survival, as well as details on the launching of the 20 lifeboats.</p>
+      <p>Most of what we know comes from two official inquiries. In Britain, the Board of Trade’s inquiry under Lord
+        Mersey heard about 100 witnesses over 36 days and published its report on July 30<sup>th</sup>, 1912, with
+        tables of passengers and crew by class, sex, age group and survival, and details of how each lifeboat was
+        launched.</p>
       <aside>Complete documents can be found at <a href="https://titanicinquiry.org">titanicinquiry.org</a>.</aside>
-      <p>In April–May 1912, a similar inquiry was initiated in the US Senate, which interviewed 82 witnesses over 18
-        days.
-        Among other things, the report (over 1,000 pages) contained lists of the names and addresses of most passengers
-        and crew.</p>
+      <p>In the United States, a Senate committee held its own inquiry in April and May 1912, hearing 82 witnesses over
+        18 days. Its report runs to more than 1,000 pages and lists the names and addresses of most passengers and
+        crew.</p>
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
       <h3>Passengers by age</h3>
       <figure id="agesFacet"
         aria-label="Faceted histograms showing the age distribution of passengers, separated by gender."></figure>
-      <p>Looking at passengers by age shows a pretty typical distribution. There appears to be a roughly equal number of
-        young and older passengers, but about double the number of males aged 20–30. Since the crew is
-        included in
-        our data, that would make sense for a steamship in 1912.</p>
-      <p>Popular interest in the <em>Titanic</em> surged with the release of James Cameron's movie in November 1997.
-        Immediately following this, Random House released a boxed set, <em>Titanic: The Official Story</em>, containing
-        the Mersey report and facsimiles of 18 original documents from London's Public Record Office. These included the
-        <em>Titanic</em> deck plans, the final telegram sent from the ship just prior to sinking, newspaper articles
-        excoriating the White Star Line for criminal negligence, lists of deaths recorded in official logs, and so on.
-      </p>
+      <p>Most passengers were young adults, and men in their twenties outnumbered women of the same age about two to
+        one (148 to 72). These charts use the 714 passengers whose ages are known in a widely used passenger dataset, so
+        they don’t include the crew.</p>
+      <p>Interest in the <em>Titanic</em> surged again after James Cameron’s film came out in late 1997. Random House
+        followed with <em>Titanic: The Official Story</em>, a boxed set of the Mersey report and facsimiles of 18
+        documents from Britain’s Public Record Office, among them the deck plans, the last wireless messages sent from
+        the ship, lists of the dead, and newspaper articles accusing the White Star Line of criminal negligence.</p>
       <h2>Some modern uses</h2>
-      <p>The significance of the disaster and the availability of information regarding the passengers and crew made the
-        <em>Titanic</em> data attractive for various uses.
-      </p>
-      <p>Bron's initial graphic idea, to show deaths and survival on the <em>Titanic</em>, broken down by passenger
-        class, gender, and age group, was brilliant at the time, and perhaps under-appreciated in the history of data
-        visualization. He was onto something important: how to display the proportions of survivors, classified by the
-        other variables he had available. His solution anticipated modern methods.</p>
-      <p>In the 1990s, two new ideas for graphical analysis of categorical data arose to meet this problem. The
-        <em>Titanic</em> data provided great examples because they gave a context and a story to appreciate these new
-        methods.
-      </p>
+      <p>Because the data are so complete and the story so well known, the <em>Titanic</em> has become a favorite
+        example for statisticians.</p>
+      <p>Bron’s idea, showing who survived broken down by class, sex and age, was ahead of its time. Statisticians
+        later developed better tools for exactly that problem: charting counts that are cross-classified by several
+        categories at once.</p>
       <h3>Mosaic plots</h3>
       <figure id="mosaic_survivors" aria-label="Mosaic plot showing Survivors of Titanic Tragedy"></figure>
-      <p>Bron’s chart illustrated some of the challenges in visualizing a table of frequencies of survival, classified
-        by two or more factors. Mosaic plots<a href="#Hartigan" aria-describedby="footnote-label" id="Hartigan-ref"></a>
-        provided an attractive alternative, where the frequencies in a table were shown by areas of “tiles” in a
-        recursive partitioning of a unit square.</p>
-      <p>Mosaics are useful for discovering unusually high or small counts and for discovering dependencies between
-        variables. In principle, mosaics may be used for any number of cross-classifying variables, but six seems to be
-        a practical maximum.</p>
+      <p>A mosaic plot<a href="#Hartigan" aria-describedby="footnote-label" id="Hartigan-ref"></a> divides a square
+        into tiles whose areas are proportional to the counts in each combination of categories, splitting by one
+        variable and then the next.</p>
+      <p>Tiles that are unusually large or small stand out, which makes relationships between the variables easy to
+        spot. In practice they get hard to read beyond about half a dozen variables.</p>
       <h3>Text plots</h3>
-      <p>Brath (2018) created mosaic plots filling the tiles with the names of the victims and survivors among the 1,308
-        passengers. This highlights the fact that the passengers were people, not statistics. For Brath, it provided an
-        example of how typography could be used in data visualization.</p>
+      <p>Richard Brath (2018) filled the tiles of a mosaic plot with the names of the 1,308 passengers, a reminder that
+        every tile is made of people. He uses it as an example of how typography can carry data.</p>
       <img src="imgs/text-survived.webp" loading="lazy"
         alt="Infographic titled Who Survived on the Titanic? showing 1,308 passengers. Divided by class and gender, it uses colors to indicate survival (green) and death (red). Women and children have serif font; men have sans serif." decoding="async" width="1894" height="1164" />
       <h3>Parallel sets</h3>
-      <p>Parallel coordinate plots provide a way to display multidimensional data in 2D plots. They do this by
-        representing the variables as a set of parallel axes, and showing each observation as a line in parallel
-        coordinate space, rather than as a point in standard coordinate space.</p>
+      <p>Parallel sets show how people flow from one category to the next. Each axis is a variable such as class or
+        sex, and the ribbons between axes are sized by the number of people who share each combination. They’re the
+        categorical cousin of the parallel coordinates plot.</p>
       <figure id="parallel_sets_figure"
         aria-label="Interactive Parallel Sets visualization showing passenger flows across Survival, Sex, Age, and Class dimensions.">
         <div class="parsets-toolbar">
@@ -716,18 +720,15 @@
           <span class="parsets-hint">Hover ribbons or categories to explore pathways</span>
         </div>
         <figcaption class="right">Data: <a
-            href="https://www.amstat.org/publications/jse/v3n3/datasets.dawson.html">Robert J. MacG. Dawson</a> |
+            href="https://jse.amstat.org/v3n3/datasets.dawson.html">Robert J. MacG. Dawson</a> |
           Interactive D3 Parallel Sets visualization based on <a href="https://www.jasondavies.com/parallel-sets/">Jason
             Davies</a></figcaption>
         <div id="parallel_sets" class="parsets-container"></div>
       </figure>
       <h3>Lifeboats data</h3>
-      <p>The <em>Titanic</em> sailed with only enough lifeboat space for half the people on board, the result of an
-        antiquated
-        safety code that hadn’t kept pace with the growing size of ocean liners. Yet some of those lifeboats were
-        lowered <strong>less than half full</strong>.</p>
-      <p>Bron tried to illustrate what he knew at the time, but the actual data allows for a richer story to be told
-        with modern graphical and statistical methods.</p>
+      <p>The <em>Titanic</em> carried lifeboats for only about half the people on board, which was all the outdated
+        safety rules of the day required. Even so, several boats were lowered <strong>far from full</strong>.</p>
+      <p>Bron could only show what was known in May 1912. The full record lets us tell a richer story.</p>
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
       <h3>Titanic lifeboat utilization</h3>
       <figure id="lifeboat_bars"
@@ -736,30 +737,30 @@
             project</a></figcaption>
       </figure>
 
-      <p>After the disaster, the British Board of Trade launched several inquiries, the most comprehensive of which
-        resulted in the Report on the <em>Loss of the Titanic</em> (S.S.) by Lord Mersey (Mersey, 1912). The report
-        lists the time of launch and composition of the 18 boats (out of 20) that actually launched, broken down as
-        “male passengers,” “women and children,” and “men of crew,” as reported by witnesses.</p>
+      <p>Lord Mersey’s report lists the launch time and occupants of 18 of the 20 boats, as described by witnesses, in
+        three groups: “male passengers,” “women and children” and “men of crew.”</p>
       <figure>
         <figcaption>Lifeboats on the Titanic, trilinear plot</figcaption>
         <img src="imgs/titanic-tri.png" class="p-4" loading="lazy"
           alt="Ternary plot showing distribution of ship passengers and crew, with axes labeled Men Passengers, Men of Crew, and Women and Children. Points represent port (red) and starboard (blue) sides, with varying sizes and positions." decoding="async" width="1014" height="896" />
       </figure>
-      <p>Trilinear plots are quite useful for showing the relative proportions in each row of <em>n</em> &times; 3
-        tables.
-        The figure above shows the proportions of these three categories, classed by the side of the ship from which the
-        lifeboat was launched. Boats with more than 10% male passengers are identified by number. The graph strongly
-        suggests that the procedures for loading the lifeboats may have differed for the port and starboard sides of the
-        ship.</p>
+      <p>A trilinear plot shows those three shares for every boat at once, here split by the side of the ship each boat
+        was lowered from. Boats with more than 10% male passengers are numbered. The two sides look different, and the
+        history explains why: on the port side, Second Officer Charles Lightoller allowed women and children only, while
+        on the starboard side First Officer William Murdoch let men board when no women were waiting.</p>
       <h3>Balloon plots</h3>
       <img src="imgs/titanic-balloon.ppm.png" loading="lazy"
         alt="Balloon plot showing Titanic survivors by class, sex, and age. Larger circles indicate more passengers. Notable counts: adult male crew 192, adult female 3rd class 80, adult female 1st class 140." decoding="async" width="344" height="346" />
       <h3>Venn and Euler diagrams</h3>
-      <p>In <em>Multi-Attribute Glyphs on Venn and Euler Diagrams to Represent Data and Aid Visual
-          Decoding</em> (2012), Brath used annotated Venn and Euler diagrams to show the overlapping sets among combinations of the
-        Titanic variables:</p>
-      <img src="https://figures.semanticscholar.org/f5f784fd1ba95135e6e48a4a286482ff92af98ce/4-Figure5-1.png"
-        alt="Scaled glyphs indicating quantities on both Venn and Euler diagrams." loading="lazy" decoding="async" />
+      <p>In <em>Multi-Attribute Glyphs on Venn and Euler Diagrams to Represent Data and Aid Visual Decoding</em> (2012),
+        Brath drew Venn and Euler diagrams of the <em>Titanic</em> data, with glyphs showing the counts in each
+        overlap:</p>
+      <figure>
+        <img src="imgs/titanic-brath-venn-euler.webp"
+          alt="Venn and Euler diagrams of the Titanic data, with scaled glyphs showing the number of people in each overlapping set."
+          loading="lazy" decoding="async" width="954" height="374" />
+        <figcaption>Figure: Richard Brath (2012)</figcaption>
+      </figure>
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
       <h3>What is the relationship between passenger age and survival rate?</h3>
       <figure id="agesline"
@@ -767,12 +768,11 @@
       </figure>
       <p>Understanding the relationship between age and survival rate can provide insights into the prioritization and
         rescue operations during the <em>Titanic</em> disaster. I hypothesized that younger passengers, especially
-        children,
-        might have had higher survival rates due to evacuation priorities. To visualize this, we can use a histogram to
-        represent the age distribution of passengers along with their survival status. The x-axis represents the age
-        groups, while the y-axis shows the count of passengers. Different colors are used to differentiate between those
-        who survived and those who perished. The histogram reveals that children had higher survival rates, supporting
-        my hypothesis that younger passengers were more likely to be rescued.</p>
+        children, might have had higher survival rates due to evacuation priorities. To visualize this, we can use a
+        histogram to represent the age distribution of passengers along with their survival status. The x-axis
+        represents the age groups, while the y-axis shows the count of passengers. Different colors are used to
+        differentiate between those who survived and those who perished. The histogram reveals that children had higher
+        survival rates, supporting my hypothesis that younger passengers were more likely to be rescued.</p>
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
       <h3>How does the fare paid relate to survival rates across different classes?</h3>
       <figure id="classScatter"
@@ -784,61 +784,51 @@
       <p>To investigate this, we can use a strip plot to visualize the distribution of fares across different passenger
         classes and survival statuses. The x-axis represents the passenger class, while the y-axis shows the fare
         amount. Colors indicate survival status. This strip plot clearly illustrates that higher fares are associated
-        with
-        higher survival rates, especially in first class. This suggests that wealthier passengers had better access
-        to lifeboats and safety measures.
-      </p>
+        with higher survival rates, especially in first class. This suggests that wealthier passengers had better access
+        to lifeboats and safety measures.</p>
       <h3>Information visualization</h3>
-      <p class="chapter-para">Following in the footsteps of Bron, modern graphic designers continue to be inspired by
-        the tragedy of the <em>Titanic</em> and challenge themselves to tell the story of the disaster in ways that are
-        both visually appealing and provide accurate information. Unlike statistical graphs, which usually focus on just
-        one aspect, an <em>information graphic</em> often attempts to tell the entire story all on one page.</p>
+      <p class="chapter-para">Designers have kept returning to the <em>Titanic</em>. Unlike a statistical chart, which
+        usually answers one question, an information graphic often tries to tell the whole story on a single page.</p>
       <figure class="mid-size">
-        <figcaption class="mid-size right">Infographic by <a href="http://bit.ly/2RyjdbL" target="_blank" rel="noopener noreferrer">Barr and
-            Johnson</a></figcaption>
+        <figcaption class="mid-size right">Infographic by <a
+            href="https://nationalpost.com/news/titanic-anniversary-who-was-on-the-ship-when-it-sunk-and-who-got-away/"
+            target="_blank" rel="noopener noreferrer">Andrew Barr and Richard Johnson, <em>National Post</em><span
+              class="visually-hidden"> (opens in new tab)</span></a></figcaption>
         <img src="imgs/ESsfFNNXQAAOK2E.webp"
           alt="Infographic of the Titanic showing a side-view diagram, highlighting lifeboat locations, passenger survival rates by age, class, and nationality, and timelines of key events during the sinking. Charts and graphs display survival statistics."
           loading="lazy" decoding="async" width="1920" height="985" />
       </figure>
-      <p class="chapter-para">A great example of this is the graphic produced by Andrew Barr and Richard Johnson for the
-        <em>National Post</em>. This illustration combines many aspects of visual storytelling: numbers, words, and
-        pictures (both images and graphs) are woven seamlessly into a narrative. The top portion contains back-to-back
-        bar plots of the passengers by age and class, showing the age distributions of those who survived and those who
-        died, with pie charts summarizing survival by class. It uses colors keyed to the locations of cabins for the
-        classes in the dominant graphic of the ship. The bottom portion shows the loading of the lifeboats in the order
-        they were launched, shaded to show the proportion of seats that were filled. It is clear that those launched
-        early and those launched just before the ship sank were only partially filled. Other charts at the lower right
-        give the death rates by gender, class, and nationality of the passenger. A text box gives an interpretation
-        of survival, including the ideas of “women and children first,” and the declining survival according to class.
-      </p>
+      <p class="chapter-para">A fine example is the graphic Andrew Barr and Richard Johnson made for the <em>National
+          Post</em>. Across the top, back-to-back bars compare the ages of those who lived and died in each class, with
+        pie charts of survival by class, all keyed to the colors of the cabins in a cutaway of the ship. Below, the
+        lifeboats appear in the order they were launched, shaded by how full they were: the first and last boats away
+        left with many empty seats. Smaller charts give death rates by sex, class and nationality, and a short text
+        explains “women and children first” and the drop in survival from class to class.</p>
 
-      <p>For the 100-year anniversary of the sinking, the <em>South China Morning Post</em> published the infographic
-        below.</p>
+      <p>For the 100th anniversary in 2012, the <em>South China Morning Post</em> published this infographic.</p>
       <figure class="mid-size">
-        <figcaption class="right mid-size">South China Morning Post&nbsp;&nbsp;&nbsp;&nbsp;</figcaption>
-        <img src="https://multimedia.scmp.com/culture/article/SCMP-printed-graphics-memory/img/graphics/titanic2.jpg"
-          alt="Sinking the unsinkable - infographic of how the Titanic sank." loading="lazy" decoding="async" />
+        <figcaption class="right mid-size"><em>South China Morning Post</em></figcaption>
+        <img src="imgs/titanic-scmp-infographic.webp"
+          alt="Sinking the unsinkable: South China Morning Post infographic showing how the Titanic sank."
+          loading="lazy" decoding="async" width="1600" height="2402" />
       </figure>
 
-      <h2>Coal fire theory</h2>
-      <img src="https://www.thesun.ie/wp-content/uploads/sites/3/2020/02/CM-OFF-PLAT-TITANIC-1.jpg" loading="lazy"
-        alt="The RMS Titanic with possible fire damage circled." decoding="async" />
-      <p>The sinking of the <em>RMS Titanic</em> may have been caused by an enormous fire on board, compounded by
-        hitting an iceberg in the North Atlantic.</p>
-      <p>While the cause of the disaster has long been attributed to the iceberg, fresh evidence has surfaced of a fire
-        in the ship’s hull, which researchers say burned unnoticed for almost three weeks leading up to the collision.
-      </p>
-      <p>Journalist Senan Molony, who has spent more than 30 years researching the sinking of the <em>Titanic</em>,
-        studied
-        photographs taken by the ship’s chief electrical engineers before it left the Belfast shipyard.<a href="#molony"
-          aria-describedby="footnote-label" id="molony-ref"></a></p>
-      <p>Mr. Molony said he was able to identify 30-foot-long black marks along the front right-hand side of the hull,
-        just behind where the ship’s lining was pierced by the iceberg. <em>“We are looking at the exact area where the
-          iceberg struck, and we appear to have a weakness or damage to the hull in that specific place, before she even
-          left Belfast.”</em></p>
-      <p>Experts subsequently confirmed the marks were likely to have been caused by a fire started in a
-        three-story-high
-        fuel store behind one of the ship’s boiler rooms.</p>
+      <h2>The coal fire theory</h2>
+      <figure>
+        <img src="imgs/titanic-coal-fire-mark.webp" loading="lazy" decoding="async" width="1400" height="933"
+          alt="Photograph of the Titanic’s starboard side before her maiden voyage, with a dark mark on the hull circled." />
+        <figcaption>The dark mark Senan Molony identified on the hull, circled. Image via <em>The Sun</em>.</figcaption>
+      </figure>
+      <p>A fire burned in one of the <em>Titanic</em>’s coal bunkers for days before the collision, and stokers
+        described fighting it at the British inquiry. In 2017, the journalist Senan Molony argued in a documentary that
+        the fire had weakened the hull where the iceberg struck, pointing to a 30-foot dark mark on the starboard side in
+        photographs taken before the ship left Belfast.<a href="#molony" aria-describedby="footnote-label"
+          id="molony-ref"></a></p>
+      <p>Most <em>Titanic</em> historians aren’t convinced. The historian Mark Chirnside points out that the bunker
+        that caught fire was more than 50 feet from the mark in the photographs, and argues that the fire was not a
+        primary factor in either the collision or the sinking.<a href="#chirnside" aria-describedby="footnote-label"
+          id="chirnside-ref"></a> Bunker fires were a common hazard on coal-fired ships of the day, and the iceberg
+        remains the accepted cause.</p>
       <figure class="titanic-ship">
         <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" xmlns:xlink="http://www.w3.org/1999/xlink"
           viewBox="0 0 672.22 672.22">
@@ -895,6 +885,9 @@
   <footer>
     <h2 id="footnote-label">Footnotes</h2>
     <ol>
+      <li id="friendly"><strong>Michael Friendly, Jürgen Symanzik and Ortac Onder</strong>, “<a
+          href="https://www.datavis.ca/papers/significance_Friendly_Titanic.pdf">Visualising the Titanic disaster</a>,”
+        <em>Significance</em> 16, no. 1 (2019): 14–19. <a href="#friendly-ref" aria-label="Back to content">↩</a></li>
       <li id="Hartigan"><strong>J. A. Hartigan and Beat Kleiner</strong>, <a
           href="https://www.jstor.org/stable/2683556"><em>A Mosaic of Television Ratings</em></a> <a
           href="#Hartigan-ref" aria-label="Back to content">↩</a></li>
@@ -902,12 +895,15 @@
           href="https://www.independent.co.uk/news/uk/home-news/rms-titanic-evidence-fire-senan-molony-belfast-new-york-southampton-sink-april-1912-a7504236.html"><em>Titanic
             sank due to enormous uncontrollable fire, not iceberg, claim experts</em></a> <a href="#molony-ref"
           aria-label="Back to content">↩</a></li>
+      <li id="chirnside"><strong>Mark Chirnside</strong>, <a href="https://markchirnside.co.uk/tag/coal-fire/"><em>Titanic:
+            Solving the Mysteries</em>, posts on the coal fire</a>. <a href="#chirnside-ref"
+          aria-label="Back to content">↩</a></li>
     </ol>
 
     <div>
       <p>Justin Chill &copy; 2026</p>
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
-            alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
+            alt="" class="icon" width="16" height="16" loading="lazy" decoding="async">Source code<span class="visually-hidden"> (opens in new tab)</span></a></span>
     </div>
   </footer>
   <script type="text/javascript" src="js/growup.js"></script>
@@ -1959,7 +1955,7 @@ Boat A,Male - Class III,4,0.0851063829787234`, d3.autoType);
             textTransform: "capitalize"
           },
           color: {
-            range: ["rgb(245, 129, 120)", "rgb(36, 63, 108)"],
+            range: ["var(--female)", "var(--male)"],
             legend: false
           },
           x: {
@@ -2188,7 +2184,7 @@ Boat A,Male - Class III,4,0.0851063829787234`, d3.autoType);
             paddingRight: width > 450 ? 30 : 10,
           },
           color: {
-            range: ["rgb(245, 129, 120)", "rgb(36, 63, 108)"],
+            range: ["var(--female)", "var(--male)"],
             legend: false
           },
           facet: {

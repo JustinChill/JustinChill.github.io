@@ -21,6 +21,10 @@
     content="A visual history of video game console sales by generation, recreating The Economist's classic infographic in Observable Plot.">
   <meta name="author" content="Justin Chill">
   <meta name="robots" content="all">
+  <meta name="datePublished" content="2021-08-01">
+  <meta name="dateModified" content="2026-11-22">
+  <meta property="article:published_time" content="2021-08-01">
+  <meta property="article:modified_time" content="2026-11-22">
 
   <!-- OpenGraph tags -->
   <meta content="en_US" property="og:locale">
@@ -32,17 +36,18 @@
     content="A visual history of video game console sales by generation, recreating The Economist's classic infographic in Observable Plot."
     property="og:description">
   <meta content="https://justinchill.com/blog.html" property="og:see_also">
-  <meta content="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2670&auto=format&fit=crop"
-    property="og:image">
-  <meta content="Retro arcade game." property="og:image:alt">
+  <meta content="https://justinchill.com/imgs/cover/videogames_cover.webp" property="og:image">
+  <meta content="800" property="og:image:width">
+  <meta content="450" property="og:image:height">
+  <meta content="Bar chart of lifetime sales of video-game consoles by launch year, coloured by generation." property="og:image:alt">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Video-game consoles | Justin Chill">
   <meta name="twitter:description"
     content="A visual history of video game console sales by generation, recreating The Economist's classic infographic in Observable Plot.">
-  <meta content="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2670&auto=format&fit=crop"
-    property="twitter:image">
+  <meta content="https://justinchill.com/imgs/cover/videogames_cover.webp" property="twitter:image">
+  <meta content="Bar chart of lifetime sales of video-game consoles by launch year, coloured by generation." name="twitter:image:alt">
 
   <link rel="canonical" href="https://justinchill.com/videogames.html">
   <link rel="preload" href="style.css" as="style" />
@@ -58,19 +63,18 @@
       position: relative;
     }
 
-    #consoles {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      margin: 1.5rem 0;
-      background: transparent;
-      padding: 0.5rem 0;
+    #consoles .chart svg {
+      display: block;
+      max-width: none;
     }
 
-    #consoles svg {
-      max-width: 100%;
-      height: auto;
-      display: block;
-      margin: 0 auto;
+    /* Second-generation consoles launched during the first generation keep their own generation's ink */
+    #consoles .cross-gen text {
+      fill: #7A5F14 !important;
+    }
+
+    html[data-theme="dark"] #consoles .cross-gen text {
+      fill: #D9BC6A !important;
     }
   </style>
 
@@ -78,10 +82,10 @@
   {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": "Video-game consoles | Justin Chill",
+    "headline": "Video-game consoles",
     "description": "A visual history of video game console sales by generation, recreating The Economist's classic infographic in Observable Plot.",
     "datePublished": "2021-08-01",
-    "dateModified": "2026-08-25",
+    "dateModified": "2026-11-22",
     "author": {
       "@type": "Person",
       "name": "Justin Chill",
@@ -103,397 +107,223 @@
       ]
     },
     "mainEntityOfPage": "https://justinchill.com/videogames.html",
-    "image": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2670&auto=format&fit=crop"
+    "image": "https://justinchill.com/imgs/cover/videogames_cover.webp"
   }
   </script>
 </head>
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-  <nav class="nav" role="navigation">
+  <nav class="nav" aria-label="Main">
     <div class="nav__list">
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-
+    
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
-        aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" aria-pressed="false" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
-            </path>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new tab)</span></a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
 
-  <main role="main" id="content">
+  <main id="content">
     <article>
       <div class="article-hero">
         <p class="article-category">Post</p>
         <h1 class="article-title">Video-game consoles</h1>
-        <h2 class="article-subtitle">Units sold (lifetime), m</h2>
+        <h2 class="article-subtitle">Selected consoles, lifetime units sold, m</h2>
       </div>
 
-      <figure id="consoles"
-        aria-label="Bar chart showing lifetime sales of video game consoles by generation across a vertical timeline from 1972 to 2012">
-      </figure>
-      <figcaption>Sources: videogameconsolelibrary.com; VGchartz.com; Wikipedia; <a
-          href="https://www.economist.com/graphic-detail/2013/05/21/game-on" target="_blank" rel="noopener">The
-          Economist</a></figcaption>
+      <p>From the first generation of home video-game consoles to the seventh, each generation outsold the one
+        before it. The first machines, such as the 1972 Magnavox Odyssey, sold 4.5m units between them; the
+        seventh generation of the Xbox 360, Wii and PlayStation 3 sold 273m. This chart recreates a 2013 graphic
+        from <a href="https://www.economist.com/graphic-detail/2013/05/21/game-on" target="_blank"
+          rel="noopener noreferrer"><em>The Economist</em></a> that lines up each console by the year it
+        launched.</p>
 
-      <h3>Original Graphic</h3>
-      <img
-        src="https://www.economist.com/cdn-cgi/image/width=384,quality=80,format=auto/sites/default/files/images/2013/05/blogs/graphic-detail/20130525_gdc970.png"
-        alt="The Economist video game console sales chart" loading="lazy">
-      <figcaption>Source: <a href="https://www.economist.com/graphic-detail/2013/05/21/game-on" target="_blank"
-          rel="noopener">The Economist</a>
-      </figcaption>
+      <figure id="consoles">
+        <div class="chart"></div>
+        <figcaption>Bars show selected consoles by launch year. Circles show each generation’s total from <em>The
+            Economist</em>, including consoles not shown, or the sum of the bars where that is higher. The Atari 2600
+          and Fairchild Channel F belong to the second generation but launched during the first. Sources: <a
+            href="https://www.videogameconsolelibrary.com/" target="_blank" rel="noopener noreferrer">Video Game
+            Console Library</a>; <a href="https://www.vgchartz.com/" target="_blank"
+            rel="noopener noreferrer">VGChartz</a>; <a
+            href="https://en.wikipedia.org/wiki/Home_video_game_console_generations" target="_blank"
+            rel="noopener noreferrer">Wikipedia</a>; <a href="https://www.economist.com/graphic-detail/2013/05/21/game-on"
+            target="_blank" rel="noopener noreferrer"><em>The Economist</em></a></figcaption>
+      </figure>
     </article>
   </main>
   <footer>
-    <h2 id="footnote-label">Footnotes</h2>
-    <ol>
-
-    </ol>
     <div>
       <p>Justin Chill &copy; 2026</p>
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
-            alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
+            alt="" class="icon" width="16" height="16" loading="lazy" decoding="async">Source code<span class="visually-hidden"> (opens in new tab)</span></a></span>
     </div>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/d3@7.9.2/dist/d3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.19/dist/plot.umd.min.js"></script>
 
   <script type="text/javascript">
-    // Define all generations and their timeline year spans
-    const genDefinitions = [
-      { gen: "1st", startYear: 1972, endYear: 1977, bubbleTotal: 4.5, labelAbove: true },
-      { gen: "2nd", startYear: 1978, endYear: 1982, bubbleTotal: 40 },
-      { gen: "3rd", startYear: 1983, endYear: 1986, bubbleTotal: 88 },
-      { gen: "4th", startYear: 1987, endYear: 1992, bubbleTotal: 90 },
-      { gen: "5th", startYear: 1993, endYear: 1997, bubbleTotal: 148 },
-      { gen: "6th", startYear: 1998, endYear: 2004, bubbleTotal: 212 },
-      { gen: "7th", startYear: 2005, endYear: 2011, bubbleTotal: 254 },
-      { gen: "8th", startYear: 2012, endYear: 2012, bubbleTotal: null }
+    // Timeline bands: each launch year belongs to one generation's band.
+    // total is The Economist's 2013 total for the generation, including consoles not shown.
+    const generations = [
+      { gen: "1st", start: 1972, end: 1977, total: 4.5 },
+      { gen: "2nd", start: 1978, end: 1982, total: 40 },
+      { gen: "3rd", start: 1983, end: 1986, total: 88 },
+      { gen: "4th", start: 1987, end: 1992, total: 90 },
+      { gen: "5th", start: 1993, end: 1997, total: 148 },
+      { gen: "6th", start: 1998, end: 2004, total: 212 },
+      { gen: "7th", start: 2005, end: 2011, total: 254 },
+      { gen: "8th", start: 2012, end: 2012, total: null }
     ];
 
-    // Colors per generation to match The Economist palette
+    // The Economist's generation colours, and the light band tints behind each generation
     const genColors = {
-      "1st": "#76A36A", // Green
-      "2nd": "#BA9C43", // Ochre/Tan
-      "3rd": "#4898B8", // Slate Blue
-      "4th": "#9C74A6", // Purple
-      "5th": "#3CB6A6", // Teal
-      "6th": "#6F8295", // Grey-Blue
-      "7th": "#E47954", // Orange
-      "8th": "#E77AC6"  // Magenta/Pink
+      "1st": "#76A36A", "2nd": "#BA9C43", "3rd": "#4898B8", "4th": "#9C74A6",
+      "5th": "#3CB6A6", "6th": "#6F8295", "7th": "#E47954", "8th": "#E77AC6"
+    };
+    const lightTints = {
+      "1st": "#EDF5EB", "2nd": "#F7F4EB", "3rd": "#EBF4FA", "4th": "#F6EFF7",
+      "5th": "#ECF8F7", "6th": "#F1F3F5", "7th": "#FDF2EC", "8th": "#FDEDFA"
     };
 
-    const bgColors = {
-      "1st": "#EDF5EB",
-      "2nd": "#F7F4EB",
-      "3rd": "#EBF4FA",
-      "4th": "#F6EFF7",
-      "5th": "#ECF8F7",
-      "6th": "#F1F3F5",
-      "7th": "#FDF2EC",
-      "8th": "#FDEDFA"
-    };
+    const yearLabel = y => (y === 1972 || y === 2000) ? `${y}` : String(y).slice(2);
+    const measureCtx = document.createElement("canvas").getContext("2d");
 
-    // Load console data and construct chronological timeline
-    d3.csv("data/consoles.csv", d3.autoType).then(function (rawConsoles) {
-      const consolesByYear = d3.group(rawConsoles, d => `${d.Generation}-${d.Launch}`);
-
-      const allRows = [];
-      let rowCounter = 0;
-
-      genDefinitions.forEach(g => {
-        for (let y = g.startYear; y <= g.endYear; y++) {
-          const key = `${g.gen}-${y}`;
-          const consoles = consolesByYear.get(key);
-
-          if (consoles && consoles.length > 0) {
-            consoles.forEach((c, idx) => {
-              allRows.push({
-                rowId: `row-${rowCounter++}`,
-                gen: g.gen,
-                year: y,
-                isYearTick: idx === 0,
-                yearLabel: (y === 1972 || y === 2000) ? `${y}` : `${String(y).slice(2).padStart(2, '0')}`,
-                console: c.Console,
-                units: c.Units,
-                isMulti: consoles.length > 1
-              });
-            });
-          } else {
-            // Gap year with no major console launch
-            allRows.push({
-              rowId: `row-${rowCounter++}`,
-              gen: g.gen,
-              year: y,
-              isYearTick: true,
-              yearLabel: (y === 1972 || y === 2000) ? `${y}` : `${String(y).slice(2).padStart(2, '0')}`,
-              console: null,
-              units: null,
-              isMulti: false
-            });
-          }
+    d3.csv("data/consoles.csv", d3.autoType).then(function (consoles) {
+      const byYear = d3.group(consoles, d => d.Launch);
+      const rows = [];
+      generations.forEach(g => {
+        for (let y = g.start; y <= g.end; y++) {
+          const launched = byYear.get(y) || [];
+          if (!launched.length) rows.push({ id: rows.length, band: g.gen, year: y, tick: true, console: null });
+          launched.forEach((c, i) => rows.push({
+            id: rows.length, band: g.gen, year: y, tick: i === 0, console: c.Console, short: c.Short,
+            gen: c.Generation, units: c.Units, crossGen: c.Generation !== g.gen
+          }));
         }
       });
+      const consoleRows = rows.filter(d => d.console);
+      const tickRows = rows.filter(d => d.tick);
 
-      const consoleRows = allRows.filter(d => d.console !== null);
-      const yearTickRows = allRows.filter(d => d.isYearTick);
-
-      // Compute generation middle rows for labels and summary bubbles
-      const genSummaries = genDefinitions.map(g => {
-        const rowsInGen = allRows.filter(d => d.gen === g.gen);
-        const midRow = rowsInGen[Math.floor(rowsInGen.length / 2)];
-        return {
-          gen: g.gen,
-          midRowId: midRow ? midRow.rowId : null,
-          bubbleTotal: g.bubbleTotal,
-          labelAbove: g.labelAbove || false
-        };
+      // One summary per band: its middle row, and the larger of the 2013 total and the sum of the bars shown
+      const summaries = generations.map(g => {
+        const inBand = rows.filter(d => d.band === g.gen);
+        const shown = d3.sum(consoleRows.filter(d => d.gen === g.gen), d => d.units);
+        return { gen: g.gen, mid: inBand[Math.floor(inBand.length / 2)].id, total: g.total === null ? null : Math.round(Math.max(g.total, shown) * 10) / 10 };
       });
+      const bubbles = summaries.filter(d => d.total !== null);
 
-      const bubbleRows = genSummaries.filter(d => d.bubbleTotal !== null);
+      let lastKey = "";
 
       function renderChart() {
-        const container = document.getElementById("consoles");
-        container.innerHTML = "";
-        const width = Math.max(680, container.getBoundingClientRect().width || 720);
+        const el = document.querySelector("#consoles .chart");
+        if (!el) return;
+        const width = el.clientWidth;
+        const dark = document.documentElement.getAttribute("data-theme") === "dark";
+        const key = `${width}-${dark}`;
+        if (!width || key === lastKey) return;
+        lastKey = key;
 
-        const marginLeft = 270;
-        const marginRight = 110;
-        const chartInnerWidth = width - marginLeft - marginRight;
-        const pxPerUnit = chartInnerWidth / 160;
+        const small = width < 520;
+        const rootStyle = getComputedStyle(document.documentElement);
+        const uiFont = rootStyle.getPropertyValue("--font-ui").trim() || "system-ui, sans-serif";
+        const pageBg = rootStyle.getPropertyValue("--bg-color").trim() || (dark ? "#111111" : "#f9f9f9");
+        const fontSize = 11;
+        measureCtx.font = `500 ${fontSize}px ${uiFont}`;
+        const textWidth = s => measureCtx.measureText(s).width;
 
-        // Conversion helper from pixel offset (relative to timeline x=0) to data space x:
-        const xAtPx = (px) => px / pxPerUnit;
+        // Full names where they fit, short names otherwise
+        const budget = small ? 0 : Math.min(190, width * 0.32);
+        consoleRows.forEach(d => { d.label = textWidth(d.console) <= budget ? d.console : d.short; });
 
-        const xLeftEdge = xAtPx(-marginLeft);              // Left edge of SVG (pixel 0)
-        const xGenBarEnd = xAtPx(-marginLeft + 28);        // Right edge of solid generation bar (pixel 28)
-        const xGenText = xAtPx(-marginLeft + 14);          // Center of solid generation bar (pixel 14)
-        const xConsole = xAtPx(-24);                       // Console names (24px left of timeline)
-        const xYearTick = xAtPx(-5);                       // Year labels (5px left of timeline)
-        const xRightEdge = 160 + xAtPx(marginRight);       // Right edge of SVG (pixel width)
-        const xBubble = 160 + xAtPx(marginRight / 2);      // Center of right summary bubbles
+        const genBar = small ? 20 : 28;
+        const yearGap = 32;
+        const marginLeft = Math.ceil(genBar + 10 + d3.max(consoleRows, d => textWidth(d.label)) + yearGap);
+        const maxR = small ? 22 : 34;
+        const marginRight = 2 * maxR + 14;
+        const rDomainMax = 280;
+        const radius = t => maxR * Math.sqrt(t / rDomainMax);
+        const px = (width - marginLeft - marginRight) / 160; // pixels per million units
+        const at = p => p / px; // pixel offset from the timeline, in data units
 
-        const options = {
-          width: width,
-          height: allRows.length * 23 + 70,
-          marginLeft: marginLeft,
-          marginRight: marginRight,
-          marginTop: 45,
-          marginBottom: 15,
-          x: {
-            axis: "top",
-            domain: [0, 160],
-            ticks: [0, 20, 40, 60, 80, 100, 120, 140, 160],
-            grid: true,
-            label: null
-          },
-          y: {
-            axis: null,
-            domain: allRows.map(d => d.rowId)
-          },
-          r: {
-            type: "sqrt",
-            domain: [0, 260],
-            range: [0, 36]
-          },
-          style: {
-            fontFamily: "Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-            fontSize: 11,
-            overflow: "visible",
-            backgroundColor: "transparent"
-          },
+        const xLeft = at(-marginLeft), xGenEnd = at(-marginLeft + genBar), xGenMid = at(-marginLeft + genBar / 2);
+        const xConsole = at(-yearGap), xYear = at(-6), xRight = 160 + at(marginRight), xBubble = 160 + at(marginRight / 2);
+        const bandFill = d => dark ? d3.interpolateRgb(pageBg, genColors[d.band])(0.2) : lightTints[d.band];
+        const first = rows[0].id;
+
+        el.replaceChildren(Plot.plot({
+          width,
+          height: rows.length * 22 + 60,
+          marginLeft, marginRight, marginTop: 46, marginBottom: 12,
+          ariaLabel: "Lifetime sales of selected video-game consoles by launch year and generation, 1972 to 2012",
+          ariaDescription: "Bars show each console's lifetime sales in millions, in launch order. Generation totals grow from 4.5m for the first generation to 273m for the seventh. The best sellers are the PlayStation 2 at 155m, the PlayStation at 102m and the Wii at 102m.",
+          style: { fontFamily: uiFont, fontSize: `${fontSize}px`, background: "transparent", overflow: "visible", color: "var(--text-color)" },
+          x: { axis: "top", domain: [0, 160], ticks: small ? [0, 40, 80, 120, 160] : d3.range(0, 161, 20), label: null, tickSize: 0 },
+          y: { axis: null, domain: rows.map(d => d.id), padding: 0 },
+          r: { type: "identity" },
           marks: [
-            // 1. Full-width background pastel tint per generation
-            Plot.barX(allRows, {
-              y: "rowId",
-              x1: xLeftEdge,
-              x2: xRightEdge,
-              fill: d => bgColors[d.gen],
-              insetTop: 0,
-              insetBottom: 0,
-              clip: false
-            }),
+            // Generation bands and the solid generation strip
+            Plot.barX(rows, { y: "id", x1: xLeft, x2: xRight, fill: bandFill, clip: false, shapeRendering: "crispEdges" }),
+            Plot.barX(rows, { y: "id", x1: xLeft, x2: xGenEnd, fill: d => genColors[d.band], clip: false, shapeRendering: "crispEdges" }),
+            Plot.gridX(small ? [0, 40, 80, 120, 160] : d3.range(0, 161, 20), { stroke: "currentColor", strokeOpacity: dark ? 0.15 : 0.12 }),
+            Plot.text(summaries, { y: "mid", x: xGenMid, text: "gen", rotate: -90, fill: "#ffffff", fontWeight: "bold", fontSize: small ? 11 : 12.5, clip: false }),
 
-            // 2. Far-left solid generation block
-            Plot.barX(allRows, {
-              y: "rowId",
-              x1: xLeftEdge,
-              x2: xGenBarEnd,
-              fill: d => genColors[d.gen],
-              insetTop: 0,
-              insetBottom: 0,
-              clip: false
-            }),
+            // Console names: consoles from a later generation take that generation's ink
+            Plot.text(consoleRows.filter(d => !d.crossGen), { y: "id", x: xConsole, text: "label", textAnchor: "end", fill: "currentColor", fontWeight: 500, clip: false }),
+            Plot.text(consoleRows.filter(d => d.crossGen), { y: "id", x: xConsole, text: "label", textAnchor: "end", fill: "#7A5F14", fontWeight: 600, clip: false, className: "cross-gen" }),
 
-            // 3. Rotated generation name in solid block
-            Plot.text(genSummaries, {
-              y: "midRowId",
-              x: xGenText,
-              text: "gen",
-              rotate: -90,
-              fill: "#ffffff",
-              fontWeight: "bold",
-              fontSize: 12.5,
-              textAnchor: "middle",
-              clip: false
-            }),
+            // Launch years and the timeline
+            Plot.text(tickRows, { y: "id", x: xYear, text: d => yearLabel(d.year), textAnchor: "end", fontStyle: "italic", fontSize: 10, fill: "currentColor", fillOpacity: d => d.console ? 0.85 : 0.5, clip: false }),
+            Plot.ruleX([0], { stroke: "currentColor", strokeOpacity: 0.6 }),
 
-            // 4. Console Names (left of timeline)
-            Plot.text(consoleRows, {
-              y: "rowId",
-              x: xConsole,
-              text: "console",
-              textAnchor: "end",
-              fill: "#222222",
-              fontSize: 11,
-              fontWeight: "500",
-              clip: false
-            }),
+            // Column headers
+            Plot.text(["Generation"], { y: first, x: xLeft, dy: -26, textAnchor: "start", fontWeight: "bold", fill: "currentColor", clip: false }),
+            Plot.text(["Launch"], { y: first, x: xYear, dy: -26, textAnchor: "end", fontStyle: "italic", fontSize: 10, fill: "currentColor", fillOpacity: 0.75, clip: false }),
+            Plot.text(["Total units\nsold, m"], { y: first, x: xBubble, dy: -30, textAnchor: "middle", fontWeight: "bold", fontSize: 10, lineHeight: 1.15, fill: "currentColor", clip: false }),
 
-            // 5. Year labels along timeline
-            Plot.text(yearTickRows, {
-              y: "rowId",
-              x: xYearTick,
-              text: "yearLabel",
-              textAnchor: "end",
-              fill: d => d.console ? "#333333" : "#777777",
-              fontStyle: "italic",
-              fontSize: 10,
-              clip: false
-            }),
-
-            // 6. Vertical timeline rule and ticks at x = 0
-            Plot.ruleX([0], {
-              stroke: "#666666",
-              strokeWidth: 1.2
-            }),
-            Plot.link(yearTickRows, {
-              y1: "rowId",
-              y2: "rowId",
-              x1: xAtPx(-3),
-              x2: 0,
-              stroke: "#888888",
-              strokeWidth: 0.8,
-              clip: false
-            }),
-
-            // 7. Column Headers at Top
-            Plot.text(["Generation"], {
-              y: allRows[0].rowId,
-              x: xGenText,
-              dy: -24,
-              textAnchor: "middle",
-              fill: "#222222",
-              fontWeight: "bold",
-              fontSize: 11,
-              clip: false
-            }),
-            Plot.text(["(Launch)"], {
-              y: allRows[0].rowId,
-              x: xYearTick,
-              dy: -24,
-              textAnchor: "end",
-              fill: "#666666",
-              fontStyle: "italic",
-              fontSize: 10,
-              clip: false
-            }),
-            Plot.text(["Total units\nsold, m"], {
-              y: allRows[0].rowId,
-              x: xBubble,
-              dy: -24,
-              textAnchor: "middle",
-              fill: "#222222",
-              fontWeight: "bold",
-              fontSize: 10.5,
-              lineHeight: 1.15,
-              clip: false
-            }),
-
-            // 8. Horizontal Sales Bars
+            // Sales bars
             Plot.barX(consoleRows, {
-              y: "rowId",
-              x: "units",
-              fill: d => genColors[d.gen],
-              insetTop: 3.5,
-              insetBottom: 3.5,
-              tip: true,
-              title: d => `${d.console} (${d.year})\n${d.units}m lifetime units`
+              y: "id", x: "units", fill: d => genColors[d.gen], insetTop: 4, insetBottom: 4,
+              title: d => `${d.console} (${d.year})\n${d.units}m units sold${d.crossGen ? `\n${d.gen} generation` : ""}`, tip: true
             }),
 
-            // 9. Total Units Sold Summary Bubbles (Right Margin)
-            Plot.dot(bubbleRows, {
-              y: "midRowId",
-              x: xBubble,
-              r: "bubbleTotal",
-              fill: d => genColors[d.gen],
-              stroke: "#ffffff",
-              strokeWidth: 1,
-              clip: false,
-              tip: true,
-              title: d => `${d.gen} Generation Total: ${d.bubbleTotal}m units`
+            // Generation totals
+            Plot.dot(bubbles, {
+              y: "mid", x: xBubble, r: d => radius(d.total), fill: d => genColors[d.gen], stroke: pageBg, strokeWidth: 1, clip: false,
+              title: d => `${d.gen} generation\n${d.total}m units sold`, tip: true
             }),
-
-            // Bubble text centered inside (2nd-7th generation)
-            Plot.text(bubbleRows.filter(d => !d.labelAbove), {
-              y: "midRowId",
-              x: xBubble,
-              text: d => `${d.bubbleTotal}`,
-              fill: "#ffffff",
-              fontWeight: "bold",
-              fontSize: 12,
-              textAnchor: "middle",
-              clip: false
-            }),
-
-            // Bubble text above small dot (1st generation: 4.5)
-            Plot.text(bubbleRows.filter(d => d.labelAbove), {
-              y: "midRowId",
-              x: xBubble,
-              dy: -12,
-              text: d => `${d.bubbleTotal}`,
-              fill: "#333333",
-              fontWeight: "bold",
-              fontSize: 11,
-              textAnchor: "middle",
-              clip: false
-            })
+            Plot.text(bubbles.filter(d => radius(d.total) >= 9), { y: "mid", x: xBubble, text: d => `${Math.round(d.total)}`, fill: "#ffffff", fontWeight: "bold", fontSize: small ? 10 : 12, clip: false }),
+            Plot.text(bubbles.filter(d => radius(d.total) < 9), { y: "mid", x: xBubble, dy: d => -radius(d.total) - 8, text: d => `${d.total}`, fill: "currentColor", fontWeight: "bold", fontSize: small ? 10 : 11, clip: false })
           ]
-        };
-
-        container.appendChild(Plot.plot(options));
+        }));
       }
 
       renderChart();
-
-      // Handle responsive resize with simple debounce
       let resizeTimer;
       window.addEventListener("resize", () => {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(renderChart, 150);
       });
+      document.addEventListener("themechange", renderChart);
     });
   </script>
   <script src="js/site.js" defer></script>

@@ -30,18 +30,18 @@
   <meta property="og:locality" content="Minneapolis">
   <meta property="og:region" content="MN">
   <meta property="og:country_name" content="USA">
-  <meta property="og:image" content="https://justinchill.com/imgs/cover/8m46_cover.webp" />
+  <meta content="https://justinchill.com/imgs/cover/8m46_cover.webp" property="og:image">
   <meta content="8 minutes, 46 seconds timer." property="og:image:alt">
 
   <meta name="datePublished" content="2021-10-22">
-  <meta name="dateModified" content="2026-08-17">
+  <meta name="dateModified" content="2026-11-22">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="8 minutes, 46 seconds | Justin Chill">
   <meta name="twitter:description"
     content="This powerful visualization honors George Floyd and raises awareness about police brutality. A short time can feel like an eternity.">
-  <meta content="https://justinchill.com/imgs/cover/8m46_cover.webp" property="twitter:image">
+  <meta name="twitter:image" content="https://justinchill.com/imgs/cover/8m46_cover.webp">
 
   <link rel="canonical" href="https://justinchill.com/8m46s.html">
   <link rel="preload" href="style.css" as="style" />
@@ -70,6 +70,7 @@
     }
 
     .timer {
+      font-family: "Camphor Heavy", var(--font-main);
       font-size: 6.250rem;
       font-weight: bold;
       font-variant-numeric: tabular-nums;
@@ -159,13 +160,7 @@
       outline: none;
     }
 
-    .hide {
-      opacity: 0;
-    }
-
     .wrapper {
-      margin-top: 100px;
-      /*grid-column: 4;*/
       padding: 0;
       margin: 0 auto;
       display: flex;
@@ -182,6 +177,29 @@
     #transcript,
     .intro {
       padding-top: 2rem;
+    }
+
+    .intro p {
+      margin: 0 0 1rem;
+    }
+
+    /* No drop cap on this page (the transcript line is the article's first direct paragraph) */
+    article>p#transcript:first-letter {
+      float: none;
+      font: inherit;
+      margin: 0;
+      text-transform: none;
+      color: inherit;
+    }
+
+    article .intro p.note {
+      color: #b5b5b5 !important;
+      font-size: calc(.95rem + .2vw);
+    }
+
+    .intro p.note a {
+      color: inherit !important;
+      font-size: inherit;
     }
 
     #transcript {
@@ -204,6 +222,7 @@
 
     a.nav__item,
     article>p,
+    .intro p,
     .timer,
     #transcript,
     #transcript a {
@@ -249,10 +268,10 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "8 minutes, 46 seconds | Justin Chill",
+  "headline": "8 minutes, 46 seconds",
   "description": "This powerful visualization honors George Floyd and raises awareness about police brutality. A short time can feel like an eternity.",
   "datePublished": "2021-10-22",
-  "dateModified": "2026-08-17",
+  "dateModified": "2026-11-22",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
   "keywords": [
@@ -311,25 +330,23 @@
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-  <nav class="nav" role="navigation">
+  <nav class="nav" aria-label="Main">
     <div class="nav__list">
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank"
-        rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new tab)</span></a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
 
-  <main role="main" id="content">
+  <main id="content">
     <article>
       <h1 class="screen-reader-text">8 minutes, 46 seconds</h1>
-      <div class="wrapper"
-        aria-label="A black screen displays 8:46 in bold white text, with a Start Timer button underneath. Below, it reads, On May 25th 2020, Derek Chauvin held his knee on the neck of George Floyd for 8 minutes and 46 seconds, resulting in Mr. Floyd's death.">
-        <div class="timer" id="timer">8:46</div>
+      <div class="wrapper">
+        <div class="timer" id="timer" role="timer" aria-label="Time remaining" tabindex="-1">8:46</div>
         <!-- <button id="start" onclick="start()">Start Timer</button> -->
         <button class="pushable" id="start" onclick="start()">
           <span class="shadow"></span>
@@ -339,10 +356,14 @@
           </span>
         </button>
       </div>
-      <p class="intro" id="intro">On May 25th 2020, Derek Chauvin held his knee on the neck of George Floyd for 8
-        minutes and 46 seconds, resulting in Mr. Floyd's death. <br><br>I invite you to sit quietly and reflect for this
-        same length of time. It feels like an eternity. If you feel discomfort, and want to leave the website prior to
-        the timer finishing, reflect on that feeling.</p>
+      <div class="intro" id="intro">
+        <p>On May 25, 2020, Derek Chauvin held his knee on the neck of George Floyd for 8 minutes and 46 seconds,
+          resulting in Mr. Floyd’s death.</p>
+        <p>I invite you to sit quietly and reflect for this same length of time. It feels like an eternity. If you feel
+          discomfort, and want to leave the website prior to the timer finishing, reflect on that feeling.</p>
+        <p class="note">8 minutes and 46 seconds was the time given in the original criminal complaint. At Chauvin’s
+          2021 trial, prosecutors showed that he knelt on Mr. Floyd’s neck for 9 minutes and 29 seconds.</p>
+      </div>
 
       <p id="transcript" class="transcript-hide" aria-live="polite" aria-atomic="true"></p>
     </article>
@@ -367,21 +388,21 @@
   </script>
   <script>
     const fullTranscript = [
-      { time: 520000, text: "&ldquo;Please, please, please! I can't breathe!&rdquo;" },
+      { time: 520000, text: "&ldquo;Please, please, please! I can’t breathe!&rdquo;" },
       { time: 495000, text: "&ldquo;Please man.&rdquo;" },
-      { time: 485000, text: "&ldquo;I can't breathe.&rdquo;" },
-      { time: 475000, text: "&ldquo;I'm about to die.&rdquo;" },
-      { time: 465000, text: "&ldquo;I can't breathe. I can't breathe.&rdquo;" },
+      { time: 485000, text: "&ldquo;I can’t breathe.&rdquo;" },
+      { time: 475000, text: "&ldquo;I’m about to die.&rdquo;" },
+      { time: 465000, text: "&ldquo;I can’t breathe. I can’t breathe.&rdquo;" },
       { time: 455000, text: "(Still kneeling) &ldquo;Get in the car!&rdquo; &ldquo;I will!&rdquo;" },
-      { time: 445000, text: "(Still kneeling) &ldquo;Get up, get in the car!&rdquo; &ldquo;I can't move.&rdquo;" },
+      { time: 445000, text: "(Still kneeling) &ldquo;Get up, get in the car!&rdquo; &ldquo;I can’t move.&rdquo;" },
       { time: 435000, text: "(Still kneeling) &ldquo;Get up, and get in the car!&rdquo; &ldquo;Mama! Mama!&rdquo;" },
       { time: 407000, text: "An ambulance is called." },
       { time: 380000, text: "&ldquo;Everything hurts. Some water or something, please.&rdquo;" },
-      { time: 350000, text: "&ldquo;I can't breathe officer.&rdquo; &ldquo;Shut up.&rdquo; &ldquo;They gonna kill me.&rdquo;" },
-      { time: 227000, text: "&ldquo;He's not responsive right now!&rdquo; -bystander" },
+      { time: 350000, text: "&ldquo;I can’t breathe officer.&rdquo; &ldquo;Shut up.&rdquo; &ldquo;They gonna kill me.&rdquo;" },
+      { time: 227000, text: "&ldquo;He’s not responsive right now!&rdquo; -bystander" },
       { time: 173000, text: "After 5 minutes and 50 seconds, George Floyd becomes unresponsive." },
-      { time: 107000, text: "&ldquo;He's not fucking moving!&rdquo; -bystander" },
-      { time: 1000, text: "After 8 minutes and 46 seconds, Derek Chauvin removed his knee from George Floyd's neck. Mr. Floyd was later pronounced dead." }
+      { time: 107000, text: "&ldquo;He’s not fucking moving!&rdquo; -bystander" },
+      { time: 1000, text: "Derek Chauvin kept his knee on George Floyd’s neck for another 43 seconds. Mr. Floyd was later pronounced dead." }
     ];
 
     let fadeTimeout = null;
@@ -404,12 +425,13 @@
       const intro = document.getElementById('intro');
       const timer = document.getElementById('timer');
 
-      if (startButton.classList.contains('visually-hidden')) {
+      if (startButton.hidden) {
         return; // end function if button already pressed
       }
 
-      startButton.className = 'visually-hidden';
+      startButton.hidden = true;
       intro.className = 'visually-hidden';
+      timer.focus();
 
       const DURATION = 526000; // 8 minutes and 46 seconds = 526,000 ms
       const endTime = Date.now() + DURATION;
@@ -442,7 +464,7 @@
             const transcript = document.getElementById('transcript');
             if (transcript) {
               transcript.innerHTML =
-                'Justice for George. <br> Sources: <a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/watch?v=FMGUAHBFmjk">YouTube</a>, <a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/watch?v=lirHz93qJ50">YouTube</a>, <a target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Death_of_George_Floyd">Wikipedia</a> <br> Recreation of <a target="_blank" rel="noopener noreferrer" href="https://8m46s.com">this</a> powerful website';
+                'Justice for George. <br> Sources: <a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/watch?v=FMGUAHBFmjk">Washington Post video</a>, <a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/watch?v=lirHz93qJ50">Telegraph video</a>, <a target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Murder_of_George_Floyd">Wikipedia</a> <br> A recreation of 8m46s.com, which is no longer online.';
               transcript.className = 'transcript-show';
             }
           }, 10000);

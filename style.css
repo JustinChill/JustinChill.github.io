@@ -812,11 +812,16 @@ article>blockquote.standalone-quote p {
   -webkit-text-fill-color: initial;
 }
 
+/* Inline code: a system monospace at .9em matches the body text's x-height, and
+   line-height: 1 stops it from pushing its line further from the one above */
 code {
   background: rgba(0, 0, 0, .05);
   border-radius: 2px;
-  padding: 3px 5px;
+  padding: .1em .3em;
   word-wrap: break-word;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: .9em;
+  line-height: 1;
 }
 
 .rounded,
@@ -1232,8 +1237,13 @@ pre:before {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Code blocks: drop the inline-code tint, which otherwise shades each line only as far as its last character */
 pre>code {
   padding: 0;
+  background: none;
+  border-radius: 0;
+  font-size: inherit;
+  line-height: inherit;
 }
 
 article>figure,
@@ -1530,8 +1540,15 @@ a[href^="#"] {
   outline-offset: 2px;
 }
 
-[aria-label="Back to content"] {
-  font-size: 0.8em;
+/* Footnotes: links, back arrows and inline elements take the note's own size,
+   instead of the generic a/i/span sizes, which differ by a pixel or two */
+footer>ol a,
+footer>ol i,
+footer>ol span,
+footer>ol time,
+footer>ol [aria-label="Back to content"] {
+  font-size: inherit;
+  line-height: inherit;
 }
 
 /* Highlight target note */
