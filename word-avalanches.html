@@ -23,7 +23,7 @@
 
   <!-- Article metadata -->
   <meta property="article:published_time" content="2025-03-06">
-  <meta property="article:modified_time" content="2026-08-25">
+  <meta property="article:modified_time" content="2026-11-20">
   <meta property="article:author" content="Justin Chill">
   <meta property="article:section" content="Puns">
 
@@ -48,6 +48,9 @@
   <meta content="https://justinchill.com/imgs/cover/avalanche_cover.webp" property="twitter:image">
   <meta content="Word Avalanches - Incredibly contrived setups for homophonic punchlines" name="twitter:image:alt">
 
+  <meta name="datePublished" content="2025-03-06">
+  <meta name="dateModified" content="2026-11-20">
+
   <link rel="canonical" href="https://justinchill.com/word-avalanches.html">
   <link rel="preload" href="style.css" as="style" />
   <link rel="stylesheet" href="style.css" />
@@ -60,27 +63,15 @@
   <style>
 		@media (prefers-reduced-motion: no-preference) {
 
-			.transition,
 			ul.details li i:before,
-			ul.details li i:after,
-			.details p {
-				transition: all 0.25s ease-in-out;
+			ul.details li i:after {
+				transition: transform 0.25s ease-in-out;
 			}
 
 			.flipIn,
 			ul.details li {
 				animation: flipdown 0.5s ease both;
 			}
-		}
-
-		.no-select {
-			-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-			-webkit-touch-callout: none;
-			-webkit-user-select: none;
-			-khtml-user-select: none;
-			-moz-user-select: none;
-			-ms-user-select: none;
-			user-select: none;
 		}
 
 		.details h3 {
@@ -92,13 +83,7 @@
 			font-size: 17px;
 			line-height: 26px;
 			letter-spacing: 1px;
-			position: relative;
-			overflow: hidden;
-			max-height: 800px;
-			opacity: 1;
-			transform: translate(0, 0);
 			margin-top: 14px;
-			z-index: 2;
 		}
 
 		html[data-theme="dark"] .details p {
@@ -146,10 +131,34 @@
 			ul.details li:nth-of-type(5) {
 				animation-delay: 0.75s;
 			}
+
+			/* Punchline slides in when an item is opened */
+			.details details[open] p {
+				animation: reveal 0.25s ease-in-out;
+			}
 		}
 
 		ul.details li:last-of-type {
 			padding-bottom: 0;
+		}
+
+		/* The whole setup line is the toggle; hide the browser's own marker */
+		.details summary {
+			display: block;
+			list-style: none;
+			cursor: pointer;
+			padding-right: 28px;
+			border-radius: var(--radius-sm, 4px);
+			-webkit-tap-highlight-color: transparent;
+		}
+
+		.details summary::-webkit-details-marker {
+			display: none;
+		}
+
+		.details summary:focus-visible {
+			outline: 2px solid var(--focus-color, #1f6fd1);
+			outline-offset: 4px;
 		}
 
 		ul.details li i {
@@ -171,6 +180,7 @@
 			height: 9px;
 		}
 
+		/* Open: chevron points up */
 		ul.details li i:before {
 			transform: translate(-2px, 0) rotate(45deg);
 		}
@@ -179,36 +189,25 @@
 			transform: translate(2px, 0) rotate(-45deg);
 		}
 
-		ul.details li input[type=checkbox] {
-			position: absolute;
-			cursor: pointer;
-			width: 100%;
-			height: 100%;
-			z-index: 1;
-			opacity: 0;
-			top: 0;
-			left: 0;
-		}
-
-		ul.details li input[type=checkbox]:focus-visible ~ h3 {
-			outline: 2px solid var(--focus-color, #1f6fd1);
-			outline-offset: 4px;
-			border-radius: var(--radius-sm, 4px);
-		}
-
-		ul.details li input[type=checkbox]:checked~p {
-			margin-top: 0;
-			max-height: 0;
-			opacity: 0;
-			transform: translate(0, 50%);
-		}
-
-		ul.details li input[type=checkbox]:checked~i:before {
+		/* Closed: chevron points down */
+		ul.details details:not([open]) i:before {
 			transform: translate(2px, 0) rotate(45deg);
 		}
 
-		ul.details li input[type=checkbox]:checked~i:after {
+		ul.details details:not([open]) i:after {
 			transform: translate(-2px, 0) rotate(-45deg);
+		}
+
+		@keyframes reveal {
+			from {
+				opacity: 0;
+				transform: translate(0, -25%);
+			}
+
+			to {
+				opacity: 1;
+				transform: translate(0, 0);
+			}
 		}
 
 		@keyframes flipdown {
@@ -263,7 +262,7 @@
     }
   },
   "datePublished": "2025-03-06",
-  "dateModified": "2026-08-25",
+  "dateModified": "2026-11-20",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
   "articleSection": "Puns",
@@ -347,26 +346,26 @@
 				wordplay and puns. They can be straightforward, like this:</p>
 			<ul class="details">
 				<li>
-					<input type="checkbox" id="avalanche1" aria-labelledby="label1">
-					<i aria-hidden="true"></i>
-					<h3 id="label1">Julie Andrews’ delightful visits</h3>
-					<p>Mary Poppins’ merry pop-ins.</p>
+					<details id="avalanche1" open>
+						<summary><h3 id="label1">Julie Andrews’ delightful visits</h3><i aria-hidden="true"></i></summary>
+						<p>Mary Poppins’ merry pop-ins.</p>
+					</details>
 				</li>
 			</ul>
 			<p>Each word avalanche has a repeating phonetic pattern. Try sounding out the next few avalanches:</p>
 
 			<ul class="details">
 				<li>
-					<input type="checkbox" id="avalanche2" aria-labelledby="label2" checked>
-					<i aria-hidden="true"></i>
-					<h3 id="label2">Watching a crab-fishing boat in the cold north be like</h3>
-					<p>Ice sea captain I see capped in icy cab tin.</p>
+					<details id="avalanche2">
+						<summary><h3 id="label2">Watching a crab-fishing boat in the cold north be like</h3><i aria-hidden="true"></i></summary>
+						<p>Ice sea captain I see capped in icy cab tin.</p>
+					</details>
 				</li>
 				<li>
-					<input type="checkbox" id="avalanche3" aria-labelledby="label3" checked>
-					<i aria-hidden="true"></i>
-					<h3 id="label3">Visualize a pop-rock band in women’s clothing</h3>
-					<p>Imagine drag on Imagine Dragons.</p>
+					<details id="avalanche3">
+						<summary><h3 id="label3">Visualize a pop-rock band in women’s clothing</h3><i aria-hidden="true"></i></summary>
+						<p>Imagine drag on Imagine Dragons.</p>
+					</details>
 				</li>
 			</ul>
 
@@ -375,74 +374,74 @@
 
 			<ul class="details">
 				<li>
-					<input type="checkbox" id="avalanche4" aria-labelledby="label4" checked>
-					<i aria-hidden="true"></i>
-					<h3 id="label4">Did you know that a KKK member once invented a clam chowder recipe that can help you
-						sleep better?</h3>
-					<p>White supremacist white soup REM assist!</p>
+					<details id="avalanche4">
+						<summary><h3 id="label4">Did you know that a KKK member once invented a clam chowder recipe that can help you
+						sleep better?</h3><i aria-hidden="true"></i></summary>
+						<p>White supremacist white soup REM assist!</p>
+					</details>
 				</li>
 				<li>
-					<input type="checkbox" id="avalanche5" aria-labelledby="label5" checked>
-					<i aria-hidden="true"></i>
-					<h3 id="label5">A queue consisting of cats who need to pay their expenses</h3>
-					<p>Feline fee line. 🐈</p>
+					<details id="avalanche5">
+						<summary><h3 id="label5">A queue consisting of cats who need to pay their expenses</h3><i aria-hidden="true"></i></summary>
+						<p>Feline fee line. 🐈</p>
+					</details>
 				</li>
 				<li>
-					<input type="checkbox" id="avalanche6" aria-labelledby="label6" checked>
-					<i aria-hidden="true"></i>
-					<h3 id="label6">A flower’s female reproductive organ’s firearm will be upset unless the ground is
-						cultivated with urine</h3>
-					<p>Pistil’s pistol pissed till piss tilled.</p>
+					<details id="avalanche6">
+						<summary><h3 id="label6">A flower’s female reproductive organ’s firearm will be upset unless the ground is
+						cultivated with urine</h3><i aria-hidden="true"></i></summary>
+						<p>Pistil’s pistol pissed till piss tilled.</p>
+					</details>
 				</li>
 				<li>
-					<input type="checkbox" id="avalanche7" aria-labelledby="label7" checked>
-					<i aria-hidden="true"></i>
-					<h3 id="label7">“Pay no attention to their idiocy,” advised the manservant, “for they know not what
-						they do.”</h3>
-					<p>“Ignore rants,” says a footman, “ignorance is afoot, man.”</p>
+					<details id="avalanche7">
+						<summary><h3 id="label7">“Pay no attention to their idiocy,” advised the manservant, “for they know not what
+						they do.”</h3><i aria-hidden="true"></i></summary>
+						<p>“Ignore rants,” says a footman, “ignorance is afoot, man.”</p>
+					</details>
 				</li>
 				<li>
-					<input type="checkbox" id="avalanche8" aria-labelledby="label8" checked>
-					<i aria-hidden="true"></i>
-					<h3 id="label8">A K-pop star and I would poison Aryans</h3>
-					<p>Psy n' I'd cyanide cyan-eyed.</p>
+					<details id="avalanche8">
+						<summary><h3 id="label8">A K-pop star and I would poison Aryans</h3><i aria-hidden="true"></i></summary>
+						<p>Psy n' I'd cyanide cyan-eyed.</p>
+					</details>
 				</li>
 				<li>
-					<input type="checkbox" id="avalanche9" aria-labelledby="label9" checked>
-					<i aria-hidden="true"></i>
-					<h3 id="label9">Lowest-ranked, self-proclaimed smart guys are intellectually declining, but they do
-						not accept this and bring up astrophysics instead</h3>
-					<p>Ensign Mensa men shun dementia and mention immense dimensions.</p>
+					<details id="avalanche9">
+						<summary><h3 id="label9">Lowest-ranked, self-proclaimed smart guys are intellectually declining, but they do
+						not accept this and bring up astrophysics instead</h3><i aria-hidden="true"></i></summary>
+						<p>Ensign Mensa men shun dementia and mention immense dimensions.</p>
+					</details>
 				</li>
 				<li>
-					<input type="checkbox" id="avalanche10" aria-labelledby="label10" checked>
-					<i aria-hidden="true"></i>
-					<h3 id="label10">Ay, friend, this wind is really annoying that discus. Can we talk about it?</h3>
-					<p>Augustus, dis gust disgusts dis discus, discuss!</p>
+					<details id="avalanche10">
+						<summary><h3 id="label10">Ay, friend, this wind is really annoying that discus. Can we talk about it?</h3><i aria-hidden="true"></i></summary>
+						<p>Augustus, dis gust disgusts dis discus, discuss!</p>
+					</details>
 				</li>
 				<li>
-					<input type="checkbox" id="avalanche11" aria-labelledby="label11" checked>
-					<i aria-hidden="true"></i>
-					<h3 id="label11">A nuclear woman forgot to include some items, so...</h3>
-					<p>Atom Madam had ’em add ’em. ⚛</p>
+					<details id="avalanche11">
+						<summary><h3 id="label11">A nuclear woman forgot to include some items, so...</h3><i aria-hidden="true"></i></summary>
+						<p>Atom Madam had ’em add ’em. ⚛</p>
+					</details>
 				</li>
 				<li>
-					<input type="checkbox" id="avalanche12" aria-labelledby="label12" checked>
-					<i aria-hidden="true"></i>
-					<h3 id="label12">A flying dog’s clone makes the all-rights-reserved claim of a poem in a strange font</h3>
-					<p>Winged dingo copy writes Wingding ode copyrights.</p>
+					<details id="avalanche12">
+						<summary><h3 id="label12">A flying dog’s clone makes the all-rights-reserved claim of a poem in a strange font</h3><i aria-hidden="true"></i></summary>
+						<p>Winged dingo copy writes Wingding ode copyrights.</p>
+					</details>
 				</li>
 				<li>
-					<input type="checkbox" id="avalanche13" aria-labelledby="label13" checked>
-					<i aria-hidden="true"></i>
-					<h3 id="label13">A Mexican man takes anxiety medication</h3>
-					<p>Hispanic attacks his panic attacks.</p>
+					<details id="avalanche13">
+						<summary><h3 id="label13">A Mexican man takes anxiety medication</h3><i aria-hidden="true"></i></summary>
+						<p>Hispanic attacks his panic attacks.</p>
+					</details>
 				</li>
 				<li>
-					<input type="checkbox" id="avalanche14" aria-labelledby="label14" checked>
-					<i aria-hidden="true"></i>
-					<h3 id="label14">We built a device that catapults insects. Obviously it’s a scam, Theodore.</h3>
-					<p>Anthropologically constructed ant throw pole. Logically con-struck, Ted.</p>
+					<details id="avalanche14">
+						<summary><h3 id="label14">We built a device that catapults insects. Obviously it’s a scam, Theodore.</h3><i aria-hidden="true"></i></summary>
+						<p>Anthropologically constructed ant throw pole. Logically con-struck, Ted.</p>
+					</details>
 				</li>
 			</ul>
 
@@ -455,56 +454,7 @@
 						src="imgs/github.svg" alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
 		</div>
 	</footer>
-  <script>
-    // Theme toggle functionality
-    const themeToggleBtn = document.getElementById("theme-toggle");
-    const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
-    const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
-
-    function updateIcons(theme) {
-      if (theme === "dark") {
-        themeToggleLightIcon.classList.remove("hidden");
-        themeToggleDarkIcon.classList.add("hidden");
-        themeToggleBtn?.setAttribute("aria-label", "Switch to light theme");
-      } else {
-        themeToggleLightIcon.classList.add("hidden");
-        themeToggleDarkIcon.classList.remove("hidden");
-        themeToggleBtn?.setAttribute("aria-label", "Switch to dark theme");
-      }
-    }
-
-    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
-    updateIcons(currentTheme);
-
-    if (themeToggleBtn) {
-      themeToggleBtn.addEventListener("click", () => {
-        const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
-        const newTheme = activeTheme === "dark" ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
-        updateIcons(newTheme);
-      });
-    }
-
-    // Listen for OS theme preference changes
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-      if (!localStorage.getItem('theme')) {
-        const newTheme = e.matches ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', newTheme);
-        updateIcons(newTheme);
-      }
-    });
-
-    // Email link handler
-    document.querySelectorAll('.js-email-link').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const a = "Justin.richard.hill@";
-        const b = "gmail.com";
-        window.open(`mailto:${a}${b}`, 'email');
-      });
-    });
-  </script>
+  <script src="js/site.js" defer></script>
 </body>
 
 </html>

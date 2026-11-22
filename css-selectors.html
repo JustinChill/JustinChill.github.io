@@ -41,7 +41,7 @@
 		property="og:image:alt">
 
 	<meta name="datePublished" content="2019-07-12">
-	<meta name="dateModified" content="2026-08-10">
+	<meta name="dateModified" content="2026-11-21">
 
 	<!-- Twitter tags -->
 	<meta name="twitter:card" content="summary_large_image">
@@ -112,98 +112,145 @@
 			font-size: 0.9em;
 		}
 
+		/* Search and filters, styled like the blog's search box, topic chips and count */
 		.selector-controls {
 			margin: 1.5rem 0;
-			padding: 1.25rem;
-			background-color: var(--selector-filter-bg);
-			border: 1px solid var(--selector-filter-border);
-			border-radius: 12px;
 			display: flex;
-			flex-direction: column;
-			gap: 1rem;
-			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-			transition: background-color 200ms ease, border-color 200ms ease;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: .75rem 1rem;
 		}
 
 		.search-box {
-			position: relative;
 			display: flex;
 			align-items: center;
-			width: 100%;
+			gap: .5rem;
+			position: relative;
+			width: min(320px, 100%);
+			height: 34px;
+			padding: 0 .65rem;
+			border: 1px solid var(--rule-color);
+			border-radius: 8px;
+			background: var(--surface-subtle);
+			color: var(--text-color);
+			font-family: var(--font-main);
+			transition: border-color .15s, box-shadow .15s;
+		}
+
+		.search-box:focus-within {
+			border-color: #6c9a2e;
+			box-shadow: 0 0 0 3px rgba(128, 196, 66, .3);
 		}
 
 		.search-icon {
-			position: absolute;
-			left: 12px;
-			color: var(--visual-muted);
+			width: 16px;
+			height: 16px;
+			flex: none;
+			color: var(--muted-color);
 			pointer-events: none;
 		}
 
 		#selector-search {
-			width: 100%;
-			padding: 0.65rem 2.2rem 0.65rem 2.5rem;
-			border-radius: 8px;
-			border: 1px solid var(--selector-filter-border);
-			background-color: var(--bg-color);
-			color: var(--text-color);
-			font-family: "Roboto", sans-serif;
-			font-size: 0.95rem;
-			transition: all 150ms ease;
+			flex: 1 1 auto;
+			width: 0;
+			min-width: 0;
+			border: 0;
+			padding: 0;
+			background: transparent;
+			color: inherit;
+			font: inherit;
+			font-size: var(--type-scale--1);
+			outline: none;
 		}
 
-		#selector-search:focus {
-			outline: none;
-			border-color: var(--selector-filter-active);
-			box-shadow: 0 0 0 3px rgba(31, 111, 209, 0.2);
+		.search-box kbd {
+			font: 600 .7rem/1 var(--font-ui);
+			color: var(--muted-color);
+			border: 1px solid var(--rule-color);
+			border-radius: 4px;
+			padding: .2rem .4rem;
+			background: var(--bg-color);
+		}
+
+		.search-box:focus-within kbd {
+			display: none;
 		}
 
 		.clear-btn {
-			position: absolute;
-			right: 10px;
+			flex: none;
+			border: 0;
 			background: none;
-			border: none;
-			color: var(--visual-muted);
-			font-size: 1rem;
+			color: var(--muted-color);
+			font-size: .9rem;
+			line-height: 1;
+			padding: .2rem;
 			cursor: pointer;
-			padding: 4px 8px;
+			border-radius: 4px;
 		}
 
 		.clear-btn.hidden {
 			display: none;
 		}
 
+		.results-count {
+			margin: 0;
+			font-family: var(--font-ui);
+			font-size: var(--type-scale--2);
+			line-height: 1;
+			color: var(--muted-color);
+			white-space: nowrap;
+			font-variant-numeric: tabular-nums;
+		}
+
+		.results-count span {
+			font: inherit;
+		}
+
 		.filter-chips {
+			flex-basis: 100%;
 			display: flex;
 			flex-wrap: wrap;
-			gap: 0.5rem;
+			gap: .3rem;
 		}
 
 		.filter-chip {
-			padding: 0.35rem 0.85rem;
-			border-radius: 20px;
-			border: 1px solid var(--selector-filter-border);
-			background-color: var(--bg-color);
-			color: var(--text-color);
-			font-size: 0.85rem;
-			font-weight: 500;
+			font: 600 .66rem/1 var(--font-ui);
+			letter-spacing: .04em;
+			text-transform: uppercase;
+			color: #3f6b0f;
+			background: transparent;
+			border: 1px solid var(--rule-color);
+			border-radius: 999px;
+			padding: .4rem .5rem;
 			cursor: pointer;
-			transition: all 150ms ease;
+			white-space: nowrap;
+			transition: background-color .15s, border-color .15s, color .15s;
 		}
 
-		.filter-chip:hover {
-			border-color: var(--selector-filter-active);
+		.filter-chip:hover,
+		.filter-chip:focus-visible {
+			border-color: #6c9a2e;
 		}
 
 		.filter-chip.active {
-			background-color: var(--selector-filter-active);
-			color: var(--selector-filter-active-text);
-			border-color: var(--selector-filter-active);
+			background: var(--selector-selected-bg);
+			border-color: var(--selector-selected-bg);
+			color: var(--selector-selected-color);
 		}
 
-		.results-count {
-			font-size: 0.85rem;
-			color: var(--visual-muted);
-			font-family: "Roboto Mono", monospace;
+		html[data-theme="dark"] .filter-chip {
+			color: #9bd35a;
+		}
+
+		html[data-theme="dark"] .filter-chip.active {
+			color: var(--selector-selected-color);
+		}
+
+		html[data-theme="dark"] .search-box:focus-within,
+		html[data-theme="dark"] .filter-chip:hover,
+		html[data-theme="dark"] .filter-chip:focus-visible {
+			border-color: #80c442;
+			box-shadow: 0 0 0 3px rgba(128, 196, 66, .25);
 		}
 
 		.selector-example>p {
@@ -253,8 +300,10 @@
 			width: 150px;
 		}
 
+		/* Even spacing either side of the green divider between examples */
 		.selector-example {
-			padding: var(--spacer-2) 0;
+			margin: 0;
+			padding: 0 0 var(--spacer-3);
 			transition: opacity 200ms ease;
 		}
 
@@ -264,6 +313,10 @@
 			width: 100%;
 			content: "";
 			border-bottom: 2px solid var(--selector-divider-color);
+		}
+
+		.selector-example>p:first-child {
+			padding-top: var(--spacer-3);
 		}
 
 		.firstChildPseudo {
@@ -647,9 +700,10 @@
 			margin: 0 45px;
 		}
 
-		.level1 {
+				.level1 {
 			position: relative;
 			left: 21px;
+			width: calc(100% - 21px);
 		}
 
 		.flex-row {
@@ -752,7 +806,7 @@
     "web development"
   ],
   "datePublished": "2019-07-12",
-  "dateModified": "2026-08-10",
+  "dateModified": "2026-11-21",
   "author": {
     "@type": "Person",
     "name": "Justin Chill",
@@ -823,7 +877,7 @@
 				<h1 class="article-title">CSS selectors</h1>
 				<h2 class="article-subtitle">A visual reference guide</h2>
 			</div>
-			<p>Originally released in 1994, Cascading Style Sheets (CSS) have become a feature-rich language capable of
+			<p>First proposed in 1994 and made a web standard in 1996, Cascading Style Sheets (CSS) have become a feature-rich language capable of
 				laying out a webpage, creating complex animations, and much more. These patterns allow web designers to
 				dictate how styles apply to specific HTML elements.</p>
 			<p>There are many different types of CSS selectors, each with their own unique syntax. Together they tell
@@ -832,36 +886,37 @@
 				saying to the browser, here is a list of things I want you to find. Once the browser finds those things,
 				the CSS instructs the browser to go through the subset list and make changes to those things.</p>
 			<h2>Pick me</h2>
-			<p>Selectors can be broadly divided into six categories:</p>
+			<p>Selectors can be broadly divided into seven categories:</p>
 			<ol>
 				<li>Universal selector (*)</li>
 				<li>Individual selector (tag name)</li>
 				<li>Class (.) and ID (#) selectors</li>
-				<li>Group selector (,)</li>
+				<li>Selector list, or group (,)</li>
 				<li>Combinator selectors (descendant ⎵, child &gt;, adjacent sibling +, general sibling ~)</li>
 				<li>Pseudo selector (: or ::)</li>
+				<li>Attribute selector ([attribute])</li>
 			</ol>
 
 			<div class="selector-controls">
-				<div class="search-box">
-					<svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
-						stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-						<circle cx="11" cy="11" r="8"></circle>
-						<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+				<div class="search-box" role="search">
+					<svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+						stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<circle cx="11" cy="11" r="7"></circle>
+						<path d="m20 20-3.5-3.5"></path>
 					</svg>
-					<input type="text" id="selector-search"
-						placeholder="Search selectors (e.g. nth, sibling, not, attribute)..."
-						aria-label="Search selectors">
-					<button id="clear-search" class="clear-btn hidden" aria-label="Clear search">✕</button>
+					<input type="text" id="selector-search" placeholder="Search selectors" autocomplete="off"
+						spellcheck="false" aria-label="Search selectors">
+					<button id="clear-search" class="clear-btn hidden" type="button" aria-label="Clear search">✕</button>
+					<kbd aria-hidden="true" title="Press / to search">/</kbd>
 				</div>
+				<p class="results-count" aria-live="polite"><span id="match-count">28</span> selectors</p>
 				<div class="filter-chips" role="group" aria-label="Filter selectors by type">
-					<button class="filter-chip active" data-category="all" aria-pressed="true">All</button>
-					<button class="filter-chip" data-category="basic" aria-pressed="false">Basic</button>
-					<button class="filter-chip" data-category="combinators" aria-pressed="false">Combinators</button>
-					<button class="filter-chip" data-category="pseudo" aria-pressed="false">Pseudo</button>
-					<button class="filter-chip" data-category="attributes" aria-pressed="false">Attributes</button>
+					<button type="button" class="filter-chip active" data-category="all" aria-pressed="true">All</button>
+					<button type="button" class="filter-chip" data-category="basic" aria-pressed="false">Basic</button>
+					<button type="button" class="filter-chip" data-category="combinators" aria-pressed="false">Combinators</button>
+					<button type="button" class="filter-chip" data-category="pseudo" aria-pressed="false">Pseudo</button>
+					<button type="button" class="filter-chip" data-category="attributes" aria-pressed="false">Attributes</button>
 				</div>
-				<div class="results-count" aria-live="polite"><span id="match-count">28</span> selectors shown</div>
 			</div>
 
 			<section id="selectors-list">
@@ -920,9 +975,9 @@
 							<div>#c</div>
 						</div>
 					</div>
-					<p><strong>IDs</strong> shouldn't be used in CSS selectors because these rules are tightly coupled
-						with HTML structure and cannot be reused across multiple elements. It's preferred instead to use
-						classes in CSS selectors.</p>
+					<p><strong>IDs</strong> are best avoided in CSS selectors: an ID can appear only once on a page, so
+						the rule can't be reused, and IDs are so specific that they are hard to override later. It's
+						preferred instead to use classes in CSS selectors.</p>
 				</figure>
 				<!-- ID selector close -->
 
@@ -940,14 +995,15 @@
 							<div>.c</div>
 						</div>
 					</div>
-					<p><a href="https://frontstuff.io/you-need-to-stop-targeting-tags-in-css">Here</a> is a great primer
-						on using class names to add context to your HTML and create more reusable code.</p>
+					<p><a href="https://frontstuff.io/you-need-to-stop-targeting-tags-in-css">This primer on targeting
+							classes instead of tags</a> is a great guide to using class names to add context to your HTML
+						and create more reusable code.</p>
 				</figure>
 				<!-- Class selector close-->
 
 				<!-- Comma Combinator selector -->
 				<figure class="selector-example" data-category="basic">
-					<p><strong>Comma combinator</strong> selector: <strong>a, c</strong> { }</p>
+					<p><strong>Selector list</strong> (comma): <strong>a, c</strong> { }</p>
 					<div class="circle-outer">
 						<div class="circle selected">
 							<div>a</div>
@@ -958,7 +1014,7 @@
 						<div class="circle selected">
 							<div>c</div>
 						</div>
-						<div class="circle selected">
+						<div class="circle">
 							<div>d</div>
 						</div>
 					</div>
@@ -1314,8 +1370,8 @@
 							<div>b</div>
 						</div>
 					</div>
-					<p>Selects all elements that are siblings of a specified element. Again, both must be children of
-						the same parent element.</p>
+					<p>Selects every element matched by the second selector that comes after the first one, not just
+						the next one. Again, both must be children of the same parent element.</p>
 				</figure>
 				<!-- General Sibling selector close-->
 			</section>
@@ -1689,11 +1745,11 @@
 					<!-- circle with number -->
 					<div class="number">
 						<p class="text-small">1</p>
-						<p class="text-small invisible">0</p>
+						<p class="text-small invisible" aria-hidden="true">0</p>
 						<p class="text-small">2</p>
-						<p class="text-small invisible">0</p>
+						<p class="text-small invisible" aria-hidden="true">0</p>
 						<p class="text-small">3</p>
-						<p class="text-small invisible">0</p>
+						<p class="text-small invisible" aria-hidden="true">0</p>
 						<p class="text-small">4</p>
 					</div>
 					<div class="circle-outer">
@@ -1725,11 +1781,11 @@
 					<!-- circle with number -->
 					<div class="number">
 						<p class="text-small">1</p>
-						<p class="text-small invisible">0</p>
+						<p class="text-small invisible" aria-hidden="true">0</p>
 						<p class="text-small">2</p>
-						<p class="text-small invisible">0</p>
+						<p class="text-small invisible" aria-hidden="true">0</p>
 						<p class="text-small">3</p>
-						<p class="text-small invisible">0</p>
+						<p class="text-small invisible" aria-hidden="true">0</p>
 						<p class="text-small">4</p>
 					</div>
 
@@ -1762,11 +1818,11 @@
 					<!-- circle with number -->
 					<div class="number">
 						<p class="text-small">1</p>
-						<p class="text-small invisible">0</p>
+						<p class="text-small invisible" aria-hidden="true">0</p>
 						<p class="text-small">2</p>
-						<p class="text-small invisible">0</p>
+						<p class="text-small invisible" aria-hidden="true">0</p>
 						<p class="text-small">3</p>
-						<p class="text-small invisible">0</p>
+						<p class="text-small invisible" aria-hidden="true">0</p>
 						<p class="text-small">4</p>
 					</div>
 
@@ -1799,11 +1855,11 @@
 					<!-- circle with number -->
 					<div class="number">
 						<p class="text-small">1</p>
-						<p class="text-small invisible">0</p>
+						<p class="text-small invisible" aria-hidden="true">0</p>
 						<p class="text-small">2</p>
-						<p class="text-small invisible">0</p>
+						<p class="text-small invisible" aria-hidden="true">0</p>
 						<p class="text-small">3</p>
-						<p class="text-small invisible">0</p>
+						<p class="text-small invisible" aria-hidden="true">0</p>
 						<p class="text-small">4</p>
 					</div>
 
@@ -2150,7 +2206,8 @@
 						<p class="hello">🤘</p>
 					</div>
 					<!-- 	infographic outer close-->
-					<p>* <strong>:empty</strong> matches elements that have no child elements or text (including whitespace nodes).</p>
+					<p>* <strong>:empty</strong> matches elements with no children at all. In today's browsers even whitespace counts, so an
+						element containing only a space or a line break is not empty.</p>
 				</figure>
 				<!-- Empty selector close -->
 
@@ -2250,8 +2307,8 @@
 							<div>a[z]</div>
 						</div>
 					</div>
-					<p>This means "Select all elements that have a <strong>[for]</strong> attribute equal to
-						<strong>"x"</strong>.</p>
+					<p>This means "Select all <strong>a</strong> elements that have a <strong>[for]</strong> attribute
+						equal to <strong>"x"</strong>."</p>
 				</figure>
 				<!-- Attribute Value selector close -->
 
@@ -2316,8 +2373,8 @@
 						</div>
 					</div>
 					<p>Used to select elements whose attribute value contains the specified substring. This example
-						shows how to use a wildcard to select all elements with a class that contains
-						<strong>x</strong>. This could be at the start, the end or in the middle of the class.<a href="#cheatsheet" aria-describedby="footnote-label" id="cheatsheet-ref"></a>
+						selects all elements whose <strong>for</strong> attribute contains <strong>x</strong>. This could be at
+						the start, the end or in the middle of the value.<a href="#cheatsheet" aria-describedby="footnote-label" id="cheatsheet-ref"></a>
 					</p>
 				</figure>
 			</section>
@@ -2394,44 +2451,26 @@
 			});
 		});
 
-		// Theme toggle functionality
-		const themeToggleBtn = document.getElementById("theme-toggle");
-		const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
-		const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
-
-		function updateIcons(theme) {
-			if (theme === "dark") {
-				themeToggleLightIcon.classList.remove("hidden");
-				themeToggleDarkIcon.classList.add("hidden");
-			} else {
-				themeToggleLightIcon.classList.add("hidden");
-				themeToggleDarkIcon.classList.remove("hidden");
-			}
-		}
-
-		const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
-		updateIcons(currentTheme);
-
-		if (themeToggleBtn) {
-			themeToggleBtn.addEventListener("click", () => {
-				const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
-				const newTheme = activeTheme === "dark" ? "light" : "dark";
-				document.documentElement.setAttribute("data-theme", newTheme);
-				localStorage.setItem("theme", newTheme);
-				updateIcons(newTheme);
-			});
-		}
-
-		// Email link handler
-		document.querySelectorAll('.js-email-link').forEach(link => {
-			link.addEventListener('click', (e) => {
-				e.preventDefault();
-				const user = 'justin.chill';
-				const domain = 'gmail.com';
-				window.location.href = `mailto:${user}@${domain}`;
-			});
+		// Screen readers: say which nodes each diagram highlights
+		selectorExamples.forEach((fig) => {
+			const picked = [...fig.querySelectorAll(".circle.selected")].map((c) => c.textContent.trim());
+			const note = document.createElement("p");
+			note.className = "screen-reader-text";
+			note.textContent = picked.length ? `Highlighted: ${picked.join(", ")}.` : "Nothing is highlighted.";
+			const heading = fig.querySelector(":scope > p");
+			if (heading) heading.after(note); else fig.prepend(note);
 		});
-	</script>
+
+		// Press "/" to jump to the search box, as on the blog
+		document.addEventListener("keydown", (e) => {
+			if (e.key !== "/" || e.metaKey || e.ctrlKey || e.altKey) return;
+			const t = e.target;
+			if (t && (t.isContentEditable || /^(input|textarea|select)$/i.test(t.tagName))) return;
+			e.preventDefault();
+			searchInput?.focus();
+		});
+		</script>
+	<script src="js/site.js" defer></script>
 </body>
 
 </html>

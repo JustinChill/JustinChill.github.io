@@ -12,6 +12,7 @@ and footer, so a shared change means editing every page.
 python3 scripts/audit.py              # must print 0 findings (CI runs this)
 python3 scripts/build_sitemap.py      # after adding, renaming or editing a page
 python3 scripts/build_sitemap.py --check   # CI fails if sitemap.xml is stale
+python3 scripts/sort_blog.py          # re-order blog cards by date modified
 ```
 
 Both scripts are Python 3 stdlib only and run from the repo root.
@@ -80,7 +81,10 @@ of the toggle code.
 `blog.html` additionally loads `js/blog.js` (search box, topic chips, section
 tabs, clickable cards). It indexes the cards in the DOM, so a new blog card
 needs a `.kicker`, an `<h3>` title and a non-empty description `<p>` to be
-searchable; add it under the right `h2.header` section.
+searchable; add it under the right `h2.header` section. Cards in each section
+are ordered newest first by the linked page's date modified: after adding a
+card or editing a post, run `python3 scripts/sort_blog.py` (it also sets the
+cover `loading` hints; `--check` exits 1 if the order is stale).
 
 ## Images
 

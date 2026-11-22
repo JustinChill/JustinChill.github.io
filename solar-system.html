@@ -26,7 +26,7 @@
 
   <!-- Article metadata -->
   <meta property="article:published_time" content="2025-03-06">
-  <meta property="article:modified_time" content="2025-08-06">
+  <meta property="article:modified_time" content="2026-11-20">
   <meta property="article:author" content="Justin Chill">
   <meta property="article:section" content="Data Visualization">
 
@@ -37,7 +37,7 @@
   <meta content="https://justinchill.com/solar-system.html" property="og:url">
   <meta content="Solar System | Justin Chill" property="og:title">
   <meta
-    content="An overview diagram of the solar system. The Sun is placed on the left and every planet orbiting around it is placed on the right within its own orbit. Some planets, such as Jupiter or Saturn, have in turn moons drawn around them."
+    content="An interactive overview of our solar system, exploring the planets, moons, and other celestial objects orbiting the Sun in our planetary system."
     property="og:description">
   <meta content="https://justinchill.com/blog.html" property="og:see_also">
   <meta property="og:locality" content="NY">
@@ -51,7 +51,7 @@
     property="og:image:alt">
 
   <meta name="datePublished" content="2025-03-06">
-  <meta name="dateModified" content="2025-08-06">
+  <meta name="dateModified" content="2026-11-20">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -59,7 +59,7 @@
   <meta name="twitter:creator" content="@JustinChill">
   <meta name="twitter:title" content="Solar System | Justin Chill">
   <meta name="twitter:description"
-    content="An overview diagram of the solar system. The Sun is placed on the left and every planet orbiting around it is placed on the right within its own orbit. Some planets, such as Jupiter or Saturn, have in turn moons drawn around them.">
+    content="An interactive overview of our solar system, exploring the planets, moons, and other celestial objects orbiting the Sun in our planetary system.">
   <meta content="https://justinchill.com/imgs/cover/solar_cover.webp" property="twitter:image">
   <meta
     content="Illustrated solar system showing orbits of planets and some moons. Sun is on the left, followed by Mercury, Venus, Earth with Moon, Mars, Ceres, Jupiter with moons, Saturn with moons, and Uranus with moons."
@@ -80,6 +80,7 @@
       --chart-subtext: #606060;
       --chart-orbit: rgba(0, 0, 0, 0.15);
       --chart-suborbit: rgba(0, 0, 0, 0.1);
+      --chart-edge: rgba(0, 0, 0, 0.4);
     }
 
     html[data-theme="dark"] {
@@ -87,17 +88,23 @@
       --chart-subtext: var(--muted-color);
       --chart-orbit: rgba(255, 255, 255, 0.25);
       --chart-suborbit: rgba(255, 255, 255, 0.15);
+      --chart-edge: rgba(255, 255, 255, 0.45);
     }
 
     figure {
       grid-column: 2/-2;
-      height: 80vh;
       margin-top: 20px;
     }
 
+    #solar_system {
+      display: block;
+      height: 76vh;
+      min-height: 480px;
+    }
+
     @media (max-width: 600px) {
-      figure {
-        height: 75vh;
+      #solar_system {
+        height: 72vh;
         min-height: 520px;
       }
     }
@@ -110,8 +117,7 @@
       font-family: sans-serif;
       font-weight: lighter;
       font-size: 14px;
-      width: 100%;
-      height: 100%;
+            width: 100%;
       background: var(--chart-background);
     }
 
@@ -144,13 +150,77 @@
       stroke-dasharray: 5;
     }
 
-    .legend rect {
-      fill: var(--chart-background);
-      fill-opacity: 0.8;
+    /* Outline every body so pale fills stay visible on the cream background */
+    .planet .body,
+    .subplanet .body {
+      stroke: var(--chart-edge);
+      stroke-width: 0.75;
     }
 
-    .legend .item text {
-      font-size: 12px;
+    /* Halo behind labels where they cross orbits */
+    .planet text,
+    .subplanet text {
+      paint-order: stroke;
+      stroke: var(--chart-background);
+      stroke-width: 3px;
+      stroke-linejoin: round;
+    }
+
+    .solar-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .35rem 1.1rem;
+      margin: .6rem 0 0;
+      padding: 0;
+      list-style: none;
+      font-size: .8rem;
+      color: var(--text-color);
+    }
+
+    .solar-legend li {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      margin: 0;
+    }
+
+    .solar-legend i {
+      width: .8rem;
+      height: .8rem;
+      border-radius: 50%;
+      background: var(--swatch);
+      box-shadow: 0 0 0 .75px var(--chart-edge);
+    }
+
+    .solar-data {
+      font-family: var(--font-main);
+      margin-top: var(--spacer-2, 1rem);
+    }
+
+    .solar-data summary {
+      cursor: pointer;
+      font-size: .9rem;
+      color: var(--text-color);
+    }
+
+    .solar-data table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .85rem;
+      font-variant-numeric: tabular-nums;
+      margin-top: .5rem;
+    }
+
+    .solar-data th,
+    .solar-data td {
+      text-align: left;
+      padding: .3rem .4rem;
+      border-bottom: 1px solid var(--rule-color, #ddd);
+    }
+
+    .solar-data td.num,
+    .solar-data th.num {
+      text-align: right;
     }
   </style>
 
@@ -176,7 +246,7 @@
     }
   },
   "datePublished": "2025-03-06",
-  "dateModified": "2025-08-06",
+  "dateModified": "2026-11-20",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
   "articleSection": "Data Visualization",
@@ -342,7 +412,7 @@
       <a href="now.html" class="nav__item">Now</a>
 
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item" aria-label="Toggle dark mode" aria-pressed="false">
+      <button id="theme-toggle" class="nav__item" aria-label="Toggle dark mode">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -372,20 +442,38 @@
       </div>
 
       <figure
-        aria-label="Illustrated solar system showing orbits of planets and some moons. Sun is on the left, followed by Mercury, Venus, Earth with Moon, Mars, Ceres, Jupiter with moons, Saturn with moons, and Uranus with moons.">
+        aria-label="Diagram of the solar system with the Sun on the left and each body on its own orbit: Mercury, Venus, Earth and its Moon, Mars, the dwarf planet Ceres, Jupiter and four moons, Saturn and seven moons, Uranus and five moons, Neptune and Triton, then the dwarf planets Pluto with Charon, Haumea, Makemake and Eris.">
+        <svg id="solar_system" aria-hidden="true"></svg>
+        <ul class="solar-legend" id="solar-legend"></ul>
         <figcaption>Data: <a
             href="https://en.wikipedia.org/wiki/List_of_gravitationally_rounded_objects_of_the_Solar_System">Wikipedia</a>
         </figcaption>
-        <svg id="solar_system" aria-hidden="true"></svg>
       </figure>
+      <details class="solar-data">
+        <summary>Show the data</summary>
+        <table id="solar-table">
+          <caption class="screen-reader-text">Distance and size of each body in the diagram</caption>
+          <thead>
+            <tr>
+              <th scope="col">Body</th>
+              <th scope="col">Type</th>
+              <th scope="col">Orbits</th>
+              <th scope="col" class="num">Distance (km)</th>
+              <th scope="col" class="num">Radius (km)</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </details>
       <p>Our solar system formed about 4.6 billion years ago. The four planets closest to the Sun — Mercury, Venus,
         Earth, and Mars — are called the terrestrial planets because they have solid, rocky surfaces. Two of the outer
         planets beyond the orbit of Mars — Jupiter and Saturn — are known as gas giants; the more distant Uranus and
         Neptune are called ice giants.</p>
 
-      <p>This visualization shows the different objects orbiting the Sun in our solar system. Objects are drawn on the
-        same scale to represent their distance from the Sun (left, or top on mobile) accurately. The equatorial radius of planets and their moons is
-        reflected in the size of each object.</p>
+      <p>This visualization shows the different objects orbiting the Sun in our solar system, with the Sun on the left
+        (or at the top on a phone). It is not to scale: distances are compressed on a cube-root scale so that Eris
+        fits on the same page as Mercury, and each object’s size reflects its equatorial radius on a separate scale.
+        Hover over an object, or open the data table, for exact figures.</p>
 
     </article>
   </main>
@@ -414,7 +502,7 @@
         value: 'NULL',
         color: '#ffc252'
       }, {
-        label: 'Terrestrial',
+                label: 'Terrestrial planet',
         value: 'terrestrial',
         color: 'hsl(39, 11%, 69%)'
       }, {
@@ -426,15 +514,15 @@
         value: 'ice_giant',
         color: 'hsl(210, 22%, 49%)'
       }, {
-        label: 'Asteroid',
+                label: 'Dwarf planet (asteroid belt)',
         value: 'asteroid',
         color: 'hsl(360, 100%, 80%)'
       }, {
-        label: 'Plutoid',
+                label: 'Dwarf planet (beyond Neptune)',
         value: 'plutoid',
         color: 'hsl(293, 67%, 85%)'
       }, {
-        label: 'Satellite',
+                label: 'Moon',
         value: 'satellite',
         color: 'hsl(0, 0%, 38%)'
       }];
@@ -445,7 +533,21 @@
         return d.color;
       }));
 
-      svg = d3.select('#solar_system');
+            svg = d3.select('#solar_system');
+      var typeLabel = {};
+      celestial_body_types.forEach(function (t) { typeLabel[t.value] = t.label; });
+      function describeType(d) {
+        if (d.data.type === 'satellite') return 'Moon of ' + d.data.primary;
+        return typeLabel[d.data.subtype] || d.data.type;
+      }
+      // Moons too small to label without collisions (still in tooltips and the table)
+      var MIN_LABELLED_MOON_KM = 300;
+
+      // HTML legend below the chart, so it never covers a planet
+      d3.select('#solar-legend').selectAll('li')
+        .data(celestial_body_types.slice(1))
+        .join('li')
+        .html(function (d) { return '<i style="--swatch:' + d.color + '"></i>' + d.label; });
 
       function render(data) {
         svg.selectAll('*').remove();
@@ -489,7 +591,13 @@
           0, d3.max(solar_system.children, function (d) {
             return +d.data.equatorial_radius_km;
           })
-        ]).range([0, 20]);
+                ]).range([0, 20]);
+        // Moon orbits: planet radius + a gap + the moon's distance on its own compressed scale,
+        // so every moon stays beside its planet
+        var moonDistance = d3.scalePow().exponent(0.4).domain([0, 3600000]).range([0, 30]);
+        function moonOrbit(d) {
+          return radius(d.parent.data.equatorial_radius_km) + 4 + moonDistance(d.data.distance_from_primary_km);
+        }
 
         /* Sun */
         vis.append('circle')
@@ -535,10 +643,8 @@
             return "translate(" + pos.x + ", " + pos.y + ")";
           });
         all_suborbits = en_suborbits.merge(suborbits);
-        all_suborbits.append('circle')
-          .attr('r', function (d) {
-            return radius(d.data.distance_from_primary_km);
-          });
+                all_suborbits.append('circle')
+          .attr('r', moonOrbit);
         suborbits.exit().remove();
 
         /* Planets */
@@ -555,7 +661,8 @@
           .attr('r', function (d) {
             return radius(d.data.equatorial_radius_km) + 3;
           });
-        all_planets.append('circle')
+                all_planets.append('circle')
+          .attr('class', 'body')
           .attr('r', function (d) {
             return radius(d.data.equatorial_radius_km);
           })
@@ -564,24 +671,15 @@
           })
           .append('title').text(function (d) {
             var dist = d.data.distance_from_primary_km ? d3.format(",")(d.data.distance_from_primary_km) + " km" : "N/A";
-            return `${d.data.label}\nDistance from Sun: ${dist}\nType: ${d.data.type || d.data.subtype || ''}`;
+                        return `${d.data.label}\nDistance from Sun: ${dist}\nType: ${describeType(d)}`;
           });
 
+                // Label above each planet; its moons sit below it
         all_planets.append('text')
-          .attr('text-anchor', function (d, i) {
-            if (!isVertical) return 'middle';
-            var pos = getPlanetPos(d, i);
-            return pos.x < -2 ? 'end' : 'start';
-          })
-          .attr('x', function (d, i) {
-            if (!isVertical) return 0;
-            var pos = getPlanetPos(d, i);
-            var r = radius(d.data.equatorial_radius_km);
-            return pos.x < -2 ? -r - 6 : r + 6;
-          })
+          .attr('text-anchor', 'middle')
+          .attr('x', 0)
           .attr('y', function (d) {
-            if (!isVertical) return -radius(d.data.equatorial_radius_km) - 5;
-            return 4;
+            return -radius(d.data.equatorial_radius_km) - 5;
           })
           .text(function (d) {
             return d.id;
@@ -596,9 +694,16 @@
           .attr('class', 'subplanet');
         all_subplanets = en_subplanets.merge(subplanets);
 
+                // Spread each planet's moons around it. Planets with many moons (Saturn,
+        // Uranus) use most of the circle, leaving a gap at the top for the planet's
+        // label; the rest use the lower half.
         function getMoonPos(d, i) {
-          var r = radius(d.data.distance_from_primary_km);
-          var a = (i * 30 + 60) * Math.PI / 180;
+          var r = moonOrbit(d);
+          var n = d.parent.children.length;
+          var deg = n === 1 ? 60
+            : n >= 5 ? -30 + i * 240 / (n - 1)
+            : 30 + i * 120 / (n - 1);
+          var a = deg * Math.PI / 180;
           return {
             cx: r * Math.cos(a),
             cy: r * Math.sin(a)
@@ -613,7 +718,8 @@
           .attr('cx', function (d, i) { return getMoonPos(d, i).cx; })
           .attr('cy', function (d, i) { return getMoonPos(d, i).cy; });
 
-        all_subplanets.append('circle')
+                all_subplanets.append('circle')
+          .attr('class', 'body')
           .attr('r', function (d) {
             return radius(d.data.equatorial_radius_km);
           })
@@ -625,70 +731,75 @@
           .append('title').text(function (d) {
             var dist = d.data.distance_from_primary_km ? d3.format(",")(d.data.distance_from_primary_km) + " km" : "N/A";
             var primary = d.parent && d.parent.data && d.parent.data.label ? d.parent.data.label : (d.data.primary || 'Primary');
-            return `${d.data.label}\nDistance from ${primary}: ${dist}\nType: ${d.data.type || d.data.subtype || ''}`;
+                        return `${d.data.label}\nDistance from ${primary}: ${dist}\nType: ${describeType(d)}`;
           });
 
-        all_subplanets.append('text')
-          .attr('text-anchor', function (d, i) {
-            var m = getMoonPos(d, i);
+                all_subplanets.filter(function (d) { return d.data.equatorial_radius_km >= MIN_LABELLED_MOON_KM; })
+          .append('text')
+          .attr('text-anchor', function (d) {
+            var m = getMoonPos(d, d.parent.children.indexOf(d));
             return m.cx < 0 ? 'end' : 'start';
           })
-          .attr('x', function (d, i) {
-            var m = getMoonPos(d, i);
-            return m.cx + (isVertical ? (m.cx < 0 ? -4 : 4) : 0);
+          .attr('x', function (d) {
+            var m = getMoonPos(d, d.parent.children.indexOf(d));
+            var r = radius(d.data.equatorial_radius_km) + 3;
+            return m.cx + (m.cx < 0 ? -r : r);
           })
-          .attr('y', function (d, i) {
-            var m = getMoonPos(d, i);
-            return isVertical ? m.cy + 4 : m.cy + 15;
+          .attr('y', function (d) {
+            var m = getMoonPos(d, d.parent.children.indexOf(d));
+            return m.cy + 4;
           })
           .text(function (d) {
             return d.id;
           });
-        subplanets.exit().remove();
-
-        /* Legend */
-        var legendY = isVertical ? (height - 120) : (height / 2 - 105);
-        var legendX = isVertical ? (15 - width / 2) : 15;
-
-        leg = vis.append('g')
-          .attr('class', 'legend')
-          .attr('transform', "translate(" + legendX + ", " + legendY + ")");
-        leg.insert('rect')
-          .attr('x', -7)
-          .attr('y', -7)
-          .attr('width', 105)
-          .attr('height', 110);
-        legend = leg.selectAll('.item').data(celestial_body_types.slice(1));
-        en_legend = legend.enter().append('g')
-          .attr('class', 'item');
-        all_legend = en_legend.merge(legend);
-        all_legend.append('circle')
-          .attr('r', 7)
-          .attr('cx', 0)
-          .attr('cy', function (d, i) {
-            return i * 18;
-          })
-          .attr('fill', function (d) {
-            return d.color;
+                subplanets.exit().remove();
+        // Planet labels and planet bodies are fixed; moon labels go largest first,
+        // flip to the other side of their moon if blocked, and are dropped if still blocked
+        var placed = all_planets.selectAll(':scope > text, :scope > circle.body').nodes()
+          .map(function (n) { return n.getBoundingClientRect(); });
+        function blocked(r) {
+          return placed.some(function (p) {
+            return r.left < p.right + 2 && p.left < r.right + 2 && r.top < p.bottom && p.top < r.bottom;
           });
-        all_legend.append('text')
-          .attr('x', 12)
-          .attr('y', function (d, i) {
-            return i * 18;
+        }
+        all_subplanets.selectAll('text').nodes()
+          .sort(function (a, b) {
+            return d3.descending(d3.select(a).datum().data.equatorial_radius_km, d3.select(b).datum().data.equatorial_radius_km);
           })
-          .attr('dy', '0.35em')
-          .text(function (d) {
-            return d.label.toUpperCase();
+          .forEach(function (node) {
+            var r = node.getBoundingClientRect();
+            if (blocked(r)) {
+              var d = d3.select(node).datum();
+              var m = getMoonPos(d, d.parent.children.indexOf(d));
+              var gap = radius(d.data.equatorial_radius_km) + 3;
+              var flipEnd = node.getAttribute('text-anchor') === 'start';
+              node.setAttribute('text-anchor', flipEnd ? 'end' : 'start');
+              node.setAttribute('x', m.cx + (flipEnd ? -gap : gap));
+              r = node.getBoundingClientRect();
+            }
+            if (blocked(r)) node.remove(); else placed.push(r);
           });
-        legend.exit().remove();
+
+
       }
 
       d3.csv('data/solar-system.csv', d3.autoType).then(function (data) {
         data = data.sort(function (a, b) {
           return a.distance_from_primary_km - b.distance_from_primary_km;
         });
-        cachedData = data;
+                cachedData = data;
         render(cachedData);
+        // Data table for keyboard and touch readers
+        var km = d3.format(',.0f');
+        var rows = data.filter(function (d) { return d.label !== 'Sun'; });
+        d3.select('#solar-table tbody').selectAll('tr')
+          .data(rows)
+          .join('tr')
+          .html(function (d) {
+            var type = d.type === 'satellite' ? 'Moon' : (typeLabel[d.subtype] || d.type);
+            return '<th scope="row">' + d.label + '</th><td>' + type + '</td><td>' + d.primary + '</td>' +
+              '<td class="num">' + km(d.distance_from_primary_km) + '</td><td class="num">' + km(d.equatorial_radius_km) + '</td>';
+          });
       }).catch(function (error) {
         console.error('Failed to load solar system data:', error);
         svg.append('text')
@@ -707,48 +818,7 @@
 
     }).call(this);
   </script>
-  <script>
-    // Theme toggle functionality
-    const themeToggleBtn = document.getElementById("theme-toggle");
-    const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
-    const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
-
-    function updateIcons(theme) {
-      const isDark = theme === "dark";
-      themeToggleLightIcon.classList.toggle("hidden", !isDark);
-      themeToggleDarkIcon.classList.toggle("hidden", isDark);
-      if (themeToggleBtn) {
-        themeToggleBtn.setAttribute("aria-pressed", String(isDark));
-      }
-    }
-
-    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
-    updateIcons(currentTheme);
-
-    if (themeToggleBtn) {
-      themeToggleBtn.addEventListener("click", () => {
-        const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
-        const newTheme = activeTheme === "dark" ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
-        updateIcons(newTheme);
-      });
-    }
-
-    /**
-     * Activate email links designated with .js-email-link classes.
-     * We're avoiding putting our email in the href to prevent harvesting for
-     * spam. This tip from Lokesh Dhakar.
-     */
-    [...document.getElementsByClassName('js-email-link')].forEach(link => {
-      link.addEventListener('click', event => {
-        event.preventDefault();
-        const a = "Justin.richard.hill@";
-        const b = "gmail.com";
-        window.open(`mailto:${a}${b}`, 'email');
-      });
-    });
-  </script>
+  <script src="js/site.js" defer></script>
 </body>
 
 </html>
