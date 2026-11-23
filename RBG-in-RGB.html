@@ -24,9 +24,9 @@
 
   <!-- Article metadata -->
   <meta name="datePublished" content="2022-12-07">
-  <meta name="dateModified" content="2026-08-24">
+  <meta name="dateModified" content="2026-11-22">
   <meta property="article:published_time" content="2022-12-07">
-  <meta property="article:modified_time" content="2026-08-24">
+  <meta property="article:modified_time" content="2026-11-22">
   <meta property="article:author" content="Justin Chill">
   <meta property="article:section" content="Web Development">
 
@@ -43,9 +43,10 @@
   <meta property="og:locality" content="New York">
   <meta property="og:region" content="NY">
   <meta property="og:country_name" content="USA">
-  <meta content="https://capitaljewishmuseum.org/wp-content/uploads/2023/04/Notorious-RBG-book-cover-illustration.webp"
-    property="og:image">
-  <meta content="The Notorious RBG illustration in RGB colors." property="og:image:alt">
+  <meta content="https://justinchill.com/imgs/cover/rbg_cover.webp" property="og:image">
+  <meta content="1200" property="og:image:width">
+  <meta content="630" property="og:image:height">
+  <meta content="Red, blue and green copies of a crowned portrait of Ruth Bader Ginsburg on a colour gradient." property="og:image:alt">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -55,14 +56,12 @@
   <meta
     content="An exploration of CSS color blending and the mix-blend-mode property using an animated RGB screen-split portrait of Ruth Bader Ginsburg (RBG)."
     property="twitter:description">
-  <meta content="https://capitaljewishmuseum.org/wp-content/uploads/2023/04/Notorious-RBG-book-cover-illustration.webp"
-    property="twitter:image">
-  <meta name="twitter:image:alt" content="The Notorious RBG illustration in RGB colors.">
+  <meta content="https://justinchill.com/imgs/cover/rbg_cover.webp" property="twitter:image">
+  <meta name="twitter:image:alt" content="Red, blue and green copies of a crowned portrait of Ruth Bader Ginsburg on a colour gradient.">
 
   <link rel="canonical" href="https://justinchill.com/RBG-in-RGB.html">
   <link rel="preload" href="style.css" as="style" />
   <link rel="stylesheet" href="style.css" />
-  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet">
   <link rel="icon" href="favicon.ico">
   <link type="text/plain" href="humans.txt" rel="author">
 
@@ -91,17 +90,35 @@
       line-height: inherit;
     }
 
+    pre .token.selector {
+      color: #fdba74;
+    }
+
+    pre .token.property {
+      color: #93c5fd;
+    }
+
+    pre .token.punctuation {
+      color: #a0aec0;
+    }
+
     figure.mid-size {
       margin: 0;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 80vh;
     }
 
+    figure.mid-size figcaption {
+      align-self: stretch;
+    }
+
+    /* The stage keeps its proportions, so the portraits fill it on phones too */
     .rbg {
       position: relative;
-      height: 100%;
+      aspect-ratio: 4 / 3;
+      max-height: 80vh;
       width: 80%;
       backface-visibility: visible;
       border-radius: 6px;
@@ -117,7 +134,7 @@
       top: 0;
       background-color: transparent;
       background-position: center;
-      background-image: url(https://assets.codepen.io/332937/notorious-rbg.png);
+      background-image: url(imgs/rbg-portrait.webp);
       background-repeat: no-repeat;
       background-size: 80%;
       background-blend-mode: multiply;
@@ -161,11 +178,22 @@
       }
     }
 
+    @media (max-width: 600px) {
+      .rbg {
+        width: 100%;
+      }
+    }
+
+    article.motion-paused .swatch {
+      animation-play-state: paused;
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .swatch {
         animation: none;
       }
     }
+
   </style>
 
   <script type="application/ld+json">
@@ -176,7 +204,7 @@
   "name": "RBG-in-RGB: Experiments with CSS Color Blending",
   "description": "An interactive exploration of CSS color blending and the mix-blend-mode property using an animated RGB screen-split portrait of Ruth Bader Ginsburg (RBG), accompanied by a comprehensive blend mode reference table.",
   "datePublished": "2022-12-07",
-  "dateModified": "2026-08-24",
+  "dateModified": "2026-11-22",
   "inLanguage": "en-US",
   "articleSection": "Web Development",
   "keywords": [
@@ -223,46 +251,42 @@
     ]
   },
   "mainEntityOfPage": "https://justinchill.com/RBG-in-RGB.html",
-  "image": "https://capitaljewishmuseum.org/wp-content/uploads/2023/04/Notorious-RBG-book-cover-illustration.webp"
+  "image": "https://justinchill.com/imgs/cover/rbg_cover.webp"
 }
   </script>
 </head>
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-  <nav class="nav" role="navigation">
+  <nav class="nav" aria-label="Main">
     <div class="nav__list">
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-
+    
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
-        aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" aria-pressed="false" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
-            </path>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new tab)</span></a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
 
-  <main role="main" id="content">
+  <main id="content">
     <article>
       <div class="article-hero">
         <p class="article-category">Post</p>
@@ -270,13 +294,15 @@
         <h2 class="article-subtitle">Exploring the CSS <code>mix-blend-mode</code> property and RGB channel separation
         </h2>
       </div>
-      <figure class="mid-size" role="img"
-        aria-label="Animated CSS art of Ruth Bader Ginsburg using mix-blend-mode to create an RGB offset effect.">
-        <div class="rbg">
+      <div class="motion-controls"><button type="button" class="motion-toggle" aria-pressed="false" aria-label="Pause animations"><svg class="icon-pause" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="2" width="3.5" height="12" rx="1" /><rect x="9.5" y="2" width="3.5" height="12" rx="1" /></svg><svg class="icon-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 2.6v10.8a.9.9 0 0 0 1.37.77l8.6-5.4a.9.9 0 0 0 0-1.54l-8.6-5.4A.9.9 0 0 0 4.5 2.6z" /></svg></button></div>
+      <figure class="mid-size" id="rbg-figure">
+        <div class="rbg" role="img"
+          aria-label="Animated CSS art: red, blue and green copies of a crowned portrait of Ruth Bader Ginsburg slide across a colour gradient and blend into one.">
           <div class="swatch swatch--r"></div>
           <div class="swatch swatch--b"></div>
           <div class="swatch swatch--g"></div>
         </div>
+        <figcaption class="right">Portrait from the cover of <em>Notorious RBG</em> (2015)</figcaption>
       </figure>
       <p>The <code>mix-blend-mode</code> property in CSS allows you to control how the content of an element blends with
         the content of the element’s parent and the background.</p>
@@ -284,12 +310,12 @@
         blending elements together using different modes.</p>
       <p>The CSS syntax for the <code>mix-blend-mode</code> property is straightforward. You can apply it to any element
         to define how its content should blend with the content beneath it.</p>
-      <pre class="language-css" tabindex="0"><code class="language-css" style="padding-right:50px;"><span class="token selector">element</span> <span class="token punctuation">{</span>
+      <pre class="language-css" tabindex="0"><code class="language-css"><span class="token selector">element</span> <span class="token punctuation">{</span>
         <span class="token property">mix-blend-mode</span><span class="token punctuation">:</span> blend-mode<span class="token punctuation">;</span>
 <span class="token punctuation">}</span></code></pre>
       <p>Here, blend-mode can be any of the predefined blending modes.</p>
 
-      <h3>Properties</h3>
+      <h3>Blend modes</h3>
       <table>
         <thead>
           <tr>
@@ -364,18 +390,33 @@
             <td><code>luminosity</code></td>
             <td>Preserves the hue and chroma of the background while adopting the luma of the element.</td>
           </tr>
+          <tr>
+            <td><code>plus-lighter</code></td>
+            <td>Adds the element’s colours to the background’s, capped at white.</td>
+          </tr>
         </tbody>
       </table>
-      <img class="full-bleed"
-        src="https://scpr.brightspotcdn.com/dims4/default/b68aa93/2147483647/strip/true/crop/640x685+0+0/resize/880x942!/quality/90/?url=http%3A%2F%2Fscpr-brightspot.s3.us-west-2.amazonaws.com%2Flegacy%2Fi%2Fa4280b0f0919425b53d6a774bde21faf%2F5b2c34634488b300092706c1-original.jpg"
-        loading="lazy" alt="Notorious RBG in the RGB color scheme." />
+      <h3>How the portrait works</h3>
+      <p>The animation stacks three copies of the same portrait, each on a swatch of pure red, green or blue.
+        Within each swatch, <code>background-blend-mode: multiply</code> darkens the colour wherever the portrait
+        has ink. Each swatch then uses <code>mix-blend-mode: screen</code> to blend with everything beneath it. Screen
+        only ever adds light: black changes nothing, and where pure red, green and blue overlap they add up to white,
+        the way a screen’s pixels do. As the red and green copies slide back and forth over the blue one, the three
+        portraits drift in and out of register.</p>
+      <figure>
+        <img src="imgs/Notorious-RBG-book-cover-illustration.webp"
+          alt="Ruth Bader Ginsburg wearing a gold crown, drawn in black and white on a cream background." width="1795"
+          height="2123" loading="lazy" decoding="async">
+        <figcaption>The original portrait, from the cover of <em>Notorious RBG: The Life and Times of Ruth Bader
+            Ginsburg</em> by Irin Carmon and Shana Knizhnik (Dey Street Books, 2015)</figcaption>
+      </figure>
     </article>
   </main>
   <footer>
     <div>
       <p>Justin Chill &copy; 2026</p>
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
-            alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
+            alt="" class="icon" width="16" height="16" loading="lazy" decoding="async">Source code<span class="visually-hidden"> (opens in new tab)</span></a></span>
     </div>
   </footer>
 

@@ -6,6 +6,10 @@
  * (to avoid a flash of the wrong theme); this file only wires the button.
  * Pages that need to redraw charts when the theme changes can listen for
  * document.addEventListener('themechange', (e) => { e.detail.theme })
+ *
+ * A <button class="motion-toggle" aria-pressed="false"> pauses looping
+ * animations: it toggles .motion-paused on its <article> and fires
+ * document 'motionchange' events with e.detail.paused for script-driven ones.
  */
 (function () {
   "use strict";
@@ -48,6 +52,16 @@
     if (!localStorage.getItem("theme")) {
       applyTheme(e.matches ? "dark" : "light");
     }
+  });
+
+  // Pause/play buttons for pages with looping animations.
+  document.querySelectorAll(".motion-toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const paused = btn.getAttribute("aria-pressed") !== "true";
+      btn.setAttribute("aria-pressed", String(paused));
+      btn.closest("article")?.classList.toggle("motion-paused", paused);
+      document.dispatchEvent(new CustomEvent("motionchange", { detail: { paused } }));
+    });
   });
 
   // Email link handler (address assembled at click time to deter scrapers).

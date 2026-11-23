@@ -32,19 +32,20 @@
     content="An interactive exploration of 10 classic optical illusions and impossible objects—including the Café wall, Circles, Ebbinghaus illusion, Fraser spiral, Gabor bars, Hermann grid, Kanizsa triangle, Penrose triangle, Simultaneous contrast, and 3D rotated SVG holes—built entirely with CSS and JavaScript."
     property="og:description">
   <meta content="https://justinchill.com/blog.html" property="og:see_also">
-  <meta content="https://images.unsplash.com/photo-1502691876148-a84978e59af8?q=80&w=2670&auto=format&fit=crop"
-    property="og:image">
-  <meta content="Abstract geometric optical illusion" property="og:image:alt">
+  <meta content="https://justinchill.com/imgs/cover/illusions_cover.webp" property="og:image">
+  <meta content="1200" property="og:image:width">
+  <meta content="630" property="og:image:height">
+  <meta content="Café wall illusion: rows of black and white tiles that look tilted although every row is straight." property="og:image:alt">
   <meta property="og:locality" content="NY">
   <meta property="og:region" content="NY">
   <meta property="og:country_name" content="USA">
 
   <meta property="article:published_time" content="2025-07-04">
-  <meta property="article:modified_time" content="2026-08-20">
+  <meta property="article:modified_time" content="2026-11-22">
   <meta property="article:author" content="Justin Chill">
   <meta property="article:section" content="Creative Coding & Design">
   <meta name="datePublished" content="2025-07-04">
-  <meta name="dateModified" content="2026-08-20">
+  <meta name="dateModified" content="2026-11-22">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -53,9 +54,8 @@
   <meta name="twitter:title" content="Optical illusions in code | Justin Chill">
   <meta name="twitter:description"
     content="An interactive exploration of 10 classic optical illusions and impossible objects—including the Café wall, Circles, Ebbinghaus illusion, Fraser spiral, Gabor bars, Hermann grid, Kanizsa triangle, Penrose triangle, Simultaneous contrast, and 3D rotated SVG holes—built entirely with CSS and JavaScript.">
-  <meta content="https://images.unsplash.com/photo-1502691876148-a84978e59af8?q=80&w=2670&auto=format&fit=crop"
-    name="twitter:image">
-  <meta name="twitter:image:alt" content="Abstract geometric optical illusion">
+  <meta content="https://justinchill.com/imgs/cover/illusions_cover.webp" name="twitter:image">
+  <meta name="twitter:image:alt" content="Café wall illusion: rows of black and white tiles that look tilted although every row is straight.">
 
   <link rel="canonical" href="https://justinchill.com/illusions.html">
   <link rel="preload" href="style.css" as="style" />
@@ -162,46 +162,28 @@
     .fraser-spiral {
       display: block;
       margin: 1.5rem auto;
-      background-color: #cbd5e1;
+      background-color: #8c96a3;
       border-radius: 50%;
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
     }
 
     html[data-theme="dark"] .fraser-spiral {
-      background-color: #334155;
+      background-color: #5b6573;
     }
 
-    .fraser-base {
-      fill: none;
-      stroke: #f8fafc;
-      stroke-width: 9;
+    /* Each ring is a "twisted cord" of short bars tilted off the circle */
+    .cord-light {
+      fill: #ffffff;
     }
 
-    html[data-theme="dark"] .fraser-base {
-      stroke: #0f172a;
+    .cord-dark {
+      fill: #111111;
     }
-
-    .fraser-ring {
-      fill: none;
-      stroke: #0f172a;
-      stroke-width: 9;
-      stroke-linecap: square;
-    }
-
-    html[data-theme="dark"] .fraser-ring {
-      stroke: #f8fafc;
-    }
-
-    .fraser-ring.r5 { stroke-dasharray: 8 8; transform: rotate(15deg); }
-    .fraser-ring.r4 { stroke-dasharray: 7 7; transform: rotate(30deg); }
-    .fraser-ring.r3 { stroke-dasharray: 6 6; transform: rotate(45deg); }
-    .fraser-ring.r2 { stroke-dasharray: 5 5; transform: rotate(60deg); }
-    .fraser-ring.r1 { stroke-dasharray: 4 4; transform: rotate(75deg); }
 
     /* 5. Gabor Bars */
     #bars {
-      width: 360px;
-      max-width: 100%;
+      /* min() so the fixed width can't stretch the text column on phones */
+      width: min(360px, 100%);
       margin: 1.5rem auto;
       background-color: #777;
       color: #fff;
@@ -412,6 +394,28 @@
       transform: rotateX(68deg) rotateZ(-32deg);
     }
 
+    .canvas {
+      display: block;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    /* The 3D-rotated pieces overhang their boxes; keep the page from scrolling sideways */
+    article {
+      overflow-x: clip;
+    }
+
+    @media (max-width: 480px) {
+      .hole svg {
+        transform: scale(0.72) rotateX(68deg) rotateZ(-32deg);
+      }
+    }
+
+    /* The id outranks the per-bar animation shorthands, which reset play state */
+    article.motion-paused #bars .gabor {
+      animation-play-state: paused;
+    }
+
     div.hole {
       margin: 0 auto;
       width: 300px;
@@ -428,7 +432,7 @@
     "alternativeHeadline": "Recreating 10 Classical Visual Illusions with Pure CSS, Canvas, and JavaScript",
     "description": "An interactive exploration of 10 classic optical illusions and impossible objects—including the Café wall, Circles, Ebbinghaus illusion, Fraser spiral, Gabor bars, Hermann grid, Kanizsa triangle, Penrose triangle, Simultaneous contrast, and 3D rotated SVG holes—built entirely with CSS and JavaScript.",
     "datePublished": "2025-07-04",
-    "dateModified": "2026-08-20",
+    "dateModified": "2026-11-22",
     "inLanguage": "en-US",
     "isAccessibleForFree": true,
     "articleSection": "Creative Coding & Design",
@@ -449,8 +453,8 @@
     },
     "image": {
       "@type": "ImageObject",
-      "url": "https://images.unsplash.com/photo-1502691876148-a84978e59af8?q=80&w=2670&auto=format&fit=crop",
-      "caption": "Abstract geometric optical illusion"
+      "url": "https://justinchill.com/imgs/cover/illusions_cover.webp",
+      "caption": "Café wall illusion: rows of black and white tiles that look tilted although every row is straight."
     },
     "author": {
       "@type": "Person",
@@ -575,35 +579,35 @@
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-	<nav class="nav" role="navigation">
-		<div class="nav__list">
-			<a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
-			<a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
-			<a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-		
+  <nav class="nav" aria-label="Main">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
+      <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
+      <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
+    
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" aria-pressed="false" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
-		<div class="nav__list">
-			<a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-			<a href="#" class="nav__item js-email-link">Email</a>
-		</div>
-	</nav>
+    <div class="nav__list">
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new tab)</span></a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
 
-	<main role="main" id="content">
+	<main id="content">
 		<article>
 
 			<div class="article-hero">
@@ -611,17 +615,20 @@
 				<h1 class="article-title">Optical Illusions & Impossible Objects</h1>
 				<h2 class="article-subtitle">All code, no images</h2>
 			</div>
+			<div class="motion-controls"><button type="button" class="motion-toggle" aria-pressed="false" aria-label="Pause animations"><svg class="icon-pause" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="2" width="3.5" height="12" rx="1" /><rect x="9.5" y="2" width="3.5" height="12" rx="1" /></svg><svg class="icon-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 2.6v10.8a.9.9 0 0 0 1.37.77l8.6-5.4a.9.9 0 0 0 0-1.54l-8.6-5.4A.9.9 0 0 0 4.5 2.6z" /></svg></button></div>
 
 			<figure>
 				<canvas class="canvas" id="canvas-spin" role="img" aria-label="Interactive spinning spiral illusion"></canvas>
 			</figure>
 
-			<p>“We do not know space. We do not see it, we do not hear it, we do not feel it. We are standing in the
-				middle of it, we ourselves are part of it, but we know nothing about it.”
-				― M.C. Escher</p>
-			<p>All of the optical illusions on this page are made using CSS and javascript code. Recreating these
+			<p>All of the optical illusions on this page are made using CSS and JavaScript code. Recreating these
 				classical illustrations is a fun way to learn about different CSS properties and experiment. I'll do my
 				best to walk through each illustration so you can see how simple it is.</p>
+			<blockquote>
+				<p>We do not know space. We do not see it, we do not hear it, we do not feel it. We are standing in the
+					middle of it, we ourselves are part of it, but we know nothing about it.</p>
+				<cite>&mdash; M. C. Escher</cite>
+			</blockquote>
 
 			<h2>Café wall ☕️</h2>
 			<div class="cafe-wall" role="img" aria-label="Café wall illusion with parallel alternating black and white staggered rows">
@@ -675,17 +682,7 @@
 			<h2>Fraser Spiral</h2>
 			<figure>
 				<svg class="fraser-spiral" width="240" height="240" viewBox="-120 -120 240 240" role="img" aria-label="Fraser spiral illusion composed of concentric rings with tilted checkered segments">
-					<circle r="105" class="fraser-base" />
-					<circle r="84" class="fraser-base" />
-					<circle r="63" class="fraser-base" />
-					<circle r="42" class="fraser-base" />
-					<circle r="21" class="fraser-base" />
-
-					<circle r="105" class="fraser-ring r5" />
-					<circle r="84" class="fraser-ring r4" />
-					<circle r="63" class="fraser-ring r3" />
-					<circle r="42" class="fraser-ring r2" />
-					<circle r="21" class="fraser-ring r1" />
+					<g id="fraser-cords"></g>
 				</svg>
 			</figure>
 			<p>First described by British psychologist Sir James Fraser in 1908, this is also known as the <em>false spiral</em> or twisted cord illusion. While your eye tracks what appears to be an endless spiral coiling inward toward the center, the image is composed entirely of separate, independent concentric circles.</p>
@@ -794,7 +791,7 @@
 			<p>Introduced in 1955 by Italian psychologist Gaetano Kanizsa, this figure demonstrates <em>illusory contours</em> and modal completion. Even though no triangle or lines are drawn, your visual cortex automatically constructs sharp, bright white contour edges connecting the three notched discs. <strong>Hover or tap</strong> the illustration to rotate the discs and watch the phantom triangle dissolve.</p>
 
 			<h2>Penrose Triangle</h2>
-			<div class="penrose-triangle"
+			<div class="penrose-triangle" role="img"
 				aria-label="A 3D rendering of a Penrose triangle, an optical illusion featuring a seemingly impossible, continuous triangular shape with three bars forming a perpetual loop. The bars are shaded in gray tones to enhance the three-dimensional effect.">
 				<div class="side"></div>
 				<div class="side"></div>
@@ -836,11 +833,10 @@
 				</div>
 			</figure>
 
-			<p>The CSS rotate3d() function is used to rotate elements in a three-dimensional space. To create the
-				illusion of a hole, above, 2 <code>path</code> elements create squares. Those squares are rotated around
-				an axis. Specifically they are rotated around the X axis: <mark>rotateX(68deg)</mark>, and the Z axis:
-				<mark>rotateZ(-32deg)</mark>.
-			</p>
+			<p>CSS 3D transforms rotate elements in three-dimensional space. To create the illusion of a hole above,
+				two <code>path</code> elements draw nested steps, and the whole SVG is tipped back around the X axis with
+				<code>rotateX(68deg)</code> and turned around the Z axis with <code>rotateZ(-32deg)</code>, inside a parent
+				with <code>perspective</code>.</p>
 		</article>
 	</main>
 
@@ -848,7 +844,7 @@
 		<h2 id="footnote-label">Footnotes</h2>
 		<ol>
 			<li id="footnotes">This is an adaptation of a motion perception illusion by Mathew T. Harrison and Gideon P.
-				Caplovitz from the University of Reno, Nevada, USA. Their illusion was written up in <a
+				Caplovitz from the University of Nevada, Reno. Their illusion was written up in <a
 					href="https://blogs.scientificamerican.com/illusion-chasers/a-review-of-2016-s-best-illusion-of-the-year-contest-video/">Scientific
 					American</a> and explained in a <a href="https://youtu.be/Jri0del_6t4">YouTube</a> video.<a
 					href="#footnotes-ref" aria-label="Back to content">↩</a></li>
@@ -856,8 +852,8 @@
 		</ol>
 		<div>
 			<p>Justin Chill &copy; 2026</p>
-			<span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img
-						src="imgs/github.svg" alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
+			<span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
+            alt="" class="icon" width="16" height="16" loading="lazy" decoding="async">Source code<span class="visually-hidden"> (opens in new tab)</span></a></span>
 		</div>
 	</footer>
 
@@ -906,7 +902,14 @@
 
 		function draw(now) {
 			requestAnimationFrame(draw);
-			let offset = now * speed;
+			// Time only advances while playing, so pausing freezes the frame
+			if (lastNow !== null && !isPaused()) elapsed += now - lastNow;
+			lastNow = now;
+			drawFrame(elapsed);
+		}
+
+		function drawFrame(time) {
+			let offset = time * speed;
 			ctx.save();
 			ctx.clearRect(0, 0, w, h);
 			const isDark = document.documentElement.getAttribute("data-theme") === "dark";
@@ -953,8 +956,39 @@
 			}
 		}
 
+		const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+		const isPaused = () => document.querySelector("article")?.classList.contains("motion-paused");
+		let elapsed = 0;
+		let lastNow = null;
+
 		setup();
-		draw(performance.now());
+		if (reduceMotion) {
+			requestAnimationFrame(() => drawFrame(0));
+		} else {
+			requestAnimationFrame(draw);
+		}
+
+		// Fraser spiral: rings of alternating light and dark bars, each tilted off the circle,
+		// read as one inward spiral although every ring is a separate circle
+		(function () {
+			const g = document.getElementById("fraser-cords");
+			if (!g) return;
+			const NS = "http://www.w3.org/2000/svg";
+			const tilt = 28;
+			[24, 42, 60, 78, 96].forEach((r) => {
+				const n = 2 * Math.round((Math.PI * r) / 8);
+				for (let k = 0; k < n; k++) {
+					const bar = document.createElementNS(NS, "rect");
+					bar.setAttribute("x", -5);
+					bar.setAttribute("y", -3.5);
+					bar.setAttribute("width", 10);
+					bar.setAttribute("height", 7);
+					bar.setAttribute("transform", `rotate(${(360 * k) / n}) translate(${r} 0) rotate(${90 + tilt})`);
+					bar.setAttribute("class", k % 2 ? "cord-dark" : "cord-light");
+					g.appendChild(bar);
+				}
+			});
+		})();
 
 		(function () {
 			var canvas = document.getElementById("canvas-spin");
@@ -978,7 +1012,7 @@
 			var startIncrement = -0.2;
 
 			function draw() {
-				requestAnimationFrame(draw);
+				if (!reduceMotion) requestAnimationFrame(draw);
 				ctx.clearRect(0, 0, w, h);
 				const isDark = document.documentElement.getAttribute("data-theme") === "dark";
 				ctx.strokeStyle = isDark ? "#cbd5e1" : "#1e293b";
@@ -991,7 +1025,7 @@
 					t += 0.1;
 				}
 				ctx.stroke();
-				start += startIncrement;
+				if (!isPaused()) start += startIncrement;
 			}
 			requestAnimationFrame(draw);
 

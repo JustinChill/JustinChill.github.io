@@ -25,7 +25,7 @@
 
   <!-- Article metadata -->
   <meta property="article:published_time" content="2025-07-04">
-  <meta property="article:modified_time" content="2026-08-23">
+  <meta property="article:modified_time" content="2026-11-22">
   <meta property="article:author" content="Justin Chill">
   <meta property="article:section" content="Customer Experience">
 
@@ -40,17 +40,15 @@
   <meta property="og:locality" content="NY">
   <meta property="og:region" content="NY">
   <meta property="og:country_name" content="USA">
-  <meta
-    content="https://cdn.prod.website-files.com/633ec8b202a7496fb9c9dda9/64020daae50d701ac16ebd7a_Net%20Promoter%20Score.jpeg"
-    property="og:image">
-  <meta content="1200" property="og:image:width">
-  <meta content="630" property="og:image:height">
+  <meta content="https://justinchill.com/imgs/cover/nps_cover.webp" property="og:image">
+  <meta content="800" property="og:image:width">
+  <meta content="418" property="og:image:height">
   <meta
     content="Infographic showing Net Promoter Score. It features a formula: percentage of promoters (smiley faces) minus percentage of detractors (frowning faces), with passives as neutral faces in between, ranked from 0 to 10."
     property="og:image:alt">
 
   <meta name="datePublished" content="2025-07-04">
-  <meta name="dateModified" content="2026-08-23">
+  <meta name="dateModified" content="2026-11-22">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -58,9 +56,7 @@
   <meta name="twitter:creator" content="@JustinChill">
   <meta name="twitter:title" content="Net Promoter Score (NPS) | Justin Chill">
   <meta name="twitter:description" content="Understanding Net Promoter Scores to effectively measure customer loyalty">
-  <meta
-    content="https://cdn.prod.website-files.com/633ec8b202a7496fb9c9dda9/64020daae50d701ac16ebd7a_Net%20Promoter%20Score.jpeg"
-    name="twitter:image">
+  <meta content="https://justinchill.com/imgs/cover/nps_cover.webp" name="twitter:image">
   <meta
     name="twitter:image:alt"
     content="Infographic showing Net Promoter Score. It features a formula: percentage of promoters minus percentage of detractors, with passives in between.">
@@ -131,8 +127,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
+      color: #1f1f1f;
       font-size: var(--type-scale-1);
+      /* Camphor's digits sit high in the line box; nudge them to the optical centre */
+      padding-top: 0.19em;
+      box-sizing: border-box;
       border-right: 1px solid rgba(255, 255, 255, 0.4);
       /* The white dividers */
     }
@@ -155,6 +154,11 @@
       background-color: #008641;
     }
 
+    /* White only where the segment is dark enough for it */
+    .nps-group.promoter .nps-numbers span {
+      color: #ffffff;
+    }
+
     .nps-label {
       text-align: center;
       margin-top: 0.5rem;
@@ -163,22 +167,33 @@
 
     /* Text colors for bottom labels */
     .nps-group.detractor .nps-label {
-      color: #eb8023;
+      color: #a8540c;
     }
 
     .nps-group.passive .nps-label {
-      color: #c1cd55;
+      color: #5f6b12;
     }
 
     .nps-group.promoter .nps-label {
-      color: #008641;
+      color: #007a3b;
+    }
+
+    html[data-theme="dark"] .nps-group.detractor .nps-label {
+      color: #eb8023;
+    }
+
+    html[data-theme="dark"] .nps-group.passive .nps-label {
+      color: #c1cd55;
+    }
+
+    html[data-theme="dark"] .nps-group.promoter .nps-label {
+      color: #2fbf71;
     }
 
     .nps-formula {
       text-align: center;
       margin-top: 2rem;
-      font-family: sans-serif;
-      /* Formula usually looks better in sans */
+      font-family: var(--font-ui);
       font-weight: bold;
       color: #444;
       letter-spacing: 1px;
@@ -195,14 +210,41 @@
       .nps-top-labels {
         font-size: 0.75rem;
       }
+
+      .nps-label {
+        font-size: 0.8rem;
+      }
     }
 
     span.green {
-      color: var(--green);
+      color: #1b7a2f;
     }
 
     span.red {
+      color: #c62828;
+    }
+
+    html[data-theme="dark"] span.green {
+      color: var(--green);
+    }
+
+    html[data-theme="dark"] span.red {
       color: var(--red);
+    }
+
+    /* The closed-loop diagram */
+    .nps-loop svg {
+      display: block;
+      width: 100%;
+      max-width: 440px;
+      margin: 0 auto;
+      color: var(--text-color);
+      font-family: var(--font-ui);
+    }
+
+    .nps-loop rect {
+      fill: var(--surface-subtle);
+      stroke: var(--rule-color);
     }
 
     .center {
@@ -226,7 +268,8 @@
     }
 
     .slider-wrapper {
-      margin: 2rem auto;
+      /* Extra room above for the value label */
+      margin: 3.25rem auto 2rem;
       max-width: 100%;
       position: relative;
       width: 500px;
@@ -278,7 +321,7 @@
 
     .slider-wrapper output {
       position: absolute;
-      top: -30px;
+      top: -40px;
       left: 80%;
       transform: translateX(-50%);
       font-weight: 700;
@@ -438,6 +481,7 @@
     }
 
     .example .title {
+      font-family: var(--font-ui);
       font-size: 1.5rem;
       font-weight: 700;
       color: #222;
@@ -576,7 +620,7 @@
   "name": "Net Promoter Score (NPS) | Justin Chill",
   "description": "Understanding Net Promoter Scores to effectively measure customer loyalty",
   "datePublished": "2025-07-04",
-  "dateModified": "2026-08-23",
+  "dateModified": "2026-11-22",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
   "articleSection": "Customer Experience",
@@ -617,7 +661,7 @@
   },
   "image": {
     "@type": "ImageObject",
-    "url": "https://cdn.prod.website-files.com/633ec8b202a7496fb9c9dda9/64020daae50d701ac16ebd7a_Net%20Promoter%20Score.jpeg",
+    "url": "https://justinchill.com/imgs/cover/nps_cover.webp",
     "caption": "Infographic showing Net Promoter Score formula: percentage of promoters minus percentage of detractors, with passives in between.",
     "width": 1200,
     "height": 630
@@ -698,35 +742,35 @@
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-  <nav class="nav" role="navigation">
+  <nav class="nav" aria-label="Main">
     <div class="nav__list">
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
     
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" aria-pressed="false" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new tab)</span></a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
 
-  <main role="main" id="content">
+  <main id="content">
     <article>
       <div class="article-hero">
         <p class="article-category">Post</p>
@@ -737,7 +781,8 @@
       <p>Loyalty economics expert Fred Reichheld introduced the Net Promoter Score (NPS) in a 2003 Harvard Business
         Review article titled, “<a href="https://hbr.org/2003/12/the-one-number-you-need-to-grow">The One Number You
           Need to Grow</a>.” Reichheld posits that how well an organization generates customer loyalty can be
-        measured by asking customers, <i>"Would you recommend this company to a friend?"</i> Customers are asked to
+        measured by asking customers one question: <i>“How likely is it that you would recommend [company X] to a friend or
+          colleague?”</i> Customers are asked to
         rate their answers on a 0–10 scale, which is divided into three categories: “Detractors,” “Passives,” and
         “Promoters.”</p>
       <ul>
@@ -748,9 +793,10 @@
         <li>9–10: <b>Promoters</b>. These are your loyal and enthusiastic customers.</li>
       </ul>
       <p>NPS is calculated by subtracting the percentage of Detractors from the percentage of Promoters. For example, if
-        10% of respondents are Detractors, 20% are Passives, and 70% are Promoters, your NPS score would be 70 – 10 =
-        <b>60%</b>.</p>
-      <p class="center"><b><span class="green">% Promoters</span> – <span class="red">% Detractors</span> = Net Promoter
+        10% of respondents are Detractors, 20% are Passives, and 70% are Promoters, your NPS would be 70 − 10 =
+        <b>60</b>. Scores run from −100, when every respondent is a Detractor, to +100, when every respondent is a
+        Promoter.</p>
+      <p class="center"><b><span class="green">% Promoters</span> − <span class="red">% Detractors</span> = Net Promoter
           Score</b></p>
       <h2>Pros and Cons of Using NPS</h2>
       <h3>Pros</h3>
@@ -758,7 +804,7 @@
         <li>The NPS system is correlated with increased business growth.<a href="#biz" aria-describedby="footnote-label"
             id="biz-ref"></a></li>
         <li>Allows for easy <a
-            href="https://www.surveymonkey.com/mp/net-promoter-score-benchmarks-customer-loyalty/?ut_source=mp&ut_source2=nps-pros-cons-why-use-nps&ut_source3=inline">benchmarking</a> across industries.</li>
+            href="https://www.surveymonkey.com/learn/customer-feedback/net-promoter-score-benchmarks-customer-loyalty/">benchmarking</a> across industries.</li>
         <li>Uses a common language to classify customers.</li>
         <li>The NPS system is intuitive and easy to use.</li>
       </ul>
@@ -766,11 +812,13 @@
       <ul>
         <li>Feedback captured is limited.</li>
         <li>Requires a customer management strategy to act on the results.</li>
+        <li>Academic studies have questioned whether NPS predicts growth any better than other measures of customer
+          satisfaction.<a href="#keiningham" aria-describedby="footnote-label" id="keiningham-ref"></a></li>
       </ul>
       <blockquote>
         <p>“NPS is the first screen I look at on my computer when I arrive at the office each morning. It provides a
           litmus test of how well we are living up to our core values.”</p>
-        <cite>&mdash; Walt Bettinger, Charles Schwab CEO</cite>
+        <cite>&mdash; Walt Bettinger, former CEO of Charles Schwab</cite>
       </blockquote>
 
       <h2>Net Promoter Philosophy</h2>
@@ -818,7 +866,7 @@
               </div>
 
               <div class="nps-formula">
-                % Promoters - % Detractors = NPS (Net Promoter Score)
+                % Promoters − % Detractors = NPS (Net Promoter Score)
               </div>
 
             </div>
@@ -829,9 +877,36 @@
         </li>
         <li>
           <h3>Develop a feedback process</h3>
-          <div class="center"><img src="imgs/BakBone_closed_loop.jpg"
-              alt="Flowchart depicting a Closed Loop Process with four green boxes and arrows in a circular arrangement. Boxes read: Strategy Definition, Plan Execution, Validation &amp; Measurement, and Investment Maintenance."
-              loading="lazy" width="400" height="382"></div>
+          <figure class="nps-loop">
+            <svg viewBox="0 0 440 300" role="img" aria-labelledby="loop-title">
+              <title id="loop-title">The closed loop: ask customers for feedback, find the root cause, act on it, then follow up with the customer, and start again.</title>
+              <defs>
+                <marker id="loop-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7"
+                  orient="auto">
+                  <path d="M0,0 L10,5 L0,10 z" fill="currentColor" />
+                </marker>
+              </defs>
+              <g fill="none" stroke="currentColor" stroke-width="2" stroke-opacity="0.6" marker-end="url(#loop-arrow)">
+                <path d="M 288 42 Q 350 45 355 122" />
+                <path d="M 355 178 Q 350 255 290 258" />
+                <path d="M 132 258 Q 90 255 85 178" />
+                <path d="M 85 122 Q 90 45 130 42" />
+              </g>
+              <g stroke-width="1.5">
+                <rect x="135" y="20" width="150" height="44" rx="8" />
+                <rect x="280" y="128" width="150" height="44" rx="8" />
+                <rect x="135" y="236" width="150" height="44" rx="8" />
+                <rect x="10" y="128" width="150" height="44" rx="8" />
+              </g>
+              <g fill="currentColor" font-size="14" text-anchor="middle" dominant-baseline="central">
+                <text x="210" y="42">Ask for feedback</text>
+                <text x="355" y="150">Find the root cause</text>
+                <text x="210" y="258">Act on it</text>
+                <text x="85" y="150">Follow up</text>
+                <text x="220" y="150" font-style="italic" fill-opacity="0.75">Closed loop</text>
+              </g>
+            </svg>
+          </figure>
           <p>Feedback loops enable companies to begin the process of discovering the root cause of the customer's
             experience — the deeper reasons underlying the customer's score — and then take action to improve that
             experience. This is commonly referred to as closing the loop. “Closing the loop” means sharing feedback from
@@ -865,7 +940,7 @@
 
           <div class="custom-slider-widget">
             <div class="slider-wrapper">
-              <label for="widget1" class="sr-only">NPS Rating Slider</label>
+              <label for="widget1" class="screen-reader-text">NPS Rating Slider</label>
               <input type="range" min="0" max="10" value="8" id="widget1" step="1">
               <div class="custom-track" aria-hidden="true">
                 <span class="custom-fill"></span>
@@ -889,7 +964,7 @@
           <div class="title" role="heading" aria-level="4">Feedback</div>
           <p class="sub">What are the primary reasons for the score you gave us?</p>
 
-          <label for="widget2" class="sr-only">Primary reasons for your score</label>
+          <label for="widget2" class="screen-reader-text">Primary reasons for your score</label>
           <textarea id="widget2" name="widget2" spellcheck="true" rows="10" cols="50"></textarea>
 
           <div class="actions">
@@ -908,7 +983,7 @@
           <div class="title" role="heading" aria-level="4">Feedback</div>
           <p class="sub">Is there anything specific we can do to improve your experience?</p>
 
-          <label for="widget3" class="sr-only">Suggestions for improvement</label>
+          <label for="widget3" class="screen-reader-text">Suggestions for improvement</label>
           <textarea id="widget3" name="widget3" spellcheck="true" rows="10" cols="50"></textarea>
 
           <div class="actions">
@@ -929,8 +1004,8 @@
           <p class="sub">Would it be OK for us to follow up with you about your responses?</p>
 
           <fieldset>
-            <legend class="sr-only">Permission to follow up</legend>
-            <input id="Field5_0" name="Field5" type="radio" value="Yes" checked="checked">
+            <legend class="screen-reader-text">Permission to follow up</legend>
+            <input id="Field5_0" name="Field5" type="radio" value="Yes">
             <label class="choice" for="Field5_0">Yes</label>
             <input id="Field5_1" name="Field5" type="radio" value="No">
             <label class="choice" for="Field5_1">No</label>
@@ -964,11 +1039,15 @@
           href="https://www.bain.com/insights/introducing-the-net-promoter-system-loyalty-insights/"><em>Introducing:
             The Net Promoter System</em><sup>®</sup>, 2011</a>.<a href="#biz-ref" aria-label="Back to content">↩</a>
       </li>
+      <li id="keiningham"><strong>Timothy L. Keiningham, Bruce Cooil, Tor Wallin Andreassen and Lerzan Aksoy</strong>, “<a
+          href="https://doi.org/10.1509/jmkg.71.3.039">A Longitudinal Examination of Net Promoter and Firm Revenue
+          Growth</a>,” <em>Journal of Marketing</em>, July 2007. <a href="#keiningham-ref"
+          aria-label="Back to content">↩</a></li>
     </ol>
     <div>
       <p>Justin Chill &copy; 2026</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener"><img src="imgs/github.svg"
-            alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
+            alt="" class="icon" width="16" height="16" loading="lazy" decoding="async">Source code<span class="visually-hidden"> (opens in new tab)</span></a></span>
     </div>
   </footer>
   <script type="text/javascript">
