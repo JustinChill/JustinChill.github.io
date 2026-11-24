@@ -54,6 +54,16 @@
     }
   });
 
+  // Print in the light theme, then put the visitor's theme back.
+  let printedFromDark = false;
+  window.addEventListener("beforeprint", () => {
+    printedFromDark = document.documentElement.getAttribute("data-theme") === "dark";
+    if (printedFromDark) applyTheme("light");
+  });
+  window.addEventListener("afterprint", () => {
+    if (printedFromDark) applyTheme("dark");
+  });
+
   // Pause/play buttons for pages with looping animations.
   document.querySelectorAll(".motion-toggle").forEach((btn) => {
     btn.addEventListener("click", () => {

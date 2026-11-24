@@ -30,13 +30,13 @@
   <meta content="An ode to an artist gone way too soon." property="og:description">
   <meta content="https://justinchill.com/blog.html" property="og:see_also">
   <meta content="https://justinchill.com/imgs/cover/mac_cover.webp" property="og:image">
-  <meta content="An interactive tribute and showcase celebrating Mac Miller album artwork: Movies, GO:OD AM, Swimming, On &amp; On, and Circles." property="og:image:alt">
+  <meta content="Five tall panels of Mac Miller pictures titled Movies, GO:OD AM, Swimming, On &amp; On and Circles." property="og:image:alt">
   <meta property="og:locality" content="Pittsburgh">
   <meta property="og:region" content="PA">
   <meta property="og:country_name" content="USA">
 
   <meta name="datePublished" content="2021-01-30">
-  <meta name="dateModified" content="2026-08-23">
+  <meta name="dateModified" content="2026-11-23">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -53,431 +53,317 @@
   <meta name="theme-color" content="#4C63B6">
   <meta name="color-scheme" content="light dark">
 
-  <style type="text/css">
-		main {
-			font-family: "Open Sans", Helvetica, Arial, sans-serif;
-		}
-
-		.cont {
-			position: relative;
-			overflow: hidden;
-			height: 100vh;
-			height: 100dvh;
-			padding: 0px 120px;
-		}
-
-		.cont__inner {
-			position: relative;
-			height: 100%;
-		}
-
-		.cont__inner:hover .el__bg:after {
-			opacity: 1;
-		}
-
-		.el {
-			position: absolute;
-			left: 0;
-			top: 0;
-			width: 19.2%;
-			height: 100%;
-			/*background: #252525;*/
-			transition: transform 0.6s 0.7s, width 0.7s, opacity 0.6s 0.7s, z-index 0s 1.3s;
-			will-change: transform, width, opacity;
-		}
-
-		.el:not(.s--active) {
-			cursor: pointer;
-		}
-
-		.el__overflow {
-			overflow: hidden;
-			position: relative;
-			height: 100%;
-		}
-
-		.el__inner {
-			overflow: hidden;
-			position: relative;
-			height: 100%;
-			transition: transform 1s;
-		}
-
-		.cont.s--inactive .el__inner {
-			transform: translate3d(0, 100%, 0);
-		}
-
-		.el__bg {
-			position: relative;
-			width: calc(100vw - 140px);
-			height: 100%;
-			transition: transform 0.6s 0.7s;
-			will-change: transform;
-		}
-
-		.el__bg:before {
-			content: "";
-			position: absolute;
-			left: 0;
-			top: -5%;
-			width: 100%;
-			height: 110%;
-			background-size: cover;
-			background-position: center center;
-			transition: transform 1s;
-			transform: translate3d(0, 0, 0) scale(1);
-		}
-
-		.cont.s--inactive .el__bg:before {
-			transform: translate3d(0, -100%, 0) scale(1.2);
-		}
-
-		.el.s--active .el__bg:before {
-			transition: transform 0.8s;
-		}
-
-		.el__bg:after {
-			content: "";
-			z-index: 1;
-			position: absolute;
-			left: 0;
-			top: 0;
-			width: 100%;
-			height: 100%;
-			background: rgba(0, 0, 0, 0.15);
-			opacity: 0;
-			transition: opacity 0.5s;
-		}
-
-		.cont.s--el-active .el__bg:after {
-			transition: opacity 0.5s 1.4s;
-			opacity: 1 !important;
-		}
-
-		.el__preview-cont {
-			z-index: 2;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			position: absolute;
-			left: 0;
-			top: 0;
-			width: 100%;
-			height: 100%;
-			transition: all 0.3s 1.2s;
-		}
-
-		.cont.s--inactive .el__preview-cont {
-			opacity: 0;
-			transform: translateY(10px);
-		}
-
-		.cont.s--el-active .el__preview-cont {
-			opacity: 0;
-			transform: translateY(30px);
-			transition: all 0.5s;
-		}
-
-		.el__heading {
-			color: #fff;
-			text-transform: uppercase;
-			font-size: 2.25rem;
-			text-align: center;
-		}
-
-		h2.goodam {
-			color: hsl(211, 39%, 23%);
-		}
-
-		.el__content {
-			z-index: -1;
-			position: absolute;
-			left: 0;
-			top: 0;
-			width: 100%;
-			height: 100%;
-			padding: 30px;
-			opacity: 0;
-			pointer-events: none;
-			transition: all 0.1s;
-		}
-
-		.el.s--active .el__content {
-			z-index: 2;
-			opacity: 1;
-			pointer-events: auto;
-			transition: all 0.5s 1.4s;
-		}
-
-		.el__text {
-			text-transform: uppercase;
-			font-size: 40px;
-			color: #fff;
-		}
-
-		.el__close-btn {
-			z-index: -1;
-			position: absolute;
-			right: 10px;
-			top: 10px;
-			width: 60px;
-			height: 60px;
-			opacity: 0;
-			pointer-events: none;
-			transition: all 0s 0.45s;
-			cursor: pointer;
-		}
-
-		.el.s--active .el__close-btn {
-			z-index: 5;
-			opacity: 1;
-			pointer-events: auto;
-			transition: all 0s 1.4s;
-		}
-
-		.el__close-btn:before,
-		.el__close-btn:after {
-			content: "";
-			position: absolute;
-			left: 0;
-			top: 50%;
-			width: 100%;
-			height: 8px;
-			margin-top: -4px;
-			background: #fff;
-			opacity: 0;
-			transition: opacity 0s;
-		}
-
-		.el.s--active .el__close-btn:before,
-		.el.s--active .el__close-btn:after {
-			opacity: 1;
-		}
-
-		.el__close-btn:before {
-			transform: rotate(45deg) translateX(100%);
-		}
-
-		.el.s--active .el__close-btn:before {
-			transition: all 0.3s 1.4s cubic-bezier(0.72, 0.09, 0.32, 1.57);
-			transform: rotate(45deg) translateX(0);
-		}
-
-		.el__close-btn:after {
-			transform: rotate(-45deg) translateX(100%);
-		}
-
-		.el.s--active .el__close-btn:after {
-			transition: all 0.3s 1.55s cubic-bezier(0.72, 0.09, 0.32, 1.57);
-			transform: rotate(-45deg) translateX(0);
-		}
-
-		.el:focus-visible {
-			outline: 3px solid #fff;
-			outline-offset: -3px;
-			z-index: 10;
-		}
-
-		.el__close-btn:focus-visible {
-			outline: 2px solid #fff;
-			outline-offset: 4px;
-			border-radius: 4px;
-		}
-
-		@media (prefers-reduced-motion: reduce) {
-			.el,
-			.el__inner,
-			.el__bg,
-			.el__bg:before,
-			.el__bg:after,
-			.el__preview-cont,
-			.el__content,
-			.el__close-btn:before,
-			.el__close-btn:after {
-				transition: opacity 0.2s ease !important;
-				transform: none !important;
-			}
-		}
-
-		.el:nth-child(1) {
-			transform: translate3d(0%, 0, 0);
-			transform-origin: 50% 50%;
-		}
-
-		.cont.s--el-active .el:nth-child(1):not(.s--active) {
-			transform: scale(0.5) translate3d(0%, 0, 0);
-			opacity: 0;
-			transition: transform 0.95s, opacity 0.95s;
-		}
-
-		.el:nth-child(1) .el__inner {
-			transition-delay: 0s;
-		}
-
-		.el:nth-child(1) .el__bg {
-			transform: translate3d(0%, 0, 0);
-		}
-
-		.el:nth-child(1) .el__bg:before {
-			transition-delay: 0s;
-			background-image: url("imgs/mac1.jpg");
-		}
-
-		.el:nth-child(2) {
-			transform: translate3d(105.2083333333%, 0, 0);
-			transform-origin: 155.2083333333% 50%;
-		}
-
-		.cont.s--el-active .el:nth-child(2):not(.s--active) {
-			transform: scale(0.5) translate3d(105.2083333333%, 0, 0);
-			opacity: 0;
-			transition: transform 0.95s, opacity 0.95s;
-		}
-
-		.el:nth-child(2) .el__inner {
-			transition-delay: 0.1s;
-		}
-
-		.el:nth-child(2) .el__bg {
-			transform: translate3d(-19.2%, 0, 0);
-		}
-
-		.el:nth-child(2) .el__bg:before {
-			transition-delay: 0.1s;
-			background-image: url("imgs/mac2-min.jpg");
-		}
-
-		.el:nth-child(3) {
-			transform: translate3d(210.4166666667%, 0, 0);
-			transform-origin: 260.4166666667% 50%;
-		}
-
-		.cont.s--el-active .el:nth-child(3):not(.s--active) {
-			transform: scale(0.5) translate3d(210.4166666667%, 0, 0);
-			opacity: 0;
-			transition: transform 0.95s, opacity 0.95s;
-		}
-
-		.el:nth-child(3) .el__inner {
-			transition-delay: 0.2s;
-		}
-
-		.el:nth-child(3) .el__bg {
-			transform: translate3d(-38.4%, 0, 0);
-		}
-
-		.el:nth-child(3) .el__bg:before {
-			transition-delay: 0.2s;
-			background-image: url("imgs/mac3-min.jpg");
-		}
-
-		.el:nth-child(4) {
-			transform: translate3d(315.625%, 0, 0);
-			transform-origin: 365.625% 50%;
-		}
-
-		.cont.s--el-active .el:nth-child(4):not(.s--active) {
-			transform: scale(0.5) translate3d(315.625%, 0, 0);
-			opacity: 0;
-			transition: transform 0.95s, opacity 0.95s;
-		}
-
-		.el:nth-child(4) .el__inner {
-			transition-delay: 0.3s;
-		}
-
-		.el:nth-child(4) .el__bg {
-			transform: translate3d(-57.6%, 0, 0);
-		}
-
-		.el:nth-child(4) .el__bg:before {
-			transition-delay: 0.3s;
-			background-image: url("imgs/mac4.jpg");
-		}
-
-		.el:nth-child(5) {
-			transform: translate3d(420.8333333333%, 0, 0);
-			transform-origin: 470.8333333333% 50%;
-		}
-
-		.cont.s--el-active .el:nth-child(5):not(.s--active) {
-			transform: scale(0.5) translate3d(420.8333333333%, 0, 0);
-			opacity: 0;
-			transition: transform 0.95s, opacity 0.95s;
-		}
-
-		.el:nth-child(5) .el__inner {
-			transition-delay: 0.4s;
-		}
-
-		.el:nth-child(5) .el__bg {
-			transform: translate3d(-76.8%, 0, 0);
-		}
-
-		.el:nth-child(5) .el__bg:before {
-			transition-delay: 0.4s;
-			background-image: url("imgs/mac5-min.png");
-		}
-
-		.el:hover .el__bg:after {
-			opacity: 0;
-		}
-
-		.el.s--active {
-			z-index: 1;
-			width: 100%;
-			transform: translate3d(0, 0, 0);
-			transition: transform 0.6s, width 0.7s 0.7s, z-index 0s;
-		}
-
-		.el.s--active .el__bg {
-			transform: translate3d(0, 0, 0);
-			transition: transform 0.6s;
-		}
-
-		.el.s--active .el__bg:before {
-			transition-delay: 0.6s;
-			transform: scale(1);
-		}
-
-		nav.nav {
-			z-index: 999;
-		}
-
-		@media (min-width: 1024px) {
-			.nav,
-			html[data-theme="dark"] .nav {
-				background-color: transparent !important;
-				background: transparent !important;
-			}
-		}
-
-		@media (max-width: 900px) {
-			.cont {
-				padding: 1rem 1rem;
-			}
-
-			.el__heading {
-				font-size: 1.2rem;
-			}
-
-			.el__bg {
-				width: 100%;
-			}
-
-			.el:nth-child(3) .el__bg {
-				transform: translate3d(0%, 0, 0);
-			}
-
-			.el:nth-child(4) .el__bg {
-				transform: translate3d(0%, 0, 0);
-			}
-
-			.el:nth-child(5) .el__bg {
-				transform: translate3d(0%, 0, 0);
-			}
-		}
-	</style>
+  <style>
+    main {
+      font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    }
+
+    /* Spans the article grid; the side padding clears the fixed nav, which grows on wide screens */
+    .cont {
+      grid-column: 1 / -1;
+      position: relative;
+      overflow: hidden;
+      height: 100vh;
+      height: 100dvh;
+      padding: 0 max(120px, 8.5vw);
+    }
+
+    .cont__inner {
+      position: relative;
+      height: 100%;
+      container-type: inline-size;
+    }
+
+    /* Five strips. --i is the strip's place in the row; everything else follows from it */
+    .el {
+      --x: calc(var(--i) * 105.2083%);
+      --ink: #fff;
+      --halo: rgba(0, 0, 0, 0.7);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 19.2%;
+      height: 100%;
+      transform: translate3d(var(--x), 0, 0);
+      transform-origin: calc(50% + var(--i) * 105.2083%) 50%;
+      transition: transform 0.6s 0.7s, width 0.7s, opacity 0.6s 0.7s, z-index 0s 1.3s;
+      will-change: transform, width, opacity;
+    }
+
+    .el:nth-child(1) { --i: 0; --img: url("imgs/mac-miller/movies.webp"); }
+    .el:nth-child(2) { --i: 1; --img: url("imgs/mac-miller/good-am.webp"); --ink: hsl(211, 39%, 23%); --halo: #fff; }
+    .el:nth-child(3) { --i: 2; --img: url("imgs/mac-miller/swimming.webp"); }
+    .el:nth-child(4) { --i: 3; --img: url("imgs/mac-miller/on-and-on.webp"); }
+    .el:nth-child(5) { --i: 4; --img: url("imgs/mac-miller/circles.webp"); }
+
+    .cont.s--el-active .el:not(.s--active) {
+      transform: scale(0.5) translate3d(var(--x), 0, 0);
+      opacity: 0;
+      visibility: hidden;
+      transition: transform 0.95s, opacity 0.95s, visibility 0s 0.95s;
+    }
+
+    .el.s--active {
+      z-index: 1;
+      width: 100%;
+      transform: translate3d(0, 0, 0);
+      transition: transform 0.6s, width 0.7s 0.7s, z-index 0s;
+    }
+
+    .el__overflow,
+    .el__inner {
+      overflow: hidden;
+      position: relative;
+      height: 100%;
+    }
+
+    .el__inner {
+      transition: transform 1s calc(var(--i) * 0.1s);
+    }
+
+    .js .cont.s--inactive .el__inner {
+      transform: translate3d(0, 100%, 0);
+    }
+
+    .el__bg {
+      position: relative;
+      width: 100cqw;
+      height: 100%;
+      transform: translate3d(calc(var(--i) * -20.2%), 0, 0);
+      transition: transform 0.6s 0.7s;
+      will-change: transform;
+    }
+
+    .el.s--active .el__bg {
+      transform: translate3d(0, 0, 0);
+      transition: transform 0.6s;
+    }
+
+    .el__bg::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: -5%;
+      width: 100%;
+      height: 110%;
+      background: var(--img) center / cover;
+      transition: transform 1s calc(var(--i) * 0.1s);
+    }
+
+    .js .cont.s--inactive .el__bg::before {
+      transform: translate3d(0, -100%, 0) scale(1.2);
+    }
+
+    .el.s--active .el__bg::before {
+      transition: transform 0.8s 0.6s;
+    }
+
+    /* Dim the other strips while one is hovered */
+    .el__bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: rgba(0, 0, 0, 0.15);
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    @media (hover: hover) {
+      .cont__inner:hover .el:not(:hover) .el__bg::after {
+        opacity: 1;
+      }
+    }
+
+    .el__preview-cont {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.3s 1.2s, transform 0.3s 1.2s;
+    }
+
+    .js .cont.s--inactive .el__preview-cont {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    .cont.s--el-active .el__preview-cont {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(30px);
+      transition: opacity 0.5s, transform 0.5s, visibility 0s 0.5s;
+    }
+
+    /* Titles carry a tight glow so they stay readable over pale artwork */
+    .el__heading,
+    .el__text {
+      color: var(--ink);
+      text-shadow: 0 0 0.08em var(--halo), 0 0 0.12em var(--halo), 0 0 0.2em var(--halo), 0 0 0.4em var(--halo);
+      text-transform: uppercase;
+    }
+
+    .el__heading {
+      margin: 0;
+      font-size: clamp(1.5rem, 2.8vw, 2.25rem);
+      text-align: center;
+    }
+
+    .el__open,
+    .el__close-btn {
+      padding: 0;
+      border: 0;
+      background: none;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    .el__open {
+      font: inherit;
+      text-shadow: inherit;
+      text-transform: inherit;
+    }
+
+    /* The whole strip is the click target, and shows the focus ring */
+    .el__open::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+    }
+
+    .el__open:focus {
+      outline-color: transparent;
+    }
+
+    .el__open:focus-visible::after {
+      outline: 3px solid #fff;
+      outline-offset: -3px;
+      box-shadow: inset 0 0 0 6px rgba(0, 0, 0, 0.6);
+    }
+
+    .el__content {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      padding: 30px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.1s;
+    }
+
+    .el.s--active .el__content {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.5s 1.4s;
+    }
+
+    .el__text {
+      max-width: calc(100% - 70px);
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      line-height: 1.3;
+    }
+
+    .el__close-btn {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      width: 60px;
+      height: 60px;
+      filter: drop-shadow(0 0 2px var(--halo));
+    }
+
+    .el__close-btn::before,
+    .el__close-btn::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      height: 8px;
+      margin-top: -4px;
+      background: var(--ink);
+    }
+
+    .el__close-btn::before {
+      transform: rotate(45deg);
+    }
+
+    .el__close-btn::after {
+      transform: rotate(-45deg);
+    }
+
+    .el__close-btn:focus-visible {
+      outline: 2px solid var(--ink);
+      outline-offset: 4px;
+      border-radius: 4px;
+    }
+
+    article .miss-you {
+      margin-bottom: 0;
+      font-size: clamp(2rem, 5vw, 2.5rem);
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .credits {
+      color: var(--muted-color);
+      font-family: var(--font-ui);
+      font-size: 0.875rem;
+      text-align: center;
+    }
+
+    nav.nav {
+      z-index: 999;
+    }
+
+    @media (min-width: 1024px) {
+
+      .nav,
+      html[data-theme="dark"] .nav {
+        background: transparent !important;
+      }
+    }
+
+    /* style.css caps the article at 1600px here, which already clears the nav */
+    @media (min-width: 1920px) {
+      .cont {
+        padding: 0 2rem;
+      }
+    }
+
+    /* Below 1024px the nav sits above the page instead of beside it */
+    @media (max-width: 1023px) {
+      .cont {
+        height: calc(100vh - 3.25rem);
+        height: calc(100dvh - 3.25rem);
+        padding: 1rem;
+      }
+
+      .el__bg {
+        width: 100%;
+        transform: none;
+      }
+    }
+
+    /* Strips are too narrow for the titles on phones: set them on their side */
+    @media (max-width: 600px) {
+      .el__open {
+        writing-mode: vertical-rl;
+      }
+    }
+
+    /* style.css already drops transitions; these are the pseudo-elements it can't reach.
+       The transforms stay, because they are what puts the strips side by side. */
+    @media (prefers-reduced-motion: reduce) {
+
+      .el__bg::before,
+      .el__bg::after {
+        transition: none;
+      }
+    }
+  </style>
 
   <script type="application/ld+json">
 {
@@ -486,7 +372,7 @@
   "headline": "Mac Miller Tribute",
   "description": "An interactive visual tribute celebrating the discography and artistic legacy of Mac Miller, featuring Watching Movies with the Sound Off, GO:OD AM, Swimming, On and On and Beyond, and Circles.",
   "datePublished": "2021-01-30",
-  "dateModified": "2026-08-23",
+  "dateModified": "2026-11-23",
   "inLanguage": "en-US",
   "articleSection": "Music",
   "keywords": [
@@ -570,7 +456,7 @@
   "image": {
     "@type": "ImageObject",
     "url": "https://justinchill.com/imgs/cover/mac_cover.webp",
-    "caption": "An interactive accordion tribute showcasing Mac Miller album artwork: Movies, GO:OD AM, Swimming, On & On, and Circles."
+    "caption": "Five tall panels of Mac Miller pictures titled Movies, GO:OD AM, Swimming, On & On and Circles."
   }
 }
   </script>
@@ -578,215 +464,166 @@
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-	<nav class="nav" role="navigation">
-		<div class="nav__list">
-			<a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
-			<a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
-			<a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-		
+  <nav class="nav" aria-label="Main">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
+      <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
+      <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
+    
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" aria-pressed="false" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
-		<div class="nav__list">
-			<a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-			<a href="#" class="nav__item js-email-link">Email</a>
-		</div>
-	</nav>
+    <div class="nav__list">
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new tab)</span></a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
 
-	<main role="main" id="content">
-		<div class="cont s--inactive"
-			role="region"
-			aria-label="A collage of five sections with different images and text. From left to right: a vase with flowers and the word MOVIES, a close-up illustration with GO:OD AM, an eye with SWIMMING, a man in sunglasses with ON &amp; ON, and a geometric portrait with CIRCLES.">
-			<!-- cont inner start -->
-			<div class="cont__inner">
-				<!-- el start -->
-				<div class="el" tabindex="0" role="button" aria-expanded="false" aria-label="Album: Watching Movies with the Sound Off">
-					<div class="el__overflow">
-						<div class="el__inner">
-							<div class="el__bg"></div>
-							<div class="el__preview-cont">
-								<h2 class="el__heading">Movies</h2>
-							</div>
-							<div class="el__content">
-								<div class="el__text">Watching Movies with the Sound Off</div>
-								<div class="el__close-btn" role="button" tabindex="0" aria-label="Close Watching Movies with the Sound Off preview"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- el end -->
-				<!-- el start -->
-				<div class="el" tabindex="0" role="button" aria-expanded="false" aria-label="Album: GO:OD AM">
-					<div class="el__overflow">
-						<div class="el__inner">
-							<div class="el__bg"></div>
-							<div class="el__preview-cont">
-								<h2 class="el__heading goodam">GO:OD AM</h2>
-							</div>
-							<div class="el__content">
-								<div class="el__text">GO:OD AM</div>
-								<div class="el__close-btn" role="button" tabindex="0" aria-label="Close GO:OD AM preview"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- el end -->
-				<!-- el start -->
-				<div class="el" tabindex="0" role="button" aria-expanded="false" aria-label="Album: Swimming">
-					<div class="el__overflow">
-						<div class="el__inner">
-							<div class="el__bg"></div>
-							<div class="el__preview-cont">
-								<h2 class="el__heading">Swimming</h2>
-							</div>
-							<div class="el__content">
-								<div class="el__text">Swimming</div>
-								<div class="el__close-btn" role="button" tabindex="0" aria-label="Close Swimming preview"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- el end -->
-				<!-- el start -->
-				<div class="el" tabindex="0" role="button" aria-expanded="false" aria-label="Album: On and On and Beyond">
-					<div class="el__overflow">
-						<div class="el__inner">
-							<div class="el__bg"></div>
-							<div class="el__preview-cont">
-								<h2 class="el__heading">On &amp; On</h2>
-							</div>
-							<div class="el__content">
-								<div class="el__text">On and On and Beyond</div>
-								<div class="el__close-btn" role="button" tabindex="0" aria-label="Close On and On and Beyond preview"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- el end -->
-				<!-- el start -->
-				<div class="el" tabindex="0" role="button" aria-expanded="false" aria-label="Album: Circles">
-					<div class="el__overflow">
-						<div class="el__inner">
-							<div class="el__bg"></div>
-							<div class="el__preview-cont">
-								<h2 class="el__heading">Circles</h2>
-							</div>
-							<div class="el__content">
-								<div class="el__text">Circles</div>
-								<div class="el__close-btn" role="button" tabindex="0" aria-label="Close Circles preview"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- el end -->
-			</div>
-			<!-- cont inner end -->
-		</div>
-		<article>
-			<h1>Miss you, Mac 💙</h1>
-		</article>
-	</main>
+	<main id="content">
+    <article>
+      <h1 class="screen-reader-text">Mac Miller Tribute</h1>
+      <div class="cont s--inactive" role="region" aria-label="Five Mac Miller records">
+        <div class="cont__inner">
+          <div class="el">
+            <div class="el__overflow">
+              <div class="el__inner">
+                <div class="el__bg" role="img" aria-label="A wooden table and chair in a red room, with a vase of white blossom and a red apple"></div>
+                <div class="el__preview-cont">
+                  <h2 class="el__heading">
+                    <button type="button" class="el__open" aria-expanded="false" aria-controls="movies">Movies</button>
+                  </h2>
+                </div>
+                <div class="el__content" id="movies">
+                  <div class="el__text">Watching Movies with the Sound Off</div>
+                  <button type="button" class="el__close-btn" aria-label="Close Watching Movies with the Sound Off"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="el">
+            <div class="el__overflow">
+              <div class="el__inner">
+                <div class="el__bg" role="img" aria-label="Black-and-white drawing of Mac Miller’s face, eyes shut and mouth wide open"></div>
+                <div class="el__preview-cont">
+                  <h2 class="el__heading">
+                    <button type="button" class="el__open" aria-expanded="false" aria-controls="good-am">GO:OD AM</button>
+                  </h2>
+                </div>
+                <div class="el__content" id="good-am">
+                  <div class="el__text">GO:OD AM</div>
+                  <button type="button" class="el__close-btn" aria-label="Close GO:OD AM"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="el">
+            <div class="el__overflow">
+              <div class="el__inner">
+                <div class="el__bg" role="img" aria-label="Mac Miller peering over a white life ring, framed by roses, with the word Swimming arched over his head"></div>
+                <div class="el__preview-cont">
+                  <h2 class="el__heading">
+                    <button type="button" class="el__open" aria-expanded="false" aria-controls="swimming">Swimming</button>
+                  </h2>
+                </div>
+                <div class="el__content" id="swimming">
+                  <div class="el__text">Swimming</div>
+                  <button type="button" class="el__close-btn" aria-label="Close Swimming"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="el">
+            <div class="el__overflow">
+              <div class="el__inner">
+                <div class="el__bg" role="img" aria-label="Mac Miller in round sunglasses and a denim shirt, looking up into the light"></div>
+                <div class="el__preview-cont">
+                  <h2 class="el__heading">
+                    <button type="button" class="el__open" aria-expanded="false" aria-controls="on-and-on">On &amp; On</button>
+                  </h2>
+                </div>
+                <div class="el__content" id="on-and-on">
+                  <div class="el__text">On and On and Beyond</div>
+                  <button type="button" class="el__close-btn" aria-label="Close On and On and Beyond"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="el">
+            <div class="el__overflow">
+              <div class="el__inner">
+                <div class="el__bg" role="img" aria-label="Faceted portrait of Mac Miller on pink, one hand over his face and a halo above him"></div>
+                <div class="el__preview-cont">
+                  <h2 class="el__heading">
+                    <button type="button" class="el__open" aria-expanded="false" aria-controls="circles">Circles</button>
+                  </h2>
+                </div>
+                <div class="el__content" id="circles">
+                  <div class="el__text">Circles</div>
+                  <button type="button" class="el__close-btn" aria-label="Close Circles"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2 class="miss-you">Miss you, Mac <span role="img" aria-label="blue heart">💙</span></h2>
+      <div class="credits">Images: the <em>Swimming</em> album cover (2018); a photograph via Complex; illustrations signed AK and
+        AMZGRAPHICS.</div>
+    </article>
+  </main>
 	<footer>
 		<div>
 			<p>Justin Chill &copy; 2026</p>
-			<span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img
-						src="imgs/github.svg" alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
+			<span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
+            alt="" class="icon" width="16" height="16" loading="lazy" decoding="async">Source code<span class="visually-hidden"> (opens in new tab)</span></a></span>
 		</div>
 	</footer>
-	<script type="text/javascript">
-		const $cont = document.querySelector('.cont');
-		const $elsArr = Array.from(document.querySelectorAll('.el'));
-		const $closeBtnsArr = Array.from(document.querySelectorAll('.el__close-btn'));
+	<script>
+    const cont = document.querySelector(".cont");
+    const panels = [...cont.querySelectorAll(".el")];
 
-		setTimeout(() => {
-			$cont.classList.remove('s--inactive');
-		}, 200);
+    setTimeout(() => cont.classList.remove("s--inactive"), 200);
 
-		function openEl(el) {
-			if (el.classList.contains('s--active')) return;
-			$elsArr.forEach(item => {
-				item.classList.remove('s--active');
-				item.setAttribute('aria-expanded', 'false');
-			});
-			$cont.classList.add('s--el-active');
-			el.classList.add('s--active');
-			el.setAttribute('aria-expanded', 'true');
-			const closeBtn = el.querySelector('.el__close-btn');
-			if (closeBtn) closeBtn.focus();
-		}
+    // Opens one panel, or closes them all when called with null
+    function setActive(panel) {
+      panels.forEach(el => {
+        el.classList.toggle("s--active", el === panel);
+        el.querySelector(".el__open").setAttribute("aria-expanded", String(el === panel));
+      });
+      cont.classList.toggle("s--el-active", panel !== null);
+    }
 
-		function closeActiveEl(el) {
-			$cont.classList.remove('s--el-active');
-			if (el) {
-				el.classList.remove('s--active');
-				el.setAttribute('aria-expanded', 'false');
-				el.focus();
-			} else {
-				$elsArr.forEach(item => {
-					item.classList.remove('s--active');
-					item.setAttribute('aria-expanded', 'false');
-				});
-			}
-		}
+    function close(panel) {
+      setActive(null);
+      panel.querySelector(".el__open").focus({ preventScroll: true });
+    }
 
-		$elsArr.forEach($el => {
-			$el.addEventListener('click', function () {
-				openEl(this);
-			});
-			$el.addEventListener('keydown', function (e) {
-				if ((e.key === 'Enter' || e.key === ' ') && !this.classList.contains('s--active')) {
-					e.preventDefault();
-					openEl(this);
-				}
-			});
-		});
+    panels.forEach(panel => {
+      panel.querySelector(".el__open").addEventListener("click", () => {
+        setActive(panel);
+        panel.querySelector(".el__close-btn").focus({ preventScroll: true });
+      });
+      panel.querySelector(".el__close-btn").addEventListener("click", () => close(panel));
+    });
 
-		$closeBtnsArr.forEach($btn => {
-			const handleClose = (e) => {
-				e.stopPropagation();
-				const parentEl = $btn.closest('.el');
-				closeActiveEl(parentEl);
-			};
-
-			$btn.addEventListener('click', handleClose);
-			$btn.addEventListener('keydown', (e) => {
-				if (e.key === 'Enter' || e.key === ' ') {
-					e.preventDefault();
-					handleClose(e);
-				}
-			});
-		});
-
-		document.addEventListener('keydown', (e) => {
-			if (e.key === 'Escape' && $cont.classList.contains('s--el-active')) {
-				const activeEl = document.querySelector('.el.s--active');
-				closeActiveEl(activeEl);
-			}
-		});
-
-		// Email link handler
-		document.querySelectorAll('.js-email-link').forEach(link => {
-			link.addEventListener('click', (e) => {
-				e.preventDefault();
-				const a = "Justin.richard.hill@";
-				const b = "gmail.com";
-				window.open(`mailto:${a}${b}`, 'email');
-			});
-		});
-	</script>
+    document.addEventListener("keydown", e => {
+      const open = cont.querySelector(".el.s--active");
+      if (e.key === "Escape" && open) close(open);
+    });
+  </script>
   <script src="js/site.js" defer></script>
 </body>
 

@@ -23,7 +23,7 @@
 
   <!-- Article metadata -->
   <meta name="datePublished" content="2020-07-04">
-  <meta name="dateModified" content="2026-08-25">
+  <meta name="dateModified" content="2026-11-23">
   <meta property="article:published_time" content="2020-07-04">
   <meta property="article:modified_time" content="2026-08-25">
   <meta property="article:author" content="Justin Chill">
@@ -40,7 +40,9 @@
   <meta property="og:locality" content="New York">
   <meta property="og:region" content="NY">
   <meta property="og:country_name" content="USA">
-  <meta content="https://justinchill.com/imgs/details.svg" property="og:image">
+  <meta content="https://justinchill.com/imgs/cover/ui_details_cover.webp" property="og:image">
+  <meta content="1200" property="og:image:width">
+  <meta content="630" property="og:image:height">
   <meta content="Abstract art on a blue background representing UI details and design." property="og:image:alt">
 
   <!-- Twitter tags -->
@@ -49,7 +51,7 @@
   <meta name="twitter:creator" content="@JustinChill">
   <meta name="twitter:title" content="Practical UI Details | Justin Chill">
   <meta name="twitter:description" content="A curated collection of practical UI and UX design micro-tips and visual examples for creating polished web interfaces, inspired by Refactoring UI and Steve Schoger.">
-  <meta content="https://justinchill.com/imgs/details.svg" property="twitter:image">
+  <meta content="https://justinchill.com/imgs/cover/ui_details_cover.webp" property="twitter:image">
   <meta name="twitter:image:alt" content="Abstract art on a blue background representing UI details and design.">
 
   <link rel="canonical" href="https://justinchill.com/UI-details.html">
@@ -105,8 +107,38 @@
 			margin-bottom: inherit;
 		}
 
+		/* The examples' palette, restored from the page's 2021 version (orange and purple a touch
+		   deeper so text on and in them passes 4.5:1); scoped so the site's own colours are untouched */
+		article {
+			--gray: #ddd;
+			--white: #fff;
+			--purple: hsl(261, 54%, 55%);
+			--orange: hsl(5, 53%, 52%);
+			--green: #11b8ab;
+		}
+
 		.example {
 			margin-top: 1rem;
+		}
+
+		/* The examples are light designs: keep them light in dark mode. :where() keeps this
+		   below each example's own background, colour and padding */
+		:where(html[data-theme="dark"]) .example {
+			color-scheme: light;
+			--bg-color: #f9f9f9;
+			--surface-color: #f9f9f9;
+			--surface-subtle: #f5f5f3;
+			--text-color: #242424;
+			--heading-color: rgba(0, 0, 0, 0.92);
+			--muted-color: #6f6f6f;
+			--rule-color: #d4d4d4;
+			--link-color: #1f6fd1;
+			--highlight-color: #7dffb3;
+			color: var(--text-color);
+			/* A light panel, as the examples would sit on in light mode */
+			background: #f9f9f9;
+			padding: 1rem;
+			border-radius: 8px;
 		}
 
 		.ex-1 ul {
@@ -411,7 +443,7 @@
 
 		.ex-7 p:not(.title) {
 			font-size: 1rem;
-			color: rgba(255, 255, 255, 0.7);
+			color: rgba(255, 255, 255, 0.82);
 			margin-bottom: 2rem;
 		}
 
@@ -617,7 +649,7 @@
 
 		.ex-9 .body a .desc {
 			font-size: .875rem;
-			color: rgba(255, 255, 255, 0.5);
+			color: var(--white);
 		}
 
 		.ex-10 {
@@ -691,7 +723,8 @@
 		}
 
 		.ex-10 .more a {
-			color: #04B3B9;
+			/* Darker teal so the link passes 4.5:1 on white */
+			color: #037c80;
 			font-weight: 500;
 			text-decoration: none;
 		}
@@ -1018,7 +1051,7 @@
 		}
 
 		.ex-16 .body .desc {
-			color: rgba(255, 255, 255, 0.5);
+			color: rgba(255, 255, 255, 0.8);
 			width: 100%;
 			max-width: 30rem;
 			font-size: 1rem;
@@ -1627,13 +1660,13 @@
     }
   },
   "datePublished": "2020-07-04",
-  "dateModified": "2026-08-25",
+  "dateModified": "2026-11-23",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
   "articleSection": "Design",
   "image": {
     "@type": "ImageObject",
-    "url": "https://justinchill.com/imgs/details.svg",
+    "url": "https://justinchill.com/imgs/cover/ui_details_cover.webp",
     "caption": "Abstract art on a blue background representing UI details and design."
   },
   "author": {
@@ -1686,37 +1719,38 @@
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-	<nav class="nav">
-		<div class="nav__list">
-			<a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
-			<a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
-			<a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-		
+  <nav class="nav" aria-label="Main">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
+      <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
+      <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
+    
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" aria-pressed="false" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
-		<div class="nav__list">
-			<a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-			<a href="#" class="nav__item js-email-link">Email</a>
-		</div>
-	</nav>
+    <div class="nav__list">
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new tab)</span></a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
 
 	<main id="content">
 		<article>
 			<div class="article-hero">
+				<p class="article-category">Post</p>
 				<h1 class="article-title">Practical UI Details</h1>
 				<h2 class="article-subtitle">Tips for making well-designed things</h2>
 			</div>
@@ -1726,7 +1760,7 @@
 				time and standardize your output. Sometimes the difference between something looking "off" and looking
 				"right" can be subtle, and together these details make a design feel great.</p>
 			<p>Many of the following examples come from <a
-					href="https://twitter.com/i/events/994601867987619840">tweets</a> by Schoger.</p>
+					href="https://x.com/steveschoger">tweets</a> by Schoger.</p>
 			<ul>
 				<li>
 					<h3>Color icons slightly lighter than labels</h3>
@@ -2124,9 +2158,9 @@
 					</div>
 				</li>
 				<li>
-					<h3>Create a great hero banner with blend-mode: multiply</h3>
-					<p>Using blend-mode with a desaturated photo and a background color gives a nice contrast to your
-						hero banner with white text.</p>
+					<h3>Create a great hero banner with mix-blend-mode: multiply</h3>
+					<p>Layering a desaturated photo over a background color with <code>mix-blend-mode: multiply</code>
+						gives a nice contrast to your hero banner with white text.</p>
 
 					<div class="ex-16 example">
 						<div class="bg-back"></div>
@@ -2312,8 +2346,8 @@
 	<footer>
 		<div>
 			<p>Justin Chill &copy; 2026</p>
-			<span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img
-						src="imgs/github.svg" alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
+			<span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
+            alt="" class="icon" width="16" height="16" loading="lazy" decoding="async">Source code<span class="visually-hidden"> (opens in new tab)</span></a></span>
 		</div>
 	</footer>
   <script src="js/site.js" defer></script>
