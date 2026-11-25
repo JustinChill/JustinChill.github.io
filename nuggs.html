@@ -16,15 +16,15 @@
     })();
   </script>
 
-  <title>Nuggs Chicken Nuggets | Justin Chill</title>
-  <meta name="description" content="An interactive CSS keyframe and text-shadow animation showcase featuring rotating food items and cascading pop-word typography.">
+  <title>Nuggs | Justin Chill</title>
+  <meta name="description" content="Point at the nugget and watch it go. The potato and the orange go, too. A small CSS animation.">
   <meta name="author" content="Justin Chill">
   <meta name="robots" content="all">
 
   <meta name="datePublished" content="2021-10-28">
-  <meta name="dateModified" content="2026-08-23">
+  <meta name="dateModified" content="2026-11-25">
   <meta property="article:published_time" content="2021-10-28">
-  <meta property="article:modified_time" content="2026-08-23">
+  <meta property="article:modified_time" content="2026-11-25">
   <meta property="article:author" content="Justin Chill">
   <meta property="article:section" content="Animation">
 
@@ -33,25 +33,22 @@
   <meta content="JustinChill" property="og:site_name">
   <meta content="article" property="og:type">
   <meta content="https://justinchill.com/nuggs.html" property="og:url">
-  <meta content="Nuggs Chicken Nuggets | Justin Chill" property="og:title">
-  <meta content="An interactive CSS keyframe and text-shadow animation showcase featuring rotating food items and cascading pop-word typography." property="og:description">
+  <meta content="Nuggs" property="og:title">
+  <meta content="Point at the nugget and watch it go. The potato and the orange go, too. A small CSS animation." property="og:description">
   <meta content="https://justinchill.com/blog.html" property="og:see_also">
-  <meta content="https://images.unsplash.com/photo-1562967914-608f82629710?q=80&w=2670&auto=format&fit=crop" property="og:image">
-  <meta content="Fried chicken nuggets." property="og:image:alt">
+  <meta content="https://justinchill.com/imgs/cover/nuggs_cover.webp" property="og:image">
+  <meta content="A chicken nugget next to “Look at that nugget go!” in capitals, with yellow, orange, red, and brown shadows." property="og:image:alt">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@JustinChill">
   <meta name="twitter:creator" content="@JustinChill">
-  <meta name="twitter:title" content="Nuggs Chicken Nuggets | Justin Chill">
-  <meta name="twitter:description" content="An interactive CSS keyframe and text-shadow animation showcase featuring rotating food items and cascading pop-word typography.">
-  <meta content="https://images.unsplash.com/photo-1562967914-608f82629710?q=80&w=2670&auto=format&fit=crop" property="twitter:image">
-  <meta name="twitter:image:alt" content="Fried chicken nuggets.">
+  <meta name="twitter:title" content="Nuggs">
+  <meta name="twitter:description" content="Point at the nugget and watch it go. The potato and the orange go, too. A small CSS animation.">
+  <meta content="https://justinchill.com/imgs/cover/nuggs_cover.webp" name="twitter:image">
+  <meta name="twitter:image:alt" content="A chicken nugget next to “Look at that nugget go!” in capitals, with yellow, orange, red, and brown shadows.">
 
   <link rel="canonical" href="https://justinchill.com/nuggs.html">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Passion+One:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <link rel="preload" href="fonts/CamphorPro-Regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/CamphorPro-Heavy.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="style.css" />
@@ -61,113 +58,105 @@
   <meta name="theme-color" content="#4C63B6">
   <meta name="color-scheme" content="light dark">
 
-  <style type="text/css">
-    section {
+  <style>
+    .foods {
       display: grid;
-      align-items: center;
       justify-items: center;
-      margin: 0;
-      font: 1.5rem/1 "Roboto", sans-serif;
-      text-align: center;
       gap: 1.5rem;
+      margin: 0;
     }
 
-    .packaging {
+    .food {
+      --shadow: #ccc;
+      position: relative;
+      display: grid;
+      justify-items: center;
+      gap: 1.25rem;
       padding: 25px;
       border-radius: 12px;
-      outline: none;
-      transition: background-color 0.2s ease;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .packaging:focus-visible {
-      outline: 2px solid var(--link-color, #4C63B6);
-      outline-offset: 4px;
+    html[data-theme="dark"] .food {
+      --shadow: #333;
     }
 
-    .nugget {
-      width: 150px;
-      height: 150px;
-      object-fit: contain;
-      display: inline-block;
+    /* Covers its own tile, so focus never scrolls the page */
+    .food input {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      opacity: 0;
       cursor: pointer;
     }
 
+    .food:has(:focus-visible) {
+      outline: 2px solid var(--link-color);
+      outline-offset: 4px;
+    }
+
+    .food img {
+      width: 150px;
+      height: 150px;
+      object-fit: contain;
+    }
+
     .words {
-      margin: 20px 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: .1em .25em;
+      color: var(--text-color);
+      font: 2.4rem/1.1 "Camphor Heavy", var(--font-main);
+      text-transform: uppercase;
+      text-shadow: 4px 4px 0 var(--shadow);
     }
 
     .words span {
-      text-shadow: 5px 5px 0 #ccc;
-      font-family: "Passion One", cursive;
-      font-size: 2.4rem;
-      text-transform: uppercase;
-      display: inline-block;
+      font-size: inherit;
     }
 
-    html[data-theme="dark"] .words span {
-      text-shadow: 4px 4px 0 #333333;
-      color: #f5f5f5;
+    @media (prefers-reduced-motion: no-preference) {
+
+      .food:hover img,
+      .food :focus-visible~img,
+      .food :checked~img {
+        animation: spin 4s linear infinite;
+      }
+
+      .food:hover .words span,
+      .food :focus-visible~.words span,
+      .food :checked~.words span {
+        animation: pop 1s calc(var(--i) * .5s) forwards;
+      }
     }
 
-    @keyframes rotate {
+    @media (prefers-reduced-motion: reduce) {
+
+      .food:hover .words,
+      .food :focus-visible~.words,
+      .food :checked~.words {
+        text-shadow: 4px 4px 0 orange;
+      }
+    }
+
+    @keyframes spin {
       to {
         transform: rotate(1turn);
       }
     }
 
-    @keyframes pop-word {
+    @keyframes pop {
       to {
-        text-shadow: 5px 5px 0 yellow, 10px 10px 0 orange, 15px 15px 0 red,
-          20px 20px 0 brown;
-      }
-    }
-
-    @media (prefers-reduced-motion: no-preference) {
-      .packaging:hover .nugget,
-      .packaging:focus-within .nugget,
-      .nugget:hover {
-        animation: rotate 4s linear infinite;
-      }
-
-      .packaging:hover .words span,
-      .packaging:focus-within .words span,
-      .nugget:hover~.words span {
-        animation-name: pop-word;
-        animation-duration: 1s;
-        animation-fill-mode: forwards;
-      }
-
-      .words span:nth-child(2) {
-        animation-delay: 0.5s;
-      }
-
-      .words span:nth-child(3) {
-        animation-delay: 1s;
-      }
-
-      .words span:nth-child(4) {
-        animation-delay: 1.5s;
-      }
-
-      .words span:nth-child(5) {
-        animation-delay: 2s;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .packaging:hover .words span,
-      .packaging:focus-within .words span,
-      .nugget:hover~.words span {
-        text-shadow: 5px 5px 0 orange;
+        text-shadow: 4px 4px 0 yellow, 8px 8px 0 orange, 12px 12px 0 red, 16px 16px 0 brown;
       }
     }
 
     @media (max-width: 620px) {
-      body {
-        font-size: 1.25rem;
-      }
-
-      .words span {
+      .words {
         font-size: 2rem;
       }
     }
@@ -178,10 +167,10 @@
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   "headline": "Nuggs",
-  "name": "Nuggs Chicken Nuggets",
-  "description": "An interactive CSS keyframe and text-shadow animation showcase featuring rotating food items and cascading pop-word typography.",
+  "url": "https://justinchill.com/nuggs.html",
+  "description": "Point at the nugget and watch it go. The potato and the orange go, too. A small CSS animation.",
   "datePublished": "2021-10-28",
-  "dateModified": "2026-08-23",
+  "dateModified": "2026-11-25",
   "inLanguage": "en-US",
   "articleSection": "CSS Animation",
   "keywords": [
@@ -217,7 +206,7 @@
     "@type": "WebPage",
     "@id": "https://justinchill.com/nuggs.html"
   },
-  "image": "https://images.unsplash.com/photo-1562967914-608f82629710?q=80&w=2670&auto=format&fit=crop",
+  "image": "https://justinchill.com/imgs/cover/nuggs_cover.webp",
   "about": [
     {
       "@type": "Thing",
@@ -236,35 +225,35 @@
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-  <nav class="nav" role="navigation">
+  <nav class="nav" aria-label="Main">
     <div class="nav__list">
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
     
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" aria-pressed="false" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new tab)</span></a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
 
-  <main role="main" id="content">
+  <main id="content">
     <article>
       <div class="article-hero">
         <p class="article-category">Post</p>
@@ -272,35 +261,38 @@
         <h2 class="article-subtitle">A lot of work went into these nuggets.</h2>
       </div>
 
-      <section aria-label="Interactive food animations">
-        <div class="packaging" tabindex="0" role="region" aria-label="Chicken nugget animation">
-          <img class="nugget" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/77020/chicken-nugget.png" alt="A single golden-brown chicken nugget." width="150" height="150" loading="lazy" decoding="async">
-          <div class="words" aria-label="look at that nugget go!">
-            <span>look</span>
-            <span>at</span>
-            <span>that</span>
-            <span>nugget</span>
-            <span>go!</span>
-          </div>
-        </div>
+      <section class="foods" aria-label="Food that spins">
+        <label class="food">
+          <input type="checkbox">
+          <img src="imgs/chicken-nugget.webp" alt="A chicken nugget." width="300" height="302">
+          <span class="words">
+            <span style="--i: 0">Look</span>
+            <span style="--i: 1">at</span>
+            <span style="--i: 2">that</span>
+            <span style="--i: 3">nugget</span>
+            <span style="--i: 4">go!</span>
+          </span>
+        </label>
 
-        <div class="packaging" tabindex="0" role="region" aria-label="Potato animation">
-          <img class="nugget" src="imgs/potato.webp" alt="A raw Russet potato." width="150" height="150" loading="lazy" decoding="async">
-          <div class="words" aria-label="peep that potato!">
-            <span>peep</span>
-            <span>that</span>
-            <span>potato!</span>
-          </div>
-        </div>
+        <label class="food">
+          <input type="checkbox">
+          <img src="imgs/potato.webp" alt="A potato." width="320" height="253">
+          <span class="words">
+            <span style="--i: 0">Peep</span>
+            <span style="--i: 1">that</span>
+            <span style="--i: 2">potato!</span>
+          </span>
+        </label>
 
-        <div class="packaging" tabindex="0" role="region" aria-label="Orange animation">
-          <img class="nugget" src="imgs/Single-Orange-PNG-Image.webp" alt="A whole fresh orange." width="150" height="150" loading="lazy" decoding="async">
-          <div class="words" aria-label="observe this orange!">
-            <span>observe</span>
-            <span>this</span>
-            <span>orange!</span>
-          </div>
-        </div>
+        <label class="food">
+          <input type="checkbox">
+          <img src="imgs/Single-Orange-PNG-Image.webp" alt="An orange." width="304" height="320">
+          <span class="words">
+            <span style="--i: 0">Observe</span>
+            <span style="--i: 1">this</span>
+            <span style="--i: 2">orange!</span>
+          </span>
+        </label>
       </section>
 
     </article>
@@ -309,7 +301,7 @@
     <div>
       <p>Justin Chill &copy; 2026</p>
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
-            alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
+            alt="" class="icon" width="16" height="16" loading="lazy" decoding="async">Source code<span class="visually-hidden"> (opens in new tab)</span></a></span>
     </div>
   </footer>
   <script src="js/site.js" defer></script>

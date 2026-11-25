@@ -16,13 +16,13 @@
     })();
   </script>
 
-  <title>Hogwarts School Cup & The Gryffindor Bias | Justin Chill</title>
+  <title>Hogwarts School Cup &amp; the Gryffindor Bias | Justin Chill</title>
   <meta name="description"
-    content="An interactive data visualization exploring Hogwarts House Cup points awarded and deducted across the Harry Potter movies, examining Gryffindor's point trajectory versus Slytherin, Ravenclaw, and Hufflepuff.">
+    content="Every house point given or taken in the first six Harry Potter books, who gave and took them, and how Gryffindor won the House Cup in the last minute.">
   <meta name="author" content="Justin Chill">
   <meta name="robots" content="all">
   <meta property="article:published_time" content="2025-07-06">
-  <meta property="article:modified_time" content="2026-08-20">
+  <meta property="article:modified_time" content="2026-11-25">
   <meta property="article:author" content="Justin Chill">
   <meta property="article:section" content="Data Visualization">
 
@@ -31,29 +31,29 @@
   <meta content="JustinChill" property="og:site_name">
   <meta content="article" property="og:type">
   <meta content="https://justinchill.com/hogwarts-cup.html" property="og:url">
-  <meta content="Hogwarts School Cup & The Gryffindor Bias | Justin Chill" property="og:title">
+  <meta content="Hogwarts School Cup &amp; the Gryffindor Bias" property="og:title">
   <meta
-    content="An interactive data visualization exploring Hogwarts House Cup points awarded and deducted across the Harry Potter movies, examining Gryffindor's point trajectory versus Slytherin, Ravenclaw, and Hufflepuff."
+    content="Every house point given or taken in the first six Harry Potter books, who gave and took them, and how Gryffindor won the House Cup in the last minute."
     property="og:description">
   <meta content="https://justinchill.com/blog.html" property="og:see_also">
   <meta property="og:locality" content="New York">
   <meta property="og:region" content="NY">
   <meta property="og:country_name" content="USA">
-  <meta content="https://justinchill.com/imgs/hq720.jpg" property="og:image">
-  <meta content="The House Cup, a gold trophy." property="og:image:alt">
+  <meta content="https://justinchill.com/imgs/cover/house_cup_cover.webp" property="og:image">
+  <meta content="Bar chart of the House Cup in 1991–92. Gryffindor has 312 points, then 170 more at the last minute, and passes Slytherin’s 472 with 482." property="og:image:alt">
 
   <meta name="datePublished" content="2025-07-06">
-  <meta name="dateModified" content="2026-08-20">
+  <meta name="dateModified" content="2026-11-25">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@JustinChill">
   <meta name="twitter:creator" content="@JustinChill">
-  <meta name="twitter:title" content="Hogwarts School Cup & The Gryffindor Bias | Justin Chill">
+  <meta name="twitter:title" content="Hogwarts School Cup &amp; the Gryffindor Bias">
   <meta name="twitter:description"
-    content="An interactive data visualization exploring Hogwarts House Cup points awarded and deducted across the Harry Potter movies, examining Gryffindor's point trajectory versus Slytherin, Ravenclaw, and Hufflepuff.">
-  <meta content="https://justinchill.com/imgs/hq720.jpg" name="twitter:image">
-  <meta name="twitter:image:alt" content="The House Cup, a gold trophy.">
+    content="Every house point given or taken in the first six Harry Potter books, who gave and took them, and how Gryffindor won the House Cup in the last minute.">
+  <meta content="https://justinchill.com/imgs/cover/house_cup_cover.webp" name="twitter:image">
+  <meta name="twitter:image:alt" content="Bar chart of the House Cup in 1991–92. Gryffindor has 312 points, then 170 more at the last minute, and passes Slytherin’s 472 with 482.">
 
   <link rel="canonical" href="https://justinchill.com/hogwarts-cup.html">
   <link rel="preload" href="fonts/CamphorPro-Regular.woff2" as="font" type="font/woff2" crossorigin>
@@ -65,63 +65,58 @@
   <meta name="theme-color" content="#4C63B6">
   <meta name="color-scheme" content="light dark">
 
-  <style type="text/css">
-    /* Hogwarts Cup Styles */
+  <style>
+    .chart {
+      --base: #7c8798;
+      --given: #0072B2;
+      --taken: #C24E00;
+      --late: #c28a00;
+    }
+
+    html[data-theme="dark"] .chart {
+      --base: #8b95a6;
+      --given: #56B4E9;
+      --taken: #E8743B;
+      --late: #E6B422;
+    }
+
     .cup-container {
       display: flex;
       justify-content: center;
       margin: 40px auto;
       max-width: 400px;
-      position: relative;
     }
 
     .hogwarts-cup {
       width: 100%;
       height: auto;
-      overflow: visible;
-      transition: all 0.5s ease-in-out;
-    }
-
-    .hogwarts-cup:hover .cup-body {
-      transform: translateY(-10px) scale(1.02);
-      filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.6));
     }
 
     .cup-body {
-      transition: transform 0.5s ease-in-out, filter 0.5s ease;
       transform-origin: center bottom;
+      transition: transform .3s ease;
     }
 
-    /* Fog Animation */
-    @keyframes moveFog {
-      0% {
-        transform: translateX(0);
-      }
-
-      100% {
-        transform: translateX(-50%);
+    @media (prefers-reduced-motion: no-preference) {
+      .hogwarts-cup:hover .cup-body {
+        transform: translateY(-6px);
       }
     }
-
-    .fog-layer {
-      animation: moveFog 60s linear infinite;
-    }
-
   </style>
 
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "Hogwarts School Cup & The Gryffindor Bias",
-  "alternativeHeadline": "Analyzing House Points Awarded and Deducted Across the Harry Potter Series",
-  "description": "An interactive data visualization exploring Hogwarts House Cup points awarded and deducted across the Harry Potter movies, examining Gryffindor's point trajectory versus Slytherin, Ravenclaw, and Hufflepuff.",
+  "headline": "Hogwarts School Cup & the Gryffindor Bias",
+  "alternativeHeadline": "House Points Given and Taken in the Harry Potter Books",
+  "description": "Every house point given or taken in the first six Harry Potter books, who gave and took them, and how Gryffindor won the House Cup in the last minute.",
   "datePublished": "2025-07-06",
-  "dateModified": "2026-08-20",
+  "dateModified": "2026-11-25",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
   "articleSection": "Data Visualization",
-  "wordCount": 260,
+  "wordCount": 420,
   "url": "https://justinchill.com/hogwarts-cup.html",
   "mainEntityOfPage": {
     "@type": "WebPage",
@@ -138,8 +133,8 @@
   },
   "image": {
     "@type": "ImageObject",
-    "url": "https://justinchill.com/imgs/hq720.jpg",
-    "caption": "The House Cup, a gold trophy."
+    "url": "https://justinchill.com/imgs/cover/house_cup_cover.webp",
+    "caption": "Bar chart of the House Cup in 1991–92. Gryffindor has 312 points, then 170 more at the last minute, and passes Slytherin’s 472 with 482."
   },
   "author": {
     "@type": "Person",
@@ -175,6 +170,15 @@
     "D3.js",
     "Diverging Bar Chart"
   ],
+  "isBasedOn": {
+    "@type": "WebPage",
+    "name": "House Points",
+    "url": "https://www.hp-lexicon.org/thing/house-points/",
+    "publisher": {
+      "@type": "Organization",
+      "name": "The Harry Potter Lexicon"
+    }
+  },
   "about": [
     {
       "@type": "Thing",
@@ -198,54 +202,55 @@
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-  <nav class="nav" role="navigation">
+  <nav class="nav" aria-label="Main">
     <div class="nav__list">
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
     
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" aria-pressed="false" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new tab)</span></a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
 
-  <main role="main" id="content">
+  <main id="content">
     <article>
       <div class="article-hero">
         <p class="article-category">Post</p>
-        <h1 class="article-title">Hogwarts School Cup & The Gryffindor Bias</h1>
+        <h1 class="article-title">Hogwarts School Cup &amp; the Gryffindor Bias</h1>
         <h2 class="article-subtitle">Why does Gryffindor always win?</h2>
       </div>
-      <span class="header-tag mid-size"><img src="imgs/tag.svg" alt="Chart header tag"></span>
-      <h3 class="mid-size">House points awarded to Gryffindor 🪄</h3>
-      <figure id="gryfhousecup"
-        aria-label="Bar chart showing points awarded and deducted for Gryffindor across the movies. Gryffindor consistently receives many points."
-        class="mid-size"></figure>
-      <p>The House Cup was a yearly award given at Hogwarts School of Witchcraft and Wizardry. It was given at the end
-        of the school year to the House with the most House points. Points were given to Houses by teachers and prefects
-        throughout the year for various things including answering questions correctly and doing good deeds. The winners
-        of school Quidditch games also received points. Points could be taken away for things such as misbehaving or
-        rule-breaking.</p>
+      <span class="header-tag mid-size"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
+      <h3 class="mid-size">The House Cup, 1991–92 🪄</h3>
+      <figure id="finish" class="mid-size chart"
+        aria-label="Bar chart of house points at the end of Harry’s first year. Slytherin 472, Ravenclaw 426, Hufflepuff 352, and Gryffindor 312, until Dumbledore gives Gryffindor 170 more: 50 to Ron, 50 to Hermione, 60 to Harry, and 10 to Neville, for 482.">
+        <div aria-hidden="true"></div>
+        <figcaption class="right">Gold points were given at the year-end feast. Data: <a href="https://www.hp-lexicon.org/thing/house-points/" target="_blank" rel="noopener">Harry Potter Lexicon</a></figcaption>
+      </figure>
+      <p>It doesn’t. When Harry Potter gets to Hogwarts, Slytherin has won the House Cup six years in a row,<a
+          href="#headless" aria-describedby="footnote-label" id="headless-ref"
+          aria-label="Footnote 1: Nearly Headless Nick"></a> and by the end of his first year it has all but won the seventh. At the feast, Slytherin leads
+        Gryffindor by 160 points. Then Dumbledore stands up and gives Gryffindor 170.</p>
+      <p>Ron and Hermione get 50 each, and Harry gets 60, which makes it a tie. The last 10 go to Neville Longbottom.</p>
       <div class="cup-container">
-        <svg class="hogwarts-cup" viewBox="0 0 300 350" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration of the golden Hogwarts House Cup trophy">
-          <title>Hogwarts House Cup Trophy</title>
+        <svg class="hogwarts-cup" viewBox="0 0 300 350" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The House Cup, a gold trophy with two handles">
           <defs>
             <!-- Gold Gradient -->
             <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -265,16 +270,22 @@
               <feBlend mode="multiply" in="composite" in2="SourceGraphic" />
             </filter>
 
-            <!-- Fog Filter -->
+            <!-- Fog, faded out at the edges -->
             <filter id="fog-filter">
               <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="5" result="fog" />
               <feColorMatrix type="matrix" values="1 0 0 0 0.9  0 1 0 0 0.9  0 0 1 0 0.9  0 0 0 0.3 0" />
             </filter>
+            <radialGradient id="fog-fade">
+              <stop offset="35%" stop-color="#fff" />
+              <stop offset="100%" stop-color="#000" />
+            </radialGradient>
+            <mask id="fog-mask">
+              <rect x="0" y="215" width="300" height="135" fill="url(#fog-fade)" />
+            </mask>
           </defs>
 
-          <!-- Fog Background -->
-          <g opacity="0.4">
-            <rect x="-100%" y="200" width="300%" height="150" filter="url(#fog-filter)" class="fog-layer" />
+          <g opacity="0.4" mask="url(#fog-mask)">
+            <rect x="0" y="215" width="300" height="135" filter="url(#fog-filter)" />
           </g>
 
           <!-- The Cup -->
@@ -319,185 +330,171 @@
         </svg>
       </div>
       <blockquote>
-        <p>"While you are at Hogwarts, your triumphs will earn you house points, while any rule-breaking will lose house
-          points. At the end of the year, the house with the most points is awarded the house cup, a great honor"</p>
+        <p>While you are at Hogwarts, your triumphs will earn your House points, while any rule-breaking will lose House
+          points. At the end of the year, the House with the most points is awarded the House Cup, a great honor.</p>
         <cite>Professor Minerva McGonagall</cite>
       </blockquote>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="Chart header tag" loading="lazy" decoding="async"></span>
-      <h3>House points awarded to all Houses</h3>
-      <figure id="housecup"
-        aria-label="Diverging bar chart showing house points for all houses. Gryffindor and Slytherin are often neck-and-neck, but Gryffindor usually pulls ahead due to last-minute points.">
+      <span class="header-tag mid-size"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
+      <h3 class="mid-size">House points given and taken, by book</h3>
+      <figure id="houses" class="mid-size chart"
+        aria-label="Diverging bar chart of points given and taken in each of the first six books, for each house. Gryffindor is given 990 points, 430 of them in Chamber of Secrets and 290 in Order of the Phoenix, and loses 527. Slytherin is given 50 and loses 70, Ravenclaw is given 50 and loses 10, and Hufflepuff loses 15.">
+        <div aria-hidden="true"></div>
+        <figcaption class="right">Blue points were given and orange ones taken. Leaves out one award to Hermione, of an unknown size. Data:
+          <a href="https://www.hp-lexicon.org/thing/house-points/" target="_blank" rel="noopener">Harry Potter Lexicon</a></figcaption>
       </figure>
+      <p>The books don’t keep score. After the first year there isn’t even a final total. But the Harry Potter Lexicon, a fan
+        site, has logged every time somebody gives or takes points, and how many:<a href="#lexicon" aria-describedby="footnote-label"
+          id="lexicon-ref" aria-label="Footnote 2: The Harry Potter Lexicon"></a> 69 times in six books. It has no log for the seventh, which Harry mostly spends somewhere else.</p>
+      <p>We see the school through Harry, so 62 of the 69 are Gryffindor’s. Slytherin is given points once, and that’s for
+        catching Harry. Hufflepuff is never given any.</p>
       <p>A <a
           href="https://www.nytimes.com/interactive/2024/10/31/world/europe/russia-gains-ukraine-maps.html" target="_blank" rel="noopener noreferrer">graphic</a>
         in the New York Times inspired this article. I like how they presented a diverging bar chart to show change and
         wanted to mimic the style with happier data.</p>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
+      <h3>Who gave and took Gryffindor’s points</h3>
+      <figure id="teachers" class="chart"
+        aria-label="Diverging bar chart of the points each person gave Gryffindor or took from it. Dumbledore gave 570. McGonagall gave 260 and took 165. Slughorn gave 50, Sprout and Lupin 40 each, and Lockhart, Grubbly-Plank, and Hagrid 10 each. Percy took 5, Malfoy 25, Umbridge 65, and Snape 267.">
+        <div aria-hidden="true"></div>
+        <figcaption class="right">Books one to six. Data: <a href="https://www.hp-lexicon.org/thing/house-points/" target="_blank" rel="noopener">Harry Potter Lexicon</a></figcaption>
+      </figure>
+      <p>Gryffindor is given 990 points, and 570 of them are from Dumbledore, all in the last chapters of the first two books.
+        Snape never gives it any. He takes 267, about half of what it loses. McGonagall, its own head of house, takes 150 in
+        one night.</p>
+      <p>So there is a bias, but it isn’t that Gryffindor never loses points. It loses 527, more than five times as many as the
+        other three put together. It wins because the headmaster goes last. It wins the second year too, with another 400 at the end, and the third. After
+        that, the books don’t say who does.</p>
       <blockquote>
         <p>The din was deafening. Those who could add up while yelling themselves hoarse knew that Gryffindor now had
-          four hundred and seventy-two points—exactly the same as Slytherin. They had tied for the house cup -- if only
-          Dumbledore had given Harry just one more point .</p>
-        <p>Dumbledore raised his hand. The room gradually fell silent. "There are all kinds of courage," said Dumbledore,
+          four hundred and seventy-two points — exactly the same as Slytherin. They had tied for the house cup — if only
+          Dumbledore had given Harry just one more point.</p>
+        <p>Dumbledore raised his hand. The room gradually fell silent. “There are all kinds of courage,” said Dumbledore,
           smiling.</p>
-        <p>"It takes a great deal of bravery to stand up to our enemies, but just as much to stand up to our friends. I
-          therefore award ten points to Mr. Neville Longbottom."</p>
-        <cite>Dumbledore in Harry Potter and the Sorcerer's Stone</cite>
+        <p>“It takes a great deal of bravery to stand up to our enemies, but just as much to stand up to our friends. I
+          therefore award ten points to Mr. Neville Longbottom.”</p>
+        <cite>Harry Potter and the Sorcerer’s Stone</cite>
       </blockquote>
 
     </article>
   </main>
   <footer>
+    <h2 id="footnote-label">Footnotes</h2>
+    <ol>
+      <li id="headless"><strong>The Harry Potter Lexicon</strong>, <a
+          href="https://www.hp-lexicon.org/event/june-1988-slytherin-wins-both-the-quidditch-cup/" target="_blank"
+          rel="noopener"><em>Slytherin Wins Both the Quidditch Cup and the House Cup</em></a>. Nearly Headless Nick says so at
+        the Sorting. <a href="#headless-ref" aria-label="Back to content">↩</a></li>
+      <li id="lexicon"><strong>The Harry Potter Lexicon</strong>, <a href="https://www.hp-lexicon.org/thing/house-points/"
+          target="_blank" rel="noopener"><em>House Points</em></a>, by year: <a
+          href="https://www.hp-lexicon.org/thing/house-points-1991-1992/" target="_blank" rel="noopener">1991–92</a>, <a
+          href="https://www.hp-lexicon.org/thing/house-points-1992-1993/" target="_blank" rel="noopener">1992–93</a>, <a
+          href="https://www.hp-lexicon.org/thing/house-points-1993-1994/" target="_blank" rel="noopener">1993–94</a>, <a
+          href="https://www.hp-lexicon.org/thing/house-points-1994-1995/" target="_blank" rel="noopener">1994–95</a>, <a
+          href="https://www.hp-lexicon.org/thing/house-points-1995-1996/" target="_blank" rel="noopener">1995–96</a>, and <a
+          href="https://www.hp-lexicon.org/thing/house-points-1996-1997/" target="_blank" rel="noopener">1996–97</a>. Read
+        November 25, 2026. <a href="#lexicon-ref" aria-label="Back to content">↩</a></li>
+    </ol>
+    <p>Corrected November 25, 2026. The first version charted points by film, from a table without a source.</p>
+
     <div>
       <p>Justin Chill &copy; 2026</p>
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
-            alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
+            alt="" class="icon" width="16" height="16" loading="lazy" decoding="async">Source code<span class="visually-hidden"> (opens in new tab)</span></a></span>
     </div>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/d3@7.9.2/dist/d3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.19/dist/plot.umd.min.js"></script>
 
-  <script type="text/javascript">
-    // Load dataset and render responsive diverging bar charts
-    d3.csv("data/Harry Potter Points Table.csv", d3.autoType).then(function (data) {
-      const gryffindor = data.filter(d => d.House === "Gryffindor");
+  <script>
+    (function () {
+      const box = id => document.querySelector(`#${id} > div`);
+      const font = { fontFamily: "var(--font-main)", fontSize: "13px", background: "transparent", color: "var(--text-color)", overflow: "visible" };
+      const signed = n => n > 0 ? `+${n}` : `−${-n}`;
 
-      // Canonical chronological movie order
-      const movieOrder = [
-        "Harry Potter and the Sorcerer's Stone",
-        "Harry Potter and the Chamber of Secrets",
-        "Harry Potter and the Prisoner of Azkaban",
-        "Harry Potter and the Goblet of Fire",
-        "Harry Potter and the Order of the Phoenix",
-        "Harry Potter and the Half-Blood Prince",
-        "Harry Potter and the Deathly Hallows Part 1",
-        "Harry Potter and the Deathly Hallows Part 2"
-      ];
+      d3.csv("data/house-points.csv", d3.autoType).then(rows => {
+        const books = ["Sorcerer's Stone", "Chamber of Secrets", "Prisoner of Azkaban", "Goblet of Fire", "Order of the Phoenix", "Half-Blood Prince"];
+        const houses = ["Gryffindor", "Slytherin", "Ravenclaw", "Hufflepuff"];
+        // Given and taken, added up separately
+        const total = (data, ...keys) => d3.rollups(data, v => d3.sum(v, d => d.points), d => JSON.stringify([d.points > 0, ...keys.map(k => d[k])]))
+          .map(([key, points]) => { const [, ...values] = JSON.parse(key); return { ...Object.fromEntries(keys.map((k, i) => [k, values[i]])), points }; });
 
-      // Clean short titles to prevent horizontal text collision
-      const shortTitles = {
-        "Harry Potter and the Sorcerer's Stone": "Sorcerer's Stone",
-        "Harry Potter and the Chamber of Secrets": "Chamber of Secrets",
-        "Harry Potter and the Prisoner of Azkaban": "Prisoner of Azkaban",
-        "Harry Potter and the Goblet of Fire": "Goblet of Fire",
-        "Harry Potter and the Order of the Phoenix": "Order of the Phoenix",
-        "Harry Potter and the Half-Blood Prince": "Half-Blood Prince",
-        "Harry Potter and the Deathly Hallows Part 1": "Deathly Hallows Pt. 1",
-        "Harry Potter and the Deathly Hallows Part 2": "Deathly Hallows Pt. 2"
-      };
+        function finish(width) {
+          const small = width < 600;
+          const before = [["Slytherin", 472], ["Ravenclaw", 426], ["Hufflepuff", 352], ["Gryffindor", 312]].map(([house, points]) => ({ house, points }));
+          let x = 312;
+          const late = rows.filter(d => d.by === "Dumbledore" && d.book === books[0]).map(d => ({ house: d.house, student: d.student, points: d.points, x1: x, x2: (x += d.points) }));
+          const totals = [["Gryffindor", 482], ["Slytherin", 472], ["Ravenclaw", 426], ["Hufflepuff", 352]].map(([house, points]) => ({ house, points }));
+          return Plot.plot({
+            width, height: small ? 230 : 280, style: font, marginLeft: small ? 76 : 90, marginRight: 44, marginTop: small ? 26 : 44, marginBottom: 6,
+            x: { domain: [0, 490], axis: null }, y: { domain: totals.map(d => d.house), label: null, tickSize: 0, padding: .3 },
+            marks: [
+              Plot.barX(before, { x: "points", y: "house", fill: "var(--base)" }),
+              Plot.barX(late, { x1: "x1", x2: "x2", y: "house", fill: "var(--late)", insetLeft: 1.5 }),
+              small
+                ? Plot.text([{}], { x: 397, y: () => "Gryffindor", text: () => "+170", dy: -26, fontWeight: 700, lineAnchor: "bottom" })
+                : Plot.text(late, { x: d => (d.x1 + d.x2) / 2, y: "house", text: d => `${d.student}\n+${d.points}`, dy: -26, lineAnchor: "bottom" }),
+              Plot.text(totals, { x: "points", y: "house", text: d => `${d.points}`, dx: 6, textAnchor: "start", fontWeight: 700 }),
+              Plot.ruleX([0]),
+              Plot.tip([...late.map(d => ({ ...d, x: (d.x1 + d.x2) / 2 }))], Plot.pointer({ x: "x", y: "house", title: d => `${d.student}, ${signed(d.points)}`, fill: "var(--bg-color)" }))
+            ]
+          });
+        }
 
-      function renderPlots() {
-        const gryfContainer = document.getElementById("gryfhousecup");
-        const houseContainer = document.getElementById("housecup");
-        if (!gryfContainer || !houseContainer) return;
+        function byHouse(width) {
+          const small = width < 600;
+          const sums = total(rows, "house", "book");
+          const names = { "Sorcerer's Stone": "Sorcerer’s\nStone", "Chamber of Secrets": small ? "Chamber\nof\nSecrets" : "Chamber\nof Secrets", "Prisoner of Azkaban": small ? "Prisoner\nof\nAzkaban" : "Prisoner\nof Azkaban", "Goblet of Fire": "Goblet\nof Fire", "Order of the Phoenix": small ? "Order\nof the\nPhoenix" : "Order of\nthe Phoenix", "Half-Blood Prince": "Half-Blood\nPrince" };
+          return Plot.plot({
+            width, height: small ? 620 : 680, style: font, marginLeft: small ? 38 : 48, marginRight: 4, marginTop: 24, marginBottom: 54,
+            x: { domain: books, label: null, padding: .2 },
+            y: { domain: [-200, 470], ticks: [-150, 0, 150, 300], tickFormat: d => d > 0 ? `+${d}` : d < 0 ? `−${-d}` : "0", tickSize: 0, label: null, grid: true },
+            fy: { domain: houses, axis: null, padding: .08 },
+            marks: [
+              Plot.axisX({ tickSize: 0, label: null, tickFormat: d => names[d], fontSize: small ? 9.5 : 13 }),
+              Plot.barY(sums, { fy: "house", x: "book", y: "points", fill: d => d.points > 0 ? "var(--given)" : "var(--taken)" }),
+              Plot.text(sums.filter(d => d.points > 0), { fy: "house", x: "book", y: "points", text: d => signed(d.points), dy: -8, fontSize: small ? 10.5 : 13 }),
+              Plot.text(sums.filter(d => d.points < 0), { fy: "house", x: "book", y: "points", text: d => signed(d.points), dy: 8, fontSize: small ? 10.5 : 13 }),
+              Plot.ruleY([0]),
+              Plot.text(houses, { fy: d => d, frameAnchor: "top-right", text: d => d, dx: -4, dy: 2, fontWeight: 700, fontSize: 14 })
+            ]
+          });
+        }
 
-        gryfContainer.innerHTML = "";
-        houseContainer.innerHTML = "";
+        function teachers(width) {
+          const small = width < 480;
+          const sums = total(rows.filter(d => d.house === "Gryffindor"), "by");
+          const order = d3.groupSort(sums, v => -d3.sum(v, d => d.points), d => d.by);
+          return Plot.plot({
+            width, height: 360, style: font, marginLeft: 100, marginRight: 8, marginTop: 6, marginBottom: 6,
+            x: { domain: small ? [-460, 720] : [-340, 640], axis: null }, y: { domain: order, label: null, tickSize: 0, padding: .25 },
+            marks: [
+              Plot.barX(sums, { x: "points", y: "by", fill: d => d.points > 0 ? "var(--given)" : "var(--taken)" }),
+              Plot.text(sums.filter(d => d.points > 0), { x: "points", y: "by", text: d => signed(d.points), dx: 5, textAnchor: "start" }),
+              Plot.text(sums.filter(d => d.points < 0), { x: "points", y: "by", text: d => signed(d.points), dx: -5, textAnchor: "end" }),
+              Plot.ruleX([0])
+            ]
+          });
+        }
 
-        const widthMid = gryfContainer.getBoundingClientRect().width || 680;
-        const width = houseContainer.getBoundingClientRect().width || 680;
-        const isNarrow = width < 500;
-        const size = isNarrow ? 10.5 : 11.5;
-
-        const gryfhousecup = {
-          width: widthMid,
-          marginBottom: 100,
-          style: {
-            fontSize: size,
-            textTransform: "capitalize",
-            overflow: "visible"
-          },
-          x: {
-            domain: movieOrder,
-            tickFormat: d => shortTitles[d] || d,
-            tickRotate: -45,
-            label: null
-          },
-          y: {
-            nice: true,
-            label: "House points"
-          },
-          marks: [
-            Plot.frame({
-              strokeOpacity: 0.1
-            }),
-            Plot.axisX({
-              tickSize: 0,
-              tickRotate: -45,
-              tickFormat: d => shortTitles[d] || d,
-              label: null
-            }),
-            Plot.barY(gryffindor, {
-              x: "Movie Title",
-              y: "Points Awarded",
-              title: d => `${d["Movie Title"]}\nPoints Awarded: +${d["Points Awarded"]}`,
-              fill: "rgb(25, 153, 206)",
-            }),
-            Plot.barY(gryffindor, {
-              x: "Movie Title",
-              y: "Points Deducted",
-              title: d => `${d["Movie Title"]}\nPoints Deducted: ${d["Points Deducted"]}`,
-              fill: "rgb(232, 72, 66)"
-            }),
-            Plot.ruleY([0])
-          ]
-        };
-
-        const housecup = {
-          width: width,
-          marginBottom: 100,
-          style: {
-            fontSize: size,
-            textTransform: "capitalize",
-            overflow: "visible"
-          },
-          x: {
-            domain: movieOrder,
-            tickFormat: d => shortTitles[d] || d,
-            tickRotate: -45,
-            label: null
-          },
-          y: {
-            nice: true,
-            label: "House points"
-          },
-          fy: {
-            domain: ["Gryffindor", "Slytherin", "Ravenclaw", "Hufflepuff"],
-            label: null,
-          },
-          marks: [
-            Plot.frame({
-              strokeOpacity: 0.1
-            }),
-            Plot.axisX({
-              tickSize: 0,
-              tickRotate: -45,
-              tickFormat: d => shortTitles[d] || d,
-              label: null
-            }),
-            Plot.barY(data, {
-              fy: "House",
-              x: "Movie Title",
-              y: "Points Awarded",
-              title: d => `${d.House} - ${d["Movie Title"]}\nPoints Awarded: +${d["Points Awarded"]}`,
-              fill: "rgb(25, 153, 206)",
-            }),
-            Plot.barY(data, {
-              fy: "House",
-              x: "Movie Title",
-              y: "Points Deducted",
-              title: d => `${d.House} - ${d["Movie Title"]}\nPoints Deducted: ${d["Points Deducted"]}`,
-              fill: "rgb(232, 72, 66)"
-            }),
-            Plot.ruleY([0])
-          ]
-        };
-
-        gryfContainer.appendChild(Plot.plot(gryfhousecup));
-        houseContainer.appendChild(Plot.plot(housecup));
-      }
-
-      renderPlots();
-      window.addEventListener("resize", renderPlots);
-    });
+        const charts = { finish, houses: byHouse, teachers };
+        const drawn = {};
+        function draw() {
+          for (const [id, chart] of Object.entries(charts)) {
+            const width = Math.round(box(id).getBoundingClientRect().width);
+            if (!width || drawn[id] === width) continue;
+            drawn[id] = width;
+            box(id).replaceChildren(chart(width));
+          }
+        }
+        draw();
+        window.addEventListener("resize", draw);
+      }).catch(() => {
+        ["finish", "houses", "teachers"].forEach(id => {
+          box(id).removeAttribute("aria-hidden");
+          box(id).textContent = "The data for this chart couldn’t be loaded. Please try reloading the page.";
+        });
+      });
+    })();
   </script>
   <script src="js/site.js" defer></script>
 </body>

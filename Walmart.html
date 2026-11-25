@@ -17,13 +17,15 @@
   </script>
 
   <title>Sprawl-Mart | Justin Chill</title>
-  <meta name="description" content="An interactive geospatial data visualization tracking the spatial diffusion, logistics efficiency, and exponential expansion of Walmart store openings across the United States from 1962 to the 2000s.">
+  <meta name="description" content="How Wal-Mart spread from a corner of Arkansas to both coasts, 1962 to 2006, with 3,109 stores and 42 distribution centers on the map.">
   <meta name="author" content="Justin Chill">
   <meta name="robots" content="all">
 
   <!-- Article metadata -->
+  <meta name="datePublished" content="2025-03-06">
+  <meta name="dateModified" content="2026-11-25">
   <meta property="article:published_time" content="2025-03-06">
-  <meta property="article:modified_time" content="2026-08-25">
+  <meta property="article:modified_time" content="2026-11-25">
   <meta property="article:author" content="Justin Chill">
   <meta property="article:section" content="Data Visualization">
 
@@ -32,24 +34,24 @@
   <meta content="JustinChill" property="og:site_name">
   <meta content="article" property="og:type">
   <meta content="https://justinchill.com/Walmart.html" property="og:url">
-  <meta content="Sprawl-Mart | Justin Chill" property="og:title">
-  <meta content="An interactive geospatial data visualization tracking the spatial diffusion, logistics efficiency, and exponential expansion of Walmart store openings across the United States from 1962 to the 2000s." property="og:description">
+  <meta content="Sprawl-Mart" property="og:title">
+  <meta content="How Wal-Mart spread from a corner of Arkansas to both coasts, 1962 to 2006, with 3,109 stores and 42 distribution centers on the map." property="og:description">
   <meta content="https://justinchill.com/blog.html" property="og:see_also">
   <meta property="og:locality" content="Bentonville">
   <meta property="og:region" content="AR">
   <meta property="og:country_name" content="USA">
-  <meta content="https://justinchill.com/imgs/cover/Walmart_cover.webp" property="og:image">
+  <meta content="https://justinchill.com/imgs/cover/sprawl_mart_cover.webp" property="og:image">
   <meta
-    content="A series of five U.S. maps showing the growth of Wal-Mart stores by decade from the 1960s to the 2000s. Blue dots represent store locations, expanding from a few in the central region to widespread coverage across the country over time."
+    content="Map of the lower 48 states with a dot for each Wal-Mart store. The oldest, in the darkest blue, are around northwest Arkansas, and the newest are near the coasts."
     property="og:image:alt">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Sprawl-Mart | Justin Chill">
-  <meta name="twitter:description" content="An interactive geospatial data visualization tracking the spatial diffusion, logistics efficiency, and exponential expansion of Walmart store openings across the United States from 1962 to the 2000s.">
-  <meta content="https://justinchill.com/imgs/cover/Walmart_cover.webp" property="twitter:image">
+  <meta name="twitter:title" content="Sprawl-Mart">
+  <meta name="twitter:description" content="How Wal-Mart spread from a corner of Arkansas to both coasts, 1962 to 2006, with 3,109 stores and 42 distribution centers on the map.">
+  <meta content="https://justinchill.com/imgs/cover/sprawl_mart_cover.webp" name="twitter:image">
   <meta
-    content="A series of five U.S. maps showing the growth of Wal-Mart stores by decade from the 1960s to the 2000s. Blue dots represent store locations, expanding from a few in the central region to widespread coverage across the country over time."
+    content="Map of the lower 48 states with a dot for each Wal-Mart store. The oldest, in the darkest blue, are around northwest Arkansas, and the newest are near the coasts."
     name="twitter:image:alt">
 
   <link rel="canonical" href="https://justinchill.com/Walmart.html">
@@ -63,34 +65,82 @@
   <meta name="color-scheme" content="light dark">
 
   <style>
-    /*  Hacky way to avoid the legend, target the map  */
-    figure#map svg+svg text {
-      font-size: calc(12px + (22 - 16) * ((100vw - 320px) / (1300 - 320)));
-      background: none;
-      margin: 20px 0px;
+    .chart {
+      --d1: #0b2a5b;
+      --d2: #1d5aa8;
+      --d3: #3d8fd1;
+      --d4: #7db5e0;
+      --d5: #abcfea;
+      --dc: #C24E00;
+      --bar: #1d5aa8;
     }
 
-    figure#map svg[class*="-ramp"] {
-      float: right;
+    html[data-theme="dark"] .chart {
+      --d1: #ffffff;
+      --d2: #b5d8ff;
+      --d3: #74b1ee;
+      --d4: #3f80c2;
+      --d5: #2b5c90;
+      --dc: #F09A3E;
+      --bar: #74b1ee;
+    }
+
+    .decades {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 1rem .75rem;
+    }
+
+    article .decades > div {
+      grid-column: auto;
+    }
+
+    .decades p,
+    .key {
+      margin: 0;
+      color: var(--text-color);
+      font-size: .875rem;
+      line-height: 1.4;
+      text-align: center;
+    }
+
+    .decades svg {
+      display: block;
+    }
+
+    .key {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: .25rem 1rem;
+      margin-bottom: .75rem;
+    }
+
+    .key span {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      font-size: inherit;
+    }
+
+    .key i {
+      flex: none;
+      width: .75rem;
+      height: .75rem;
+      border-radius: 50%;
+      background: var(--d);
+    }
+
+    .key i.square {
+      border-radius: 2px;
+      width: .625rem;
+      height: .625rem;
     }
 
     @media (max-width: 600px) {
-      figure#map svg[class*="-ramp"] {
-        float: none;
-        margin: 0.5rem auto;
-        display: block;
+      .decades {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
-    }
-
-    figure {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      max-width: 100%;
-    }
-
-    cite a:not([class]) {
-      text-decoration: none;
-      color: hsl(234, 62%, 50%);
     }
   </style>
 
@@ -100,7 +150,7 @@
   "@type": "BlogPosting",
   "headline": "Sprawl-Mart",
   "alternativeHeadline": "The Diffusion of Wal-Mart",
-  "description": "An interactive geospatial data visualization tracking the spatial diffusion, logistics efficiency, and exponential expansion of Walmart store openings across the United States from 1962 to the 2000s.",
+  "description": "How Wal-Mart spread from a corner of Arkansas to both coasts, 1962 to 2006, with 3,109 stores and 42 distribution centers on the map.",
   "url": "https://justinchill.com/Walmart.html",
   "mainEntityOfPage": {
     "@type": "WebPage",
@@ -116,15 +166,15 @@
     }
   },
   "datePublished": "2025-03-06",
-  "dateModified": "2026-08-25",
+  "dateModified": "2026-11-25",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
   "articleSection": "Data Visualization",
-  "wordCount": 240,
+  "wordCount": 360,
   "image": {
     "@type": "ImageObject",
-    "url": "https://justinchill.com/imgs/cover/Walmart_cover.webp",
-    "caption": "A series of five U.S. maps showing the growth of Wal-Mart stores by decade from the 1960s to the 2000s."
+    "url": "https://justinchill.com/imgs/cover/sprawl_mart_cover.webp",
+    "caption": "Map of the lower 48 states with a dot for each Wal-Mart store. The oldest, in the darkest blue, are around northwest Arkansas, and the newest are near the coasts."
   },
   "author": {
     "@type": "Person",
@@ -197,6 +247,16 @@
       "sameAs": "https://en.wikipedia.org/wiki/Rogers,_Arkansas"
     }
   ],
+  "isBasedOn": {
+    "@type": "Dataset",
+    "name": "Wal-Mart store openings and distribution center openings, 1962–2006",
+    "description": "Opening dates of Wal-Mart stores and distribution centers from 1962 through January 31, 2006, not including Alaska and Hawaii.",
+    "url": "https://users.econ.umn.edu/~holmes/data/WalMart/",
+    "creator": {
+      "@type": "Person",
+      "name": "Thomas J. Holmes"
+    }
+  },
   "citation": [
     {
       "@type": "ScholarlyArticle",
@@ -207,7 +267,7 @@
       },
       "datePublished": "2011",
       "isPartOf": "Econometrica",
-      "url": "https://doi.org/10.3982/ECTA7961"
+      "url": "https://doi.org/10.3982/ECTA7699"
     },
     {
       "@type": "ScholarlyArticle",
@@ -243,39 +303,35 @@
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-  <nav class="nav" role="navigation">
+  <nav class="nav" aria-label="Main">
     <div class="nav__list">
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-
+    
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
-        aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" aria-pressed="false" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
-            </path>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new tab)</span></a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
 
-  <main role="main" id="content">
+  <main id="content">
     <article>
       <div class="article-hero">
         <p class="article-category">Post</p>
@@ -284,279 +340,172 @@
       </div>
 
       <span class="header-tag mid-size"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
-      <h2 class=" mid-size">Wal around the world</h2>
-      <h3 class=" mid-size">Wal-Mart stores built by decade</h3>
-      <figure id="minimap"
-        aria-label="A series of five U.S. maps showing the growth of Wal-Mart stores by decade from the 1960s to the 2000s. Blue dots represent store locations, expanding from a few in the central region to widespread coverage across the country over time."
-        class=" mid-size">
-        <figcaption class="right mid-size">Data: Diffusion of Wal-Mart Stores (<a
-            href="https://digital.library.unt.edu/ark:/67531/metadc68027/m2/1/high_res_d/thesis.pdf">Holmes 2011</a>)
-        </figcaption>
+      <h2 class="mid-size">Wal the way</h2>
+      <h3 class="mid-size">Wal-Mart stores opened, by decade</h3>
+      <figure id="decades" class="mid-size chart"
+        aria-label="Five small maps of the lower 48 states, one for each decade, with a dot for each Wal-Mart opened. 15 stores in the 1960s, all around northwest Arkansas. 243 in the 1970s, in a wider circle around it. 1,055 in the 1980s, across the South and Midwest. 1,109 in the 1990s, mostly toward the coasts. 687 in the 2000s, spread across the country.">
+        <div class="decades" aria-hidden="true"></div>
+        <figcaption class="right">The 2000s stop on January 31, 2006. Data: <a href="https://users.econ.umn.edu/~holmes/data/WalMart/" target="_blank" rel="noopener">Thomas Holmes</a></figcaption>
       </figure>
 
-      <p>This map shows the spread of Wal-Mart stores across the continental United States by decade from the 1960s to
-        the 2000s. The significance of this pattern of retail dispersion, as explained in a 2011 master’s thesis<a
-          href="#Holmes" aria-describedby="footnote-label" id="Holmes-ref"></a>, is that by locating stores in close
-        proximity to one another and expanding locally and regionally, Wal-Mart, on average, saves around $3,500 a year
-        per store by locating just one mile closer to a distribution center, rather than one mile farther away.</p>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
-      <h2 class="">The beast from Bentonville</h2>
-      <h3>Wal-Mart stores in North America</h3>
-      <figure id="map"
-        aria-label="Map of North America showing density and geographic distribution of Wal-Mart stores colored by the decade built">
-        <figcaption class="right">Data: <a
-            href="https://digital.library.unt.edu/ark:/67531/metadc68027/m2/1/high_res_d/thesis.pdf" target="_blank" rel="noopener noreferrer">Holmes 2011</a>
-        </figcaption>
+      <p>Every dot is a Wal-Mart, in the decade it opened. The 15 stores of the 1960s were all within 260 miles of Bentonville,
+        Arkansas. In the 1970s, the typical new one was 228 miles away. In the 1980s it was 494, and in the 1990s, when
+        they got to both coasts, 886.</p>
+      <p>There’s a reason for growing that way, as explained in a 2011 master’s thesis.<a href="#Ostrander"
+          aria-describedby="footnote-label" id="Ostrander-ref" aria-label="Footnote 1: Ostrander"></a> If stores are close to one another, they’re close to the same distribution center, and on average Wal-Mart saves around $3,500 a year per store by
+        locating just one mile closer to one.</p>
+      <span class="header-tag mid-size"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
+      <h2 class="mid-size">The beast from Bentonville</h2>
+      <h3 class="mid-size">Wal-Mart stores and distribution centers, 1962–2006</h3>
+      <figure id="map" class="mid-size chart"
+        aria-label="Map of the lower 48 states with 3,109 Wal-Mart stores, colored by the decade they opened, and 42 distribution centers. The oldest stores are around northwest Arkansas and the newest are near the coasts and around big cities. The distribution centers are spread across the same states as the stores.">
+        <div class="key">
+          <span><i style="--d: var(--d1)"></i>1960s</span>
+          <span><i style="--d: var(--d2)"></i>1970s</span>
+          <span><i style="--d: var(--d3)"></i>1980s</span>
+          <span><i style="--d: var(--d4)"></i>1990s</span>
+          <span><i style="--d: var(--d5)"></i>2000s</span>
+          <span><i class="square" style="--d: var(--dc)"></i>Distribution center</span>
+        </div>
+        <div class="plot" aria-hidden="true"></div>
+        <figcaption class="right">Not including Alaska, Hawaii, or food distribution centers. Data: <a href="https://users.econ.umn.edu/~holmes/data/WalMart/" target="_blank" rel="noopener">Thomas Holmes</a></figcaption>
       </figure>
 
-      <p>Over the past half century (1960–2010), the retail environment in the United States has undergone a dramatic
-        shift away from traditional “mom and pop” stores and towards large-scale “big-box” retailing. Target, K-Mart, and
-        Wal-Mart each opened their first discount store in 1962; Target located in a Minneapolis suburb, K-Mart in a
-        Detroit suburb, and Wal-Mart in the small town of Rogers, Arkansas.</p>
-      <p>Over the next several decades, these retailers expanded strategically across the United States<a href="#Graff"
-          aria-describedby="footnote-label" id="Graff-ref"></a>. Target and K-Mart grew quickly, locating stores
-        in major metropolitan areas. Wal-Mart chose to locate stores in smaller towns close to its home office of
-        Bentonville, Arkansas.</p>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
-      <h2 class="">Scale by the numbers</h2>
-      <h3>Wal-Mart stores built, by year</h3>
-      <figure id="bars"
-        aria-label="Bar chart showing the number of Wal-Mart stores built each year from 1962 to the 2000s">
-        <figcaption class="right">Data: Diffusion of Wal-Mart Stores (<a
-            href="https://digital.library.unt.edu/ark:/67531/metadc68027/m2/1/high_res_d/thesis.pdf">Holmes 2011</a>)
-        </figcaption>
+      <p>By January 2006, two-thirds of the stores were within 100 miles of a distribution center, in a straight line.</p>
+      <p>Target, K-Mart, and Wal-Mart each opened their first discount store in 1962. K-Mart’s was outside Detroit and Target’s
+        was outside Minneapolis. Wal-Mart’s was in Rogers, Arkansas, a small town down the road from Bentonville.</p>
+      <p>The first two went after big cities, and they grew quickly. Wal-Mart stayed in small towns near home, and let the towns
+        get farther and farther away.<a href="#Graff" aria-describedby="footnote-label" id="Graff-ref"
+          aria-label="Footnote 2: Graff and Ashton"></a></p>
+      <span class="header-tag mid-size"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
+      <h2 class="mid-size">Scale by the numbers</h2>
+      <h3 class="mid-size">Wal-Mart stores opened, by year</h3>
+      <figure id="bars" class="mid-size chart"
+        aria-label="Bar chart of Wal-Mart stores opened each year from 1962 through 2005. It rises from 1 in 1962 to a peak of 174 in 1990, with a spike of 149 in 1981, then falls to 52 in 1996 and rises to 125 in 2004.">
+        <div class="plot" aria-hidden="true"></div>
+        <figcaption class="right">January 2006, with 37 more, is left out. Data: <a href="https://users.econ.umn.edu/~holmes/data/WalMart/" target="_blank" rel="noopener">Thomas Holmes</a></figcaption>
       </figure>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
-      <h2 class="">Wal the way</h2>
-      <h3>Wal-Mart stores built by decade</h3>
-      <figure id="facets"
-        aria-label="Small multiple maps of the United States faceted by decade illustrating the spatial diffusion of Wal-Mart store openings">
-        <figcaption class="right">Data: Diffusion of Wal-Mart Stores (<a
-            href="https://digital.library.unt.edu/ark:/67531/metadc68027/m2/1/high_res_d/thesis.pdf">Holmes 2011</a>)
-        </figcaption>
-      </figure>
+      <p>The busiest year was 1990, with 174. The spike in 1981 is mostly Kuhn’s Big K, a Tennessee chain
+        whose 92 stores Wal-Mart bought that year.<a href="#Kuhns" aria-describedby="footnote-label" id="Kuhns-ref"
+          aria-label="Footnote 3: Wikipedia"></a> Holmes’s file has 82 stores opening on one day,
+        July 4.</p>
 
     </article>
   </main>
   <footer>
     <h2 id="footnote-label">Footnotes</h2>
     <ol>
-      <li id="Holmes"><strong>Ostrander, 2011</strong>, <a
-          href="https://digital.library.unt.edu/ark:/67531/metadc68027/m2/1/high_res_d/thesis.pdf">The Expansion of a
-          Retail Chain: An Analysis of Wal-Mart Locations in the United States</a> <a href="#Holmes-ref"
+      <li id="Ostrander"><strong>Anthony Ostrander</strong>, <a href="https://digital.library.unt.edu/ark:/67531/metadc68027/"
+          target="_blank" rel="noopener"><em>The Expansion of a Retail Chain: An Analysis of Wal-Mart Locations in the
+            United States</em></a>, 2011. See also <strong>Thomas Holmes</strong>, <a href="https://doi.org/10.3982/ECTA7699"
+          target="_blank" rel="noopener"><em>The Diffusion of Wal-Mart and Economies of Density</em></a>, 2011, whose data
+        this is: 3,109 of the 3,176 stores in the file, by way of Observable. <a href="#Ostrander-ref" aria-label="Back to content">↩</a></li>
+      <li id="Graff"><strong>Thomas Graff and Deborah Ashton</strong>, <a
+          href="https://doi.org/10.1111/j.0033-0124.1994.00019.x" target="_blank" rel="noopener"><em>Spatial Diffusion of
+            Wal-Mart: Contagious and Reverse Hierarchical Elements</em></a>, 1994. <a href="#Graff-ref"
           aria-label="Back to content">↩</a></li>
-      <li id="Graff"><strong>Graff and Ashton</strong>, <a
-          href="https://onlinelibrary.wiley.com/doi/abs/10.1111/j.0033-0124.1994.00019.x">Spatial Diffusion of Wal-Mart:
-          Contagious and Reverse Hierarchical Elements</a>, 1994.<a href="#Graff-ref" aria-label="Back to content">↩</a>
-      </li>
+      <li id="Kuhns"><strong>Wikipedia</strong>, <a href="https://en.wikipedia.org/wiki/History_of_Walmart" target="_blank"
+          rel="noopener"><em>History of Walmart</em></a> <a href="#Kuhns-ref" aria-label="Back to content">↩</a></li>
     </ol>
 
     <div>
       <p>Justin Chill &copy; 2026</p>
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
-            alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
+            alt="" class="icon" width="16" height="16" loading="lazy" decoding="async">Source code<span class="visually-hidden"> (opens in new tab)</span></a></span>
     </div>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/d3@7.9.2/dist/d3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.19/dist/plot.umd.min.js"></script>
 
-  <script type="text/javascript">
-    let cachedData = null;
-    let lastRenderedWidth = 0;
+  <script>
+    (function () {
+      const box = { decades: document.querySelector("#decades .decades"), map: document.querySelector("#map .plot"), bars: document.querySelector("#bars .plot") };
+      const font = { fontFamily: "var(--font-main)", fontSize: "13px", background: "transparent", color: "var(--text-color)", overflow: "visible" };
+      const when = d3.utcFormat("%B %-d, %Y");
+      const decade = d => Math.floor(d.date.getUTCFullYear() / 10) * 10;
 
-    function renderCharts() {
-      const minimapEl = document.getElementById("minimap");
-      const mapEl = document.getElementById("map");
-      const barsEl = document.getElementById("bars");
-      const facetsEl = document.getElementById("facets");
-      if (!minimapEl || !mapEl || !barsEl || !facetsEl || !cachedData) return;
+      Promise.all([
+        d3.json("data/geo/lower48.json"),
+        d3.csv("data/walmarts.csv", d3.autoType),
+        d3.csv("data/walmart-dcs.csv", d3.autoType)
+      ]).then(([land, stores, centers]) => {
+        const projection = { type: "albers", domain: land.nation, inset: 4 };
+        const color = d => `var(--d${(decade(d) - 1950) / 10})`;
 
-      const elementMid = d3.select('figure.mid-size').node();
-      const widthMid = elementMid ? elementMid.getBoundingClientRect().width : 600;
-      const element = d3.select('figure:not(.mid-size)').node();
-      const width = element ? element.getBoundingClientRect().width : 700;
-      lastRenderedWidth = width;
+        function decades(width) {
+          const small = width < 600;
+          const each = Math.floor(small ? (width - 12) / 2 : (width - 48) / 5);
+          const list = d3.groups(stores, decade).sort((a, b) => a[0] - b[0]).map(([year, open]) => {
+            const item = document.createElement("div");
+            const label = document.createElement("p");
+            label.textContent = `${year}s: ${open.length.toLocaleString("en-US")}`;
+            item.append(Plot.plot({
+              width: each, height: Math.round(each * .64), style: font, margin: 0, projection: { ...projection, inset: 2 },
+              marks: [
+                Plot.geo(land.states, { strokeOpacity: .15, strokeWidth: .6 }),
+                Plot.geo(land.nation, { strokeOpacity: .6, strokeWidth: .8 }),
+                Plot.dot(open, { x: "longitude", y: "latitude", r: 1.2, fill: "var(--bar)" })
+              ]
+            }), label);
+            return item;
+          });
+          return list;
+        }
 
-      const isMobile = width < 540;
-      const size = isMobile ? 10 : 12;
+        function map(width) {
+          const small = width < 600;
+          const sorted = d3.sort(stores, (a, b) => d3.descending(a.date, b.date)); // the oldest on top
+          return [Plot.plot({
+            width, height: Math.round(width * .62), style: font, margin: 0, projection,
+            r: { type: "identity" },
+            marks: [
+              Plot.geo(land.states, { strokeOpacity: .2, strokeWidth: .8 }),
+              Plot.geo(land.nation, { strokeOpacity: .6 }),
+              Plot.dot(sorted, { x: "longitude", y: "latitude", r: d => (small ? 1.3 : 2.4) + (decade(d) < 1970 ? .8 : 0), fill: color }),
+              Plot.dot(centers, { x: "longitude", y: "latitude", r: small ? 2.6 : 4.5, symbol: "square", fill: "var(--dc)", stroke: "var(--bg-color)", strokeWidth: small ? .75 : 1.25 }),
+              Plot.tip([...stores.map(d => ({ ...d, text: `Opened ${when(d.date)}` })), ...centers.map(d => ({ ...d, text: `Distribution center, ${d.city}, ${d.state}` }))],
+                Plot.pointer({ x: "longitude", y: "latitude", title: "text", fill: "var(--bg-color)" }))
+            ]
+          })];
+        }
 
-      // Clear previous chart plots
-      minimapEl.replaceChildren(...minimapEl.querySelectorAll(":scope > figcaption")); // clear the old chart, keep the caption
-      mapEl.replaceChildren(...mapEl.querySelectorAll(":scope > figcaption")); // clear the old chart, keep the caption
-      barsEl.replaceChildren(...barsEl.querySelectorAll(":scope > figcaption")); // clear the old chart, keep the caption
-      facetsEl.replaceChildren(...facetsEl.querySelectorAll(":scope > figcaption")); // clear the old chart, keep the caption
+        function bars(width) {
+          const small = width < 600;
+          const years = d3.rollups(stores, v => v.length, d => d.date.getUTCFullYear()).map(([year, n]) => ({ year, n })).filter(d => d.year < 2006);
+          const named = years.filter(d => d.year === 1981 || d.year === 1990);
+          return [Plot.plot({
+            width, height: small ? 280 : 360, style: font, marginLeft: 36, marginRight: 6, marginTop: 22,
+            x: { type: "linear", domain: [1961.4, 2005.6], ticks: small ? [1965, 1975, 1985, 1995, 2005] : d3.range(1965, 2006, 5), tickFormat: "d", tickSize: 0, label: null },
+            y: { domain: [0, 185], ticks: [0, 50, 100, 150], tickSize: 0, grid: true, label: null },
+            marks: [
+              Plot.rect(years, { x1: d => d.year - .42, x2: d => d.year + .42, y1: 0, y2: "n", fill: "var(--bar)" }),
+              Plot.text(named, { x: "year", y: "n", text: d => `${d.n}`, dy: -8, fontWeight: 700 }),
+              Plot.ruleY([0]),
+              Plot.tip(years, Plot.pointerX({ x: "year", y: "n", title: d => `${d.year}: ${d.n} ${d.n === 1 ? "store" : "stores"}`, fill: "var(--bg-color)" }))
+            ]
+          })];
+        }
 
-      const statemesh = cachedData[0];
-      const nation = cachedData[1];
-      const walmarts = cachedData[2];
-      const walcolor = "#0071CE";
-
-      // 1. Minimap (by decade, horizontal facets) - No default tooltip
-      const minimap = {
-        width: Math.max(widthMid, 450),
-        style: {
-          fontSize: isMobile ? 10 : size * 1.35
-        },
-        marginRight: 0,
-        marginLeft: 0,
-        projection: "albers",
-        fx: {
-          interval: "10 years",
-          tickFormat: (d) => `${d.getUTCFullYear()}’s`,
-          label: null
-        },
-        marks: [
-          Plot.geo(statemesh, {
-            strokeOpacity: 0.1
-          }),
-          Plot.geo(nation, {
-            strokeOpacity: 0.7
-          }),
-          Plot.dot(walmarts, {
-            fx: "date",
-            x: "longitude",
-            y: "latitude",
-            r: 1,
-            fill: walcolor
-          })
-        ]
-      };
-
-      // 2. Map (North America density & dots with legend)
-      const map = {
-        width: width,
-        style: {
-          fontSize: size,
-          background: "none",
-          cursor: "default"
-        },
-        padding: 0.05,
-        marginRight: 0,
-        marginLeft: 0,
-        projection: "albers",
-        color: {
-          type: "quantize",
-          scheme: "GnBu",
-          unknown: "#ddd",
-          label: "Decade store built",
-          legend: true,
-          tickSize: 0,
-        },
-        marks: [
-          Plot.geo(nation, {
-            strokeOpacity: 0.9,
-            fill: "#222",
-            opacity: .05
-          }),
-          Plot.geo(statemesh, {
-            strokeOpacity: 0.7
-          }),
-          Plot.density(walmarts, {
-            x: "longitude",
-            y: "latitude",
-            bandwidth: 10,
-            fill: (d) => d.date.getUTCFullYear(),
-            opacity: .15
-          }),
-          Plot.dot(walmarts, {
-            x: "longitude",
-            y: "latitude",
-            r: width > 500 ? 5 : (width > 380 ? 3 : 2),
-            fill: (d) => `${d.date.getUTCFullYear()}`,
-            opacity: .7,
-            tip: {
-              opacity: 0.85,
-              textPadding: 10,
-            },
-          }),
-        ]
-      };
-
-      // 3. Bars (Stores built by year)
-      const bars = {
-        style: {
-          fontSize: size,
-          textTransform: "capitalize"
-        },
-        width: width,
-        x: {
-          interval: "year",
-          label: null,
-          tickSize: 0,
-        },
-        y: {
-          grid: true,
-          ticks: isMobile ? 3 : 4,
-          nice: true
-        },
-        marks: [
-          Plot.rectY(walmarts, Plot.binX({
-            y: "count"
-          }, {
-            x: "date",
-            fill: "#4e79a7"
-          })),
-          Plot.ruleY([0]),
-        ],
-      };
-
-      // 4. Facets (Vertical facets by decade)
-      const facets = {
-        style: {
-          fontSize: size,
-          textTransform: "capitalize",
-          margin: "0 auto"
-        },
-        width: width,
-        projection: "albers-usa",
-        fy: {
-          interval: "10 years",
-          tickFormat: (d) => `${d.getUTCFullYear()}’s`
-        },
-        marks: [
-          Plot.geo(statemesh, {
-            strokeOpacity: 0.1
-          }),
-          Plot.geo(nation),
-          Plot.dot(walmarts, {
-            fy: "date",
-            x: "longitude",
-            y: "latitude",
-            fill: "#4e79a7",
-            tip: true,
-          })
-        ]
-      };
-
-      minimapEl.appendChild(Plot.plot(minimap));
-      mapEl.appendChild(Plot.plot(map));
-      barsEl.appendChild(Plot.plot(bars));
-      facetsEl.appendChild(Plot.plot(facets));
-    }
-
-    // Load data and render
-    const promises = [
-      d3.json("data/geo/statemesh.json"),
-      d3.json("data/geo/nation.json"),
-      d3.csv("data/walmarts.csv", d3.autoType)
-    ];
-
-    Promise.all(promises).then(function (data) {
-      cachedData = data;
-      renderCharts();
-    }).catch(function (err) {
-      console.error("Error loading data:", err);
-    });
-
-    // Resize event listener
-    window.addEventListener("resize", () => {
-      const element = d3.select('figure:not(.mid-size)').node();
-      if (!element) return;
-      const newWidth = element.getBoundingClientRect().width;
-      if (newWidth !== lastRenderedWidth) {
-        renderCharts();
-      }
-    });
+        const charts = { decades, map, bars };
+        const drawn = {};
+        function draw() {
+          for (const [id, chart] of Object.entries(charts)) {
+            const width = Math.round(box[id].getBoundingClientRect().width);
+            if (!width || drawn[id] === width) continue;
+            drawn[id] = width;
+            box[id].replaceChildren(...chart(width));
+          }
+        }
+        draw();
+        window.addEventListener("resize", draw);
+      }).catch(() => {
+        Object.values(box).forEach(el => {
+          el.removeAttribute("aria-hidden");
+          el.classList.remove("decades");
+          el.textContent = "The data for this chart couldn’t be loaded. Please try reloading the page.";
+        });
+      });
+    })();
   </script>
   <script src="js/site.js" defer></script>
 </body>
