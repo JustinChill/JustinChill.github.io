@@ -38,9 +38,9 @@
     property="og:image:alt">
 
   <meta property="article:published_time" content="2024-04-07">
-  <meta property="article:modified_time" content="2026-08-19">
+  <meta property="article:modified_time" content="2026-11-25">
   <meta name="datePublished" content="2024-04-07">
-  <meta name="dateModified" content="2026-08-19">
+  <meta name="dateModified" content="2026-11-25">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -60,24 +60,34 @@
   <meta name="theme-color" content="#4C63B6">
   <meta name="color-scheme" content="light dark">
 
-  <style type="text/css">
-    span[class*="swatch"] {
-      font-size: calc(.6rem + .25vw);
+  <style>
+    .regions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .25rem 1rem;
+      margin: 0 0 .5rem;
+      padding: 0;
+      list-style: none;
+      font-size: .875rem;
     }
 
-    span[class*="swatch"] svg {
+    article .regions li {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      margin: 0;
+      font-size: .875rem;
+    }
+
+    .regions i {
+      width: .75rem;
+      height: .75rem;
       border-radius: 50%;
-      overflow: hidden;
     }
 
-    .nav__item:focus-visible,
-    #theme-toggle:focus-visible {
-      outline: 2px solid var(--accent-color, #4C63B6);
-      outline-offset: 2px;
-    }
-
-    html[data-theme="dark"] figure svg {
-      color: var(--text-color, #e8e8e8);
+    .scatter .names line {
+      stroke: currentColor;
+      stroke-opacity: .5;
     }
   </style>
 
@@ -89,7 +99,7 @@
   "alternativeHeadline": "A correlation between corruption and development",
   "description": "An interactive data visualization exploring the correlation between Transparency International's Corruption Perceptions Index (CPI) and the UN's Human Development Index (HDI), recreating The Economist's classic chart using Observable Plot and D3.",
   "datePublished": "2024-04-07",
-  "dateModified": "2026-08-19",
+  "dateModified": "2026-11-25",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
   "articleSection": "Data Visualization",
@@ -107,7 +117,6 @@
     "The Economist",
     "Transparency International",
     "Observable Plot",
-    "D3.js",
     "Data Visualization",
     "Scatter Plot"
   ],
@@ -131,6 +140,28 @@
       "@type": "NewsMediaOrganization",
       "name": "The Economist",
       "sameAs": "https://en.wikipedia.org/wiki/The_Economist"
+    }
+  ],
+  "isBasedOn": [
+    {
+      "@type": "Dataset",
+      "name": "Corruption Perceptions Index 2025",
+      "description": "Perceived corruption in the public sector of 182 countries and territories, scored from 0 (highly corrupt) to 100 (very clean) by Transparency International.",
+      "url": "https://www.transparency.org/en/cpi/2025",
+      "creator": {
+        "@type": "Organization",
+        "name": "Transparency International"
+      }
+    },
+    {
+      "@type": "Dataset",
+      "name": "Human Development Index",
+      "description": "A measure of health, education, and income from the United Nations Development Programme, used here for 2011 and for 2023, the latest year in the Human Development Report 2025.",
+      "url": "https://hdr.undp.org/data-center/human-development-index",
+      "creator": {
+        "@type": "Organization",
+        "name": "United Nations Development Programme"
+      }
     }
   ],
   "citation": {
@@ -169,584 +200,209 @@
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-  <nav class="nav" role="navigation">
+  <nav class="nav" aria-label="Main">
     <div class="nav__list">
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-
+    
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
-        aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" aria-pressed="false" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
-            </path>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new tab)</span></a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
 
-  <main role="main" id="content">
+  <main id="content">
     <article>
       <div class="article-hero">
         <p class="article-category">Post</p>
         <h1 class="article-title">Corrosive Corruption</h1>
       </div>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" width="20" height="20"></span>
-      <h2>A correlation between corruption and development</h2>
-      <figure id="corruption"
-        aria-label="A scatter plot showing the relationship between the Human Development Index (vertical axis) and Corruption Perceptions Index (horizontal axis) for various countries. A red trend line indicates a positive correlation, with high HDI linked to low corruption.">
-        <div id="corruption-chart" role="img" aria-hidden="true"></div>
-        <figcaption class="right">Data: <a
-            href="https://www.economist.com/graphic-detail/2011/12/02/corrosive-corruption" target="_blank" rel="noopener">The Economist</a>
-        </figcaption>
+      <span class="header-tag mid-size"><img src="imgs/tag.svg" alt="" aria-hidden="true" width="20" height="20"></span>
+      <h2 class="mid-size">A correlation between corruption and development</h2>
+      <figure id="corruption" class="mid-size scatter"
+        aria-label="Scatter plot of 173 countries in 2011, with the Corruption Perceptions Index across and the Human Development Index up. The less corrupt a country, the more developed it tends to be. Bhutan, Cape Verde, and Rwanda are well below the trend line. Greece and Italy are well above it.">
+        <ul class="regions" aria-hidden="true">
+          <li><i style="background: #0072B2"></i>Sub-Saharan Africa</li>
+          <li><i style="background: #E69F00"></i>OECD &amp; W. Europe</li>
+          <li><i style="background: #CC79A7"></i>Middle East &amp; North Africa</li>
+          <li><i style="background: #009E73"></i>East EU &amp; Central Asia</li>
+          <li><i style="background: #56B4E9"></i>Asia Pacific</li>
+          <li><i style="background: #D55E00"></i>Americas</li>
+        </ul>
+        <div class="plot" aria-hidden="true"></div>
+        <figcaption class="right">2011. Data: Transparency International and the UN, after <a
+            href="https://www.economist.com/graphic-detail/2011/12/02/corrosive-corruption" target="_blank"
+            rel="noopener">The Economist</a></figcaption>
       </figure>
-      <p>Transparency International's annual <strong>Corruption Perceptions Index</strong> measures perceived levels of
-        public-sector corruption across the globe, based on expert assessments and opinion surveys. In the 2011 dataset
-        used here, scores are ranked on a scale of 0 (highly corrupt) to 10 (very clean). Comparing the corruption index
-        (<abbr title="Corruption Perceptions Index">CPI</abbr>) with the UN's <strong>Human Development Index</strong>
-        (<abbr title="Human Development Index">HDI</abbr>), a composite measure combining health, education, and standard
-        of living, demonstrates a striking relationship. As the corruption index rises beyond 4.0, a strong positive connection
-        with human development emerges. Notable outliers include small but well-governed lower-income countries such as Bhutan
-        and Cape Verde, while Greece and Italy stand out as underperformers among higher-income nations.
-      </p>
+      <p>Every year, Transparency International gathers up what experts and businesspeople think of each country’s
+        government and turns it into the <strong>Corruption Perceptions Index</strong>
+        (<abbr title="Corruption Perceptions Index">CPI</abbr>). In 2011, the year of this chart, it ran from 0 (highly
+        corrupt) to 10 (very clean). The other axis is the UN’s <strong>Human Development Index</strong>
+        (<abbr title="Human Development Index">HDI</abbr>), which rolls health, education, and income into one number
+        between 0 and 1.</p>
+      <p>Cleaner countries are better off, on the whole, though the chart can’t say which comes first. The link is loose at
+        the corrupt end: a score of 3 covers both Argentina and Burkina Faso, which have little else in common. It tightens
+        as the scores go up. Bhutan, Cape Verde, and Rwanda are far cleaner than you’d guess from how poor they are. Italy
+        and Greece have it the other way around.</p>
+
+      <h2 class="mid-size">Fourteen years later</h2>
+      <figure id="today" class="mid-size scatter"
+        aria-label="Scatter plot of 179 countries with the 2025 Corruption Perceptions Index across and the 2023 Human Development Index up. The shape is much the same as in 2011. Russia and Turkey are well above the trend line. Burkina Faso, Rwanda, and Bhutan are well below it.">
+        <ul class="regions" aria-hidden="true">
+          <li><i style="background: #0072B2"></i>Sub-Saharan Africa</li>
+          <li><i style="background: #E69F00"></i>W. Europe &amp; EU</li>
+          <li><i style="background: #CC79A7"></i>Middle East &amp; North Africa</li>
+          <li><i style="background: #009E73"></i>East Europe &amp; Central Asia</li>
+          <li><i style="background: #56B4E9"></i>Asia Pacific</li>
+          <li><i style="background: #D55E00"></i>Americas</li>
+        </ul>
+        <div class="plot" aria-hidden="true"></div>
+        <figcaption class="right">Corruption in 2025, development in 2023, the latest there is. Data: <a
+            href="https://www.transparency.org/en/cpi/2025" target="_blank" rel="noopener">Transparency International</a>;
+          <a href="https://ourworldindata.org/grapher/human-development-index" target="_blank" rel="noopener">UN, via Our
+            World in Data</a></figcaption>
+      </figure>
+      <p>Transparency International changed its method in 2012, and 10 became 100, so the new scores can’t be compared with
+        the old ones. The shape can, and it has hardly moved. In 2011 the correlation between the two was 0.70. Now it’s
+        0.72. Denmark comes out cleanest, at 89, and Somalia and South Sudan share last place, at 9. Rwanda and Bhutan are
+        still cleaner than they are rich. Greece and Italy have moved closer to the line, and the countries farthest above
+        it are Russia and Turkey.</p>
 
       <h2>Original graphic</h2>
-      <a href="https://www.economist.com/graphic-detail/2011/12/02/corrosive-corruption" target="_blank" rel="noopener"><img
-          src="https://i0.wp.com/flowingdata.com/wp-content/uploads/2011/12/Corruption-vs-human-development.gif"
-          alt="A scatter plot chart showing the correlation of corruption and development for 196 countries in the world."
-          loading="lazy" width="590" height="427" decoding="async"></a>
+      <figure>
+        <a href="https://www.economist.com/graphic-detail/2011/12/02/corrosive-corruption" target="_blank" rel="noopener"><img
+            src="https://i0.wp.com/flowingdata.com/wp-content/uploads/2011/12/Corruption-vs-human-development.gif"
+            alt="The Economist’s scatter plot of corruption against human development in 2011, with a red trend line and dots colored by region."
+            loading="lazy" width="590" height="427" decoding="async"></a>
+        <figcaption class="right">The Economist, via <a href="https://flowingdata.com/?p=20030" target="_blank"
+            rel="noopener">FlowingData</a></figcaption>
+      </figure>
 
-      <p>In the original visualization from the Economist, the graphic starts at 0.2 on the Human Development Index. I've
-        recreated that here by setting the domain of the y-axis to <code>[0.2, 1]</code>. Each country is color-coded
-        based on region using the <a href="https://observablehq.com/@observablehq/plot-cheatsheets-colors" target="_blank" rel="noopener">tableau10
-          color scheme</a> provided by Plot. I've plotted each of the 28 text labels by manually tweaking their position
-        on the chart. My version allows you to hover over any dot on the chart and see the name of the country, the CPI
-        score, and the HDI score.</p>
+      <p>In the original visualization from <em>The Economist</em>, the graphic starts at 0.2 on the Human Development
+        Index. I’ve recreated that here by setting the domain of the y-axis to <code>[0.2, 1]</code>. It has 28 labels,
+        which I used to place by hand. Now the page finds an empty spot for each one, or for as many as fit on a phone. My
+        version also lets you point at any dot to see the country and its scores.</p>
     </article>
   </main>
   <footer>
     <div>
       <p>Justin Chill &copy; 2026</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener"><img src="imgs/github.svg"
-            alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
+            alt="" class="icon" width="16" height="16" loading="lazy" decoding="async">Source code<span class="visually-hidden"> (opens in new tab)</span></a></span>
     </div>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/d3@7.9.2/dist/d3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.19/dist/plot.umd.min.js"></script>
-  <script type="text/javascript">
-    var labels = ["Venezuela", "Iraq", "Myanmar", "Sudan",
-      "Afghanistan", "Congo", "Greece", "Argentina",
-      "India", "Italy",
-      "Botswana", "Cape Verde", "Bhutan", "Rwanda", "France",
-      "United States", "Britain", "Barbados", "Norway",
-      "New Zealand", "Singapore", "Russia", "Brazil", "Spain", "Germany", "Japan", "China", "South Africa"
-    ];
-
-    let lastRenderedWidth = 0;
-
-    function renderPlot(data) {
-      const container = document.getElementById("corruption-chart");
-      if (!container) return;
-
-      container.innerHTML = "";
-
-      const width = container.getBoundingClientRect().width || 600;
-      lastRenderedWidth = width;
-      const size = width < 500 ? 10 : 12;
-
-      var corruption = {
-        inset: 6,
-        width: width,
-        x: {
-          label: "Corruption Perceptions Index, 2011 (10 = least corrupt)",
-          labelAnchor: "center",
-          labelOffset: 35,
-          anchor: "bottom",
-          nice: true,
-        },
-        y: {
-          label: "Human Development Index (1 = best)",
-          tickSize: 0,
-          labelAnchor: "center",
-          labelOffset: 45,
-          frameAnchor: "left",
-          grid: true,
-          domain: [0.2, 1],
-        },
-        style: {
-          background: "transparent",
-          color: "currentColor",
-          fontSize: size
-        },
-        color: {
-          scheme: "tableau10",
-          reverse: true,
-          legend: true,
-        },
-        marks: [
-          Plot.linearRegressionY(data, {
-            x: "CPI",
-            y: "HDI",
-            stroke: "crimson",
-            ci: 0.95
-          }),
-          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Venezuela"), {
-            x: "CPI",
-            y: "HDI",
-            text: "Country",
-            dy: -4,
-            dx: -35,
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-            strokeLinejoin: "round",
-            fill: "currentColor",
-            paintOrder: "stroke"
-          }),
-          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Iraq"), {
-            x: "CPI",
-            y: "HDI",
-            text: "Country",
-            dx: -20,
-            dy: -1,
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-            strokeLinejoin: "round",
-            fill: "currentColor",
-            paintOrder: "stroke"
-          }),
-          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Myanmar"), {
-            x: "CPI",
-            y: "HDI",
-            text: "Country",
-            dy: -18,
-            dx: -20,
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-            strokeLinejoin: "round",
-            fill: "currentColor",
-            paintOrder: "stroke"
-          }),
-          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Sudan"), {
-            x: "CPI",
-            y: "HDI",
-            text: d => `${d.Country}`,
-            dy: -12,
-            dx: -22,
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-            strokeLinejoin: "round",
-            fill: "currentColor",
-            paintOrder: "stroke"
-          }),
-          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Afghanistan"), {
-            x: "CPI",
-            y: "HDI",
-            text: "Country",
-            dy: 15,
-            dx: -8,
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-            strokeLinejoin: "round",
-            fill: "currentColor",
-            paintOrder: "stroke"
-          }),
-          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Congo"), {
-            x: "CPI",
-            y: "HDI",
-            text: "Country",
-            dy: 15,
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-            strokeLinejoin: "round",
-            fill: "currentColor",
-            paintOrder: "stroke"
-          }),
-          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Greece"), {
-            x: "CPI",
-            y: "HDI",
-            text: "Country",
-            dy: -1,
-            dx: -32,
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-            strokeLinejoin: "round",
-            fill: "currentColor",
-            paintOrder: "stroke"
-          }),
-          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Argentina"), {
-            x: "CPI",
-            y: "HDI",
-            text: "Country",
-            dy: -12,
-            dx: -32,
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-            strokeLinejoin: "round",
-            fill: "currentColor",
-            paintOrder: "stroke"
-          }),
-          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "India"), {
-            x: "CPI",
-            y: "HDI",
-            text: "Country",
-            dy: 0,
-            dx: 22,
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-            strokeLinejoin: "round",
-            fill: "currentColor",
-            paintOrder: "stroke"
-          }),
-          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Italy"), {
-            x: "CPI",
-            y: "HDI",
-            text: "Country",
-            dy: -14,
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-            strokeLinejoin: "round",
-            fill: "currentColor",
-            paintOrder: "stroke"
-          }),
-          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Botswana"), {
-            x: "CPI",
-            y: "HDI",
-            text: "Country",
-            dx: 36,
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-            strokeLinejoin: "round",
-            fill: "currentColor",
-            paintOrder: "stroke"
-          }),
-          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Cape Verde"), {
-            x: "CPI",
-            y: "HDI",
-            text: "Country",
-            dx: 42,
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-            strokeLinejoin: "round",
-            fill: "currentColor",
-            paintOrder: "stroke"
-          }),
-          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Bhutan"), {
-            x: "CPI",
-            y: "HDI",
-            text: "Country",
-            dx: 32,
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-            strokeLinejoin: "round",
-            fill: "currentColor",
-            paintOrder: "stroke"
-          }),
-          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Rwanda"), {
-            x: "CPI",
-            y: "HDI",
-            text: "Country",
-            dx: 32,
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-            strokeLinejoin: "round",
-            fill: "currentColor",
-            paintOrder: "stroke"
-          }),
-          Plot.arrow(data.filter(d => labels.includes(d.Country) && d.Country == "France"), {
-            x1: d => d.CPI - .28,
-            y1: d => d.HDI + .042,
-            x2: d => d.CPI - .06,
-            y2: d => d.HDI + .012,
-            bend: -20,
-            headLength: 5,
-            headAngle: 55,
-            strokeWidth: 1.2,
-            insetStart: 2,
-            insetEnd: 2,
-            stroke: "var(--muted-color, #aaa)"
-          }),
-          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "France"), {
-            x: "CPI",
-            y: "HDI",
-            text: "Country",
-            dy: -26,
-            dx: -34,
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-            strokeLinejoin: "round",
-            fill: "currentColor",
-            paintOrder: "stroke"
-          }),
-          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "United States"), {
-            x: "CPI",
-            y: "HDI",
-            text: d => "US",
-            dy: -14,
-            dx: 0,
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-            strokeLinejoin: "round",
-            fill: "currentColor",
-            paintOrder: "stroke"
-          }),
-          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Britain"), {
-            x: "CPI",
-            y: "HDI",
-            text: "Country",
-            dy: 12,
-            dx: 0,
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-            strokeLinejoin: "round",
-            fill: "currentColor",
-            paintOrder: "stroke"
-          }),
-          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Barbados"), {
-            x: "CPI",
-            y: "HDI",
-            text: "Country",
-            dy: 14,
-            dx: 4,
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-            strokeLinejoin: "round",
-            fill: "currentColor",
-            paintOrder: "stroke"
-          }),
-          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Norway"), {
-            x: "CPI",
-            y: "HDI",
-            text: "Country",
-            dy: -12,
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-            strokeLinejoin: "round",
-            fill: "currentColor",
-            paintOrder: "stroke"
-          }),
-          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "New Zealand"), {
-            x: "CPI",
-            y: "HDI",
-            text: "Country",
-            dy: -12,
-            dx: 24,
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-            strokeLinejoin: "round",
-            fill: "currentColor",
-            paintOrder: "stroke"
-          }),
-          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Singapore"), {
-            x: "CPI",
-            y: "HDI",
-            text: "Country",
-            dy: 14,
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-            strokeLinejoin: "round",
-            fill: "currentColor",
-            paintOrder: "stroke"
-          }),
-          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Russia"), {
-            x: "CPI",
-            y: "HDI",
-            text: "Country",
-            dy: -24,
-            dx: -46,
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-            strokeLinejoin: "round",
-            fill: "currentColor",
-            paintOrder: "stroke"
-          }),
-          Plot.arrow(data.filter(d => labels.includes(d.Country) && d.Country == "Russia"), {
-            x1: d => d.CPI - .36,
-            y1: d => d.HDI + .036,
-            x2: d => d.CPI - .07,
-            y2: d => d.HDI + .012,
-            bend: -20,
-            headLength: 5,
-            headAngle: 55,
-            strokeWidth: 1.2,
-            insetStart: 2,
-            insetEnd: 2,
-            stroke: "var(--muted-color, #aaa)"
-          }),
-          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Brazil"), {
-            x: "CPI",
-            y: "HDI",
-            text: "Country",
-            dy: -11,
-            dx: -2,
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-            strokeLinejoin: "round",
-            fill: "currentColor",
-            paintOrder: "stroke"
-          }),
-          Plot.arrow(data.filter(d => labels.includes(d.Country) && d.Country == "Spain"), {
-            x1: d => d.CPI - .28,
-            y1: d => d.HDI + .042,
-            x2: d => d.CPI - .06,
-            y2: d => d.HDI + .012,
-            bend: -20,
-            headLength: 5,
-            headAngle: 55,
-            strokeWidth: 1.2,
-            insetStart: 2,
-            insetEnd: 2,
-            stroke: "var(--muted-color, #aaa)"
-          }),
-          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Spain"), {
-            x: "CPI",
-            y: "HDI",
-            text: "Country",
-            dy: -26,
-            dx: -34,
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-            strokeLinejoin: "round",
-            fill: "currentColor",
-            paintOrder: "stroke"
-          }),
-          Plot.arrow(data.filter(d => labels.includes(d.Country) && d.Country == "Germany"), {
-            x1: d => d.CPI,
-            y1: d => d.HDI + .032,
-            x2: d => d.CPI,
-            y2: d => d.HDI + .01,
-            bend: 0,
-            headLength: 5,
-            headAngle: 55,
-            strokeWidth: 1.2,
-            insetStart: 2,
-            insetEnd: 2,
-            stroke: "var(--muted-color, #aaa)"
-          }),
-          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Germany"), {
-            x: "CPI",
-            y: "HDI",
-            text: "Country",
-            dy: -20,
-            dx: -2,
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-            strokeLinejoin: "round",
-            fill: "currentColor",
-            paintOrder: "stroke"
-          }),
-          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "Japan"), {
-            x: "CPI",
-            y: "HDI",
-            text: d => `${d.Country}`,
-            dy: 12,
-            dx: 6,
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-            strokeLinejoin: "round",
-            fill: "currentColor",
-            paintOrder: "stroke"
-          }),
-          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "China"), {
-            x: "CPI",
-            y: "HDI",
-            text: d => `${d.Country}`,
-            dy: 12,
-            dx: 4,
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-            strokeLinejoin: "round",
-            fill: "currentColor",
-            paintOrder: "stroke"
-          }),
-          Plot.arrow(data.filter(d => labels.includes(d.Country) && d.Country == "South Africa"), {
-            x1: d => d.CPI + .16,
-            y1: d => d.HDI - .065,
-            x2: d => d.CPI + .03,
-            y2: d => d.HDI - .012,
-            bend: 20,
-            headLength: 5,
-            headAngle: 55,
-            strokeWidth: 1.2,
-            insetStart: 2,
-            insetEnd: 2,
-            stroke: "var(--muted-color, #aaa)"
-          }),
-          Plot.text(data.filter(d => labels.includes(d.Country) && d.Country == "South Africa"), {
-            x: "CPI",
-            y: "HDI",
-            text: d => `${d.Country}`,
-            dy: 46,
-            dx: 26,
-            lineWidth: 4,
-            stroke: "var(--bg-color, white)",
-            strokeWidth: 4,
-            strokeLinejoin: "round",
-            fill: "currentColor",
-            paintOrder: "stroke"
-          }),
-          Plot.dot(data, {
-            x: "CPI",
-            y: "HDI",
-            symbol: "circle",
-            stroke: "Region",
-            r: 5,
-            title: d => `${d.Country}\nCPI: ${d.CPI}\nHDI: ${d.HDI}`,
-            channels: {
-              name: "Country",
-              HDI: "HDI"
-            },
-            tip: true,
-          }),
-        ]
+  <script>
+    (function () {
+      const colors = {
+        "Sub-Saharan Africa": "#0072B2", "OECD & W. Europe": "#E69F00", "W. Europe & EU": "#E69F00", "Middle East & North Africa": "#CC79A7",
+        "East EU & Central Asia": "#009E73", "East Europe & Central Asia": "#009E73", "Asia Pacific": "#56B4E9", "Americas": "#D55E00"
       };
+      const short = { "United States": "US", "United States of America": "US", "United Kingdom": "Britain", "Cabo Verde": "Cape Verde" };
 
-      container.appendChild(Plot.plot(corruption));
-    }
+      // Most important first: a small screen shows as many as fit
+      const charts = [
+        {
+          id: "corruption", file: "data/Corruption_Perceptions_Index.csv", x: [1, 10], y: [.2, 1], axis: "Corruption Perceptions Index, 2011 (10 = very clean)",
+          row: d => ({ country: { "Congo": "DR Congo", "Congo  Republic": "Congo" }[d.Country] || d.Country, cpi: +d.CPI, hdi: +d.HDI, region: d.Region }),
+          names: ["Bhutan", "Rwanda", "Greece", "Italy", "United States", "Norway", "Russia", "Botswana", "Singapore", "Venezuela", "DR Congo", "India", "China", "Cape Verde",
+            "New Zealand", "Barbados", "Britain", "Japan", "Germany", "France", "Spain", "Brazil", "South Africa", "Argentina", "Iraq", "Sudan", "Myanmar", "Afghanistan"]
+        },
+        {
+          id: "today", file: "data/corruption-2025.csv", x: [5, 95], y: [.35, 1], axis: "Corruption Perceptions Index, 2025 (100 = very clean)",
+          row: d => ({ country: d.country, cpi: +d.cpi, hdi: +d.hdi, region: d.region }),
+          names: ["Denmark", "Russia", "Rwanda", "Bhutan", "Turkey", "Greece", "Italy", "Somalia", "South Sudan", "United States of America", "Venezuela", "Burkina Faso", "India", "China",
+            "Singapore", "Botswana", "Cabo Verde", "United Kingdom", "Norway", "Uruguay", "Barbados", "Japan", "South Korea", "Argentina", "Iran", "Brazil", "South Africa", "Afghanistan"]
+        }
+      ];
 
-    // Load data from sanitized local dataset
-    var promises = [d3.csv("data/Corruption_Perceptions_Index.csv", d3.autoType)];
-    const myDataPromises = Promise.all(promises);
+      const ruler = document.createElement("canvas").getContext("2d");
+      const turns = [0, 8, 12, 4, 14, 2, 10, 6, 15, 1, 9, 7, 13, 3, 11, 5].map(i => i * Math.PI / 8);
 
-    // After data is successfully fetched, generate viz
-    myDataPromises.then(function (results) {
-      const data = results[0];
-      renderPlot(data);
-
-      let resizeTimer;
-      window.addEventListener("resize", function () {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(function () {
-          const container = document.getElementById("corruption-chart");
-          if (!container) return;
-          const newWidth = container.getBoundingClientRect().width;
-          if (newWidth !== lastRenderedWidth) {
-            renderPlot(data);
+      // Put each name in the nearest empty spot around its dot
+      function addNames(svg, data, names, width, height) {
+        const x = svg.scale("x").apply, y = svg.scale("y").apply;
+        const dots = data.map(d => ({ ...d, px: x(d.cpi), py: y(d.hdi) }));
+        const taken = [];
+        const group = d3.select(svg).append("g").attr("class", "names").attr("font-weight", 600);
+        ruler.font = "600 12px Camphor, Arial, sans-serif";
+        const hits = (b, pad) => taken.some(t => b.x < t.x + t.w + 3 && b.x + b.w + 3 > t.x && b.y < t.y + t.h && b.y + b.h > t.y)
+          || dots.some(d => d.px > b.x - pad && d.px < b.x + b.w + pad && d.py > b.y - pad && d.py < b.y + b.h + pad);
+        for (const name of names) {
+          const dot = dots.find(d => d.country === name);
+          if (!dot) continue;
+          const text = short[name] || name;
+          const w = ruler.measureText(text).width + 2, h = 14;
+          spot: for (const r of [9, 15, 24, 34, 46, 60, 78, 96]) {
+            for (const turn of turns) {
+              const cos = Math.cos(turn), sin = Math.sin(turn);
+              const anchor = cos > .3 ? "start" : cos < -.3 ? "end" : "middle";
+              const tx = dot.px + r * cos, ty = dot.py + r * sin;
+              const box = { x: anchor === "start" ? tx : anchor === "end" ? tx - w : tx - w / 2, y: ty - h / 2, w, h };
+              if (box.x < 40 || box.x + w > width - 2 || box.y < 8 || box.y + h > height - 46 || hits(box, 5)) continue;
+              taken.push(box);
+              if (r > 15) group.append("line").attr("x1", dot.px + 6 * cos).attr("y1", dot.py + 6 * sin).attr("x2", dot.px + (r - 3) * cos).attr("y2", dot.py + (r - 3) * sin);
+              group.append("text").attr("x", tx).attr("y", ty).attr("dy", ".35em").attr("text-anchor", anchor).attr("fill", "currentColor").attr("font-size", 12).text(text);
+              break spot;
+            }
           }
-        }, 150);
-      });
-    }).catch(function (error) {
-      console.error("Error loading corruption dataset:", error);
-      const container = document.getElementById("corruption-chart");
-      if (container) {
-        container.innerHTML = "<p>Unable to load visualization data. Please try refreshing.</p>";
+        }
       }
-    });
+
+      function scatter(chart, data, width) {
+        const small = width < 560;
+        const height = small ? 440 : 600;
+        const svg = Plot.plot({
+          width, height, marginLeft: 40, marginRight: 14, marginTop: 24, marginBottom: 46,
+          style: { fontFamily: "var(--font-main)", fontSize: "12px", background: "transparent", color: "var(--text-color)", overflow: "visible" },
+          x: { domain: chart.x, label: small ? chart.axis.replace("Corruption Perceptions Index", "CPI") : chart.axis, labelAnchor: "center", labelArrow: "none", tickSize: 0, ticks: small ? 5 : 10 },
+          y: { domain: chart.y, label: "Human Development Index (1 = best)", tickSize: 0, grid: true, ticks: small ? 5 : 8 },
+          marks: [
+            Plot.linearRegressionY(data, { x: "cpi", y: "hdi", stroke: "currentColor", strokeOpacity: .55, strokeWidth: 2, fillOpacity: .08, ci: .95 }),
+            Plot.dot(data, { x: "cpi", y: "hdi", r: small ? 3.5 : 5, fill: d => colors[d.region], stroke: "var(--bg-color)" }),
+            Plot.tip(data, Plot.pointer({ x: "cpi", y: "hdi", fill: "var(--bg-color)", title: d => `${d.country}\nCPI: ${d.cpi}\nHDI: ${d.hdi}` }))
+          ]
+        });
+        addNames(svg, data, small ? chart.names.slice(0, 14) : chart.names, width, height);
+        return svg;
+      }
+
+      charts.forEach(chart => {
+        const box = document.querySelector(`#${chart.id} .plot`);
+        Promise.all([d3.csv(chart.file, chart.row), document.fonts.ready]).then(([data]) => {
+          let drawn = 0;
+          function draw() {
+            const width = Math.round(box.getBoundingClientRect().width);
+            if (!width || width === drawn) return;
+            drawn = width;
+            box.replaceChildren(scatter(chart, data, width));
+          }
+          draw();
+          window.addEventListener("resize", draw);
+        }).catch(() => {
+          box.removeAttribute("aria-hidden");
+          box.textContent = "The data for this chart couldn’t be loaded. Please try reloading the page.";
+        });
+      });
+    })();
   </script>
   <script src="js/site.js" defer></script>
 </body>

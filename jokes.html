@@ -16,13 +16,13 @@
 		})();
 	</script>
 
-	<title>Joke generator | Justin Chill</title>
+	<title>Just Jokes | Justin Chill</title>
 	<meta name="description"
-		content="An interactive dad joke generator and chatbot delivering puns and one-liners via the icanhazdadjoke API with sound effects, animations, and offline support.">
+		content="A robot tells you dad jokes, one at a time, from the icanhazdadjoke API.">
 	<meta name="author" content="Justin Chill">
 	<meta name="robots" content="all">
 	<meta property="article:published_time" content="2025-08-04">
-	<meta property="article:modified_time" content="2026-08-20">
+	<meta property="article:modified_time" content="2026-11-25">
 	<meta property="article:author" content="Justin Chill">
 	<meta property="article:section" content="Interactive">
 
@@ -31,36 +31,33 @@
 	<meta content="JustinChill" property="og:site_name">
 	<meta content="article" property="og:type">
 	<meta content="https://justinchill.com/jokes.html" property="og:url">
-	<meta content="Dad Joke Generator | Justin Chill" property="og:title">
+	<meta content="Just Jokes | Justin Chill" property="og:title">
 	<meta
-		content="An interactive dad joke generator and chatbot delivering puns and one-liners via the icanhazdadjoke API with sound effects, animations, and offline support."
+		content="A robot tells you dad jokes, one at a time, from the icanhazdadjoke API."
 		property="og:description">
 	<meta content="https://justinchill.com/blog.html" property="og:see_also">
 	<meta property="og:locality" content="New York">
 	<meta property="og:region" content="NY">
 	<meta property="og:country_name" content="USA">
-	<meta content="https://justinchill.com/imgs/dad_joke_big.jpg" property="og:image">
-	<meta content="A computer-generated image of a man laughing with his son." property="og:image:alt">
+	<meta content="https://justinchill.com/imgs/cover/just_jokes_cover.webp" property="og:image">
+	<meta content="1200" property="og:image:width">
+	<meta content="675" property="og:image:height">
+	<meta content="A chat bubble with a dad joke about anti-gravity, told by a robot." property="og:image:alt">
 
 	<meta name="datePublished" content="2025-08-04">
-	<meta name="dateModified" content="2026-08-20">
+	<meta name="dateModified" content="2026-11-25">
 
 	<!-- Twitter tags -->
 	<meta name="twitter:card" content="summary_large_image">
 	<meta name="twitter:site" content="@JustinChill">
 	<meta name="twitter:creator" content="@JustinChill">
-	<meta name="twitter:title" content="Dad Joke Generator | Justin Chill">
+	<meta name="twitter:title" content="Just Jokes | Justin Chill">
 	<meta name="twitter:description"
-		content="An interactive dad joke generator and chatbot delivering puns and one-liners via the icanhazdadjoke API.">
-	<meta content="https://justinchill.com/imgs/dad_joke_big.jpg" name="twitter:image">
-	<meta name="twitter:image:alt" content="A computer-generated image of a man laughing with his son.">
+		content="A robot tells you dad jokes, one at a time, from the icanhazdadjoke API.">
+	<meta content="https://justinchill.com/imgs/cover/just_jokes_cover.webp" name="twitter:image">
+	<meta name="twitter:image:alt" content="A chat bubble with a dad joke about anti-gravity, told by a robot.">
 
 	<link rel="canonical" href="https://justinchill.com/jokes.html">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link
-		href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Roboto+Mono:wght@500&family=Roboto:wght@400;500;700&display=swap"
-		rel="stylesheet">
 	<link rel="preload" href="fonts/CamphorPro-Regular.woff2" as="font" type="font/woff2" crossorigin>
 	<link rel="preload" href="fonts/CamphorPro-Heavy.woff2" as="font" type="font/woff2" crossorigin>
 	<link rel="stylesheet" href="style.css" />
@@ -99,35 +96,6 @@
 			--joke-dot-color: #a78bfa;
 			--joke-border-hover: rgba(167, 139, 250, 0.4);
 			--joke-action-hover-bg: #342e50;
-		}
-
-		html {
-			box-sizing: border-box;
-			height: 100%;
-			font-size: 100%;
-			-webkit-text-size-adjust: 100%;
-			-ms-text-size-adjust: 100%;
-		}
-
-		* {
-			-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-		}
-
-		body {
-			font-family: "Roboto", "Helvetica Neue", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-			min-height: 80vh;
-			overscroll-behavior: none;
-		}
-
-		img {
-			width: 100%;
-			font-style: italic;
-			vertical-align: middle;
-		}
-
-		img[height],
-		img[width] {
-			width: auto;
 		}
 
 		a:focus-visible,
@@ -388,7 +356,7 @@
 			align-items: center;
 			justify-content: center;
 			background-color: var(--joke-bg);
-			padding: 1.25rem;
+			padding: 2rem 1.25rem 1.25rem;
 			border-radius: 1.25rem;
 			border-bottom-left-radius: 0;
 			transition: background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
@@ -416,21 +384,8 @@
 			border: 1px solid var(--joke-card-border);
 			border-radius: 90px;
 			box-shadow: var(--joke-actions-shadow);
-			transition: opacity 200ms ease, transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1), visibility 200ms ease;
 			z-index: 10;
-			pointer-events: auto;
 			touch-action: manipulation;
-		}
-
-		/* Invisible hover bridge so mouse never loses hover zone when moving between bubble and actions */
-		.chat-bubble__actions::before {
-			content: '';
-			position: absolute;
-			top: -6px;
-			left: -10px;
-			right: -10px;
-			bottom: -18px;
-			z-index: -1;
 		}
 
 		.chat-bubble__actions .emoji-action {
@@ -454,8 +409,7 @@
 		}
 
 		.chat-bubble__actions .emoji-action:hover,
-		.chat-bubble__actions .emoji-action:focus {
-			outline: none;
+		.chat-bubble__actions .emoji-action:focus-visible {
 			transform: scale(1.22);
 			background-color: var(--joke-action-hover-bg);
 		}
@@ -464,43 +418,34 @@
 			transform: scale(0.92);
 		}
 
-		.chat-bubble:hover,
-		.chat-bubble:focus {
-			outline: none;
+		.chat-bubble:hover {
 			border: 3px solid var(--joke-border-hover);
 		}
 
-		/* Desktop hover & keyboard focus */
-		@media (hover: hover) and (pointer: fine) {
-			.chat-bubble__actions {
-				opacity: 0;
-				visibility: hidden;
-				transform: translateY(6px) scale(0.92);
-			}
-
-			.chat-bubble:hover .chat-bubble__actions,
-			.chat-bubble:focus .chat-bubble__actions,
-			.chat-bubble:focus-within .chat-bubble__actions,
-			.chat-bubble__actions:hover {
-				visibility: visible;
-				opacity: 1;
-				transform: translateY(0) scale(1);
-			}
+		/* While the robot thinks, the old joke and its buttons stay put */
+		.is-waiting .chat-message {
+			opacity: 0.25;
 		}
 
-		/* Touch devices / Mobile: always visible & tap-ready */
-		@media (hover: none), (pointer: coarse) {
-			.chat-bubble__actions {
-				opacity: 1;
-				visibility: visible;
-				transform: translateY(0) scale(1);
-			}
+		.another {
+			margin: 1.5rem auto 0;
+			padding: 0.6rem 1.25rem;
+			border: 0;
+			border-radius: 999px;
+			background-color: #591ff9;
+			color: #ffffff;
+			font: inherit;
+			font-weight: 600;
+			cursor: pointer;
+		}
+
+		.another:hover {
+			background-color: #4514d0;
 		}
 
 		.time-received {
 			display: block;
 			font-size: 0.833rem;
-			font-family: "Roboto Mono", monospace;
 			font-weight: 500;
 			color: var(--joke-info-color);
 		}
@@ -510,9 +455,7 @@
 			margin: 0;
 			line-height: 1.4;
 			font-size: clamp(1.25rem, 3.2vw, 1.55rem);
-			font-family: "Outfit", "Plus Jakarta Sans", "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 			font-weight: 600;
-			letter-spacing: -0.015em;
 			margin-right: auto;
 			white-space: pre-wrap;
 			color: var(--joke-text-color);
@@ -525,7 +468,7 @@
 			font-weight: 700;
 			text-transform: uppercase;
 			letter-spacing: 0.05em;
-			background: #ef4444;
+			background: #c81e1e;
 			color: #ffffff;
 			padding: 0.1rem 0.4rem;
 			border-radius: 4px;
@@ -550,10 +493,10 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "Dad Joke Generator | Justin Chill",
-  "description": "An interactive dad joke generator and chatbot delivering puns and one-liners via the icanhazdadjoke API, featuring Web Audio sound effects, vanilla CSS animations, keyboard navigation, and offline fallbacks.",
+  "headline": "Just Jokes",
+  "description": "A robot tells you dad jokes, one at a time, from the icanhazdadjoke API.",
   "datePublished": "2025-08-04",
-  "dateModified": "2026-08-20",
+  "dateModified": "2026-11-25",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
   "articleSection": "Interactive",
@@ -616,56 +559,49 @@
     ]
   },
   "mainEntityOfPage": "https://justinchill.com/jokes.html",
-  "image": "https://justinchill.com/imgs/dad_joke_big.jpg"
+  "image": "https://justinchill.com/imgs/cover/just_jokes_cover.webp"
 }
 	</script>
 </head>
 
 <body>
 	<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-	<nav class="nav" role="navigation">
-		<div class="nav__list">
-			<a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
-			<a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
-			<a href="now.html" class="nav__item" aria-label="Now page">Now</a>
+  <nav class="nav" aria-label="Main">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
+      <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
+      <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
+    
+      <!-- Theme Toggle Button -->
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" aria-pressed="false" style="background: transparent; border: none; cursor: pointer;">
+        <span id="theme-toggle-light-icon" class="hidden">
+          <!-- Sun Icon -->
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
+          </svg>
+        </span>
+        <span id="theme-toggle-dark-icon" class="hidden">
+          <!-- Moon Icon -->
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+          </svg>
+        </span>
+      </button>
+    </div>
+    <div class="nav__list">
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new tab)</span></a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
 
-			<!-- Theme Toggle Button -->
-			<button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
-				aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
-				<span id="theme-toggle-light-icon" class="hidden">
-					<!-- Sun Icon -->
-					<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-						xmlns="http://www.w3.org/2000/svg">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-							d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
-						</path>
-					</svg>
-				</span>
-				<span id="theme-toggle-dark-icon" class="hidden">
-					<!-- Moon Icon -->
-					<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-						xmlns="http://www.w3.org/2000/svg">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-							d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
-						</path>
-					</svg>
-				</span>
-			</button>
-		</div>
-		<div class="nav__list">
-			<a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-			<a href="#" class="nav__item js-email-link">Email</a>
-		</div>
-	</nav>
-
-	<main role="main" id="content">
+	<main id="content">
 		<article>
 			<div class="article-hero">
-				<h1 class="article-title">Jokes</h1>
+				<h1 class="article-title">Just Jokes</h1>
 			</div>
 
 			<div class="project-container">
-				<div class="chat-bot" aria-live="polite">
+				<div class="chat-bot">
 					<div class="chat-bot__chatter">
 						<div class="avatar">
 							<span class="emoji" role="img" aria-label="Robot">🤖</span>
@@ -677,9 +613,10 @@
 						</div>
 					</div>
 				</div>
+				<button type="button" class="another" id="another">Another joke</button>
 			</div>
 			<p>I love a good joke, and quite a few bad jokes, too. These jokes are served from the <a
-					href="https://icanhazdadjoke.com/api">icanhazdadjoke</a> API, a free resource that delivers a random
+					href="https://icanhazdadjoke.com/api" target="_blank" rel="noopener">icanhazdadjoke</a> API, a free resource that delivers a random
 				Dad joke on request<a href="#tribute" id="tribute-ref" aria-describedby="footnote-label"></a>.</p>
 		</article>
 	</main>
@@ -692,8 +629,8 @@
 		</ol>
 		<div>
 			<p>Justin Chill &copy; 2026</p>
-			<span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img
-						src="imgs/github.svg" alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
+			<span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
+            alt="" class="icon" width="16" height="16" loading="lazy" decoding="async">Source code<span class="visually-hidden"> (opens in new tab)</span></a></span>
 		</div>
 	</footer>
 
@@ -716,12 +653,12 @@
 		const chatBot = $(".chat-bot");
 		const speaker = $(".speaker");
 		const actions = [
-			{ emoji: "😂", label: "React with laughing face and get another joke" },
-			{ emoji: "🤣", label: "React with rolling on the floor laughing and get another joke" },
-			{ emoji: "😅", label: "React with sweat smile and get another joke" }
+			{ emoji: "😂", label: "Laugh and get another joke" },
+			{ emoji: "🤣", label: "Roll on the floor laughing and get another joke" },
+			{ emoji: "😅", label: "Laugh nervously and get another joke" }
 		];
 
-		// Offline joke fallback pool
+		// Told when the API can’t be reached
 		const FALLBACK_JOKES = [
 			"I'm reading a book on anti-gravity. It's impossible to put down!",
 			"Why don't scientists trust atoms? Because they make up everything!",
@@ -749,7 +686,12 @@
 		let isFetching = false;
 
 		// Audio SFX Manager
-		let soundEnabled = localStorage.getItem("jokes_sfx") !== "false";
+		let soundEnabled = true;
+		try {
+			soundEnabled = localStorage.getItem("jokes_sfx") !== "false";
+		} catch (e) {
+			// Storage is blocked, so sound stays on
+		}
 
 		// Speaker SVG Icons for Mute Toggle
 		const SPEAKER_ON_SVG = `<svg class="sfx-icon sfx-icon--on" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>`;
@@ -859,11 +801,12 @@
 		// SFX Toggle Button positioned on the bottom right (even with robot avatar)
 		const sfxBtn = createNewElement("button", "sfx-toggle-btn");
 		sfxBtn.id = "sfx-toggle";
-		sfxBtn.title = "Toggle Sound Effects (Key: M)";
+		sfxBtn.type = "button";
+		sfxBtn.title = "Sound effects";
 
 		function updateSfxUI() {
 			sfxBtn.innerHTML = soundEnabled ? SPEAKER_ON_SVG : SPEAKER_OFF_SVG;
-			sfxBtn.setAttribute("aria-label", soundEnabled ? "Mute Sound Effects (Key: M)" : "Enable Sound Effects (Key: M)");
+			sfxBtn.setAttribute("aria-label", "Sound effects");
 			sfxBtn.setAttribute("aria-pressed", soundEnabled ? "true" : "false");
 			sfxBtn.classList.toggle("is-muted", !soundEnabled);
 		}
@@ -871,7 +814,11 @@
 
 		sfxBtn.addEventListener("click", () => {
 			soundEnabled = !soundEnabled;
-			localStorage.setItem("jokes_sfx", soundEnabled ? "true" : "false");
+			try {
+				localStorage.setItem("jokes_sfx", soundEnabled ? "true" : "false");
+			} catch (e) {
+				// Storage is blocked
+			}
 			updateSfxUI();
 			if (soundEnabled) playPopSFX();
 		});
@@ -880,22 +827,27 @@
 		messagesInfo.appendChild(sfxBtn);
 
 		const dadJoke = createNewElement("p", "chat-message");
+		dadJoke.setAttribute("aria-live", "polite");
 		const chatActions = createNewElement("div", "chat-bubble__actions");
 
 		actions.forEach((item) => {
 			const emoji = createNewElement("span", "emoji emoji--small");
 			emoji.textContent = item.emoji;
 			const emojiButton = createNewElement("button", "emoji-action");
+			emojiButton.type = "button";
 			emojiButton.setAttribute("aria-label", item.label);
 			emojiButton.appendChild(emoji);
 			emojiButton.addEventListener("click", () => getJokes(false));
 			chatActions.appendChild(emojiButton);
 		});
 
-		chatBubble.appendChild(chatActions);
 		chatBubble.appendChild(dadJoke);
+		chatBubble.appendChild(chatActions);
 		chatContainer.appendChild(chatBubble);
 		chatContainer.appendChild(messagesInfo);
+		chatContainer.hidden = true;
+		chatBot.appendChild(chatContainer);
+		$("#another").addEventListener("click", () => getJokes(false));
 
 		// Animation helper functions (Vanilla CSS)
 		function triggerAvatarAnimation() {
@@ -923,11 +875,9 @@
 
 			triggerAvatarAnimation();
 
-			// Hide chat container and show typing dots
-			if (chatContainer.parentNode) {
-				chatContainer.remove();
-			}
+			// Dim the old joke and show typing dots
 			chatContainer.classList.remove("is-entering");
+			chatContainer.classList.add("is-waiting");
 			speaker.classList.add("is-visible");
 
 			if (!isInitial) {
@@ -950,31 +900,33 @@
 				})
 				.then((data) => {
 					const jokeText = data && data.joke ? data.joke : getFallbackJoke();
-					displayJoke(jokeText, false, isInitial);
+					displayJoke(jokeText, "", isInitial);
 				})
 				.catch((error) => {
 					clearTimeout(timeoutId);
-					displayJoke(getFallbackJoke(), true, isInitial);
+					displayJoke(getFallbackJoke(), navigator.onLine === false ? "Offline" : "From memory", isInitial);
 				});
 		}
 
-		function displayJoke(jokeText, isOffline, isInitial = false) {
+		function displayJoke(jokeText, note, isInitial = false) {
 			setTimeout(() => {
+				chatContainer.hidden = false;
+				chatContainer.classList.remove("is-waiting");
 				dadJoke.textContent = jokeText;
 
 				const now = new Date();
 				timeReceived.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-				if (isOffline) {
+				if (note) {
 					const tag = document.createElement("span");
 					tag.className = "offline-tag";
-					tag.textContent = "Offline";
+					tag.textContent = note;
 					timeReceived.appendChild(tag);
 				}
 
-				// Hide typing dots and show chat container
+				// Hide typing dots and pop the bubble
 				speaker.classList.remove("is-visible");
-				chatBot.appendChild(chatContainer);
+				void chatContainer.offsetWidth; // Force reflow
 				chatContainer.classList.add("is-entering");
 
 				if (!isInitial) {
@@ -987,23 +939,6 @@
 
 		// Initial load (silent to respect browser autoplay policy)
 		getJokes(true);
-
-		// Keyboard Navigation Shortcuts
-		document.addEventListener("keydown", (e) => {
-			const activeEl = document.activeElement;
-			const isInputActive = activeEl && (activeEl.tagName === "INPUT" || activeEl.tagName === "TEXTAREA" || activeEl.isContentEditable);
-
-			if (isInputActive) return;
-
-			if (e.code === "Space" || e.key.toLowerCase() === "n") {
-				e.preventDefault();
-				getJokes(false);
-			} else if (e.key.toLowerCase() === "m") {
-				e.preventDefault();
-				sfxBtn.click();
-			}
-		});
-
 	</script>
   <script src="js/site.js" defer></script>
 </body>
