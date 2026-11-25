@@ -23,7 +23,7 @@
 
   <!-- Article metadata -->
   <meta property="article:published_time" content="2025-07-06">
-  <meta property="article:modified_time" content="2026-08-20">
+  <meta property="article:modified_time" content="2026-11-24">
   <meta property="article:author" content="Justin Chill">
   <meta property="article:section" content="Data Visualization">
 
@@ -40,13 +40,13 @@
   <meta property="og:country_name" content="USA">
   <meta content="https://justinchill.com/imgs/cover/gunreg_cover.webp" property="og:image">
   <meta content="1200" property="og:image:width">
-  <meta content="630" property="og:image:height">
+  <meta content="919" property="og:image:height">
   <meta
     content="A scatter plot shows deaths per 100k people versus a gun regulation index. Colors range from light to dark red indicating higher death rates. A downward trend line suggests that stricter gun regulations correlate with fewer deaths. Data: Epidemiology Nov 2023."
     property="og:image:alt">
 
   <meta name="datePublished" content="2025-07-06">
-  <meta name="dateModified" content="2026-08-20">
+  <meta name="dateModified" content="2026-11-24">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -68,37 +68,16 @@
   <meta name="color-scheme" content="light dark">
 
   <style type="text/css">
-    /* Plot and Figure Responsiveness */
-    #regression {
-      width: 100%;
-      margin: var(--spacer-2, 1.5rem) 0;
-      overflow-x: auto;
+    :root {
+      --gun-dot: #b3404a;
     }
 
-    #regression svg {
-      max-width: 100%;
-      height: auto;
+    html[data-theme="dark"] {
+      --gun-dot: #f0858c;
     }
 
-    /* Plot theme colors */
-    .plot text,
-    svg text {
-      fill: var(--text-color, currentColor);
-    }
-
-    html[data-theme="dark"] svg text {
-      fill: #e2e8f0;
-    }
-
-    figcaption.right {
-      text-align: right;
-      font-size: 0.85rem;
-      color: var(--text-secondary, #666);
-      margin-top: 0.5rem;
-    }
-
-    html[data-theme="dark"] figcaption.right {
-      color: #94a3b8;
+    #regression-plot svg {
+      overflow: visible;
     }
   </style>
 
@@ -111,7 +90,7 @@
   "name": "Gun regulation index | Justin Chill",
   "description": "An interactive data visualization examining the relationship between state gun regulations (Gun Regulation Index) and firearm mortality rates per 100k residents across US states, reproducing research from the journal Epidemiology.",
   "datePublished": "2025-07-06",
-  "dateModified": "2026-08-20",
+  "dateModified": "2026-11-24",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
   "articleSection": "Data Visualization",
@@ -194,7 +173,7 @@
       "issueNumber": "6"
     },
     "url": "https://journals.lww.com/epidem/abstract/2023/11000/the_era_of_progress_on_gun_mortality__state_gun.3.aspx",
-    "sameAs": "https://doi.org/10.1097/EDE.0000000000001653"
+    "sameAs": "https://doi.org/10.1097/EDE.0000000000001662"
   },
   "author": {
     "@type": "Person",
@@ -222,39 +201,35 @@
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-  <nav class="nav" role="navigation">
+  <nav class="nav" aria-label="Main">
     <div class="nav__list">
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-
+    
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
-        aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" aria-pressed="false" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
-            </path>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new tab)</span></a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
 
-  <main role="main" id="content">
+  <main id="content">
     <article>
       <div class="article-hero">
         <p class="article-category">Post</p>
@@ -265,23 +240,28 @@
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h3>An Era of Progress on Gun Mortality</h3>
       <figure id="regression"
-        aria-label="A scatter plot shows deaths per 100k people versus a gun regulation index. Colors range from light to dark red indicating higher death rates. A downward trend line suggests that stricter gun regulations correlate with fewer deaths. Data: Epidemiology Nov 2023.">
+        aria-label="Scatter plot of the 50 states, with the gun regulation index across and gun deaths per 100,000 people in 2016 up. Deaths tend to fall as the index rises. Alaska is highest, with an index of 0 and 24.0 deaths; Massachusetts is lowest, with an index of 8 and 3.6 deaths; California has the highest index, 20, with 8.2 deaths.">
+        <div id="regression-plot" aria-hidden="true"></div>
         <figcaption class="right">Data: <a
-            href="https://journals.lww.com/epidem/abstract/2023/11000/the_era_of_progress_on_gun_mortality__state_gun.3.aspx">Epidemiology
-            November 2023</a></figcaption>
+            href="https://journals.lww.com/epidem/abstract/2023/11000/the_era_of_progress_on_gun_mortality__state_gun.3.aspx"
+            target="_blank" rel="noopener noreferrer">Epidemiology, November 2023</a></figcaption>
       </figure>
 
       <p>An <a
-          href="https://journals.lww.com/epidem/abstract/2023/11000/the_era_of_progress_on_gun_mortality__state_gun.3.aspx">article</a>
-        in the journal Epidemiology defines a "gun regulation index" that quantifies gun regulations and applies that
-        analysis to each US state. You can read the details in the article but the basic idea is that restrictive laws
-        contribute positively to the index while permissive laws contribute negatively. The authors then study the
-        correlation between their index and gun deaths in each state. The figure above is a reproduction of figure 2 in
-        their article.</p>
+          href="https://journals.lww.com/epidem/abstract/2023/11000/the_era_of_progress_on_gun_mortality__state_gun.3.aspx"
+          target="_blank" rel="noopener noreferrer">article</a> by Patrick Sharkey and Megan Kang in the journal
+        <em>Epidemiology</em> scores each state’s gun regulations with an index. Restrictive laws add to it and
+        permissive laws subtract. The chart sets that score against the state’s gun deaths per 100,000 people in 2016, and
+        is a reproduction of figure 2 in the article.</p>
 
-      <p>That indicates that an increase of the gun regulation index by 10 in a state might decrease the number of gun
-        deaths by just over 6 for every 100,000 residents in that state. For a state like North Carolina with a
-        population of just over 10,000,000 people, that would translate to over 600 lives.</p>
+      <p>The line falls by about 0.6 deaths for each point of the index. That’s only a correlation: states differ in more
+        than their gun laws. The study’s own estimate is smaller. Each restrictive law a state passed between 1991 and
+        2016 was associated with 0.21 fewer gun deaths per 100,000 people<a href="#study"
+          aria-describedby="footnote-label" id="study-ref"></a>. For a state of 10 million, about the size of North
+        Carolina, that comes to roughly 21 lives a year for each law.</p>
+
+      <p>Across the 40 states that tightened their laws, the authors estimate that 4,297 gun deaths were averted in 2016
+        alone, about 11% of that year’s total.</p>
 
       <p>It's worth noting, though, that the study is based on data up to 2016 and that gun laws in many places,
         including North Carolina, are now more permissive.</p>
@@ -289,112 +269,127 @@
     </article>
   </main>
   <footer>
+    <h2 id="footnote-label">Footnotes</h2>
+    <ol>
+      <li id="study"><strong>Patrick Sharkey and Megan Kang</strong>, “<a
+          href="https://doi.org/10.1097/EDE.0000000000001662" target="_blank" rel="noopener noreferrer">The Era of Progress
+          on Gun Mortality</a>,” <em>Epidemiology</em>, November 2023 (<a
+          href="https://collaborate.princeton.edu/en/publications/the-era-of-progress-on-gun-mortality-state-gun-regulations-and-gu/"
+          target="_blank" rel="noopener noreferrer">abstract</a>). The 95% confidence interval is 0.08 to 0.33. <a
+          href="#study-ref" aria-label="Back to content">↩</a></li>
+    </ol>
     <div>
       <p>Justin Chill &copy; 2026</p>
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
-            alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
+            alt="" class="icon" width="16" height="16" loading="lazy" decoding="async">Source code<span class="visually-hidden"> (opens in new tab)</span></a></span>
     </div>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/d3@7.9.2/dist/d3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.19/dist/plot.umd.min.js"></script>
 
   <script type="text/javascript">
-    let cachedData = null;
+    // Colours come from CSS variables, so a theme switch needs no redraw.
+    // Which side of its dot each named state is labelled on; the rest are in the tooltips.
+    const LABELS = {
+      right: ["Alaska", "Louisiana", "Arizona", "North Carolina", "Delaware"],
+      left: ["Missouri", "California", "Iowa"],
+      below: ["Rhode Island", "Massachusetts", "Connecticut"]
+    };
+    let states = null;
+    let drawnWidth = 0;
 
-    function renderPlot() {
-      if (!cachedData) return;
-      const container = document.getElementById("regression");
-      if (!container) return;
+    function regressionPlot(width) {
+      const isPhone = width < 480;
+      const labelStyle = {
+        x: "gun_regulation_index",
+        y: "deaths_per_100K",
+        text: "state",
+        fill: "var(--text-color)",
+        stroke: "var(--bg-color)",
+        strokeWidth: 4,
+        fontWeight: 600
+      };
+      const named = side => states.filter(d => LABELS[side].includes(d.state));
 
-      const figcaption = container.querySelector("figcaption");
-      const width = container.getBoundingClientRect().width || 680;
-      const size = 12;
-
-      const plot = Plot.plot({
-        width: width,
-        height: 500,
-        marginRight: 0,
-        style: {
-          fontSize: size
+      return Plot.plot({
+        width,
+        height: isPhone ? 420 : 500,
+        marginTop: 34,
+        marginRight: 12,
+        marginLeft: 34,
+        marginBottom: 42,
+        style: { fontSize: "12px", background: "transparent" },
+        x: {
+          label: "Gun regulation index",
+          labelAnchor: "center",
+          labelArrow: null,
+          domain: [-6, 22],
+          ticks: isPhone ? [0, 10, 20] : [-5, 0, 5, 10, 15, 20],
+          grid: true,
+          tickSize: 0,
+          tickPadding: 6
         },
         y: {
+          label: "Gun deaths per 100,000 people, 2016",
+          labelAnchor: "top",
+          labelOffset: 32,
+          labelArrow: null,
+          domain: [0, 25],
+          ticks: 5,
           grid: true,
-          nice: true,
-          labelOffset: 50,
-          label: "Deaths per 100K people",
-          tickSize: 0,
-          ticks: 4,
-          zero: true
-        },
-        x: {
-          grid: true,
-          nice: true,
-          label: "Gun regulation index",
-          tickPadding: 4,
-          tickSize: 0,
-          zero: true,
-          domain: [-5, 22]
-        },
-        color: {
-          scheme: "BuRd",
-          legend: true,
-          label: "Deaths per capita (100k)"
+          tickSize: 0
         },
         marks: [
-          Plot.ruleX([0], {
-            opacity: 0.5,
-            strokeDasharray: 7
-          }),
-          Plot.linearRegressionY(cachedData, {
+          Plot.ruleX([0], { stroke: "var(--text-color)", strokeOpacity: 0.4 }),
+          Plot.linearRegressionY(states, {
             x: "gun_regulation_index",
             y: "deaths_per_100K",
-            strokeDasharray: 7,
+            stroke: "var(--text-color)",
+            strokeDasharray: "7,7",
             ci: 0
           }),
-          Plot.dot(cachedData, {
+          Plot.dot(states, {
             x: "gun_regulation_index",
             y: "deaths_per_100K",
-            fill: "deaths_per_100K",
-            stroke: "hsl(209, 61%, 16%)",
-            strokeWidth: 0.5,
-            r: 6,
-            opacity: 0.85,
-            channels: {
-              State: "state"
-            },
-            title: (d) => `${d.state}\n${d3.format(".2f")(d["deaths_per_100K"])} deaths per 100k\nIndex: ${d.gun_regulation_index}`,
-            tip: {
-              opacity: 0.85,
-              r: 5,
-              textPadding: 4
-            }
-          })
+            r: isPhone ? 4.5 : 5.5,
+            fill: "var(--gun-dot)",
+            fillOpacity: 0.75,
+            stroke: "var(--bg-color)"
+          }),
+          Plot.text(["−0.6 per point"], {
+            x: () => 12,
+            y: () => 7,
+            textAnchor: "end",
+            fill: "var(--muted-color)"
+          }),
+          Plot.text(named("right"), { ...labelStyle, textAnchor: "start", dx: 9 }),
+          Plot.text(named("left"), { ...labelStyle, textAnchor: "end", dx: -9 }),
+          Plot.text(named("below"), { ...labelStyle, textAnchor: "middle", dy: 14 }),
+          Plot.tip(states, Plot.pointer({
+            x: "gun_regulation_index",
+            y: "deaths_per_100K",
+            title: d => `${d.state}\n${d3.format(".1f")(d.deaths_per_100K)} gun deaths per 100,000\nIndex: ${d.gun_regulation_index}`.replace("-", "−")
+          }))
         ]
       });
-
-      // Clear previous plot and re-insert figcaption
-      container.innerHTML = "";
-      container.appendChild(plot);
-      if (figcaption) {
-        container.appendChild(figcaption);
-      }
     }
 
-    d3.json("data/gun_regulation_index_data.json").then((data) => {
-      cachedData = data;
-      renderPlot();
-    });
+    function draw() {
+      const holder = document.getElementById("regression-plot");
+      drawnWidth = holder.clientWidth;
+      holder.replaceChildren(regressionPlot(drawnWidth));
+    }
 
-    let resizeTimer;
-    window.addEventListener("resize", () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(renderPlot, 150);
-    });
-  </script>
-  <script>
-    // Redraw when js/site.js switches the theme
-    document.addEventListener("themechange", () => {
-      renderPlot();
+    d3.json("data/gun_regulation_index_data.json").then(data => {
+      states = data;
+      draw();
+      window.addEventListener("resize", () => {
+        if (document.getElementById("regression-plot").clientWidth !== drawnWidth) draw();
+      });
+    }).catch(error => {
+      console.error("Failed to load gun regulation data:", error);
+      document.getElementById("regression-plot").insertAdjacentHTML("afterend",
+        "<p>Sorry, this chart failed to load. Please try refreshing the page.</p>");
     });
   </script>
   <script src="js/site.js" defer></script>

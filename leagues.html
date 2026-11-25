@@ -16,13 +16,13 @@
     })();
   </script>
 
-  <title>U.S. Major Sports Leagues | Justin Chill</title>
+  <title>North American Sports Leagues | Justin Chill</title>
   <meta name="description"
-    content="An interactive collapsible tree diagram exploring the structure and geographic distribution of North American major sports leagues (MLB, NBA, NFL, NHL, and MLS), organized by conference, division, and franchise.">
+    content="All 154 teams in MLB, the NBA, the NFL, the NHL, and MLS as a tree of leagues, conferences, and divisions, with the place where each one plays.">
   <meta name="author" content="Justin Chill">
   <meta name="robots" content="all">
   <meta property="article:published_time" content="2024-08-27">
-  <meta property="article:modified_time" content="2026-08-20">
+  <meta property="article:modified_time" content="2026-11-24">
   <meta property="article:author" content="Justin Chill">
   <meta property="article:section" content="Sports">
 
@@ -31,31 +31,28 @@
   <meta content="JustinChill" property="og:site_name">
   <meta content="article" property="og:type">
   <meta content="https://justinchill.com/leagues.html" property="og:url">
-  <meta content="U.S. Major Sports Leagues | Justin Chill" property="og:title">
+  <meta content="North American Sports Leagues | Justin Chill" property="og:title">
   <meta
-    content="An interactive collapsible tree diagram exploring the structure and geographic distribution of North American major sports leagues (MLB, NBA, NFL, NHL, and MLS)."
+    content="All 154 teams in MLB, the NBA, the NFL, the NHL, and MLS as a tree of leagues, conferences, and divisions, with the place where each one plays."
     property="og:description">
   <meta content="https://justinchill.com/blog.html" property="og:see_also">
-  <meta
-    content="https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/1920px-Flag_of_the_United_States.svg.png"
-    property="og:image">
-  <meta content="Flag of the United States and North American sports league tree diagram." property="og:image:alt">
+  <meta content="https://justinchill.com/imgs/cover/leagues_cover.webp" property="og:image">
+  <meta content="1200" property="og:image:width">
+  <meta content="675" property="og:image:height">
+  <meta content="Five small trees of dots, one for each league: MLB, NBA, NFL, NHL, and MLS" property="og:image:alt">
 
   <meta name="datePublished" content="2024-08-27">
-  <meta name="dateModified" content="2026-08-20">
+  <meta name="dateModified" content="2026-11-24">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@JustinChill">
   <meta name="twitter:creator" content="@JustinChill">
-  <meta name="twitter:title" content="U.S. Major Sports Leagues | Justin Chill">
-  <meta
-    content="An interactive collapsible tree diagram exploring the structure and geographic distribution of North American major sports leagues (MLB, NBA, NFL, NHL, and MLS)."
-    name="twitter:description">
-  <meta
-    content="https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/1920px-Flag_of_the_United_States.svg.png"
-    property="twitter:image">
-  <meta name="twitter:image:alt" content="Flag of the United States and North American sports league tree diagram.">
+  <meta name="twitter:title" content="North American Sports Leagues | Justin Chill">
+  <meta name="twitter:description"
+    content="All 154 teams in MLB, the NBA, the NFL, the NHL, and MLS as a tree of leagues, conferences, and divisions, with the place where each one plays.">
+  <meta name="twitter:image" content="https://justinchill.com/imgs/cover/leagues_cover.webp">
+  <meta name="twitter:image:alt" content="Five small trees of dots, one for each league: MLB, NBA, NFL, NHL, and MLS">
 
   <link rel="canonical" href="https://justinchill.com/leagues.html">
   <link rel="preload" href="fonts/CamphorPro-Regular.woff2" as="font" type="font/woff2" crossorigin>
@@ -67,66 +64,244 @@
   <meta name="theme-color" content="#4C63B6">
   <meta name="color-scheme" content="light dark">
 
-  <style type="text/css">
+  <style>
     #map {
-      width: 100%;
-      overflow-x: auto;
+      container-type: inline-size;
+    }
+
+    .tree-tools button {
+      border: 1px solid currentColor;
+      border-radius: 999px;
+      background: none;
+      color: var(--muted-color);
+      font: inherit;
+      font-size: .875rem;
+      padding: .35rem .9rem;
+      cursor: pointer;
+    }
+
+    .tree-tools button:hover {
+      color: var(--text-color);
+    }
+
+    .tree-wrap {
       position: relative;
-      margin: 1.5rem 0 0.5rem;
     }
 
-    #map svg {
-      display: block;
+    .tree-lines {
+      position: absolute;
+      inset: 0;
       width: 100%;
-      height: auto;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      height: 100%;
+      pointer-events: none;
     }
 
-    .tree-link {
+    .tree-lines path {
       fill: none;
-      stroke: #888888;
-      stroke-opacity: 0.35;
-      stroke-width: 1.5px;
+      stroke: var(--muted-color);
+      stroke-opacity: .45;
+      stroke-width: 1.5;
     }
 
-    html[data-theme="dark"] .tree-link {
-      stroke: #a0aec0;
-      stroke-opacity: 0.45;
+    article .tree,
+    article .tree ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      font-size: .9375rem;
+      line-height: 1.25;
     }
 
-    .node-name {
-      fill: #1a202c;
-      font-weight: 600;
+    .tree li {
+      margin: 0;
     }
 
-    .node-title {
-      fill: #666666;
-      font-size: 10px;
+    .tree>li {
+      border-top: 1px solid rgba(128, 128, 128, .3);
+      padding: .5rem 0;
     }
 
-    .node-halo {
-      stroke: #ffffff;
-      stroke-linejoin: round;
-      stroke-width: 3.5px;
+    .node {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      width: 100%;
+      min-height: 2.75rem;
+      padding: .15rem 0;
+      border: 0;
+      border-radius: 6px;
+      background: none;
+      color: var(--text-color);
+      font: inherit;
+      font-size: .9375rem;
+      line-height: 1.25;
+      text-align: left;
     }
 
-    html[data-theme="dark"] .node-name {
-      fill: #f5f5f5;
+    button.node {
+      cursor: pointer;
     }
 
-    html[data-theme="dark"] .node-title {
-      fill: #aaaaaa;
+    button.node:hover .node-name {
+      text-decoration: underline;
+      text-underline-offset: .2em;
     }
 
-    html[data-theme="dark"] .node-halo {
-      stroke: #111111;
+    .node span {
+      font-size: inherit;
     }
 
-    .tree-instructions {
-      font-size: 0.85rem;
-      color: var(--muted-color, #718096);
-      margin-top: 0.5rem;
-      font-style: italic;
+    .node .node-name {
+      display: block;
+      font-weight: 700;
+    }
+
+    .node .node-title {
+      display: block;
+      color: var(--muted-color);
+      font-size: .8125rem;
+    }
+
+    /* Initials show until the logo has loaded */
+    .node .logo {
+      position: relative;
+      flex: none;
+      display: grid;
+      place-items: center;
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 0 0 1px rgba(128, 128, 128, .5);
+      color: #444;
+      font-size: .6875rem;
+      font-weight: 700;
+      overflow: hidden;
+    }
+
+    .logo img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: .25rem;
+      border-radius: 0;
+      background: #fff;
+      object-fit: contain;
+      box-sizing: border-box;
+      opacity: 0;
+    }
+
+    .logo img.is-loaded {
+      opacity: 1;
+    }
+
+    .chevron {
+      flex: none;
+      width: .5rem;
+      height: .5rem;
+      margin: 0 .35rem 0 auto;
+      border: solid var(--muted-color);
+      border-width: 0 1.5px 1.5px 0;
+      transform: rotate(-45deg);
+      transition: transform .15s;
+    }
+
+    [aria-expanded="true"]>.chevron {
+      transform: rotate(45deg);
+    }
+
+    /* Phones, tablets, and print: an indented list */
+    .tree ul {
+      margin-left: 1.1rem;
+      padding-left: 1rem;
+      border-left: 1px solid rgba(128, 128, 128, .3);
+    }
+
+    article .tree ul {
+      margin-left: 1.1rem;
+      padding-left: 1rem;
+    }
+
+    .tree-lines {
+      display: none;
+    }
+
+    /* Where there's room: a tree that grows to the right */
+    @container (min-width: 860px) {
+      .tree-lines {
+        display: block;
+      }
+
+      .tree li {
+        display: flex;
+        align-items: center;
+        gap: 3.25rem;
+      }
+
+      .tree>li {
+        padding: 1.5rem 0;
+      }
+
+      .tree ul,
+      article .tree ul {
+        margin: 0;
+        padding: 0;
+        border: 0;
+      }
+
+      .node {
+        flex: none;
+        width: auto;
+        min-height: 0;
+        padding: .05rem 0;
+      }
+
+      .node .logo {
+        width: 2rem;
+        height: 2rem;
+      }
+
+      .tree>li>.node {
+        width: 12.5rem;
+      }
+
+      .tree>li>ul>li>.node {
+        width: 11.5rem;
+      }
+
+      .tree>li>ul>li>ul>li>button.node {
+        width: 7rem;
+      }
+
+      .tree>li>ul>li+li,
+      .tree>li>ul>li>ul>li:has(> button)+li {
+        margin-top: 1rem;
+      }
+
+      .chevron {
+        margin-left: .1rem;
+      }
+    }
+
+    @media (hover: none) {
+      .shift-hint {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .chevron {
+        transition: none;
+      }
+    }
+
+    @media print {
+      .tree-tools {
+        display: none;
+      }
     }
   </style>
 
@@ -134,15 +309,14 @@
   {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": "U.S. Major Sports Leagues",
-    "alternativeHeadline": "North American Major League Teams: Tree Diagram of MLB, NBA, NFL, NHL, and MLS Franchises",
-    "description": "An interactive collapsible tree diagram exploring the structure and geographic distribution of North American major sports leagues (MLB, NBA, NFL, NHL, and MLS), organized by conference, division, and franchise.",
+    "headline": "North American Sports Leagues",
+    "alternativeHeadline": "All 154 major league teams, and where they play",
+    "description": "All 154 teams in MLB, the NBA, the NFL, the NHL, and MLS as a tree of leagues, conferences, and divisions, with the place where each one plays.",
     "datePublished": "2024-08-27",
-    "dateModified": "2026-08-20",
+    "dateModified": "2026-11-24",
     "inLanguage": "en-US",
     "isAccessibleForFree": true,
     "articleSection": "Sports",
-    "wordCount": 95,
     "url": "https://justinchill.com/leagues.html",
     "mainEntityOfPage": {
       "@type": "WebPage",
@@ -159,8 +333,8 @@
     },
     "image": {
       "@type": "ImageObject",
-      "url": "https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/1920px-Flag_of_the_United_States.svg.png",
-      "caption": "Flag of the United States and North American sports league hierarchy tree diagram."
+      "url": "https://justinchill.com/imgs/cover/leagues_cover.webp",
+      "caption": "Five small trees of dots, one for each league: MLB, NBA, NFL, NHL, and MLS"
     },
     "author": {
       "@type": "Person",
@@ -196,7 +370,6 @@
       "MLS",
       "Sports Franchises",
       "Tree Diagram",
-      "D3.js",
       "Data Visualization",
       "North American Sports"
     ],
@@ -240,11 +413,6 @@
       },
       {
         "@type": "Thing",
-        "name": "D3.js",
-        "sameAs": "https://en.wikipedia.org/wiki/D3.js"
-      },
-      {
-        "@type": "Thing",
         "name": "ESPN",
         "sameAs": "https://en.wikipedia.org/wiki/ESPN"
       }
@@ -255,317 +423,215 @@
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-  <nav class="nav" role="navigation">
+  <nav class="nav" aria-label="Main">
     <div class="nav__list">
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-
+    
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
-        aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" aria-pressed="false" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
-            </path>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new tab)</span></a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
 
-  <main role="main" id="content">
+  <main id="content">
     <article>
       <div class="article-hero">
-        <p class="article-category">Post</p>
-        <h1 class="article-title">U.S. Major Sports Leagues</h1>
-        <h2 class="article-subtitle">North American Major League Teams</h2>
+        <p class="article-category">Sports</p>
+        <h1 class="article-title">North American Sports Leagues</h1>
+        <h2 class="article-subtitle">All 154 major league teams, and where they play</h2>
       </div>
 
-      <figure id="map" class="mid-size"
-        aria-label="Interactive tree diagram of North American major league sports teams, organized by League, Conference, and Division.">
-      </figure>
-      <figcaption>Data: <a href="https://www.espn.com/" target="_blank" rel="noopener">ESPN</a></figcaption>
-      <p class="tree-instructions">Tip: Click any node to expand or collapse branches. Shift-click to toggle all sibling branches at once.</p>
-
-      <p>Key takeaways:</p>
+      <p>Teams borrow the name of the nearest big city, but plenty of them play somewhere else. This is every team in
+        MLB, the NBA, the NFL, the NHL, and MLS, labeled with the place its home field, court, or rink is actually in
+        as of November 2026.</p>
       <ul>
-        <li>Austin is the largest city (by 2021 population) without a traditional "Big Four" major league sports team (MLB, NBA, NFL, NHL), though it gained MLS's Austin FC in 2021.</li>
-        <li>The smallest cities with major league teams include Green Bay, Fort Lauderdale (home of Inter Miami CF and near the Florida Panthers), and Salt Lake City.</li>
-        <li>Detroit is the smallest city with a professional team in all four major sports leagues.</li>
+        <li>Chicago is the only city with a team from all five leagues inside its limits.</li>
+        <li>Add Denver, Detroit, and Philadelphia and you have every city with a team from each of the traditional “Big
+          Four” (MLB, NBA, NFL, and NHL). Detroit, with about 649,000 people, is the smallest of them.</li>
+        <li>Austin, with about 1,003,000 people, is the largest city with no Big Four team of its own or next door, though
+          it has had MLS’s Austin FC since 2021. Fort Worth is a little bigger and has no team at all, but Dallas and
+          Arlington are its neighbors.<a href="#census" aria-describedby="footnote-label" id="census-ref"
+            aria-label="Footnote 1: U.S. Census Bureau"></a></li>
+        <li>The smallest homes are stadium towns. East Rutherford, N.J., has about 10,600 people and two NFL teams, and
+          Foxborough, Mass., has about 18,900 people, the Patriots, and the Revolution. Green Bay, at about 107,000, is
+          the smallest city that isn’t a suburb of a bigger one.</li>
       </ul>
 
+      <figure id="map" class="mid-size">
+        <div class="tree-tools"><button type="button" id="toggle-all" hidden>Close all</button></div>
+        <div class="tree-wrap">
+          <svg class="tree-lines" aria-hidden="true"><path></path></svg>
+          <ul class="tree" id="tree" aria-label="Leagues"></ul>
+        </div>
+        <figcaption>Choose a league, conference, or division to open or close it.<span class="shift-hint"> Hold Shift to
+            do the same to the ones beside it.</span> Teams and logos: <a href="https://www.espn.com/" target="_blank" rel="noopener">ESPN</a>. The logos
+          belong to the leagues and clubs.</figcaption>
+      </figure>
     </article>
   </main>
   <footer>
+    <h2 id="footnote-label">Footnotes</h2>
+    <ol>
+      <li id="census"><strong>U.S. Census Bureau</strong>, <a
+          href="https://www.census.gov/data/tables/time-series/demo/popest/2020s-total-cities-and-towns.html"
+          target="_blank" rel="noopener"><em>City and Town Population Totals: 2020–2025</em></a>. All of the populations
+        here are its estimates for July 1, 2025. <a href="#census-ref" aria-label="Back to content">↩</a></li>
+    </ol>
     <div>
       <p>Justin Chill &copy; 2026</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener"><img
-            src="imgs/github.svg" alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
+            alt="" class="icon" width="16" height="16" loading="lazy" decoding="async">Source code<span class="visually-hidden"> (opens in new tab)</span></a></span>
     </div>
   </footer>
-  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.2/dist/d3.min.js"></script>
+  <script>
+    (function () {
+      const tree = document.getElementById('tree');
+      const lines = document.querySelector('.tree-lines');
+      const toggleAll = document.getElementById('toggle-all');
+      const isTree = () => getComputedStyle(lines).display !== 'none';
 
-  <script type="text/javascript">
-    let treeDataCache = null;
-
-    function renderChart() {
-      const container = document.getElementById("map");
-      if (!container || !treeDataCache) return;
-      container.innerHTML = "";
-
-      const width = container.getBoundingClientRect().width || 800;
-      const margin = {
-        top: 10,
-        right: 120,
-        bottom: 10,
-        left: 120
-      };
-      const dy = width / 6;
-      const dx = 50;
-      const svgWidth = width;
-      const tree = d3.tree().nodeSize([dx, dy]);
-      const diagonal = d3.linkHorizontal().x(d => d.y).y(d => d.x);
-
-      const root = treeDataCache;
-      root.x0 = dy / 2;
-      root.y0 = 0;
-
-      const radius = (dx * 0.9) / 2;
-
-      const svg = d3
-        .create("svg")
-        .attr("viewBox", [-margin.left, -margin.top, svgWidth, dx])
-        .style("font", "12px sans-serif")
-        .style("user-select", "none");
-
-      const defs = svg
-        .append("defs");
-
-      defs.append("clipPath")
-        .attr("id", "avatar-clip")
-        .append("circle")
-        .attr("r", radius);
-
-      const gLink = svg
-        .append("g")
-        .attr("class", "tree-links");
-
-      const gNode = svg
-        .append("g")
-        .attr("class", "tree-nodes")
-        .attr("cursor", "pointer")
-        .attr("pointer-events", "all");
-
-      function update(source, duration = 250) {
-        const nodes = root.descendants().reverse();
-        const links = root.links();
-
-        // Compute the new tree layout.
-        tree(root);
-
-        let left = root;
-        let right = root;
-        root.eachBefore(node => {
-          if (node.x < left.x) left = node;
-          if (node.x > right.x) right = node;
+      fetch('data/Leagues_flatData.json')
+        .then(response => {
+          if (!response.ok) throw new Error(response.status);
+          return response.json();
+        })
+        .then(draw)
+        .catch(() => {
+          const note = document.createElement('p');
+          note.setAttribute('role', 'status');
+          note.textContent = 'The list of teams couldn’t be loaded. Please try reloading the page.';
+          tree.replaceWith(note);
         });
 
-        const height = right.x - left.x + margin.top + margin.bottom;
+      function draw(rows) {
+        const children = new Map(rows.map(row => [row.id, []]));
+        rows.forEach(row => row.manager && children.get(row.manager).push(row));
+        const root = rows.find(row => !row.manager);
+        const startOpen = isTree();
+        const countTeams = id => children.get(id).reduce((sum, row) => sum + countTeams(row.id), 0) || 1;
 
-        const transition = svg
-          .transition()
-          .duration(duration)
-          .attr("viewBox", [-margin.left, left.x - margin.top, svgWidth, height])
-          .tween(
-            "resize",
-            window.ResizeObserver ? null : () => () => svg.dispatch("toggle")
-          );
+        function add(list, row) {
+          const kids = children.get(row.id);
+          const item = document.createElement('li');
+          const node = document.createElement(kids.length ? 'button' : 'div');
+          node.className = 'node';
+          if (row.img) node.append(logo(row));
 
-        // Update the nodes…
-        const node = gNode.selectAll("g.node").data(nodes, d => d.id);
+          const label = document.createElement('span');
+          label.append(text('node-name', row.name), text('node-title', row.title || `${countTeams(row.id)} teams`));
+          node.append(label);
+          item.append(node);
 
-        // Enter any new nodes at the parent's previous position.
-        const nodeEnter = node
-          .enter()
-          .append("g")
-          .attr("class", "node")
-          .attr("transform", d => `translate(${source.y0},${source.x0})`)
-          .attr("fill-opacity", 0)
-          .attr("stroke-opacity", 0)
-          .on("click", (event, d) => {
-            const toggleOpen = !Boolean(d.children);
-            const slow = event.altKey;
-            const duration = slow ? 2500 : 250;
-            if (event.shiftKey && d.parent) {
-              // Toggle all siblings at this level
-              d.parent.children.forEach((node, i) => {
-                setTimeout(() => {
-                  node.children = toggleOpen ? node._children : null;
-                  update(node, duration);
-                }, duration * i);
-              });
-            } else {
-              d.children = toggleOpen ? d._children : null;
-              update(d, duration);
-            }
-          });
+          if (kids.length) {
+            const branch = document.createElement('ul');
+            branch.id = `branch-${row.id}`;
+            node.type = 'button';
+            node.setAttribute('aria-controls', branch.id);
+            const chevron = document.createElement('span');
+            chevron.className = 'chevron';
+            node.append(chevron);
+            kids.forEach(kid => add(branch, kid));
+            item.append(branch);
+            // The indented list starts with the five leagues closed
+            setOpen(node, startOpen || row.manager !== root.id);
+          }
+          list.append(item);
+        }
 
-        nodeEnter
-          .append("circle")
-          .attr("r", radius)
-          .attr("fill", "#ffffff")
-          .attr("stroke", d => (d._children ? "#555555" : "#999999"))
-          .attr("stroke-width", 1.5);
-
-        nodeEnter
-          .append("svg:image")
-          .attr("xlink:href", d => d.data.img)
-          .attr("href", d => d.data.img)
-          .attr("x", -radius)
-          .attr("y", -radius)
-          .attr("height", radius * 2)
-          .attr("width", radius * 2)
-          .attr("clip-path", "url(#avatar-clip)");
-
-        const labelX = d => (d._children ? -radius * 1.2 : radius * 1.2);
-
-        // Name label
-        const nameText = nodeEnter
-          .append("text")
-          .attr("class", "node-name")
-          .attr("dy", "-0.1em")
-          .attr("x", labelX)
-          .attr("text-anchor", d => (d._children ? "end" : "start"))
-          .text(d => d.data.name);
-
-        nameText
-          .clone(true)
-          .lower()
-          .attr("class", "node-halo");
-
-        // Title / city label
-        const titleText = nodeEnter
-          .append("text")
-          .attr("class", "node-title")
-          .attr("dy", "1.1em")
-          .attr("x", labelX)
-          .attr("text-anchor", d => (d._children ? "end" : "start"))
-          .text(d => d.data.title);
-
-        titleText
-          .clone(true)
-          .lower()
-          .attr("class", "node-halo");
-
-        // Transition nodes to their new position.
-        node
-          .merge(nodeEnter)
-          .transition(transition)
-          .attr("transform", d => `translate(${d.y},${d.x})`)
-          .attr("fill-opacity", 1)
-          .attr("stroke-opacity", 1);
-
-        // Transition exiting nodes to the parent's new position.
-        node
-          .exit()
-          .transition(transition)
-          .remove()
-          .attr("transform", d => `translate(${source.y},${source.x})`)
-          .attr("fill-opacity", 0)
-          .attr("stroke-opacity", 0);
-
-        // Update the links…
-        const link = gLink.selectAll("path.tree-link").data(links, d => d.target.id);
-
-        // Enter any new links at the parent's previous position.
-        const linkEnter = link
-          .enter()
-          .append("path")
-          .attr("class", "tree-link")
-          .attr("d", () => {
-            const o = {
-              x: source.x0,
-              y: source.y0
-            };
-            return diagonal({
-              source: o,
-              target: o
-            });
-          });
-
-        // Transition links to their new position.
-        link
-          .merge(linkEnter)
-          .transition(transition)
-          .attr("d", diagonal);
-
-        // Transition exiting links to the parent's new position.
-        link
-          .exit()
-          .transition(transition)
-          .remove()
-          .attr("d", () => {
-            const o = {
-              x: source.x,
-              y: source.y
-            };
-            return diagonal({
-              source: o,
-              target: o
-            });
-          });
-
-        // Stash the old positions for transition.
-        root.eachBefore(d => {
-          d.x0 = d.x;
-          d.y0 = d.y;
-        });
+        children.get(root.id).forEach(league => add(tree, league));
+        toggleAll.hidden = false;
+        refresh();
+        new ResizeObserver(drawLines).observe(tree);
       }
 
-      update(root);
-      container.appendChild(svg.node());
-    }
+      function text(className, value) {
+        const span = document.createElement('span');
+        span.className = className;
+        span.textContent = value;
+        return span;
+      }
 
-    d3.json("data/Leagues_flatData.json").then(function (data) {
-      const root = d3.stratify()
-        .id(d => d.id)
-        .parentId(d => d.manager)
-        (data);
+      function logo(row) {
+        const badge = text('logo', row.name.split(' ').map(word => word[0]).join('').slice(0, 3));
+        badge.setAttribute('aria-hidden', 'true');
+        const img = new Image(36, 36);
+        img.alt = '';
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        img.onload = () => img.classList.add('is-loaded');
+        img.src = row.img;
+        badge.append(img);
+        return badge;
+      }
 
-      root.descendants().forEach((d, i) => {
-        d.id = i;
-        d._children = d.children;
+      const leagues = () => [...tree.querySelectorAll(':scope > li > .node')];
+      const isOpen = node => node.getAttribute('aria-expanded') === 'true';
+
+      function setOpen(node, open) {
+        node.setAttribute('aria-expanded', open);
+        node.nextElementSibling.hidden = !open;
+      }
+
+      function refresh() {
+        toggleAll.textContent = leagues().some(isOpen) ? 'Close all' : 'Open all';
+        drawLines();
+      }
+
+      tree.addEventListener('click', event => {
+        const node = event.target.closest('button.node');
+        if (!node) return;
+        const open = !isOpen(node);
+        const list = node.parentElement.parentElement;
+        const group = event.shiftKey ? [...list.querySelectorAll(':scope > li > button.node')] : [node];
+        group.forEach(each => setOpen(each, open));
+        refresh();
       });
 
-      treeDataCache = root;
-      renderChart();
-    });
+      toggleAll.addEventListener('click', () => {
+        const open = !leagues().some(isOpen);
+        leagues().forEach(league => setOpen(league, open));
+        refresh();
+      });
 
-    let resizeTimer;
-    window.addEventListener("resize", () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        if (treeDataCache) {
-          renderChart();
-        }
-      }, 250);
-    });
+      // Curves from the right edge of each open parent to the left edge of its children
+      function drawLines() {
+        if (!isTree()) return;
+        const origin = lines.getBoundingClientRect();
+        let d = '';
+        tree.querySelectorAll('button.node[aria-expanded="true"]').forEach(node => {
+          const from = node.getBoundingClientRect();
+          if (!from.width) return;
+          const x0 = from.right - origin.left + 4;
+          const y0 = from.top + from.height / 2 - origin.top;
+          node.nextElementSibling.querySelectorAll(':scope > li > .node').forEach(child => {
+            const to = child.getBoundingClientRect();
+            const x1 = to.left - origin.left - 6;
+            const y1 = to.top + to.height / 2 - origin.top;
+            const mid = (x0 + x1) / 2;
+            d += `M${x0},${y0}C${mid},${y0} ${mid},${y1} ${x1},${y1}`;
+          });
+        });
+        lines.firstElementChild.setAttribute('d', d);
+      }
+    })();
   </script>
   <script src="js/site.js" defer></script>
 </body>

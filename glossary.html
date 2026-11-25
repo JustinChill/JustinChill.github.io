@@ -41,11 +41,11 @@
     property="og:image:alt">
 
   <meta property="article:published_time" content="2025-06-16">
-  <meta property="article:modified_time" content="2026-08-20">
+  <meta property="article:modified_time" content="2026-11-24">
   <meta property="article:author" content="Justin Chill">
   <meta property="article:section" content="Data Visualization">
   <meta name="datePublished" content="2025-06-16">
-  <meta name="dateModified" content="2026-08-20">
+  <meta name="dateModified" content="2026-11-24">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -69,49 +69,412 @@
   <meta name="color-scheme" content="light dark">
 
   <style type="text/css">
-    .terms {
-      margin-top: 2rem;
+    :root {
+      --c1: #0072b2;
+      --c2: #e69f00;
+      --c3: #009e73;
+      --c4: #cc79a7;
+      --c5: #56b4e9;
+      --c6: #d55e00;
+      --c7: #a3a3a3;
+      --nuke: hsl(356, 75%, 53%);
+      --faint: hsl(0, 0%, 80%);
     }
 
-    table {
-      margin: 2rem 0;
-      width: 100%;
+    html[data-theme="dark"] {
+      --c1: #2f8fd0;
+      --c2: #f0b030;
+      --c3: #1fb58a;
+      --c4: #d992b8;
+      --c5: #8fd0f5;
+      --c6: #ee7733;
+      --c7: #8c8c8c;
+      --nuke: hsl(356, 78%, 62%);
+      --faint: hsl(0, 0%, 42%);
     }
 
-    table th:first-of-type {
-      width: 3.5rem;
+    article h2[id] {
+      scroll-margin-top: 1rem;
     }
 
-    table th,
-    table td {
+    /* A to Z list */
+    .az ul {
+      columns: 9rem;
+      column-gap: 1.5rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .az li {
+      break-inside: avoid;
+      font-size: 0.9375rem;
+      line-height: 1.9;
+    }
+
+    .az a {
+      color: var(--link-color);
+    }
+
+    .az a:hover {
+      text-decoration: underline;
+    }
+
+    /* Pictures drawn for a white page keep one in dark mode */
+    .plate {
+      padding: 0.75rem;
+      border-radius: 6px;
+      background: #fff;
+      box-sizing: border-box;
+    }
+
+    .stem {
+      margin: 0;
+      padding: 1rem;
+      border-radius: 6px;
+      background: var(--surface-subtle);
+      color: var(--text-color);
+      font-size: 0.9375rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    .stem::before {
+      content: none;
+    }
+
+    /* Labels on pale tiles stay dark; style.css turns other chart text white in dark mode */
+    .on-tile text,
+    html[data-theme="dark"] figure .on-tile text {
+      fill: #111 !important;
+    }
+
+    .chart-key {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .chart-key span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8125rem;
+      line-height: 1.4;
+      color: var(--muted-color);
+    }
+
+    .chart-key span::before {
+      content: "";
+      width: 0.8rem;
+      height: 0.8rem;
+      background: var(--key);
+      forced-color-adjust: none;
+      print-color-adjust: exact;
+    }
+
+    table.simple th,
+    table.simple td {
       text-align: left;
     }
 
-    table th:first-child,
-    table td:first-child {
+    table.simple th:first-child {
+      width: 3.5rem;
       text-align: right;
     }
 
-    .bighead {
-      margin-top: 1rem;
-    }
-
-    .flex-container {
-      display: flex;
-      flex-flow: row wrap;
-      justify-content: space-around;
-      grid-column: 1/-1;
-      width: 100%;
-    }
-
+    /* Opening picture */
     #exploration_animation {
       width: 100%;
       margin: 0 auto;
     }
 
-    #bullet_figure {
-      display: flex;
-      flex-direction: column;
+    .motion-paused #pixel-perfect * {
+      animation-play-state: paused !important;
+    }
+
+    #pixel-perfect .cls-1 {
+      fill: #44beeb;
+    }
+
+    #pixel-perfect .cls-2 {
+      fill: #e6f9ff;
+    }
+
+    #pixel-perfect .cls-3 {
+      fill: #ccdee2;
+    }
+
+    #pixel-perfect .cls-4 {
+      fill: #fdcc4a;
+    }
+
+    #pixel-perfect .cls-5 {
+      fill: #168cca;
+    }
+
+    #pixel-perfect .cls-6 {
+      fill: #d33a2f;
+    }
+
+    #pixel-perfect .cls-7 {
+      fill: url(#device-shine);
+    }
+
+    #pixel-perfect .cls-8 {
+      fill: #e5eaea;
+      opacity: 0.56;
+    }
+
+    #pixel-perfect .cls-9 {
+      fill: #c7d9e8;
+    }
+
+    #pixel-perfect .cls-10,
+    #pixel-perfect .cls-15 {
+      fill: #1d5577;
+    }
+
+    #pixel-perfect .cls-11,
+    #pixel-perfect .cls-16 {
+      fill: #12435b;
+    }
+
+    #pixel-perfect .cls-12 {
+      fill: #1f9ce8;
+    }
+
+    #pixel-perfect .cls-13 {
+      fill: #382b03;
+    }
+
+    #pixel-perfect .cls-13,
+    #pixel-perfect .cls-15 {
+      opacity: 0.23;
+    }
+
+    #pixel-perfect .cls-14 {
+      fill: #0a628e;
+    }
+
+    #pixel-perfect .cls-16 {
+      opacity: 0.21;
+    }
+
+    #pixel-perfect .cls-17 {
+      fill: #19ab4f;
+    }
+
+    #pixel-perfect .cls-18 {
+      fill: #0b86d1;
+    }
+
+    #pixel-perfect .cls-19 {
+      fill: none;
+      stroke: #77c3fc;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 0.69px;
+      stroke-dasharray: 5.5 5.5;
+      animation: loading-line 2s infinite;
+    }
+
+    #pixel-perfect .cls-20 {
+      fill: #fff;
+    }
+
+    #pixel-perfect .cls-21 {
+      fill: #e06e31;
+    }
+
+    #pixel-perfect .cls-22 {
+      opacity: 0.27;
+      fill: url(#device-shadow);
+    }
+
+    #pixel-perfect .cls-23 {
+      fill: #abdfff;
+    }
+
+    #pixel-perfect .cls-24 {
+      fill: #1386bf;
+      opacity: 0.08;
+    }
+
+    #pixel-perfect .cls-25 {
+      fill: #77c3fc;
+    }
+
+    #pixel-perfect .cls-26 {
+      fill: #2a6dc2;
+    }
+
+    #pixel-perfect .cls-27 {
+      fill: #245da6;
+    }
+
+    #pixel-perfect .cards {
+      animation: card-appear 4s infinite;
+      transform-origin: center;
+    }
+
+    #pixel-perfect #doc-icon {
+      animation: doc-grow 4s 2s infinite;
+      transform-origin: center;
+    }
+
+    #pixel-perfect .placeholders {
+      animation: lines-disappear 4s infinite;
+      transform: translate(-24px, 16px) scale(0.7);
+      transform-origin: center;
+    }
+
+    #pixel-perfect #card-bottom {
+      animation-delay: .2s;
+    }
+
+    #pixel-perfect #loading-mask {
+      transform: rotate(-29deg);
+      transform-origin: 410px 220px;
+    }
+
+    #pixel-perfect .lm {
+      animation: 8s infinite;
+      transform-origin: 410px 220px;
+      stroke-width: 4;
+      stroke: black;
+      fill: black;
+    }
+
+    #pixel-perfect #lm-1 {
+      animation-name: unmask-270;
+      animation-delay: 0.0s;
+    }
+
+    #pixel-perfect #lm-2 {
+      animation-delay: 0.25s;
+      animation-name: unmask-180;
+    }
+
+    #pixel-perfect #lm-3 {
+      animation-delay: 0.5s;
+      animation-name: unmask-90;
+    }
+
+              
+
+    @keyframes unmask-270 {
+      0% {
+        transform: rotate(0);
+      }
+
+      75% {
+        transform: rotate(270deg);
+      }
+
+      100% {
+        transform: rotate(0);
+      }
+    }
+
+    @keyframes unmask-180 {
+      0% {
+        transform: rotate(0);
+      }
+
+      60% {
+        transform: rotate(180deg);
+      }
+
+      100% {
+        transform: rotate(0);
+      }
+    }
+
+    @keyframes unmask-90 {
+      0% {
+        transform: rotate(0);
+      }
+
+      65% {
+        transform: rotate(90deg);
+      }
+
+      100% {
+        transform: rotate(0);
+      }
+    }
+
+    @keyframes card-appear {
+      0% {
+        transform: translateY(0px);
+        opacity: 1;
+      }
+
+      25% {
+        transform: translateY(-24px);
+        opacity: 0;
+      }
+
+      50% {
+        transform: translate(-24px, 16px) scale(0.7);
+        opacity: 0;
+      }
+
+      70% {
+        opacity: 0.4;
+      }
+
+      75% {
+        transform: translate(-24px, 0px) scale(0.7);
+        opacity: 1;
+      }
+    }
+
+    @keyframes lines-disappear {
+      0% {
+        opacity: 0;
+      }
+
+      38% {
+        opacity: 0.4;
+      }
+
+      50% {
+        opacity: 0.3;
+      }
+
+      68% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 0;
+      }
+    }
+
+    @keyframes loading-line {
+      to {
+        stroke-dashoffset: 55;
+      }
+    }
+
+    @keyframes doc-grow {
+      25% {
+        transform: translate(-2px, -16px);
+        opacity: 0;
+      }
+
+      50% {
+        transform: translate(2px, 16px);
+        opacity: 0;
+      }
+
+      75% {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
   </style>
 
@@ -123,7 +486,7 @@
   "alternativeHeadline": "Common Terms, Chart Types, and Statistical Concepts Used in Data Visualization",
   "description": "A comprehensive reference glossary of common terms, chart types, exploratory data analysis concepts, and statistical metrics used in data visualization.",
   "datePublished": "2025-06-16",
-  "dateModified": "2026-08-20",
+  "dateModified": "2026-11-24",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
   "articleSection": "Data Visualization",
@@ -221,329 +584,42 @@
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-  <nav class="nav" role="navigation">
+  <nav class="nav" aria-label="Main">
     <div class="nav__list">
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-
+    
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5"
-        aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" aria-pressed="false" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
-            </path>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new tab)</span></a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
 
-  <main role="main" id="content">
+  <main id="content">
     <article>
-      <div id="exploration_animation"
+      <div id="exploration_animation" role="img"
         aria-label="Illustration of four people interacting with large, floating digital screens displaying data and graphics, including a semi-circle dial. The scene suggests teamwork and technology in a modern workspace.">
         <!-- Adapting this animation: https://codepen.io/plhnk/pen/NLYepm -->
-        <!-- <img src="https://123-liferaydotdesign-dev.wedeploy.io/images/08@2x.png" height="100%" width="100%" /> -->
         <svg id="pixel-perfect" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
           viewBox="0 0 1000 1000">
           <defs>
-            <style>
-              .cls-1 {
-                fill: #44beeb;
-              }
-
-              .cls-2 {
-                fill: #e6f9ff;
-              }
-
-              .cls-3 {
-                fill: #ccdee2;
-              }
-
-              .cls-4 {
-                fill: #fdcc4a;
-              }
-
-              .cls-5 {
-                fill: #168cca;
-              }
-
-              .cls-6 {
-                fill: #d33a2f;
-              }
-
-              .cls-7 {
-                fill: url(#device-shine);
-              }
-
-              .cls-8 {
-                fill: #e5eaea;
-                opacity: 0.56;
-              }
-
-              .cls-9 {
-                fill: #c7d9e8;
-              }
-
-              .cls-10,
-              .cls-15 {
-                fill: #1d5577;
-              }
-
-              .cls-11,
-              .cls-16 {
-                fill: #12435b;
-              }
-
-              .cls-12 {
-                fill: #1f9ce8;
-              }
-
-              .cls-13 {
-                fill: #382b03;
-              }
-
-              .cls-13,
-              .cls-15 {
-                opacity: 0.23;
-              }
-
-              .cls-14 {
-                fill: #0a628e;
-              }
-
-              .cls-16 {
-                opacity: 0.21;
-              }
-
-              .cls-17 {
-                fill: #19ab4f;
-              }
-
-              .cls-18 {
-                fill: #0b86d1;
-              }
-
-              .cls-19 {
-                fill: none;
-                stroke: #77c3fc;
-                stroke-linecap: round;
-                stroke-linejoin: round;
-                stroke-width: 0.69px;
-                stroke-dasharray: 5.5 5.5;
-                animation: loading-line 2s infinite;
-              }
-
-              .cls-20 {
-                fill: #fff;
-              }
-
-              .cls-21 {
-                fill: #e06e31;
-              }
-
-              .cls-22 {
-                opacity: 0.27;
-                fill: url(#device-shadow);
-              }
-
-              .cls-23 {
-                fill: #abdfff;
-              }
-
-              .cls-24 {
-                fill: #1386bf;
-                opacity: 0.08;
-              }
-
-              .cls-25 {
-                fill: #77c3fc;
-              }
-
-              .cls-26 {
-                fill: #2a6dc2;
-              }
-
-              .cls-27 {
-                fill: #245da6;
-              }
-
-              .cards {
-                animation: card-appear 4s infinite;
-                transform-origin: center;
-              }
-
-              #doc-icon {
-                animation: doc-grow 4s 2s infinite;
-                transform-origin: center;
-              }
-
-              .placeholders {
-                animation: lines-disappear 4s infinite;
-                transform: translate(-24px, 16px) scale(0.7);
-                transform-origin: center;
-              }
-
-              #card-bottom {
-                animation-delay: .2s;
-              }
-
-              #loading-mask {
-                transform: rotate(-29deg);
-                transform-origin: 410px 220px;
-              }
-
-              .lm {
-                animation: 8s infinite;
-                transform-origin: 410px 220px;
-                stroke-width: 4;
-                stroke: black;
-                fill: black;
-              }
-
-              #lm-1 {
-                animation-name: unmask-270;
-                animation-delay: 0.0s;
-              }
-
-              #lm-2 {
-                animation-delay: 0.25s;
-                animation-name: unmask-180;
-              }
-
-              #lm-3 {
-                animation-delay: 0.5s;
-                animation-name: unmask-90;
-              }
-
-              @keyframes unmask-270 {
-                0% {
-                  transform: rotate(0);
-                }
-
-                75% {
-                  transform: rotate(270deg);
-                }
-
-                100% {
-                  transform: rotate(0);
-                }
-              }
-
-              @keyframes unmask-180 {
-                0% {
-                  transform: rotate(0);
-                }
-
-                60% {
-                  transform: rotate(180deg);
-                }
-
-                100% {
-                  transform: rotate(0);
-                }
-              }
-
-              @keyframes unmask-90 {
-                0% {
-                  transform: rotate(0);
-                }
-
-                65% {
-                  transform: rotate(90deg);
-                }
-
-                100% {
-                  transform: rotate(0);
-                }
-              }
-
-              @keyframes card-appear {
-                0% {
-                  transform: translateY(0px);
-                  opacity: 1;
-                }
-
-                25% {
-                  transform: translateY(-24px);
-                  opacity: 0;
-                }
-
-                50% {
-                  transform: translate(-24px, 16px) scale(0.7);
-                  opacity: 0;
-                }
-
-                70% {
-                  opacity: 0.4;
-                }
-
-                75% {
-                  transform: translate(-24px, 0px) scale(0.7);
-                  opacity: 1;
-                }
-              }
-
-              @keyframes lines-disappear {
-                0% {
-                  opacity: 0;
-                }
-
-                38% {
-                  opacity: 0.4;
-                }
-
-                50% {
-                  opacity: 0.3;
-                }
-
-                68% {
-                  opacity: 0;
-                }
-
-                100% {
-                  opacity: 0;
-                }
-              }
-
-              @keyframes loading-line {
-                to {
-                  stroke-dashoffset: 55;
-                }
-              }
-
-              @keyframes doc-grow {
-                25% {
-                  transform: translate(-2px, -16px);
-                  opacity: 0;
-                }
-
-                50% {
-                  transform: translate(2px, 16px);
-                  opacity: 0;
-                }
-
-                75% {
-                  transform: translateY(0);
-                  opacity: 1;
-                }
-              }
-            </style>
             <mask id="radial-unmask" maskUnits="userSpaceOnUse">
               <rect x="250" y="50" width="350" height="350" fill="white" />
               <g id="loading-mask">
@@ -803,133 +879,173 @@
           </g>
         </svg>
       </div>
+      <div class="motion-controls"><button type="button" class="motion-toggle" aria-pressed="false" aria-label="Pause animations"><svg class="icon-pause" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="2" width="3.5" height="12" rx="1" /><rect x="9.5" y="2" width="3.5" height="12" rx="1" /></svg><svg class="icon-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 2.6v10.8a.9.9 0 0 0 1.37.77l8.6-5.4a.9.9 0 0 0 0-1.54l-8.6-5.4A.9.9 0 0 0 4.5 2.6z" /></svg></button></div>
       <div class="article-hero">
         <p class="article-category">Reference</p>
         <h1 class="article-title">Data Visualization Glossary</h1>
         <h2 class="article-subtitle">Common terms used when working with data</h2>
       </div>
       <p>Presented below are common terms you may hear when talking about charts, data, and stats. This page is meant to
-        be used as a reference: use <code>CMD + F</code> to search for a specific chart or data viz term. Definitions
-        originally crowd sourced from <a
-          href="https://observablehq.com/@a10k/data-visualization-glossary">Observable</a><a href="#observable"
-          aria-describedby="footnote-label" id="observable-ref"></a>. Charts and designs by
-        Justin. Enjoy! 🤓</p>
+        be used as a reference: jump to a term from the list, or press <code>Ctrl + F</code> (<code>⌘ + F</code> on a Mac)
+        to search. It began as a crowd-sourced glossary on <a href="https://observablehq.com/@a10k/data-visualization-glossary" target="_blank" rel="noopener noreferrer">Observable</a><a href="#observable" aria-describedby="footnote-label" id="observable-ref"></a>, and <a href="https://datavizcatalogue.com" target="_blank" rel="noopener noreferrer">The Data Visualisation Catalogue</a> goes deeper on most
+        of the charts. Charts are by Justin unless credited. Enjoy! 🤓</p>
 
-      <h2>Cardinality</h2>
-      <p>The <strong>cardinality</strong> of a set means the number of its elements. Two sets have the same (or equal)
-        cardinality if and only if they have the same number of elements, which is another way of saying that there
-        is a 1-to-1 correspondence between the two sets.</p>
-      <p>For example, the set A = {2, 4, 6} contains 3 elements, and therefore <strong>A</strong> has a cardinality of
-        3.</p>
+      <nav class="az" id="terms" aria-label="Terms, A to Z">
+        <ul>
+          <li><a href="#aggregation">Aggregation</a></li>
+          <li><a href="#annotation">Annotation</a></li>
+          <li><a href="#anscombes-quartet">Anscombe’s quartet</a></li>
+          <li><a href="#area-chart">Area chart</a></li>
+          <li><a href="#axis">Axis</a></li>
+          <li><a href="#bar-chart">Bar chart</a></li>
+          <li><a href="#cardinality">Cardinality</a></li>
+          <li><a href="#cartesian-coordinates">Cartesian coordinates&nbsp;📍</a></li>
+          <li><a href="#categorization">Categorization</a></li>
+          <li><a href="#chord-diagram">Chord diagram</a></li>
+          <li><a href="#choropleth-map">Choropleth map</a></li>
+          <li><a href="#correlation">Correlation</a></li>
+          <li><a href="#data-exploration">Data exploration 🔎</a></li>
+          <li><a href="#data-mining">Data mining</a></li>
+          <li><a href="#data-pipeline">Data pipeline</a></li>
+          <li><a href="#data-wrangling">Data wrangling</a></li>
+          <li><a href="#dimension">Dimension</a></li>
+          <li><a href="#dot-map">Dot map</a></li>
+          <li><a href="#dot-matrix-chart">Dot matrix chart</a></li>
+          <li><a href="#etl">ETL (Extract, Transform, Load)</a></li>
+          <li><a href="#flow-chart">Flow chart</a></li>
+          <li><a href="#gantt-chart">Gantt chart</a></li>
+          <li><a href="#heat-map">Heat map</a></li>
+          <li><a href="#histogram">Histogram</a></li>
+          <li><a href="#join">Join</a></li>
+          <li><a href="#kagi-chart">Kagi chart</a></li>
+          <li><a href="#line-graph">Line graph</a></li>
+          <li><a href="#marimekko-chart">Marimekko chart</a></li>
+          <li><a href="#mean">Mean</a></li>
+          <li><a href="#median">Median</a></li>
+          <li><a href="#mind-map">Mind map</a></li>
+          <li><a href="#moving-average">Moving average</a></li>
+          <li><a href="#multi-set-bar-chart">Multi-set bar chart</a></li>
+          <li><a href="#network-diagram">Network diagram</a></li>
+          <li><a href="#nightingale-rose-chart">Nightingale rose chart</a></li>
+          <li><a href="#normalize">Normalize</a></li>
+          <li><a href="#null">NULL</a></li>
+          <li><a href="#outlier">Outlier</a></li>
+          <li><a href="#overplotting">Overplotting</a></li>
+          <li><a href="#pictogram-chart">Pictogram chart</a></li>
+          <li><a href="#pie-chart">Pie chart</a></li>
+          <li><a href="#piled-bar-chart">Piled bar chart</a></li>
+          <li><a href="#pivot">Pivot</a></li>
+          <li><a href="#population-pyramid">Population pyramid</a></li>
+          <li><a href="#radar-chart">Radar chart</a></li>
+          <li><a href="#relationship">Relationship</a></li>
+          <li><a href="#sample">Sample</a></li>
+          <li><a href="#sankey-diagram">Sankey diagram</a></li>
+          <li><a href="#scatterplot">Scatterplot</a></li>
+          <li><a href="#span-chart">Span chart</a></li>
+          <li><a href="#spike-histogram">Spike histogram</a></li>
+          <li><a href="#stacked-area-graph">Stacked area graph</a></li>
+          <li><a href="#stacked-bar-graph">Stacked bar graph</a></li>
+          <li><a href="#standard-deviation">Standard deviation</a></li>
+          <li><a href="#statistical-significance">Statistical significance</a></li>
+          <li><a href="#stem-and-leaf-plot">Stem and leaf plot</a></li>
+          <li><a href="#table">Table</a></li>
+          <li><a href="#target-vs-actual-chart">Target vs actual chart</a></li>
+          <li><a href="#time-series">Time series</a></li>
+          <li><a href="#timeline">Timeline</a></li>
+          <li><a href="#timetable">Timetable</a></li>
+          <li><a href="#tree-diagram">Tree diagram</a></li>
+          <li><a href="#treemap">Treemap</a></li>
+          <li><a href="#trellis">Trellis</a></li>
+          <li><a href="#venn-diagram">Venn diagram</a></li>
+          <li><a href="#violin-plot">Violin plot</a></li>
+          <li><a href="#word-cloud">Word cloud</a></li>
+          <li><a href="#wrapped-bar-chart">Wrapped bar chart</a></li>
+          <li><a href="#xy-chart">XY chart</a></li>
+        </ul>
+      </nav>
 
-      <h2>Cartesian coordinates 📍</h2>
-      <img loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/0/0e/Cartesian-coordinate-system.svg"
-        alt="A small portion of the Cartesian coordinate system, showing the origin, axes, and the four quadrants, with illustrative points and grid.">
-      <p><strong>Cartesian coordinates</strong> - all possible combinations of values from two dimensions. For example,
-        the geometric plane consists of points which can be represented by 2 coordinate axes (hence 2-dimensional or
-        Cartesian coordinate system). Imagine a grid — if you can picture the game <a
-          href="https://en.wikipedia.org/wiki/Battleship_(game)">Battleship</a>, even better — and you're mostly there.
-      </p>
+      <h2 id="aggregation">Aggregation</h2>
+      <p><strong>Aggregation</strong> rolls many rows up into one number, such as a sum, a count or an average. It makes patterns visible and hides everything underneath, so check what got averaged away.</p>
 
-      <h2>Categorization</h2>
-      <p><strong>Categorization</strong> - aggregate data by grouping items. For example, instead of building a graph
-        for all values of <code>age</code> you can create two categories: more than or equal to (≥) 50 years, or less
-        than (&lt;) 50 years.</p>
+      <h2 id="annotation">Annotation</h2>
+      <p>An <strong>annotation</strong> is a note written on the chart itself: an arrow, a label, a line marked <a href="failingNYT.html">“paywall introduced”</a>. It tells people what to look at, and often does more than the title.</p>
 
-      <h2>Chord diagrams</h2>
-      <p>This type of diagram visualizes the inter-relationships between entities. The connections between entities are
-        used to display that they share something in common. This makes Chord Diagrams ideal for comparing the
-        similarities within a dataset or between different groups of data.</p>
-      <a href="https://lotr.visualcinnamon.com/"><img loading="lazy"
-          src="https://uploads-ssl.webflow.com/5fa9d88da1855554db37b1e1/5fb1377b21d82ea1d953ef91_lotr_final.png"
-          alt="Circular flow diagram showing characters from The Lord of the Rings linked to various locations, such as Hobbiton and Mordor. Each character has a unique color-coded line connecting them to the locations. Decorative Elvish script surrounds the diagram." decoding="async"></a>
-      <p>Nodes are arranged along a circle, with the relationships between points connected to each other either through
-        the use of arcs or Bézier curves. Values are assigned to each connection, which is represented proportionally by
-        the size of each arc. Color can be used to group the data into different categories, which aids in making
-        comparisons and distinguishing groups. <br>Technically, the above chart is an adaptation of a standard chord
-        diagram. However, I think it's too cool not to share. This art was created by <a
-          href="https://www.visualcinnamon.com">Nadieh Bremer</a> and plots dialogue from the Lord of the Rings by
-        character and place.</p>
+      <h2 id="anscombes-quartet">Anscombe’s quartet</h2>
+      <p><strong>Anscombe’s quartet</strong> is four datasets with nearly the same mean, variance and <a href="#correlation">correlation</a> that look nothing alike once you plot them. It’s the best argument for drawing the chart first. More <a href="Anscombe.html">here</a>.</p>
 
-      <h2>Choropleth Maps</h2>
-      <figure aria-label="Choropleth map of area code regions in the United States.">
+      <h2 id="area-chart">Area chart</h2>
+      <p>An <strong>area chart</strong> is a <a href="#line-graph">line graph</a> with the space below filled in, which gives a sense of volume. Start the axis at zero, or the filled part means nothing. There are some on <a href="charts.html">Charts on the Internet</a>.</p>
+
+      <h2 id="axis">Axis</h2>
+      <p>An <strong>axis</strong> is the scale a chart is read against. Bars need one that starts at zero. Lines can start elsewhere, as long as the axis says so.</p>
+
+      <h2 id="bar-chart">Bar chart</h2>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
+      <h3>Status of World Nuclear Forces 2021</h3>
+      <figure id="nukes" aria-label="Bar chart of estimated nuclear warheads in 2021. Russia has 6,257 and the USA 5,550. China has 350, France 290, the United Kingdom 195, Pakistan 165, India 160, Israel 90, North Korea 40, and JEFF 10.">
+        <div class="plot" aria-hidden="true"></div>
+      </figure>
+      <p>A <strong>bar chart</strong> gives each category a bar, and the length of the bar is its value. Every bar starts from the same line, so lengths are easy to compare, as long as that line is zero. For box plots, bubble charts and many more, see <a href="charts.html">Charts on the Internet</a>.</p>
+      <p>I like this chart because it appears that an individual named <code>Jeff</code> is in possession of ~10 nuclear bombs. Thankfully there is no Jeff — JEFF stands for ‘Joint Evaluated Fission and Fusion File’ (<a href="https://en.wikipedia.org/wiki/Nuclear_data" target="_blank" rel="noopener noreferrer">JEFF</a>). It is a collaboration to get accurate data on fusion and fission. Data is accurate as of June 2021 and is provided by the Federation of American Scientists<a href="#fas" aria-describedby="footnote-label" id="fas-ref"></a>.</p>
+
+      <h2 id="cardinality">Cardinality</h2>
+      <p>The <strong>cardinality</strong> of a set is how many different things are in it: A = {2, 4, 6} has a cardinality of 3. In a dataset, a column with few distinct values, like <code>state</code>, is low-cardinality. One where nearly every value is different, like <code>email</code>, is high-cardinality, and makes for a terrible color legend.</p>
+
+      <h2 id="cartesian-coordinates">Cartesian coordinates&nbsp;📍</h2>
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/0e/Cartesian-coordinate-system.svg" alt="A grid with x and y axes crossing at (0, 0) and four labeled points: (2, 3), (−3, 1), (−1.5, −2.5) and the origin."
+          width="661" height="654" loading="lazy" decoding="async" class="plate">
+        <figcaption class="right">K. Bolino, <a href="https://commons.wikimedia.org/wiki/File:Cartesian-coordinate-system.svg" target="_blank" rel="noopener noreferrer">Wikimedia Commons</a></figcaption>
+      </figure>
+      <p><strong>Cartesian coordinates</strong> pin down a point with one number per axis. On a flat chart that’s two: how far across, and how far up. If you can picture the game <a href="https://en.wikipedia.org/wiki/Battleship_(game)" target="_blank" rel="noopener noreferrer">Battleship</a>, you’re mostly there.</p>
+
+      <h2 id="categorization">Categorization</h2>
+      <p><strong>Categorization</strong> sorts values into groups so you can count or compare the groups. Instead of plotting every <code>age</code>, you might split people into under 50, and 50 or older.</p>
+
+      <h2 id="chord-diagram">Chord diagram</h2>
+      <figure>
+        <a href="https://lotr.visualcinnamon.com/"><img src="https://uploads-ssl.webflow.com/5fa9d88da1855554db37b1e1/5fb1377b21d82ea1d953ef91_lotr_final.png" alt="Circular flow diagram showing characters from The Lord of the Rings linked to various locations, such as Hobbiton and Mordor. Each character has a unique color-coded line connecting them to the locations. Decorative Elvish script surrounds the diagram."
+          width="1400" height="1108" loading="lazy" decoding="async"></a>
+        <figcaption class="right"><a href="https://lotr.visualcinnamon.com/" target="_blank" rel="noopener noreferrer">The Words of the Lord of the Rings</a> by <a href="https://www.visualcinnamon.com" target="_blank" rel="noopener noreferrer">Nadieh Bremer</a></figcaption>
+      </figure>
+      <p>A <strong>chord diagram</strong> shows how the members of a group are connected. Each one gets a stretch of the circle’s edge, and ribbons cross the middle between those that share something. The wider the ribbon, the stronger the link.</p>
+      <p>Technically, the chart above is an adaptation of a standard chord diagram, but I think it’s too cool not to share. Nadieh Bremer made it, and it plots dialogue from the Lord of the Rings by character and place.</p>
+
+      <h2 id="choropleth-map">Choropleth map</h2>
+      <figure>
+        <a href="inf-hoe-graphic.html"><img class="mid-size" src="imgs/ZIP3_zones.svg" width="567" height="342"
+            alt="A map of the contiguous United States showing the Area Codes where rapper Ludacris claims to have hoes." loading="lazy" decoding="async"></a>
         <figcaption class="right">ZIP codes explained <a href="inf-hoe-graphic.html">here</a></figcaption>
-        <a href="inf-hoe-graphic.html"><img loading="lazy" class="mid-size" src="imgs/ZIP3_zones.svg"
-            alt="A map of the contiguous United States showing the Area Codes where rapper Ludacris claims to have hoes." decoding="async"></a>
       </figure>
+      <p>A <strong>choropleth map</strong> colors each region by its value. It’s good for spotting where things are high or low, and bad for reading exact numbers. Big, empty regions also steal attention from small, crowded ones. Map a rate, such as people per square mile, or you’ll mostly be showing which regions are large.</p>
 
-      <p><strong>Choropleth Maps</strong> display divided geographical areas or regions that are colored, shaded or
-        patterned in relation to a data variable. This provides a way to visualize values over a geographical area,
-        which can show variation or patterns across the displayed location. One downside to the use of color is that you
-        can't accurately read or compare values from the map. Another issue is that larger regions appear more
-        emphasized than smaller ones, so the viewer's perception of the shaded values is affected. A common error when
-        producing choropleth maps is to encode raw data values (such as population) rather than using normalized values
-        (calculating population per square kilometer for example) to produce a density map.</p>
-
-      <h2>Correlation</h2>
-      <figure aria-label="Anscombe's Quartet scatter plots.">
-        <figcaption class="right">For more on correlation and data exploration, <a href="Anscombe.html">see here</a>
-        </figcaption>
-        <a href="Anscombe.html"><img loading="lazy"
-            src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Anscombe%27s_quartet_3.svg"
-            alt="Anscombe's Quartet scatter plots showing four datasets with identical simple statistical properties but very different distributions." decoding="async"></a>
+      <h2 id="correlation">Correlation</h2>
+      <figure>
+        <a href="Anscombe.html"><img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Anscombe%27s_quartet_3.svg" alt="Anscombe’s Quartet: four scatter plots with the same summary statistics and trend line but very different shapes."
+          width="990" height="720" loading="lazy" decoding="async" class="plate"></a>
+        <figcaption class="right"><a href="https://commons.wikimedia.org/wiki/File:Anscombe%27s_quartet_3.svg" target="_blank" rel="noopener noreferrer">Schutz and Avenue</a>, CC BY-SA 3.0. For more on correlation and data exploration, <a href="Anscombe.html">see here</a></figcaption>
       </figure>
+      <p><strong>Correlation</strong> measures how closely two sets of values move together. It’s positive when they rise together, negative when one falls as the other rises, and near zero when there’s no straight-line pattern. It can’t tell you whether one causes the other.</p>
 
-      <p><strong>Correlation</strong> is the measure of how much one set of values depends on another. If values
-        increase together, they are positively correlated. If values from one set increase as the other decreases, they
-        are negatively correlated. There is no correlation when a change in one set has nothing to do with a change in
-        the other.</p>
+      <h2 id="data-exploration">Data exploration 🔎</h2>
+      <p><strong>Data exploration</strong> is getting to know a dataset before you commit to a question. What’s missing? What’s typical? What looks odd? Most of the answers will be dull, and one or two will be the story.</p>
 
-      <h2>Data Exploration 🔎</h2>
-      <p>The part of the data science process where you ask a million basic questions that help understand the
-        context of a dataset. What you learn during the exploration phase will guide more in-depth analysis later.
-        Further, it helps you recognize when a result might be surprising and warrant further investigation. Processing
-        900 different basic questions helps to find the one or two key stories in the data.</p>
+      <h2 id="data-mining">Data mining</h2>
+      <p><strong>Data mining</strong> means digging through a lot of data for patterns someone can act on. The digging takes in cleaning, modeling and checking, and none of it counts until somebody who can use the findings understands them.</p>
 
-      <h2>Data Mining</h2>
-      <p>The process of pulling actionable insight out of a set of data and putting it to good use. This includes
-        everything from cleaning and organizing the data, to analyzing it to find meaningful patterns and connections,
-        to communicating those connections in a way that helps decision-makers improve their product or organization.
-      </p>
+      <h2 id="data-pipeline">Data pipeline</h2>
+      <figure>
+        <img src="https://imgs.xkcd.com/comics/data_pipeline.png" alt="Comic. One person shows off a fully automated data pipeline. Another asks whether it’s a house of cards that will collapse as soon as an input does anything weird. It collapses, and the first goes to patch it."
+          width="740" height="266" loading="lazy" decoding="async" class="plate">
+        <figcaption class="right"><a href="https://xkcd.com/2054/" target="_blank" rel="noopener noreferrer">Data Pipeline</a> by Randall Munroe, xkcd</figcaption>
+      </figure>
+      <p>A <strong>data pipeline</strong> is a chain of steps, each handing its results to the next: fetch, clean, reshape, load, chart. Once it runs on its own, the chart can update itself, at least until something upstream changes.</p>
 
-      <h2>Data Pipelines</h2>
-      <img loading="lazy" src="https://imgs.xkcd.com/comics/data_pipeline.png"
-        alt="A person shows a laptop to two others, explaining their automated data pipeline. Another asks if it's fragile, likening it to a house of cards. Suddenly, the system collapses, and the person admits they need to patch it." decoding="async">
-      <p>A collection of scripts or functions that pass data along in a series. The output of the first method becomes
-        the input of the second. This continues until the data is appropriately cleaned and transformed for whatever
-        task a team is working on.</p>
+      <h2 id="data-wrangling">Data wrangling</h2>
+      <p><strong>Data wrangling</strong> is getting messy data into a shape you can use: fixing formats, matching names, dealing with gaps and joining tables. Every chart needs some. <a href="https://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html" target="_blank" rel="noopener noreferrer">The New York Times</a> called it “janitor work”<a href="#nyt-wrangling" aria-describedby="footnote-label" id="nyt-wrangling-ref"></a>, and most of the hours go there.</p>
 
-      <h2>Data Wrangling</h2>
-      <p>The process of taking data in its original form and “taming” it until it works better in a broader workflow or
-        project. Taming means making values consistent with a larger data set, replacing or removing values that might
-        affect analysis or performance later, etc. When creating any data visualization there will always be some data
-        wrangling required. As <a
-          href="https://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html">the
-          New York Times reports</a><a href="#nyt-wrangling" aria-describedby="footnote-label"
-          id="nyt-wrangling-ref"></a>, data wrangling is a key hurdle to insights. </p>
-
-      <h2>Dot Maps</h2>
-      <p><strong>Dot Maps</strong> (a.k.a Point Map, Dot Distribution Map, Dot Density Map) are a way of detecting
-        spatial patterns or the distribution of data over a geographical region, by placing equally sized points over a
-        geographical region. There are two types of Dot Map: one-to-one (one point represents a single count or object)
-        and one-to-many (one point represents a particular unit, e.g. 1 point = 10 trees). Dot Maps are ideal for seeing
-        how things are distributed over a geographical region and can reveal patterns when the points cluster on the
-        map. Dot Maps are easy to grasp and are better at giving an overview of the data, but are not great for
-        retrieving exact values.</p>
-
-      <h2>Dot Matrix Charts</h2>
-      <img loading="lazy" src="imgs/dotmatrix.png"
-        alt="Dot chart showing donation sources by category. Dark blue (32% Alumni), red (24% Friends), light blue (15% Foundations), teal (15% Corporations), and yellow (14% Organizations). Each category represents a portion of a $900,000 total." decoding="async" width="800" height="423">
-      <p><strong>Dot Matrix</strong> charts display discrete data in units of dots, each colored to represent a
-        particular category and grouped together in a matrix. When only one variable/category is used in the dataset and
-        all the dots are the same color, a Dot Matrix Chart can be used to primarily show proportions.</p>
-
-      <h2>Dimension</h2>
-      <p><strong>Dimension</strong> - a parameter, characteristic. Column, in the context of tabular data. For example,
-        age, gender, height, color, coordinates, time, etc. In the table below, <strong>City</strong> and
-        <strong>State</strong> are examples of two different dimensions of the data (with explicit row indexes<a
-          href="#css-counters" aria-describedby="footnote-label" id="css-counters-ref"></a>).
-      </p>
+      <h2 id="dimension">Dimension</h2>
+      <p>A <strong>dimension</strong> is one quality of whatever you’re describing. In a table it’s usually a column: age, height, color, date. Below, <strong>City</strong> and <strong>State</strong> are two dimensions, and the numbers on the left are row indexes<a href="#css-counters" aria-describedby="footnote-label" id="css-counters-ref"></a>.</p>
 
       <div class="wrapper" tabindex="0" role="region" aria-labelledby="tableCaption_01">
         <table class="simple">
@@ -1019,474 +1135,298 @@
         </table>
       </div>
 
-      <h2>ETL (Extract, Transform, Load)</h2>
-      <p>ETL is a process that extracts data from different source systems, then transforms the data (like applying
-        calculations, concatenations, etc.) and finally loads the data into a Data Warehouse system. ETL systems are
-        generally gifted to us by data engineers and run behind the scenes. Ask Alyssa for more 😎</p>
+      <h2 id="dot-map">Dot map</h2>
+      <p>A <strong>dot map</strong>, or dot density map, puts a dot wherever something happens. One dot can be one case, or a set number (1 dot = 10 trees). Clusters jump out; counting them is another matter.</p>
 
-      <h2>Flow chart</h2>
-      <img src="https://images.huffingtonpost.com/2013-10-09-WendyEmail.jpg"
-        alt="Flowchart titled Should I Check E-Mail? by Wendy MacNaughton. It humorously guides whether to check email based on questions like Are you bored? and Are you procrastinating? leading to Check or Dont Check. Dell sponsors it."
-        loading="lazy" decoding="async">
-      <p><strong>Flow chart</strong> (a.k.a Flow Diagram, Flow Process Chart, Process Chart, Process Map, Process Model,
-        Work Flow Diagram). This type of diagram is used to show the sequential steps of a process. Flow charts map out
-        a process using a series of connected symbols, which makes the process easy to understand and aids in its
-        communication to other people.</p>
+      <h2 id="dot-matrix-chart">Dot matrix chart</h2>
+      <figure>
+        <img src="imgs/dotmatrix.png" alt="Dot chart showing donation sources by category. Dark blue (32% Alumni), red (24% Friends), light blue (15% Foundations), teal (15% Corporations), and yellow (14% Organizations). Each category represents a portion of a $900,000 total."
+          width="800" height="423" loading="lazy" decoding="async" class="plate">
+        <figcaption class="right">Donations by source</figcaption>
+      </figure>
+      <p>A <strong>dot matrix chart</strong> draws a total as a grid of dots and colors them by category. You see the shares at a glance, and you could count the dots if you had to.</p>
 
-      <h2>Gantt chart</h2>
-      <img src="imgs/GanttChartAnatomy.svg"
-        alt="A Gantt chart showing three kinds of schedule dependencies (in red) and percent complete indications"
-        loading="lazy" decoding="async">
-      <p>Commonly used as an organizational tool for project management, <strong>Gantt Charts</strong> display a list of
-        activities (or tasks) with their duration over time, showing when each activity starts and ends. This makes a
-        Gantt chart useful for planning and estimating how long an entire project might take. You can also see what
-        activities are running in parallel to each other. A vertical line running through the chart is used to highlight
-        the current date.</p>
-      <p>Gantt Charts are drawn within a table: rows are used for the activities and columns are used as the timescale.
-        The duration of each activity is represented by the length of a bar plotted along this timescale. The start of
-        the bar is the beginning of the activity and the end of the bar is when that activity should finish.
-        Color-coding the bars can be used to categorize activities into groups. To show progress a bar can be partially
-        filled in, shaded differently or use a different color, to differentiate between what is done and what is left
-        to do. Connecting arrows can be used to show which tasks are dependent on each other.</p>
+      <h2 id="etl">ETL (Extract, Transform, Load)</h2>
+      <p><strong>ETL</strong> is three steps for getting data into a warehouse: <strong>extract</strong> it from wherever it lives, <strong>transform</strong> it into something consistent, and <strong>load</strong> it. It mostly happens out of sight, courtesy of a data engineer. Ask Alyssa for more 😎</p>
 
-      <h2>Heat maps</h2>
+      <h2 id="flow-chart">Flow chart</h2>
+      <figure>
+        <img src="https://images.huffingtonpost.com/2013-10-09-WendyEmail.jpg" alt="Flowchart titled Should I Check E-Mail? by Wendy MacNaughton. It humorously guides whether to check email based on questions like Are you bored? and Are you procrastinating? leading to Check or Don’t Check."
+          width="610" height="858" loading="lazy" decoding="async" class="plate">
+        <figcaption class="right">Should I Check E-Mail? by Wendy MacNaughton, via HuffPost</figcaption>
+      </figure>
+      <p>A <strong>flow chart</strong> draws a process as boxes and arrows. Follow the arrows to see what happens next, including where a decision sends you one way or the other.</p>
+
+      <h2 id="gantt-chart">Gantt chart</h2>
+      <figure>
+        <img src="imgs/GanttChartAnatomy.svg" alt="A Gantt chart showing three kinds of schedule dependencies (in red) and percent complete indications"
+          width="896" height="596" loading="lazy" decoding="async" class="plate">
+        <figcaption class="right">Garry Booker, <a href="https://commons.wikimedia.org/wiki/File:GanttChartAnatomy.svg" target="_blank" rel="noopener noreferrer">Wikimedia Commons</a></figcaption>
+      </figure>
+      <p>A <strong>Gantt chart</strong> is a project plan laid over a calendar. Each task is a row, with a bar from its first day to its last, so you can see what overlaps and what’s running late. Arrows link a task to the ones waiting on it, and an upright line marks today.</p>
+
+      <h2 id="heat-map">Heat map</h2>
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
       <h3>Steph Curry’s NBA arena popcorn rankings</h3>
-      <figure id="example_heatmap"
-        aria-label="Heatmap showing Stephen Curry's popcorn ratings across NBA arenas across five criteria: Freshness, Saltiness, Crunchiness, Butter, and Presentation.">
+      <figure id="example_heatmap" aria-label="Heat map of Stephen Curry’s popcorn ratings for NBA arenas across freshness, saltiness, crunchiness, butter and presentation. The Dallas Mavericks score highest, with 24 out of 25, and the arena shared by the Clippers and Lakers lowest, with 10.">
+        <div class="plot" aria-hidden="true"></div>
         <figcaption class="right">NBA arena popcorn ranked <a href="popcorn.html">here</a></figcaption>
       </figure>
-      <p><strong>Heat maps</strong> visualize data through variations in coloring. When applied to a tabular format,
-        Heat maps are useful for cross-examining multivariate data, through placing variables in the rows and columns
-        and coloring the cells within the table. Heat maps are good for showing variance across multiple variables,
-        revealing any patterns, displaying whether any variables are similar to each other, and for detecting if any
-        correlations exist between them. Typically, all the rows are one category (labels displayed on the left or
-        right side) and all the columns are another category (labels displayed on the top or bottom). The individual
-        rows and columns are divided into the subcategories, which all match up with each other in a matrix. The cells
-        contained within the table either contain color-coded categorical data or numerical data, that is based on a
-        color scale. The data contained within a cell is based on the relationship between the two variables in the
-        connecting row and column.</p>
+      <p>A <strong>heat map</strong> turns numbers into color. In a table like this one, the darker the cell, the higher the score, so patterns across rows and columns show up before you’ve read a single value.</p>
 
-      <h2>Histogram</h2>
+      <h2 id="histogram">Histogram</h2>
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
-      <h3>Status of World Nuclear Forces 2021</h3>
-      <figure id="nukes" aria-label="Bar chart showing the estimated stockpile of nuclear weapons by country in 2021.">
+      <h3>How IMDb users rate The Simpsons</h3>
+      <figure id="example_histogram" aria-label="Histogram of IMDb ratings for 597 episodes of The Simpsons, seasons 1 to 28. Most episodes score between 6.5 and 8.">
+        <div class="plot" aria-hidden="true"></div>
+        <figcaption class="right">Data: IMDb</figcaption>
       </figure>
-      <p>A <strong>Histogram</strong> visualizes the distribution of data over a continuous interval or certain time
-        period. Each bar in a histogram represents the tabulated frequency at each interval/bin. Histograms help give an
-        estimate as to where values are concentrated, what the extremes are and whether there are any gaps or unusual
-        values. They are also useful for giving a rough view of the probability distribution.</p>
-      <p class="bighead">I like this histogram chart because it appears that an individual named Jeff is in possession
-        of ~10 nuclear bombs. Thankfully there is no Jeff — JEFF stands for ‘Joint Evaluated Fission and Fusion File’
-        (<a href="https://en.wikipedia.org/wiki/Nuclear_data"><small>JEFF</small></a>). It is a collaboration to get
-        accurate data on fusion and fission. Data is accurate as of June 2021 and is <a
-          href="https://fas.org/issues/nuclear-weapons/status-world-nuclear-forces/">provided by</a> the Federation of
-        American Scientists<a href="#fas" aria-describedby="footnote-label" id="fas-ref"></a>.</p>
+      <p>A <strong>histogram</strong> shows how values are spread out. The range is cut into equal slices, called bins, and each bar counts how many values land in its bin. Bars touch because one bin runs straight into the next. Look for where values pile up, which way the pile leans, and any gaps.</p>
 
-      <h2>Join</h2>
-      <p>A method for analyzing data. Merging entries from two or more tables of data based on common variables.</p>
-      <h2>Kagi charts</h2>
-      <p>Kagi charts are used to display the general levels of supply and demand of a particular asset by visualizing
-        the price actions through a series of line patterns. Kagi Charts are time-independent and help filter out the
-        noise that can occur on other financial charts (like on a Candlestick Chart). This is so that important price
-        movements are displayed more clearly. Recognizing the patterns that occur in Kagi Charts is key to understanding
-        them. While Kagi Charts do display dates or time on their x-axis, these are in fact markers for the key price
-        action dates and are not part of a timescale. The y-axis on the right-hand side is used as the value scale.</p>
-      <h2>Line Graphs</h2>
+      <h2 id="join">Join</h2>
+      <p>A <strong>join</strong> merges two tables by matching a column they share, such as an ID. An inner join keeps only the rows that match. A left join keeps everything in the first table, matched or not.</p>
+
+      <h2 id="kagi-chart">Kagi chart</h2>
+      <p>A <strong>Kagi chart</strong> follows a price and ignores the calendar. The line keeps going while the price moves one way, and turns only after a big enough reversal, so small wobbles disappear. It gets thicker or thinner when the price breaks an earlier high or low.</p>
+
+      <h2 id="line-graph">Line graph</h2>
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
       <h3>My excitement levels as my girlfriend says...</h3>
-      <figure id="example_line" aria-label="Line graph tracking excitement levels over conversational phrases.">
+      <figure id="example_line" aria-label="Line graph of my excitement, from 0 to 100, as a sentence unfolds. “Hey baby,” 10. “do you want” 20. “to have” 40. “sex...” 75. “...tuplets?” 10.">
+        <div class="plot" aria-hidden="true"></div>
       </figure>
-      <p>Line Graphs are used to display quantitative values over a continuous interval or time period. A Line Graph is
-        most frequently used to show trends and analyze how the data has changed over time. Line Graphs are drawn by
-        first plotting data points on a Cartesian coordinate grid, then connecting a line between all of these points.
-        Typically, the y-axis has a quantitative value, while the x-axis is a timescale or a sequence of intervals.
-      </p>
-      <p class="visually-hidden">
-        Negative values can be displayed below the x-axis. The direction of the lines on the graph works as a nice
-        metaphor for the data: an upward slope indicates where values have increased and a downward slope indicates
-        where values have decreased. The line's journey across the graph can create patterns that reveal trends in a
-        dataset.
-        When grouped with other lines (other data series), individual lines can be compared to one another. However,
-        avoid using more than 3-4 lines per graph, as this makes the chart more cluttered and harder to read. A solution
-        to this is to divide the chart into smaller multiples (have a small Line Graph for each data series).
-      </p>
+      <p>A <strong>line graph</strong> joins up values in order, usually over time. The slope does the talking: up, down or flat, and how fast. With more than a few lines it turns to spaghetti, so try <a href="#trellis">small multiples</a> instead.</p>
 
-      <!-- <h2>LOESS</h2>
-      <p>LOESS, or Locally Weighted scatterplot Smoothing, is a method of drawing a regression trend line in a scatterplot. As the name suggests, it uses the surrounding points to calculate a Y value for every X value and thus draw a line. You may think of it as a weighted moving average similar to a moving average.</p> -->
-
-      <h2>Marimekko Charts</h2>
-      <img src="https://datavizcatalogue.com/methods/images/top_images/marimekko_chart.png"
-        alt="A stacked 100% bar chart with five segments showing proportion data. Each segment has three color-coded parts: blue, purple, and peach, representing various percentages. The segments vary in width, with percentages labeled on the vertical axis from 0% to 100%."
-        loading="lazy" decoding="async">
-      <p>Marimekko Charts (a.k.a Mosaic Plot) are used to visualize categorical data over a pair of variables. In a
-        Marimekko Chart, both axes are variable with a percentage scale that determines both the width and height of
-        each segment. So Marimekko Charts work as a kind of two-way 100% Stacked Bar Graph. This makes it possible to
-        detect relationships between categories and their subcategories via the two axes.</p>
-      <p>The main flaws of Marimekko Charts are that they can be hard to read, especially when there are many segments.
-        Also, it’s hard to accurately make comparisons between each segment, as they are not all arranged next to each
-        other along a common baseline. Therefore, Marimekko Charts are better suited for giving a more general overview
-        of the data.</p>
-
-      <h2>Mean</h2>
-      <p><strong>Mean</strong> (a.k.a. Average) — A calculation that gives us a sense of a “typical” value for a group
-        of
-        numbers. The mean is the sum of a list of values divided by the number of values in that list. It can be
-        deceiving used on its own, and in practice we use the mean with other statistical values to gain intuition about
-        our data.</p>
-
-      <h2>Median</h2>
-      <p>In a set of values listed in order, the <strong>median</strong> is whatever value is in the middle. We often
-        use the median along with the mean to judge if there are values that are unusually high or low in the set. This
-        is an early hint to explore outliers.</p>
-
-      <h2>Mind map</h2>
-      <p>A <strong>Mind map</strong> is a diagram used to map associated ideas, words, images and concepts together. The
-        structure of a mind map is as follows: major categories extend out from a central node. Lesser categories branch
-        out of the major ones as subcategories, which can also develop their own related subcategories.</p>
-
-      <h2>Moving average</h2>
+      <h2 id="marimekko-chart">Marimekko chart</h2>
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
-      <h3>The value of Apple stock</h3>
-      <figure id="example_mvavg"
-        aria-label="Line and area chart showing Apple stock price and its 14-day moving average trend line over time.">
+      <h3>Who survived the Titanic</h3>
+      <figure id="example_marimekko" aria-label="Marimekko chart of the 2,201 people aboard the Titanic. First class: 203 of 325 saved. Second class: 118 of 285. Third class: 178 of 706. Crew: 212 of 885.">
+        <div class="plot" aria-hidden="true"></div>
+        <figcaption class="right">More on the <a href="titanic.html">Titanic here</a></figcaption>
+      </figure>
+      <p>A <strong>Marimekko chart</strong>, or mosaic plot, is a stacked bar chart with bars of different widths. Here the width is each group’s size and the height is the share saved, so the area of a tile is a number of people. It gives a good overall picture, but tiles that don’t line up are hard to compare.</p>
+
+      <h2 id="mean">Mean</h2>
+      <p>The <strong>mean</strong>, or average, is the total divided by how many values there are. One extreme value can drag it a long way, so look at the <a href="#median">median</a> too.</p>
+
+      <h2 id="median">Median</h2>
+      <p>The <strong>median</strong> is the one in the middle once values are sorted, or the average of the middle two. Half the values fall on either side, so extremes barely move it. If it’s a long way from the <a href="#mean">mean</a>, go looking for <a href="#outlier">outliers</a>.</p>
+
+      <h2 id="mind-map">Mind map</h2>
+      <p>A <strong>mind map</strong> starts with one idea in the center and grows branches, which grow branches of their own. It’s less a way to show data than a way to think on paper.</p>
+
+      <h2 id="moving-average">Moving average</h2>
+      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
+      <h3>The value of Apple stock, 2013 to 2018</h3>
+      <figure id="example_mvavg" aria-label="Line chart of Apple’s daily closing price from May 2013 to May 2018, with a smoother 50-day moving average running through it. Both rise from about $65 to almost $190.">
+        <div class="plot" aria-hidden="true"></div>
         <figcaption class="right">Apple stock performance explored <a href="Apple.html">here</a></figcaption>
       </figure>
-      <p><strong>Moving average</strong> is a method of drawing a smooth trend line by calculating a Y value for every X
-        value by averaging the Y values of the n points leading to and including the X value. For example, in a
-        timeline, a 50-day moving average calculates the average value of the trailing 50 points (days) and uses that to
-        draw the trend line.</p>
+      <p>A <strong>moving average</strong> smooths a jagged line by averaging each value with its neighbors. This one is trailing: each day is averaged with the 49 trading days before it, so it lags behind the price. A longer window is smoother and slower to react.</p>
 
-      <h2>Multi-set Bar Charts</h2>
-      <img src="imgs/Split_bar_chart.png"
-        alt="Bar chart titled “Social network usage by high schoolers” shows 2014 U.S. high school graduate social media use. Facebook is used most frequently, followed by Instagram and Twitter. Pinterest is least used. Source: eMarketer. Chart by Datawrapper."
-        loading="lazy" decoding="async" width="1234" height="666">
-      <p><strong>Multi-set Bar Charts</strong> (a.k.a. Grouped Bar Chart or Clustered Bar Chart) are a variation of a
-        Bar
-        Chart used when two or more data series are plotted side-by-side and grouped together under categories, all on
-        the same axis. Like a Bar Chart, the length of each bar is used to show discrete, numerical comparisons amongst
-        categories. Each data series is assigned an individual color or a varying shade of the same color, in order to
-        distinguish them. Each group of bars is then spaced apart from each other. The use of Multi-set Bar Charts is
-        usually to compare grouped variables or categories to other groups with those same variables or category types.
-      </p>
-
-      <h2>Network diagram</h2>
-      <p>A network diagram, a.k.a network graph, network map, or node-link diagram. This type of visualization shows how
-        things are interconnected through the use of nodes / vertices and link lines to represent their connections and
-        help illuminate the type of relationships between a group of entities.</p>
-      <p>Typically, nodes are drawn as little dots or circles, but icons can also be used. Links are usually displayed
-        as simple lines connected between the nodes. However, in some Network Diagrams, not all of the nodes and links
-        are created equally: additional variables can be visualized, for example, by making the node size or link stroke
-        weight proportional to an assigned value. By mapping out connected systems, Network Diagrams can be used to
-        interpret the structure of a network through looking for any clustering of the nodes, how densely nodes are
-        connected or by how the diagram layout is arranged. </p>
-      <p>The two notable types of Network Diagram are "undirected" and "directed". Undirected Network Diagrams only
-        display the connections between entities, while directed Network Diagrams show if the connections are one-way or
-        two-way through small arrows. Network Diagrams have a limited data capacity and start to become hard to read
-        when there are too many nodes and resemble "hairballs".</p>
-
-      <h2>Nightingale Rose Chart</h2>
-      <img src="https://vizzendata.files.wordpress.com/2020/12/nightingale.jpg?w=1620&h=1160&crop=1"
-        alt="Florence Nightingale's vintage polar area diagram, 'Causes of Mortality in the Army in the East' (1854-1856), illustrating preventable deaths in the Crimean War."
-        loading="lazy" decoding="async">
-      <p>This chart was famously used by statistician and medical reformer Florence Nightingale<a href="#nightingale"
-          aria-describedby="footnote-label" id="nightingale-ref"></a> to communicate the
-        avoidable deaths of soldiers during the Crimean war. <br>Nightingale Rose Charts are drawn on a polar coordinate
-        grid. Each category or interval in the data is divided into equal segments on this radial chart. How far each
-        segment extends from the centre of the polar axis depends on the value it represents. So each ring from the
-        centre of the polar grid can be used as a scale to plot the segment size and represent a higher value.
-        Therefore, it’s important to notice with Nightingale Rose Charts that it’s the area, rather than the radius, of
-        a
-        segment that represents its value. <br>The major flaw with Nightingale Rose Charts is that the outer segments
-        are given more emphasis because of their larger area size. This disproportionately represents increases in
-        value.</p>
-      <img src="https://datavizcatalogue.com/methods/images/top_images/SVG/nightingale_rose_chart.svg" loading="lazy"
-        alt="A Nightingale Rose Chart showing data segments extending outward from a center point in equal angular slices." decoding="async">
-
-      <h2>Normalize</h2>
-      <p>A set of data is said to be <strong>normalized</strong> when all of the values have been adjusted to fall
-        within a common range. We normalize data sets to make comparisons easier and more meaningful. For instance,
-        taking movie ratings from a bunch of different websites and adjusting them so they all fall on a scale of 0 to
-        100.</p>
-
-      <h2>NULL</h2>
-      <p>NULL means that the value is unknown or unspecified. In the context of a database, null is the total absence of
-        a value in a certain field and means that the field value is unknown. Null is not the same as a value of zero!
-        Null implies that a database field value has not been stored.</p>
-
-      <h2>Outlier</h2>
-      <p>An <strong>Outlier</strong> is a person or thing that is atypical within a particular group, class, or
-        category.</p>
-
-      <h2>Overplotting</h2>
-      <img src="imgs/fig-scatterplot-overplot.png" loading="lazy"
-        alt="Scatter plot illustrating overplotting: dense overlapping dots of hourly wage versus age create solid lines that obscure individual data points." decoding="async" width="1344" height="960">
-      <p><strong>Overplotting</strong> is when the data or labels in a data visualization overlap, making it difficult
-        to see individual data points in a data visualization. Overplotting typically occurs when there is either a
-        large number of data points and/or a small number of unique values in the dataset.</p>
-      <h2>Pictogram Charts</h2>
-      <figure id="pictogram" aria-label="Pictogram chart displaying categorical data with unit icons.">
-        <img src="imgs/pictogram.png" loading="lazy"
-          alt="A progress bar showing 30% filled in blue with accompanying icons of people, while the remaining 70% is gray with faded person icons." decoding="async" width="1930" height="260">
-        <figcaption class="mid-size">A pictogram chart using person icons to represent percentage quantities.
-        </figcaption>
+      <h2 id="multi-set-bar-chart">Multi-set bar chart</h2>
+      <figure>
+        <img src="imgs/Split_bar_chart.png" alt="Bar chart titled “Social network usage by high schoolers” shows 2014 U.S. high school graduate social media use. Facebook is used most frequently, followed by Instagram and Twitter. Pinterest is least used."
+          width="1234" height="666" loading="lazy" decoding="async" class="plate">
+        <figcaption class="right">Data: eMarketer. Chart made with Datawrapper</figcaption>
       </figure>
-      <p>Pictogram Charts (a.k.a Pictograph Chart, Pictorial Chart, Pictorial Unit Chart, or Picture Graph) use icons to
-        give a more engaging overall view of small sets of discrete data. Typically, the icons represent the data’s
-        subject or category, for example, data on population would use icons of people. Each icon can represent one unit
-        or any number of units (e.g. each icon represents 10). Data sets are compared side-by-side in either columns or
-        rows of icons, to compare each category to one another.</p>
+      <p>A <strong>multi-set bar chart</strong>, also called grouped or clustered, sets bars for several series next to each other in every category. Comparing inside a group is easy. Following one series from group to group is harder.</p>
 
-      <h2>Pie charts</h2>
-      <p><strong>Pie Charts</strong> help show proportions and percentages between categories by dividing a circle into
-        proportional segments. Each arc length represents a proportion of each category, while the full circle
-        represents the total sum of all the data, equal to 100%. Pie Charts are ideal for giving the reader a quick idea
-        of the proportional distribution of the data.</p>
+      <h2 id="network-diagram">Network diagram</h2>
+      <p>A <strong>network diagram</strong> draws things as dots (nodes) and their connections as lines (links). Arrows mark links that only go one way, and size or thickness can carry another number. Add too many nodes and you get what’s known as a hairball.</p>
 
-      <h2>Piled bar chart </h2>
-      <img src="https://www.curvediscussion.com/wp-content/uploads/2018/04/Capture-4.png"
-        alt="Horizontal piled bar chart with eight blue bars of varying lengths aligned on a single shared axis in descending order."
-        loading="lazy" decoding="async">
-      <p>A layered bar chart design where all the bars are sorted and aligned on a single, shared axis.</p>
+      <h2 id="nightingale-rose-chart">Nightingale rose chart</h2>
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Nightingale-mortality.jpg/1280px-Nightingale-mortality.jpg" alt="Florence Nightingale’s polar area diagram, Causes of Mortality in the Army in the East, 1854 to 1856, with deaths from preventable disease in blue far outweighing deaths from wounds."
+          width="1280" height="700" loading="lazy" decoding="async">
+        <figcaption class="right">Florence Nightingale, 1858, <a href="https://commons.wikimedia.org/wiki/File:Nightingale-mortality.jpg" target="_blank" rel="noopener noreferrer">Wikimedia Commons</a></figcaption>
+      </figure>
+      <p>Florence Nightingale made this chart famous<a href="#nightingale" aria-describedby="footnote-label" id="nightingale-ref"></a>, using it to show how many soldiers in the Crimean War died of causes that could have been prevented. Every wedge has the same angle and its area carries the value. Most people judge by how far a wedge sticks out, and get it wrong.</p>
 
-      <h2>Pivot</h2>
-      <p>Pivot is a tabular data presentation in which data is summarized by one or more categories. The labels for
-        these categories are arranged across the top or down the side, and the table is populated with aggregate
-        numerical calculations such as sums, averages, or counts that correspond to these categories. A pivot table
-        makes it easy to see a high-level aggregate view and break it down by various categories to understand the
-        drivers behind the data and make comparisons.</p>
+      <h2 id="normalize">Normalize</h2>
+      <p>To <strong>normalize</strong> values is to put them on one scale so they can be compared. Film ratings out of 5, 10 and 100 can all be stretched to run from 0 to 100.</p>
 
-      <h2>Population Pyramid</h2>
+      <h2 id="null">NULL</h2>
+      <p><strong>NULL</strong> means there’s no value. It might be unknown, missing or not applicable, but it isn’t zero, and it isn’t an empty piece of text. Most sums that touch a NULL come out as NULL.</p>
+
+      <h2 id="outlier">Outlier</h2>
+      <p>An <strong>outlier</strong> is a value a long way from the others. It’s either a mistake or the most interesting thing you’ve got, so find out which before you drop it.</p>
+
+      <h2 id="overplotting">Overplotting</h2>
+      <figure>
+        <img src="imgs/fig-scatterplot-overplot.png" alt="Scatter plot illustrating overplotting: dense overlapping dots of hourly wage versus age create solid lines that obscure individual data points."
+          width="1344" height="960" loading="lazy" decoding="async" class="plate">
+        <figcaption class="right">Hourly wage by age</figcaption>
+      </figure>
+      <p><strong>Overplotting</strong> is when marks land on top of one another and you can’t tell how many there are. Too many points will do it, and so will rounded values. Make the dots smaller or see-through, nudge them apart at random, or count them in bins.</p>
+
+      <h2 id="pictogram-chart">Pictogram chart</h2>
+      <figure>
+        <img src="imgs/pictogram.png" alt="A row of people in silhouette, the first 30% of them blue and the other 70% gray, above a bar split the same way."
+          width="1930" height="260" loading="lazy" decoding="async" class="plate">
+        <figcaption class="right">30% of a crowd</figcaption>
+      </figure>
+      <p>A <strong>pictogram chart</strong> counts with pictures. An icon stands for one thing, or a fixed number of things, so people see the subject along with the amount. Keep the icons one size, or the big ones will seem to count for more.</p>
+
+      <h2 id="pie-chart">Pie chart</h2>
+      <p>A <strong>pie chart</strong> cuts a circle into slices, one for each share of the total. It works with two or three slices of very different sizes. Past that, angles are hard to judge and a <a href="#bar-chart">bar chart</a> is clearer.</p>
+
+      <h2 id="piled-bar-chart">Piled bar chart</h2>
+      <figure>
+        <img src="https://www.curvediscussion.com/wp-content/uploads/2018/04/Capture-4.png" alt="Horizontal piled bar chart with eight rows. In each row, several blue bars of different lengths and thicknesses start from the same line and lie on top of one another."
+          width="974" height="381" loading="lazy" decoding="async" class="plate">
+        <figcaption class="right"><a href="https://www.curvediscussion.com/" target="_blank" rel="noopener noreferrer">Curve Discussion</a></figcaption>
+      </figure>
+      <p>A <strong>piled bar chart</strong> squeezes a long, sorted list into a few rows. Bars lie on top of each other from the same starting line, with the shorter ones drawn thinner and in front.</p>
+
+      <h2 id="pivot">Pivot</h2>
+      <p>To <strong>pivot</strong> data is to spread the values of one column across the top of a table, then fill in the cells with totals, counts or averages. A spreadsheet’s pivot table does it by drag and drop, and it’s a quick way to find out what’s behind a number.</p>
+
+      <h2 id="population-pyramid">Population pyramid</h2>
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
       <h3>Population of Qatar by age and sex</h3>
-      <figure id="example_pyramid"
-        aria-label="Population pyramid of Qatar showing population distribution by age group and sex."></figure>
-      <p>A <strong>Population Pyramid</strong> is a pair of back-to-back Histograms (for each sex) that displays the
-        distribution of a population in all age groups and in both sexes. The X-axis is used to plot population numbers
-        and the Y-axis lists all age groups. Population Pyramids are ideal for detecting changes or differences in
-        population patterns. The shape of a Population Pyramid can be used to interpret a population. For example, a
-        pyramid with a very wide base and a narrow top section suggests a population with both high fertility and death
-        rates. In contrast, a pyramid with a wider top half and a narrower base would suggest an aging population with
-        low
-        fertility rates.</p>
+      <figure id="example_pyramid" aria-label="Population pyramid of Qatar in 2020 by age and sex. Men aged 25 to 34 number about 400,000 in each five-year group, against fewer than 100,000 women.">
+        <div class="plot" aria-hidden="true"></div>
+        <figcaption class="right">Data: United Nations, 2020</figcaption>
+      </figure>
+      <p>A <strong>population pyramid</strong> puts two bar charts back to back, men on one side and women on the other, with age running up the middle. A wide base means lots of births, and a narrow one means an aging country. Qatar’s bulge is mostly men who came there to work.</p>
 
-      <h2>Radar charts</h2>
-      <p><strong>Radar charts</strong> (a.k.a Spider Chart, Web Chart, Polar Chart, or Star Plots) are a way of
-        comparing multiple quantitative variables. This makes them useful for seeing which variables have similar values
-        or if there are any outliers amongst each variable. Radar Charts are also useful for seeing which variables are
-        scoring high or low within a dataset, making them ideal for displaying performance. Each variable is provided
-        with an axis that starts from the center. All axes are arranged radially, with equal distances between each
-        other, while maintaining the same scale between all axes. Grid lines that connect from axis-to-axis are often
-        used as a guide. Each variable value is plotted along its individual axis, and all the variables in a dataset
-        are
-        connected together to form a polygon.</p>
+      <h2 id="radar-chart">Radar chart</h2>
+      <p>A <strong>radar chart</strong>, also called a spider or web chart, gives every variable its own axis out from the center and joins the values into a shape. It suits profiles, like a player’s skills, when everything’s on one scale. Reorder the axes and the shape changes, so don’t read too much into it.</p>
 
-      <h2>Relationship</h2>
-      <p>A connection or correlation between two or more variables through the data presented, like the market cap of a
-        given stock over time versus overall market trend.</p>
+      <h2 id="relationship">Relationship</h2>
+      <p>A <strong>relationship</strong> is any pattern that ties variables together, such as a stock rising with the wider market. A chart can show you one. Explaining it is your job.</p>
 
-      <h2>Sankey Diagrams</h2>
-      <img src="https://raw.githubusercontent.com/d3/d3-sankey/master/img/align-center.png"
-        alt="Sankey diagram showing proportional flow lines connecting music genres and subgenres with varying branch widths."
-        loading="lazy" decoding="async">
-      <p>Sankey Diagrams display flows and their quantities in proportion to one another. The width of the arrows or
-        lines are used to show their magnitudes, so the bigger the arrow, the larger the quantity of flow. Flow arrows
-        or lines can combine together or split through their paths on each stage of a process. Color can be used to
-        divide the diagram into different categories or to show the transition from one state of the process to another.
-        Typically, Sankey Diagrams are used to visually show the transfer of energy, money or materials, but they can be
-        used to show the flow of any isolated system process.</p>
+      <h2 id="sample">Sample</h2>
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/bf/Simple_random_sampling.PNG" alt="Diagram illustrating simple random sampling: a few people picked out of a larger numbered group."
+          width="618" height="476" loading="lazy" decoding="async" class="plate">
+        <figcaption class="right"><a href="https://commons.wikimedia.org/wiki/File:Simple_random_sampling.PNG" target="_blank" rel="noopener noreferrer">Dan Kernler</a>, CC BY-SA 4.0</figcaption>
+      </figure>
+      <p>A <strong>sample</strong> is the part you measure so you can say something about the whole. A poll might question 1,000 Greeks to learn what Greece thinks. It only works if the sample looks like the population, which is why picking at random matters.</p>
 
-      <h2>Sample</h2>
-      <img src="https://upload.wikimedia.org/wikipedia/commons/b/bf/Simple_random_sampling.PNG"
-        alt="Diagram illustrating simple random sampling: a subset of individuals selected from a larger population frame." loading="lazy" decoding="async">
-      <p>A <strong>Sample</strong> is the collection of data points we have access to. We use a sample to make
-        inferences about a larger population. For instance, a political poll takes a sample of 1,000 Greek citizens to
-        infer the opinions of all of Greece. The reason samples are needed is that populations may be so large that
-        counting all the individuals may not be possible or practical. Therefore, solving a problem in statistics
-        usually starts with sampling.</p>
+      <h2 id="sankey-diagram">Sankey diagram</h2>
+      <figure>
+        <img src="https://raw.githubusercontent.com/d3/d3-sankey/master/img/align-center.png" alt="Sankey diagram of energy in the United Kingdom, from sources such as nuclear, oil and gas on the left to uses such as industry, heating and transport on the right."
+          width="1920" height="1000" loading="lazy" decoding="async" class="plate">
+        <figcaption class="right">UK energy flows, from <a href="https://github.com/d3/d3-sankey" target="_blank" rel="noopener noreferrer">d3-sankey</a> by Mike Bostock</figcaption>
+      </figure>
+      <p>A <strong>Sankey diagram</strong> follows amounts as they split and merge. The thicker the band, the more is flowing, whether that’s energy, money or visitors to a website.</p>
 
-      <h2>Scatterplots</h2>
+      <h2 id="scatterplot">Scatterplot</h2>
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
       <h3>The Simpsons and IMDb score</h3>
-      <figure id="example_scatterplot"
-        aria-label="Scatter plot showing IMDb ratings for The Simpsons episodes across seasons."></figure>
-      <p><strong>Scatterplots</strong> (a.k.a Scatter Chart, Point Graph, or X-Y Plot) use a collection of points placed
-        using Cartesian Coordinates (a grid) to display values from two variables. By displaying a variable in each
-        axis, you can detect if a relationship or correlation between the two variables exists. The strength of the
-        correlation can be determined by how closely packed the points are to each other on the graph.</p>
+      <figure id="example_scatterplot" aria-label="Scatterplot of The Simpsons episodes by number, with IMDb rating up. Ratings average about 8 for the first 200 episodes, fall to about 7 by episode 300, and then drift slowly down.">
+        <div class="plot" aria-hidden="true"></div>
+        <figcaption class="right">Data: IMDb, seasons 1 to 28</figcaption>
+      </figure>
+      <p>A <strong>scatterplot</strong> puts a dot where two values meet. Dots that drift along a line suggest the two are related, and dots that form a cloud suggest they aren’t. The closer they hug the line, the stronger the <a href="#correlation">correlation</a>.</p>
 
-      <h2>Span chart</h2>
-      <p>Span chart (a.k.a Range Bar/Column Graph, Floating Bar Graph, Difference Graph, High-Low Graph.) A chart used
-        to display dataset ranges between a minimum value and a maximum value. Span Charts are ideal for comparing
-        ranges, typically for categorized ranges. Span Charts focus the reader on only the extreme values and give no
-        information on the values between the minimum and maximum values or on averages or data distribution.</p>
+      <h2 id="span-chart">Span chart</h2>
+      <p>A <strong>span chart</strong>, or floating bar chart, draws a bar from a category’s lowest value to its highest. You learn the two ends and the distance between them, and nothing about the middle.</p>
 
-      <h2>Spike histograms</h2>
-      <p>Spike histograms typically use 100 or 200 bins. When the number of distinct data values is below the specified
-        number of bins, I just do a frequency tabulation for all distinct data values, rounding only when two of the
-        values are very close to each other. A spike histogram approximately reduces to a rug plot when there are no
-        ties in the data.</p>
+      <h2 id="spike-histogram">Spike histogram</h2>
+      <p>A <strong>spike histogram</strong> has so many bins, often 100 or more, that its bars shrink to thin lines. Gaps, repeats and rounding that a normal <a href="#histogram">histogram</a> would smooth over become visible.</p>
 
-      <h2>Stacked Area Graphs</h2>
-      <p>Stacked Area Graphs work in the same way as simple Area Graphs do, except for the use of multiple data series
-        that start each point from the point left by the previous data series. The entire graph represents the total of
-        all the data plotted. Stacked Area Graphs also use the areas to convey whole numbers, so they do not work for
-        negative values. Overall, they are useful for comparing multiple variables changing over an interval.</p>
+      <h2 id="stacked-area-graph">Stacked area graph</h2>
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
       <h3>Unemployment by industry over time</h3>
-      <figure id="example_stackarea"
-        aria-label="Stacked area graph showing employment and unemployment distribution across industries over time.">
+      <figure id="example_stackarea" aria-label="Stacked area graph of unemployed people in the United States by industry, January 2000 to February 2010. The total stays between about 5 and 9 million until 2008, then climbs to 15 million by early 2010.">
+        <div class="plot" aria-hidden="true"></div>
+        <figcaption class="right">Data: Bureau of Labor Statistics, 2000 to 2010</figcaption>
       </figure>
-      <h2>Stacked Bar Graph</h2>
-      <p>Stacked Bar Graph Unlike a Multi-set Bar Graph which displays their bars side-by-side, Stacked Bar Graphs
-        segment their bars. Stacked Bar Graphs are used to show how a larger category is divided into smaller categories
-        and what the relationship of each part has on the total amount. There are two types of Stacked Bar Graphs: (a)
-        Simple Stacked Bar Graphs place each value for the segment after the previous one. The total value of the bar is
-        all the segment values added together. Ideal for comparing the total amounts across each group/segmented bar.
-        (b) 100% Stacked Bar Graphs show the percentage-of-the-whole of each group and are plotted by the percentage of
-        each value to the total amount in each group. This makes it easier to see the relative differences between
-        quantities in each group. Note: One major flaw of Stacked Bar Graphs is that they become harder to read the more
-        segments each bar has. Also comparing each segment to each other is difficult, as they're not aligned on a
-        common baseline.</p>
+      <p>A <strong>stacked area graph</strong> piles one series on another, so the top edge is the total and each band is a part of it. Only the bottom band sits on a flat line, which makes the rest hard to read by themselves.</p>
 
-      <h2>Standard deviation</h2>
-      <img
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJB1pfpnKiiYKGBDVGgHzAuD91RjwppA1-6B1qR7e5rBh5OpAsgcFY5aIB&s=10"
-        alt="A normal distribution bell curve diagram with standard deviation percentages: 68% within 1 sigma, 95% within 2 sigma, and 99.7% within 3 sigma."
-        loading="lazy" decoding="async">
-      <p><strong>Standard deviation</strong> of a set of values helps us understand how spread out those values are.
-        This statistic is more useful than the variance because it’s expressed in the same units as the values
-        themselves. Mathematically, the standard deviation is the square root of the variance of a set. It’s often
-        represented by the Greek symbol sigma, σ.</p>
+      <h2 id="stacked-bar-graph">Stacked bar graph</h2>
+      <p>A <strong>stacked bar graph</strong> cuts each bar into parts. Ordinary stacks compare totals. In a 100% stack the bars are all one length, so what you compare is shares. Put the part you care about most at the bottom, where it lines up.</p>
 
-      <h2>Statistical Significance</h2>
-      <p>A result is <strong>statistically significant</strong> when we judge that it probably didn’t happen due to
-        chance. It is highly used in surveys and statistical studies, though not always an indication of practical
-        value.</p>
+      <h2 id="standard-deviation">Standard deviation</h2>
+      <figure id="example_sd" aria-label="A bell curve. About 68% of it lies within one standard deviation of the mean, 95% within two, and 99.7% within three.">
+        <div class="plot" aria-hidden="true"></div>
+      </figure>
+      <p>The <strong>standard deviation</strong>, written σ, is roughly how far values tend to sit from the mean. It’s the variance’s square root, which puts it back in the data’s own units. When values follow a bell curve, about 68% are within one σ of the mean.</p>
 
-      <h2>Stem and Leaf Plot</h2>
-      <img src="https://datavizcatalogue.com/methods/images/top_images/SVG/stem_and_leaf_plot.svg"
-        alt="Stem and leaf plot display showing data organized into leading digits (stems) and trailing digits (leaves)."
-        loading="lazy" decoding="async">
-      <p>A <strong>Stem and Leaf Plot</strong> (a.k.a. Stemplot, Stem & Leaf Display) is a way of organizing data via
-        their place value to show the distribution of data. Place values are shown ascending downwards on a "stem"
-        column, typically but not always in tens. Data that is within each place value is listed and extends sideways
-        from it as a "leaf".</p>
+      <h2 id="statistical-significance">Statistical significance</h2>
+      <p>A result is <strong>statistically significant</strong> when it would be surprising if there were no real effect, usually something you’d see less than 5% of the time. It isn’t the odds that you got lucky, and it doesn’t mean the effect is big enough to care about.</p>
 
-      <h2>Tables</h2>
-      <img src="https://www.data-to-viz.com/img/table/OneNum.png"
-        alt="A structured tabular data matrix with columns and numbered rows." loading="lazy" decoding="async">
-      <p>Tables present data in a two-axis matrix and are often represented in the form of spreadsheets.</p>
+      <h2 id="stem-and-leaf-plot">Stem and leaf plot</h2>
+      <figure aria-label="Stem and leaf plot of the ages of American presidents on winning an election, from 43 to 78.">
+        <pre class="stem">4 | 366677899
+5 | 000111223444445555566677778889
+6 | 00111122244455679
+7 | 0388</pre>
+        <figcaption class="right">Ages of <a href="president-ages.html">presidents at election</a>. 4 | 3 is 43</figcaption>
+      </figure>
+      <p>A <strong>stem and leaf plot</strong> is a <a href="#histogram">histogram</a> you can type. Split each number into a stem (here, the tens) and a leaf (the ones), and line the leaves up beside their stem. The rows show the shape, and you can still read every value.</p>
 
-      <h2>Target vs Actual chart</h2>
-      <img src="imgs/targets-vs-actuals.png"
-        alt="Bar chart comparing actual interest rates to CBO 2012 estimates (percentages) from 2012 to 2022 using hollow target bars and filled actuals."
-        loading="lazy" decoding="async" width="1280" height="500">
-      <p>This chart compares actual data to targets by filling up hollow bars. For instance, it could compare monthly
-        sales to business targets, or, in this case, actual interest rates to annual Congressional Budget Office
-        estimates.</p>
+      <h2 id="table">Table</h2>
+      <p>A <strong>table</strong> sets data out in rows and columns, like <a href="#dimension">the one above</a>. When people need exact values, or you only have a few numbers, it beats a chart.</p>
 
-      <h2>Time series</h2>
+      <h2 id="target-vs-actual-chart">Target vs actual chart</h2>
+      <figure>
+        <img src="imgs/targets-vs-actuals.png" alt="Bar chart comparing actual interest rates to CBO 2012 estimates (percentages) from 2012 to 2022 using hollow target bars and filled actuals."
+          width="1280" height="500" loading="lazy" decoding="async" class="plate">
+        <figcaption class="right">Interest rates against 2012 forecasts</figcaption>
+      </figure>
+      <p>A <strong>target vs actual chart</strong> fills a hollow bar, the target, with a solid one, the result. Here, interest rates are measured against what the Congressional Budget Office expected in 2012.</p>
+
+      <h2 id="time-series">Time series</h2>
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
-      <h3>Apple (AAPL) stock price</h3>
-      <figure id="example_timeseries"
-        aria-label="Time series line chart displaying Apple Inc. (AAPL) stock price history.">
+      <h3>Apple (AAPL) stock price, 2013 to 2018</h3>
+      <figure id="example_timeseries" aria-label="Line chart of Apple’s daily closing price from May 2013 to May 2018, rising from about $65 to almost $190.">
+        <div class="plot" aria-hidden="true"></div>
         <figcaption class="right">Apple stock performance explored <a href="Apple.html">here</a></figcaption>
       </figure>
-      <p>Time series is a set of data that’s ordered by when each data point occurred. Think of stock market prices over
-        the course of a month, or the temperature throughout a day.</p>
+      <p>A <strong>time series</strong> is a run of values in the order they happened, like a share price every day or the temperature every hour.</p>
 
-      <h2>Timeline</h2>
-      <img src="https://flowingdata.com/wp-content/uploads/2008/03/data-breach.gif"
-        alt="Timeline diagram displaying the chronology and scale of the ten largest corporate and governmental data breaches since 2000."
-        loading="lazy" decoding="async">
-      <p>A Timeline is a graphical way of displaying a list of events in chronological order. Some timelines work on a
-        scale, while others simply display events in sequence. If scale-based, a Timeline allows you to see when things
-        occur or are to occur, by allowing the viewer to assess the time intervals between events.</p>
+      <h2 id="timeline">Timeline</h2>
+      <figure>
+        <img src="https://flowingdata.com/wp-content/uploads/2008/03/data-breach.gif" alt="Timeline of the ten largest data breaches since 2000, with circles sized by the number of records lost."
+          width="883" height="264" loading="lazy" decoding="async" class="plate">
+        <figcaption class="right">Largest data breaches, <a href="https://flowingdata.com" target="_blank" rel="noopener noreferrer">FlowingData</a>, 2008</figcaption>
+      </figure>
+      <p>A <strong>timeline</strong> sets out events along a line, first to last. Drawn to scale, it also shows how long things lasted and how far apart they were.</p>
 
-      <h2>Timetables</h2>
-      <p>Timetables are used as a referencing and management tool for scheduled events, tasks and actions to take place.
-        Organizing the data with a table into chronological and/or alphabetical order helps users reference data more
-        quickly. Timetables are commonly used to display the arrival and departure time of trains and other forms of
-        transportation.</p>
+      <h2 id="timetable">Timetable</h2>
+      <p>A <strong>timetable</strong> is a <a href="#table">table</a> of when things happen: trains, classes, films. People come to look up one thing, so the order of the rows matters more than the design.</p>
 
-      <h2>Tree Diagram</h2>
-      <img
-        src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fkoenig-media.raywenderlich.com%2Fuploads%2F2016%2F06%2FTree-2-650x300.png&f=1&nofb=1"
-        alt="Hierarchical tree diagram showing root node, parent branches, and leaf nodes organized across six levels."
-        loading="lazy" decoding="async">
-      <p>A <strong>Tree Diagram</strong> is a way of visually representing hierarchy in a tree-like structure. Typically
-        the structure of a Tree Diagram consists of elements such as a root node, a member that has no superior/parent.
-        Then there are the nodes, which are linked together with line connections called branches that represent the
-        relationships and connections between the members. Finally, the leaf nodes (or end-nodes) are members who have
-        no children or child nodes.</p>
+      <h2 id="tree-diagram">Tree diagram</h2>
+      <figure id="example_tree" aria-label="Tree diagram. Charts branch into four jobs: compare, change, share and spread, each with two example charts.">
+        <div class="plot" aria-hidden="true"></div>
+      </figure>
+      <p>A <strong>tree diagram</strong> shows a hierarchy. One root splits into nodes, those split again, and the ends that don’t split any further are the leaves.</p>
 
-      <h2>Treemaps</h2>
-      <img src="https://datavizcatalogue.com/methods/images/top_images/treemap.png"
-        alt="Treemap diagram displaying nested rectangles with area sizes proportional to pet shop animal quantities."
-        loading="lazy" decoding="async">
-      <p><strong>Treemaps</strong> are an alternative way of visualizing the hierarchical structure of a Tree Diagram
-        while also displaying quantities for each category via area size. Each category is assigned a rectangle area
-        with their subcategory rectangles nested inside of it. When a quantity is assigned to a category, its area size
-        is displayed in proportion to that quantity and to the other quantities within the same parent category in a
-        part-to-whole relationship. Ben Shneiderman originally developed Treemaps<a href="#shneiderman"
-          aria-describedby="footnote-label" id="shneiderman-ref"></a> as a way of visualizing a vast file
-        directory on a computer, without taking up too much space on the screen. This makes Treemaps a more compact and
-        space-efficient option for displaying hierarchies, that gives a quick overview of the structure. The downside to
-        a Treemap is that it doesn't show the hierarchical levels as clearly as other charts that visualize hierarchical
-        data (such as a Tree Diagram or Sunburst Diagram).</p>
+      <h2 id="treemap">Treemap</h2>
+      <figure id="example_treemap" aria-label="Treemap of unemployed people in the United States by industry in February 2010. Construction, at 2.4 million, and wholesale and retail trade, at 2.1 million, are largest.">
+        <div class="plot" aria-hidden="true"></div>
+        <figcaption class="right">Unemployed people by industry, February 2010</figcaption>
+      </figure>
+      <p>A <strong>treemap</strong> fills a rectangle with smaller ones, each sized by its value, and can nest them to show levels. Ben Shneiderman invented it<a href="#shneiderman" aria-describedby="footnote-label" id="shneiderman-ref"></a> to find out what was filling up a hard drive. It packs in a lot, though the levels are easier to follow in a <a href="#tree-diagram">tree diagram</a>.</p>
 
-      <p class="visually-hidden">Also, the area size of the parent category is the total of its subcategories. If no
-        quantity is assigned to a subcategory, then its area is divided equally amongst the other subcategories within
-        its parent category. The way rectangles are divided and ordered into sub-rectangles is dependent on the tiling
-        algorithm used. Many tiling algorithms have been developed, but the "squarified algorithm" which keeps each
-        rectangle as square as possible is the one commonly used. </p>
+      <h2 id="trellis">Trellis</h2>
+      <p>A <strong>trellis</strong>, or set of small multiples, repeats one chart for every category, all on the same scale. Run your eye across the grid and the odd one out is obvious, which it wouldn’t be in a single crowded chart.</p>
 
-      <h2>Trellis</h2>
-      <p>A <strong>trellis chart</strong> is a grid of small charts, often called ‘small multiples’, and is basically a
-        repetition of a chart across a grid. This grid usually is defined by the number of dimension values and
-        organized in a way that either is a complete square (with leftovers) or another determined pattern (meaning a
-        defined height/width).</p>
+      <h2 id="venn-diagram">Venn diagram</h2>
+      <p>A <strong>Venn diagram</strong> draws sets as circles that overlap. The overlap is what they have in common, and every combination gets a region, even if nothing’s in it. There are some <a href="venn.html">here</a>.</p>
 
-      <h2>Venn Diagram</h2>
-      <p>A <strong>Venn Diagram</strong> is a diagram that visually displays all the possible logical relationships
-        between a collection of sets. Each set is typically represented with a circle. Contained within each set is a
-        collection of objects or entities that all have something in common. When sets overlap, it’s known as the
-        intersection area. This is the area that contains entities sharing all the qualities of the overlapping sets.
-      </p>
+      <h2 id="violin-plot">Violin plot</h2>
+      <p>A <strong>violin plot</strong> draws a distribution as a smooth shape with its mirror image beside it, often with a box plot inside. Two humps that a box plot would hide are plain to see. With little data, though, the smoothing can make up bumps that aren’t there.</p>
 
-      <h2>Violin Plot</h2>
-      <p>A <strong>Violin Plot</strong> is used to visualize the distribution of the data and its probability density.
-        This chart is a
-        combination of a Box Plot and a Density Plot that is rotated and placed on each side, to show the distribution
-        shape of the data. The white dot in the middle is the median value and the thick black bar in the center
-        represents the <em>interquartile range</em>. The thin black line extended from it represents the upper (max) and
-        lower (min) adjacent values in the data. Box Plots are limited in their display of the data, as their visual
-        simplicity tends to hide significant details about how values in the data are distributed. For example, with Box
-        Plots, you can't see if the distribution is bimodal or multi-modal (seriously!). While Violin Plots display more
-        information, they can be noisier than a Box Plot.</p>
+      <h2 id="word-cloud">Word cloud</h2>
+      <p>A <strong>word cloud</strong> sizes words by how often they turn up. It’s eye-catching and imprecise: long words look more important, and where they land means nothing. They <a href="https://www.niemanlab.org/2011/10/word-clouds-considered-harmful/" target="_blank" rel="noopener noreferrer">may be considered harmful</a><a href="#wordclouds" aria-describedby="footnote-label" id="wordclouds-ref"></a>.</p>
 
-      <h2>Wordcloud</h2>
-      <p>A <strong>Wordcloud</strong> (a.k.a Tag Cloud) is a visualization method that displays how frequently words
-        appear in a given body of text by making the size of each word proportional to its frequency. All the words are
-        then arranged in a cluster or cloud of words. Typically, Word Clouds are used on websites or blogs to depict
-        keyword or tag usage. Word Clouds can also be used to compare two different bodies of text. Note: word
-        clouds <a href="https://www.niemanlab.org/2011/10/word-clouds-considered-harmful/">may be considered
-          harmful</a><a href="#wordclouds" aria-describedby="footnote-label" id="wordclouds-ref"></a>.</p>
+      <h2 id="wrapped-bar-chart">Wrapped bar chart</h2>
+      <figure>
+        <img src="https://images.deepai.org/converted-papers/2001.03271/pictures/final/standardWrappedFinal.png" alt="Two charts of the same data. In the standard bar chart one tall bar dwarfs the rest. In the Du Bois wrapped bar chart the tall bars fold back and forth, so the small ones are visible."
+          width="2173" height="1616" loading="lazy" decoding="async" class="plate">
+        <figcaption class="right"><a href="https://arxiv.org/abs/2001.03271" target="_blank" rel="noopener noreferrer">Karduni, Wesslen, Cho and Dou</a>, 2020</figcaption>
+      </figure>
+      <p>A <strong>wrapped bar chart</strong> folds a bar that’s too long to fit, so that small values stay visible beside huge ones. The one above takes after <a href="Du-Bois.html">W.E.B. Du Bois</a>, who was folding bars in 1900.</p>
 
-      <h2>Wrapped bar chart</h2>
-      <img src="https://images.deepai.org/converted-papers/2001.03271/pictures/final/standardWrappedFinal.png"
-        alt="Comparison of a standard horizontal bar chart against a W.E.B. Du Bois wrapped bar chart where lengthy values wrap into subsequent rows."
-        loading="lazy" decoding="async">
-      <p>A stylistic version of a bar graph that allows the number of simultaneously viewed values to increase
-        significantly.</p>
+      <h2 id="xy-chart">XY chart</h2>
+      <p>An <strong>XY chart</strong> places points using two numbers, one per axis. The <a href="#scatterplot">scatterplot</a> is the usual kind. Size the points by a third number and you have a bubble chart, and color or shape can add a category.</p>
 
-      <h2>XY chart</h2>
-      <p>An <strong>XY chart</strong> is a visualization that specializes in studying the relationship between numeric
-        variables. Data is shown as a graph where points are drawn based on two variables in the data (two fields or
-        calculations). A Bubble Chart is a specialized kind of XY chart in which a third variable is represented by
-        varying the area of the points (bubbles) based on the value of the third variable. Category data can also be
-        presented by varying the color or shape of the points.</p>
+      <p><a href="#terms">Back to the list</a></p>
     </article>
   </main>
   <footer>
@@ -1500,7 +1440,7 @@
           Big-Data Scientists, ‘Janitor Work’ Is Key Hurdle to Insights</a>, <em>The New York Times</em> (2014). <a
           href="#nyt-wrangling-ref" aria-label="Back to content">↩</a></li>
       <li id="fas">Hans M. Kristensen and Matt Korda, <a
-          href="https://fas.org/issues/nuclear-weapons/status-world-nuclear-forces/">Status of World Nuclear Forces</a>,
+          href="https://fas.org/initiative/status-world-nuclear-forces/">Status of World Nuclear Forces</a>,
         Federation of American Scientists (2021). <a href="#fas-ref" aria-label="Back to content">↩</a></li>
       <li id="nightingale">Florence Nightingale, <em>Notes on Matters Affecting the Health, Efficiency, and Hospital
           Administration of the British Army</em> (1858). <a href="#nightingale-ref" aria-label="Back to content">↩</a>
@@ -1517,7 +1457,7 @@
     <div>
       <p>Justin Chill &copy; 2026</p>
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
-            alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
+            alt="" class="icon" width="16" height="16" loading="lazy" decoding="async">Source code<span class="visually-hidden"> (opens in new tab)</span></a></span>
     </div>
   </footer>
 
@@ -1525,1449 +1465,373 @@
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.19/dist/plot.umd.min.js"></script>
 
   <script type="text/javascript">
-    // Define small datasets locally to save an xHTTP request
-    var nukes = [{
-      "country": "Russia",
-      "nukes": 6257
-    },
-    {
-      "country": "USA",
-      "nukes": 5550
-    },
-    {
-      "country": "France",
-      "nukes": 290
-    },
-    {
-      "country": "China",
-      "nukes": 350
-    },
-    {
-      "country": "United Kingdom",
-      "nukes": 195
-    },
-    {
-      "country": "India",
-      "nukes": 160
-    },
-    {
-      "country": "Pakistan",
-      "nukes": 165
-    },
-    {
-      "country": "Israel",
-      "nukes": 90
-    },
-    {
-      "country": "North Korea",
-      "nukes": 40
-    },
-    {
-      "country": "Jeff",
-      "nukes": 10
-    }
-    ];
+    // Small datasets live here. Colours come from CSS variables, so a theme switch needs no redraw.
+    const nukes = [
+      ["Russia", 6257], ["USA", 5550], ["China", 350], ["France", 290], ["United Kingdom", 195],
+      ["Pakistan", 165], ["India", 160], ["Israel", 90], ["North Korea", 40], ["JEFF", 10]
+    ].map(([country, count]) => ({ country, count }));
 
-    var ex_lvls = [{
-      "Phrase": "Hey baby,",
-      "level": 10
-    },
-    {
-      "Phrase": "do you want",
-      "level": 20
-    },
-    {
-      "Phrase": "to have",
-      "level": 40
-    },
-    {
-      "Phrase": "sex...",
-      "level": 75
-    },
-    {
-      "Phrase": "...tuplets?",
-      "level": 10
-    }
-    ];
+    const excitement = [
+      ["Hey baby,", 10], ["do you want", 20], ["to have", 40], ["sex...", 75], ["...tuplets?", 10]
+    ].map(([phrase, level]) => ({ phrase, level }));
 
-    // Letter frequency
-    var alphabet = [{
-      "letter": "E",
-      "frequency": 0.12702
-    }, {
-      "letter": "T",
-      "frequency": 0.09056
-    }, {
-      "letter": "A",
-      "frequency": 0.08167
-    }, {
-      "letter": "O",
-      "frequency": 0.07507
-    }, {
-      "letter": "I",
-      "frequency": 0.06966
-    }, {
-      "letter": "N",
-      "frequency": 0.06749
-    }, {
-      "letter": "S",
-      "frequency": 0.06327
-    }, {
-      "letter": "H",
-      "frequency": 0.06094
-    }, {
-      "letter": "R",
-      "frequency": 0.05987
-    }, {
-      "letter": "D",
-      "frequency": 0.04253
-    }, {
-      "letter": "L",
-      "frequency": 0.04025
-    }, {
-      "letter": "C",
-      "frequency": 0.02782
-    }, {
-      "letter": "U",
-      "frequency": 0.02758
-    }, {
-      "letter": "M",
-      "frequency": 0.02406
-    }, {
-      "letter": "W",
-      "frequency": 0.0236
-    }, {
-      "letter": "F",
-      "frequency": 0.02288
-    }, {
-      "letter": "G",
-      "frequency": 0.02015
-    }, {
-      "letter": "Y",
-      "frequency": 0.01974
-    }, {
-      "letter": "P",
-      "frequency": 0.01929
-    }, {
-      "letter": "B",
-      "frequency": 0.01492
-    }, {
-      "letter": "V",
-      "frequency": 0.00978
-    }, {
-      "letter": "K",
-      "frequency": 0.00772
-    }, {
-      "letter": "J",
-      "frequency": 0.00153
-    }, {
-      "letter": "X",
-      "frequency": 0.0015
-    }, {
-      "letter": "Q",
-      "frequency": 0.00095
-    }, {
-      "letter": "Z",
-      "frequency": 0.00074
-    }];
+    // Team, then scores for each of the criteria
+    const criteria = ["Freshness", "Saltiness", "Crunchiness", "Butter", "Presentation"];
+    const popcorn = [
+      ["Dallas Mavericks", 5, 5, 4, 5, 5], ["Brooklyn Nets", 4, 5, 5, 4, 5], ["Miami Heat", 5, 4, 4, 4, 5],
+      ["Portland Trailblazers", 4, 4, 5, 4, 3], ["Sacramento Kings", 2, 4, 4, 4, 5], ["Toronto Raptors", 3, 4, 3, 4, 4],
+      ["Houston Rockets", 3, 4, 3, 4, 4], ["Oklahoma City Thunder", 4, 3, 4, 4, 3], ["Golden State Warriors", 2, 4, 5, 3, 4],
+      ["New York City Knicks", 3, 2, 4, 4, 4], ["Indiana Pacers", 3, 3, 5, 4, 2], ["New Orleans Pelicans", 3, 3, 3, 3, 5],
+      ["Minnesota Timberwolves", 2, 5, 4, 3, 3], ["Washington Wizards", 4, 3, 3, 4, 3], ["Chicago Bulls", 3, 4, 3, 3, 3],
+      ["Utah Jazz", 2, 5, 4, 3, 2], ["Atlanta Hawks", 3, 5, 4, 3, 1], ["San Antonio Spurs", 3, 3, 3, 3, 3],
+      ["Philadelphia Sixers", 4, 2, 4, 2, 2], ["Phoenix Suns", 3, 3, 3, 3, 2], ["Milwaukee Bucks", 2, 2, 3, 4, 2],
+      ["Boston Celtics", 3, 3, 2, 3, 2], ["Memphis Grizzlies", 1, 4, 4, 3, 1], ["Orlando Magic", 3, 5, 3, 1, 1],
+      ["Denver Nuggets", 3, 2, 3, 2, 3], ["Cleveland Cavaliers", 2, 4, 2, 2, 2], ["Detroit Pistons", 1, 4, 2, 3, 2],
+      ["Charlotte Hornets", 1, 2, 2, 2, 4], ["Los Angeles Clippers/Lakers", 2, 1, 3, 1, 3]
+    ].flatMap(([team, ...scores]) => scores.map((score, i) => ({ team, criterion: criteria[i], score })));
 
+    // Mersey inquiry totals, as on the Titanic page
+    const titanic = [["First", 203, 122], ["Second", 118, 167], ["Third", 178, 528], ["Crew", 212, 673]];
 
-    // Civilizations
-    var civilizations = [{
-      "civilization": "Aegean civilization",
-      "start": -2000,
-      "end": -1200,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "Europe (and colonial offshoots)",
-      "timeline": "ANCIENT WORLD"
-    }, {
-      "civilization": "Age of pre-colonial civilization (Christian, Islamic, and traditional kingdoms)",
-      "start": 650,
-      "end": 1880,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "Sub-Saharan Africa",
-      "timeline": "MEDIEVAL WORLD"
-    }, {
-      "civilization": "Age of Turkic empires",
-      "start": 500,
-      "end": 1200,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "Middle East",
-      "timeline": "MEDIEVAL WORLD"
-    }, {
-      "civilization": "Age of united Caliphate",
-      "start": 650,
-      "end": 900,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "Middle East",
-      "timeline": "MEDIEVAL WORLD"
-    }, {
-      "civilization": "Ancient Andean region",
-      "start": -1000,
-      "end": 500,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "pre-colonial Americas",
-      "timeline": "ANCIENT WORLD"
-    }, {
-      "civilization": "Ancient China",
-      "start": -2000,
-      "end": 500,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "East Asia",
-      "timeline": "ANCIENT WORLD"
-    }, {
-      "civilization": "Ancient Steppe empires",
-      "start": -1000,
-      "end": 500,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "the Steppe",
-      "timeline": "ANCIENT WORLD"
-    }, {
-      "civilization": "British India",
-      "start": 1800,
-      "end": 1945,
-      "startLabel": null,
-      "endLabel": "WWII",
-      "region": "South Asia",
-      "timeline": "MODERN WORLD"
-    }, {
-      "civilization": "Classic age of Mesoamerica",
-      "start": 100,
-      "end": 900,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "pre-colonial Americas",
-      "timeline": "ANCIENT WORLD"
-    }, {
-      "civilization": "Colonial Africa",
-      "start": 1880,
-      "end": 1980,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "Sub-Saharan Africa",
-      "timeline": "MODERN WORLD"
-    }, {
-      "civilization": "Colonial United States",
-      "start": 1500,
-      "end": 1776,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "Europe (and colonial offshoots)",
-      "timeline": "MODERN WORLD"
-    }, {
-      "civilization": "Early Islamic period",
-      "start": 1200,
-      "end": 1500,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "South Asia",
-      "timeline": "MEDIEVAL WORLD"
-    }, {
-      "civilization": "Early modern China",
-      "start": 1500,
-      "end": 1918,
-      "startLabel": null,
-      "endLabel": "WWI",
-      "region": "East Asia",
-      "timeline": "MODERN WORLD"
-    }, {
-      "civilization": "Early modern Europe",
-      "start": 1500,
-      "end": 1800,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "Europe (and colonial offshoots)",
-      "timeline": "MODERN WORLD"
-    }, {
-      "civilization": "Early Nubian civilization",
-      "start": -2000,
-      "end": -1000,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "Sub-Saharan Africa",
-      "timeline": "ANCIENT WORLD"
-    }, {
-      "civilization": "Egyptian civilization",
-      "start": -3000,
-      "end": -550,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "Middle East",
-      "timeline": "ANCIENT WORLD"
-    }, {
-      "civilization": "First Persian Empire",
-      "start": -550,
-      "end": -330,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "Middle East",
-      "timeline": "ANCIENT WORLD"
-    }, {
-      "civilization": "Formative age of Mesoamerica",
-      "start": -1500,
-      "end": 100,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "pre-colonial Americas",
-      "timeline": "ANCIENT WORLD"
-    }, {
-      "civilization": "Formative Japan (age of Yamato rule)",
-      "start": 500,
-      "end": 800,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "East Asia",
-      "timeline": "MEDIEVAL WORLD"
-    }, {
-      "civilization": "Formative US",
-      "start": 1776,
-      "end": 1865,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "Europe (and colonial offshoots)",
-      "timeline": "MODERN WORLD"
-    }, {
-      "civilization": "Fractured Islamic world",
-      "start": 900,
-      "end": 2018,
-      "startLabel": null,
-      "endLabel": "present",
-      "region": "Middle East",
-      "timeline": "MODERN WORLD"
-    }, {
-      "civilization": "Great power US",
-      "start": 1865,
-      "end": 1945,
-      "startLabel": null,
-      "endLabel": "WWII",
-      "region": "Europe (and colonial offshoots)",
-      "timeline": "MODERN WORLD"
-    }, {
-      "civilization": "Greek age",
-      "start": -1200,
-      "end": 0,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "Europe (and colonial offshoots)",
-      "timeline": "ANCIENT WORLD"
-    }, {
-      "civilization": "Heian age",
-      "start": 800,
-      "end": 1200,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "East Asia",
-      "timeline": "MEDIEVAL WORLD"
-    }, {
-      "civilization": "Imperial Japan",
-      "start": 1870,
-      "end": 1945,
-      "startLabel": null,
-      "endLabel": "WWII",
-      "region": "East Asia",
-      "timeline": "MODERN WORLD"
-    }, {
-      "civilization": "Indian kingdom age",
-      "start": -500,
-      "end": 1200,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "South Asia",
-      "timeline": "ANCIENT WORLD"
-    }, {
-      "civilization": "Indus civilization",
-      "start": -2500,
-      "end": -1500,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "South Asia",
-      "timeline": "ANCIENT WORLD"
-    }, {
-      "civilization": "Inter-Persian period",
-      "start": -330,
-      "end": 200,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "Middle East",
-      "timeline": "ANCIENT WORLD"
-    }, {
-      "civilization": "Kush",
-      "start": -1000,
-      "end": 300,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "Sub-Saharan Africa",
-      "timeline": "ANCIENT WORLD"
-    }, {
-      "civilization": "Medieval Andean region",
-      "start": 500,
-      "end": 1530,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "pre-colonial Americas",
-      "timeline": "MEDIEVAL WORLD"
-    }, {
-      "civilization": "Medieval China",
-      "start": 500,
-      "end": 1500,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "East Asia",
-      "timeline": "MEDIEVAL WORLD"
-    }, {
-      "civilization": "Medieval Europe",
-      "start": 500,
-      "end": 1500,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "Europe (and colonial offshoots)",
-      "timeline": "MEDIEVAL WORLD"
-    }, {
-      "civilization": "Mesopotamian civilization",
-      "start": -3500,
-      "end": -550,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "Middle East",
-      "timeline": "ANCIENT WORLD"
-    }, {
-      "civilization": "Modern Africa",
-      "start": 1980,
-      "end": 2018,
-      "startLabel": "WWII",
-      "endLabel": "present",
-      "region": "Sub-Saharan Africa",
-      "timeline": "MODERN WORLD"
-    }, {
-      "civilization": "Modern Europe",
-      "start": 1800,
-      "end": 2018,
-      "startLabel": null,
-      "endLabel": "present",
-      "region": "Europe (and colonial offshoots)",
-      "timeline": "MODERN WORLD"
-    }, {
-      "civilization": "Modern India",
-      "start": 1945,
-      "end": 2018,
-      "startLabel": null,
-      "endLabel": "present",
-      "region": "South Asia",
-      "timeline": "MODERN WORLD"
-    }, {
-      "civilization": "Modern Japan",
-      "start": 1945,
-      "end": 2018,
-      "startLabel": null,
-      "endLabel": "present",
-      "region": "East Asia",
-      "timeline": "MODERN WORLD"
-    }, {
-      "civilization": "Mongol Empire",
-      "start": 1200,
-      "end": 1300,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "the Steppe",
-      "timeline": "MEDIEVAL WORLD"
-    }, {
-      "civilization": "Mughal Empire",
-      "start": 1500,
-      "end": 1800,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "South Asia",
-      "timeline": "MODERN WORLD"
-    }, {
-      "civilization": "Peak of Aksum",
-      "start": 300,
-      "end": 650,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "Sub-Saharan Africa",
-      "timeline": "MEDIEVAL WORLD"
-    }, {
-      "civilization": "People's Republic of China",
-      "start": 1945,
-      "end": 2018,
-      "startLabel": "WWII",
-      "endLabel": "present",
-      "region": "East Asia",
-      "timeline": "MODERN WORLD"
-    }, {
-      "civilization": "Postclassic age of Mesoamerica",
-      "start": 900,
-      "end": 1520,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "pre-colonial Americas",
-      "timeline": "MEDIEVAL WORLD"
-    }, {
-      "civilization": "Ptolemaic Egypt",
-      "start": -330,
-      "end": 0,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "Middle East",
-      "timeline": "ANCIENT WORLD"
-    }, {
-      "civilization": "Republic of China",
-      "start": 1918,
-      "end": 1945,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "East Asia",
-      "timeline": "MODERN WORLD"
-    }, {
-      "civilization": "Roman > Byzantine Egypt",
-      "start": 0,
-      "end": 650,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "Middle East",
-      "timeline": "ANCIENT WORLD"
-    }, {
-      "civilization": "Roman Empire",
-      "start": 0,
-      "end": 500,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "Europe (and colonial offshoots)",
-      "timeline": "ANCIENT WORLD"
-    }, {
-      "civilization": "Roman Republic",
-      "start": -500,
-      "end": 0,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "Europe (and colonial offshoots)",
-      "timeline": "ANCIENT WORLD"
-    }, {
-      "civilization": "Second Persian Empire",
-      "start": -200,
-      "end": 650,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "Middle East",
-      "timeline": "ANCIENT WORLD"
-    }, {
-      "civilization": "Shogunate",
-      "start": 1200,
-      "end": 1870,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "East Asia",
-      "timeline": "MEDIEVAL WORLD"
-    }, {
-      "civilization": "Superpower US",
-      "start": 1945,
-      "end": 2021,
-      "startLabel": null,
-      "endLabel": "present",
-      "region": "Europe (and colonial offshoots)",
-      "timeline": "MODERN WORLD"
-    }, {
-      "civilization": "Vedic age",
-      "start": -1500,
-      "end": -500,
-      "startLabel": null,
-      "endLabel": null,
-      "region": "South Asia",
-      "timeline": "ANCIENT WORLD"
-    }];
+    // Industry names short enough for the treemap
+    const SHORT = {
+      "Wholesale and Retail Trade": "Trade",
+      "Transportation and Utilities": "Transport",
+      "Education and Health": "Education, health",
+      "Leisure and hospitality": "Leisure",
+      "Business services": "Business",
+      "Mining and Extraction": "Mining"
+    };
 
-    var targets = [{
-      "date": "2012-01-01T00:00:00.000Z",
-      "target": 1.809,
-      "actual": 1.809
-    }, {
-      "date": "2013-01-01T00:00:00.000Z",
-      "target": 1.75,
-      "actual": 2.07542747
-    }, {
-      "date": "2014-01-01T00:00:00.000Z",
-      "target": 2.425,
-      "actual": 2.76
-    }, {
-      "date": "2015-01-01T00:00:00.000Z",
-      "target": 3.038,
-      "actual": 2.25
-    }, {
-      "date": "2016-01-01T00:00:00.000Z",
-      "target": 3.8,
-      "actual": 1.871
-    }, {
-      "date": "2017-01-01T00:00:00.000Z",
-      "target": 4.45,
-      "actual": 2.431
-    }, {
-      "date": "2018-01-01T00:00:00.000Z",
-      "target": 4.85,
-      "actual": 3.018
-    }, {
-      "date": "2019-01-01T00:00:00.000Z",
-      "target": 5,
-      "actual": 2.306
-    }, {
-      "date": "2020-01-01T00:00:00.000Z",
-      "target": 5,
-      "actual": 0.876
-    }, {
-      "date": "2021-01-01T00:00:00.000Z",
-      "target": 5,
-      "actual": null
-    }, {
-      "date": "2022-01-01T00:00:00.000Z",
-      "target": 5,
-      "actual": null
-    }];
+    const PALETTE = ["var(--c1)", "var(--c2)", "var(--c3)", "var(--c4)", "var(--c5)", "var(--c6)", "var(--c7)"];
+    const base = (width, options) => ({
+      width,
+      ...options,
+      style: { fontSize: "12px", background: "transparent", ...options.style }
+    });
+    const halo = { fill: "var(--text-color)", stroke: "var(--bg-color)", strokeWidth: 4, fontWeight: 600 };
 
-    var popcorn = [{
-      "Team": "Dallas Mavericks",
-      "Arena": "American Airlines Center",
-      "Freshness": 5,
-      "Saltiness": 5,
-      "Crunchiness": 4,
-      "Butter": 5,
-      "Presentation": 5,
-      "Total_Score": 24
-    }, {
-      "Team": "Brooklyn Nets",
-      "Arena": "Barclays Center",
-      "Freshness": 4,
-      "Saltiness": 5,
-      "Crunchiness": 5,
-      "Butter": 4,
-      "Presentation": 5,
-      "Total_Score": 23
-    }, {
-      "Team": "Miami Heat",
-      "Arena": "American Airlines Arena",
-      "Freshness": 5,
-      "Saltiness": 4,
-      "Crunchiness": 4,
-      "Butter": 4,
-      "Presentation": 5,
-      "Total_Score": 22
-    }, {
-      "Team": "Portland Trailblazers",
-      "Arena": "Moda Center",
-      "Freshness": 4,
-      "Saltiness": 4,
-      "Crunchiness": 5,
-      "Butter": 4,
-      "Presentation": 3,
-      "Total_Score": 20
-    }, {
-      "Team": "Sacramento Kings",
-      "Arena": "Golden 1 Center",
-      "Freshness": 2,
-      "Saltiness": 4,
-      "Crunchiness": 4,
-      "Butter": 4,
-      "Presentation": 5,
-      "Total_Score": 19
-    }, {
-      "Team": "Toronto Raptors",
-      "Arena": "Scotiabank Arena",
-      "Freshness": 3,
-      "Saltiness": 4,
-      "Crunchiness": 3,
-      "Butter": 4,
-      "Presentation": 4,
-      "Total_Score": 18
-    }, {
-      "Team": "Houston Rockets",
-      "Arena": "Toyota Center",
-      "Freshness": 3,
-      "Saltiness": 4,
-      "Crunchiness": 3,
-      "Butter": 4,
-      "Presentation": 4,
-      "Total_Score": 18
-    }, {
-      "Team": "Oklahoma City Thunder",
-      "Arena": "Chesapeake Energy Arena",
-      "Freshness": 4,
-      "Saltiness": 3,
-      "Crunchiness": 4,
-      "Butter": 4,
-      "Presentation": 3,
-      "Total_Score": 18
-    }, {
-      "Team": "Golden State Warriors",
-      "Arena": "Oracle Arena",
-      "Freshness": 2,
-      "Saltiness": 4,
-      "Crunchiness": 5,
-      "Butter": 3,
-      "Presentation": 4,
-      "Total_Score": 18
-    }, {
-      "Team": "New York City Knicks",
-      "Arena": "Madison Square Garden",
-      "Freshness": 3,
-      "Saltiness": 2,
-      "Crunchiness": 4,
-      "Butter": 4,
-      "Presentation": 4,
-      "Total_Score": 17
-    }, {
-      "Team": "Indiana Pacers",
-      "Arena": "Bankers Life Fieldhouse",
-      "Freshness": 3,
-      "Saltiness": 3,
-      "Crunchiness": 5,
-      "Butter": 4,
-      "Presentation": 2,
-      "Total_Score": 17
-    }, {
-      "Team": "New Orleans Pelicans",
-      "Arena": "Smoothie King Center",
-      "Freshness": 3,
-      "Saltiness": 3,
-      "Crunchiness": 3,
-      "Butter": 3,
-      "Presentation": 5,
-      "Total_Score": 17
-    }, {
-      "Team": "Minnesota Timberwolves",
-      "Arena": "Target Center",
-      "Freshness": 2,
-      "Saltiness": 5,
-      "Crunchiness": 4,
-      "Butter": 3,
-      "Presentation": 3,
-      "Total_Score": 17
-    }, {
-      "Team": "Washington Wizards",
-      "Arena": "Capital One Arena",
-      "Freshness": 4,
-      "Saltiness": 3,
-      "Crunchiness": 3,
-      "Butter": 4,
-      "Presentation": 3,
-      "Total_Score": 17
-    }, {
-      "Team": "Chicago Bulls",
-      "Arena": "United Center",
-      "Freshness": 3,
-      "Saltiness": 4,
-      "Crunchiness": 3,
-      "Butter": 3,
-      "Presentation": 3,
-      "Total_Score": 16
-    }, {
-      "Team": "Utah Jazz",
-      "Arena": "Vivint Smart Home Arena",
-      "Freshness": 2,
-      "Saltiness": 5,
-      "Crunchiness": 4,
-      "Butter": 3,
-      "Presentation": 2,
-      "Total_Score": 16
-    }, {
-      "Team": "Atlanta Hawks",
-      "Arena": "State Farm Arena",
-      "Freshness": 3,
-      "Saltiness": 5,
-      "Crunchiness": 4,
-      "Butter": 3,
-      "Presentation": 1,
-      "Total_Score": 16
-    }, {
-      "Team": "San Antonio Spurs",
-      "Arena": "AT&T Center",
-      "Freshness": 3,
-      "Saltiness": 3,
-      "Crunchiness": 3,
-      "Butter": 3,
-      "Presentation": 3,
-      "Total_Score": 15
-    }, {
-      "Team": "Philadelphia Sixers",
-      "Arena": "Wells Fargo Center",
-      "Freshness": 4,
-      "Saltiness": 2,
-      "Crunchiness": 4,
-      "Butter": 2,
-      "Presentation": 2,
-      "Total_Score": 14
-    }, {
-      "Team": "Phoenix Suns",
-      "Arena": "Talking Stick Resort Arena",
-      "Freshness": 3,
-      "Saltiness": 3,
-      "Crunchiness": 3,
-      "Butter": 3,
-      "Presentation": 2,
-      "Total_Score": 14
-    }, {
-      "Team": "Milwaukee Bucks",
-      "Arena": "Fiserv Forum",
-      "Freshness": 2,
-      "Saltiness": 2,
-      "Crunchiness": 3,
-      "Butter": 4,
-      "Presentation": 2,
-      "Total_Score": 13
-    }, {
-      "Team": "Boston Celtics",
-      "Arena": "TD Garden",
-      "Freshness": 3,
-      "Saltiness": 3,
-      "Crunchiness": 2,
-      "Butter": 3,
-      "Presentation": 2,
-      "Total_Score": 13
-    }, {
-      "Team": "Memphis Grizzlies",
-      "Arena": "FedExForum",
-      "Freshness": 1,
-      "Saltiness": 4,
-      "Crunchiness": 4,
-      "Butter": 3,
-      "Presentation": 1,
-      "Total_Score": 13
-    }, {
-      "Team": "Orlando Magic",
-      "Arena": "Amway Center",
-      "Freshness": 3,
-      "Saltiness": 5,
-      "Crunchiness": 3,
-      "Butter": 1,
-      "Presentation": 1,
-      "Total_Score": 13
-    }, {
-      "Team": "Denver Nuggets",
-      "Arena": "Pepsi Center",
-      "Freshness": 3,
-      "Saltiness": 2,
-      "Crunchiness": 3,
-      "Butter": 2,
-      "Presentation": 3,
-      "Total_Score": 13
-    }, {
-      "Team": "Cleveland Cavaliers",
-      "Arena": "Rocket Mortgage Fieldhouse",
-      "Freshness": 2,
-      "Saltiness": 4,
-      "Crunchiness": 2,
-      "Butter": 2,
-      "Presentation": 2,
-      "Total_Score": 12
-    }, {
-      "Team": "Detroit Pistons",
-      "Arena": "Little Caesars Arena",
-      "Freshness": 1,
-      "Saltiness": 4,
-      "Crunchiness": 2,
-      "Butter": 3,
-      "Presentation": 2,
-      "Total_Score": 12
-    }, {
-      "Team": "Charlotte Hornets",
-      "Arena": "Spectrum Center",
-      "Freshness": 1,
-      "Saltiness": 2,
-      "Crunchiness": 2,
-      "Butter": 2,
-      "Presentation": 4,
-      "Total_Score": 11
-    }, {
-      "Team": "Los Angeles Clippers/Lakers",
-      "Arena": "Staples Center",
-      "Freshness": 2,
-      "Saltiness": 1,
-      "Crunchiness": 3,
-      "Butter": 1,
-      "Presentation": 3,
-      "Total_Score": 10
-    }];
-
-    // Thicken the plot
-
-    var bucket = {}
-    var size = 12;
-    var element = d3.select('figure').node();
-    var width = element.getBoundingClientRect().width; // get width of article so graphic is responsive
-
-    // Use Promises to async request data
-    var promises = [d3.csv("data/aapl.csv", d3.autoType), d3.csv("data/bls.csv", d3.autoType), d3.json("data/simpsons.json"), d3.json("data/qatar.json")];
-
-    // You can request multiple srcs in a promise
-    myDataPromises = Promise.all(promises);
-
-    // After data is successfully fetched, generate viz.
-    myDataPromises.then(function (data) {
-      // Define the data
-      var aapl = data[0];
-      var bls = data[1];
-      var simpsons = data[2];
-      var qatar = data[3];
-
-      bls.map(function (d) {
-        return +d;
-      });
-      aapl.map(function (d) {
-        return +d;
-      });
-      // simpsons.map(function(d) { return +d; });
-      // bls = new Date(d => d.date);
-      // console.log(bls => d.date);
-
-      // Example area chart - Simpsons rating over time
-      var example_area = {
-        width: width,
-        style: {
-          fontSize: size
-        },
-        y: {
-          grid: true,
-          // Todo: find min, max instead of hardcoding domain
-          domain: [0, 10],
-          tickSize: 0,
-          nice: true,
-          label: "IMDB Ratings for The Simpsons, 1989 - 2019 ",
-        },
-        x: {
-          label: "Episode number →",
-          // Emphasize that axis
-          tickSize: 8,
-          nice: true,
-        },
-        caption: 'Data: The Simpsons on IMDB · Chart: Justin Chill', // Todo: Add cite https://raw.githubusercontent.com/areevesman/the-simpsons/master/data/simpsons_episodes.csv
+    // Each chart is a function of its width and, once loaded, the data
+    const charts = {
+      nukes: width => Plot.plot(base(width, {
+        height: 290,
+        marginLeft: 104,
+        marginRight: 58,
+        x: { axis: null },
+        y: { label: null, domain: nukes.map(d => d.country), tickSize: 0 },
         marks: [
-          Plot.areaY(simpsons, {
-            x: "number_in_series",
-            sort: "number_in_series",
-            y: "imdb_rating",
-            fill: "RGBA(252, 229, 136, .5)"
-          }),
-          Plot.lineY(simpsons, {
-            x: "number_in_series",
-            sort: "number_in_series",
-            y: "imdb_rating",
-            stroke: "hsl(42, 87%, 55%)"
-          }),
-        ]
-      };
-
-      // Example bar chart -
-      var example_bar = {
-        width: width,
-        style: {
-          fontSize: size
-        },
-        x: {
-          label: null,
-          tickSize: 0,
-        },
-        y: {
-          label: "↑ Frequency (%)",
-          grid: true,
-          tickSize: 0,
-          label: "↑ Frequency (%) of English letters",
-        },
-        color: {
-          domain: ["frequent", "not"],
-          range: ["hsl(168, 78%, 41%)", "hsl(0, 0%, 88%)"],
-        },
-        caption: 'Data: English Letter Frequency · Chart: Justin Chill',
-        marks: [
-          // Transform data example, ternary operator example for style
-          Plot.barY(alphabet, {
-            x: "letter",
-            y: d => d.frequency * 100,
-            fill: d => d.frequency > .08 ? "frequent" : "not"
-          }),
-          Plot.ruleY([0], {
-            stroke: "hsl(0, 0%, 88%)"
-          })
-        ]
-      };
-
-      // Example lollipop bar chart adapted from: https://observablehq.com/@observablehq/plot-rule?collection=@observablehq/plot
-      var example_lollipop = {
-        width: width,
-        style: {
-          fontSize: size
-        },
-        x: {
-          label: null,
-          tickSize: 0,
-        },
-        y: {
-          label: "↑ Frequency (%)",
-          grid: true,
-          tickSize: 0,
-          transform: d => d * 100,
-          label: "↑ Frequency (%) of English letters",
-        },
-        color: {
-          domain: ["frequent", "not"],
-          range: ["hsl(168, 78%, 41%)", "hsl(0, 0%, 88%)"],
-        },
-        caption: 'Data: English Letter Frequency · Chart: Justin Chill',
-        marks: [
-          Plot.ruleY([0]),
-          Plot.ruleX(alphabet, {
-            x: "letter",
-            y: "frequency",
-            fill: d => d.frequency > .08 ? "frequent" : "not"
-          }),
-          Plot.dot(alphabet, {
-            x: "letter",
-            y: "frequency",
-            fill: "black",
-            r: 4
-          })
-        ]
-      };
-
-      var example_bubble = {
-        width: width,
-        style: {
-          fontSize: size
-        },
-        x: {
-          label: "Episode number",
-        },
-        y: {
-          label: "↑ Views",
-          tickFormat: d => d3.format("~s")(Math.abs(d)),
-          nice: true,
-          round: true
-        },
-        caption: 'Data: The Simpsons on IMDB · Chart: Justin Chill',
-        marks: [
-          Plot.dot(simpsons, {
-            x: "number_in_series",
-            y: "views",
-            r: "imdb_rating",
-            fill: "views"
-          })
-        ]
-      };
-
-      // Example whisker chart -
-      var example_whisker = {
-        width: width,
-        style: {
-          fontSize: size
-        },
-        y: {
-          grid: true,
-          inset: 6
-        },
-        marks: [
-          // boxY(simpsons, {x: "season", y: "imdb_rating"})
-        ]
-      };
-
-      // Example dot chart -
-      var example_dot = {
-        width: width,
-        style: {
-          fontSize: size
-        },
-        x: {
-          label: null,
-        },
-        caption: 'Data: English Letter Frequency · Chart: Justin Chill',
-        marks: [
-          Plot.dot(alphabet, {
-            x: "letter",
-            r: "frequency",
-            fill: "letter"
-          })
-        ]
-      };
-
-      var example_density = {
-        width: width,
-        style: {
-          fontSize: size
-        },
-        x: {
-          label: null,
-          tickSize: 2,
-          tickRotate: -35,
-          // domain: d3.sort("imdb_rating"),
-          // Explicit tick marks using modulus: https://observablehq.com/d/707baa67dbdbd3dc
-          ticks: bls.map((d) => d.date).filter((d, i) => i % 77 === 0),
-
-          // EX.  "date": "2000-01-01T00:00:00.000Z",
-          // tickFormat: d3.timeFormat('%y'),
-
-          // thresholds: d3.utcYear,
-          // domain: d3.groupSort(bls, v => parseInt(v[0].date), d => d.date),
-          // tickFormat: bls.map((d) => +d.date),
-          // tickFormat: d3.groupSort(bls, v => parseInt(v[0].date), d => d.date),
-          // tickFormat: d3.timeFormat(bls, v => v[0].date),
-          // tickFormat: d3.timeFormat(bls, v => parseInt(v[0].date)),
-          // tickFormat: Plot.formatMonth("en", "short"),
-          // tickFormat: d3.timeFormat("%Y-%m-%dT%h:%m:%sZ"),
-          tickFormat: d3.timeParse("%y"),
-          // tickFormat: d3.timeParse("%Y-%m-%dT%h:%m:%sZ"),
-
-          // d3.select('#time').text(formatTime(d));
-          // function formatTime(d) {
-          //     return outputFormat(inputFormat.parse(d.metricDate));
-          // }
-        },
-        caption: 'Data: Bureau of Labor Statistics · Chart: Justin Chill',
-        marks: [
-          Plot.areaY(bls, {
-            x: "date",
-            y2: "unemployed",
-            z: "industry",
-            fillOpacity: 0.1,
-            fill: "hsl(209, 20%, 25%)"
-          }),
-          Plot.lineY(bls, {
-            x: "date",
-            y: "unemployed",
-            z: "industry",
-            strokeWidth: 1
-          }),
-        ]
-      };
-      const criteria = ["Freshness", "Saltiness", "Crunchiness", "Butter", "Presentation"];
-      const popcornHeatmapData = [];
-      popcorn.forEach(d => {
-        criteria.forEach(c => {
-          popcornHeatmapData.push({
-            Team: d.Team,
-            Criterion: c,
-            Score: d[c]
-          });
-        });
-      });
-
-      var example_heatmap = {
-        width: width,
-        height: 640,
-        marginLeft: 180,
-        marginTop: 65,
-        marginBottom: 20,
-        style: {
-          fontSize: size,
-          overflow: "visible"
-        },
-        x: {
-          axis: "top",
-          label: null,
-          domain: criteria,
-          tickRotate: -30
-        },
-        y: {
-          label: null,
-          domain: popcorn.map(d => d.Team)
-        },
-        color: {
-          scheme: "Oranges",
-          label: "Score (1-5)"
-        },
-        marks: [
-          Plot.cell(popcornHeatmapData, {
-            x: "Criterion",
-            y: "Team",
-            fill: "Score",
-            inset: 0.5
-          }),
-          Plot.text(popcornHeatmapData, {
-            x: "Criterion",
-            y: "Team",
-            text: d => d.Score,
-            fill: d => d.Score >= 4 ? "white" : "black"
-          })
-        ]
-      };
-
-      var example_histogram = {
-        width: width,
-        style: {
-          fontSize: size
-        },
-        x: {
-          round: true,
-          label: "Trade volume (log₁₀) →"
-        },
-        y: {
-          grid: true
-        },
-        caption: 'Data: Apple Stock · Chart: Justin Chill',
-        marks: [
-          Plot.rectY(aapl, Plot.binX({
-            y: "count"
-          }, {
-            x: d => Math.log10(d.Volume),
-            normalize: true,
-            fill: "hsl(0, 0%, 88%)"
-          })),
-          Plot.ruleY([0])
-        ]
-      };
-
-      // Nukes -
-      var nuke_options = {
-        width: width,
-        style: {
-          fontSize: size
-        },
-        inset: 10,
-        style: {
-          paddingTop: 30,
-          paddingBottom: 30,
-          overflow: "visible"
-        },
-        x: {
-          domain: d3.sort(nukes, d => -d.nukes).map(d => d.country),
-          label: "Country",
-          label: null,
-          tickSize: 0,
-          tickRotate: -35
-        },
-        y: {
-          grid: true,
-          nice: true,
-        },
-        color: {
-          domain: ["small", "big"],
-          range: ["hsl(356, 75%, 53%)", "hsl(0, 0%, 88%)"]
-        },
-        marks: [
-          Plot.barY(nukes, {
-            x: "country",
-            y: "nukes",
-            title: "country",
-            fill: d => d.nukes > 400 ? "small" : "big"
-          }),
+          Plot.barX(nukes, { x: "count", y: "country", fill: d => d.count > 400 ? "var(--nuke)" : "var(--faint)" }),
+          Plot.ruleX([0]),
           Plot.text(nukes, {
-            x: "country",
-            y: "nukes",
-            text: d => d.nukes === 10 ? "10 👨" : "",
-            dy: -5
-          }),
+            x: "count",
+            y: "country",
+            text: d => d.country === "JEFF" ? "10 👨" : d3.format(",")(d.count),
+            textAnchor: "start",
+            dx: 6
+          })
         ]
-      };
+      })),
 
-      var example_line = {
-        width: width,
-        style: {
-          fontSize: size
-        },
-        y: {
-          grid: true,
-          domain: [0, 100],
-          label: "↑ Excitement level"
-        },
-        x: {
-          label: "",
-          domain: d3.sort(ex_lvls, d => -d.Phrase).map(d => d.Phrase),
-        },
-        color: "turbo",
+      example_line: width => Plot.plot(base(width, {
+        height: 320,
+        marginBottom: 36,
+        x: { label: null, domain: excitement.map(d => d.phrase), tickSize: 0 },
+        y: { label: "Excitement level", labelArrow: false, domain: [0, 100], grid: true, ticks: 5, tickSize: 0 },
         marks: [
-          Plot.line(ex_lvls, {
-            x: "Phrase",
-            y: "level",
-            stroke: "brown",
-            strokeWidth: 2.5
-          }),
+          Plot.lineY(excitement, { x: "phrase", y: "level", stroke: "var(--c6)", strokeWidth: 2.5 }),
+          Plot.dot(excitement, { x: "phrase", y: "level", fill: "var(--c6)" })
         ]
-      };
+      })),
 
-      // Todo: This is *super* hacky. ISO dates not being parsed correctly.
-      var example_mvavg = {
-        width: width,
-        style: {
-          fontSize: size
-        },
-        y: {
-          label: "",
-          grid: true,
-          nice: true,
-          tickFormat: "$f",
-        },
-        x: {
-          label: null,
-          tickSize: 0,
-          ticks: aapl.map((d) => d.Date).filter((d, i) => i % 311 === 0),
-          tickFormat: "%Y",
-        },
+      example_heatmap: width => Plot.plot(base(width, {
+        height: 640,
+        marginLeft: 176,
+        marginTop: 66,
+        marginRight: 34,
+        x: { axis: "top", label: null, domain: criteria, tickRotate: -30, tickSize: 0 },
+        y: { label: null, domain: [...new Set(popcorn.map(d => d.team))], tickSize: 0 },
+        color: { scheme: "Oranges" },
         marks: [
-          // Plot.ruleY([32]),
-          Plot.areaY(aapl, Plot.windowY({
-            x: "Date",
-            y1: "Low",
-            y2: "High",
-            fill: "#ccc",
-            k: 14
-          })),
-          Plot.line(aapl, Plot.windowY({
-            x: "Date",
-            y: d => (d.Low + d.High) / 2,
-            k: 14
-          }))
+          Plot.cell(popcorn, { x: "criterion", y: "team", fill: "score", inset: 0.5 }),
+          Plot.text(popcorn.filter(d => d.score >= 4), { x: "criterion", y: "team", text: "score", fill: "white" }),
+          Plot.text(popcorn.filter(d => d.score < 4), { x: "criterion", y: "team", text: "score", className: "on-tile" })
         ]
-      };
+      })),
 
-      var example_stackarea = {
-        width: width,
-        style: {
-          fontSize: size
-        },
-        y: {
-          label: "",
-          grid: true
-        },
-        x: {
-          label: null,
-        },
+      example_marimekko: width => {
+        const everyone = d3.sum(titanic, d => d[1] + d[2]);
+        let start = 0;
+        const tiles = titanic.flatMap(([group, saved, lost]) => {
+          const size = saved + lost;
+          const tile = { group, x1: start / everyone, x2: (start + size) / everyone };
+          start += size;
+          return [
+            { ...tile, fate: "Saved", count: saved, y1: 0, y2: saved / size },
+            { ...tile, fate: "Lost", count: lost, y1: saved / size, y2: 1 }
+          ];
+        });
+        return Plot.plot(base(width, {
+          height: 340,
+          marginTop: 26,
+          marginLeft: 44,
+          x: { axis: null },
+          y: { label: null, tickFormat: "%", ticks: 4, tickSize: 0 },
+          color: { domain: ["Saved", "Lost"], range: ["var(--c5)", "var(--c7)"] },
+          marks: [
+            Plot.rect(tiles, { x1: "x1", x2: "x2", y1: "y1", y2: "y2", fill: "fate", inset: 1 }),
+            Plot.text(tiles, {
+              x: d => (d.x1 + d.x2) / 2,
+              y: d => (d.y1 + d.y2) / 2,
+              text: d => `${d.count}\n${d.fate.toLowerCase()}`,
+              className: "on-tile"
+            }),
+            Plot.text(tiles.filter(d => d.fate === "Lost"), {
+              x: d => (d.x1 + d.x2) / 2,
+              y: 1,
+              text: "group",
+              dy: -10,
+              fontWeight: 600
+            })
+          ]
+        }));
+      },
+
+      example_sd: width => {
+        const normal = x => Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI);
+        const curve = d3.range(-4, 4.01, 0.05).map(x => ({ x, y: normal(x) }));
+        const spans = [[1, "68%"], [2, "95%"], [3, "99.7%"]].map(([sd, share], i) => ({ x1: -sd, x2: sd, y: -0.035 - i * 0.045, share }));
+        return Plot.plot(base(width, {
+          height: 320,
+          marginBottom: 36,
+          x: { label: null, ticks: d3.range(-3, 4), tickFormat: d => d === 0 ? "mean" : `${d > 0 ? "+" : "−"}${Math.abs(d)}σ`, tickSize: 0 },
+          y: { axis: null, domain: [-0.15, 0.42] },
+          marks: [
+            ...[3, 2, 1].map(sd => Plot.areaY(curve.filter(d => Math.abs(d.x) <= sd + 0.001), { x: "x", y: "y", fill: "var(--c1)", fillOpacity: 0.25 })),
+            Plot.lineY(curve, { x: "x", y: "y", stroke: "var(--c1)", strokeWidth: 2 }),
+            Plot.ruleY([0]),
+            Plot.link(spans, { x1: "x1", x2: "x2", y1: "y", y2: "y", stroke: "var(--muted-color)", markerStart: "dot", markerEnd: "dot" }),
+            Plot.text(spans, { ...halo, x: 0, y: "y", text: "share" })
+          ]
+        }));
+      },
+
+      example_tree: width => Plot.plot(base(width, {
+        height: 270,
+        marginLeft: 48,
+        marginRight: 104,
+        axis: null,
         marks: [
-          Plot.areaY(bls, {
-            x: "date",
-            y: "unemployed",
-            fill: "industry"
-          }), // implicit stacking
+          Plot.tree([
+            "Charts/Compare/Bar chart", "Charts/Compare/Multi-set bar chart",
+            "Charts/Change/Line graph", "Charts/Change/Timeline",
+            "Charts/Share/Pie chart", "Charts/Share/Treemap",
+            "Charts/Spread/Histogram", "Charts/Spread/Violin plot"
+          ], { stroke: "var(--muted-color)", fill: "var(--text-color)", textStroke: "var(--bg-color)" })
+        ]
+      })),
+
+      // The rest need the loaded data
+      example_histogram: (width, { simpsons }) => Plot.plot(base(width, {
+        height: 300,
+        marginBottom: 38,
+        x: { label: "IMDb rating", labelAnchor: "center", labelArrow: false, tickSize: 0 },
+        y: { label: "Episodes", labelArrow: false, grid: true, ticks: 5, tickSize: 0 },
+        marks: [
+          Plot.rectY(simpsons, Plot.binX({ y: "count" }, { x: "imdb_rating", thresholds: d3.range(4.5, 9.51, 0.25), fill: "var(--c2)", tip: true })),
           Plot.ruleY([0])
         ]
-      };
+      })),
 
-      // This example with Textures.js https://observablehq.com/@fil/qatar-population-pyramid?collection=@fil/plot-experiments
-      var example_pyramid = {
-        width: width,
-        style: {
-          fontSize: size
-        },
-        x: {
-          tickFormat: d => d3.format("~s")(Math.abs(d)),
-          label: "←male         female→        (thousands)",
-          nice: true,
-          round: true
-        },
-        y: {
-          domain: d3.groupSort(qatar, v => parseInt(v[0].age), d => d.age),
-          reverse: true,
-          labelAnchor: "top",
-          label: "Age",
-          labelOffset: 20
-        },
-        color: {
-          // type: "diverging",
-          scheme: "Pastel2",
-          reverse: true,
-        },
-        // marginLeft: 60,
-        caption: 'Data: UN, Qatar population · Chart: Justin Chill',
+      example_scatterplot: (width, { simpsons }) => Plot.plot(base(width, {
+        height: 360,
+        marginBottom: 38,
+        x: { label: "Episode number", labelAnchor: "center", labelArrow: false, tickSize: 0 },
+        y: { label: "IMDb rating", labelArrow: false, grid: true, ticks: 6, tickSize: 0, nice: true },
         marks: [
-          Plot.barX(qatar, {
-            x: d => d["population"] * (1 - 2 * (d["sex"] === "male")),
-            y: "age",
-            fill: "sex"
-          }),
-          Plot.barX(qatar, {
-            x: d => d["population"] * (1 - 2 * (d["sex"] === "male")),
-            y: "age",
-            fill: "sex",
-            stroke: "white",
-            strokeWidth: 3.5
-          }),
-          Plot.barX(qatar, {
-            x: d => d["population"] * (1 - 2 * (d["sex"] === "male")),
-            y: "age",
-            stroke: "black"
-          })
-        ],
-        height: 500,
-      };
-
-      var example_scatterplot = {
-        width: width,
-        style: {
-          fontSize: size
-        },
-        y: {
-          grid: true,
-          nice: true,
-          round: true,
-          label: "IMDB Rating"
-        },
-        x: {
-          // domain: [Date("Date"),Date("Date")],
-          label: null,
-          nice: true,
-          round: true,
-          label: "Episode number"
-        },
-        color: {
-          scheme: "YlGn",
-          reverse: true,
-        },
-        marks: [
-          // Plot.areaY(aapl, Plot.binX({x: "count"},
-          //   {x: "Date", y: "Close", fill: "#ccc"})),
           Plot.dot(simpsons, {
             x: "number_in_series",
-            sort: "number_in_series",
             y: "imdb_rating",
-            fill: "season"
-          }),
-          Plot.ruleY([1])
+            r: 2.5,
+            fill: "var(--c2)",
+            fillOpacity: 0.8,
+            title: d => `${d.title}\nSeason ${d.season}, episode ${d.number_in_season}\n${d.imdb_rating}`,
+            tip: true
+          })
         ]
-      };
+      })),
 
-      var example_timeseries = {
-        width: width,
-        style: {
-          fontSize: size
-        },
-        y: {
-          grid: true
-        },
-        x: {
-          // domain: [Date("Date"),Date("Date")],
-          label: null,
-        },
+      example_mvavg: (width, { aapl }) => {
+        const average = Plot.windowY({ k: 50, anchor: "end", strict: true }, { x: "Date", y: "Close", stroke: "var(--c6)", strokeWidth: 2.5 });
+        return Plot.plot(base(width, {
+          height: 340,
+          marginLeft: 44,
+          marginRight: 12,
+          x: { type: "utc", label: null, ticks: "year", tickFormat: "%Y", tickSize: 0 },
+          y: { label: null, grid: true, tickFormat: "$d", ticks: 6, tickSize: 0 },
+          marks: [
+            Plot.lineY(aapl, { x: "Date", y: "Close", stroke: "var(--c7)", strokeWidth: 1 }),
+            Plot.lineY(aapl, average)
+          ]
+        }));
+      },
+
+      example_timeseries: (width, { aapl }) => Plot.plot(base(width, {
+        height: 320,
+        marginLeft: 44,
+        marginRight: 12,
+        x: { type: "utc", label: null, ticks: "year", tickFormat: "%Y", tickSize: 0 },
+        y: { label: null, grid: true, tickFormat: "$d", ticks: 5, tickSize: 0, zero: true },
         marks: [
-          // Plot.areaY(aapl, Plot.binX({x: "count"},
-          //   {x: "Date", y: "Close", fill: "#ccc"})),
-          Plot.lineY(aapl, {
-            x: "Date",
-            y: "Close"
-          }),
+          Plot.lineY(aapl, { x: "Date", y: "Close", stroke: "var(--c1)", strokeWidth: 1.5 }),
           Plot.ruleY([0])
         ]
-      };
+      })),
 
+      example_pyramid: (width, { qatar }) => {
+        const ages = d3.groupSort(qatar, v => parseInt(v[0].age), d => d.age);
+        return Plot.plot(base(width, {
+          height: 460,
+          marginTop: 30,
+          marginBottom: 40,
+          marginLeft: 52,
+          x: { label: "Thousands of people", labelAnchor: "center", labelArrow: false, tickFormat: d => Math.abs(d), ticks: 6, tickSize: 0, grid: true },
+          y: { label: null, domain: ages, reverse: true, tickSize: 0 },
+          marks: [
+            Plot.barX(qatar, {
+              x: d => d.sex === "male" ? -d.population : d.population,
+              y: "age",
+              fill: d => d.sex === "male" ? "var(--c3)" : "var(--c2)",
+              insetTop: 1
+            }),
+            Plot.ruleX([0]),
+            Plot.text(["Age"], { frameAnchor: "top-left", textAnchor: "end", dx: -8, dy: -18 }),
+            Plot.text(["Men"], { x: () => -30, frameAnchor: "top", textAnchor: "end", dy: -18, fontWeight: 600 }),
+            Plot.text(["Women"], { x: () => 8, frameAnchor: "top", textAnchor: "start", dy: -18, fontWeight: 600 })
+          ]
+        }));
+      },
 
-      // Draw charts after data is fetched and options are defined
-      document.getElementById("nukes").appendChild(Plot.plot(nuke_options));
-      document.getElementById("example_line").appendChild(Plot.plot(example_line));
-      const heatmapEl = document.getElementById("example_heatmap");
-      if (heatmapEl) {
-        heatmapEl.appendChild(Plot.plot(example_heatmap));
+      example_stackarea: (width, { unemployment, industries }) => Plot.plot(base(width, {
+        height: 360,
+        marginLeft: 44,
+        x: { type: "utc", label: null, ticks: width < 480 ? 5 : 8, tickSize: 0 },
+        y: { label: "Millions of people", labelArrow: false, grid: true, transform: d => d / 1000, tickSize: 0 },
+        color: { domain: industries, range: PALETTE },
+        marks: [
+          Plot.areaY(unemployment, { x: "date", y: "unemployed", fill: "industry", order: industries }),
+          Plot.ruleY([0])
+        ]
+      })),
+
+      example_treemap: (width, { latest }) => {
+        const height = 340;
+        const label = d => SHORT[d.data.industry] || d.data.industry;
+        const tiles = d3.treemap().size([width, height]).padding(2)(
+          d3.hierarchy({ children: latest }).sum(d => d.unemployed).sort((a, b) => b.value - a.value)
+        ).leaves();
+        return Plot.plot(base(width, {
+          height,
+          margin: 0,
+          x: { axis: null, domain: [0, width] },
+          y: { axis: null, domain: [0, height], reverse: true },
+          marks: [
+            Plot.rect(tiles, {
+              x1: "x0", x2: "x1", y1: "y0", y2: "y1",
+              fill: "var(--c1)",
+              fillOpacity: d => 0.35 + 0.5 * d.value / tiles[0].value,
+              title: d => `${d.data.industry}\n${d3.format(",")(d.value * 1000)} people`,
+              tip: true
+            }),
+            // Label a tile only if its name fits
+            Plot.text(tiles.filter(d => d.x1 - d.x0 > label(d).length * 7 + 14 && d.y1 - d.y0 > 36), {
+              x: d => d.x0 + 7,
+              y: d => d.y0 + 12,
+              text: d => `${label(d)}\n${d3.format(".1f")(d.value / 1000)}M`,
+              textAnchor: "start",
+              lineAnchor: "top",
+              fontWeight: 600,
+              fill: "var(--text-color)",
+              pointerEvents: "none"
+            })
+          ]
+        }));
       }
-      document.getElementById("example_mvavg").appendChild(Plot.plot(example_mvavg));
-      document.getElementById("example_stackarea").appendChild(Plot.plot(example_stackarea));
-      document.getElementById("example_pyramid").appendChild(Plot.plot(example_pyramid));
-      document.getElementById("example_scatterplot").appendChild(Plot.plot(example_scatterplot));
-      document.getElementById("example_timeseries").appendChild(Plot.plot(example_timeseries));
-    })
+    };
 
-    myDataPromises.catch(function () {
-      console.log('🚨 Oops - Something has gone wrong fetching data.')
-    })
+    // Charts that need a key
+    const keys = {
+      example_mvavg: () => [["Daily close", "var(--c7)"], ["50-day moving average", "var(--c6)"]],
+      example_stackarea: ({ industries }) => industries.map((name, i) => [name, PALETTE[i]]),
+      example_heatmap: () => []
+    };
 
+    let loaded = null;
+    let drawnWidth = 0;
 
+    function draw() {
+      drawnWidth = document.getElementById("nukes").clientWidth;
+      for (const [id, make] of Object.entries(charts)) {
+        if (make.length > 1 && !loaded) continue; // still waiting for the data
+        const holder = document.querySelector(`#${id} .plot`);
+        const key = document.createElement("div");
+        key.className = "chart-key";
+        for (const [name, color] of keys[id]?.(loaded) ?? []) {
+          const item = document.createElement("span");
+          item.textContent = name;
+          item.style.setProperty("--key", color);
+          key.append(item);
+        }
+        holder.replaceChildren(...(key.childElementCount ? [key] : []), make(drawnWidth, loaded));
+      }
+    }
+
+    draw();
+
+    Promise.all([
+      d3.csv("data/aapl.csv", d3.autoType),
+      d3.csv("data/bls.csv", d3.autoType),
+      d3.json("data/simpsons.json"),
+      d3.json("data/qatar.json")
+    ]).then(([aapl, bls, simpsons, qatar]) => {
+      // Keep the six largest industries and fold the rest into "Other"
+      const ranked = d3.groupSort(bls.filter(d => d.industry !== "Other"), v => -d3.sum(v, d => d.unemployed), d => d.industry);
+      const top = ranked.slice(0, 6);
+      const latestDate = d3.max(bls, d => d.date);
+      loaded = {
+        aapl,
+        qatar,
+        simpsons: simpsons.filter(d => d.imdb_rating),
+        industries: [...top, "Other"],
+        unemployment: d3.rollups(
+          bls,
+          v => d3.sum(v, d => d.unemployed),
+          d => +d.date,
+          d => top.includes(d.industry) ? d.industry : "Other"
+        ).flatMap(([date, groups]) => groups.map(([industry, unemployed]) => ({ date: new Date(date), industry, unemployed }))),
+        latest: bls.filter(d => +d.date === +latestDate)
+      };
+      draw();
+    }).catch(error => {
+      console.error("Failed to load the glossary's data:", error);
+      for (const [id, make] of Object.entries(charts)) {
+        if (make.length > 1) {
+          document.querySelector(`#${id} .plot`).insertAdjacentHTML("afterend",
+            "<p>Sorry, this chart failed to load. Please try refreshing the page.</p>");
+        }
+      }
+    });
+
+    window.addEventListener("resize", () => {
+      if (document.getElementById("nukes").clientWidth !== drawnWidth) draw();
+    });
+
+    // CSS can't reach the bars in the opening picture, so pause them here
+    const picture = document.getElementById("pixel-perfect");
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) picture.pauseAnimations();
+    document.addEventListener("motionchange", event => {
+      if (event.detail.paused) picture.pauseAnimations();
+      else picture.unpauseAnimations();
+    });
   </script>
   <script src="js/site.js" defer></script>
 </body>

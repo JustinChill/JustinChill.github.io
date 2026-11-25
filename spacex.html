@@ -17,7 +17,7 @@
   </script>
 
   <title>SpaceX | Justin Chill</title>
-  <meta name="description" content="An interactive analysis and data visualization of SpaceX rocket launches, exploring launch cadence trends over time, booster reusability, milestones, and Low Earth Orbit (LEO) satellite data.">
+  <meta name="description" content="SpaceX launches by day of the year since 2010, how many times its boosters have flown, and how many of the satellites in low Earth orbit are Starlink.">
   <meta name="author" content="Justin Chill">
   <meta name="robots" content="all">
 
@@ -27,7 +27,7 @@
   <meta content="article" property="og:type">
   <meta content="https://justinchill.com/spacex.html" property="og:url">
   <meta content="SpaceX | Justin Chill" property="og:title">
-  <meta content="An interactive analysis and data visualization of SpaceX rocket launches, exploring launch cadence trends over time, booster reusability, milestones, and Low Earth Orbit (LEO) satellite data." property="og:description">
+  <meta content="SpaceX launches by day of the year since 2010, how many times its boosters have flown, and how many of the satellites in low Earth orbit are Starlink." property="og:description">
   <meta content="https://justinchill.com/blog.html" property="og:see_also">
   <meta property="og:locality" content="Austin">
   <meta property="og:region" content="TX">
@@ -39,14 +39,14 @@
     property="og:image:alt">
 
   <meta name="datePublished" content="2020-06-30">
-  <meta name="dateModified" content="2025-08-06">
+  <meta name="dateModified" content="2026-11-25">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@JustinChill">
   <meta name="twitter:creator" content="@JustinChill">
   <meta name="twitter:title" content="SpaceX | Justin Chill">
-  <meta name="twitter:description" content="An interactive analysis and data visualization of SpaceX rocket launches, exploring launch cadence trends over time, booster reusability, milestones, and Low Earth Orbit (LEO) satellite data.">
+  <meta name="twitter:description" content="SpaceX launches by day of the year since 2010, how many times its boosters have flown, and how many of the satellites in low Earth orbit are Starlink.">
   <meta content="https://justinchill.com/imgs/cover/spacex_cover.webp" property="twitter:image">
   <meta content="A step chart showing the progression of SpaceX rocket flights by year since company founding." property="twitter:image:alt">
 
@@ -60,13 +60,37 @@
   <meta name="theme-color" content="#4C63B6">
   <meta name="color-scheme" content="light dark">
 
+  <style>
+    .chart {
+      --c1: #0072B2;
+      --c2: #C24E00;
+      --faint: rgba(100, 100, 100, .35);
+    }
+
+    html[data-theme="dark"] .chart {
+      --c1: #56B4E9;
+      --c2: #E69F00;
+      --faint: rgba(200, 200, 200, .35);
+    }
+
+    html[data-theme="dark"] .chart svg [fill="var(--c1)"] text,
+    html[data-theme="dark"] .chart svg text[fill="var(--c1)"] {
+      fill: var(--c1) !important;
+    }
+
+    html[data-theme="dark"] .chart svg [fill="var(--c2)"] text,
+    html[data-theme="dark"] .chart svg text[fill="var(--c2)"] {
+      fill: var(--c2) !important;
+    }
+  </style>
+
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   "headline": "SpaceX",
-  "alternativeHeadline": "SpaceX is launching rockets with increasing frequency",
-  "description": "An interactive analysis and data visualization of SpaceX rocket launches, exploring launch cadence trends over time, booster reusability records, key company milestones, and Low Earth Orbit (LEO) satellite proliferation with Starlink.",
+  "alternativeHeadline": "Falcon launches sped up six years running, until this one",
+  "description": "SpaceX launches by day of the year since 2010, how many times its boosters have flown, and how many of the satellites in low Earth orbit are Starlink.",
   "url": "https://justinchill.com/spacex.html",
   "mainEntityOfPage": {
     "@type": "WebPage",
@@ -82,11 +106,10 @@
     }
   },
   "datePublished": "2020-06-30",
-  "dateModified": "2025-08-06",
+  "dateModified": "2026-11-25",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
   "articleSection": "Data Visualization",
-  "wordCount": 1329,
   "image": {
     "@type": "ImageObject",
     "url": "https://justinchill.com/imgs/cover/spacex_cover.webp",
@@ -131,7 +154,6 @@
     "Elon Musk",
     "Cape Canaveral",
     "NASA Commercial Crew",
-    "D3.js",
     "Observable Plot",
     "Data visualization"
   ],
@@ -182,6 +204,17 @@
       "sameAs": "https://en.wikipedia.org/wiki/Data_visualization"
     }
   ],
+  "isBasedOn": {
+    "@type": "Dataset",
+    "name": "General Catalog of Artificial Space Objects (GCAT)",
+    "description": "Catalog of orbital launches and satellites, used here for Falcon launches through November 24, 2026 and satellites over 100 kg in low Earth orbit through June 2026.",
+    "url": "https://planet4589.org/space/gcat/",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "creator": {
+      "@type": "Person",
+      "name": "Jonathan McDowell"
+    }
+  },
   "mentions": [
     {
       "@type": "Person",
@@ -220,34 +253,30 @@
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-  <nav class="nav">
+  <nav class="nav" aria-label="Main">
     <div class="nav__list">
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-
+    
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item flex items-center justify-center p-0.5"
-        aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" aria-pressed="false" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z">
-            </path>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new tab)</span></a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
@@ -260,31 +289,34 @@
       </div>
       <span class="header-tag mid-size"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h2 class="mid-size">Blast off</h2>
-      <h3 class="mid-size">SpaceX is launching rockets with increasing frequency</h3>
-      <figure class="mid-size" id="cadence"
-        aria-label="Step chart showing the cumulative number of SpaceX launches over time."></figure>
-      <p>The launch on June 4, 2010, of a Falcon 9 rocket from Florida’s Cape Canaveral was a turning point in the
-        development of private space flight. Since that first successful test flight, Falcon 9 has gone on to become the
-        first orbital-class rocket to be reused and the first commercial rocket to ferry human passengers to the ISS.
-      </p>
-      <p>The chart above shows the cumulative launches SpaceX conducted in a given year. It is useful for extrapolating
-        launch cadence to total yearly launch count. You can see just how close SpaceX is to achieving its goal of a
-        rocket that can be flown and re-flown multiple times per week.</p>
-      <p>The important point about Falcon 9, so-called because its lift-off is propelled by nine of SpaceX’s proprietary
-        Merlin rocket motors, is that it is powerful enough to put people into orbit. The 230-foot-tall rocket weighs a
-        staggering 1,207,920 pounds and can shuttle a payload weighing 50,265 pounds to low-Earth orbit and a payload of
-        8,860 pounds to Mars. At sea level, Falcon 9 can generate a whopping 1.7 million pounds of thrust.</p>
-      <p>The Falcon 9 rocket is a two-stage affair. The heavy lifting is done by the nine-engine cluster, fueled by
-        kerosene and liquid oxygen. That burns for three minutes, before being jettisoned. The payload, a capsule
-        known as Dragon, is then carried into orbit by a single-Merlin-engine second stage that burns for an additional
-        six minutes. The unmanned version of that capsule is designed to accommodate six tons of cargo for the
-        inhabitants of the space station. That cargo could be replaced by satellites or anything else the client wants.
-      </p>
-      <p>Other private space companies are either restricted to launching small, unmanned satellites (Orbital Sciences
-        Corporation’s <a href="https://www.northropgrumman.com/space/pegasus-rocket">Pegasus</a>, for example), or—in
-        the case of Richard Branson’s Virgin Galactic—hope to take tourists on suborbital hops to briefly experience
-        zero gravity. Other rockets of this class include Boeing’s Delta IV and the Atlas V, operated jointly by Boeing
-        and Lockheed Martin.</p>
+      <h3 class="mid-size">Falcon launches sped up six years running, until this one</h3>
+      <figure class="mid-size chart" id="cadence"
+        aria-label="Line chart counting up each year’s Falcon launches by day. 2025 ends highest, at 165. 2024 ends at 134 and 2023 at 96. 2026 has reached 126 by November 24.">
+        <div aria-hidden="true"></div>
+        <figcaption>Falcon 9 and Falcon Heavy launches through November 24, 2026. Data: <a
+            href="https://planet4589.org/space/gcat/" target="_blank" rel="noopener">Jonathan McDowell, GCAT</a><a
+            href="#gcat" aria-describedby="footnote-label" id="gcat-ref"
+            aria-label="Footnote 1: Jonathan McDowell"></a></figcaption>
+      </figure>
+      <p>On June 4, 2010, a Falcon 9 left Cape Canaveral, Florida, for the first time and made it to orbit. It went on to
+        become the first rocket whose booster could land itself and fly again, and the first commercial rocket to carry
+        people to the International Space Station.</p>
+      <p>Each line above counts up one year’s launches, a step at a time. SpaceX went from 26 in 2020 to 165 in 2025,
+        close to one every other day. This year has been slower: 126 as of November 24, against 151 by the same date last
+        year.</p>
+      <p>The name comes from the nine Merlin engines at the bottom. <a
+          href="https://www.spacex.com/vehicles/falcon-9/" target="_blank" rel="noopener">By SpaceX’s numbers</a>, Falcon 9
+        is 230 feet tall, weighs 1.2 million pounds with a full tank, and pushes off with 1.7 million pounds of thrust. It
+        can put about 50,000 pounds into low Earth orbit or send 8,860 pounds to Mars.</p>
+      <p>It flies in two stages. The first burns kerosene and liquid oxygen for two and a half minutes, then lets go and
+        comes back to land. The second, with one Merlin, takes the payload the rest of the way: a Dragon capsule carrying
+        cargo or crew, or a stack of satellites tucked under the nose.</p>
+      <p>For almost ten years, nobody else could bring back a booster from an orbital launch. Blue Origin did it with <a
+          href="https://en.wikipedia.org/wiki/New_Glenn" target="_blank" rel="noopener">New Glenn</a> in November 2025. China did it twice in 2026, catching a <a
+          href="https://www.scientificamerican.com/article/chinas-long-march-10b-rocket-successfully-launches-and-lands-in-a-global-spaceflight-milestone/"
+          target="_blank" rel="noopener">Long March 10B</a> in a net in July and landing <a
+          href="https://spaceflightnow.com/2026/08/19/landspace-becomes-first-commercial-chinese-company-to-land-an-orbital-class-booster/"
+          target="_blank" rel="noopener">LandSpace’s Zhuque-3</a> on its legs in August.</p>
       <h2>Reusability</h2>
       <picture>
         <source srcset="imgs/20140419_std001_0.webp">
@@ -293,109 +325,95 @@
           alt="A cartoon shows a joyful man, arms raised, as a rocket labeled SpaceX successfully lands. The background features a path of smoke indicating a loop in the sky. The cartoon conveys a sense of triumph and innovation."
           loading="lazy" decoding="async" />
       </picture>
-      <p>Everything about space flight is extreme. Even relatively modest rockets are hundreds of feet tall. The biggest
-        (the Saturn V, which launched astronauts to the Moon) remains the most powerful vehicle ever built. But space
-        flight is extremely expensive, too. One reason for that is, despite all their technological sophistication,
-        rockets are usually one-shot wonders. After they have fired their engines for a few minutes they are left to
-        fall back to Earth, usually splashing ignominiously into the ocean.</p>
-      <p>Imagine if airplanes could only fly once before being disposed of. Air travel would be impossibly expensive.
-        The dream, therefore, has been to make reusable rockets. Making something able to fly more than once would slash
-        the cost of getting into space. History hints that reusability is difficult to do properly. The space shuttle
-        itself, for instance, was intended to fly every week. In the end, it made only 135 trips over the course of 30
-        years.<a href="#STS" aria-describedby="footnote-label" id="STS-ref"></a> </p>
+      <p>Most rockets are thrown away. They run for a few minutes, use up their fuel, and drop into the sea, which is a
+        strange way to treat a machine that costs tens of millions of dollars. Nobody could afford a plane ticket if the
+        airline scrapped the plane when it landed.</p>
+      <p>The trouble is building something that survives the trip and can go again soon. The space shuttle was supposed
+        to fly every week. It flew 135 times in 30 years.<a href="#STS" aria-describedby="footnote-label" id="STS-ref"
+          aria-label="Footnote 2: NASA"></a></p>
+      <p>Falcon 9 is where that changed. The booster called B1067 has flown 37 times since June 2021, and 622 of the
+        rocket’s 705 launches have used a booster that had been up before.</p>
 
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
-      <h3>Booster reuse</h3>
-      <figure id="boosterReuse" aria-label="Bar chart showing the number of times SpaceX boosters have been reused.">
+      <h3>Frequent flyers</h3>
+      <figure id="boosters" class="chart"
+        aria-label="Bar chart of the 15 Falcon boosters with the most flights, led by B1067 with 37, B1063 with 36, and B1071 with 35.">
+        <div aria-hidden="true"></div>
+        <figcaption>The 15 Falcon boosters with the most flights, through November 24, 2026. Data: <a
+            href="https://planet4589.org/space/gcat/" target="_blank" rel="noopener">GCAT</a></figcaption>
       </figure>
 
       <h2>Company milestones</h2>
-      <h3>2010: Falcon 9’s First Test Flight</h3>
+      <h3>2010: Falcon 9’s first flight</h3>
       <img
         srcset="https://hips.hearstapps.com/hmg-prod/images/the-spacex-falcon-9-test-rocket-lifts-off-of-pad-40-at-cape-news-photo-1591212772.jpg?crop=1.00xw:0.846xh;0.00205xw,0.0400xh&amp;resize=640:* 640w, https://hips.hearstapps.com/hmg-prod/images/the-spacex-falcon-9-test-rocket-lifts-off-of-pad-40-at-cape-news-photo-1591212772.jpg?crop=1.00xw:0.846xh;0.00205xw,0.0400xh&amp;resize=980:* 980w"
         alt="SpaceX launches giant Falcon 9 test rocket"
         src="https://hips.hearstapps.com/hmg-prod/images/the-spacex-falcon-9-test-rocket-lifts-off-of-pad-40-at-cape-news-photo-1591212772.jpg?crop=1.00xw:0.846xh;0.00205xw,0.0400xh&amp;resize=980:*"
         decoding="async" loading="lazy">
-      <p>On June 4, 2010, Falcon 9 nailed its first ever test flight. At 2:45 p.m. local time, the rocket blasted off
-        from the coastal launch pad at Cape Canaveral Air Force Station in Florida. It reached an orbit 155 miles above
-        Earth.</p>
-      <p>“We got our Falcon 9 rocket to orbit,” SpaceX founder and CEO Elon Musk gleefully told reporters at the time.
-        “It achieved a near bull’s-eye.” </p>
-      <h3>2015: Falcon 9 Sticks Its First Landing</h3>
-      <p>The third time’s the charm. After two previous attempts, SpaceX successfully landed the first stage of its
-        orbital-class Falcon 9 rocket back on Earth for the first time. Shortly after Falcon 9 and its cargo launched at
-        8:29 p.m. ET on Dec. 21, 2015, the first stage separated and returned to Earth for a soft landing, one that
-        would change the course of spaceflight forever. </p>
-      <p>(A month earlier, the Bezos-owned spaceflight company Blue Origin landed its New Shepard rocket after a quick
-        suborbital jaunt.)</p>
-      <h3>2016: Falcon 9 Nails Its Landing at Sea</h3>
-      <p>After one successful ground landing and multiple failed attempts to land at sea—some of which were pretty
-        <a href="https://www.youtube.com/watch?v=rAzwuEmZcmE" target="_blank" rel="noopener noreferrer">spectacular</a>—SpaceX
-        finally nailed an ocean landing aboard the drone ship “<em>Of Course I Still Love You</em>.” A chase plane
-        captured the footage shortly after the April 8, 2016, launch from Cape Canaveral Air Force Station in Florida.
-      </p>
-      <h3>2016: An Explosion on the Pad</h3>
-      <p>On Sept. 1, 2016, SpaceX <a
+      <p>The debut went about as well as a debut can. Falcon 9 lifted off at 2:45 p.m. on June 4 and settled into an orbit
+        155 miles up.</p>
+      <h3>2015: A booster lands</h3>
+      <p>Two boosters had already crashed trying to land on a ship. On December 21, 2015, a third went back to Cape
+        Canaveral instead, and stood there. A month earlier, Blue Origin had landed its New Shepard, though that rocket
+        only goes up to the edge of space and back.</p>
+      <h3>2016: A booster lands at sea</h3>
+      <p>After a string of <a href="https://www.youtube.com/watch?v=rAzwuEmZcmE" target="_blank"
+          rel="noopener noreferrer">spectacular failures</a>, a Falcon 9 came down on the drone ship <em>Of Course I Still
+          Love You</em> on April 8, 2016.</p>
+      <h3>2016: An explosion on the pad</h3>
+      <p>On September 1, a Falcon 9 <a
           href="https://www.popularmechanics.com/space/rockets/a22660/possible-spacex-falcon-9-explosion-on-the-launch-pad/"
-          target="_blank" rel="noopener noreferrer">lost one of its Falcon 9 rockets</a> on the launch pad at Cape
-        Canaveral Air Force Station during a static fire test. Unfortunately, the vehicle and its $195 million
-        payload—an AMOS-6 satellite to be used by Facebook (now Meta)—were lost.</p>
-      <p>The company <a href="https://www.popularmechanics.com/space/rockets/a24581/spacex-explosion-new-launch-date/"
-          target="_blank" rel="noopener noreferrer">later announced</a> that a pressure vessel containing chilled helium ruptured after liquid
-        oxygen found its way between the tank and its carbon fiber lining.</p>
-      <h3>2017: SpaceX Reuses Rocket for the First Time</h3>
-      <p>On March 30, 2017, SpaceX <a href="https://www.popularmechanics.com/space/rockets/a25864/spacex-refly-rocket/"
-          target="_blank" rel="noopener noreferrer">launched a previously flown rocket</a> for the first time. The Falcon 9 rocket took off from
-        Cape Canaveral Air Force Station in Florida and hoisted an SES-10 communications satellite into orbit before
-        returning to Earth. </p>
-      <h3>2018: Falcon Heavy Launch</h3>
-      <p>On February 6, 2018, SpaceX <a
+          target="_blank" rel="noopener noreferrer">blew up while being fueled</a> for an engine test. It took with it
+        AMOS-6, a $195 million satellite that was going to carry internet service for Facebook (now Meta). <a
+          href="https://www.popularmechanics.com/space/rockets/a24581/spacex-explosion-new-launch-date/"
+          target="_blank" rel="noopener noreferrer">The cause</a> was a helium tank that burst after liquid oxygen worked
+        its way between the tank’s liner and its carbon-fiber wrap.</p>
+      <h3>2017: The first reused booster</h3>
+      <p>On March 30, <a href="https://www.popularmechanics.com/space/rockets/a25864/spacex-refly-rocket/"
+          target="_blank" rel="noopener noreferrer">a booster flew for the second time</a>. It put the SES-10
+        communications satellite in orbit and landed again.</p>
+      <h3>2018: Falcon Heavy</h3>
+      <p>Strap three Falcon 9 boosters together and you get <a
           href="https://www.popularmechanics.com/space/rockets/a16635350/watch-the-spacex-falcon-heavy-launch-here/"
-          target="_blank" rel="noopener noreferrer">launched its Falcon Heavy Rocket</a> for the first time. The <a
-          href="https://www.popularmechanics.com/space/rockets/a32490281/saturn-v-space-shuttle-sls-falcon-heavy-rocket-launch-video/"
-          target="_blank" rel="noopener noreferrer">spacecraft</a>, powered by three Falcon 9 rockets (that’s a total of 27 Merlin engines, if
-        you’re counting!) <a
+          target="_blank" rel="noopener noreferrer">Falcon Heavy</a>, with 27 Merlin engines. On its first flight, on
+        February 6, it sent <a
           href="https://www.popularmechanics.com/space/a26208288/falcon-heavy-anniversary-star-man-elon-musk/"
-          target="_blank" rel="noopener noreferrer">launched</a> Musk’s cherry-red Tesla Roadster into a Mars-like orbit.</p>
-      <p>The spacecraft's two boosters made it back to their landing pads safely. The core stage, however, did not stick
-        its ocean landing.</p>
-      <h3>2018: Falcon 9 Falls Into the Sea</h3>
-      <p>Just after launching and separating from its Commercial Resupply Mission 16 cargo on Dec. 5, 2018, Falcon 9
-        flipped around and started the journey back to Earth. Unfortunately, <a
+          target="_blank" rel="noopener noreferrer">Elon Musk’s red Tesla Roadster</a> out past the orbit of Mars. The two
+        side boosters landed side by side. The one in the middle missed its ship.</p>
+      <h3>2018: A booster goes for a swim</h3>
+      <p>On December 5, a booster coming home from a cargo launch lost a pump that works its steering fins, <a
           href="https://www.theverge.com/2018/12/5/18127630/spacex-falcon-9-rocket-landing-failure-ground-cape-canaveral"
-          target="_blank" rel="noopener noreferrer">as it barreled back toward Earth</a>, a stalled grid fin hydraulic pump caused it to roll and
-        tumble into the sea. It was the first time Falcon 9 had failed to stick a ground landing. </p>
-      <h3>2019: Commercial Crew Demo-1 Launch</h3>
-      <p>Falcon 9 <a
+          target="_blank" rel="noopener noreferrer">spun</a>, and came down in the water off Cape Canaveral. It was the
+        first failed landing on land.</p>
+      <h3>2019: Dragon’s test run</h3>
+      <p>On March 2, a Falcon 9 sent up <a
           href="https://www.popularmechanics.com/space/rockets/a30369340/crew-dragon-simulation/"
-          target="_blank" rel="noopener noreferrer">successfully sent the Dragon capsule</a> into orbit for its first demonstration mission. The spacecraft launched at 2:49 a.m. ET on
-        March 2, 2019, from the historic Launch Complex 39A at NASA’s Kennedy Space Center. The Demo-1 mission
-        successfully showed that the Dragon capsule could dock and undock with the International Space Station. </p>
-      <p>Falcon 9 completed its mission, too, safely landing back on the autonomous drone ship “<em>Of Course I Still
-          Love You</em>” shortly after launch. </p>
-      <h3>2020: Crew Dragon In-Flight Abort Test</h3>
-      <p>Falcon 9 goes <strong>KABOOM</strong>. Leading up to the successful launch of the Demo-2 mission, SpaceX and
-        NASA conducted <a
+          target="_blank" rel="noopener noreferrer">a Crew Dragon with nobody in it</a>. The capsule docked with the space
+        station by itself and came home.</p>
+      <h3>2020: Blowing one up on purpose</h3>
+      <p>Falcon 9 goes <strong>KABOOM</strong>. On January 19, SpaceX and NASA <a
           href="https://www.popularmechanics.com/space/rockets/a30570218/watch-spacex-destroy-falcon-9-rocket/"
-          target="_blank" rel="noopener noreferrer">a critical in-flight abort test</a> to evaluate the capsule’s ability to jettison to safety in the event of an
-        emergency. </p>
-      <p>SpaceX launched its Crew Dragon capsule and Falcon 9 at 10:30 a.m. ET. Only one vehicle returned. Shortly after
-        the spacecraft launched, the capsule separated from Falcon 9 and safely shot off across the sky. </p>
-      <h3>2020: Commercial Crew Demo-2 Launch</h3>
-      <p>At 3:22 p.m. ET on May 30, SpaceX’s <a
-          href="https://www.popularmechanics.com/space/rockets/a32021924/nasa-worm-logo-spacex-demo-2/"
-          target="_blank" rel="noopener noreferrer">worm-branded</a>
-        Falcon 9 rocket became the first commercial rocket to <a
+          target="_blank" rel="noopener noreferrer">cut the engines mid-flight</a> to see whether Dragon could get its
+        crew away from a failing rocket. The capsule escaped. The rocket did not.</p>
+      <h3>2020: Astronauts aboard</h3>
+      <p>On May 30, NASA’s Bob Behnken and Doug Hurley <a
           href="https://www.popularmechanics.com/space/rockets/a32685807/watch-spacex-nasa-crew-dragon-launch-live/"
-          target="_blank" rel="noopener noreferrer">lift astronauts into space</a>. </p>
-      <p>The blast from Launch Complex 39A at NASA’s Kennedy Space Center catapulted NASA astronauts Bob Behnken and
-        Doug Hurley into space and solidified Falcon 9’s place in spaceflight history. </p>
+          target="_blank" rel="noopener noreferrer">rode a Falcon 9 to orbit</a> from Kennedy Space Center, the first
+        people to get there on a commercial rocket.</p>
+      <h3>2021: No astronauts aboard</h3>
+      <p><a href="https://en.wikipedia.org/wiki/Inspiration4" target="_blank" rel="noopener noreferrer">Inspiration4</a>
+        took four private citizens around the Earth for three days in September, the first crew in orbit without a
+        professional astronaut.</p>
+      <h3>2024: A private spacewalk</h3>
+      <p>On September 12, two of the four people on <a href="https://en.wikipedia.org/wiki/Polaris_Dawn" target="_blank"
+          rel="noopener noreferrer">Polaris Dawn</a> opened Dragon’s hatch and stood up in it, the first spacewalk on a
+        commercial flight.</p>
 
       <h2>Starship</h2>
-      <p>Starship is the world’s largest rocket. It consists of two parts: the Super Heavy booster stage, a behemoth 71
-        meters tall with 33 engines, and the 50-meter Starship upper stage. On Starship’s first two test flights, it
-        failed to reach orbit; it managed on the third, in March, but then broke apart while re-entering the atmosphere.
-      </p>
+      <p>Starship is the largest and most powerful rocket ever flown. The version flying now is about 407 feet tall, and
+        the 33 engines on its Super Heavy booster make as much as 18 million pounds of thrust, about <a
+          href="https://spaceflightnow.com/2026/05/23/musk-praises-epic-super-heavy-starship-launch/" target="_blank"
+          rel="noopener">twice what NASA’s SLS does</a>. Both stages are meant to fly home and be used again.</p>
       <figure>
         <figcaption class="right">Starship returning on October 13, 2024. Photograph: AP</figcaption>
         <img
@@ -403,419 +421,163 @@
           alt="A rocket stage is descending with flames visible from its base against a sunset sky. It appears to be landing or in motion near a launch tower. The ground below is flat with sparse vegetation."
           loading="lazy" decoding="async" />
       </figure>
+      <p>The first launches, in 2023, ended in explosions. On the fifth, on October 13, 2024, the launch tower caught the
+        booster out of the air with a pair of mechanical arms. On the fifteenth, in November 2026, Starship circled the
+        Earth 14 times, let go of 26 Starlink satellites, and came back to be <a
+          href="https://kutv.com/news/nation-world/spacex-catches-starship-after-orbit-in-historic-first-as-booster-explodes-over-gulf"
+          target="_blank" rel="noopener">caught the same way</a>. Its booster wasn’t so lucky: it blew up over the Gulf of
+        Mexico.</p>
 
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
       <h2>Traffic in the sky</h2>
-      <h3>Number of objects weighing more than 100 kg in Low Earth Orbit (LEO)</h3>
-      <figure id="starlink" aria-label="Area chart showing the number of objects weighing more than 100 kg in Low Earth Orbit (LEO) from 2005 to 2023.">
-        <figcaption>Data: <a href="https://planet4589.org/space/papers/space22.pdf">Jonathan McDowell</a>, <em>Space
-            Activities in 2022<a href="#fw" aria-describedby="footnote-label" id="fw-ref"></a></em></figcaption>
+      <h3>Satellites over 100 kg in low Earth orbit</h3>
+      <figure id="orbit" class="chart"
+        aria-label="Stacked area chart of satellites over 100 kilograms in low Earth orbit, 2005 to July 2026. Starlink goes from none before 2018 to 10,719. Everything else grows from 1,016 to 4,028.">
+        <div aria-hidden="true"></div>
+        <figcaption>Working or not, through June 2026. Data: <a href="https://planet4589.org/space/gcat/" target="_blank"
+            rel="noopener">GCAT</a></figcaption>
       </figure>
-      <p>Low Earth orbit is getting crowded, in particular by SpaceX’s Starlink communication satellites. There are now
-        over 3,300 in operation, with thousands more planned to launch.</p>
+      <p>Low Earth orbit is getting crowded, and most of the crowd is SpaceX’s Starlink, which beams down internet
+        service. At the start of 2019 there were two test satellites. By November 25, 2026, there were 11,184 in working
+        order.<a href="#star" aria-describedby="footnote-label" id="star-ref"
+          aria-label="Footnote 3: Jonathan McDowell"></a></p>
 
     </article>
   </main>
   <footer>
     <h2 id="footnote-label">Footnotes</h2>
     <ol>
-      <li id="STS"><a href="https://www.nasa.gov/missions/space-shuttle/sts-135/sts-135-the-final-voyage/">NASA</a>,
-        STS-135: The Final Voyage<a href="#STS-ref" aria-label="Back to content">↩</a></li>
-      <li id="fw"><a href="https://observablehq.com/d/fd212f6b2c0f1ade">Andrew Ryan</a> has a great breakdown on
-        extracting the space data from fixed-width text into a more usable form<a href="#fw-ref"
-          aria-label="Back to content">↩</a>
-      </li>
+      <li id="gcat"><strong>Jonathan McDowell</strong>, <a href="https://planet4589.org/space/gcat/"
+          target="_blank" rel="noopener"><em>General Catalog of Artificial Space Objects</em></a> (CC BY 4.0). The 2020
+        count includes the in-flight abort test; the 2016 count leaves out the rocket lost on the pad. <a
+          href="#gcat-ref" aria-label="Back to content">↩</a></li>
+      <li id="STS"><strong>NASA</strong>, <a
+          href="https://www.nasa.gov/missions/space-shuttle/sts-135/sts-135-the-final-voyage/" target="_blank"
+          rel="noopener"><em>STS-135: The Final Voyage</em></a> <a href="#STS-ref" aria-label="Back to content">↩</a></li>
+      <li id="star"><strong>Jonathan McDowell</strong>, <a href="https://planet4589.org/space/con/star/stats.html"
+          target="_blank" rel="noopener"><em>Starlink Launch Statistics</em></a>, read November 25, 2026. <a
+          href="#star-ref" aria-label="Back to content">↩</a></li>
     </ol>
     <div>
       <p>Justin Chill &copy; 2026</p>
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
-            alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
+            alt="" class="icon" width="16" height="16" loading="lazy" decoding="async">Source code<span class="visually-hidden"> (opens in new tab)</span></a></span>
     </div>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/d3@7.9.2/dist/d3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.19/dist/plot.umd.min.js"></script>
 
-  <script type="text/javascript">
-    const size = 12;
+  <script>
+    (function () {
+      const box = id => document.querySelector(`#${id} > div`);
+      const day = date => Math.floor((date - new Date(Date.UTC(date.getUTCFullYear(), 0, 1))) / 864e5) + 1;
+      const font = { fontFamily: "var(--font-main)", fontSize: "13px", background: "transparent", color: "var(--text-color)", overflow: "visible" };
 
-    const groupBy = (xs, key) =>
-      xs.reduce((rv, x) => {
-        (rv[x[key]] = rv[x[key]] || []).push(x);
-        return rv;
-      }, {});
-
-    const trendlines = [{
-      days: 0,
-      launches: 0,
-      trend: "Monthly"
-    },
-    {
-      days: 365,
-      launches: 12,
-      trend: "Monthly"
-    },
-    {
-      days: 0,
-      launches: 0,
-      trend: "Two per month"
-    },
-    {
-      days: 365,
-      launches: 24,
-      trend: "Two per month"
-    },
-    {
-      days: 0,
-      launches: 0,
-      trend: "Three per month"
-    },
-    {
-      days: 365,
-      launches: 36,
-      trend: "Three per month"
-    },
-    {
-      days: 0,
-      launches: 0,
-      trend: "Four per month"
-    },
-    {
-      days: 365,
-      launches: 48,
-      trend: "Four per month"
-    },
-    {
-      days: 0,
-      launches: 0,
-      trend: "Every sixth day"
-    },
-    {
-      days: 365,
-      launches: 365 / 6,
-      trend: "Every sixth day"
-    },
-    {
-      days: 0,
-      launches: 0,
-      trend: "Every fifth day"
-    },
-    {
-      days: 365,
-      launches: 365 / 5,
-      trend: "Every fifth day"
-    },
-    {
-      days: 0,
-      launches: 0,
-      trend: "Every fourth day"
-    },
-    {
-      days: 365,
-      launches: 365 / 4,
-      trend: "Every fourth day"
-    },
-    {
-      days: 0,
-      launches: 0,
-      trend: "Every third day"
-    },
-    {
-      days: 365,
-      launches: 365 / 3,
-      trend: "Every third day"
-    },
-    {
-      days: 0,
-      launches: 0,
-      trend: "Every second day"
-    },
-    {
-      days: (365 / 3) * 2,
-      launches: 365 / 3,
-      trend: "Every second day"
-    },
-    {
-      days: 0,
-      launches: 0,
-      trend: "Daily"
-    },
-    {
-      days: (365 / 3) * 1,
-      launches: 365 / 3,
-      trend: "Daily"
-    }
-    ];
-
-    // Use Promises to async request data
-    const promises = [
-      d3.json("https://get2orbit-default-rtdb.europe-west1.firebasedatabase.app/v2/launches.json"),
-      d3.csv("data/starlink_data_tidy.csv", d3.autoType)
-    ];
-
-    let globalLoadedData = null;
-
-    function renderPlots() {
-      if (!globalLoadedData) return;
-
-      const cadenceEl = document.getElementById("cadence");
-      const boosterEl = document.getElementById("boosterReuse");
-      const starlinkEl = document.getElementById("starlink");
-
-      if (cadenceEl) cadenceEl.replaceChildren(...cadenceEl.querySelectorAll(":scope > figcaption")); // clear the old chart, keep the caption
-      if (boosterEl) boosterEl.replaceChildren(...boosterEl.querySelectorAll(":scope > figcaption")); // clear the old chart, keep the caption
-      if (starlinkEl) starlinkEl.replaceChildren(...starlinkEl.querySelectorAll(":scope > figcaption")); // clear the old chart, keep the caption
-
-      const widthCadence = cadenceEl ? cadenceEl.getBoundingClientRect().width || 600 : 600;
-      const widthBooster = boosterEl ? boosterEl.getBoundingClientRect().width || 600 : 600;
-
-      const rawFirebase = globalLoadedData[0];
-      const starlinkCsv = globalLoadedData[1];
-
-      if (rawFirebase && Array.isArray(rawFirebase)) {
-        const launches = rawFirebase.map((d) => ({
-          payload: d.payload,
-          date: new Date(d.launch_time_utc),
-          site: d.launch_site,
-          orbit: d.orbit,
-          customer: d.customer,
-          launch_outcome: d.launch_outcome,
-          booster_landing_outcome: d.booster_landing_outcome,
-          booster_landing_type: d.booster_landing_type,
-          booster_name: d.booster
-        }));
-
-        const grouped = groupBy(
-          rawFirebase.map((l) => ({
-            launch_time_utc: l.launch_time_utc,
-            launch_year: new Date(l.launch_time_utc).getFullYear(),
-            payload: l.payload
-          })),
-          "launch_year"
-        );
-
-        const years = Object.keys(grouped);
-        const latestYear = years[years.length - 1];
-
-        const data = years
-          .map((year) => [{
-            category: +year,
-            x: 0,
-            y: 0
-          },
-          ...grouped[year].map((d, i) => {
-            const date = new Date(d.launch_time_utc);
-            return {
-              category: d.launch_year,
-              x: (date.getTime() - new Date(date.getFullYear(), 0, 1)) / (24 * 3600000),
-              y: i + 1,
-              payload: d.payload
-            };
-          }),
-          {
-            category: +year,
-            x: +year === new Date().getFullYear() ?
-              (new Date().getTime() - new Date(new Date().getFullYear(), 0, 1)) / (24 * 3600000) : 365,
-            y: grouped[year].length
-          }
-          ])
-          .flat();
-
-        const booster_count = launches
-          .map(
-            (l) =>
-              l.booster_name && {
-                name: l.booster_name.split(".")[0],
-                count: +l.booster_name.split(".")[1] || 1
-              }
-          )
-          .filter((d) => d);
-
-        const cadence = {
-          grid: true,
-          width: widthCadence,
-          marginRight: 95,
-          style: {
-            fontSize: size,
-            paddingBottom: 0,
-            background: "transparent",
-          },
-          y: {
-            grid: true,
-            label: "↑ Number of launches",
-            nice: true,
-            ticks: 4,
-            tickSize: 0,
-          },
-          x: {
-            label: "Days since year start →",
-          },
-          color: {
-            type: "categorical",
-            scheme: "category10",
-            legend: false,
-          },
-          marks: [
-            Plot.lineY(data, {
-              x: "x",
-              y: "y",
-              curve: "step-after",
-              strokeWidth: 2,
-              z: "category",
-              stroke: "category",
-              tip: true,
-              title: d => d.y + " launches since Jan 1, " + d.category,
-              strokeOpacity: (d) => (String(d.category) === String(latestYear) ? 1 : 0.25)
-            }),
-            Plot.lineY(trendlines, {
-              x: "days",
-              y: "launches",
-              strokeWidth: 0.5,
-              z: "trend",
-              stroke: "gray",
-              strokeDasharray: "4"
-            }),
-            Plot.text(trendlines, {
-              filter: (d) => d.days !== 0,
-              x: "days",
-              y: "launches",
-              text: "trend",
-              fill: "gray",
-              dy: -2,
-              dx: 4,
-              textAnchor: "start"
-            }),
-            Plot.text(data, Plot.selectLast({
-              x: "x",
-              y: "y",
-              text: d => d.y + " launches in " + d.category,
-              fill: "currentColor",
-              dy: -14,
-              dx: 6,
-              fontSize: size + 1,
-              textAnchor: "start"
-            })),
-            Plot.ruleY([0]),
-            Plot.ruleX([0])
-          ]
-        };
-
-        const uniqueBoostersCount = new Set(booster_count.map((d) => d.name)).size || 25;
-
-        const boosterReuse = {
-          grid: true,
-          width: widthBooster,
-          height: Math.max(380, uniqueBoostersCount * 18 + 40),
-          marginLeft: widthBooster < 500 ? 55 : 65,
-          marginRight: 20,
-          style: {
-            fontSize: size,
-            paddingBottom: 0,
-            textTransform: "capitalize",
-            background: "transparent",
-          },
-          y: {
-            labelAnchor: "top",
-            label: "Booster name",
-          },
-          x: {
-            label: "Reuses →",
-            grid: true,
-          },
-          marks: [
-            Plot.barX(
-              booster_count,
-              Plot.groupY({
-                x: "max"
-              }, {
-                x: "count",
-                y: "name",
-                fill: "#4C63B6",
-                tip: true,
-                sort: {
-                  y: "-x"
-                }
-              })
-            ),
-            Plot.ruleX([0])
-          ]
-        };
-
-        if (cadenceEl) cadenceEl.appendChild(Plot.plot(cadence));
-        if (boosterEl) boosterEl.appendChild(Plot.plot(boosterReuse));
-      }
-
-      if (starlinkCsv && Array.isArray(starlinkCsv)) {
-        const data_tidy = starlinkCsv.map((d) => ({
-          date: d.date,
-          category: d.category === "Star" ? "Starlink" : d.category,
-          value: d.value,
-        }));
-
-        const starlink = {
-          grid: true,
-          width: widthBooster,
-          marginRight: 20,
-          style: {
-            fontSize: size,
-            paddingBottom: 0,
-            textTransform: "capitalize",
-            background: "transparent",
-          },
-          color: {
-            legend: true,
-            range: ["#36a9e1", "#eb5b25"]
-          },
-          x: {
-            domain: [2005, 2023],
-            tickFormat: "Y",
-            tickSize: 0,
-            label: "Year →"
-          },
-          y: {
-            domain: [0, 4500],
-            grid: true,
-            tickSize: 0,
-            label: "Objects in LEO →",
-            labelAnchor: "top",
-            nice: true
-          },
-          marks: [
-            Plot.areaY(
-              data_tidy.filter((d) => d.date >= 2005), {
-                x: "date",
-                y: "value",
-                fill: "category",
-                tip: true
-              }
-            ),
-            Plot.ruleY([0])
-          ]
-        };
-
-        if (starlinkEl) starlinkEl.appendChild(Plot.plot(starlink));
-      }
-    }
-
-    Promise.allSettled(promises)
-      .then(function (results) {
-        globalLoadedData = [
-          results[0].status === "fulfilled" ? results[0].value : null,
-          results[1].status === "fulfilled" ? results[1].value : null
+      Promise.all([
+        d3.csv("data/spacex-launches.csv"),
+        d3.csv("data/spacex-leo.csv", d3.autoType)
+      ]).then(([launches, orbit]) => {
+        // One step per launch, counting up from January 1 of each year
+        const last = launches.at(-1).date;
+        const years = d3.groups(launches, d => +d.date.slice(0, 4));
+        const thisYear = years.at(-1)[0];
+        const steps = years.flatMap(([year, list]) => {
+          const points = list.map((d, i) => ({ year, day: day(new Date(d.date)), n: i + 1, mission: d.mission, date: d.date }));
+          const end = year === thisYear ? day(new Date(last)) : 365;
+          return [{ year, day: 1, n: 0 }, ...points, { year, day: Math.max(end, points.at(-1).day), n: points.length, total: true }];
+        });
+        const totals = steps.filter(d => d.total);
+        const pace = [
+          { label: "Daily", days: 1 }, { label: "Every other day", days: 2 }, { label: "Every third day", days: 3 }, { label: "Weekly", days: 7 }
         ];
-        if (results[0].status === "rejected") {
-          console.error("Error loading SpaceX launch data:", results[0].reason);
-        }
-        if (results[1].status === "rejected") {
-          console.error("Error loading Starlink CSV data:", results[1].reason);
-        }
-        renderPlots();
-      });
+        const top = 190;
 
-    let resizeTimer;
-    window.addEventListener("resize", function () {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(renderPlots, 200);
-    });
+        const boosters = Array.from(d3.rollup(launches.filter(d => d.booster), v => d3.max(v, d => +d.flight), d => d.booster), ([booster, flights]) => ({ booster, flights }))
+          .sort((a, b) => d3.descending(a.flights, b.flights)).slice(0, 15);
+
+        const sky = orbit.flatMap(d => [
+          { date: new Date(d.month), kind: "Everything else", n: d.other },
+          { date: new Date(d.month), kind: "Starlink", n: d.starlink }
+        ]);
+        const end = orbit.at(-1);
+
+        function cadence(width) {
+          const small = width < 560;
+          const color = d => d.year === thisYear ? "var(--c1)" : d.year === thisYear - 1 ? "var(--c2)" : "var(--faint)";
+          const line = (filter, strokeWidth) => Plot.lineY(steps, {
+            filter, x: "day", y: "n", z: "year", curve: "step-after", stroke: color, strokeWidth
+          });
+          return Plot.plot({
+            width, height: small ? 360 : 440, marginRight: small ? 78 : 110, marginLeft: 36, marginTop: 24, style: font,
+            x: { domain: [1, 365], ticks: [1, 91, 182, 274, 365], tickFormat: d => ({ 1: "Jan", 91: "Apr", 182: "Jul", 274: "Oct", 365: "Dec" })[d], label: null, tickSize: 0 },
+            y: { domain: [0, top], grid: true, ticks: 4, tickSize: 0, label: "Launches so far that year" },
+            marks: [
+              Plot.ruleY([0]),
+              Plot.link(pace, { x1: 1, y1: 0, x2: d => Math.min(365, top * d.days), y2: d => Math.min(365, top * d.days) / d.days, stroke: "var(--muted-color)", strokeOpacity: .7, strokeDasharray: "3 4" }),
+              Plot.text(pace.filter(d => d.days === 1), { x: 160, y: 160, text: "label", dx: -8, textAnchor: "end", fill: "var(--muted-color)" }),
+              Plot.text(pace.filter(d => d.days > 1), { x: 365, y: d => 365 / d.days, text: d => small ? d.label.replace("Every ", "").replace("other", "2nd").replace("third", "3rd").replace("2nd day", "Every 2 days").replace("3rd day", "Every 3 days") : d.label, dx: 6, textAnchor: "start", fill: "var(--muted-color)" }),
+              line(d => d.year < thisYear - 1, 1.25),
+              line(d => d.year === thisYear - 1, 2.25),
+              line(d => d.year === thisYear, 3),
+              Plot.text(totals, { filter: d => d.year >= thisYear - 4 && d.year < thisYear, x: "day", y: "n", text: d => `${d.n} in ${d.year}`, dx: 6, textAnchor: "start", fontWeight: 700, fill: d => d.year === thisYear - 1 ? "var(--c2)" : "var(--text-color)" }),
+              Plot.link(totals, { filter: d => d.year === thisYear, x: "day", y1: d => d.n + 3, y2: 174, stroke: "var(--c1)", strokeWidth: 1 }),
+              Plot.text(totals, { filter: d => d.year === thisYear, x: "day", y: 180, text: d => `${d.n} so far in ${d.year}`, dx: 6, textAnchor: "end", fontWeight: 700, fill: "var(--c1)", stroke: "var(--bg-color)", strokeWidth: 4 }),
+              Plot.tip(steps, Plot.pointer({ filter: d => d.mission, x: "day", y: "n", title: d => `#${d.n} of ${d.year}\n${d.mission}\n${d3.utcFormat("%B %-d, %Y")(new Date(d.date))}`, fill: "var(--bg-color)" }))
+            ]
+          });
+        }
+
+        function flyers(width) {
+          return Plot.plot({
+            width, height: 420, marginLeft: 58, marginRight: 34, marginTop: 4, marginBottom: 4, style: font,
+            x: { axis: null, domain: [0, boosters[0].flights] },
+            y: { label: null, tickSize: 0, domain: boosters.map(d => d.booster), padding: .25 },
+            marks: [
+              Plot.barX(boosters, { x: "flights", y: "booster", fill: "var(--c1)" }),
+              Plot.text(boosters, { x: "flights", y: "booster", text: "flights", dx: 6, textAnchor: "start", fontWeight: 700 }),
+              Plot.ruleX([0])
+            ]
+          });
+        }
+
+        function satellites(width) {
+          const small = width < 480;
+          const last = new Date(end.month);
+          return Plot.plot({
+            width, height: 360, marginLeft: 48, marginRight: small ? 8 : 12, marginTop: 24, style: font,
+            x: { label: null, tickSize: 0, ticks: small ? 5 : 10 },
+            y: { grid: true, ticks: 4, tickSize: 0, label: "Satellites" },
+            color: { domain: ["Everything else", "Starlink"], range: ["var(--c1)", "var(--c2)"] },
+            marks: [
+              Plot.areaY(sky, { x: "date", y: "n", fill: "kind", order: ["Everything else", "Starlink"] }),
+              Plot.ruleY([0]),
+              Plot.text([end], { x: last, y: end.starlink + end.other, text: () => `Starlink ${end.starlink.toLocaleString("en-US")}`, dx: -12, dy: 4, textAnchor: "end", fontWeight: 700, fill: "var(--c2)", stroke: "var(--bg-color)", strokeWidth: 4 }),
+              Plot.text([end], { x: new Date(small ? "2012-06" : "2016-06"), y: 2600, text: () => `Everything else ${end.other.toLocaleString("en-US")}`, textAnchor: small ? "middle" : "end", fontWeight: 700, fill: "var(--c1)", stroke: "var(--bg-color)", strokeWidth: 4 }),
+              Plot.ruleX(orbit, Plot.pointerX({ x: d => new Date(d.month), stroke: "currentColor", strokeOpacity: .5 })),
+              Plot.tip(orbit, Plot.pointerX({ x: d => new Date(d.month), y: d => d.starlink + d.other, title: d => `${d3.utcFormat("%B %Y")(new Date(d.month))}\nStarlink ${d.starlink.toLocaleString("en-US")}\nEverything else ${d.other.toLocaleString("en-US")}`, fill: "var(--bg-color)" }))
+            ]
+          });
+        }
+
+        const charts = { cadence, boosters: flyers, orbit: satellites };
+        const drawn = {};
+        function draw() {
+          for (const [id, chart] of Object.entries(charts)) {
+            const width = Math.round(box(id).getBoundingClientRect().width);
+            if (!width || drawn[id] === width) continue;
+            drawn[id] = width;
+            box(id).replaceChildren(chart(width));
+          }
+        }
+        draw();
+        window.addEventListener("resize", draw);
+      }).catch(() => {
+        ["cadence", "boosters", "orbit"].forEach(id => {
+          box(id).removeAttribute("aria-hidden");
+          box(id).textContent = "The data for this chart couldn’t be loaded. Please try reloading the page.";
+        });
+      });
+    })();
   </script>
   <script src="js/site.js" defer></script>
 </body>

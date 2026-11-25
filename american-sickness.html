@@ -18,9 +18,11 @@
 
   <title>American Sickness: Why Healthcare Costs Are So High | Justin Chill</title>
   <meta name="description"
-    content="An in-depth data-driven analysis of the U.S. healthcare system, exploring skyrocketing spending, insurance coverage, drug prices, and health outcomes.">
+    content="Americans spend about twice as much on health care as people in other rich countries, use less of it, and die sooner. The difference is the price.">
   <meta name="author" content="Justin Chill">
-  <meta name="robots" content="all">
+  <meta name="robots" content="noindex">
+  <meta name="datePublished" content="2024-11-15">
+  <meta name="dateModified" content="2026-11-25">
 
   <!-- OpenGraph tags -->
   <meta content="en_US" property="og:locale">
@@ -28,19 +30,21 @@
   <meta content="article" property="og:type">
   <meta content="https://justinchill.com/american-sickness.html" property="og:url">
   <meta content="American Sickness: Why Healthcare Costs Are So High | Justin Chill" property="og:title">
-  <meta content="An in-depth data-driven analysis of the U.S. healthcare system, exploring skyrocketing spending, insurance coverage, drug prices, and health outcomes."
+  <meta content="Americans spend about twice as much on health care as people in other rich countries, use less of it, and die sooner. The difference is the price."
     property="og:description">
   <meta content="https://justinchill.com/blog.html" property="og:see_also">
-  <meta content="https://justinchill.com/imgs/cover/americansickness_cover.webp" property="og:image">
-  <meta content="A chart showing healthcare spending per capita vs life expectancy for OECD countries."
+  <meta content="https://justinchill.com/imgs/cover/american_sickness_cover.webp" property="og:image">
+  <meta content="1200" property="og:image:width">
+  <meta content="675" property="og:image:height">
+  <meta content="Line chart of life expectancy against health spending in 12 rich countries. The United States, in red, spends the most and lives the shortest."
     property="og:image:alt">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="American Sickness: Why Healthcare Costs Are So High | Justin Chill">
   <meta name="twitter:description"
-    content="An in-depth data-driven analysis of the U.S. healthcare system, exploring skyrocketing spending, insurance coverage, drug prices, and health outcomes.">
-  <meta content="https://justinchill.com/imgs/cover/americansickness_cover.webp" property="twitter:image">
+    content="Americans spend about twice as much on health care as people in other rich countries, use less of it, and die sooner. The difference is the price.">
+  <meta content="https://justinchill.com/imgs/cover/american_sickness_cover.webp" property="twitter:image">
 
   <link rel="canonical" href="https://justinchill.com/american-sickness.html">
   <link rel="preload" href="fonts/CamphorPro-Regular.woff2" as="font" type="font/woff2" crossorigin>
@@ -52,222 +56,39 @@
   <meta name="theme-color" content="#4C63B6">
   <meta name="color-scheme" content="light dark">
 
-  <style type="text/css">
-    #ambulance-chart {
-      flex-direction: column;
+  <style>
+    .chart {
+      --us: #c0392b;
+      --c1: #0072B2;
+      --c2: #C24E00;
+      --faint: rgba(100, 100, 100, .45);
     }
 
-    #ambulance-chart h2 {
-      font-size: calc(var(--type-scale-1) + .25vw);
-      margin: var(--spacer-2) 0 var(--spacer-1);
+    html[data-theme="dark"] .chart {
+      --us: #ff7b6b;
+      --c1: #56B4E9;
+      --c2: #E69F00;
+      --faint: rgba(200, 200, 200, .4);
     }
 
-    #spending [aria-label="x-axis label"],
-    #spending [aria-label="y-axis label"] {
-      font-family: "Camphor", Arial, Helvetica, sans-serif;
-      font-size: 1.0625rem;
-      letter-spacing: -0.03px;
-      line-height: calc(1.5em + .2vw);
-    }
-
-    @media screen and (max-width: 680px) {
-
-      #spending [aria-label="x-axis label"],
-      #spending [aria-label="y-axis label"] {
-        font-size: .9rem;
-      }
-    }
-
-
-
-    .drug-prices {
-      font-family: "Camphor", sans-serif;
-      max-width: 350px;
-      color: #333;
-      display: inline-flex;
-      flex-direction: column;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 2rem;
-    }
-
-    .drug-prices h3.graphic-title {
-      font-size: 1.25rem;
-      line-height: 1.1;
-      margin-bottom: 1.5rem;
+    .chart .chart-name {
+      margin: 1rem 0 0;
       font-weight: 700;
-      color: #000;
-      width: 100%;
-      text-align: center;
     }
 
-    .drug-prices .subtitle {
-      color: #FF5252;
-      font-weight: 600;
-      text-transform: uppercase;
-      font-size: 1rem;
-      margin-bottom: 0.5rem;
-      letter-spacing: 0.5px;
-      width: 100%;
-      text-align: center;
+    html[data-theme="dark"] .chart svg [fill="var(--us)"] text,
+    html[data-theme="dark"] .chart svg text[fill="var(--us)"] {
+      fill: var(--us) !important;
     }
 
-    .drug-prices p {
-      margin: 0.25rem 0;
-      line-height: 1.3;
-      font-size: 1.0625rem;
+    html[data-theme="dark"] .chart svg [fill="var(--c1)"] text,
+    html[data-theme="dark"] .chart svg text[fill="var(--c1)"] {
+      fill: var(--c1) !important;
     }
 
-    .drug-group {
-      margin-bottom: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      flex: 0 1 200px;
-    }
-
-    .drug-group strong {
-      font-weight: 700;
-      color: #000;
-    }
-
-    .pill-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin: 0.75rem 0;
-      justify-content: center;
-    }
-
-    .pill {
-      width: 60px;
-      height: auto;
-      display: block;
-      /* mix-blend-mode: multiply;  Assuming white background on image matches page */
-    }
-
-    /* Force 4 per row for the last group to match reference */
-    .drug-group:last-child .pill-container {
-      max-width: 280px;
-    }
-
-    .drug-prices .separator {
-      display: none;
-    }
-
-    @media screen and (max-width: 680px) {
-      .drug-prices {
-        flex-direction: column;
-        align-items: center;
-        gap: 0;
-      }
-
-      .drug-prices .separator {
-        display: block;
-        border: 0;
-        border-top: 1px dashed #ccc;
-        margin: 1.5rem 0;
-        width: 50%;
-      }
-
-      .drug-group {
-        margin-bottom: 1.5rem;
-      }
-    }
-
-    /* Side-by-Side Layout Styles */
-    .side-by-side-wrapper {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 3rem;
-      align-items: flex-start;
-    }
-
-    .side-by-side-text {
-      flex: 1;
-      min-width: 0;
-      /* Allow text to shrink if needed */
-    }
-
-    .side-by-side-text p {
-      margin-top: var(--spacer-2);
-      margin-bottom: var(--spacer-1);
-      line-height: calc(1.5em + .2vw);
-      display: block;
-    }
-
-    .drug-prices {
-      font-family: "Camphor", sans-serif;
-      max-width: none;
-      width: 100%;
-      margin: 0;
-      /* Remove auto margins as flex handles spacing */
-      color: #333;
-      display: flex;
-      flex-direction: column;
-      flex-wrap: nowrap;
-      justify-content: flex-start;
-      gap: 0;
-      flex: 0 0 45%;
-      /* Approx half width minus gap */
-    }
-
-    .drug-prices h3.graphic-title,
-    .drug-prices .subtitle {
-      text-align: left;
-      /* Keep left aligned for column view */
-      width: auto;
-    }
-
-    .drug-group {
-      margin-bottom: 1.5rem;
-      flex-direction: column;
-      flex: unset;
-      /* Remove flex sizing from previous row layout */
-      align-items: flex-start;
-      /* Align left */
-    }
-
-    .pill-container {
-      justify-content: flex-start;
-      /* Align left */
-    }
-
-    .drug-prices .separator {
-      display: block;
-      /* Visible again */
-      border: 0;
-      border-top: 1px dashed #ccc;
-      margin: 1.5rem 0;
-      width: 50%;
-    }
-
-    @media screen and (max-width: 850px) {
-      .side-by-side-wrapper {
-        flex-direction: column;
-      }
-
-      .drug-prices {
-        max-width: 100%;
-        flex: 1 1 auto;
-        align-items: center;
-        /* Center align when stacked on mobile */
-      }
-
-      .drug-prices h3.graphic-title,
-      .drug-prices .subtitle,
-      .drug-group,
-      .pill-container {
-        text-align: center;
-        align-items: center;
-        justify-content: center;
-      }
-    }
-    /* Dark Mode Overrides for Infographic Legibility */
-    [data-theme="dark"] .drug-prices,
-    [data-theme="dark"] .drug-prices h3.graphic-title,
-    [data-theme="dark"] .drug-group strong {
-      color: var(--text-color, #e0e0e0);
+    html[data-theme="dark"] .chart svg [fill="var(--c2)"] text,
+    html[data-theme="dark"] .chart svg text[fill="var(--c2)"] {
+      fill: var(--c2) !important;
     }
   </style>
 
@@ -276,9 +97,9 @@
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   "headline": "American Sickness: Why Healthcare Costs Are So High",
-  "description": "An in-depth data-driven analysis of the U.S. healthcare system, exploring skyrocketing spending, insurance coverage, drug prices, and health outcomes.",
+  "description": "Americans spend about twice as much on health care as people in other rich countries, use less of it, and die sooner. The difference is the price.",
   "datePublished": "2024-11-15",
-  "dateModified": "2026-01-13",
+  "dateModified": "2026-11-25",
   "author": {
     "@type": "Person",
     "name": "Justin Chill",
@@ -299,895 +120,345 @@
       "https://github.com/JustinChill"
     ]
   },
+  "inLanguage": "en-US",
+  "articleSection": "Health",
+  "isBasedOn": [
+    {
+      "@type": "Dataset",
+      "name": "Life expectancy vs. health spending",
+      "description": "Life expectancy at birth and health spending per person, by country and year, from the UN World Population Prospects (2024) and the OECD (2026), processed by Our World in Data.",
+      "url": "https://ourworldindata.org/grapher/life-expectancy-vs-health-expenditure",
+      "creator": {
+        "@type": "Organization",
+        "name": "Our World in Data"
+      }
+    },
+    {
+      "@type": "Dataset",
+      "name": "National life expectancy estimates by income percentile",
+      "description": "Life expectancy at age 40 for men and women in the United States, by household income percentile, 2001 to 2014, adjusted for race.",
+      "url": "https://healthinequality.org/data/",
+      "creator": {
+        "@type": "Organization",
+        "name": "Opportunity Insights"
+      }
+    }
+  ],
   "mainEntityOfPage": "https://justinchill.com/american-sickness.html",
-  "image": "https://justinchill.com/imgs/cover/americansickness_cover.webp"
+  "image": "https://justinchill.com/imgs/cover/american_sickness_cover.webp"
 }
   </script>
 </head>
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-  <nav class="nav" role="navigation">
+  <nav class="nav" aria-label="Main">
     <div class="nav__list">
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
     
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" aria-pressed="false" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new tab)</span></a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
 
-  <main role="main" id="content">
+  <main id="content">
     <article>
       <div class="article-hero">
-        <p class="article-category">Live Free & Die</p>
+        <p class="article-category">Live Free &amp; Die</p>
         <h1 class="article-title">American Sickness</h1>
+        <h2 class="article-subtitle">Americans don’t get more health care. They pay more for it.</h2>
       </div>
+
+      <p>Americans spent $5.3 trillion on health care in 2024, which comes to $15,474 for every person in the country and
+        18 percent of the economy.<a href="#cms" aria-describedby="footnote-label" id="cms-ref"
+          aria-label="Footnote 1: Centers for Medicare and Medicaid Services"></a> No other rich country spends
+        close to that much per person. You’d expect the extra money to buy longer lives, or more care. Mostly it buys the
+        same care at a higher price.</p>
 
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h2>Under the microscope</h2>
-      <h3>Life expectancy vs. health expenditure, 1970 to 2022</h3>
-      <figure id="spending"
-        aria-label="A line chart showing Life expectancy vs. health expenditure, 2022 data, for world countries.">
-        <figcaption class="right">Data: <a
-            href="https://ourworldindata.org/grapher/life-expectancy-vs-health-expenditure">UN, World Population
-            Prospects (2024); OECD Health Expenditure Database</a></figcaption>
+      <h3>Life expectancy and health spending per person, 1970 to 2023</h3>
+      <figure id="spending" class="chart"
+        aria-label="Line chart of life expectancy against health spending per person in 12 rich countries, from 1970 to 2023. In 2023 the United States spent $12,099 a person and lived 79.3 years. Switzerland, the next highest, spent $7,919 and lived 84 years.">
+        <div aria-hidden="true"></div>
+        <figcaption>Spending is in 2020 international dollars, adjusted for inflation and the cost of living. Data: <a
+            href="https://ourworldindata.org/grapher/life-expectancy-vs-health-expenditure" target="_blank"
+            rel="noopener">UN and OECD, via Our World in Data</a></figcaption>
       </figure>
+      <p>Start at the bottom left, in 1970, and follow the red line. In 1980 the United States spent about a third more
+        than the average of the 11 other countries, and its people lived almost as long. By 2023 it was spending nearly
+        twice as much, and its people were dying three and a half years sooner. It has come in last of the twelve every
+        year since 1991. The hook at the end is Covid.</p>
 
-      <p>The American health-care system is an anomaly among rich nations. It is a labyrinthine hybrid of public and
-        private ownership, characterized by its staggering expense and its lack of universal coverage. Unlike its
-        European counterparts, the United States has eschewed a single-payer model in favor of a market-based approach,
-        where access is inextricably linked to employment and income.</p>
-      <p>The result is a system of paradoxes: it produces
-        the world’s most advanced medical technology yet leaves millions vulnerable to financial ruin. While private
-        enterprise drives innovation, the absence of a unified safety net creates profound disparities in care.</p>
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
-      <h3>Health spending has maintained a steep climb</h3>
-      <figure id="growth-chart" aria-label="Health spending has maintained a steep climb"></figure>
-
-      <p>Contrary to the myth of unbridled American capitalism, the state is a massive payer in the health economy. The
-        public sector is anchored by two leviathans: Medicare and Medicaid. Medicare, a federal program funded by
-        payroll taxes, provides coverage for those aged 65 and older, as well as younger people with specific
-        disabilities. It acts as a universal entitlements program for the elderly.</p>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
-      <h2>Cost control</h2>
-      <figure id="noinsurance"
-        aria-label="A line chart showing the percent of population without healthcare in Texas, Florida, California, and New York.">
-        <figcaption class="right">Data: <a
-            href="https://datacommons.org/tools/statvar#sv=Count_Person_NoHealthInsurance">Data Commons</a></figcaption>
+      <h2>It’s the prices</h2>
+      <p>The easy explanation is that Americans overdo it: too many doctors, too many tests, too many pills. They don’t.
+        They see a doctor about half as often as people in other rich countries, go into the hospital about a third less,
+        and get sent home sooner.<a href="#kff" aria-describedby="footnote-label" id="kff-ref"
+          aria-label="Footnote 2: Peterson-KFF"></a> They do get more bypass operations and more C-sections.</p>
+      <figure id="prices" class="chart"
+        aria-label="Two dot charts of the United States against the average of similar countries. Use: doctor visits 0.5 times, angioplasties 0.56, hospital stays 0.64, days per stay 0.67, MRI scans about the same, C-sections 1.15, bypass operations 1.45. Price: hip replacement 1.6 times, bypass 1.8, all prescription drugs 2.8, angioplasty 2.9, brand-name drugs 4.2.">
+        <div aria-hidden="true"></div>
+        <figcaption>The United States as a multiple of the average for 11 similar countries (33 for drugs), 2021 and 2022.
+          Operations are inpatient, and their prices compare Medicare with public plans elsewhere. Drug prices are before
+          rebates. Data: <a
+            href="https://www.healthsystemtracker.org/chart-collection/how-do-healthcare-prices-and-use-in-the-u-s-compare-to-other-countries/"
+            target="_blank" rel="noopener">Peterson-KFF</a>; <a
+            href="https://www.rand.org/pubs/research_reports/RRA788-3.html" target="_blank"
+            rel="noopener">RAND</a></figcaption>
       </figure>
-      <p>Medicaid, by contrast, is a means-tested safety net for the poor, jointly funded by federal and state
-        governments but administered locally. This results in a patchwork of eligibility; a poor adult may qualify in
-        California but be rejected in Texas. Together, these programs stabilize the market and manage chronic
-        conditions for the most vulnerable, yet they remain under constant budgetary pressure.</p>
-
       <blockquote>
-        <p>“It’s not that we’re getting more; it’s that we’re paying much more”</p>
-        <cite>&mdash; Gerard F. Anderson, PhD</cite>
+        <p>It’s not that we’re getting more; it’s that we’re paying much more.</p>
+        <cite>&mdash; Gerard F. Anderson, Johns Hopkins<a href="#jhu" aria-describedby="footnote-label" id="jhu-ref"
+          aria-label="Footnote 3: Johns Hopkins"></a></cite>
       </blockquote>
-      <p><strong>The Structure of Private Provision</strong>
-        For the working-age population, the private sector reigns supreme. The majority of Americans obtain coverage
-        through employer-sponsored plans—a quirk of history cemented by tax incentives. This market is dominated by a
-        complex alphabet soup of plans. Health Maintenance Organizations (HMOs) act as gatekeepers, requiring referrals
-        to control costs. Preferred Provider Organizations (PPOs) offer greater flexibility at a higher price, while
-        Exclusive Provider Organizations (EPOs) occupy the middle ground. Pharmacy Benefit Managers (PBMs) seem to
-        demand
-        all the money.</p>
-      <p>In this system, insurers and providers engage in a perpetual tug-of-war over reimbursement rates. This dynamic
-        drives the pricing of services and determines the availability of care, often leaving the patient to navigate a
-        bewildering array of networks and deductibles<a href="#jhph" aria-describedby="footnote-label"
-          id="jhph-ref"></a>.</p>
-      <h2 id="part-2-money-and-oversight">Part 2: Money and Oversight</h2>
-      <div class="side-by-side-wrapper">
-        <figure class="drug-prices" aria-label="Infographic comparing US drug prices to other countries">
-          <h3 class="graphic-title">Average drug prices<br>are sky-high</h3>
+      <p>Medicare pays less than private insurers do, and it still pays 2.9 times what public plans elsewhere pay to open a
+        blocked artery. Private insurers pay more than double that. Prescription drugs cost 2.8 times as much here, and
+        brand names 4.2 times, before rebates.<a href="#rand" aria-describedby="footnote-label" id="rand-ref"
+          aria-label="Footnote 4: RAND"></a></p>
+      <p>Economists are still fighting about this. Some say spending has grown lately because Americans are <a
+          href="https://www.healthaffairs.org/content/forefront/growth-national-health-expenditures-s-not-prices-stupid"
+          target="_blank" rel="noopener">getting more and fancier care</a>, and others answer that <a
+          href="https://www.healthaffairs.org/content/forefront/us-health-spending-problem-still-prices" target="_blank"
+          rel="noopener">it’s still the prices</a>. That’s an argument about growth. The gap with everybody else is mostly
+        price.</p>
 
-          <div class="subtitle">THE PRICE OF ...</div>
-
-          <div class="drug-group">
-            <p>One Lipitor pill in the U.S.</p>
-            <div class="pill-container" role="img" aria-label="3 pills">
-              <img src="imgs/pill.jpg" alt="" class="pill" loading="lazy" decoding="async" width="626" height="417">
-              <img src="imgs/pill.jpg" alt="" class="pill" loading="lazy" decoding="async" width="626" height="417">
-              <img src="imgs/pill.jpg" alt="" class="pill" loading="lazy" decoding="async" width="626" height="417">
-            </div>
-            <p>is the same as that of three<br>in <strong>Argentina</strong></p>
-          </div>
-
-          <hr class="separator">
-
-          <div class="drug-group">
-            <p>One Plavix pill in the U.S.</p>
-            <div class="pill-container" role="img" aria-label="4 pills">
-              <img src="imgs/pill.jpg" alt="" class="pill" loading="lazy" decoding="async" width="626" height="417">
-              <img src="imgs/pill.jpg" alt="" class="pill" loading="lazy" decoding="async" width="626" height="417">
-              <img src="imgs/pill.jpg" alt="" class="pill" loading="lazy" decoding="async" width="626" height="417">
-              <img src="imgs/pill.jpg" alt="" class="pill" loading="lazy" decoding="async" width="626" height="417">
-            </div>
-            <p>is the same as that of four<br>in <strong>Spain</strong></p>
-          </div>
-
-          <hr class="separator">
-
-          <div class="drug-group">
-            <p>One Nexium pill in the U.S.</p>
-            <div class="pill-container" role="img" aria-label="8 pills">
-              <img src="imgs/pill.jpg" alt="" class="pill" loading="lazy" decoding="async" width="626" height="417">
-              <img src="imgs/pill.jpg" alt="" class="pill" loading="lazy" decoding="async" width="626" height="417">
-              <img src="imgs/pill.jpg" alt="" class="pill" loading="lazy" decoding="async" width="626" height="417">
-              <img src="imgs/pill.jpg" alt="" class="pill" loading="lazy" decoding="async" width="626" height="417">
-              <img src="imgs/pill.jpg" alt="" class="pill" loading="lazy" decoding="async" width="626" height="417">
-              <img src="imgs/pill.jpg" alt="" class="pill" loading="lazy" decoding="async" width="626" height="417">
-              <img src="imgs/pill.jpg" alt="" class="pill" loading="lazy" decoding="async" width="626" height="417">
-              <img src="imgs/pill.jpg" alt="" class="pill" loading="lazy" decoding="async" width="626" height="417">
-            </div>
-            <p>is the same as that of eight<br>in <strong>France</strong></p>
-          </div>
-        </figure>
-        <div class="side-by-side-text">
-          <p><strong>Funding Sources</strong>
-            Financing American health care is a multifaceted affair, drawing from a blend of taxes, premiums, and
-            out-of-pocket spending. Taxation provides the bedrock, funding Medicare and Medicaid. Private premiums, paid
-            by
-            employers and employees, sustain the commercial market—a burden that has grown heavier despite the subsidies
-            introduced by the Affordable Care Act (<small>ACA</small>).</p>
-
-          <p>Perhaps most punitive are out-of-pocket payments. Deductibles and co-payments have risen sharply, meaning
-            that
-            even the insured often hesitate to seek care for fear of the bill. This reliance on direct consumer payment
-            raises uneasy questions about the trade-off between financial sustainability and equitable access.</p>
-        </div>
-      </div>
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
-      <h3>23% of Americans have opted out of an ambulance ride due to the potential cost</h3>
-      <figure id="ambulance-chart"
-        aria-label="Stacked bar chart showing ambulance opt-out rates by demographic. 23% of US adults said Yes.">
+      <h2>Who sets them</h2>
+      <p>Nobody, exactly. In 2025, 53.5 percent of Americans got insurance through a job. Another big share had Medicare
+        (20.1 percent) or Medicaid (17.1 percent), some people had two kinds, and 26.7 million had none.<a href="#census" aria-describedby="footnote-label" id="census-ref"
+          aria-label="Footnote 5: U.S. Census Bureau"></a>
+        Outside the public plans, a price is whatever a hospital and an insurer can agree on, and the next insurer gets a
+        different one. Pharmacy Benefit Managers (PBMs) sit between the insurer and the drugstore and seem to demand all
+        the money. The patient finds out what it cost when the bill comes.</p>
+
+      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
+      <h2>Who goes without</h2>
+      <h3>Adults who skipped or postponed care because of the cost</h3>
+      <figure id="skipped" class="chart"
+        aria-label="Bar chart of adults who skipped or postponed care in the past year because of cost: uninsured 62 percent, LGBTQ+ 43, under 30 40, Hispanic 34, lower income 32, women 31, insured 30, all adults 28.">
+        <div aria-hidden="true"></div>
+        <figcaption>In the past 12 months. Uninsured and insured are adults under 65. Data: <a
+            href="https://www.kff.org/health-costs/issue-brief/americans-challenges-with-health-care-costs/"
+            target="_blank" rel="noopener">KFF survey, May 2026</a></figcaption>
       </figure>
-      <figcaption class="right">Data: <a
-          href="https://today.yougov.com/health/articles/49738-one-quarter-americans-didnt-call-ambulance-medical-emergency-costs-poll">YouGov</a>
-      </figcaption>
-      <p><strong>Government Oversight</strong>
-        While the market drives delivery, Washington casts a long regulatory shadow. The Food and Drug Administration
-        (<small>FDA</small>) serves as the gatekeeper, rigorously testing pharmaceuticals and devices. Its stamp of
-        approval is the
-        gold standard for safety and efficacy, balancing consumer protection with the industry&#39;s hunger for
-        innovation.</p>
-      <p>Meanwhile, the Centers for Medicare &amp; Medicaid Services (<small>CMS</small>) exerts enormous soft power. By
-        setting reimbursement standards for public programs, the <small>CMS</small> effectively sets the price floor for
-        the entire industry. State regulators add another layer of oversight, licensing providers and enforcing local
-        codes. It is a federalist approach to regulation, requiring intricate coordination to maintain standards across
-        fifty states.</p>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
-      <figure id="slope-chart" aria-label="Annual health care spending vs Life expectancy"></figure>
+      <p>When care costs this much, people put it off. In May 2026, 28 percent of adults said they had skipped or postponed
+        it in the past year because of the cost, and 22 percent had trouble paying a medical bill.<a href="#skip" aria-describedby="footnote-label" id="skip-ref"
+          aria-label="Footnote 6: KFF"></a>
+        Insurance helps less than you’d hope: three in ten insured adults under 65 had put something off too. In a 2024
+        poll, <mark>23 percent had decided not to call an ambulance</mark> in an emergency because of what it would
+        cost.<a href="#yougov" aria-describedby="footnote-label" id="yougov-ref"
+          aria-label="Footnote 7: YouGov"></a></p>
 
-      <!-- <h3 id="part-3-challenges-trends-and-the-future">Part 3: Challenges, Trends, and the Future</h3> -->
-      <p><strong>A System Under Strain</strong>
-        The American system is beset by a chronic ailment: cost disease. Spending has consistently outpaced inflation,
-        <mark>consuming nearly 18% of GDP</mark>, yet health outcomes often lag behind other OECD nations. This economic
-        burden falls heavily on households and businesses alike.
-      </p>
-      <p>Inequality remains the system’s most glaring failure. Access to care is dictated by geography, race, and class.
-        Rural hospitals are shuttering, creating medical deserts, while minority communities face disproportionate
-        barriers to high-quality treatment. Despite the presence of world-class institutions, the uneven quality of
-        care, marred by medical errors and fragmented communication, remains a persistent drag on national well-being.
-      </p>
-
-      <p><strong>Recent Trends</strong>
-        The Covid-19 pandemic acted as an accelerant for structural change. The most significant shift has been the
-        mainstreaming of telemedicine. Digital health platforms, once a fringe convenience, became a lifeline during
-        lockdowns and have since proved vital for reaching rural populations. The pandemic also laid bare the fragility
-        of public health infrastructure, prompting a renewed focus on preparedness and equity.</p>
-      <p>Simultaneously, there is a slow but steady pivot toward &quot;value-based care.&quot; This model seeks to
-        reward providers for patient outcomes rather than the volume of services rendered. It is an attempt to align
-        incentives, encouraging preventative medicine over expensive interventions.</p>
-      <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
-      <h2>The aging U.S. population will require more care</h2>
-      <figure id="aging-chart" aria-label="The aging U.S. population will require more care"></figure>
-
-      <p><strong>Future Directions and Conclusion</strong>
-        The trajectory of American health care points toward a collision of technology and reform. Artificial
-        intelligence promises to revolutionize diagnostics, while the expansion of telehealth could democratize access
-        to specialists. However, technology alone cannot cure structural flaws. Future debates will likely focus on
-        regulatory frameworks to curb costs and the potential expansion of public options to cover the uninsured.</p>
-      <figure class="full-bleed">
-        <figcaption class="right"><em>Why Health Care is So Expensive</em> by <a
-            href="https://www.informationisbeautifulawards.com/showcase/349-why-health-care-is-so-expensive">Heather
-            Jones</a></figcaption>
-        <img class="full-bleed"
-          src="https://iibawards-prod.s3.amazonaws.com/projects/images/000/000/349/large.jpg?1403856485"
-          alt="Why is healthcare so expensive infographic by Heather Jones." loading="lazy" decoding="async" />
-      </figure>
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
       <h2>Live free and die</h2>
-      <h3>Life expectancy in the US by income</h3>
-      <figure id="income"
-        aria-label="Scatter plot showing life expectancy in the US by income level, broken down by ethnicity. Generally, higher income correlates with longer life expectancy, except for Hispanic-Americans where income has less effect.">
+      <h3>Life expectancy at 40, by household income</h3>
+      <figure id="income" class="chart"
+        aria-label="Line chart of life expectancy at age 40 by income percentile. Men go from 72.7 in the poorest 1 percent to 87.3 in the richest. Women go from 78.8 to 88.9.">
+        <div aria-hidden="true"></div>
+        <figcaption>From the poorest 1 percent to the richest, 2001 to 2014, adjusted for race. Data: <a
+            href="https://healthinequality.org/data/" target="_blank" rel="noopener">Opportunity Insights</a></figcaption>
       </figure>
-      <p>In general, higher income leads to longer life expectancy, but income has little effect on the life expectancy of
-        Hispanic-Americans.</p>
-      <h3>Does this Higher Spending Lead to Better Outcomes?</h3>
-      <p>Higher healthcare spending can be beneficial if it results in better health outcomes. However, despite higher
-        healthcare spending, America’s health outcomes are not any better than those in other developed countries. The
-        United States actually performs worse on some common health metrics like life expectancy, infant mortality,
-        unmanaged diabetes, and safety during childbirth<a href="#pete" aria-describedby="footnote-label"
-          id="pete-ref"></a>.</p>
-      <p>A healthcare system with high costs and poor outcomes undermines our economy and threatens our long-term fiscal
-        and economic well-being. Fortunately, there are opportunities to transform the healthcare system into one that
-        produces higher quality care at a lower cost. For more information on potential reforms, check out the <a
-          href="https://www.pgpf.org/finding-solutions/healthcare" target="_blank" rel="noopener">Peterson Center on
-          Healthcare</a> recommendations.</p>
-
-      <p>In conclusion, the United States possesses a health-care system of unique complexity. It is a mesh of public
-        safety nets and private enterprise, producing both miracles and misery. As the nation grapples with an aging
-        population and spiraling costs, the challenge will be to harness the efficiency of the market while ensuring
-        that the fruits of medical progress are not reserved for the few. The path forward requires not just innovation,
-        but a fundamental reckoning with how care is financed and delivered<a href="#generis"
-          aria-describedby="footnote-label" id="generis-ref"></a>.</p>
-
-      <p>In 2022, the United States spent an estimated $12,742 per person on healthcare — the highest healthcare costs
-        per capita across similar countries. For comparison, Switzerland was the second highest-spending country with
-        $9,044 in healthcare costs per capita, while the average for wealthy OECD countries, excluding the United
-        States, was only $6,850 per person. This was more than <strong>double</strong> the $4,559 the U.S. spent per
-        capita on health care in 2000. Such comparisons indicate that the United States spends a disproportionate amount
-        on healthcare. </p>
-
-
+      <p>The bill isn’t the only thing that depends on money. At 40, a man in the richest 1 percent can expect to live to
+        87. A man in the poorest 1 percent can expect 73. For women the gap is ten years.<a href="#chetty" aria-describedby="footnote-label" id="chetty-ref"
+          aria-label="Footnote 8: JAMA"></a> The
+        poorest few percent have it worst by far, but each rung up the ladder tends to buy a little more time, all the way
+        to the top.</p>
+      <p>There are signs of haggling. The first drug prices that Medicare negotiated for itself took effect in January 2026.
+        They are still 2.8 times what the same 11 countries pay on average, which gives you an idea of where they
+        started.</p>
+      <p>For the long version, read Elisabeth Rosenthal’s <em>An American Sickness</em> (2017), which got to the title
+        first.</p>
     </article>
   </main>
   <footer>
     <h2 id="footnote-label">Footnotes</h2>
     <ol>
-      <li id="jhph"><strong>Johns Hopkins Bloomberg School of Public Health</strong>, “<em><a
-            href="https://publichealth.jhu.edu/2019/us-health-care-spending-highest-among-developed-countries">U.S.
-            Health Care Spending Highest Among Developed Countries</a></em>"<a href="#jhph-ref"
+      <li id="cms"><strong>Centers for Medicare &amp; Medicaid Services</strong>, <a
+          href="https://www.cms.gov/data-research/statistics-trends-and-reports/national-health-expenditure-data/nhe-fact-sheet"
+          target="_blank" rel="noopener"><em>NHE Fact Sheet</em></a> <a href="#cms-ref"
           aria-label="Back to content">↩</a></li>
-      <li id="pete"><strong>Peter G. Peterson Foundation</strong>, “<em><a
-            href="https://www.pgpf.org/article/how-does-the-us-healthcare-system-compare-to-other-countries/">How Does
-            the U.S. Healthcare System Compare to Other Countries?</a></em>"<a href="#pete-ref"
+      <li id="kff"><strong>Peterson-KFF Health System Tracker</strong>, <a
+          href="https://www.healthsystemtracker.org/chart-collection/how-do-healthcare-prices-and-use-in-the-u-s-compare-to-other-countries/"
+          target="_blank" rel="noopener"><em>How Do Healthcare Prices and Use in the U.S. Compare to Other
+            Countries?</em></a>, September 2025. <a href="#kff-ref" aria-label="Back to content">↩</a></li>
+      <li id="jhu"><strong>Johns Hopkins Bloomberg School of Public Health</strong>, <a
+          href="https://publichealth.jhu.edu/2019/us-health-care-spending-highest-among-developed-countries"
+          target="_blank" rel="noopener"><em>U.S. Health Care Spending Highest Among Developed Countries</em></a>, on
+        “It’s Still the Prices, Stupid” (<em>Health Affairs</em>, 2019). <a href="#jhu-ref"
           aria-label="Back to content">↩</a></li>
-      <li id="generis"><strong>Generis Global Legal Services</strong>, “<em><a
-            href="https://generisonline.com/an-overview-of-the-healthcare-system-in-the-united-states-of-america/">An
-            Overview of the Healthcare System in the United States of America</a></em>"<a href="#generis-ref"
+      <li id="rand"><strong>RAND</strong>, <a href="https://www.rand.org/pubs/research_reports/RRA788-3.html"
+          target="_blank" rel="noopener"><em>International Prescription Drug Price Comparisons: Estimates Using 2022
+            Data</em></a> <a href="#rand-ref" aria-label="Back to content">↩</a></li>
+      <li id="census"><strong>U.S. Census Bureau</strong>, <a
+          href="https://www.census.gov/library/publications/2026/demo/p60-291.html" target="_blank"
+          rel="noopener"><em>Health Insurance Coverage in the United States: 2025</em></a> <a href="#census-ref"
           aria-label="Back to content">↩</a></li>
+      <li id="skip"><strong>KFF</strong>, <a
+          href="https://www.kff.org/health-costs/issue-brief/americans-challenges-with-health-care-costs/"
+          target="_blank" rel="noopener"><em>Americans’ Challenges with Health Care Costs</em></a>, updated October 2026.
+        <a href="#skip-ref" aria-label="Back to content">↩</a></li>
+      <li id="yougov"><strong>YouGov</strong>, <a
+          href="https://yougov.com/en-us/articles/49738-one-quarter-americans-didnt-call-ambulance-medical-emergency-costs-poll"
+          target="_blank" rel="noopener"><em>One-Quarter of Americans Didn’t Call an Ambulance During a Medical Emergency
+            Because of Costs</em></a>, June 2024. <a href="#yougov-ref" aria-label="Back to content">↩</a></li>
+      <li id="chetty"><strong>Raj Chetty and others</strong>, <a href="https://doi.org/10.1001/jama.2016.4226"
+          target="_blank" rel="noopener"><em>The Association Between Income and Life Expectancy in the United States,
+            2001–2014</em></a>, <em>JAMA</em>, 2016. <a href="#chetty-ref" aria-label="Back to content">↩</a></li>
     </ol>
+
     <div>
       <p>Justin Chill &copy; 2026</p>
       <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
-            alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
+            alt="" class="icon" width="16" height="16" loading="lazy" decoding="async">Source code<span class="visually-hidden"> (opens in new tab)</span></a></span>
     </div>
   </footer>
-  <script type="text/javascript" src="js/occlusionY.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/d3@7.9.2/dist/d3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.19/dist/plot.umd.min.js"></script>
 
-  <script type="text/javascript">
-    const stateInsurance = d3.csvParse(`entity__dcid,entity__name,entity__isoCode,variable__dcid,variable__value,variable__date,variable__unit,variable__unitDisplayName,variable__name,perCapita__value,perCapita__date,perCapita__populationVariable,perCapita__populationValue
-    geoId/06,California,US-CA,Count_Person_NoHealthInsurance,4041396,2017,,,Population Without Health Insurance,0.10371810554101452,2017,Count_Person,38965193
-    geoId/06,California,US-CA,Count_Person_NoHealthInsurance,3280167,2018,,,Population Without Health Insurance,0.0841819774894994,2018,Count_Person,38965193
-    geoId/06,California,US-CA,Count_Person_NoHealthInsurance,2915070,2019,,,Population Without Health Insurance,0.0748121535032561,2019,Count_Person,38965193
-    geoId/06,California,US-CA,Count_Person_NoHealthInsurance,2806173,2020,,,Population Without Health Insurance,0.07201742847776989,2020,Count_Person,38965193
-    geoId/06,California,US-CA,Count_Person_NoHealthInsurance,2800277,2021,,,Population Without Health Insurance,0.07186611394430922,2021,Count_Person,38965193
-    geoId/06,California,US-CA,Count_Person_NoHealthInsurance,2752067,2022,,,Population Without Health Insurance,0.07062885586117847,2022,Count_Person,38965193
-    geoId/12,Florida,US-FL,Count_Person_NoHealthInsurance,2982945,2017,,,Population Without Health Insurance,0.13192610445148908,2017,Count_Person,22610726
-    geoId/12,Florida,US-FL,Count_Person_NoHealthInsurance,2744513,2018,,,Population Without Health Insurance,0.12138102067133978,2018,Count_Person,22610726
-    geoId/12,Florida,US-FL,Count_Person_NoHealthInsurance,2637268,2019,,,Population Without Health Insurance,0.11663791777406882,2019,Count_Person,22610726
-    geoId/12,Florida,US-FL,Count_Person_NoHealthInsurance,2646931,2020,,,Population Without Health Insurance,0.11706528131825578,2020,Count_Person,22610726
-    geoId/12,Florida,US-FL,Count_Person_NoHealthInsurance,2657226,2021,,,Population Without Health Insurance,0.11752059619845909,2021,Count_Person,22610726
-    geoId/12,Florida,US-FL,Count_Person_NoHealthInsurance,2620725,2022,,,Population Without Health Insurance,0.11590627386312143,2022,Count_Person,22610726
-    geoId/36,New York,US-NY,Count_Person_NoHealthInsurance,1481650,2017,,,Population Without Health Insurance,0.07570556678746992,2017,Count_Person,19571216
-    geoId/36,New York,US-NY,Count_Person_NoHealthInsurance,1255168,2018,,,Population Without Health Insurance,0.06413336810548716,2018,Count_Person,19571216
-    geoId/36,New York,US-NY,Count_Person_NoHealthInsurance,1117159,2019,,,Population Without Health Insurance,0.057081736770980405,2019,Count_Person,19571216
-    geoId/36,New York,US-NY,Count_Person_NoHealthInsurance,1037271,2020,,,Population Without Health Insurance,0.052999823822904,2020,Count_Person,19571216
-    geoId/36,New York,US-NY,Count_Person_NoHealthInsurance,1059370,2021,,,Population Without Health Insurance,0.054128982072447616,2021,Count_Person,19571216
-    geoId/36,New York,US-NY,Count_Person_NoHealthInsurance,1031600,2022,,,Population Without Health Insurance,0.052710061551617435,2022,Count_Person,19571216
-    geoId/48,Texas,US-TX,Count_Person_NoHealthInsurance,4916911,2017,,,Population Without Health Insurance,0.1611927509091557,2017,Count_Person,30503301
-    geoId/48,Texas,US-TX,Count_Person_NoHealthInsurance,4764897,2018,,,Population Without Health Insurance,0.15620922469997592,2018,Count_Person,30503301
-    geoId/48,Texas,US-TX,Count_Person_NoHealthInsurance,4791164,2019,,,Population Without Health Insurance,0.157070344616145,2019,Count_Person,30503301
-    geoId/48,Texas,US-TX,Count_Person_NoHealthInsurance,4877069,2020,,,Population Without Health Insurance,0.15988659719156298,2020,Count_Person,30503301
-    geoId/48,Texas,US-TX,Count_Person_NoHealthInsurance,4995381,2021,,,Population Without Health Insurance,0.16376525937307573,2021,Count_Person,30503301
-    geoId/48,Texas,US-TX,Count_Person_NoHealthInsurance,5056008,2022,,,Population Without Health Insurance,0.16575281475273773,2022,Count_Person,30503301`, d3.autoType);
-    const oecd = [{
-      "cty": "AUS",
-      "life expectancy": 82.7,
-      "country": "Australia"
-    }, {
-      "cty": "AUT",
-      "life expectancy": 81.8,
-      "country": "Austria"
-    }, {
-      "cty": "BEL",
-      "life expectancy": 81.7,
-      "country": "Belgium"
-    }, {
-      "cty": "CAN",
-      "life expectancy": 81.9,
-      "country": "Canada"
-    }, {
-      "cty": "DNK",
-      "life expectancy": 81,
-      "country": "Denmark"
-    }, {
-      "cty": "FIN",
-      "life expectancy": 81.8,
-      "country": "Finland"
-    }, {
-      "cty": "FRA",
-      "life expectancy": 82.8,
-      "country": "France"
-    }, {
-      "cty": "DEU",
-      "life expectancy": 81,
-      "country": "Germany"
-    }, {
-      "cty": "IRL",
-      "life expectancy": 82.2,
-      "country": "Ireland"
-    }, {
-      "cty": "ITA",
-      "life expectancy": 83.4,
-      "country": "Italy"
-    }, {
-      "cty": "JPN",
-      "life expectancy": 84.3,
-      "country": "Japan"
-    }, {
-      "cty": "KOR",
-      "life expectancy": 82.7,
-      "country": "South Korea"
-    }, {
-      "cty": "NLD",
-      "life expectancy": 81.9,
-      "country": "Netherlands"
-    }, {
-      "cty": "NZL",
-      "life expectancy": 81.7,
-      "country": "New Zealand"
-    }, {
-      "cty": "NOR",
-      "life expectancy": 82.8,
-      "country": "Norway"
-    }, {
-      "cty": "PRT",
-      "life expectancy": 81.5,
-      "country": "Portugal"
-    }, {
-      "cty": "ESP",
-      "life expectancy": 83.5,
-      "country": "Spain"
-    }, {
-      "cty": "SWE",
-      "life expectancy": 82.6,
-      "country": "Sweden"
-    }, {
-      "cty": "CHE",
-      "life expectancy": 83.8,
-      "country": "Switzerland"
-    }, {
-      "cty": "GBR",
-      "life expectancy": 81.3,
-      "country": "United Kingdom"
-    }, {
-      "cty": "USA",
-      "life expectancy": 78.7,
-      "country": "USA"
-    }, {
-      "cty": "ISR",
-      "life expectancy": 82.9,
-      "country": "Israel"
-    }];
+  <script>
+    (function () {
+      const box = id => document.querySelector(`#${id} > div`);
+      const font = { fontFamily: "var(--font-main)", fontSize: "13px", background: "transparent", color: "var(--text-color)", overflow: "visible" };
+      const US = "United States";
 
-    Promise.all([
-      d3.csv("data/life-expectancy-vs-health-expenditure@1.csv", d3.autoType),
-      d3.csv("data/american-sickness-states.csv", d3.autoType)
-    ]).then(function (data) {
-      const rawdata = data[0];
-      const states = data[1];
-      const lifeVsMoney = rawdata.filter(d => d.Year >= 1970 && d.LifeExpectancy >= 70 && d.HealthExpenditure > 0);
-      const annotatedCountries = ["United States", "Japan", "Spain", "Israel", "Portugal", "Switzerland", "Germany", "Denmark", "United Kingdom", "Norway", "New Zealand", "South Korea", "Australia", "Ireland", "Belgium", "Finland", "Netherlands", "Canada", "Austria", "Chile"];
+      // The United States divided by the average for similar countries
+      const use = [
+        ["Doctor visits", .5], ["Angioplasties", .56], ["Hospital stays", .64], ["Days per stay", .67],
+        ["MRI scans", 1], ["C-sections", 1.15], ["Bypass operations", 1.45]
+      ];
+      const price = [
+        ["Hip replacement", 1.6], ["Bypass operation", 1.8], ["Prescription drugs", 2.8], ["Angioplasty", 2.9], ["Brand-name drugs", 4.2]
+      ];
+      const skipped = [
+        ["Uninsured", 62], ["LGBTQ+", 43], ["Under 30", 40], ["Hispanic", 34], ["Lower income", 32], ["Women", 31], ["Insured", 30], ["All adults", 28]
+      ];
 
-      function color(country) {
-        return country === 'United States' ? 1 : 0;
-      }
-
-      function isDarkMode() {
-        return document.documentElement.getAttribute("data-theme") === "dark" ||
-          (!document.documentElement.hasAttribute("data-theme") && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
-      }
-
-      function renderCharts() {
-        const figureIds = ["spending", "noinsurance", "ambulance-chart", "slope-chart", "growth-chart", "aging-chart", "income"];
-        figureIds.forEach(id => {
-          const el = document.getElementById(id);
-          if (el) el.replaceChildren(...el.querySelectorAll(":scope > figcaption")); // clear the old chart, keep the caption
-        });
-
-        const spendingEl = document.getElementById('spending');
-        const width = spendingEl ? spendingEl.getBoundingClientRect().width : 600;
-        const size = width > 450 ? 16 : 12;
-
-        const isDark = isDarkMode();
-        const textColor = isDark ? "#e8e8e8" : "rgba(0, 0, 0, 0.84)";
-        const ruleColor = isDark ? "rgba(255, 255, 255, 0.35)" : "black";
-        const haloColor = isDark ? "#111111" : "white";
-        const lineDefaultColor = isDark ? "#555555" : "#ccc";
-
-        // Main spending chart
-        const spendingPlot = Plot.plot({
-          width: width,
-          height: width * 1.2,
-          aspectRatio: 1,
-          style: {
-            fontSize: size + "px",
-            background: "transparent"
-          },
-          marginBottom: 50,
-          color: {
-            legend: false,
-            range: ["rgba(226, 226, 226, .85)", "rgb(229, 110, 90)"]
-          },
-          grid: true,
-          x: {
-            nice: true,
-            tickFormat: d => d % 1000 === 0 ? d3.format("$")(d) : "",
-            label: "Health Expenditure per capita",
-            lineWidth: 8,
-            labelAnchor: "center",
-            tickSize: 0,
-            ticks: 4,
-          },
-          y: {
-            ticks: 6,
-            label: "Life Expectancy",
-            lineWidth: 8,
-            labelAnchor: "center",
-            labelOffset: width > 450 ? 50 : 44,
-            tickFormat: d => Number.isInteger(d) ? d : "",
-            tickSize: 0,
-            domain: [70, 85]
-          },
+      function ratios(width, rows, color) {
+        const small = width < 480;
+        return Plot.plot({
+          width, height: rows.length * 30 + 34, marginLeft: small ? 128 : 150, marginRight: 44, marginTop: 4, marginBottom: 28, style: font,
+          x: { type: "log", domain: [.45, 5], ticks: [.5, 1, 2, 4], tickFormat: d => ({ .5: "half", 1: "same", 2: "2×", 4: "4×" })[d], grid: true, label: null, tickSize: 0 },
+          y: { domain: rows.map(d => d[0]), label: null, tickSize: 0 },
           marks: [
-            Plot.line(lifeVsMoney, {
-              x: "HealthExpenditure",
-              y: "LifeExpectancy",
-              stroke: d => color(d.Entity),
-              z: "Entity",
-              title: "Entity",
-              tip: true,
-              markerEnd: "arrow"
-            }),
-            Plot.text(lifeVsMoney, occlusionY(Plot.selectLast({
-              filter: d => annotatedCountries.includes(d.Entity),
-              x: "HealthExpenditure",
-              y: "LifeExpectancy",
-              z: "Entity",
-              text: "Entity",
-              fill: "currentColor",
-              dy: -2,
-              dx: 10,
-              fontSize: width > 500 ? size - 2 : size,
-              textAnchor: "start"
-            }))),
-          ],
-        });
-
-        // Uninsured chart
-        const noinsurancePlot = Plot.plot({
-          width: width,
-          style: {
-            fontSize: size + "px",
-            background: "transparent"
-          },
-          y: {
-            grid: true,
-            label: null,
-            tickFormat: ".0%",
-            nice: true,
-            ticks: 4,
-          },
-          x: {
-            label: null,
-            type: "point",
-            tickFormat: "Y",
-          },
-          marks: [
-            Plot.ruleY([0]),
-            Plot.line(stateInsurance, {
-              x: "variable__date",
-              y: "perCapita__value",
-              stroke: "entity__name"
-            }),
-            Plot.text(stateInsurance, Plot.selectLast({
-              x: "variable__date",
-              y: "perCapita__value",
-              z: "entity__name",
-              text: "entity__name",
-              textAnchor: "start",
-              fill: "currentColor",
-              dx: 3
-            }))
+            Plot.ruleX([1], { strokeWidth: 1.5 }),
+            Plot.link(rows, { x1: 1, x2: d => d[1], y: d => d[0], stroke: color, strokeWidth: 3 }),
+            Plot.dot(rows, { x: d => d[1], y: d => d[0], r: 6, fill: color }),
+            Plot.text(rows.filter(d => d[1] >= 1), { x: d => d[1], y: d => d[0], text: d => d[1] === 1 ? "about 1×" : `${d[1]}×`, dx: 12, textAnchor: "start", fontWeight: 700 }),
+            Plot.text(rows.filter(d => d[1] < 1), { x: 1, y: d => d[0], text: d => `${d[1]}×`, dx: 10, textAnchor: "start", fontWeight: 700 })
           ]
         });
+      }
 
-        // Income chart
-        const cohort_mean = d3.mean(oecd.filter((d) => d.country !== "USA"), (d) => d["life expectancy"]);
-        const incomePlot = Plot.plot({
-          width: width,
-          height: 250,
-          marginRight: 0,
-          style: {
-            fontSize: size + "px",
-            paddingTop: ".75rem",
-            paddingBottom: ".75rem",
-            background: "transparent"
-          },
-          grid: true,
-          color: {
-            domain: ["Above average", "Below average"],
-            range: ["steelblue", "gray"],
-            legend: true
-          },
-          fx: {
-            label: "Ethnicity",
-            labelOffset: 40
-          },
-          y: {
-            nice: true,
-            labelAnchor: "center",
-            labelOffset: 45,
-            frameAnchor: "left",
-            label: "Life expectancy (yrs.)",
-          },
-          x: {
-            nice: false,
-            labelOffset: 45,
-            frameAnchor: "right",
-            label: "Income ($)",
-            ticks: 2,
-          },
-          facet: {
-            data: states,
-            x: "group",
-          },
-          marks: [
-            Plot.frame(),
-            Plot.dot(states, {
-              x: "income (k$)",
-              y: "life expectancy",
-              fill: d => d["life expectancy"] >= cohort_mean ? "Above average" : "Below average",
-              fillOpacity: 0.5,
-              sort: {
-                fx: "y",
-                reduce: "mean"
-              },
-              title: (d) =>
-                `${d.State}\nPopulation: ${d.population.toLocaleString()} people\nLife Expectancy: ${d["life expectancy"].toFixed(1)} years\nIncome: $${d['income (k$)']}k`
-            }),
-            Plot.linearRegressionY(states, {
-              x: "income (k$)",
-              y: "life expectancy",
-              stroke: "red",
-              ci: 0.95
-            })
-          ]
-        });
+      const name = text => {
+        const p = document.createElement("p");
+        p.className = "chart-name";
+        p.textContent = text;
+        return p;
+      };
 
-        // Ambulance Chart Data
-        const dataCitizens = [
-          { category: "U.S. adult citizens", response: "Yes", value: 23 },
-          { category: "U.S. adult citizens", response: "Not sure", value: 5 },
-          { category: "U.S. adult citizens", response: "No", value: 72 },
-        ];
+      Promise.all([
+        d3.csv("data/american-sickness-spending.csv", d3.autoType),
+        d3.csv("data/american-sickness-income.csv", d3.autoType)
+      ]).then(([spending, income]) => {
+        const ends = d3.groups(spending, d => d.country).map(([, rows]) => rows.at(-1));
+        const labels = new Set([US, "Japan", "Switzerland", "Germany", "United Kingdom"]);
 
-        const dataAge = [
-          { category: "Under 30", response: "Yes", value: 24 },
-          { category: "Under 30", response: "Not sure", value: 5 },
-          { category: "Under 30", response: "No", value: 71 },
-          { category: "30-44", response: "Yes", value: 21 },
-          { category: "30-44", response: "Not sure", value: 9 },
-          { category: "30-44", response: "No", value: 70 },
-          { category: "45-64", response: "Yes", value: 28 },
-          { category: "45-64", response: "Not sure", value: 3 },
-          { category: "45-64", response: "No", value: 69 },
-          { category: "65+", response: "Yes", value: 16 },
-          { category: "65+", response: "Not sure", value: 4 },
-          { category: "65+", response: "No", value: 80 },
-        ];
-
-        const dataGender = [
-          { category: "Men", response: "Yes", value: 24 },
-          { category: "Men", response: "Not sure", value: 4 },
-          { category: "Men", response: "No", value: 72 },
-          { category: "Women", response: "Yes", value: 22 },
-          { category: "Women", response: "Not sure", value: 6 },
-          { category: "Women", response: "No", value: 72 },
-        ];
-
-        const dataRace = [
-          { category: "White", response: "Yes", value: 22 },
-          { category: "White", response: "Not sure", value: 4 },
-          { category: "White", response: "No", value: 74 },
-          { category: "Black", response: "Yes", value: 19 },
-          { category: "Black", response: "Not sure", value: 7 },
-          { category: "Black", response: "No", value: 74 },
-          { category: "Hispanic", response: "Yes", value: 29 },
-          { category: "Hispanic", response: "Not sure", value: 2 },
-          { category: "Hispanic", response: "No", value: 69 },
-        ];
-
-        function createAmbulanceChart(data, title, yDomain, showLegend = false) {
+        function lines(width) {
+          const small = width < 480;
           return Plot.plot({
-            width: width,
-            height: 10 + (yDomain.length * 40),
-            marginTop: 0,
-            marginRight: 0,
-            title: title,
-            style: {
-              fontSize: "12px",
-              fontFamily: "var(--font-main)",
-              background: "transparent"
-            },
-            x: { axis: null },
-            y: {
-              domain: yDomain,
-              label: null,
-              tickSize: 0
-            },
-            color: {
-              domain: ["Yes", "Not sure", "No"],
-              range: ["#ff3d00", "#cfd8dc", "#9847ff"],
-              legend: showLegend ? "swatches" : null
-            },
+            width, height: small ? 420 : 520, marginLeft: 34, marginRight: small ? 20 : 60, marginTop: 24, marginBottom: 40, style: font,
+            x: { domain: [0, 13000], ticks: small ? [0, 4000, 8000, 12000] : [0, 2000, 4000, 6000, 8000, 10000, 12000], tickFormat: d => "$" + d.toLocaleString("en-US"), grid: true, tickSize: 0, label: "Health spending per person" },
+            y: { domain: [70, 85.5], ticks: 6, grid: true, tickSize: 0, label: "Life expectancy" },
             marks: [
-              Plot.barX(data, {
-                y: "category",
-                x: "value",
-                fill: "response",
-                sort: { y: null },
-              }),
-              Plot.text(data, Plot.stackX({
-                y: "category",
-                x: "value",
-                text: "value",
-                z: "response",
-                fill: "white",
-                textAnchor: "middle",
-                fontSize: 14,
-                fontWeight: "bold"
-              })),
+              Plot.line(spending, { filter: d => d.country !== US, x: "spending", y: "life", z: "country", stroke: "var(--faint)", strokeWidth: 1.5 }),
+              Plot.line(spending, { filter: d => d.country === US, x: "spending", y: "life", stroke: "var(--us)", strokeWidth: 3 }),
+              Plot.dot(ends, { x: "spending", y: "life", r: d => d.country === US ? 5 : 3, fill: d => d.country === US ? "var(--us)" : "var(--muted-color)" }),
+              Plot.text(ends, { filter: d => d.country === US, x: "spending", y: "life", text: "country", dy: -14, dx: 10, textAnchor: "end", fontWeight: 700, fill: "var(--us)" }),
+              Plot.text(ends, { filter: d => labels.has(d.country) && d.country !== US && d.country !== "Japan" && d.country !== "United Kingdom", x: "spending", y: "life", text: "country", dx: 8, textAnchor: "start" }),
+              Plot.text(ends, { filter: d => d.country === "Japan", x: "spending", y: "life", text: "country", dy: -10 }),
+              Plot.text(ends, { filter: d => d.country === "United Kingdom", x: "spending", y: "life", text: () => small ? "U.K." : "United Kingdom", dx: 4, dy: 16, textAnchor: "start", stroke: "var(--bg-color)", strokeWidth: 4, fill: "currentColor" }),
+              Plot.tip(spending, Plot.pointer({ x: "spending", y: "life", fill: "var(--bg-color)", title: d => `${d.country}, ${d.year}\n$${d.spending.toLocaleString("en-US")} a person\n${d.life.toFixed(1)} years` }))
             ]
           });
         }
 
-        const ambContainer = document.getElementById("ambulance-chart");
-        if (ambContainer) {
-          ambContainer.appendChild(createAmbulanceChart(dataCitizens, "U.S. adult citizens", ["U.S. adult citizens"], true));
-          ambContainer.appendChild(createAmbulanceChart(dataAge, "Age", ["Under 30", "30-44", "45-64", "65+"]));
-          ambContainer.appendChild(createAmbulanceChart(dataGender, "Gender", ["Men", "Women"]));
-          ambContainer.appendChild(createAmbulanceChart(dataRace, "Race", ["White", "Black", "Hispanic"]));
+        function care(width) {
+          const both = document.createElement("div");
+          both.append(name("How much of it Americans use"), ratios(width, use, "var(--c1)"), name("What it costs"), ratios(width, price, "var(--us)"));
+          return both;
         }
 
-        // Slope Chart
-        const slopeData = [
-          { country: "Norway", spending: 5388, life: 81.2, textDy: -10, labelRotation: 1, labelPos: 0.1 },
-          { country: "Netherlands", spending: 5050, life: 80.8, textDy: -15, labelRotation: 1, labelPos: 0.1 },
-          { country: "Switzerland", spending: 5270, life: 82.3, textDy: 8, labelRotation: 2, labelPos: 0.1 },
-          { country: "Denmark", spending: 4464, life: 79.3, textDy: -10, labelRotation: 1, labelPos: 0.1 },
-          { country: "Austria", spending: 4395, life: 80.7, textDy: 8, labelRotation: 2, labelPos: 0.1 },
-          { country: "Canada", spending: 4445, life: 81.0, textDy: 4, labelRotation: 2, labelPos: 0.1 },
-          { country: "Germany", spending: 4338, life: 80.5, textDy: -1, labelRotation: 2, labelPos: 0.1 },
-          { country: "France", spending: 3974, life: 81.3, textDy: 14, labelRotation: 3, labelPos: 0.1 },
-          { country: "Ireland", spending: 3718, life: 80.7, textDy: 16, labelRotation: 4, labelPos: 0.1 },
-          { country: "Belgium", spending: 3969, life: 80.3, textDy: 4, labelRotation: 3, labelPos: 0.1 },
-          { country: "Spain", spending: 3076, life: 82.2, textDy: 24, labelRotation: 5, labelPos: 0.1 },
-          { country: "U.S.", spending: 8233, life: 78.7, textDy: -20, labelRotation: -7, labelPos: 0.4 },
-          { country: "Australia", spending: 3800, life: 81.8, textDy: -10, labelRotation: 3, labelPos: 0.1 },
-          { country: "Sweden", spending: 3758, life: 81.5, textDy: 0, labelRotation: 3, labelPos: 0.1 },
-          { country: "U.K.", spending: 3433, life: 80.6, textDy: -8, labelRotation: 4, labelPos: 0.1 },
-          { country: "Japan", spending: 3035, life: 83.0, textDy: 25, labelRotation: 6, labelPos: 0.1 }
-        ];
+        function bars(width) {
+          return Plot.plot({
+            width, height: skipped.length * 34 + 8, marginLeft: 104, marginRight: 44, marginTop: 4, marginBottom: 4, style: font,
+            x: { axis: null, domain: [0, 62] },
+            y: { domain: skipped.map(d => d[0]), label: null, tickSize: 0, padding: .25 },
+            marks: [
+              Plot.barX(skipped, { x: d => d[1], y: d => d[0], fill: d => d[0] === "All adults" ? "var(--us)" : "var(--c1)" }),
+              Plot.text(skipped, { x: d => d[1], y: d => d[0], text: d => `${d[1]}%`, dx: 6, textAnchor: "start", fontWeight: 700 }),
+              Plot.ruleX([0])
+            ]
+          });
+        }
 
-        const spendingScale = d3.scaleLinear().domain([2000, 9000]).range([1, 0]);
-        const lifeExpScale = d3.scaleLinear().domain([78, 84]).range([1, 0]);
+        function ladder(width) {
+          const edge = income.filter(d => d.percentile === 1 || d.percentile === 100);
+          return Plot.plot({
+            width, height: 360, marginLeft: 34, marginRight: 46, marginTop: 24, marginBottom: 40, style: font,
+            x: { domain: [1, 100], ticks: [1, 25, 50, 75, 100], tickFormat: d => ({ 1: "Poorest", 25: "", 50: "Middle", 75: "", 100: "Richest" })[d], label: null, tickSize: 0 },
+            y: { domain: [70, 91], ticks: 5, grid: true, tickSize: 0, label: "Expected age at death" },
+            color: { domain: ["Women", "Men"], range: ["var(--c2)", "var(--c1)"] },
+            marks: [
+              Plot.line(income, { x: "percentile", y: "life", stroke: "sex", strokeWidth: 2.5 }),
+              Plot.dot(edge, { x: "percentile", y: "life", fill: "sex", r: 5 }),
+              Plot.text(edge, { filter: d => d.percentile === 100, x: "percentile", y: "life", text: d => d.life.toFixed(1), dx: 10, textAnchor: "start", fontWeight: 700 }),
+              Plot.text(edge, { filter: d => d.percentile === 1, x: "percentile", y: "life", text: d => d.life.toFixed(1), dx: 12, dy: 10, textAnchor: "start", fontWeight: 700 }),
+              Plot.text([["Women", 87.4]], { x: 50, y: d => d[1], text: d => d[0], fontWeight: 700, fill: "var(--c2)" }),
+              Plot.text([["Men", 79.4]], { x: 50, y: d => d[1], text: d => d[0], fontWeight: 700, fill: "var(--c1)" }),
+              Plot.tip(income, Plot.pointer({ x: "percentile", y: "life", fill: "var(--bg-color)", title: d => `${d.sex}, income percentile ${d.percentile}\n${d.life.toFixed(1)} years` }))
+            ]
+          });
+        }
 
-        const slopeNormalized = [];
-        slopeData.forEach(d => {
-          slopeNormalized.push({ country: d.country, type: 0, value: d.spending, normalized: spendingScale(d.spending) });
-          slopeNormalized.push({ country: d.country, type: 1, value: d.life, normalized: lifeExpScale(d.life) });
+        const charts = { spending: lines, prices: care, skipped: bars, income: ladder };
+        const drawn = {};
+        function draw() {
+          for (const [id, chart] of Object.entries(charts)) {
+            const width = Math.round(box(id).getBoundingClientRect().width);
+            if (!width || drawn[id] === width) continue;
+            drawn[id] = width;
+            box(id).replaceChildren(chart(width));
+          }
+        }
+        draw();
+        window.addEventListener("resize", draw);
+      }).catch(() => {
+        ["spending", "prices", "skipped", "income"].forEach(id => {
+          box(id).removeAttribute("aria-hidden");
+          box(id).textContent = "The data for this chart couldn’t be loaded. Please try reloading the page.";
         });
-
-        const spendingTicks = [2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000];
-        const lifeTicks = [78, 79, 80, 81, 82, 83, 84];
-
-        const axisTicks = [
-          ...spendingTicks.map(v => ({ type: 0, value: v, normalized: spendingScale(v), label: v === 2000 ? "$2K" : d3.format("$.0s")(v) })),
-          ...lifeTicks.map(v => ({ type: 1, value: v, normalized: lifeExpScale(v), label: v }))
-        ];
-
-        const slopeChartPlot = Plot.plot({
-          width: Math.min(width, 600),
-          height: 600,
-          style: { fontSize: 16, fontFamily: "Camphor, sans-serif", background: "transparent", color: textColor },
-          marginLeft: 60,
-          marginRight: 60,
-          marginTop: 80,
-          x: { axis: null, domain: [0, 1] },
-          y: { axis: null, domain: [1, 0] },
-          marks: [
-            Plot.ruleX([0, 1], { stroke: ruleColor, strokeWidth: 1.5 }),
-            Plot.ruleY(axisTicks.filter(d => d.type === 0), { x: 0, y: "normalized", dx: -6, stroke: ruleColor }),
-            Plot.ruleY(axisTicks.filter(d => d.type === 1), { x: 1, y: "normalized", dx: 6, stroke: ruleColor }),
-            Plot.text(axisTicks.filter(d => d.type === 0), { x: 0, y: "normalized", text: "label", dx: -15, textAnchor: "end", fill: textColor }),
-            Plot.text(axisTicks.filter(d => d.type === 1), { x: 1, y: "normalized", text: "label", dx: 15, textAnchor: "start", fill: textColor }),
-            Plot.text([{ type: 0, text: "Annual health\ncare spending\nper person in U.S.\ndollars, 2010" }, { type: 1, text: "Life\nexpectancy\nat birth, in years" }], {
-              x: "type",
-              y: -0.05,
-              text: "text",
-              textAnchor: "middle",
-              lineHeight: 1.2,
-              fontWeight: "bold",
-              dy: -20,
-              fill: textColor
-            }),
-            Plot.line(slopeNormalized, {
-              x: "type",
-              y: "normalized",
-              z: "country",
-              stroke: d => d.country === "U.S." ? "#d32f2f" : lineDefaultColor,
-              strokeWidth: d => d.country === "U.S." ? 3 : 2
-            }),
-            Plot.dot(slopeNormalized, {
-              x: "type",
-              y: "normalized",
-              fill: d => d.country === "U.S." ? "#d32f2f" : lineDefaultColor,
-              r: 5
-            }),
-            Plot.text(slopeData, {
-              x: d => d.labelPos,
-              y: d => spendingScale(d.spending) * (1 - d.labelPos) + lifeExpScale(d.life) * d.labelPos,
-              text: d => d.country.toUpperCase(),
-              rotate: d => d.labelRotation,
-              dy: d => d.textDy,
-              fill: d => d.country === "U.S." ? "#d32f2f" : textColor,
-              stroke: haloColor,
-              strokeWidth: 3,
-              fontSize: 14
-            }),
-          ]
-        });
-
-        // Growth Chart
-        const growthData = [
-          { year: 1960, value: 0, series: "GDP" }, { year: 1960, value: 0, series: "Health" },
-          { year: 1970, value: 15, series: "GDP" }, { year: 1970, value: 30, series: "Health" },
-          { year: 1980, value: 35, series: "GDP" }, { year: 1980, value: 100, series: "Health" },
-          { year: 1990, value: 60, series: "GDP" }, { year: 1990, value: 250, series: "Health" },
-          { year: 2000, value: 90, series: "GDP" }, { year: 2000, value: 450, series: "Health" },
-          { year: 2010, value: 110, series: "GDP" }, { year: 2010, value: 800, series: "Health" },
-        ];
-
-        const growthChartPlot = Plot.plot({
-          width: width,
-          height: 300,
-          marginLeft: 40,
-          style: { fontSize: 11, background: "transparent", color: textColor },
-          y: { grid: true, label: "Percentage growth since 1960", tickFormat: d => d + "%" },
-          x: { tickFormat: "d", label: null },
-          marks: [
-            Plot.areaY(growthData.filter(d => d.series === "Health"), {
-              x: "year", y: "value", fill: isDark ? "#444444" : "#ccc", fillOpacity: 0.5
-            }),
-            Plot.areaY(growthData.filter(d => d.series === "GDP"), {
-              x: "year", y: "value", fill: isDark ? "#666666" : "#666", fillOpacity: 0.8
-            }),
-            Plot.line(growthData, { x: "year", y: "value", stroke: textColor, strokeWidth: 1.5, z: "series" }),
-            Plot.text([{ x: 2005, y: 50, text: "GDP" }], { x: "x", y: "y", text: "text", fill: "white" }),
-            Plot.text([{ x: 2000, y: 240, text: "NATIONAL\nHEALTH CARE\nEXPENDITURES" }], { x: "x", y: "y", text: "text", fill: textColor, textAnchor: "middle", lineHeight: 1.2 }),
-            Plot.text([{ x: 2002, y: 700, text: "NEARLY\nFIVE TIMES\nAS MUCH\nAS GDP" }], { x: "x", y: "y", text: "text", fill: isDark ? "#ef5350" : "red", textAnchor: "middle", fontSize: 10 })
-          ]
-        });
-
-        // Aging Chart
-        const agingRawData = [
-          { year: 1960, over64: 9, adults: 53, young: 38 },
-          { year: 1970, over64: 10, adults: 54, young: 36 },
-          { year: 1980, over64: 11, adults: 58, young: 31 },
-          { year: 1990, over64: 12, adults: 60, young: 28 },
-          { year: 2000, over64: 12, adults: 61, young: 27 },
-          { year: 2010, over64: 13, adults: 62, young: 25 },
-          { year: 2020, over64: 17, adults: 59, young: 24 },
-          { year: 2030, over64: 21, adults: 56, young: 23 },
-          { year: 2040, over64: 22, adults: 55, young: 23 },
-          { year: 2050, over64: 23, adults: 54, young: 23 },
-          { year: 2060, over64: 25, adults: 53, young: 22 },
-          { year: 2070, over64: 27, adults: 52, young: 21 },
-          { year: 2080, over64: 29, adults: 51, young: 20 },
-          { year: 2090, over64: 31, adults: 50, young: 19 },
-          { year: 2100, over64: 33, adults: 49, young: 18 }
-        ];
-
-        const agingData = [];
-        agingRawData.forEach(d => {
-          agingData.push({ year: d.year, group: "Over 64", value: d.over64 });
-          agingData.push({ year: d.year, group: "20-64", value: d.adults });
-          agingData.push({ year: d.year, group: "0-19", value: d.young });
-        });
-
-        const agingChartPlot = Plot.plot({
-          width: width,
-          height: 400,
-          style: { fontSize: 13, fontFamily: "Camphor, sans-serif", background: "transparent", color: textColor },
-          x: { type: "band", tickFormat: "d", tickRotate: -90, label: null },
-          y: {
-            percent: null,
-            nice: true,
-            label: "Percentage of total population",
-            labelAnchor: "top",
-            ticks: 4,
-            tickSize: 0,
-            tickFormat: d => d + "%",
-            grid: true,
-          },
-          color: {
-            domain: ["Over 64", "20-64", "0-19"],
-            range: ["#ef3b2c", "#a7a9ac", "#d1d3d4"]
-          },
-          marks: [
-            Plot.barY(agingData, { x: "year", y: "value", fill: "group", tip: true, title: "value", sort: { color: null } }),
-            Plot.text([{ year: 2090, value: 87, text: "OVER 64" }], { x: "year", y: "value", stroke: haloColor, strokeWidth: 4, text: "text", lineHeight: 1.2, letterSpacing: 1.2, fill: textColor, fontWeight: "bold", style: { paintOrder: "stroke" } }),
-            Plot.text([{ year: 2090, value: 45, text: "20—64" }], { x: "year", y: "value", stroke: haloColor, strokeWidth: 4, text: "text", lineHeight: 1.2, letterSpacing: 1.2, fill: textColor, fontWeight: "bold", style: { paintOrder: "stroke" } }),
-            Plot.text([{ year: 2090, value: 10, text: "0—19" }], { x: "year", y: "value", stroke: haloColor, strokeWidth: 4, text: "text", lineHeight: 1.2, letterSpacing: 1.2, fill: textColor, fontWeight: "bold", style: { paintOrder: "stroke" } }),
-          ]
-        });
-
-        const spendingContainer = document.getElementById("spending");
-        if (spendingContainer) spendingContainer.appendChild(spendingPlot);
-
-        const noinsuranceContainer = document.getElementById("noinsurance");
-        if (noinsuranceContainer) noinsuranceContainer.appendChild(noinsurancePlot);
-
-        const slopeContainer = document.getElementById("slope-chart");
-        if (slopeContainer) slopeContainer.appendChild(slopeChartPlot);
-
-        const growthContainer = document.getElementById("growth-chart");
-        if (growthContainer) growthContainer.appendChild(growthChartPlot);
-
-        const agingContainer = document.getElementById("aging-chart");
-        if (agingContainer) agingContainer.appendChild(agingChartPlot);
-
-        const incomeContainer = document.getElementById("income");
-        if (incomeContainer) incomeContainer.appendChild(incomePlot);
-      }
-
-      window.renderCharts = renderCharts;
-      renderCharts();
-      window.addEventListener("resize", renderCharts);
-    });
-  </script>
-  <script>
-    // Redraw when js/site.js switches the theme
-    document.addEventListener("themechange", () => {
-      if (typeof window.renderCharts === "function") {
-        window.renderCharts();
-      }
-    });
+      });
+    })();
   </script>
   <script src="js/site.js" defer></script>
 </body>
