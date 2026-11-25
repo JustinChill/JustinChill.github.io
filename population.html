@@ -18,7 +18,7 @@
 
   <title>UN Population Projections 2022 | Justin Chill</title>
   <meta name="description"
-    content="The UN projects that the global population will peak before the end of the century – in 2086, at just over 10.4 billion people.">
+    content="In its 2022 projections, the UN expects world population to peak at about 10.4 billion around 2086, then edge down. See every country to 2100.">
   <meta name="author" content="Justin Chill">
   <meta name="application-name" content="Justin Chill">
   <meta name="msapplication-tooltip" content="Justin Chill">
@@ -26,9 +26,9 @@
 
   <!-- Article metadata -->
   <meta name="datePublished" content="2022-12-07">
-  <meta name="dateModified" content="2026-08-23">
+  <meta name="dateModified" content="2026-11-24">
   <meta property="article:published_time" content="2022-12-07">
-  <meta property="article:modified_time" content="2026-08-23">
+  <meta property="article:modified_time" content="2026-11-24">
   <meta property="article:author" content="Justin Chill">
   <meta property="article:section" content="Demographics">
 
@@ -39,16 +39,19 @@
   <meta content="https://justinchill.com/population.html" property="og:url">
   <meta content="UN Population Projections 2022 | Justin Chill" property="og:title">
   <meta
-    content="The UN projects that the global population will peak before the end of the century – in 2086, at just over 10.4 billion people."
+    content="In its 2022 projections, the UN expects world population to peak at about 10.4 billion around 2086, then edge down. See every country to 2100."
     property="og:description">
   <meta content="https://justinchill.com/blog.html" property="og:see_also">
   <meta property="og:locality" content="New York">
   <meta property="og:region" content="NY">
   <meta property="og:country_name" content="USA">
   <meta
-    content="https://static.observableusercontent.com/thumbnail/6855d693ba2de35a310198a8315233fdeab9cf047f6d6fe9919480b95de8cd8b.jpg"
+    content="https://justinchill.com/imgs/cover/population_cover.webp"
     property="og:image">
-  <meta content="Line chart showing expected population growth from 1960 - 2100." property="og:image:alt">
+  <meta content="640" property="og:image:width">
+  <meta content="400" property="og:image:height">
+  <meta content="image/webp" property="og:image:type">
+  <meta content="Line chart of world population from 1949 to 2100, rising to about 10.4 billion in the 2080s with a widening band of uncertainty." property="og:image:alt">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -56,14 +59,15 @@
   <meta name="twitter:creator" content="@JustinChill">
   <meta name="twitter:title" content="UN Population Projections 2022 | Justin Chill">
   <meta name="twitter:description"
-    content="The UN projects that the global population will peak before the end of the century – in 2086, at just over 10.4 billion people.">
+    content="In its 2022 projections, the UN expects world population to peak at about 10.4 billion around 2086, then edge down. See every country to 2100.">
   <meta
-    content="https://static.observableusercontent.com/thumbnail/6855d693ba2de35a310198a8315233fdeab9cf047f6d6fe9919480b95de8cd8b.jpg"
+    content="https://justinchill.com/imgs/cover/population_cover.webp"
     property="twitter:image">
-  <meta content="Line chart showing expected population growth from 1960 - 2100." property="twitter:image:alt">
+  <meta content="Line chart of world population from 1949 to 2100, rising to about 10.4 billion in the 2080s with a widening band of uncertainty." property="twitter:image:alt">
 
   <link rel="canonical" href="https://justinchill.com/population.html">
-  <link rel="preload" href="style.css" as="style" />
+  <link rel="preload" href="fonts/CamphorPro-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/CamphorPro-Heavy.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico">
   <link type="text/plain" href="humans.txt" rel="author">
@@ -72,9 +76,16 @@
   <meta name="color-scheme" content="light dark">
 
   <style type="text/css">
-    #country {
-      display: flex;
-      flex-direction: column;
+    :root {
+      --pop-line: rgba(0, 0, 0, 0.85);
+      --pop-band: rgba(0, 50, 100, 0.1);
+      --pop-rule: rgba(0, 0, 0, 0.35);
+    }
+
+    html[data-theme="dark"] {
+      --pop-line: #82b4ff;
+      --pop-band: rgba(130, 180, 255, 0.2);
+      --pop-rule: rgba(255, 255, 255, 0.4);
     }
 
     .chart-controls {
@@ -83,82 +94,75 @@
       align-items: center;
       gap: 0.75rem;
       margin-bottom: 1.25rem;
-      font-size: var(--type-scale-0, 1.0625rem);
     }
 
     .chart-controls label {
+      font-size: 1.0625rem;
       font-weight: 600;
-      color: var(--heading-color, currentColor);
     }
 
-    select#countrySelect {
+    .chart-controls select {
       appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
+      max-width: 100%;
       min-height: 42px;
       padding: 0.45rem 2.25rem 0.45rem 0.85rem;
-      font-family: inherit;
-      font-size: 0.95rem;
-      font-weight: 500;
+      font-size: 1rem;
       line-height: 1.4;
+      border: 1px solid var(--rule-color);
       border-radius: 8px;
-      border: 1px solid var(--rule-color, #d4d4d4);
-      background-color: var(--surface-color, #fff);
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E");
-      background-position: right 0.65rem center;
-      background-repeat: no-repeat;
-      background-size: 1.25rem 1.25rem;
-      color: var(--text-color, #242424);
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      background: var(--surface-color) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%237b8494' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E") no-repeat right 0.65rem center / 1.25rem;
+      color: var(--text-color);
       cursor: pointer;
-      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     }
 
-    select#countrySelect:hover {
-      border-color: var(--link-color, #1f6fd1);
+    .chart-controls select:hover {
+      border-color: var(--link-color);
     }
 
-    select#countrySelect:focus {
-      outline: none;
+    .chart-key {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem 1.25rem;
+      margin-bottom: 0.5rem;
     }
 
-    select#countrySelect:focus-visible {
-      outline: none;
-      border-color: var(--link-color, #1f6fd1);
-      box-shadow: 0 0 0 3px rgba(31, 111, 209, 0.2);
+    .chart-key span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      line-height: 1.4;
+      color: var(--muted-color);
     }
 
-    html[data-theme="dark"] select#countrySelect {
-      background-color: var(--surface-subtle, #1e1e1e);
-      border-color: var(--rule-color, #3c3c3c);
-      color: var(--text-color, #e8e8e8);
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E");
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    .chart-key span::before {
+      content: "";
+      width: 1.25rem;
+      height: 0.8rem;
+      background: var(--pop-band);
     }
 
-    html[data-theme="dark"] select#countrySelect:hover {
-      border-color: var(--link-color, #82b4ff);
+    .chart-key .key-median::before {
+      height: 2px;
+      background: var(--pop-line);
     }
 
-    html[data-theme="dark"] select#countrySelect:focus-visible {
-      border-color: var(--link-color, #82b4ff);
-      box-shadow: 0 0 0 3px rgba(130, 180, 255, 0.25);
+    /* The 80% band is drawn over the 95% band, so it shows both fills */
+    .chart-key .key-80::before {
+      background: linear-gradient(var(--pop-band), var(--pop-band)), var(--pop-band);
     }
 
-    #changes div[class*="swatch"] span {
-      font-size: 1.0125rem;
+    /* Plot sizes the region legend from the page; keep it in step with the key */
+    #changes-chart [class*="swatches"] span {
+      font-size: 0.875rem;
+      line-height: 1.4;
     }
 
-    g[aria-label*="tip"] {
-      color: hsl(210, 24%, 16%);
-    }
-
-    html[data-theme="dark"] g[aria-label*="tip"] {
-      color: hsl(210, 36%, 96%);
-    }
-
-    html[data-theme="dark"] figure svg {
-      color: var(--text-color, #e8e8e8);
+    @media print, (forced-colors: active) {
+      .chart-key span::before {
+        forced-color-adjust: none;
+        print-color-adjust: exact;
+      }
     }
   </style>
 
@@ -169,13 +173,12 @@
   "headline": "Growth Areas: UN Population Projections 2022",
   "name": "Growth Areas: UN Population Projections 2022",
   "alternativeHeadline": "UN Population Projections to 2100 and the Road to 10 Billion",
-  "description": "The UN projects that the global population will peak before the end of the century – in 2086, at just over 10.4 billion people. Explore interactive probabilistic projections and country-level growth.",
+  "description": "In its 2022 projections, the UN expects world population to peak at about 10.4 billion around 2086, then edge down. See every country to 2100.",
   "datePublished": "2022-12-07",
-  "dateModified": "2026-08-23",
+  "dateModified": "2026-11-24",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
   "articleSection": "Demographics",
-  "wordCount": 160,
   "url": "https://justinchill.com/population.html",
   "mainEntityOfPage": {
     "@type": "WebPage",
@@ -192,8 +195,8 @@
   },
   "image": {
     "@type": "ImageObject",
-    "url": "https://static.observableusercontent.com/thumbnail/6855d693ba2de35a310198a8315233fdeab9cf047f6d6fe9919480b95de8cd8b.jpg",
-    "caption": "Line chart showing expected population growth from 1960 - 2100."
+    "url": "https://justinchill.com/imgs/cover/population_cover.webp",
+    "caption": "Line chart of world population from 1949 to 2100, rising to about 10.4 billion in the 2080s with a widening band of uncertainty."
   },
   "author": {
     "@type": "Person",
@@ -283,6 +286,15 @@
       },
       "datePublished": "2022",
       "url": "https://population.un.org/wpp/"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Peak global population and other key findings from the 2024 UN World Population Prospects",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Our World in Data"
+      },
+      "url": "https://ourworldindata.org/un-population-2024-revision"
     }
   ],
   "hasPart": [
@@ -359,53 +371,76 @@
       </div>
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
       <h2>The Road to 10 Billion</h2>
-      <figure id="total" style="max-width: 100%; overflow-x: auto; touch-action: manipulation;"
-        aria-label="A line chart showing the current world population as a solid line to 2022 and projections of the world population to 2100 as a cone of uncertainty.">
+      <figure id="total"
+        aria-label="Line chart of world population. It rises from 2.5 billion in 1949 to 8 billion in 2022, and the median projection peaks at 10.43 billion at the end of 2085 before easing to 10.34 billion in 2100. The 95% interval in 2100 runs from 8.8 to 12.4 billion.">
+        <div class="chart-key" aria-hidden="true">
+          <span class="key-median">Estimate, then median projection</span>
+          <span class="key-80">80% interval</span>
+          <span>95% interval</span>
+        </div>
         <div id="total-chart"></div>
         <figcaption class="right">Data: <a href="https://population.un.org/wpp/" target="_blank"
-            rel="noopener noreferrer">United Nations</a></figcaption>
+            rel="noopener noreferrer">United Nations</a>, 2022</figcaption>
       </figure>
 
-      <p>The United Nations Population Division recently released <a href="https://population.un.org/wpp/"
-          target="_blank" rel="noopener noreferrer">World
-          Population Prospects 2022</a>, which includes yearly population projections to 2100. The probabilistic
-        projections are based on a hierarchical Bayesian model.</p>
-      <p>The solid line in the figure above shows the historical world population from 1949–2021 and the posterior
-        median
-        population projection from 2022–2100. The shaded regions illustrate the posterior 80% and 95% credible intervals
-        for population projections from 2022–2100.</p>
+      <p>The United Nations published <a href="https://population.un.org/wpp/" target="_blank"
+          rel="noopener noreferrer">World Population Prospects</a>, its projection for every country and every year to
+        2100, in July 2022. The world passed 8 billion people that November. By the UN’s median, it reaches 9 billion in 2037 and 10
+        billion in 2058, then peaks at 10.43 billion at the end of 2085<a href="#dates"
+          aria-describedby="footnote-label" id="dates-ref"></a> and eases to 10.34 billion by the end of the century.</p>
+      <p>Nobody knows how many children people will have in 2070, so the UN runs a Bayesian hierarchical model and
+        publishes a range. The solid line is the UN’s estimate up to 2021 and the model’s median after that. The shaded
+        bands are its 80% and 95% credible intervals, and they widen with every year: for 2100, the 95% band runs from
+        8.8 to 12.4 billion.</p>
+      <p>The UN has since trimmed its forecast. The 2024 edition puts the peak at just under 10.3 billion, in 2084<a
+          href="#owid" aria-describedby="footnote-label" id="owid-ref"></a>. The charts here use the 2022 edition.</p>
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
-      <h3>Country Projections</h3>
-      <figure id="country" style="max-width: 100%; overflow-x: auto; touch-action: manipulation;"
-        aria-label="A line chart showing the current population of the selected country as a solid line to 2022 and projections of the population to 2100 as a cone of uncertainty.">
+      <h2>Country Projections</h2>
+      <figure id="country"
+        aria-label="Line chart of the selected country’s population from 1949, with the median projection and its 80% and 95% intervals to 2100. The text below gives the figures.">
         <div class="chart-controls">
           <label for="countrySelect">Select country:</label>
-          <select id="countrySelect" aria-label="Select country to view population projections"></select>
+          <select id="countrySelect"></select>
+        </div>
+        <div class="chart-key" aria-hidden="true">
+          <span class="key-median">Estimate, then median projection</span>
+          <span class="key-80">80% interval</span>
+          <span>95% interval</span>
         </div>
         <div id="country-chart"></div>
         <figcaption class="right">Data: <a href="https://population.un.org/wpp/" target="_blank"
-            rel="noopener noreferrer">United Nations</a></figcaption>
+            rel="noopener noreferrer">United Nations</a>, 2022</figcaption>
       </figure>
-      <p>The solid line shows the historical population of <span id="countryLabel">Afghanistan</span> from 1949–2021 and
-        the
-        posterior median population projection from 2022–2100. The shaded regions illustrate the posterior 80% and 95%
-        credible intervals for population projections from 2022–2100.</p>
-      <h3>Changes in Population</h3>
-      <p>Let's take a quick look at which countries are projected to have the largest change in population from
-        2022–2100.</p>
-      <p>The plot below compares the percent change in population from 2022–2100 to the 2022 population (log scale) for
-        every country.</p>
+      <p id="countrySummary" aria-live="polite"><strong>Afghanistan</strong>: 41.7 million people at the end of 2022, and
+        a median projection of 111.0 million for 2100. The 95% interval runs from 56.4 million to 242.7 million.</p>
       <span class="header-tag"><img src="imgs/tag.svg" alt="" aria-hidden="true" loading="lazy" decoding="async"></span>
-      <h3>Africa on the Rise</h3>
-      <figure id="changes" style="max-width: 100%; overflow-x: auto; touch-action: manipulation;"
-        aria-label="A scatter plot showing the percent change in population from 2022–2100 on the y-axis and the 2022 population (log scale) on the x-axis for each country.">
+      <h2>Africa on the Rise</h2>
+      <p>Africa adds 2.5 billion people by 2100, more than the whole world’s net gain of 2.3 billion. The 15
+        fastest-growing countries and territories are all there. Niger’s population rises more than sixfold, and the
+        Democratic Republic of the Congo’s more than quadruples.</p>
+      <p>Elsewhere, populations level off or fall. Asia and Latin America end the century about where they are now, and
+        Europe loses a fifth of its people. China loses almost half, while India grows 7%. In all, 98 of 236 countries
+        and territories are projected to be smaller in 2100 than in 2022, led by American Samoa (−72%) and Jamaica
+        (−69%).</p>
+      <figure id="changes"
+        aria-label="Scatter plot of 236 countries and territories, with 2022 population on a log scale across and the projected change by 2100 up. African countries sit highest, led by Niger at +529% and the Democratic Republic of the Congo at +331%. American Samoa at −72% and Jamaica at −69% are lowest.">
         <div id="changes-chart"></div>
-        <figcaption class="right">Data: <a href="https://population.un.org/wpp/" target="_blank"
-            rel="noopener noreferrer">United Nations</a></figcaption>
+        <figcaption class="right">Each dot is a country or territory. Data: <a href="https://population.un.org/wpp/"
+            target="_blank" rel="noopener noreferrer">United Nations</a>, 2022</figcaption>
       </figure>
     </article>
   </main>
   <footer>
+    <h2 id="footnote-label">Footnotes</h2>
+    <ol>
+      <li id="dates"><strong>United Nations Population Division</strong>, <a href="https://population.un.org/wpp/"
+          target="_blank" rel="noopener noreferrer"><em>World Population Prospects 2022</em></a>. These are 1 January
+        totals, dated here to 31 December of the year before: 2085 is the UN’s 1 January 2086. <a href="#dates-ref"
+          aria-label="Back to content">↩</a></li>
+      <li id="owid"><strong>Our World in Data</strong>, <a href="https://ourworldindata.org/un-population-2024-revision"
+          target="_blank" rel="noopener noreferrer">on the UN’s 2024 revision</a>. <a href="#owid-ref"
+          aria-label="Back to content">↩</a></li>
+    </ol>
 
     <div>
       <p>Justin Chill &copy; 2026</p>
@@ -416,441 +451,230 @@
   <script src="https://cdn.jsdelivr.net/npm/d3@7.9.2/dist/d3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.19/dist/plot.umd.min.js"></script>
   <script type="text/javascript">
-    // Global references for data and state
-    let globalRawData = null;
-    let globalChangeData = null;
-    let globalWorldData = null;
-    let globalSelectedCountry = "Afghanistan";
-    let selectElement = null;
+    // Population figures in the data are in thousands of people.
+    // Colours come from CSS variables, so a theme switch needs no redraw.
+    const UNITS = [
+      { min: 1e6, size: 1e6, name: "billions", format: k => d3.format(".2f")(k / 1e6) + "B" },
+      { min: 1e3, size: 1e3, name: "millions", format: k => d3.format(".1f")(k / 1e3) + "M" },
+      { min: 10, size: 1, name: "thousands", format: k => d3.format(".0f")(k) + "k" },
+      { min: 0, size: 1e-3, name: "people", format: k => d3.format(",.0f")(k * 1e3) }
+    ];
+    const unitFor = k => UNITS.find(u => k >= u.min);
+    const formatPop = k => unitFor(k).format(k);
 
-    // Helper function for adaptive population formatting
-    function formatPopNumber(kVal) {
-      if (kVal >= 1e6) {
-        return d3.format(".2f")(kVal / 1e6) + "B";
-      } else if (kVal >= 1e3) {
-        return d3.format(".1f")(kVal / 1e3) + "M";
-      } else {
-        return d3.format(".0f")(kVal) + "k";
-      }
+    // "41.7 million" for running text
+    function spellPop(k) {
+      if (k >= 1e6) return d3.format(".2f")(k / 1e6) + " billion";
+      if (k >= 1e3) return d3.format(".1f")(k / 1e3) + " million";
+      return d3.format(",.0f")(k * 1e3);
     }
 
-    // Helper functions to create charts with dark mode awareness
-    function renderTotalPlot(world_data, isDark, width) {
-      const isMobile = width < 560;
-      const size = isMobile ? 10 : 12;
-      const lineColor = isDark ? "#82b4ff" : "rgba(0, 0, 0, 0.85)";
-      const bandFill = isDark ? "rgba(130, 180, 255, 0.2)" : "rgba(0, 50, 100, 0.1)";
-      const textColor = isDark ? "#e8e8e8" : "#242424";
+    const LAST_ESTIMATE = new Date("2021-12-31");
+    const SHORT_NAMES = { "Democratic Republic of the Congo": "DR Congo" };
 
-      // Milestone years to display (every 20 years + 2022 pivot + 2100 end)
-      const milestoneYears = new Set([1960, 1980, 2000, 2022, 2050, 2100]);
-      const labeledData = world_data.filter(d => milestoneYears.has(d.year));
+    let rawData = null;
+    let changeData = null;
+    let selectedCountry = "Afghanistan";
+    let lastWidth = 0;
+
+    function projectionPlot(data, label, width) {
+      const isPhone = width < 560;
+      const unit = unitFor(d3.max(data, d => d.pop));
+      const popIn = new Map(data.map(d => [d.year, d.pop]));
+      const end = data[data.length - 1];
+
+      // Label a few years. On a rising stretch the label goes left of the dot, on a falling one right,
+      // so it never sits on the line. (Plot takes a constant for dx and textAnchor, hence two marks.)
+      const labelled = data.filter(d => [1980, 2022, 2050].includes(d.year));
+      const rising = d => popIn.get(d.year + 5) >= popIn.get(d.year - 5);
+      const labelStyle = {
+        x: "date",
+        y: "pop",
+        text: d => formatPop(d.pop),
+        fill: "currentColor",
+        stroke: "var(--bg-color)",
+        strokeWidth: 4,
+        fontWeight: 600
+      };
 
       return Plot.plot({
-        width: width,
+        width,
+        height: isPhone ? 340 : 400,
         marginTop: 45,
         marginBottom: 35,
-        marginLeft: isMobile ? 45 : 55,
-        marginRight: 25,
-        style: {
-          fontSize: size + "px",
-          background: "transparent",
-          color: textColor,
-        },
-        x: {
-          type: "time",
-          grid: true,
-          label: null,
-          ticks: isMobile ? 5 : 7,
-        },
+        marginLeft: 50,
+        marginRight: isPhone ? 52 : 60,
+        style: { fontSize: isPhone ? "11px" : "12px", background: "transparent" },
+        x: { type: "utc", grid: true, label: null, ticks: isPhone ? 5 : 7 },
         y: {
           grid: true,
-          transform: d => d / 1e6,
-          label: "World population (Billions)",
+          transform: d => d / unit.size,
+          label: `${label}, ${unit.name}`,
           labelAnchor: "top",
-          labelOffset: 14,
+          labelOffset: 44,
           labelArrow: null,
           tickSize: 0,
-          ticks: isMobile ? 4 : 6,
+          ticks: isPhone ? 4 : 6,
           nice: true,
-          insetTop: 15,
+          insetTop: 22
         },
         marks: [
-          // 95% credible interval ribbon
-          Plot.areaY(world_data, {
-            x: "date",
-            y1: "pop_95l",
-            y2: "pop_95u",
-            fill: bandFill
+          Plot.areaY(data, { x: "date", y1: "pop_95l", y2: "pop_95u", fill: "var(--pop-band)" }),
+          Plot.areaY(data, { x: "date", y1: "pop_80l", y2: "pop_80u", fill: "var(--pop-band)" }),
+          Plot.ruleX([LAST_ESTIMATE], { stroke: "var(--pop-rule)", strokeDasharray: "3,3" }),
+          Plot.text(["Projected →"], {
+            x: () => LAST_ESTIMATE,
+            frameAnchor: "top",
+            textAnchor: "start",
+            dx: 6,
+            dy: 4,
+            fill: "var(--muted-color)"
           }),
-          // 80% credible interval ribbon
-          Plot.areaY(world_data, {
-            x: "date",
-            y1: "pop_80l",
-            y2: "pop_80u",
-            fill: bandFill
-          }),
-          // Vertical reference line at 2022 (Projections begin)
-          Plot.ruleX([new Date(2022, 0, 1)], {
-            stroke: isDark ? "rgba(255, 255, 255, 0.25)" : "rgba(0, 0, 0, 0.25)",
-            strokeDasharray: "3,3",
-            strokeWidth: 1
-          }),
-          // Main trajectory line
-          Plot.lineY(world_data, {
+          Plot.lineY(data, { x: "date", y: "pop", stroke: "var(--pop-line)", strokeWidth: 2.2 }),
+          Plot.dot([...labelled, end], {
             x: "date",
             y: "pop",
-            stroke: lineColor,
-            strokeWidth: 2.2
-          }),
-          // Milestone dots
-          Plot.dot(labeledData, {
-            x: "date",
-            y: "pop",
-            r: isMobile ? 2.5 : 3.5,
-            fill: lineColor,
-            stroke: "var(--bg-color, #fff)",
+            r: isPhone ? 3 : 3.5,
+            fill: "var(--pop-line)",
+            stroke: "var(--bg-color)",
             strokeWidth: 1.5
           }),
-          // Milestone labels - Protective halo
-          Plot.text(labeledData, {
+          Plot.text(labelled.filter(rising), { ...labelStyle, textAnchor: "end", dx: -6, dy: -8 }),
+          Plot.text(labelled.filter(d => !rising(d)), { ...labelStyle, textAnchor: "start", dx: 6, dy: -8 }),
+          Plot.text([end], { ...labelStyle, textAnchor: "start", dx: 8 }),
+          Plot.ruleX(data, Plot.pointerX({ x: "date", stroke: "var(--pop-rule)" })),
+          Plot.tip(data, Plot.pointerX({
             x: "date",
             y: "pop",
-            text: d => d3.format(".1f")(d.pop / 1e6) + "B",
-            lineAnchor: "bottom",
-            dy: -18,
-            textAnchor: d => d.year === 2100 ? "end" : "middle",
-            dx: d => d.year === 2100 ? -8 : 0,
-            fill: "none",
-            stroke: "var(--bg-color, #f9f9f9)",
-            strokeWidth: 4,
-            strokeLinejoin: "round"
-          }),
-          // Milestone labels - Text
-          Plot.text(labeledData, {
-            x: "date",
-            y: "pop",
-            text: d => d3.format(".1f")(d.pop / 1e6) + "B",
-            lineAnchor: "bottom",
-            dy: -18,
-            textAnchor: d => d.year === 2100 ? "end" : "middle",
-            dx: d => d.year === 2100 ? -8 : 0,
-            fill: textColor,
-            fontWeight: 600
-          }),
-          // Interactive Hover Tooltip
-          Plot.dot(world_data, {
-            x: "date",
-            y: "pop",
-            r: 0,
-            title: d => `World Population (${d.year})\nMedian: ${d3.format(".2f")(d.pop / 1e6)}B\n80% CI: [${d3.format(".2f")(d.pop_80l / 1e6)}B, ${d3.format(".2f")(d.pop_80u / 1e6)}B]\n95% CI: [${d3.format(".2f")(d.pop_95l / 1e6)}B, ${d3.format(".2f")(d.pop_95u / 1e6)}B]`,
-            tip: true
-          })
+            title: d => [
+              `31 December ${d.year}: ${formatPop(d.pop)}`,
+              ...(d.date > LAST_ESTIMATE ? [
+                `80% interval: ${formatPop(d.pop_80l)} to ${formatPop(d.pop_80u)}`,
+                `95% interval: ${formatPop(d.pop_95l)} to ${formatPop(d.pop_95u)}`
+              ] : [])
+            ].join("\n")
+          }))
         ]
       });
     }
 
-    function renderCountryPlot(area, rawdata, isDark, width) {
-      const isMobile = width < 560;
-      const size = isMobile ? 10 : 12;
-      const area_data = rawdata.filter(d => d.name == area);
-      const lineColor = isDark ? "#82b4ff" : "rgba(0, 0, 0, 0.85)";
-      const bandFill = isDark ? "rgba(130, 180, 255, 0.2)" : "rgba(0, 50, 100, 0.1)";
-      const textColor = isDark ? "#e8e8e8" : "#242424";
-
-      // Milestone years to display (spaced out to avoid overlap)
-      const milestoneYears = new Set([1960, 1980, 2000, 2022, 2050, 2100]);
-      const labeledData = area_data.filter(d => milestoneYears.has(d.year));
-
-      return Plot.plot({
-        width: width,
-        marginTop: 45,
-        marginBottom: 35,
-        marginLeft: isMobile ? 45 : 55,
-        marginRight: 25,
-        style: {
-          background: "transparent",
-          color: textColor,
-          fontSize: size + "px"
-        },
-        x: {
-          type: "time",
-          grid: true,
-          label: null,
-          ticks: isMobile ? 5 : 7,
-        },
-        y: {
-          grid: true,
-          transform: d => d / 1e3,
-          label: "Population of " + area + " (Millions)",
-          labelAnchor: "top",
-          labelOffset: 14,
-          labelArrow: null,
-          tickSize: 0,
-          ticks: isMobile ? 4 : 6,
-          nice: true,
-          insetTop: 15,
-        },
-        marks: [
-          // 95% credible interval ribbon
-          Plot.areaY(area_data, {
-            x: "date",
-            y1: "pop_95l",
-            y2: "pop_95u",
-            fill: bandFill
-          }),
-          // 80% credible interval ribbon
-          Plot.areaY(area_data, {
-            x: "date",
-            y1: "pop_80l",
-            y2: "pop_80u",
-            fill: bandFill
-          }),
-          // Vertical reference line at 2022 (Projections begin)
-          Plot.ruleX([new Date(2022, 0, 1)], {
-            stroke: isDark ? "rgba(255, 255, 255, 0.25)" : "rgba(0, 0, 0, 0.25)",
-            strokeDasharray: "3,3",
-            strokeWidth: 1
-          }),
-          // Main trajectory line
-          Plot.lineY(area_data, {
-            x: "date",
-            y: "pop",
-            stroke: lineColor,
-            strokeWidth: 2.2
-          }),
-          // Milestone dots
-          Plot.dot(labeledData, {
-            x: "date",
-            y: "pop",
-            r: isMobile ? 2.5 : 3.5,
-            fill: lineColor,
-            stroke: "var(--bg-color, #fff)",
-            strokeWidth: 1.5
-          }),
-          // Milestone labels - Protective halo
-          Plot.text(labeledData, {
-            x: "date",
-            y: "pop",
-            text: d => formatPopNumber(d.pop),
-            lineAnchor: "bottom",
-            dy: -18,
-            textAnchor: d => d.year === 2100 ? "end" : "middle",
-            dx: d => d.year === 2100 ? -8 : 0,
-            fill: "none",
-            stroke: "var(--bg-color, #f9f9f9)",
-            strokeWidth: 4,
-            strokeLinejoin: "round"
-          }),
-          // Milestone labels - Text
-          Plot.text(labeledData, {
-            x: "date",
-            y: "pop",
-            text: d => formatPopNumber(d.pop),
-            lineAnchor: "bottom",
-            dy: -18,
-            textAnchor: d => d.year === 2100 ? "end" : "middle",
-            dx: d => d.year === 2100 ? -8 : 0,
-            fill: textColor,
-            fontWeight: 600
-          }),
-          // Interactive Hover Tooltip
-          Plot.dot(area_data, {
-            x: "date",
-            y: "pop",
-            r: 0,
-            title: d => `${area} (${d.year})\nMedian: ${formatPopNumber(d.pop)}\n80% CI: [${formatPopNumber(d.pop_80l)}, ${formatPopNumber(d.pop_80u)}]\n95% CI: [${formatPopNumber(d.pop_95l)}, ${formatPopNumber(d.pop_95u)}]`,
-            tip: true
-          })
-        ]
-      });
-    }
-
-    function renderChangesPlot(change_data, isDark, width) {
-      const isMobile = width < 560;
-      const size = isMobile ? 10 : 12;
-      const textColor = isDark ? "#e8e8e8" : "#242424";
+    function changesPlot(data, width) {
+      const isPhone = width < 560;
+      const named = (...names) => data.filter(d => names.includes(d.name));
+      const signed = v => (v > 0 ? "+" : v < 0 ? "−" : "") + d3.format(".0f")(Math.abs(v)) + "%";
+      const labelStyle = {
+        x: "year2022",
+        y: "percent_change",
+        text: d => SHORT_NAMES[d.name] || d.name,
+        fill: "currentColor",
+        stroke: "var(--bg-color)",
+        strokeWidth: 4,
+        fontWeight: 600
+      };
 
       return Plot.plot({
-        width: width,
+        width,
+        height: isPhone ? 420 : 460,
         marginTop: 30,
-        marginBottom: 35,
-        marginLeft: isMobile ? 45 : 55,
+        marginBottom: 40,
+        marginLeft: 50,
         marginRight: 20,
-        style: {
-          background: "transparent",
-          color: textColor,
-          fontSize: size + "px"
-        },
+        style: { fontSize: isPhone ? "11px" : "12px", background: "transparent" },
         x: {
-          label: "2022 Population (Millions, log scale)",
+          label: "2022 population, log scale",
           labelAnchor: "center",
+          labelArrow: null,
           type: "log",
-          transform: d => d / 1e3,
-          tickFormat: d => (d >= 1000 ? (d / 1000) + "B" : d >= 1 ? d + "M" : (d * 1000) + "k"),
-          ticks: isMobile ? 4 : 6,
+          transform: d => d * 1e3,
+          tickFormat: d => d >= 1e9 ? d / 1e9 + "B" : d >= 1e6 ? d / 1e6 + "M" : d / 1e3 + "k",
+          ticks: isPhone ? [1e4, 1e6, 1e8] : [1e4, 1e5, 1e6, 1e7, 1e8, 1e9],
           grid: true
         },
         y: {
           grid: true,
-          label: "% Change in Population (2022–2100)",
+          label: "Change in population, 2022–2100",
           labelAnchor: "top",
-          labelOffset: 12,
-          nice: true,
-          tickSize: 0,
+          labelOffset: 44,
           labelArrow: null,
-          ticks: isMobile ? 4 : 6,
+          tickFormat: signed,
+          tickSize: 0,
+          ticks: isPhone ? 4 : 6,
+          nice: true,
+          insetBottom: 12
         },
-        color: {
-          legend: true
-        },
+        color: { legend: true },
         marks: [
-          // Zero growth baseline
-          Plot.ruleY([0], {
-            stroke: isDark ? "rgba(255, 255, 255, 0.3)" : "rgba(0, 0, 0, 0.3)",
-            strokeDasharray: "3,3",
-            strokeWidth: 1.2
-          }),
-          // Scatter points
-          Plot.dot(change_data, {
+          Plot.ruleY([0], { stroke: "var(--pop-rule)", strokeDasharray: "3,3" }),
+          Plot.dot(data, {
             x: "year2022",
             y: "percent_change",
-            r: isMobile ? 2.5 : 3.5,
-            title: (d) => `${d.name} (${d.area_name})\n% Change: ${d.percent_change >= 0 ? "+" : ""}${d3.format(".1f")(d.percent_change)}%\n2022 Pop.: ${formatPopNumber(d.year2022)}\n2100 Pop.: ${formatPopNumber(d.year2100)}`,
+            r: isPhone ? 2.5 : 3.5,
             stroke: "area_name",
             fill: "area_name",
             fillOpacity: 0.25,
+            title: d => `${d.name} (${d.area_name})\n2022: ${formatPop(d.year2022)}\n2100: ${formatPop(d.year2100)}\nChange: ${signed(d.percent_change)}`,
             tip: true
-          })
+          }),
+          Plot.text(named("Niger", "Democratic Republic of the Congo", "Mayotte"), { ...labelStyle, textAnchor: "start", dx: 8 }),
+          Plot.text(named("China", "India"), { ...labelStyle, textAnchor: "end", dx: -8 }),
+          Plot.text(named("Jamaica", "American Samoa"), { ...labelStyle, textAnchor: "middle", dy: 13 })
         ]
       });
     }
 
-    let lastRenderedWidth = 0;
-
-    function renderAllCharts() {
-      if (!globalRawData || !globalChangeData) return;
-
-      const isDark = (document.documentElement.getAttribute("data-theme") || "light") === "dark";
-
-      // Render Total chart
-      const totalChartContainer = document.getElementById("total-chart");
-      if (totalChartContainer) {
-        totalChartContainer.innerHTML = "";
-        const totalWidth = totalChartContainer.getBoundingClientRect().width || 600;
-        lastRenderedWidth = totalWidth;
-        totalChartContainer.appendChild(renderTotalPlot(globalWorldData, isDark, totalWidth));
-      }
-
-      // Render Country chart
-      const countryChartContainer = document.getElementById("country-chart");
-      if (countryChartContainer) {
-        countryChartContainer.innerHTML = "";
-        const countryWidth = countryChartContainer.getBoundingClientRect().width || 600;
-        countryChartContainer.appendChild(renderCountryPlot(globalSelectedCountry, globalRawData, isDark, countryWidth));
-        const countryLabelSpan = document.getElementById('countryLabel');
-        if (countryLabelSpan) countryLabelSpan.textContent = globalSelectedCountry;
-      }
-
-      // Render Changes chart
-      const changesChartContainer = document.getElementById("changes-chart");
-      if (changesChartContainer) {
-        changesChartContainer.innerHTML = "";
-        const changesWidth = changesChartContainer.getBoundingClientRect().width || 600;
-        changesChartContainer.appendChild(renderChangesPlot(globalChangeData, isDark, changesWidth));
-      }
+    function draw(id, plot) {
+      document.getElementById(id).replaceChildren(plot);
     }
 
-    // Load data
-    const promises = [
+    function renderCountry() {
+      const data = rawData.filter(d => d.name === selectedCountry);
+      draw("country-chart", projectionPlot(data, `Population of ${selectedCountry}`, lastWidth));
+
+      const now = data.find(d => d.year === 2022);
+      const end = data[data.length - 1];
+      const name = document.createElement("strong");
+      name.textContent = selectedCountry;
+      document.getElementById("countrySummary").replaceChildren(
+        name,
+        `: ${spellPop(now.pop)} people at the end of 2022, and a median projection of ${spellPop(end.pop)} for 2100. ` +
+        `The 95% interval runs from ${spellPop(end.pop_95l)} to ${spellPop(end.pop_95u)}.`
+      );
+    }
+
+    function renderAllCharts() {
+      lastWidth = document.getElementById("total-chart").clientWidth;
+      draw("total-chart", projectionPlot(rawData.filter(d => d.name === "World"), "World population", lastWidth));
+      renderCountry();
+      draw("changes-chart", changesPlot(changeData, lastWidth));
+    }
+
+    Promise.all([
       d3.csv("data/wpp2022_projections@3.csv", d3.autoType),
       d3.csv("data/UN_percent_change.csv", d3.autoType)
-    ];
-    Promise.all(promises).then(function (data) {
-      globalRawData = data[0];
-      globalChangeData = data[1];
-      globalWorldData = globalRawData.filter(d => d.name == "World");
+    ]).then(([projections, changes]) => {
+      rawData = projections;
+      changeData = changes;
 
-      const areas = [...new Set(globalRawData.map(d => d.name))].filter(d => d != "World").sort();
-
-      selectElement = document.getElementById("countrySelect");
-      if (selectElement) {
-        selectElement.innerHTML = "";
-        areas.forEach(area => {
-          const option = document.createElement("option");
-          option.value = area;
-          option.textContent = area;
-          if (area === globalSelectedCountry) {
-            option.selected = true;
-          }
-          selectElement.appendChild(option);
-        });
-
-        selectElement.addEventListener("change", event => {
-          globalSelectedCountry = event.target.value;
-          renderAllCharts();
-        });
-      }
+      const select = document.getElementById("countrySelect");
+      const names = [...new Set(rawData.map(d => d.name))].filter(name => name !== "World").sort(d3.ascending);
+      select.append(...names.map(name => new Option(name, name, false, name === selectedCountry)));
+      select.addEventListener("change", () => {
+        selectedCountry = select.value;
+        renderCountry();
+      });
 
       renderAllCharts();
-    }).catch(function (error) {
+      window.addEventListener("resize", () => {
+        if (document.getElementById("total-chart").clientWidth !== lastWidth) renderAllCharts();
+      });
+    }).catch(error => {
       console.error("Failed to load population data:", error);
-      document.querySelectorAll("main figure").forEach(function (fig) {
+      document.querySelectorAll("main figure").forEach(fig => {
         fig.insertAdjacentHTML("beforeend", "<p>Sorry, this chart failed to load. Please try refreshing the page.</p>");
       });
     });
-
-    window.addEventListener("resize", () => {
-      const totalChart = document.getElementById("total-chart");
-      if (!totalChart) return;
-      const newWidth = totalChart.getBoundingClientRect().width;
-      if (newWidth !== lastRenderedWidth) {
-        renderAllCharts();
-      }
-    });
   </script>
-  <script>
-    // Theme toggle functionality
-    const themeToggleBtn = document.getElementById("theme-toggle");
-    const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
-    const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
-
-    function updateIcons(theme) {
-      if (theme === "dark") {
-        themeToggleLightIcon.classList.remove("hidden");
-        themeToggleDarkIcon.classList.add("hidden");
-      } else {
-        themeToggleLightIcon.classList.add("hidden");
-        themeToggleDarkIcon.classList.remove("hidden");
-      }
-    }
-
-    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
-    updateIcons(currentTheme);
-
-    if (themeToggleBtn) {
-      themeToggleBtn.addEventListener("click", () => {
-        const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
-        const newTheme = activeTheme === "dark" ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
-        updateIcons(newTheme);
-        if (typeof renderAllCharts === "function") {
-          renderAllCharts();
-        }
-      });
-    }
-
-    // Email link handler
-    document.querySelectorAll('.js-email-link').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const a = "Justin.richard.hill@";
-        const b = "gmail.com";
-        window.open(`mailto:${a}${b}`, 'email');
-      });
-    });
-  </script>
+  <script src="js/site.js" defer></script>
 </body>
 
 </html>

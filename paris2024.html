@@ -16,17 +16,25 @@
     })();
   </script>
 
-  <title>Paris 2024 Olympic Medals</title>
+  <title>Paris 2024 Olympic Medals | Justin Chill</title>
   <meta name="description" content="Paris 2024 Olympic medal count and data visualizations.">
   <meta name="author" content="Justin Chill">
   <meta name="robots" content="all">
+
+  <!-- Article metadata -->
+  <meta name="datePublished" content="2024-10-27">
+  <meta name="dateModified" content="2026-11-24">
+  <meta property="article:published_time" content="2024-10-27">
+  <meta property="article:modified_time" content="2026-11-24">
+  <meta property="article:author" content="Justin Chill">
+  <meta property="article:section" content="Sports">
 
   <!-- OpenGraph tags -->
   <meta content="en_US" property="og:locale">
   <meta content="JustinChill" property="og:site_name">
   <meta content="article" property="og:type">
   <meta content="https://justinchill.com/paris2024.html" property="og:url">
-  <meta content="Paris 2024 Olympic Medals" property="og:title">
+  <meta content="Paris 2024 Olympic Medals | Justin Chill" property="og:title">
   <meta content="Paris 2024 Olympic medal count and data visualizations." property="og:description">
   <meta content="https://justinchill.com/blog.html" property="og:see_also">
   <meta content="https://justinchill.com/imgs/cover/paris2024_cover.webp" property="og:image">
@@ -38,13 +46,14 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@JustinChill">
   <meta name="twitter:creator" content="@JustinChill">
-  <meta name="twitter:title" content="Paris 2024 Olympic Medals">
+  <meta name="twitter:title" content="Paris 2024 Olympic Medals | Justin Chill">
   <meta name="twitter:description" content="Paris 2024 Olympic medal count and data visualizations.">
   <meta content="https://justinchill.com/imgs/cover/paris2024_cover.webp" property="twitter:image">
   <meta content="The Paris 2024 Olympic gold medal." property="twitter:image:alt">
 
   <link rel="canonical" href="https://justinchill.com/paris2024.html">
-  <link rel="preload" href="style.css" as="style" />
+  <link rel="preload" href="fonts/CamphorPro-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/CamphorPro-Heavy.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico">
   <link type="text/plain" href="humans.txt" rel="author">
@@ -53,109 +62,101 @@
   <meta name="color-scheme" content="light dark">
 
   <style type="text/css">
-    label {
-      font: 1rem 'Fira Sans', sans-serif;
+    :root {
+      --medal-gold: #c59500;
+      --medal-silver: #8d9196;
+      --medal-bronze: #a9561e;
     }
 
-    input {
-      margin: .5rem;
+    html[data-theme="dark"] {
+      --medal-gold: #f9cf12;
+      --medal-silver: #b6b7b9;
+      --medal-bronze: #e5812c;
     }
 
-    fieldset {
-      border: 1px solid var(--rule-color, #e5e7eb);
-      border-radius: 8px;
-      padding: 0.5rem 1rem;
+    .medal-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: end;
+      justify-content: space-between;
+      gap: 1rem;
       margin: 1rem 0;
+    }
+
+    .medal-controls fieldset {
       display: inline-flex;
       align-items: center;
       gap: 1.5rem;
-      background: var(--surface-subtle, #f9fafb);
+      margin: 0;
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--rule-color);
+      border-radius: 8px;
+      background: var(--surface-subtle);
     }
 
-    html[data-theme="dark"] fieldset {
-      background: #1a1a1e;
-      border-color: #2e2e36;
-    }
-
-    fieldset legend {
-      font-weight: 600;
-      font-size: 0.875rem;
+    .medal-controls legend {
       padding: 0 0.4rem;
-      color: var(--muted-color, #4b5563);
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--muted-color);
     }
 
-    fieldset div {
+    .medal-controls fieldset div {
       display: flex;
       align-items: center;
       gap: 0.4rem;
     }
 
-    fieldset input[type="radio"] {
-      margin: 0;
-      cursor: pointer;
-      accent-color: #4C63B6;
+    .medal-controls label {
+      font-size: 0.9375rem;
     }
 
-    fieldset label {
-      font-size: 0.9rem;
+    .medal-controls button {
+      padding: 0.6rem 0.9rem;
+      border: 1px solid var(--rule-color);
+      border-radius: 8px;
+      background: var(--surface-subtle);
+      color: var(--text-color);
+      font: 600 0.9375rem/1.3 var(--font-main);
       cursor: pointer;
-      color: var(--text-color, #1f2937);
     }
 
-    .plot {
-      min-width: 300px;
+    .medal-controls button:hover {
+      border-color: var(--link-color);
+    }
+
+    .medal-key {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .medal-key span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9375rem;
+      line-height: 1.4;
+      color: var(--text-color);
+    }
+
+    .medal-key span::before {
+      content: "";
+      width: 0.9rem;
+      height: 0.9rem;
+      border-radius: 50%;
+      background: var(--medal);
+      forced-color-adjust: none;
+      print-color-adjust: exact;
+    }
+
+    #medals-chart svg {
       overflow: visible;
     }
 
-    .viz-header,
-    .medal-count {
-      font-weight: 700;
-    }
-
-    .y-axis,
-    .medal-count {
-      font-size: 15px;
-    }
-
-    .y-axis {
-      text-anchor: start;
-    }
-
-    .medal-count {
-      text-anchor: end;
-    }
-
-    .medal-type {
-      dominant-baseline: hanging;
-      font-size: 13px;
-    }
-
     .noc-flag {
-      filter: drop-shadow(0px 0px 1px #666);
-    }
-
-    /* Rounded Color Swatches in Legend */
-    [class*="-swatches-wrap"] {
-      margin-bottom: 0.5rem;
-    }
-
-    [class*="-swatches-wrap"] span,
-    [class*="-swatch"] {
-      text-transform: capitalize;
-    }
-
-    [class*="-swatch"] svg,
-    [class*="-swatch-color"],
-    [class*="-swatch"] span,
-    .plot-swatch svg,
-    .plot-swatch-color,
-    .plot-swatch span,
-    .plot-swatch rect,
-    [class*="-swatch"] rect,
-    figure svg [class*="swatch"] rect {
-      border-radius: 50% !important;
-      rx: 50% !important;
-      ry: 50% !important;
+      filter: drop-shadow(0 0 1px #666);
     }
 
     .country_cards {
@@ -223,7 +224,7 @@
       border-radius: 2px;
     }
 
-    html[data-theme="dark"] .country .ribbon {
+    html[data-theme="dark"] .country .ribbon:not(.gold) {
       background-color: #2c2c34;
     }
 
@@ -264,42 +265,6 @@
       color: var(--muted-color, rgba(73, 73, 73, 1));
       margin-top: 4px;
     }
-
-    details {
-      margin: 1.5rem 0;
-    }
-
-    details summary {
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 0.95rem;
-      padding: 0.6rem 0.9rem;
-      border-radius: 6px;
-      background: var(--surface-subtle, #eeeeee);
-      color: var(--text-color, #222222);
-      border: 1px solid var(--rule-color, rgba(0, 0, 0, 0.08));
-      width: fit-content;
-      transition: background-color 0.15s ease, border-color 0.15s ease;
-      user-select: none;
-    }
-
-    html[data-theme="dark"] details summary {
-      background: #1a1a1e;
-      border-color: #2e2e36;
-      color: var(--text-color, #e8e8e8);
-    }
-
-    details summary:hover {
-      background: #e5e7eb;
-    }
-
-    html[data-theme="dark"] details summary:hover {
-      background: #25252b;
-    }
-
-    details[open] summary {
-      margin-bottom: 1rem;
-    }
   </style>
 
   <script type="application/ld+json">
@@ -314,7 +279,7 @@
     "@id": "https://justinchill.com/paris2024.html"
   },
   "datePublished": "2024-10-27",
-  "dateModified": "2026-01-02",
+  "dateModified": "2026-11-24",
   "inLanguage": "en-US",
   "articleSection": "Sports",
   "keywords": [
@@ -357,15 +322,9 @@
   "image": "https://justinchill.com/imgs/cover/paris2024_cover.webp",
   "about": [
     {
-      "@type": "SportsEvent",
+      "@type": "Thing",
       "name": "2024 Summer Olympics",
       "alternateName": "Paris 2024 Olympic Games",
-      "startDate": "2024-07-26",
-      "endDate": "2024-08-11",
-      "location": {
-        "@type": "Place",
-        "name": "Paris, France"
-      },
       "sameAs": "https://en.wikipedia.org/wiki/2024_Summer_Olympics"
     },
     {
@@ -472,35 +431,35 @@
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-  <nav class="nav" role="navigation">
+  <nav class="nav" aria-label="Main">
     <div class="nav__list">
       <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
       <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
       <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
     
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" aria-pressed="false" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
     <div class="nav__list">
-      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new tab)</span></a>
       <a href="#" class="nav__item js-email-link">Email</a>
     </div>
   </nav>
 
-  <main role="main" id="content">
+  <main id="content">
     <article>
       <div class="article-hero mid-size">
         <p class="article-category">Post</p>
@@ -508,55 +467,57 @@
         <h2 class="article-subtitle">The U.S.A. and China share the title for most gold medals</h2>
       </div>
 
-      <fieldset>
-        <legend>Sort by:</legend>
-        <div>
-          <input type="radio" id="gold" name="sortMedals" value="gold" />
-          <label for="gold">Gold Medals</label>
-        </div>
-
-        <div>
-          <input type="radio" id="total" name="sortMedals" value="total" checked />
-          <label for="total">Total Medals</label>
-        </div>
-      </fieldset>
+      <div class="medal-controls">
+        <fieldset>
+          <legend>Sort by</legend>
+          <div>
+            <input type="radio" id="gold" name="sortMedals" value="gold">
+            <label for="gold">Gold medals</label>
+          </div>
+          <div>
+            <input type="radio" id="total" name="sortMedals" value="total" checked>
+            <label for="total">Total medals</label>
+          </div>
+        </fieldset>
+        <button type="button" id="showAll" aria-expanded="false" aria-controls="medals-chart">Show all 91</button>
+      </div>
 
       <figure id="medals"
-        aria-label="Waffle chart showing the distribution of medals (Gold, Silver, Bronze) for countries. USA and China lead in gold medals.">
+        aria-label="Waffle chart of Paris 2024 medals, one dot per medal. The United States has 126: 40 gold, 44 silver and 42 bronze. China has 91, also with 40 gold, then 27 silver and 24 bronze. Britain has 65, France 64, Australia 53, Japan 45, Italy 40, the Netherlands 34, Germany 33 and South Korea 32.">
+        <div class="medal-key" aria-hidden="true">
+          <span style="--medal: var(--medal-gold)">Gold</span>
+          <span style="--medal: var(--medal-silver)">Silver</span>
+          <span style="--medal: var(--medal-bronze)">Bronze</span>
+        </div>
+        <div id="medals-chart"></div>
+        <figcaption>One dot is one medal, with each team’s total at the end. Data: <a
+            href="https://en.wikipedia.org/wiki/2024_Summer_Olympics_medal_table" target="_blank"
+            rel="noopener noreferrer">IOC medal table</a>.</figcaption>
       </figure>
 
-      <details id="remaining-countries-details">
-        <summary>Show remaining countries (11–90)</summary>
-      </details>
-      <p>The U.S. and China shared the title for most golds at the 2024 Olympics; the U.S. led overall with 126 medals, while China finished second with 91.</p>
-      <p>For nearly three weeks, more than 200 countries and territories sent roughly 10,500 athletes to compete
-        across myriad sports and events for their country’s honor in the 2024 Paris Olympics. Each country or territory
-        in the Olympics is represented by a <a
+      <p>The United States and China each won 40 gold medals in Paris, the first tie for the most golds at a Summer
+        Olympics<a href="#table" aria-describedby="footnote-label" id="table-ref"></a>. On total medals it wasn’t close:
+        126 to 91. Britain came third with 65, one more than France, the host.</p>
+      <p>Strictly speaking, athletes compete for a <a
           href="https://olympics.com/en/news/paris-2024-olympics-full-list-ioc-national-olympic-committee-codes"
-          target="_blank" rel="noopener noreferrer">National Olympic Committee (NOC)</a>.</p>
-      <p>However, as fans navigate the Olympic schedules, they may try to figure out the codes for unfamiliar countries.
-        Obvious examples include USA for the United States, and FRA for host country France. Other, less obvious codes
-        include SKN (Saint Kitts and Nevis) and VIN (St. Vincent and the Grenadines).</p>
-      <p>Then there’s <a href="https://www.usatoday.com/story/sports/olympics/2024/07/26/explaining-ain-russia-paris-olympics/74224023007/"
-          target="_blank" rel="noreferrer noopener">AIN (Individual Neutral Athletes)</a> and <a
+          target="_blank" rel="noopener noreferrer">National Olympic Committee</a>, and each committee has a three-letter
+        code. Some take no thought, like USA and FRA. Others need a second look: SUI is Switzerland, from the French
+        <i>Suisse</i>, and BRN is Bahrain. Brunei is BRU.</p>
+      <p>Two codes in Paris belonged to no country. <a
           href="https://www.usatoday.com/story/sports/olympics/2024/07/28/eor-olympics-paris-2024-refugee-olympic-team/74582605007/"
-          target="_blank" rel="noreferrer noopener">EOR (Refugee Olympic Team)</a>, neither of which are mentioned in
-        the <a href="https://olympics.com/en/news/paris-2024-olympics-full-list-ioc-national-olympic-committee-codes"
-          target="_blank" rel="noreferrer noopener">Olympics’ full list of codes</a> for countries’ respective Olympic
-        committees.</p>
+          target="_blank" rel="noreferrer noopener">EOR</a>, from its name in French, was the Refugee Olympic Team. <a
+          href="https://www.usatoday.com/story/sports/olympics/2024/07/26/explaining-ain-russia-paris-olympics/74224023007/"
+          target="_blank" rel="noreferrer noopener">AIN</a> was the 32 Russians and Belarusians let in as Individual
+        Neutral Athletes. They won five medals (one gold, three silver and a bronze), which the IOC leaves out of its
+        table, so they aren’t in the chart either.</p>
       <h2>First-ever medals and golds</h2>
-      <p>The 2024 Summer Olympics saw four countries, as well as the <a
-          href="https://olympics.com/ioc/refugee-olympic-team" target="_blank" rel="noopener noreferrer">Refugee
-          Olympic Team</a>, win their first-ever medals. Saint Lucia and Dominica pulled off the remarkable feat of
-        having their first medals be golds.</p>
-      <p>Two other countries, Guatemala and Botswana, won their first golds, but had previously medaled at the Summer
-        Olympics.</p>
-      <!-- Inspired by WaPo: https://www.washingtonpost.com/sports/olympics/interactive/2024/paris-olympics-medal-count-tracker/#first-timers -->
+      <p>Albania, Cape Verde, Dominica and Saint Lucia all won an Olympic medal for the first time, and so did the <a
+          href="https://olympics.com/ioc/refugee-olympic-team" target="_blank" rel="noopener noreferrer">Refugee Olympic
+          Team</a>. Dominica and Saint Lucia went straight to gold. Botswana and Guatemala had medals already, but never a
+        gold until Paris.</p>
       <section class="country_cards mid-size">
-        <div class="country"><img
-            alt="The image shows the national flag of Albania, featuring a black, double-headed eagle in the center on a red background."
-            src="https://raw.githubusercontent.com/shadfrigui/utils/main/country-flags/alb.png"
-            width="30" height="20" loading="lazy">
+        <div class="country"><img src="https://raw.githubusercontent.com/shadfrigui/utils/main/country-flags/alb.png" alt="" aria-hidden="true"
+            width="30" height="20" loading="lazy" decoding="async">
           <h3>Albania</h3>
           <div>
             <div class="ribbon"></div>
@@ -565,10 +526,9 @@
           <span class="sport">Wrestling (bronze)</span>
           <span class="date">Aug. 10</span>
         </div>
-        <div class="country"><img alt="The Refugee Olympic Athletes flag"
-            src="https://www.washingtonpost.com/sports/olympics/interactive/2024/paris-olympics-medal-count-tracker/img/flags-png/ROA.png"
+        <div class="country"><img src="https://raw.githubusercontent.com/shadfrigui/utils/main/country-flags/eor.png" alt="" aria-hidden="true"
             width="30" height="20" loading="lazy" decoding="async">
-          <h3>Refugee Olympic Athletes</h3>
+          <h3>Refugee Olympic Team</h3>
           <div>
             <div class="ribbon"></div>
             <span>first medal</span>
@@ -576,9 +536,7 @@
           <span class="sport">Boxing (bronze)</span>
           <span class="date">Aug. 8</span>
         </div>
-        <div class="country"><img
-            alt="The image is the national flag of Botswana, featuring a horizontal design with a black stripe in the center bordered by white, and large light blue stripes above and below."
-            src="https://raw.githubusercontent.com/shadfrigui/utils/main/country-flags/bot.png"
+        <div class="country"><img src="https://raw.githubusercontent.com/shadfrigui/utils/main/country-flags/bot.png" alt="" aria-hidden="true"
             width="30" height="20" loading="lazy" decoding="async">
           <h3>Botswana</h3>
           <div>
@@ -588,11 +546,9 @@
           <span class="sport">Men’s 200m</span>
           <span class="date">Aug. 8</span>
         </div>
-        <div class="country"><img
-            alt="The flag of Cape Verde, featuring a blue field with three horizontal stripes (white, red, white) near the bottom and ten yellow stars arranged in a circle towards the left side."
-            src="https://raw.githubusercontent.com/shadfrigui/utils/main/country-flags/cpv.png"
+        <div class="country"><img src="https://raw.githubusercontent.com/shadfrigui/utils/main/country-flags/cpv.png" alt="" aria-hidden="true"
             width="30" height="20" loading="lazy" decoding="async">
-          <h3>Cape Verde Islands</h3>
+          <h3>Cape Verde</h3>
           <div>
             <div class="ribbon"></div>
             <span>first medal</span>
@@ -600,9 +556,7 @@
           <span class="sport">Boxing (bronze)</span>
           <span class="date">Aug. 4</span>
         </div>
-        <div class="country"><img
-            alt="Flag of Saint Lucia featuring a blue field with a white-edged black isosceles triangle over a bright yellow triangle, centered."
-            src="https://raw.githubusercontent.com/shadfrigui/utils/main/country-flags/lca.png"
+        <div class="country"><img src="https://raw.githubusercontent.com/shadfrigui/utils/main/country-flags/lca.png" alt="" aria-hidden="true"
             width="30" height="20" loading="lazy" decoding="async">
           <h3>Saint Lucia</h3>
           <div>
@@ -612,9 +566,7 @@
           <span class="sport">Women’s 100m</span>
           <span class="date">Aug. 3</span>
         </div>
-        <div class="country"><img
-            alt="The flag of Dominica features a green background with a centered cross, consisting of yellow, black, and white stripes. In the center, there's a red circle with a purple parrot surrounded by ten green stars."
-            src="https://raw.githubusercontent.com/shadfrigui/utils/main/country-flags/dma.png"
+        <div class="country"><img src="https://raw.githubusercontent.com/shadfrigui/utils/main/country-flags/dma.png" alt="" aria-hidden="true"
             width="30" height="20" loading="lazy" decoding="async">
           <h3>Dominica</h3>
           <div>
@@ -624,9 +576,7 @@
           <span class="sport">Women’s Triple Jump</span>
           <span class="date">Aug. 3</span>
         </div>
-        <div class="country"><img
-            alt="The flag of Guatemala consists of three vertical stripes in blue, white, and blue. The national emblem, featuring a quetzal bird, a scroll, crossed rifles, and swords, is centered on the white stripe."
-            src="https://raw.githubusercontent.com/shadfrigui/utils/main/country-flags/gua.png"
+        <div class="country"><img src="https://raw.githubusercontent.com/shadfrigui/utils/main/country-flags/gua.png" alt="" aria-hidden="true"
             width="30" height="20" loading="lazy" decoding="async">
           <h3>Guatemala</h3>
           <div>
@@ -637,8 +587,8 @@
           <span class="date">July 31</span>
         </div>
       </section>
-      <p>Going into the 2028 Games in Los Angeles, there will be 65 countries that have never won a Summer Olympic
-        medal, and another 37 that have never won a gold.</p>
+      <p>That leaves 65 countries going into Los Angeles 2028 without a Summer Olympic medal, and another 37 still waiting
+        for a gold<a href="#alltime" aria-describedby="footnote-label" id="alltime-ref"></a>.</p>
       <img src="https://i2-prod.walesonline.co.uk/lifestyle/tv/article30225708.ece/ALTERNATES/s810/1_Simone.jpg"
         loading="lazy"
         width="810"
@@ -647,134 +597,128 @@
     </article>
   </main>
   <footer>
+    <h2 id="footnote-label">Footnotes</h2>
+    <ol>
+      <li id="table"><strong>Wikipedia</strong>, <a
+          href="https://en.wikipedia.org/wiki/2024_Summer_Olympics_medal_table" target="_blank"
+          rel="noopener noreferrer">2024 Summer Olympics medal table</a>. The counts include the women’s floor exercise
+        bronze that moved from Jordan Chiles to Ana Bărbosu. <a href="#table-ref" aria-label="Back to content">↩</a></li>
+      <li id="alltime"><strong>Wikipedia</strong>, <a
+          href="https://en.wikipedia.org/wiki/All-time_Olympic_Games_medal_table" target="_blank"
+          rel="noopener noreferrer">All-time Olympic Games medal table</a>. <a href="#alltime-ref"
+          aria-label="Back to content">↩</a></li>
+    </ol>
     <div>
       <p>Justin Chill &copy; 2026</p>
-      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener"><img src="imgs/github.svg"
-            alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
+      <span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
+            alt="" class="icon" width="16" height="16" loading="lazy" decoding="async">Source code<span class="visually-hidden"> (opens in new tab)</span></a></span>
     </div>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/d3@7.9.2/dist/d3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.19/dist/plot.umd.min.js"></script>
 
   <script type="text/javascript">
-    const container = document.getElementById("medals");
-    const detailsEl = document.getElementById("remaining-countries-details");
-    let medalsRawData = [];
+    const chart = document.getElementById("medals-chart");
+    const showAll = document.getElementById("showAll");
+    const ROW = 28; // px per team, so the full list grows instead of squeezing
+    const NAMES = {
+      "Great Britain": "Britain",
+      "Korea": "South Korea",
+      "DPR Korea": "North Korea",
+      "IR Iran": "Iran",
+      "Cabo Verde": "Cape Verde",
+      "Republic of Moldova": "Moldova",
+      "Hong Kong, China": "Hong Kong",
+      "Dominican Republic": "Dominican Rep.",
+      "Côte d'Ivoire": "Côte d’Ivoire",
+      "EOR": "Refugee Team"
+    };
+    let medals = [];
+    let teams = [];
+    let drawnWidth = 0;
 
-    function renderPlot() {
-      if (!medalsRawData.length || !container) return;
-      const width = container.getBoundingClientRect().width || 600;
-      const sortBy = document.querySelector('input[name="sortMedals"]:checked')?.value || "total";
-      const flagWidth = 20;
+    function render() {
+      const width = drawnWidth = chart.clientWidth;
+      const isPhone = width < 480;
+      const byGold = document.querySelector('input[name="sortMedals"]:checked').value === "gold";
+      const expanded = showAll.getAttribute("aria-expanded") === "true";
+      const shown = d3.sort(teams, d => byGold ? d.rank : d.rankTotal).slice(0, expanded ? teams.length : 10);
+      const order = shown.map(d => d.noc);
+      const nameWidth = isPhone ? 132 : 160;
 
-      // Group unique countries and sort Y-axis domain based on selection
-      const countryMap = new Map();
-      medalsRawData.forEach((d) => {
-        if (!countryMap.has(d.noc)) {
-          countryMap.set(d.noc, d);
-        }
-      });
-
-      const sortedCountries = Array.from(countryMap.values())
-        .sort((a, b) => {
-          return sortBy === "gold" ? a.rank - b.rank : a.rankTotal - b.rankTotal;
-        })
-        .map((d) => d.noc);
-
-      const showAll = detailsEl && detailsEl.open;
-      const countriesToShow = showAll ? sortedCountries : sortedCountries.slice(0, 10);
-      const dataToShow = medalsRawData.filter((d) => countriesToShow.includes(d.noc));
-
-      const plotConfig = {
-        width: width,
-        style: {
-          fontSize: 12,
-        },
+      chart.replaceChildren(Plot.plot({
+        width,
+        height: shown.length * ROW,
         margin: 0,
-        className: "plot",
         axis: null,
-        label: null,
-        x: {
-          domain: [0, 126],
-          insetLeft: width < 480 ? 140 : 180,
-        },
-        y: {
-          domain: countriesToShow,
-          padding: 0.2,
-        },
+        style: { fontSize: "14px", background: "transparent", color: "var(--text-color)" },
+        x: { domain: [0, 126], insetLeft: nameWidth, insetRight: 36 },
+        y: { domain: order, padding: 0.2 },
         color: {
-          legend: true,
           domain: ["gold", "silver", "bronze"],
-          range: ["#f9cf12", "#b6b7b9", "#e5812c"],
+          range: ["var(--medal-gold)", "var(--medal-silver)", "var(--medal-bronze)"]
         },
         marks: [
-          // NOC flags
-          Plot.image(
-            dataToShow,
-            Plot.selectFirst({
-              src: "flagURL",
-              frameAnchor: "left",
-              y: "noc",
-              z: "noc",
-              width: flagWidth,
-              dx: 10,
-              className: "noc-flag",
-            })
-          ),
-          // Y-axis
-          Plot.axisY({
-            tickFormat: (y) => (y === "Great Britain" ? "Britain" : y),
-            tickSize: 0,
-            dx: flagWidth + 20,
-            className: "y-axis",
+          Plot.image(shown, {
+            src: "flagURL",
+            frameAnchor: "left",
+            y: "noc",
+            width: 20,
+            dx: 10,
+            className: "noc-flag"
           }),
-          // Waffle marks
-          Plot.waffleX(dataToShow, {
+          Plot.text(shown, {
+            y: "noc",
+            frameAnchor: "left",
+            text: d => NAMES[d.noc] || d.noc,
+            dx: 34
+          }),
+          Plot.waffleX(medals.filter(d => order.includes(d.noc)), {
             x: "medals",
             y: "noc",
             fill: "medalType",
-            fillOpacity: 0.8,
-            stroke: "medalType",
-            strokeWidth: 2,
-            gap: 3,
-            rx: "100%",
+            gap: isPhone ? 1.5 : 2,
+            rx: "100%"
           }),
-        ],
-      };
-
-      container.innerHTML = "";
-      container.appendChild(Plot.plot(plotConfig));
+          Plot.text(shown, {
+            x: "total",
+            y: "noc",
+            text: "total",
+            textAnchor: "start",
+            dx: 8,
+            fontWeight: 600
+          }),
+          Plot.tip(shown, Plot.pointerY({
+            x: "total",
+            y: "noc",
+            title: d => `${NAMES[d.noc] || d.noc}\n${d.gold} gold, ${d.silver} silver, ${d.bronze} bronze`
+          }))
+        ]
+      }));
     }
 
-    // Fetch and initialize visualization
-    d3.json("data/paris_olympic_medals.json").then(function (data) {
-      medalsRawData = data;
-      renderPlot();
-    });
+    d3.json("data/paris_olympic_medals.json").then(data => {
+      medals = data;
+      // One row per team, with its three medal counts
+      teams = d3.rollups(data, rows => {
+        const count = Object.fromEntries(rows.map(d => [d.medalType, d.medals]));
+        return { ...rows[0], ...count, total: d3.sum(rows, d => d.medals) };
+      }, d => d.noc).map(([, team]) => team);
+      render();
 
-    // Radio button sort event listeners
-    document.querySelectorAll('input[name="sortMedals"]').forEach((radio) => {
-      radio.addEventListener("change", renderPlot);
-    });
-
-    // Details toggle listener to expand/collapse the single chart
-    if (detailsEl) {
-      const summaryEl = detailsEl.querySelector("summary");
-      detailsEl.addEventListener("toggle", () => {
-        if (summaryEl) {
-          summaryEl.textContent = detailsEl.open
-            ? "Hide remaining countries"
-            : "Show remaining countries (11–90)";
-        }
-        renderPlot();
+      document.querySelectorAll('input[name="sortMedals"]').forEach(radio => radio.addEventListener("change", render));
+      showAll.addEventListener("click", () => {
+        const open = showAll.getAttribute("aria-expanded") !== "true";
+        showAll.setAttribute("aria-expanded", open);
+        showAll.textContent = open ? "Show top 10" : `Show all ${teams.length}`;
+        render();
       });
-    }
-
-    // Responsive window resize
-    let resizeTimer;
-    window.addEventListener("resize", () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(renderPlot, 150);
+      window.addEventListener("resize", () => {
+        if (chart.clientWidth !== drawnWidth) render();
+      });
+    }).catch(error => {
+      console.error("Failed to load medal data:", error);
+      chart.insertAdjacentHTML("beforeend", "<p>Sorry, this chart failed to load. Please try refreshing the page.</p>");
     });
   </script>
   <script src="js/site.js" defer></script>

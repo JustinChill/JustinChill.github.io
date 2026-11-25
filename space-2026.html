@@ -24,7 +24,7 @@
 
   <!-- Article metadata -->
   <meta property="article:published_time" content="2026-01-02">
-  <meta property="article:modified_time" content="2026-01-03">
+  <meta property="article:modified_time" content="2026-11-24">
   <meta property="article:author" content="Justin Chill">
   <meta property="article:section" content="Space">
 
@@ -48,7 +48,7 @@
   <meta content="Earth from space, representing NASA space exploration and budget analysis." property="og:image:alt">
 
   <meta name="datePublished" content="2026-01-02">
-  <meta name="dateModified" content="2026-01-03">
+  <meta name="dateModified" content="2026-11-24">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -62,7 +62,8 @@
   <meta content="Earth from space, representing NASA space exploration and budget analysis." property="twitter:image:alt">
 
   <link rel="canonical" href="https://justinchill.com/space-2026.html">
-  <link rel="preload" href="style.css" as="style" />
+  <link rel="preload" href="fonts/CamphorPro-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/CamphorPro-Heavy.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico">
   <link type="text/plain" href="humans.txt" rel="author">
@@ -127,7 +128,7 @@
     }
   },
   "datePublished": "2026-01-02",
-  "dateModified": "2026-01-03",
+  "dateModified": "2026-11-24",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
   "articleSection": "Space",
@@ -670,14 +671,8 @@
         Plot.lineY(historicalBudgetData.filter(d => d.year <= 2025), { x: "year", y: "budget", stroke: "#0072CE", strokeWidth: 2 }),
         Plot.lineY(historicalBudgetData.filter(d => d.year >= 2025), { x: "year", y: "budget", stroke: "#ff4d4d", strokeWidth: 2.5, strokeDasharray: "4,4" }),
         Plot.dot(historicalBudgetData.filter(d => d.year === 1962 || d.year === 2026), { x: "year", y: "budget", fill: d => d.year === 2026 ? "#ff4d4d" : "#0072CE", r: 5 }),
-        Plot.text([{ year: 1962, budget: 18.8, label: "1962 ($18.8B)" }, { year: 2026, budget: 18.8, label: "2026 Request ($18.8B)" }], {
-          x: "year",
-          y: "budget",
-          text: "label",
-          dy: -12,
-          fill: d => d.year === 2026 ? "#ff4d4d" : "currentColor",
-          fontWeight: d => d.year === 2026 ? "bold" : "normal"
-        })
+        Plot.text([{ year: 1962, budget: 18.8, label: "1962 ($18.8B)" }], { x: "year", y: "budget", text: "label", dy: -12 }),
+        Plot.text([{ year: 2026, budget: 18.8, label: "2026 Request ($18.8B)" }], { x: "year", y: "budget", text: "label", dy: -12, fill: "#ff4d4d", fontWeight: "bold" })
       ]
     });
     document.getElementById("chart-budget-adj").appendChild(budgetPlot);
@@ -1118,21 +1113,6 @@
 
   </script>
   <script src="js/site.js" defer></script>
-  <script>
-    /**
-     * Activate email links designated with .js-email-link classes.
-     * We're avoiding putting our email in the href to prevent harvesting for
-     * spam. This tip from Lokesh Dhakar.
-     */
-    [...document.getElementsByClassName('js-email-link')].forEach(link => {
-      link.addEventListener('click', event => {
-        event.preventDefault();
-        const a = "Justin.richard.hill@";
-        const b = "gmail.com";
-        window.open(`mailto:${a}${b}`, 'email');
-      });
-    });
-  </script>
 </body>
 
 </html>

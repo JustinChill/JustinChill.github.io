@@ -38,11 +38,11 @@
     property="og:image:alt">
 
   <meta property="article:published_time" content="2025-03-06">
-  <meta property="article:modified_time" content="2026-11-22">
+  <meta property="article:modified_time" content="2026-11-24">
   <meta property="article:author" content="Justin Chill">
   <meta property="article:section" content="Data Visualization">
   <meta name="datePublished" content="2025-03-06">
-  <meta name="dateModified" content="2026-11-22">
+  <meta name="dateModified" content="2026-11-24">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -54,7 +54,8 @@
   <meta name="twitter:image:alt" content="Scatter plot showing Titanic survival analysis by gender and class.">
 
   <link rel="canonical" href="https://justinchill.com/titanic.html">
-  <link rel="preload" href="style.css" as="style" />
+  <link rel="preload" href="fonts/CamphorPro-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/CamphorPro-Heavy.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico">
   <link type="text/plain" href="humans.txt" rel="author">
@@ -94,11 +95,15 @@
     :root {
       --female: #d64c44;
       --male: #243f6c;
+      --perished: #1a1a1a;
+      --survived: #a9a9a9;
     }
 
     html[data-theme="dark"] {
       --female: #f58178;
       --male: #86a8e3;
+      --perished: #e8e8e8;
+      --survived: #7d7d7d;
     }
 
     .c-female,
@@ -153,6 +158,11 @@
     .bron-gallery img:hover {
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    /* This chart's labels keep the size set in its plot options */
+    #titanic_diverging g[aria-label*="axis"] text {
+      font-size: inherit !important;
     }
 
     @media (max-width: 680px) {
@@ -375,7 +385,7 @@
   "name": "Titanic Survival Analysis",
   "description": "Historical data visualization and statistical survival analysis of the RMS Titanic disaster, examining passenger demographics, class disparities, G. Bron's pioneering 1912 Sphere graphics, mosaic plots, lifeboat utilization, and interactive parallel sets.",
   "datePublished": "2025-03-06",
-  "dateModified": "2026-11-22",
+  "dateModified": "2026-11-24",
   "author": {
     "@type": "Person",
     "name": "Justin Chill",
@@ -1809,37 +1819,16 @@ Boat A,Male - Class I,3,0.06382978723404255
 Boat A,Female - Class III,1,0.02127659574468085
 Boat A,Male - Class III,4,0.0851063829787234`, d3.autoType);
 
-      // Transform for diverging bar chart (one for saved, one for not saved)
-      const chartData = [];
-        tb6.forEach(d => {
-          // Simplified group names
-          let groupType;
-          if (d.Age === "Child") {
-            groupType = "Child";
-          } else if (d.Sex === "Female") {
-            groupType = "Woman";
-          } else {
-            groupType = "Man";
-          }
-
-          // survivors: value is positive
-          chartData.push({
-            Class: d.Class,
-            GroupType: groupType,
-            Status: "Survived",
-            value: d.survived
-          });
-
-          // not survived: value is negative (total - survived)
-          let total = d.value;
-          chartData.push({
-            Class: d.Class,
-            GroupType: groupType,
-            Status: "Perished",
-            value: -(total - d.survived)
-          });
-        });
-
+      // Rows for the diverging bar chart: survivors to the right, deaths (negative) to the left.
+      // Boys and girls are separate rows in tb6, so add them up before drawing.
+      const chartData = d3.rollups(
+        tb6,
+        rows => ({ Survived: d3.sum(rows, d => d.survived), Perished: d3.sum(rows, d => d.survived - d.value) }),
+        d => d.Class,
+        d => d.Age === "Child" ? "Child" : d.Sex === "Female" ? "Woman" : "Man"
+      ).flatMap(([Class, groups]) => groups.flatMap(([GroupType, counts]) =>
+        Object.entries(counts).map(([Status, value]) => ({ Class, GroupType, Status, value }))
+      ));
 
         var synthetic = {
           width: width,
@@ -2253,15 +2242,35 @@ Boat A,Male - Class III,4,0.0851063829787234`, d3.autoType);
           ]
         };
 
+        const countLabel = {
+          x: "value",
+          y: "GroupType",
+          fy: "Class",
+          text: d => Math.abs(d.value),
+          fill: "currentColor",
+          fontWeight: 600
+        };
+
         var titanic_diverging = {
           width: width,
+          height: 400,
+          marginLeft: width > 450 ? 100 : 84,
+          marginRight: width > 450 ? 64 : 54,
+          marginBottom: 45,
           style: {
-            fontSize: size,
+            fontSize: width > 450 ? 14 : 12,
+            overflow: "visible",
           },
           x: {
-            label: "Number of Passengers",
+            label: "People",
+            labelAnchor: "center",
+            labelArrow: null,
+            tickFormat: d => Math.abs(d),
+            ticks: width > 450 ? 8 : 4,
+            // leave room for the counts at both ends
+            insetLeft: 34,
+            insetRight: 34,
             grid: true,
-            // domain: [-900, 400]
           },
           y: {
             label: null,
@@ -2269,14 +2278,15 @@ Boat A,Male - Class III,4,0.0851063829787234`, d3.autoType);
             domain: ["Man", "Woman", "Child"],
             axis: "right",
           },
-          color: {
-            domain: ["Perished", "Survived"],
-            range: ["#1a1a1a", "#a9a9a9"],
-            legend: true
-          },
-          facet: {
+          fy: {
             label: null,
             axis: "left",
+            domain: ["First Class", "Second Class", "Third Class", "Crew"],
+          },
+          color: {
+            domain: ["Perished", "Survived"],
+            range: ["var(--perished)", "var(--survived)"],
+            legend: true
           },
           marks: [
             // Zero line
@@ -2291,23 +2301,17 @@ Boat A,Male - Class III,4,0.0851063829787234`, d3.autoType);
               fill: "Status",
               fy: "Class",
               rx: 3,
-              tip: true,
+              tip: {
+                format: {
+                  x: d => Math.abs(d),
+                  fy: true
+                }
+              },
               stroke: "none"
             }),
-            // Text labels on bars
-            Plot.text(chartData, {
-              x: "value",
-              y: "GroupType",
-              text: d => {
-                const absVal = Math.abs(d.value);
-                return absVal > 0 ? absVal.toString() : "";
-              },
-              fill: "white",
-              fontSize: 10,
-              fontWeight: "bold",
-              // dx: d => d.value > 0 ? -5 : 5,
-              textAnchor: d => d.value > 0 ? "end" : "start"
-            })
+            // Counts sit just past the end of each bar. Plot takes one textAnchor per mark, so each side has its own.
+            Plot.text(chartData.filter(d => d.value > 0), { ...countLabel, textAnchor: "start", dx: 5 }),
+            Plot.text(chartData.filter(d => d.value < 0), { ...countLabel, textAnchor: "end", dx: -5 })
           ]
         };
 

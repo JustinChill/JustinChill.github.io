@@ -36,8 +36,11 @@
     document.dispatchEvent(new CustomEvent("themechange", { detail: { theme } }));
   }
 
+  // The label says what the button will do, so a pressed state would contradict it.
+  themeToggleBtn?.removeAttribute("aria-pressed");
   updateIcons(document.documentElement.getAttribute("data-theme") || "light");
 
+  // A page without the button (8m46s, planets) has a fixed theme, so leave it alone.
   if (themeToggleBtn) {
     themeToggleBtn.addEventListener("click", () => {
       const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
@@ -45,24 +48,24 @@
       localStorage.setItem("theme", newTheme);
       applyTheme(newTheme);
     });
+
+    // Follow the OS preference while the visitor has not chosen a theme explicitly.
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
+      if (!localStorage.getItem("theme")) {
+        applyTheme(e.matches ? "dark" : "light");
+      }
+    });
+
+    // Print in the light theme, then put the visitor's theme back.
+    let printedFromDark = false;
+    window.addEventListener("beforeprint", () => {
+      printedFromDark = document.documentElement.getAttribute("data-theme") === "dark";
+      if (printedFromDark) applyTheme("light");
+    });
+    window.addEventListener("afterprint", () => {
+      if (printedFromDark) applyTheme("dark");
+    });
   }
-
-  // Follow the OS preference while the visitor has not chosen a theme explicitly.
-  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
-    if (!localStorage.getItem("theme")) {
-      applyTheme(e.matches ? "dark" : "light");
-    }
-  });
-
-  // Print in the light theme, then put the visitor's theme back.
-  let printedFromDark = false;
-  window.addEventListener("beforeprint", () => {
-    printedFromDark = document.documentElement.getAttribute("data-theme") === "dark";
-    if (printedFromDark) applyTheme("light");
-  });
-  window.addEventListener("afterprint", () => {
-    if (printedFromDark) applyTheme("dark");
-  });
 
   // Pause/play buttons for pages with looping animations.
   document.querySelectorAll(".motion-toggle").forEach((btn) => {

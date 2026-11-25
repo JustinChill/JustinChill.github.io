@@ -38,7 +38,7 @@
     property="og:image:alt">
 
   <meta name="datePublished" content="2025-03-06">
-  <meta name="dateModified" content="2026-08-25">
+  <meta name="dateModified" content="2026-11-24">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -50,7 +50,8 @@
   <link rel="canonical" href="https://justinchill.com/windows-xp.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" href="style.css" as="style" />
+  <link rel="preload" href="fonts/CamphorPro-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/CamphorPro-Heavy.woff2" as="font" type="font/woff2" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico">
@@ -611,7 +612,7 @@
     }
   },
   "datePublished": "2025-03-06",
-  "dateModified": "2026-08-25",
+  "dateModified": "2026-11-24",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
   "articleSection": "Technology",
@@ -1067,15 +1068,15 @@
             fill: "OS",
             title: d => `${d.OS} had ${d["Market Share Perc. (Dec 2020)"]}% market share in 2020.`,
           }),
-          Plot.text(osMarketShareData, {
+          // Plot takes one fontWeight per mark, so Windows has its own
+          ...[true, false].map(isWindows => Plot.text(osMarketShareData.filter(d => (d.OS === "Windows") === isWindows), {
             x: "OS",
             y: "Market Share Perc. (Dec 2020)",
             text: (d) => `${d["Market Share Perc. (Dec 2020)"]}%`,
-            textAnchor: "center",
             dy: -10,
-            fontWeight: d => d.OS === "Windows" ? 700 : 400,
+            fontWeight: isWindows ? 700 : 400,
             fill: textColor,
-          }),
+          })),
         ]
       };
 
@@ -1086,55 +1087,6 @@
     window.addEventListener("resize", renderPlot);
   </script>
   <script>
-    // Email link handler
-    document.querySelectorAll('.js-email-link').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const a = "Justin.richard.hill@";
-        const b = "gmail.com";
-        window.open(`mailto:${a}${b}`, 'email');
-      });
-    });
-
-    // Theme toggle functionality
-    const themeToggleBtn = document.getElementById("theme-toggle");
-    const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
-    const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
-
-    function updateIcons(theme) {
-      if (theme === "dark") {
-        themeToggleLightIcon?.classList.remove("hidden");
-        themeToggleDarkIcon?.classList.add("hidden");
-        themeToggleBtn?.setAttribute("aria-label", "Switch to light theme");
-      } else {
-        themeToggleLightIcon?.classList.add("hidden");
-        themeToggleDarkIcon?.classList.remove("hidden");
-        themeToggleBtn?.setAttribute("aria-label", "Switch to dark theme");
-      }
-    }
-
-    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
-    updateIcons(currentTheme);
-
-    if (themeToggleBtn) {
-      themeToggleBtn.addEventListener("click", () => {
-        const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
-        const newTheme = activeTheme === "dark" ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
-        updateIcons(newTheme);
-        if (typeof renderPlot === "function") renderPlot();
-      });
-    }
-
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-      if (!localStorage.getItem('theme')) {
-        const newTheme = e.matches ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', newTheme);
-        updateIcons(newTheme);
-        if (typeof renderPlot === "function") renderPlot();
-      }
-    });
 
     // Start Menu Touch & Mobile Interaction
     (function setupStartMenuTouch() {
@@ -1239,7 +1191,13 @@
       document.addEventListener('touchstart', handleOutsideTap, { passive: true });
       document.addEventListener('click', handleOutsideTap);
     })();
+
+    // Redraw when js/site.js switches the theme
+    document.addEventListener("themechange", () => {
+      if (typeof renderPlot === "function") renderPlot();
+    });
   </script>
+  <script src="js/site.js" defer></script>
 </body>
 
 </html>

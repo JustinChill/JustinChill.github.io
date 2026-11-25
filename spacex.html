@@ -51,7 +51,8 @@
   <meta content="A step chart showing the progression of SpaceX rocket flights by year since company founding." property="twitter:image:alt">
 
   <link rel="canonical" href="https://justinchill.com/spacex.html">
-  <link rel="preload" href="style.css" as="style" />
+  <link rel="preload" href="fonts/CamphorPro-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/CamphorPro-Heavy.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico">
   <link type="text/plain" href="humans.txt" rel="author">
@@ -228,7 +229,7 @@
       <!-- Theme Toggle Button -->
       <button id="theme-toggle" class="nav__item flex items-center justify-center p-0.5"
         aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
-        <span id="theme-toggle-light-icon" hidden>
+        <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -236,7 +237,7 @@
             </path>
           </svg>
         </span>
-        <span id="theme-toggle-dark-icon" hidden>
+        <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -816,40 +817,7 @@
       resizeTimer = setTimeout(renderPlots, 200);
     });
   </script>
-  <script>
-    // Theme toggle functionality
-    const themeToggleBtn = document.getElementById("theme-toggle");
-    const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
-    const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
-
-    function updateIcons(theme) {
-      if (themeToggleLightIcon) themeToggleLightIcon.hidden = theme !== "dark";
-      if (themeToggleDarkIcon) themeToggleDarkIcon.hidden = theme === "dark";
-    }
-
-    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
-    updateIcons(currentTheme);
-
-    if (themeToggleBtn) {
-      themeToggleBtn.addEventListener("click", () => {
-        const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
-        const newTheme = activeTheme === "dark" ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
-        updateIcons(newTheme);
-      });
-    }
-
-    // Email link handler
-    document.querySelectorAll('.js-email-link').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const a = "Justin.richard.hill@";
-        const b = "gmail.com";
-        window.open(`mailto:${a}${b}`, 'email');
-      });
-    });
-  </script>
+  <script src="js/site.js" defer></script>
 </body>
 
 </html>

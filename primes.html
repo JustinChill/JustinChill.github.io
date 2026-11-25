@@ -23,9 +23,9 @@
 
   <!-- Article metadata -->
   <meta name="datePublished" content="2022-12-07">
-  <meta name="dateModified" content="2026-08-24">
+  <meta name="dateModified" content="2026-11-24">
   <meta property="article:published_time" content="2022-12-07">
-  <meta property="article:modified_time" content="2026-08-24">
+  <meta property="article:modified_time" content="2026-11-24">
   <meta property="article:author" content="Justin Chill">
   <meta property="article:section" content="Mathematics">
 
@@ -42,7 +42,7 @@
   <meta property="og:country_name" content="USA">
   <meta content="https://justinchill.com/imgs/cover/primes_cover.webp" property="og:image">
   <meta content="1200" property="og:image:width">
-  <meta content="630" property="og:image:height">
+  <meta content="637" property="og:image:height">
   <meta content="image/webp" property="og:image:type">
   <meta
   		content="Grid displaying numbers from 1 to 200, with prime numbers highlighted in red. The text at the top reads, All prime numbers under 10,000."
@@ -58,7 +58,8 @@
   <meta content="Grid displaying numbers from 1 to 200, with prime numbers highlighted in red. The text at the top reads, All prime numbers under 10,000." name="twitter:image:alt">
 
   <link rel="canonical" href="https://justinchill.com/primes.html">
-  <link rel="preload" href="style.css" as="style" />
+  <link rel="preload" href="fonts/CamphorPro-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/CamphorPro-Heavy.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico">
   <link type="text/plain" href="humans.txt" rel="author">
@@ -67,87 +68,129 @@
   <meta name="color-scheme" content="light dark">
 
   <style type="text/css">
-		:root {
-			--prime-color: hsl(360, 83%, 62%);
-			--composite-color: #ffffff;
-			--cell-border: #eeeeee;
-			--cell-border-hover: #333333;
-		}
+    :root {
+      --prime-color: hsl(360, 83%, 62%);
+      --composite-color: #fff;
+      --cell-border: #e6e6e6;
+    }
 
-		html[data-theme="dark"] {
-			--prime-color: hsl(360, 83%, 62%);
-			--composite-color: #1e293b;
-			--cell-border: #334155;
-			--cell-border-hover: #f1f5f9;
-		}
+    html[data-theme="dark"] {
+      --composite-color: #1e293b;
+      --cell-border: #334155;
+    }
 
-		.legend {
-			display: flex;
-			gap: 1rem;
-			margin: 1rem 0;
-			font-size: 0.9rem;
-			align-items: center;
-		}
+    /* Stays in view while the grid scrolls past */
+    .prime-tools {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.25rem 0.75rem;
+      padding: 0.75rem 0;
+      background: var(--bg-color);
+    }
 
-		.legend-item {
-			display: flex;
-			align-items: center;
-			gap: 0.5rem;
-		}
+    .prime-tools label {
+      font-size: 1.0625rem;
+      font-weight: 600;
+    }
 
-		.swatch {
-			width: 1.25em;
-			height: 1.25em;
-			border: 1px solid var(--cell-border, #ccc);
-		}
+    .prime-tools input {
+      width: 6rem;
+      min-height: 42px;
+      padding: 0.25rem 0.6rem;
+      font-size: 1rem;
+      border: 1px solid var(--rule-color);
+      border-radius: 8px;
+      background: var(--surface-color);
+      color: var(--text-color);
+    }
 
-		.swatch.prime {
-			background-color: var(--prime-color, hsl(360, 83%, 62%));
-			border-color: var(--prime-color, hsl(360, 83%, 62%));
-		}
+    .prime-tools output {
+      flex: 1 1 12rem;
+      font-size: 1.0625rem;
+      line-height: 1.4;
+      color: var(--text-color);
+    }
 
-		.swatch.composite {
-			background-color: var(--composite-color, #fff);
-		}
+    .prime-key {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem 1.25rem;
+      margin-bottom: 0.75rem;
+    }
 
-		/* SVG Container for responsiveness */
-		#grid {
-			width: 100%;
-			max-width: 1000px;
-			/* Optimal reading width */
-			margin: 0 auto;
-			display: block;
-		}
+    .prime-key span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      line-height: 1.4;
+      color: var(--muted-color);
+    }
 
-		/* SVG Styles */
-		svg {
-			display: block;
-			/* Removes bottom whitespace */
-		}
+    .prime-key span::before {
+      content: "";
+      width: 0.9rem;
+      height: 0.9rem;
+      border: 1px solid var(--muted-color);
+      background: var(--composite-color);
+      forced-color-adjust: none;
+      print-color-adjust: exact;
+    }
 
-		rect {
-			stroke: var(--cell-border, #eee);
-			/* Light grid lines */
-			stroke-width: 0.5px;
-			shape-rendering: crispEdges;
-			/* Sharper lines */
-		}
+    .prime-key .is-prime::before {
+      border-color: var(--prime-color);
+      background: var(--prime-color);
+    }
 
-		rect.prime {
-			fill: var(--prime-color, hsl(360, 83%, 62%));
-		}
+    .prime-key .is-one::before {
+      background: var(--muted-color);
+    }
 
-		rect.composite {
-			fill: var(--composite-color, #fff);
-		}
+    #grid svg {
+      display: block;
+      overflow: visible;
+      cursor: crosshair;
+      touch-action: manipulation;
+      forced-color-adjust: none;
+    }
 
-		rect:hover {
-			stroke: var(--cell-border-hover, #333);
-			stroke-width: 2px;
-			z-index: 10;
-			position: relative;
-		}
-	</style>
+    #grid .cells {
+      fill: var(--composite-color);
+    }
+
+    #grid .lines {
+      fill: none;
+      stroke: var(--cell-border);
+      shape-rendering: crispEdges;
+    }
+
+    #grid .primes {
+      fill: var(--prime-color);
+      shape-rendering: crispEdges;
+    }
+
+    #grid .one {
+      fill: var(--muted-color);
+    }
+
+    #grid .pick {
+      fill: none;
+      stroke: var(--text-color);
+      stroke-width: 2;
+      pointer-events: none;
+    }
+
+    #grid text {
+      fill: var(--muted-color);
+      font: 11px var(--font-ui);
+      text-anchor: end;
+      dominant-baseline: central;
+    }
+  </style>
 
   <script type="application/ld+json">
 {
@@ -157,7 +200,7 @@
   "name": "Prime numbers under 10,000: A visual sieve",
   "description": "A visual sieve of prime numbers under 10,000.",
   "datePublished": "2022-12-07",
-  "dateModified": "2026-08-24",
+  "dateModified": "2026-11-24",
   "inLanguage": "en-US",
   "articleSection": "Mathematics",
   "keywords": [
@@ -218,34 +261,34 @@
 
 <body>
   <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
-	<nav class="nav" role="navigation">
-		<div class="nav__list">
-			<a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
-			<a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
-			<a href="now.html" class="nav__item" aria-label="Now page">Now</a>
-		
+  <nav class="nav" aria-label="Main">
+    <div class="nav__list">
+      <a href="index.html" class="nav__item" aria-label="Homepage">Home</a>
+      <a href="blog.html" class="nav__item" aria-label="Blog section">Blog</a>
+      <a href="now.html" class="nav__item" aria-label="Now page">Now</a>
+    
       <!-- Theme Toggle Button -->
-      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" style="background: transparent; border: none; cursor: pointer;">
+      <button id="theme-toggle" class="nav__item focus:outline-none flex items-center justify-center p-0.5" aria-label="Toggle theme" aria-pressed="false" style="background: transparent; border: none; cursor: pointer;">
         <span id="theme-toggle-light-icon" class="hidden">
           <!-- Sun Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
           </svg>
         </span>
         <span id="theme-toggle-dark-icon" class="hidden">
           <!-- Moon Icon -->
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </span>
       </button>
     </div>
-		<div class="nav__list">
-			<a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-			<a href="#" class="nav__item js-email-link">Email</a>
-		</div>
-	</nav>
-	<main role="main" id="content">
+    <div class="nav__list">
+      <a href="https://linkedin.com/in/justinrichardhill/" class="nav__item" target="_blank" rel="noopener noreferrer">LinkedIn<span class="visually-hidden"> (opens in new tab)</span></a>
+      <a href="#" class="nav__item js-email-link">Email</a>
+    </div>
+  </nav>
+	<main id="content">
 		<article>
 			<div class="article-hero">
 				<p class="article-category">Post</p>
@@ -256,25 +299,31 @@
 			<p>A prime number is a whole number greater than <b>one</b> (1) that cannot be divided evenly by any whole number<a
 					href="#footnotes" aria-describedby="footnote-label" id="footnotes-ref"></a> except
 				itself and the number <b>1</b>.</p>
+			<p>Every other whole number above <b>1</b> is composite: you can make it by multiplying smaller ones. The first
+				is <b>4</b>, which is <b>2</b> × <b>2</b>. <b>5</b> is prime, because <b>1</b> × <b>5</b> is the only way to
+				get there. And <b>1</b> is neither.</p>
+			<p>The grid below was filled in with the sieve of Eratosthenes<a href="#sieve" aria-describedby="footnote-label"
+					id="sieve-ref"></a>, named after a Greek scholar born around 276 BC. Write down every number to 10,000. Keep 2
+				and cross out its multiples. Keep 3 and cross out its multiples. Carry on with the next number still standing,
+				and stop after 97: any composite up to 10,000 has a factor of 100 or less, so it’s already gone. What’s left is
+				the <b>1,229</b> primes.</p>
+			<p>There are 50 numbers to a row, so each column always ends in the same digit. Apart from 2 and 5, every prime
+				ends in 1, 3, 7 or 9, and the other columns stay empty. Primes also thin out on the way down: 168 in the first
+				1,000 numbers, 112 in the last.</p>
 
-			<div class="legend">
-				<div class="legend-item">
-					<div class="swatch prime"></div>
-					<span>Prime number</span>
+			<figure>
+				<div class="prime-tools">
+					<label for="number">Number</label>
+					<input id="number" type="number" inputmode="numeric" min="1" max="10000" step="1" value="97">
+					<output id="answer" for="number">97 is prime, the 25th.</output>
 				</div>
-				<div class="legend-item">
-					<div class="swatch composite"></div>
-					<span>Composite number</span>
+				<div class="prime-key">
+					<span class="is-prime">Prime</span>
+					<span>Composite</span>
+					<span class="is-one">Neither (1)</span>
 				</div>
-			</div>
-
-			<p>A natural number greater than <b>1</b> that is not prime is called a composite number. For example,
-				<b>5</b> is prime because the only ways of writing it as a product, <b>1</b> × <b>5</b> or <b>5</b> ×
-				<b>1</b>, involve <b>5</b> itself. The smallest composite number is <b>4</b>, because <b>2</b> ×
-				<b>2</b> = <b>4</b>. The number <b>1</b> is neither prime nor composite.</p>
-
-			<figure id="grid"
-				aria-label="A 50x200 grid visualization of numbers from 1 to 10,000. Prime numbers are highlighted in red, creating a visual pattern of primality across the number set.">
+				<div id="grid"></div>
+				<figcaption>The numbers 1 to 10,000. Type one above, or point at or tap a square.</figcaption>
 			</figure>
 
 		</article>
@@ -284,67 +333,123 @@
 		<ol>
 			<li id="footnotes">A number without fractions. 0 is a whole number. <a href="#footnotes-ref"
 					aria-label="Back to content">↩</a></li>
+			<li id="sieve"><strong>Wikipedia</strong>, <a href="https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes"
+					target="_blank" rel="noopener noreferrer">Sieve of Eratosthenes</a>. <a href="#sieve-ref"
+					aria-label="Back to content">↩</a></li>
 		</ol>
 
 		<div>
 			<p>Justin Chill &copy; 2026</p>
-			<span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img
-						src="imgs/github.svg" alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
+			<span><a href="https://github.com/JustinChill/JustinChill.github.io" target="_blank" rel="noopener noreferrer"><img src="imgs/github.svg"
+            alt="" class="icon" width="16" height="16" loading="lazy" decoding="async">Source code<span class="visually-hidden"> (opens in new tab)</span></a></span>
 		</div>
 	</footer>
-	<script src="https://cdn.jsdelivr.net/npm/d3@7.9.2/dist/d3.min.js"></script>
 	<script>
-		// Configuration
-		const totalNumbers = 10000;
-		const cols = 50; // 50 columns with 200 rows displays all 10,000 numbers
-		const cellSize = 10;
-		const width = cols * cellSize;
-		const rows = Math.ceil(totalNumbers / cols);
-		const height = rows * cellSize;
+		const LAST = 10000;
+		const COLS = 50;
+		const ROWS = LAST / COLS;
 
-		// Sieve of Eratosthenes to find primes
-		const primes = new Uint8Array(totalNumbers + 1); // 0 = composite/unknown, 1 = prime
-		primes.fill(1); // Assume all are prime initially
-		primes[0] = 0; // 0 is not prime
-		primes[1] = 0; // 1 is not prime
-
-		for (let i = 2; i * i <= totalNumbers; i++) {
-			if (primes[i]) {
-				for (let j = i * i; j <= totalNumbers; j += i) {
-					primes[j] = 0;
-				}
+		// Sieve of Eratosthenes
+		const isPrime = new Uint8Array(LAST + 1).fill(1);
+		isPrime[0] = isPrime[1] = 0;
+		for (let i = 2; i * i <= LAST; i++) {
+			if (isPrime[i]) {
+				for (let j = i * i; j <= LAST; j += i) isPrime[j] = 0;
 			}
 		}
+		const primes = [...isPrime.keys()].filter(n => isPrime[n]);
 
-		// Generate Data
-		const data = Array.from({
-			length: totalNumbers
-		}, (_, i) => {
-			const num = i + 1;
-			return {
-				value: num,
-				isPrime: primes[num] === 1,
-				col: i % cols,
-				row: Math.floor(i / cols)
-			};
+		const grid = document.getElementById("grid");
+		const input = document.getElementById("number");
+		const answer = document.getElementById("answer");
+		const commas = n => n.toLocaleString("en-US");
+		let cell, left, pick, picked = 97;
+
+		function ordinal(n) {
+			const suffix = { one: "st", two: "nd", few: "rd", other: "th" };
+			return commas(n) + suffix[new Intl.PluralRules("en-US", { type: "ordinal" }).select(n)];
+		}
+
+		function factors(n) {
+			const powers = new Map();
+			for (let p = 2; n > 1; p++) {
+				if (p * p > n) p = n;
+				while (n % p === 0) {
+					powers.set(p, (powers.get(p) || 0) + 1);
+					n /= p;
+				}
+			}
+			const raised = k => k > 1 ? [...String(k)].map(d => "⁰¹²³⁴⁵⁶⁷⁸⁹"[d]).join("") : "";
+			return [...powers].map(([p, k]) => commas(p) + raised(k)).join(" × ");
+		}
+
+		function describe(n) {
+			if (n === 1) return "1 is neither prime nor composite.";
+			if (isPrime[n]) return `${commas(n)} is prime, the ${ordinal(primes.indexOf(n) + 1)}.`;
+			return `${commas(n)} is composite: ${factors(n)}.`;
+		}
+
+		const x = n => left + ((n - 1) % COLS) * cell;
+		const y = n => Math.floor((n - 1) / COLS) * cell;
+
+		function show(n) {
+			picked = n;
+			answer.textContent = describe(n);
+			pick.setAttribute("x", x(n));
+			pick.setAttribute("y", y(n));
+		}
+
+		// Whole-pixel squares keep the grid lines sharp; what's left over holds the row labels
+		function draw() {
+			const width = Math.floor(grid.clientWidth);
+			cell = Math.floor((width - 36) / COLS);
+			left = width - cell * COLS - 1;
+			const height = cell * ROWS;
+
+			let lines = "";
+			for (let c = 0; c <= COLS; c++) lines += `M${left + c * cell + 0.5} 0V${height}`;
+			for (let r = 0; r <= ROWS; r++) lines += `M${left} ${r * cell + 0.5}H${left + cell * COLS}`;
+			const squares = primes.map(n => `M${x(n)} ${y(n)}h${cell}v${cell}h${-cell}z`).join("");
+			let labels = "";
+			for (let n = 1; n <= LAST; n += COLS * 10) labels += `<text x="${left - 6}" y="${y(n) + cell / 2}">${commas(n)}</text>`;
+
+			grid.innerHTML = `<svg width="${width}" height="${height + 1}" role="img" aria-label="Grid of the numbers 1 to 10,000, 50 to a row, with the 1,229 primes in red. Most fall in vertical stripes, and they thin out toward the bottom.">
+				<rect class="cells" x="${left}" y="0" width="${cell * COLS}" height="${height}"/>
+				<path class="lines" d="${lines}"/>
+				<path class="primes" d="${squares}"/>
+				<rect class="one" x="${x(1)}" y="${y(1)}" width="${cell}" height="${cell}"/>
+				<g aria-hidden="true">${labels}</g>
+				<rect class="pick" width="${cell}" height="${cell}"/>
+			</svg>`;
+			pick = grid.querySelector(".pick");
+			show(picked);
+		}
+
+		function pointAt(event) {
+			const box = grid.firstElementChild.getBoundingClientRect();
+			const col = Math.floor((event.clientX - box.left - left) / cell);
+			const row = Math.floor((event.clientY - box.top) / cell);
+			if (col < 0 || col >= COLS || row < 0 || row >= ROWS) return;
+			input.value = row * COLS + col + 1;
+			show(Number(input.value));
+		}
+
+		grid.addEventListener("pointermove", pointAt);
+		grid.addEventListener("pointerdown", pointAt);
+
+		input.addEventListener("input", () => {
+			const n = Number(input.value);
+			if (Number.isInteger(n) && n >= 1 && n <= LAST) show(n);
+			else answer.textContent = "Type a whole number from 1 to 10,000.";
 		});
 
-		// Draw with D3
-		const svg = d3.select("#grid")
-			.append("svg")
-			.attr("viewBox", `0 0 ${width} ${height}`)
-			.attr("preserveAspectRatio", "xMidYMid meet");
-
-		svg.selectAll("rect")
-			.data(data)
-			.join("rect")
-			.attr("class", d => d.isPrime ? "prime" : "composite")
-			.attr("x", d => d.col * cellSize)
-			.attr("y", d => d.row * cellSize)
-			.attr("width", cellSize)
-			.attr("height", cellSize)
-			.append("title") // Native browser tooltip
-			.text(d => `${d.value} is ${d.isPrime ? "Prime" : "Composite"}`);
+		let drawnWidth;
+		new ResizeObserver(() => {
+			if (grid.clientWidth !== drawnWidth) {
+				drawnWidth = grid.clientWidth;
+				draw();
+			}
+		}).observe(grid);
 	</script>
   <script src="js/site.js" defer></script>
 </body>

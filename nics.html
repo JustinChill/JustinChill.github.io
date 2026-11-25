@@ -65,7 +65,8 @@
     content="A bar graph titled Monthly Background Checks from 2000 to 2023. The graph shows a general upward trend, with notable spikes around events like Sandy Hook, San Bernardino, and January 6th. Total checks peak at over 4 million.">
 
   <link rel="canonical" href="https://justinchill.com/nics.html">
-  <link rel="preload" href="style.css" as="style" />
+  <link rel="preload" href="fonts/CamphorPro-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/CamphorPro-Heavy.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="data/nics-firearm-background-checks.csv" as="fetch" type="text/csv" crossorigin="anonymous">
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico">
@@ -704,38 +705,7 @@
     });
   </script>
   <script>
-    // Theme toggle functionality
-    const themeToggleBtn = document.getElementById("theme-toggle");
-    const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
-    const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
-
-    function updateIcons(theme) {
-      if (theme === "dark") {
-        themeToggleLightIcon.classList.remove("hidden");
-        themeToggleDarkIcon.classList.add("hidden");
-      } else {
-        themeToggleLightIcon.classList.add("hidden");
-        themeToggleDarkIcon.classList.remove("hidden");
-      }
-    }
-
-    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
-    updateIcons(currentTheme);
-
-    if (themeToggleBtn) {
-      themeToggleBtn.addEventListener("click", () => {
-        const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
-        const newTheme = activeTheme === "dark" ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
-        updateIcons(newTheme);
-        if (typeof renderCharts === "function") {
-          renderCharts();
-        }
-      });
-    }
-
-    // Observer for external theme changes
+    // Redraw when the theme changes
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.type === "attributes" && mutation.attributeName === "data-theme") {
@@ -746,17 +716,8 @@
       });
     });
     observer.observe(document.documentElement, { attributes: true });
-
-    // Email link handler
-    document.querySelectorAll('.js-email-link').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const a = "Justin.richard.hill@";
-        const b = "gmail.com";
-        window.open(`mailto:${a}${b}`, 'email');
-      });
-    });
   </script>
+  <script src="js/site.js" defer></script>
 </body>
 
 </html>

@@ -39,7 +39,9 @@ In order:
 5. `<meta name="datePublished">` and `<meta name="dateModified">`, ISO
    `YYYY-MM-DD`. Bump `dateModified` (meta and JSON-LD) on content edits.
 6. `<link rel="canonical" href="https://justinchill.com/<file>.html">`,
-   `style.css` preload + stylesheet, favicon, `humans.txt`.
+   preloads for the Camphor files the first screen uses (normally
+   `CamphorPro-Regular.woff2` and `CamphorPro-Heavy.woff2`), the `style.css`
+   stylesheet, favicon, `humans.txt`.
 7. One or more `<script type="application/ld+json">` blocks.
 8. `<body>`: `<nav class="nav">` (Home / Blog / Now, theme toggle,
    LinkedIn / Email), `<main role="main" id="content">`, then `<footer>`
@@ -82,8 +84,9 @@ code is also moved into a deferred external file. If a tag carries an
 Shared behaviour (theme toggle, obfuscated email link) lives in `js/site.js`,
 loaded with `<script src="js/site.js" defer></script>` just before `</body>`.
 It dispatches a `themechange` event on `document`; pages that must redraw
-charts on theme change can listen for it instead of keeping an inline copy
-of the toggle code.
+charts on theme change listen for it. No page keeps its own copy of the toggle
+or email code. `8m46s.html` and `planets.html` have no theme button, so they
+stay dark.
 
 `blog.html` additionally loads `js/blog.js` (search box, topic chips, section
 tabs, clickable cards). It indexes the cards in the DOM, so a new blog card

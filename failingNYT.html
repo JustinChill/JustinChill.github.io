@@ -61,7 +61,7 @@
     content="An illustration of a flag on a pole, featuring a stylized profile of Donald Trump's face with prominent blond hair against a red background.">
 
   <link rel="canonical" href="https://justinchill.com/failingNYT.html">
-  <link rel="preload" href="style.css" as="style" />
+  <link rel="preload" href="fonts/CamphorPro-Regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico">
   <link type="text/plain" href="humans.txt" rel="author">
@@ -280,17 +280,6 @@
           rel="noopener noreferrer"><img src="imgs/github.svg" alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
     </div>
   </footer>
-  <script>
-    // Email link handler
-    document.querySelectorAll('.js-email-link').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const a = "Justin.richard.hill@";
-        const b = "gmail.com";
-        window.open(`mailto:${a}${b}`, 'email');
-      });
-    });
-  </script>
 
   <script src="https://cdn.jsdelivr.net/npm/d3@7.9.2/dist/d3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.19/dist/plot.umd.min.js"></script>
@@ -561,46 +550,12 @@
       }, 150);
     });
 
-    // Theme toggle functionality
-    const themeToggleBtn = document.getElementById("theme-toggle");
-    const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
-    const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
-
-    function updateIcons(theme) {
-      if (theme === "dark") {
-        themeToggleLightIcon?.classList.remove("hidden");
-        themeToggleDarkIcon?.classList.add("hidden");
-        themeToggleBtn?.setAttribute("aria-label", "Switch to light theme");
-      } else {
-        themeToggleLightIcon?.classList.add("hidden");
-        themeToggleDarkIcon?.classList.remove("hidden");
-        themeToggleBtn?.setAttribute("aria-label", "Switch to dark theme");
-      }
-    }
-
-    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
-    updateIcons(currentTheme);
-
-    if (themeToggleBtn) {
-      themeToggleBtn.addEventListener("click", () => {
-        const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
-        const newTheme = activeTheme === "dark" ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
-        updateIcons(newTheme);
-        renderPlots();
-      });
-    }
-
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-      if (!localStorage.getItem('theme')) {
-        const newTheme = e.matches ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', newTheme);
-        updateIcons(newTheme);
-        renderPlots();
-      }
+    // Redraw when js/site.js switches the theme
+    document.addEventListener("themechange", () => {
+      renderPlots();
     });
   </script>
+  <script src="js/site.js" defer></script>
 </body>
 
 </html>

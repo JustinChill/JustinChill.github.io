@@ -40,11 +40,11 @@
     property="og:image:alt">
 
   <meta property="article:published_time" content="2026-08-22">
-  <meta property="article:modified_time" content="2026-08-22">
+  <meta property="article:modified_time" content="2026-11-24">
   <meta property="article:author" content="Justin Chill">
   <meta property="article:section" content="Data Journalism">
   <meta name="datePublished" content="2026-08-22">
-  <meta name="dateModified" content="2026-08-22">
+  <meta name="dateModified" content="2026-11-24">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -63,7 +63,8 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500;700&family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,700&display=swap"
     rel="stylesheet">
-  <link rel="preload" href="style.css" as="style" />
+  <link rel="preload" href="fonts/CamphorPro-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/CamphorPro-Heavy.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico">
   <link type="text/plain" href="humans.txt" rel="author">
@@ -605,7 +606,7 @@
   "alternativeHeadline": "Empirical Proof of Billy's Superior Joke Delivery and Phil's Deficit Below the Mean",
   "description": "An empirical and statistical analysis of joke delivery, punchline cadence, and laughter coefficients—demonstrating why Billy is statistically superior humor-wise while Phil languishes well below average.",
   "datePublished": "2026-08-22",
-  "dateModified": "2026-08-22",
+  "dateModified": "2026-11-24",
   "inLanguage": "en-US",
   "isAccessibleForFree": true,
   "articleSection": "Data Journalism",
@@ -762,7 +763,7 @@
           </div>
           <div class="chart-legend__item">
             <span class="chart-legend__dot" style="background: #3b82f6;"></span>
-            <span>Justin & Dave (112.5 & 108.0 HQ)</span>
+            <strong>Justin &amp; Dave (112.5 &amp; 108.0 HQ)</strong>
           </div>
           <div class="chart-legend__item">
             <span class="chart-legend__dot" style="background: var(--phil-accent);"></span>
@@ -1032,7 +1033,7 @@
       { name: "Average", hq: 100.0, density: gaussian(100.0, mean, sigma) * 1000, color: "var(--avg-accent)", label: "Cohort Avg (μ)" },
       { name: "Dave", hq: 108.0, density: gaussian(108.0, mean, sigma) * 1000, color: "#60a5fa", label: "Dave" },
       { name: "Justin", hq: 112.5, density: gaussian(112.5, mean, sigma) * 1000, color: "#3b82f6", label: "Justin" },
-      { name: "Billy", hq: 142.8, density: gaussian(142.8, mean, sigma) * 1000, color: "var(--billy-accent)", label: "Billy (+2.85σ)" }
+      { name: "Billy", hq: 142.8, density: gaussian(142.8, mean, sigma) * 1000, color: "var(--billy-accent)", label: "Billy\n(+2.85σ)" }
     ];
 
     // Dimensional comparison data
@@ -1178,18 +1179,24 @@
               }
             }
           }),
-          // Text labels for individuals
-          Plot.text(individuals, {
+          // Labels for individuals. Plot takes one dx, dy and textAnchor per mark, so each label is its own mark.
+          ...individuals.map(d => Plot.text([d], {
             x: "hq",
             y: "density",
-            text: "label",
-            dy: d => d.name === "Billy" || d.name === "Phil" ? -14 : (d.name === "Justin" ? -18 : -14),
-            dx: d => d.name === "Billy" ? -10 : d.name === "Phil" ? 10 : 0,
-            fill: d => d.name === "Billy" ? "#8b5cf6" : d.name === "Phil" ? "#ef4444" : d.name === "Average" ? "#10b981" : "currentColor",
+            text: isMobile ? "name" : "label",
+            fill: { Billy: "#8b5cf6", Phil: "#ef4444", Average: "#10b981" }[d.name] || "currentColor",
+            stroke: "var(--card-bg)",
+            strokeWidth: 3,
             fontWeight: "700",
-            fontSize: isMobile ? 10.5 : 12,
-            textAnchor: d => d.name === "Billy" ? "end" : d.name === "Phil" ? "start" : "middle"
-          })
+            fontSize: isMobile ? 11 : 12,
+            textAnchor: "start",
+            dx: 13,
+            ...({
+              Phil: { textAnchor: "end", dx: -13, dy: -6 },
+              Average: { dy: -6 },
+              Billy: { lineAnchor: "bottom", dx: 10, dy: -8 }
+            }[d.name])
+          }))
         ]
       });
       bellContainer.appendChild(bellPlot);
@@ -1408,45 +1415,12 @@
       renderCharts();
     });
 
-    // Theme toggle functionality
-    const themeToggleBtn = document.getElementById("theme-toggle");
-    const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
-    const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
-
-    function updateIcons(theme) {
-      if (theme === "dark") {
-        themeToggleLightIcon.classList.remove("hidden");
-        themeToggleDarkIcon.classList.add("hidden");
-      } else {
-        themeToggleLightIcon.classList.add("hidden");
-        themeToggleDarkIcon.classList.remove("hidden");
-      }
-    }
-
-    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
-    updateIcons(currentTheme);
-
-    if (themeToggleBtn) {
-      themeToggleBtn.addEventListener("click", () => {
-        const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
-        const newTheme = activeTheme === "dark" ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
-        updateIcons(newTheme);
-        renderCharts();
-      });
-    }
-
-    // Email link activator
-    document.querySelectorAll('.js-email-link').forEach(link => {
-      link.addEventListener('click', event => {
-        event.preventDefault();
-        const a = "Justin.richard.hill@";
-        const b = "gmail.com";
-        window.open(`mailto:${a}${b}`, 'email');
-      });
+    // Redraw when js/site.js switches the theme
+    document.addEventListener("themechange", () => {
+      renderCharts();
     });
   </script>
+  <script src="js/site.js" defer></script>
 </body>
 
 </html>
