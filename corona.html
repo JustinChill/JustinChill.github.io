@@ -40,7 +40,7 @@
     property="og:image:alt">
 
   <meta name="datePublished" content="2025-07-12">
-  <meta name="dateModified" content="2026-11-21">
+  <meta name="dateModified" content="2026-11-26">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -72,8 +72,49 @@
       --covid-vax: #7a9cf0;
     }
 
-    .corona-intro {
-      font-size: var(--type-scale-0, 1.0625rem);
+    article figure.corona-pair {
+      margin-top: 0;
+    }
+
+    /* Icon and name over each timeline, in its color */
+    .series-head {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      margin: 0 0 .5rem;
+      font-family: var(--font-main);
+      font-size: 1.0625rem;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    .series-head--death {
+      color: var(--covid-death);
+    }
+
+    .series-head--vac {
+      justify-content: flex-end;
+      color: var(--covid-vax);
+    }
+
+    .series-head svg {
+      flex: none;
+      width: 2rem;
+      height: 2rem;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.75;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* A line under the chart's title, so it doesn't take the drop cap */
+    figure.corona-pair>.dek {
+      max-width: 40rem;
+      margin: 0;
+      color: var(--muted-color);
+      font-size: 1rem;
+      line-height: 1.5;
     }
 
     figure.corona-pair,
@@ -139,7 +180,7 @@
   "alternativeHeadline": "A Timeline of COVID-19 Pandemic Milestones, Global Deaths, and Vaccine Doses",
   "description": "An interactive timeline visualization comparing the stages and major milestones of the COVID-19 pandemic against worldwide daily deaths and global vaccination rollouts from 2019 to 2023.",
   "datePublished": "2025-07-12",
-  "dateModified": "2026-11-21",
+  "dateModified": "2026-11-26",
   "inLanguage": "en-US",
   "articleSection": "Data Visualization",
   "isAccessibleForFree": true,
@@ -234,9 +275,10 @@
         <h2 class="article-subtitle">Stages of the Corona Era</h2>
       </div>
 
-      <p class="mid-size corona-intro">The most important events of the COVID-19 pandemic against the backdrop of the
-        number of deaths worldwide and the number of vaccine doses administered.</p>
+      <span class="header-tag mid-size"><img src="imgs/tag.svg" alt="" aria-hidden="true"></span>
+      <h3 class="mid-size">COVID-19 deaths and vaccine doses worldwide</h3>
       <figure class="mid-size corona-pair">
+        <p class="dek">From the first reported death, in January 2020, to the end of 2023.</p>
         <div class="box">
           <figure class="box_one" id="death_chart"
             aria-label="Timeline running down the page from late 2019 to the end of 2023, showing daily reported COVID-19 deaths worldwide as a seven-day average, annotated with key events. Deaths peak at nearly 15,000 a day in January 2021, with further waves in mid-2021 and early 2022, then fade through 2023.">
@@ -246,10 +288,8 @@
             aria-label="Matching timeline of COVID-19 vaccine doses given worldwide per day, annotated with vaccine milestones. Doses start in December 2020, peak at about 44 million a day in June 2021 and taper off through 2022.">
           </figure>
         </div>
-        <figcaption>Seven-day averages. Data: World Health Organization &amp; Our World in Data &middot; Graphic layout
-          inspired by <em>Die Zeit</em></figcaption>
+        <figcaption>Seven-day averages &middot; Data: World Health Organization &amp; Our World in Data</figcaption>
       </figure>
-      <h2>The toll, year by year</h2>
       <p>Reported COVID-19 deaths passed seven million in November 2023. The deadliest stretch came in January 2021,
         before most of the world could get a vaccine, when the seven-day average peaked at nearly 15,000 deaths a day.
         That made 2021 the deadliest year, with about 3.6 million reported deaths, almost twice as many as in 2020.</p>
@@ -273,7 +313,7 @@
         that were recorded: the World Health Organization <a
           href="https://www.who.int/news/item/05-05-2022-14.9-million-excess-deaths-were-associated-with-the-covid-19-pandemic-in-2020-and-2021"
           target="_blank" rel="noopener noreferrer">estimates</a> that the pandemic caused about 14.9 million excess
-        deaths in 2020 and 2021 alone.</p>
+        deaths in 2020 and 2021 alone. Graphic layout inspired by <em>Die Zeit</em></p>
 
     </article>
   </main>
@@ -406,6 +446,19 @@
         }));
       }
 
+      // A small picture over each timeline: a plain headstone for deaths, a syringe for doses
+      const heads = {
+        death: `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 21V10a6 6 0 0 1 12 0v11M3 21h18M9.5 12h5M9.5 15.5h5" /></svg>Deaths`,
+        vac: `Vaccine doses<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14.6 6.6 17.4 9.4 8.4 18.4 5.6 15.6ZM7 17l-5 5M16 8l3-3M17 3l4 4M11.2 10l1.6 1.6M9.2 12l1.6 1.6" /></svg>`
+      };
+      function head(kind) {
+        const el = document.createElement("p");
+        el.className = `series-head series-head--${kind}`;
+        el.setAttribute("aria-hidden", "true");
+        el.innerHTML = heads[kind];
+        return el;
+      }
+
       function render(force = false) {
         if (!cachedData) return;
         const deathEl = document.getElementById("death_chart");
@@ -418,11 +471,11 @@
         const height = stacked ? 1100 : 1500;
         const shown = cachedData.filter(d => d.date < END);
 
-        deathEl.replaceChildren(timeline({
+        deathEl.replaceChildren(head("death"), timeline({
           width, height, data: shown, value: "death", label: "Deaths per day →",
           color: "var(--covid-death)", notes: annotations_death, side: "left"
         }));
-        vaxEl.replaceChildren(timeline({
+        vaxEl.replaceChildren(head("vac"), timeline({
           width: Math.round(vaxEl.getBoundingClientRect().width) || width, height, data: shown, value: "vac",
           label: "← Doses per day (millions)", color: "var(--covid-vax)", notes: annotations_vac, side: "right"
         }));

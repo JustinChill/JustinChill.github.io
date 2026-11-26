@@ -39,7 +39,7 @@
   <meta content="US Presidents assassinations graphic." property="og:image:alt">
 
   <meta name="datePublished" content="2024-10-06">
-  <meta name="dateModified" content="2025-07-06">
+  <meta name="dateModified" content="2026-11-26">
 
   <!-- Twitter tags -->
   <meta name="twitter:card" content="summary_large_image">
@@ -63,9 +63,52 @@
       justify-items: flex-end;
     }
 
-    #imgs [class*="swatch"] {
-      font-size: 1.05rem;
-      margin: 0 auto;
+    /* Chart notes: a halo keeps them readable where they sit near a line */
+    #line .notes text {
+      fill: var(--text-color);
+      paint-order: stroke;
+      stroke: var(--bg-color);
+      stroke-width: 3px;
+      stroke-linejoin: round;
+    }
+
+    #line .notes line {
+      stroke: currentColor;
+      stroke-opacity: .5;
+    }
+
+    #legend .legend-label {
+      margin-right: .6rem;
+      font-size: .875rem;
+    }
+
+    /* Party key: circles, like the dots in the chart, evenly spaced */
+    .party-key {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: .4rem 1.75rem;
+      margin: 0 0 .25rem;
+      padding: 0;
+      list-style: none;
+    }
+
+    article .party-key li {
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+      margin: 0;
+      font-size: .9375rem;
+      line-height: 1.3;
+    }
+
+    .party-key i {
+      flex: none;
+      width: .875rem;
+      height: .875rem;
+      border-radius: 50%;
+      background: var(--party);
+      box-shadow: 0 0 0 1px rgba(128, 128, 128, .45);
     }
 
     #imgs [aria-label="x-axis label"] {
@@ -83,7 +126,7 @@
   "headline": "U.S. Presidential Assassination Attempts & Plots",
   "description": "A data visualization timeline of U.S. presidential assassination attempts and plots, from Andrew Jackson in 1835 to modern day.",
   "datePublished": "2024-10-06",
-  "dateModified": "2025-07-06",
+  "dateModified": "2026-11-26",
   "author": {
     "@type": "Person",
     "name": "Justin Chill",
@@ -184,6 +227,11 @@
       <h2 class="">Violence and voters</h2>
       <figure id="imgs"
         aria-label="Portraits of U.S. Presidents involved in assassination attempts, arranged by party and outcome.">
+        <ul class="party-key" aria-hidden="true">
+          <li><i style="--party: #c1121f"></i>Republican</li>
+          <li><i style="--party: #003566"></i>Democratic</li>
+          <li><i style="--party: #ffb703"></i>Progressive</li>
+        </ul>
       </figure>
       <p>It's worth noting that the Republican Party of Lincoln's era was quite different from the modern Republican
         Party in many of its policies and positions. The parties have evolved significantly over time, with major shifts
@@ -256,7 +304,6 @@
             alt="GitHub logo" class="icon" loading="lazy" decoding="async">Source code</a></span>
     </div>
   </footer>
-  <script type="text/javascript" src="js/occlusionY.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/d3@7.9.2/dist/d3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6.19/dist/plot.umd.min.js"></script>
 
@@ -270,7 +317,7 @@ John F. Kennedy,1963,Democratic,Assassinated,N/A,https://upload.wikimedia.org/wi
 Andrew Jackson,1835,Democratic,Survived,No (Term limited),https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Andrew_Jackson_Daguerrotype_%28flipped_image%29.jpg/330px-Andrew_Jackson_Daguerrotype_%28flipped_image%29.jpg
 Theodore Roosevelt,1912,Progressive,Survived,No,https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Theodore_Roosevelt_by_the_Pach_Bros.jpg/330px-Theodore_Roosevelt_by_the_Pach_Bros.jpg
 Franklin D. Roosevelt,1933,Democratic,Survived,Yes,https://cdn.britannica.com/30/126430-050-277A9553/Franklin-D-Roosevelt-1933.jpg
-Harry S. Truman,1950,Democratic,Survived,No (Did not run),https://vcdns.valka.cz/attachments/6701/thumbs/TRUMAN_58-766-06__cropped_.jpg
+Harry S. Truman,1950,Democratic,Survived,No (Did not run),https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/TRUMAN_58-766-06_%28cropped%29.jpg/330px-TRUMAN_58-766-06_%28cropped%29.jpg
 Gerald Ford,1975,Republican,Survived,No (Lost election),https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Gerald_Ford_presidential_portrait_%28cropped%29.jpg/330px-Gerald_Ford_presidential_portrait_%28cropped%29.jpg
 Ronald Reagan,1981,Republican,Survived,Yes,https://www.thefamouspeople.com/profiles/images/ronald-reagan-42.jpg
 Bill Clinton,1994,Democratic,Survived,Yes,https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Bill_Clinton.jpg/330px-Bill_Clinton.jpg
@@ -318,6 +365,94 @@ Donald J. Trump,2024,Republican,Survived,Yes,https://upload.wikimedia.org/wikipe
       daysSince: daysSince.find((e) => +e[0] === +d.date)[1]
     }));
 
+    // Labels go in the first spot that touches no line, dot or other label,
+    // trying up and to the left first, where the rising lines leave room
+    const ruler = document.createElement("canvas").getContext("2d");
+    function placeNotes(svg) {
+      const x = svg.scale("x").apply, y = svg.scale("y").apply;
+      const left = svg.scale("x").range[0], right = +svg.getAttribute("width") - 2, floor = y(0) - 2;
+      const points = daysSince.map(([d, v]) => [x(d), y(v)]);
+      const lines = [...d3.pairs(points), [[x(origin), y(0)], [x(originalSin[0]), y(originalSin[1])]]];
+      const dots = shootingsAnnotated.map(d => [x(d.date), y(d.daysSince)]);
+      const taken = [];
+      // Does a line cross the box (padded by 2px)? Liang-Barsky clipping
+      const crosses = (b, [[x1, y1], [x2, y2]]) => {
+        let t0 = 0, t1 = 1;
+        const dx = x2 - x1, dy = y2 - y1;
+        for (const [p, q] of [[-dx, x1 - b.x + 2], [dx, b.x + b.w + 2 - x1], [-dy, y1 - b.y + 2], [dy, b.y + b.h + 2 - y1]]) {
+          if (p === 0) { if (q < 0) return false; continue; }
+          const r = q / p;
+          if (p < 0) { if (r > t1) return false; t0 = Math.max(t0, r); }
+          else { if (r < t0) return false; t1 = Math.min(t1, r); }
+        }
+        return true;
+      };
+      // Do two line segments cross?
+      const turn = ([ax, ay], [bx, by], [cx, cy]) => Math.sign((bx - ax) * (cy - ay) - (by - ay) * (cx - ax));
+      const meets = ([p1, p2], [q1, q2]) => turn(p1, p2, q1) * turn(p1, p2, q2) < 0 && turn(q1, q2, p1) * turn(q1, q2, p2) < 0;
+      const inside = b => b.x >= left - 4 && b.x + b.w <= right && b.y >= 4 && b.y + b.h <= floor;
+      const clashes = b => taken.some(t => b.x < t.x + t.w + 4 && b.x + b.w + 4 > t.x && b.y < t.y + t.h + 2 && b.y + b.h + 2 > t.y);
+      const covers = b => dots.some(([px, py]) => px > b.x - 5 && px < b.x + b.w + 5 && py > b.y - 5 && py < b.y + b.h + 5)
+        || lines.some(l => crosses(b, l));
+      // A thin line from the dot to the nearest edge of a label that sits away from it
+      function leaderFor(b, px, py, w, h) {
+        const ex = Math.max(b.x, Math.min(px, b.x + w)), ey = Math.max(b.y, Math.min(py, b.y + h));
+        const len = Math.hypot(ex - px, ey - py);
+        if (len < 16) return null;
+        return [[px + (ex - px) * 5 / len, py + (ey - py) * 5 / len], [ex - (ex - px) * 2 / len, ey - (ey - py) * 2 / len]];
+      }
+      // On narrow charts, last names only: the dots already say killed or injured
+      const narrow = +svg.getAttribute("width") < 560;
+      const short = { "Theodore Roosevelt": "T. Roosevelt", "John F. Kennedy": "Kennedy", "James A. Garfield": "Garfield", "William McKinley": "McKinley" };
+      const notes = [
+        ...shootingsAnnotated.map(d => ({
+          px: x(d.date), py: y(d.daysSince),
+          text: narrow ? [short[d.name] || d.name.split(" ").at(-1)] : [d.name, `${d.killed ? "killed" : "injured"}${d.inOffice ? " in office" : ""}`]
+        })),
+        { px: x(origin), py: y(0), text: narrow ? ["First inauguration"] : ["The first", "inauguration"] }
+      ];
+      // Keep clear of the axis label at the top left
+      const axisLabel = [...svg.querySelectorAll("text")].find(el => el.textContent.includes("Days"));
+      if (axisLabel) { const b = axisLabel.getBBox(); taken.push({ x: b.x, y: b.y, w: b.width, h: b.height }); }
+      const group = d3.select(svg).append("g").attr("class", "notes").attr("font-size", size);
+      ruler.font = `${size}px Camphor, Arial, sans-serif`;
+      for (const note of notes) {
+        const w = Math.max(...note.text.map(s => ruler.measureText(s).width)) + 2, h = note.text.length * 13 + 1;
+        const { px, py } = note;
+        // Up and to the left first, then around the dot, then down on the baseline under the next rising line
+        const spots = [6, 14, 26, 40, 56, 74, 96, 120].flatMap(d => [
+          { x: px - d * .7 - w, y: py - d * .7 - h, d },
+          { x: px - d - w, y: py - h / 2, d },
+          { x: px - w / 2, y: py - d - h, d },
+          { x: px + d * .7, y: py - d * .7 - h, d },
+          { x: px + d, y: py - h / 2, d },
+          { x: px + d, y: py - h - 3, d },
+          { x: px + d, y: floor - h - 2, d },
+          { x: px - d - w, y: floor - h - 2, d }
+        ].map(s => ({ ...s, w, h, leader: leaderFor(s, px, py, w, h) })));
+        // Never cover a dot or another label. Of the rest, take the spot that crosses the fewest lines
+        // (label or leader), then the closest; the order above breaks ties
+        const onDot = b => dots.some(([qx, qy]) => qx > b.x - 5 && qx < b.x + b.w + 5 && qy > b.y - 5 && qy < b.y + b.h + 5);
+        const cost = (b, i) => 40 * lines.filter(l => crosses(b, l)).length
+          + (b.leader ? 30 * lines.filter(l => meets(l, b.leader)).length + 4 : 0) + b.d * .5 + i * .01;
+        const pool = spots.map((b, i) => [b, i]).filter(([b]) => inside(b) && !clashes(b) && !onDot(b) && !(b.leader && taken.some(t => crosses(t, b.leader))));
+        const best = d3.least(pool, ([b, i]) => cost(b, i));
+        if (!best) continue;
+        const spot = best[0];
+        taken.push(spot);
+        if (spot.leader) lines.push(spot.leader);
+        const cx = spot.x + w / 2;
+        const anchor = cx < px - 4 ? "end" : cx > px + 4 ? "start" : "middle";
+        const tx = anchor === "end" ? spot.x + w : anchor === "start" ? spot.x : cx;
+        if (spot.leader) {
+          const [[x1, y1], [x2, y2]] = spot.leader;
+          group.append("line").attr("x1", x1).attr("y1", y1).attr("x2", x2).attr("y2", y2);
+        }
+        const text = group.append("text").attr("text-anchor", anchor);
+        note.text.forEach((s, i) => text.append("tspan").attr("x", tx).attr("y", spot.y + 11 + i * 13).text(s));
+      }
+    }
+
     function isDarkMode() {
       return document.documentElement.getAttribute("data-theme") === "dark" ||
         (!document.documentElement.hasAttribute("data-theme") && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
@@ -330,7 +465,7 @@ Donald J. Trump,2024,Republican,Survived,Yes,https://upload.wikimedia.org/wikipe
       const imgsContainer = document.getElementById("imgs");
 
       if (lineContainer) lineContainer.replaceChildren(...lineContainer.querySelectorAll(":scope > figcaption")); // clear the old chart, keep the caption
-      if (imgsContainer) imgsContainer.replaceChildren(...imgsContainer.querySelectorAll(":scope > figcaption")); // clear the old chart, keep the caption
+      if (imgsContainer) imgsContainer.replaceChildren(...imgsContainer.querySelectorAll(":scope > .party-key, :scope > figcaption")); // clear the old chart, keep the key and caption
 
       const widthMid = lineContainer ? (lineContainer.getBoundingClientRect().width || 600) : 600;
       lastRenderedWidth = widthMid;
@@ -382,42 +517,18 @@ Donald J. Trump,2024,Republican,Survived,Yes,https://upload.wikimedia.org/wikipe
             y: "daysSince",
             fill: (d) => (d.killed ? textColor : "var(--bg-color, white)"),
             stroke: textColor
-          }),
-          Plot.text(shootingsAnnotated, occlusionY({
-            filter: widthMid > 450 ? null : d => d.name !== "James A. Garfield",
-            x: "date",
-            y: "daysSince",
-            text: (d) => `${d.name}${d.killed ? "\nkilled" : "\ninjured"}${d.inOffice ? " in office" : ""}`,
-            fill: textColor,
-            stroke: strokeHalo,
-            dy: -16,
-          })),
-          Plot.text(
-            [{
-              date: origin,
-              daysSince: 0,
-              text: "The first\ninauguration"
-            }], {
-            x: "date",
-            y: "daysSince",
-            text: "text",
-            dy: -14,
-            dx: 10,
-            fill: textColor,
-            stroke: strokeHalo
-          }
-          )
+          })
         ]
       };
 
       const imgsConfig = {
         width: width,
         height: 420,
+        // Room for the longest name, "Franklin D. Roosevelt", inside the chart
+        marginLeft: 130,
         style: {
           fontSize: size + "px",
           paddingBottom: "1em",
-          paddingLeft: "3rem",
-          marginLeft: 0,
           textTransform: "capitalize",
           background: "transparent"
         },
@@ -426,7 +537,7 @@ Donald J. Trump,2024,Republican,Survived,Yes,https://upload.wikimedia.org/wikipe
           domain: presidentsData.map((d) => d.President),
           label: null,
           tickSize: 0,
-          paddingOuter: 5
+          paddingOuter: .7
         },
         x: {
           type: "linear",
@@ -440,8 +551,8 @@ Donald J. Trump,2024,Republican,Survived,Yes,https://upload.wikimedia.org/wikipe
           paddingOuter: 1,
           inset: 12,
         },
+        marginTop: 18,
         color: {
-          legend: true,
           type: "categorical",
           domain: ["Republican", "Democratic", "Progressive"],
           range: ["#c1121f", "#003566", "#ffb703"]
@@ -491,7 +602,11 @@ Donald J. Trump,2024,Republican,Survived,Yes,https://upload.wikimedia.org/wikipe
         ]
       };
 
-      if (lineContainer) lineContainer.appendChild(Plot.plot(lineConfig));
+      if (lineContainer) {
+        const lineSvg = Plot.plot(lineConfig);
+        lineContainer.appendChild(lineSvg);
+        placeNotes(lineSvg);
+      }
       if (imgsContainer) imgsContainer.appendChild(Plot.plot(imgsConfig));
 
       // Legend update
@@ -509,7 +624,7 @@ Donald J. Trump,2024,Republican,Survived,Yes,https://upload.wikimedia.org/wikipe
             <circle r="${(svg_width - 6) / 2}" cx="${svg_width / 2}" cy="${svg_width / 2}" stroke="${strokeColor}" stroke-width="3" fill="${strokeColor}"/>
           </svg>`;
 
-        legend.innerHTML = `<div style="font-family: sans-serif; font-size: 12px; display: flex; align-items: center; gap: 0.5em; justify-content: end">${empty_circle}<p>Injured</p>${filled_circle} <p>Killed</p></div>`;
+        legend.innerHTML = `<div style="display: flex; align-items: center; gap: .4rem; justify-content: flex-end">${empty_circle}<span class="legend-label">Injured</span>${filled_circle}<span class="legend-label">Killed</span></div>`;
       }
     }
 
